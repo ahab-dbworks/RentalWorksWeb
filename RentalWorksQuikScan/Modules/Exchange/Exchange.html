@@ -1,0 +1,161 @@
+﻿<div class="exchange view">
+
+  <div class="page pageexchangeby">
+    <!--<div class="migroupheader">Exchange Scope:</div>-->
+    <div class="mi btnOrder">
+      <div class="label">Select Order</div>
+      <i class="material-icons">chevron_right</i>
+    </div>
+    <div class="mi btnDeal">
+      <div class="label">Select Deal</div>
+      <i class="material-icons">chevron_right</i>
+    </div>
+    <div class="mi btnCompanyDepartment">
+      <div class="label">Select Company Department</div>
+      <i class="material-icons">chevron_right</i>
+    </div>
+    <!--<div class="mispacer"></div>
+    <div class="mi btnBarcode">
+      <div class="label">Scan Barcode</div>
+      <i class="material-icons">chevron_right</i>
+    </div>-->
+    <!--<div class="mispacer spacersuspendedsessions"></div>-->
+    <div class="mi btnSuspendedSession">
+      <div class="label">Suspended Sessions</div>
+      <i class="material-icons">chevron_right</i>
+    </div>
+    <div class="mispacer spacerpendingexchange"></div>
+    <div class="mi btnPendingExchange">
+      <div class="label">Complete Pending Exchange</div>
+      <i class="material-icons">chevron_right</i>
+    </div>
+  </div>
+
+  <div class="page pageselectorder">
+    <div class="pageheader">Select Order:</div>
+    <div class="ordersearch"></div>
+  </div>
+
+  <div class="page pageselectdeal">
+    <div class="pageheader">Select Deal:</div>
+    <div class="dealsearch"></div>
+  </div>
+
+  <div class="page pageselectcompanydepartment">
+    <div class="pageheader">Select Company Department:</div>
+    <div class="companydepartmentsearch"></div>
+  </div>
+
+  <div class="page pageselectpendingexchange">
+    <div class="pageheader">Select Pending Exchange:</div>
+    <div class="pendingexchangesearch"></div>
+  </div>
+
+  <div class="page pageselectsuspendedsession">
+     <div class="pageheader">Select Suspended Session:</div>
+    <div class="suspendedsessionsearch"></div>
+  </div>
+
+  <div class="page pageexchange">
+    <div class="tab scan">
+      <div class="pageheader">
+        <div class="flexrow flexalignitemscenter fieldHeaderOrderNo">
+          <div class="caption">{{captionOrderNo}}:</div>
+          <div class="value valueHeaderOrderNo"></div>
+        </div>
+        <div class="flexrow flexalignitemscenter fieldHeaderOrderDesc">
+          <div class="caption">{{captionOrder}}:</div>
+          <div class="value valueHeaderOrderDesc"></div>
+        </div>
+        <div class="flexrow flexalignitemscenter fieldHeaderDeal">
+          <div class="caption">{{captionDeal}}:</div>
+          <div class="value valueHeaderDeal"></div>
+        </div>
+        <div class="flexrow flexalignitemscenter fieldHeaderDealNo">
+          <div class="caption">{{captionDealNo}}:</div>
+          <div class="value valueHeaderDealNo"></div>
+        </div>
+        <div class="flexrow flexalignitemscenter fieldHeaderCompanyDepartment">
+          <div class="caption">{{captionDepartment}}:</div>
+          <div class="value valueHeaderCompanyDepartment"></div>
+        </div>
+        <div class="flexrow flexalignitemscenter fieldHeaderSessionNo">
+          <div class="caption">{{captionSessionNo}}:</div>
+          <div class="value valueHeaderSessionNo"></div>
+        </div>
+      </div>
+      <div class="checkinpanel">
+        <div class="flexrow">
+          <div data-control="FwFormField" class="fwcontrol fwformfield scangroup checkin" data-caption="Check-In" data-type="searchbox" data-enabled="true" data-datafield="" />
+        </div>
+        <div class="iteminfo">
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionSubRentalVendor}}:</div>
+            <div class="value valueCheckInSubRentalVendor"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captioPONo}}:</div>
+            <div class="value valueCheckinPoNo"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionWarehouse}}:</div>
+            <div class="value valueCheckInWarehouse"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkoutpanel">
+        <div class="fwcontrol fwcontainer fwform-fieldrow rowcheckout" data-control="FwContainer" data-type="fieldrow">
+          <div data-control="FwFormField" class="fwcontrol fwformfield scangroup checkout" data-caption="Check-Out" data-type="searchbox" data-enabled="true" data-datafield="" />
+        </div>
+        <div class="iteminfo">
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionSubRentalVendor}}:</div>
+            <div class="value valueCheckOutSubRentalVendor"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captioPONo}}:</div>
+            <div class="value valueCheckOutPoNo"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionWarehouse}}:</div>
+            <div class="value valueCheckOutWarehouse"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scanfooter flexrow">
+        <div class="scanfooterinfo">
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionOrderNo}}:</div>
+            <div class="value valueOrderNo"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionOrder}}:</div>
+            <div class="value valueOrder"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionICode}}:</div>
+            <div class="value valueICode"></div>
+          </div>
+          <div class="flexrow flexalignitemscenter">
+            <div class="caption">{{captionItemDesc}}:</div>
+            <div class="value valueItem"></div>
+          </div>
+        </div>
+        <div data-control="FwFormField" class="fwcontrol fwformfield exchangeqty" data-caption="Qty" data-type="text" data-enabled="true" data-datafield="" />
+      </div>
+
+    </div>
+    <div class="tab session">
+      <div class="exchangesessionsearch"></div>
+    </div>
+    <div class="tab repair">
+      <div class="exchangerepairsearch"></div>
+    </div>
+    <div class="tab transfer">
+      <div class="exchangetransfersearch"></div>
+    </div>
+  </div>
+
+</div>

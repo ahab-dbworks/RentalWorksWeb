@@ -1,0 +1,75 @@
+﻿<div id="staging-popupQty">
+  <div id="staging-popupQty-description"></div>
+  <div id="staging-popupQty-messages" class="panel2">
+    <div id="staging-popupQty-genericMsg" class="qserror"></div>
+    <div id="staging-popupQty-msg" class="qsmessage"></div>
+  </div>
+  <div id="staging-popupQty-fields" class="panel">
+    <div id="staging-popupQty-summary" class="field tablefield">
+      <div class="control">
+        <table id="staging-popupQty-summary-table">
+          <tbody>
+            <tr>
+              <td id="staging-popupQty-summary-table-tdMasterNo" colspan="4"><span class="label">{{captionICodeDesc}}: </span><span id="staging-popupQty-masterNo" class="number"></span></td>
+            </tr>
+            <tr>
+              <td class="col1">{{captionRemaining}}:</td>
+              <td id="staging-popupQty-qtyRemaining" class="col2"></td>
+              <td class="col3">{{captionStaged}}:</td>
+              <td id="staging-popupQty-qtyStaged" class="col4"></td>
+            </tr>
+            <tr>
+              <td class="col1">{{captionOrdered}}:</td>
+              <td id="staging-popupQty-qtyOrdered" class="col2"></td>
+              <td class="col3">{{captionSub}}:</td>
+              <td id="staging-popupQty-qtySub" class="col4"></td>
+            </tr>
+            <tr>
+              <td class="col1">{{captionOut}}:</td>
+              <td id="staging-popupQty-qtyOut" class="col2"></td>
+              <td id="staging-popupQty-qtyIn-caption" class="col3">{{captionIn}}:</td>
+              <td id="staging-popupQty-qtyIn" class="col4"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="staging-popupQty-pnlAddToOrder" class="panel">
+    <!--<div>{{captionAddToOrder}}</div>-->
+    <div class="buttonpanel center">
+      <span id="staging-popupQty-btnAddComplete" class="button default">{{captionAddComplete}}</span>
+      <span id="staging-popupQty-btnAddItem" class="button default">{{captionAddItem}}</span>
+      <span id="staging-popupQty-btnOverrideAvailabilityReservation" class="button default">{{captionOverrideAvailabilityReservation}}?</span>
+      <span id="staging-popupQty-btnStageConsignedItem" class="button default">{{captionStageConsignedItem}}?</span>
+      <span id="staging-popupQty-btnTransferRepair" class="button default">{{captionTransferRepair}}?</span>
+      <span id="staging-popupQty-btnAddContainerToOrder" class="button default">{{captionAddContainerToOrder}}?</span>
+    </div>
+  </div>
+  <div id="staging-popupQty-pnlSubstitute" class="panel">
+    <div class="buttonpanel center">
+      <span id="staging-popupQty-btnSubItem" class="button default">{{captionSubItem}}</span>
+      <span id="staging-popupQty-btnSubComplete" class="button default">{{captionSubComplete}}</span>
+    </div>
+  </div>
+  <div id="staging-popupQty-unstageBarcode" class="panel">
+    <div class="buttonpanel center">
+      <span id="staging-popupQty-btnUnstageBarcode" class="button default">{{captionUnstage}}</span>
+    </div>
+  </div>
+  <div id="staging-popupQty-qty" class="panel qtypanel">
+    <div id="staging-popupQty-qty-divQty">
+      <label id="staging-popupQty-qty-lblQty" for="staging-popupQty-qty-txtQty">{{captionQty}}:</label>
+      <div id="quote-fieldQty" class="field">
+        <span id="quote-btnSubtract" class="button default">-</span>
+        <input id="staging-popupQty-qty-txtQty" class="textbox qty" type="number" value="{{valueTxtQty}}" />
+        <span id="quote-btnAdd" class="button default">+</span>
+      </div>
+    </div>
+    <div class="buttonpanel center">
+      <span id="staging-popupQty-btnStageQtyItem" class="button default">{{captionStage}}</span>
+      <span id="staging-popupQty-btnUnstageMasterItem" class="button default">{{captionUnstage}}</span>
+      <span id="staging-popupQty-btnCancel" class="button default">{{captionCancel}}</span>
+    </div>
+  </div>
+</div>

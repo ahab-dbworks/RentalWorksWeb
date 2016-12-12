@@ -1,0 +1,11 @@
+﻿//applicationConfig.appbaseurl = '';
+applicationConfig.fwvirtualdirectory = 'fwjson/';
+applicationConfig.appvirtualdirectory = 'qs/';
+applicationConfig.debugMode = true;
+applicationConfig.designMode = false;
+applicationConfig.demoMode = false;
+applicationConfig.devMode = false;
+applicationConfig.rentalworksapi = 'wss://192.168.0.12/RentalWorksAPI/edecsrfid/openwebsocket';
+//applicationConfig.rentalworksapi = 'ws://www.dbwcloud.com/cfg/api/edecsrfid/openwebsocket';
+//applicationConfig.rentalworksapi = 'ws://web03.dbwcloud.com/rfid/api/edecsrfid/openwebsocket';
+//applicationConfig.rentalworksapi = 'ws://172.30.0.118/RentalWorksAPI/edecsrfid/openwebsocket';

@@ -1,0 +1,79 @@
+﻿<div class="responsive view rfidstaging">
+  <div class="screenheader">
+    <div class="flexrow">
+      <div class="dealcaption">Deal:</div>
+      <div class="dealvalue"></div>
+      <div class="agentcaption">Agent:</div>
+      <div class="agentvalue"></div>
+    </div>
+    <div class="flexrow">
+      <div class="orderdesccaption">Order Desc:</div>
+      <div class="orderdescvalue"></div>
+      <div class="ordernocaption">Order No:</div>
+      <div class="ordernovalue"></div>
+    </div>
+  </div>
+  <div class="card tabpanel rfiditems">
+    <div class="card-body">
+      <div class="flexrow rfiduirow">
+        <div class="flexcolumn itemscol">
+          <div class="processed">
+            <div class="processedheader roundedshadow">Staged (<span class="processedcount">0</span>)</div>
+            <div class="processedcontainer">
+              <div class="processedcontent"></div>
+              <div class="processedgradientbottom"></div>
+            </div>
+          </div>
+          <div class="exception">
+            <div class="exceptionheader roundedshadow"><span class="exceptioncaption">Exceptions (<span class="exceptioncount">0</span>)</span><div class="contextmenucontainer"><img class="contextmenu" src="[appbaseurl][appvirtualdirectory]theme/fwimages/icons/128/verticalellipsis-white.001.png" /></div></div>
+            <div class="exceptioncontainer">
+              <div class="exceptioncontent"></div>
+              <div class="exceptiongradientbottom"></div>
+            </div>
+          </div>
+          <div class="pendingitems">
+            <div class="pendingitemsheader roundedshadow"><span class="pendingitemscaption">Pending Items (<span class="pendingitemscount">0</span>)</span></div>
+            <div class="pendingitemscontainer">
+              <div class="pendingitemscontent"></div>
+              <div class="pendingitemsgradientbottom"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flexcolumn countscol">
+          <div class="rowscanbuttons"><span class="btnscanitems"><img class="rfidicon" src="[appbaseurl][appvirtualdirectory]theme/images/icons/128/rfid.001.png" />Scan Items<span class="captionscanagaincountdown"></span></span><span class="btnstopscanning"><img class="stopicon" src="[appbaseurl][appvirtualdirectory]theme/images/icons/128/stop.001.png" />Stop Scanning</span></div>
+          <div class="flexrow flexwrap flexalignitemscenter batchtimeout">
+            <div class="batchtimeoutcaption">Process after:</div>
+            <div class="batchtimeoutvalue"><input class="txtbatchtimeout" type="number" value="" /></div>
+            <div class="batchtimeoutunits">sec</div>
+          </div>
+          <div class="flexrow flexwrap flexalignitemscenter scanagain">
+            <div class="scanagaincaption">Scan again:</div>
+            <div class="scanagainvalue"><input class="txtscanagain" type="number" value="" /></div>
+            <div class="scanagainunits">sec</div>
+          </div>
+          <hr />
+          <div>
+            <div class="batchqty">
+              <div class="batchqtycaption">Total Qty</div>
+              <div class="batchqtyvalue">0</div>
+            </div>
+            <div class="processqty">
+              <div class="processqtycaption">Staged Qty</div>
+              <div class="processqtyvalue">0</div>
+            </div>
+            <div class="exceptionqty">
+              <div class="exceptionqtycaption">Exception Qty</div>
+              <div class="exceptionqtyvalue">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tabpanel stageditems">
+    <div class="card-body">
+    </div>
+  </div>
+
+</div>

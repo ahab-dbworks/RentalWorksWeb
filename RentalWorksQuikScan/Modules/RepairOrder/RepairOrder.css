@@ -1,0 +1,53 @@
+﻿.repairorder-search {margin-bottom:10px;}
+.repairorder-search .fwmobilecontrol-value {text-transform:uppercase;}
+
+.btntakepicture img {vertical-align:middle;margin:0 10px 0 0;width:22px;height:22px;}
+#repairorder-images {text-align:center;}
+#repairorder-images img {width:99px;height:99px;border:1px solid #ffffff;}
+#repairorder-pnlUpdate {background-color:rgba(0,0,0,.3);border-top:1px solid #000000;}
+#repairorder-photoDescription {text-transform:uppercase;}
+
+#repairorder .repairimages {}
+#repairorder .repairimages:after {content:"";display:table;clear:both;}
+#repairorder .repairimage {float:left;}
+#repairorder .repairimage .imagerow {text-align:center;height:100px;width:100px;}
+#repairorder .repairimage .imagerow img {max-height:100px;max-width:100px;cursor:pointer;}
+#repairorder .repairimage .descriptionrow {text-align:center;font-size:10px;}
+#repairorder .deleteimage {display:none;}
+#repairorder .pnlTakePicture {text-align:center;margin:20px 0 5px 0;}
+
+#repairorder .appdocuments {}
+#repairorder .appdocument {margin:10px 5px 0 5px;border:1px solid #bdbdbd;border-radius:5px;overflow:hidden;background-color:#eeeeee;}
+#repairorder .appdocument:after {content:"";display:table;clear:both;}
+#repairorder .appdocument .descriptionrow {padding:10px;background-color:#4caf50;color:#ffffff;}
+#repairorder .appdocument .descriptioncaption {-webkit-box-flex:1;flex:0 0 5.3em;width:5.3em;}
+#repairorder .appdocument .descriptionvalue {-webkit-box-flex:1;flex:1 1 0;}
+#repairorder .appdocument .descriptionvalue input{box-sizing:border-box;width:100%;font-size:1em;padding:2%;border-radius:3px;border:0;}
+
+#repairorder .imagerow {min-height:20px;background-color:rgba(0,0,0,.1);}
+#repairorder .imagerow:after {content:"";display:table;clear:both;}
+#repairorder .appimage {margin:10px;float:left;border:1px solid #bdbdbd;box-sizing:border-box;border-radius:3px;overflow:hidden;}
+#repairorder .appimage .imagecontent {text-align:center;height:100px;background-color:rgba(0,0,0,.5);}
+#repairorder .appimage img {max-height:100px;max-width:100px;cursor:pointer;}
+#repairorder .appimage .imagedesccontent {width:150px;box-sizing:border-box;background-color:#ffffff;text-align:center;font-size:.8em;}
+#repairorder .appimage .imagedesccontent input {width:150px;padding:10px 5px;border:0;border-radius:0;box-sizing:border-box;}
+#repairorder .appimage .imagenocontent {display:none;}
+#repairorder .addappdocumentsbtncontent {text-align:center;padding:2%;}
+
+#repairorder .browserepairorders {display:block;margin:0;padding:0;}
+#repairorder .browserepairorders > li {display:block;cursor:pointer;padding:.3em 0;}
+#repairorder .browserepairorders > li:not(:first-child) {border-top: 1px solid rgba(80,80,80,1);}
+#repairorder .browserepairorders > li:active {background-color:rgba(69,69,69,.6);}
+#repairorder .browserepairorders li .valueMaster {-webkit-box-flex:1;-webkit-flex:1;flex:1;color:#00aaff;text-decoration: underline;font-size:.75em;font-weight: bold;}
+#repairorder .browserepairorders li .captionDamageDeal {flex:0 0 6em;width:6em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueDamageDeal {flex:1 1 0;width:18em;font-size:.625em;}
+#repairorder .browserepairorders li .captionRepairNo {flex:0 0 6em;width:6em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueRepairNo {flex:1 1 0;width:18em;font-size:.625em;}
+#repairorder .browserepairorders li .captionStatus {flex:0 0 3.5em;width:3.5em;padding:0 .3em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueStatus {-webkit-box-flex:1;flex:1 1 0;font-size:.625em;}
+#repairorder .browserepairorders li .captionMasterNo {flex:0 0 6em;width:6em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueMasterNo {flex:1 1 0;width:18em;font-size:.625em;}
+#repairorder .browserepairorders li .captionAsOf {flex:0 0 3.5em;width:3.5em;padding:0 .3em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueAsOf {-webkit-box-flex:1;flex:1 1 0;font-size:.625em;}
+#repairorder .browserepairorders li .captionBarcode {flex:0 0 6em;width:6em;font-size:.625em;color:#aaaaaa;}
+#repairorder .browserepairorders li .valueBarcode {flex:1 1 0;width:18em;font-size:.625em;}

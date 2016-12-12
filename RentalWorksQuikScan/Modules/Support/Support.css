@@ -1,0 +1,7 @@
+﻿#support {text-align:center;}
+#support a{color:rgba(255,255,255,1);}
+#support .companyTitle{margin:0 0 10px 0;font-size:22px;}
+#support .companyAddress {margin:0 0 10px 0;font-size:14px;}
+#support .company{display:inline-block;text-align:left;}
+#support .contactInfo {display:inline-block;text-align:left;font-size:14px;}
+#support .contactInfo table tbody tr td{padding:5px 5px;}

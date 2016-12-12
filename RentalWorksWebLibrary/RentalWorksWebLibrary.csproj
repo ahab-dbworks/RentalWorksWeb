@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DBB14BA6-3CCC-466D-82FB-30E20D8AF680}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RentalWorksWebLibrary</RootNamespace>
+    <AssemblyName>RentalWorksWebLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountService.cs" />
+    <Compile Include="Grids\RwAuditHistory.cs" />
+    <Compile Include="Modules\RwCustomer.cs" />
+    <Compile Include="Modules\RwOrderType.cs" />
+    <Compile Include="Modules\RwQuote.cs" />
+    <Compile Include="Modules\RwGroup.cs" />
+    <Compile Include="Modules\RwUserSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\RwDealOutstanding.cs" />
+    <Compile Include="Reports\RwChargeProcessing.cs" />
+    <Compile Include="RwAppData.cs" />
+    <Compile Include="RwReport.cs" />
+    <Compile Include="RwService.cs" />
+    <Compile Include="RwServiceRouting.cs" />
+    <Compile Include="RwUserRoles.cs" />
+    <Compile Include="Validations\RwBatchInvoices.cs" />
+    <Compile Include="Validations\RwICode.cs" />
+    <Compile Include="Validations\RwCategory.cs" />
+    <Compile Include="Validations\RwCustomer.cs" />
+    <Compile Include="Validations\RwInventoryType.cs" />
+    <Compile Include="Validations\RwOrder.cs" />
+    <Compile Include="Validations\RwLanguage.cs" />
+    <Compile Include="Validations\RwAttributeValue.cs" />
+    <Compile Include="Validations\RwEvent.cs" />
+    <Compile Include="Validations\RwTaxOption.cs" />
+    <Compile Include="Validations\RwCurrency.cs" />
+    <Compile Include="Validations\RwCoverLetter.cs" />
+    <Compile Include="Validations\RwAttribute.cs" />
+    <Compile Include="Validations\RwBillingCycle.cs" />
+    <Compile Include="Validations\RwPaymentTerms.cs" />
+    <Compile Include="Validations\RwPayType.cs" />
+    <Compile Include="Validations\RwShipVia.cs" />
+    <Compile Include="Validations\RwCountry.cs" />
+    <Compile Include="Validations\RwUserWarehouse.cs" />
+    <Compile Include="Validations\RwVendor.cs" />
+    <Compile Include="Validations\RwWarehouse.cs" />
+    <Compile Include="Validations\RwOfficeLocation.cs" />
+    <Compile Include="Validations\RwTermsConditions.cs" />
+    <Compile Include="Validations\RwUser.cs" />
+    <Compile Include="Validations\RwDeal.cs" />
+    <Compile Include="Validations\RwCompanyDepartment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Validations\RwRateType.cs" />
+    <Compile Include="Validations\RwOrderType.cs" />
+    <Compile Include="Validations\RwUserOfficeLocation.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lib.net\dbworks\Fw.Json\Fw.Json.csproj">
+      <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
+      <Name>Fw.Json</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
