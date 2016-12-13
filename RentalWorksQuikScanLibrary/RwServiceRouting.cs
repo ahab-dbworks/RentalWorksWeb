@@ -250,21 +250,6 @@ namespace RentalWorksQuikScanLibrary
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getselectserialno", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetSelectSerialNo(request, response, session); }
-                ),
-                //new FwJsonRequestAction(
-                //    roles: new string[]{RwUserRoles.RentalWorksUser},
-                //    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getstagingpendingitems", applicationPath)); },
-                //    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetStagingPendingItems(request, response, session); }
-                //),
-                //new FwJsonRequestAction(
-                //    roles: new string[]{RwUserRoles.RentalWorksUser},
-                //    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getstagingstageditems", applicationPath)); },
-                //    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetStagingStagedItems(request, response, session); }
-                //),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/selectdeal", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.SelectDeal(request, response, session); }
                 ),

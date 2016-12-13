@@ -138,7 +138,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
         .find('.programlogo').append('<div class="apptitle bgothm center" style="padding-top:2vh;font-size:40px;">Rental<span style="color:#6f30b3;">Works</span><br />QuikScan</div>')
     ;
 
-    screen.$view.find('.mobilelogin-footer').append('<div id="copyright">Copyright 2015 <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div><div id="version">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
+    screen.$view.find('.mobilelogin-footer').append('<div id="copyright">Copyright ' + new Date().getFullYear() + ' <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div><div id="version">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
     
     screen.load = function() {
         var $txtEmail, $txtPassword;

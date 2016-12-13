@@ -1886,25 +1886,6 @@ namespace RentalWorksQuikScanLibrary
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<dynamic> GetSelectSerialNo(FwSqlConnection conn, string orderid, string masterid, string warehouseid, string masteritemid)
-        {
-            List<dynamic> result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.Add("select *");
-            qry.Add("from funcserialmeterout(@orderid, @masterid, @warehouseid)");
-            qry.Add("where masteritemid = @masteritemid");
-            qry.Add("order by mfgserial");
-            qry.AddParameter("@orderid", orderid);
-            qry.AddParameter("@masterid", masterid);
-            qry.AddParameter("@warehouseid", warehouseid);
-            qry.AddParameter("@masteritemid", masteritemid);
-            result = qry.QueryToDynamicList();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         public static dynamic AdvancedMoveNonBC(FwSqlConnection conn, string orderid, string masteritemid, string vendorid, string contractid, string usersid, decimal qty, decimal movemode)
         {
             dynamic result;

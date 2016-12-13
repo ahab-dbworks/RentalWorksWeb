@@ -871,35 +871,133 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 FwMobileMasterController.setTitle('Select Serial No(s)...');
                 screen.pages.selectserialno.getElement().addClass('page-slidein').show();
                 screen.$btnback.show();
+                var $pageselectserialno = screen.pages.selectserialno.getElement().empty();
+                var requestGetItemOrderStatus = {
+                    orderid: screen.getOrderId(),
+                    masteritemid: masteritemid
+                };
+                RwServices.call('Staging', 'GetItemOrderStatus', requestGetItemOrderStatus, function(responseGetItemOrderStatus) {
+                    try {
+                        var html = [];
+                        html.push('<div class="row1">');
+                        html.push('  <div class="field masterno"><div class="caption">' + RwLanguages.translate('I-Code') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.masterno + '</div></div>');
+                        html.push('  <div class="field description">' + responseGetItemOrderStatus.getItemOrderStatus.description + '</div>');
+                        html.push('</div>');
+                        html.push('<div class="row2">');
+                        html.push('  <div class="field qtyremaining"><div class="caption">' + RwLanguages.translate('Remaining') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.qtyremaining + '</div></div>');
+                        html.push('  <div class="field stageqty"><div class="caption">' + RwLanguages.translate('Staged') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.stageqty + '</div></div>');
+                        html.push('  <div class="field qtyout"><div class="caption">' + RwLanguages.translate('Out') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.outqty + '</div></div>');
+                        html.push('</div>');
+                        html.push('<div class="row3">');
+                        html.push('  <div class="field qtyordered"><div class="caption">' + RwLanguages.translate('Ordered') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.qtyordered + '</div></div>');
+                        html.push('  <div class="field subqty"><div class="caption">' + RwLanguages.translate('Sub') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.subqty + '</div></div>');
+                        html.push('  <div class="field qtyin"><div class="caption">' + RwLanguages.translate('In') + ':</div><div class="value">' + responseGetItemOrderStatus.getItemOrderStatus.inqty + '</div></div>');
+                        html.push('</div>');
+                        $pageselectserialno.append(html.join('\n'));
+                    } catch(ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
                 var requestSelectSerialNo = {
                     orderid:      screen.getOrderId(),
                     masterid:     masterid,
                     masteritemid: masteritemid
                 };
                 RwServices.call('Staging', 'GetSelectSerialNo', requestSelectSerialNo, function(responseSelectSerialNo) {
-                    var divSerialNos, divSerialNo;
-                    divSerialNos = screen.pages.selectserialno.getElement().empty();
-                    for(var i = 0; i < responseSelectSerialNo.getSelectSerialNo.length; i++) {
-                        divSerialNo = jQuery('<div>')
-                            .attr('class', 'serialno')
-                            .attr('data-serialno', responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
-                            .html('Serial No: ' + responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
-                            .click(function() {
-                                try {
-                                    var $this = jQuery(this);
-                                    $this.toggleClass('selected');
-                                } catch(ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            })
-                        ;
-                        divSerialNos.append(divSerialNo);
+                    try {
+                        for(var i = 0; i < responseSelectSerialNo.getSelectSerialNo.length; i++) {
+                            var divSerialNo = jQuery('<div>')
+                                .attr('class', 'serialno')
+                                .attr('data-masteritemid', responseSelectSerialNo.getSelectSerialNo[i].masteritemid)
+                                .attr('data-rentalitemid', responseSelectSerialNo.getSelectSerialNo[i].rentalitemid)
+                                .html('Serial No: ' + responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
+                                .click(function() {
+                                    try {
+                                        var $this = jQuery(this);
+                                        var masteritemid = $this.attr('data-masteritemid');
+                                        var rentalitemid = $this.attr('data-rentalitemid');
+                                        var internalchar = '';
+                                        var meter = 0;
+                                        var toggledelete = true;
+                                        var containeritemid = '';       // mv 2016-12-12 not sure about this container code;
+                                        var containeroutcontractid = '';
+                                        screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function() {
+                                            $this.toggleClass('selected');
+                                        });
+                                    } catch(ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                })
+                            ;
+                            $pageselectserialno.append(divSerialNo);
+                        }
+                    } catch(ex) {
+                        FwFunc.showError(ex);
                     }
                 });
             },
-            forward: function(masterid, masteritemid) {
+            forward: function(masterid, masteritemid, description, masterno, remaining, ordered, stagedandout) {
                 screen.pagehistory.push(screen.pages.selectserialno);
-                screen.pages.selectserialno.show(masterid, masteritemid);
+                screen.pages.selectserialno.show(masterid, masteritemid, description, masterno, remaining, ordered, stagedandout);
+            },
+            back: function () {
+                screen.pagehistory.pop();
+                screen.getCurrentPage().show();
+            }
+        },
+        serialnometers: {
+            name: 'serialnometers',
+            getElement: function () {
+                return screen.$view.find('.page-serialnometers');
+            },
+            show: function (masterid, masteritemid, description, masterno) {
+                screen.pages.reset();
+                FwMobileMasterController.setTitle('Serial Item Meters...');
+                screen.pages.serialnometers.getElement().addClass('page-slidein').show();
+                screen.$btnback.show();
+                var requestGetSerialNoMeters = {
+                    orderid:      screen.getOrderId(),
+                    masterid:     masterid,
+                    masteritemid: masteritemid
+                };
+                RwServices.call('Staging', 'GetSerialNoMeters', requestGetSerialNoMeters, function(responseGetSerialNoMeters) {
+                    try {
+                        var divSerialNos, divSerialNo;
+                        divSerialNos = screen.pages.serialnometers.getElement().empty();
+                        for(var i = 0; i < responseGetSerialNoMeters.getSelectSerialNo.length; i++) {
+                            divSerialNo = jQuery('<div>')
+                                .attr('class', 'serialno')
+                                .attr('data-masteritemid', responseGetSerialNoMeters.getSelectSerialNo[i].masteritemid)
+                                .attr('data-rentalitemid', responseGetSerialNoMeters.getSelectSerialNo[i].rentalitemid)
+                                .html('Serial No: ' + responseGetSerialNoMeters.getSelectSerialNo[i].mfgserial)
+                                .click(function() {
+                                    try {
+                                        var $this = jQuery(this);
+                                        var masteritemid = $this.attr('data-masteritemid');
+                                        var rentalitemid = $this.attr('data-rentalitemid');
+                                        var internalchar = '';
+                                        var meter = 0;
+                                        var toggledelete = true;
+                                        var containeritemid = '';       // mv 2016-12-12 not sure about this container code;
+                                        var containeroutcontractid = '';
+                                        screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function() {
+                                            $this.toggleClass('selected');
+                                        });
+                                    } catch(ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                })
+                            ;
+                            divSerialNos.append(divSerialNo);
+                        }
+                    } catch(ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            },
+            forward: function(masterid, masteritemid, description, masterno) {
+                screen.pagehistory.push(screen.pages.serialnometers);
+                screen.pages.serialnometers.show(masterid, masteritemid, description, masterno);
             },
             back: function () {
                 screen.pagehistory.pop();
@@ -908,18 +1006,26 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     };
 
-    screen.insertSerialSession = function(masteritemid, rentalitemid, meter, toggledelete, containeritemid, containeroutcontractid) {
+    screen.insertSerialSession = function(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, funcOnSuccess) {
         var request = {
-            contractid: screen.getContractId(),
+            //contractid: screen.getContractId(), // mv 2016-12-13 this causes the serial item to immediately go into the OUT status rather than on suspended contract like I was expecting. RentalWorks is passing a blank for this.
+            contractid: '',
             orderid: screen.getOrderId(),
             masteritemid: masteritemid,
             rentalitemid: rentalitemid,
+            internalchar: internalchar,
             meter: meter,
-            toggledelete: toggledelete
+            toggledelete: toggledelete,
+            containeritemid: containeritemid,
+            containeroutcontractid: containeroutcontractid
         };
         RwServices.call('Staging', 'InsertSerialSession', request, function(responseSelectSerialNo) {
-            
-        });
+             try {
+                funcOnSuccess();
+             } catch(ex) {
+                FwFunc.showError(ex);
+             }
+        }, true);
     };
     
     screen.toggleRfid = function() {
@@ -1069,7 +1175,21 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 else if (dt.Rows[i][colIndex.rectype] === 'P') {
                     availablefor = RwLanguages.translate('Parts')
                 }
-                li.push('<li class="' + cssClass + '" data-itemclass="' + dt.Rows[i][colIndex.itemclass] + '" data-rectype="' + dt.Rows[i][colIndex.rectype] + '" data-parentid="' + dt.Rows[i][colIndex.parentid] + '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + '" data-masterid="' + dt.Rows[i][colIndex.masterid] + '" data-vendorid="' + dt.Rows[i][colIndex.vendorid] + '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + '" >');
+                li.push('<li class="' + cssClass + 
+                    '" data-itemclass="' + dt.Rows[i][colIndex.itemclass] + 
+                    '" data-rectype="' + dt.Rows[i][colIndex.rectype] + 
+                    '" data-parentid="' + dt.Rows[i][colIndex.parentid] + 
+                    '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + 
+                    '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + 
+                    '" data-masterid="' + dt.Rows[i][colIndex.masterid] + 
+                    '" data-vendorid="' + dt.Rows[i][colIndex.vendorid] + 
+                    '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + 
+                    '" data-description="' + dt.Rows[i][colIndex.description] + 
+                    '" data-masterno="' + dt.Rows[i][colIndex.masterno] + 
+                    '" data-missingqty="' + dt.Rows[i][colIndex.missingqty] + 
+                    '" data-qtyordered="' + dt.Rows[i][colIndex.qtyordered] + 
+                    '" data-qtystagedandout="' + dt.Rows[i][colIndex.qtystagedandout] + 
+                    '" >');
                     li.push('<div class="description">' + dt.Rows[i][colIndex.description] + '</div>');
                     if (isHeaderRow) {
                         li.push('<table style="display:none;">');
@@ -1538,9 +1658,14 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     } 
                     else if (trackedby === 'SERIALNO') 
                     {
-                        var masterid     = $this.data('masterid');
-                        var masteritemid = $this.data('masteritemid');
-                        screen.pages.selectserialno.forward(masterid, masteritemid);
+                        var masterid        = $this.attr('data-masterid');
+                        var masteritemid    = $this.attr('data-masteritemid');
+                        var description     = $this.attr('data-description');
+                        var masterno        = $this.attr('data-masterno');
+                        var missingqty      = $this.attr('data-missingqty');
+                        var qtyordered      = $this.attr('data-qtyordered');
+                        var qtystagedandout = $this.attr('data-qtystagedandout');
+                        screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
                     }
                 } 
                 else if (rectype === 'S') 

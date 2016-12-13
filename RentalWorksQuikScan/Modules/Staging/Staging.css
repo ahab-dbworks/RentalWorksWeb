@@ -124,32 +124,18 @@
 #staging-popupQty-summary-table > tbody > tr > td.col3 {}
 #staging-popupQty-summary-table > tbody > tr > td.col4 {padding:0 0 0 10px;}
 
-
-#staging-popupSelectSerialNo {background-color:rgba(245,245,245,1.0);border-radius:6px;padding:10px;color:#000000;width:250px;}
-#staging-popupSelectSerialNo-serialNoSelection { 
-    border-top-left-radius:7px;
-    border-top-right-radius:7px;
-    border:1px solid #000000;
-    padding:5px;
-    background-color:#000000;
-    color: #ff0000;
-}
-#staging-popupSelectSerialNo-serialNos {
-    border-bottom-left-radius:7px;
-    border-bottom-right-radius:7px;
-    border:1px solid #000000;
-}
-.staging-popupSelectSerialNo-divSerialNo { 
-    border-bottom:1px solid #000000;
-    padding:5px;
-    cursor:pointer;
-    text-decoration:underline;
-    color:#0000ff;
-}
-.staging-popupSelectSerialNo-divSerialNo:last-child { 
-    border-bottom:0;
-}
-
+.staging .page-selectserialno .row1 {display:flex;align-items:center;justify-content:center;background-color:#607d8b;color:#ffffff;}
+.staging .page-selectserialno .row1 .field {display:flex;width:220px;}
+.staging .page-selectserialno .row1 .caption {flex:0 0 80px;align-items:center;}
+.staging .page-selectserialno .row1 .value {flex:0 0 140px;}
+.staging .page-selectserialno .row2 {display:flex;justify-content:center;background-color:#000000;color:#03d337;}
+.staging .page-selectserialno .row2 .field {display:flex;width:200px;}
+.staging .page-selectserialno .row2 .caption {flex:0 0 90px;}
+.staging .page-selectserialno .row2 .value {flex:0 0 110px;}
+.staging .page-selectserialno .row3 {display:flex;justify-content:center;background-color:#000000;color:#03d337;}
+.staging .page-selectserialno .row3 .field {display:flex;width:200px;}
+.staging .page-selectserialno .row3 .caption {flex:0 0 90px;}
+.staging .page-selectserialno .row3 .value {flex:0 0 110px;}
 .staging .page-selectserialno .serialno {padding:5px;background-color:#ffffff;color:#000000;cursor:pointer;}
 .staging .page-selectserialno .serialno:not(:last-child) {border-bottom:1px solid #000000;}
 .staging .page-selectserialno .serialno.selected {background-color:#03d337;}
