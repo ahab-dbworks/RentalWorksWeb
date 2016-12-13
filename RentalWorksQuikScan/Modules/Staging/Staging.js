@@ -692,13 +692,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             screen.$search.find('.option[data-value="orderdesc"]').hide();
             screen.$search.find('.option[data-value="deal"]').hide();
             screen.$search.find('.option[data-value="sessionno"]').hide();
-            screen.$view.find('.page-ordersuspendedsessions')
-                .removeClass('page-slidein')
-                .hide();
-            screen.$view.find('.page-staging')
-                .removeClass('page-slidein')
-                .hide();
-            screen.$view.find('.page-selectserialno').hide();
+            screen.pages.ordersuspendedsessions.getElement().removeClass('page-slidein').hide();
+            screen.pages.staging.getElement().removeClass('page-slidein').hide();
+            screen.pages.selectserialno.getElement().hide();
             screen.$btnback.hide();
             screen.$btnclose.hide();
             screen.$btnnewsession.hide();
@@ -845,7 +841,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 } else {
                     FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc());
                 }
-                screen.$view.find('.page-staging').addClass('page-slidein').show();
+                screen.pages.staging.getElement().addClass('page-slidein').show();
                 screen.$btncreatecontract.show();
                 screen.$tabpending.show();
                 screen.$tabstaged.show();
@@ -870,29 +866,60 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             getElement: function () {
                 return screen.$view.find('.page-selectserialno');
             },
-            show: function () {
+            show: function (masterid, masteritemid) {
                 screen.pages.reset();
-                if (screen.getIsSuspendedSessionsEnabled()) {
-                    FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc() + ' (Session: ' + screen.getSessionNo() + ')');
-                } else {
-                    FwMobileMasterController.setTitle(screen.getOrderNo() + ' - ' + screen.getOrderDesc());
-                }
-                screen.$view.find('.page-staging').addClass('page-slidein').show();
-                screen.$btncreatecontract.show();
-                screen.$tabpending.show();
-                screen.$tabstaged.show();
-                screen.$btnclose.show();
-                screen.$tabpending.click();
+                FwMobileMasterController.setTitle('Select Serial No(s)...');
+                screen.pages.selectserialno.getElement().addClass('page-slidein').show();
+                screen.$btnback.show();
+                var requestSelectSerialNo = {
+                    orderid:      screen.getOrderId(),
+                    masterid:     masterid,
+                    masteritemid: masteritemid
+                };
+                RwServices.call('Staging', 'GetSelectSerialNo', requestSelectSerialNo, function(responseSelectSerialNo) {
+                    var divSerialNos, divSerialNo;
+                    divSerialNos = screen.pages.selectserialno.getElement().empty();
+                    for(var i = 0; i < responseSelectSerialNo.getSelectSerialNo.length; i++) {
+                        divSerialNo = jQuery('<div>')
+                            .attr('class', 'serialno')
+                            .attr('data-serialno', responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
+                            .html('Serial No: ' + responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
+                            .click(function() {
+                                try {
+                                    var $this = jQuery(this);
+                                    $this.toggleClass('selected');
+                                } catch(ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            })
+                        ;
+                        divSerialNos.append(divSerialNo);
+                    }
+                });
             },
-            forward: function() {
+            forward: function(masterid, masteritemid) {
                 screen.pagehistory.push(screen.pages.selectserialno);
-                screen.pages.selectserialno.show();
+                screen.pages.selectserialno.show(masterid, masteritemid);
             },
             back: function () {
                 screen.pagehistory.pop();
                 screen.getCurrentPage().show();
             }
         }
+    };
+
+    screen.insertSerialSession = function(masteritemid, rentalitemid, meter, toggledelete, containeritemid, containeroutcontractid) {
+        var request = {
+            contractid: screen.getContractId(),
+            orderid: screen.getOrderId(),
+            masteritemid: masteritemid,
+            rentalitemid: rentalitemid,
+            meter: meter,
+            toggledelete: toggledelete
+        };
+        RwServices.call('Staging', 'InsertSerialSession', request, function(responseSelectSerialNo) {
+            
+        });
     };
     
     screen.toggleRfid = function() {
@@ -916,13 +943,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
     screen.hidePopupQty = function() {
         FwPopup.destroyPopup(screen.$popupQty);
-        jQuery('#scanBarcodeView-txtBarcodeData').val('');
-    };
-    screen.showPopupSelectSerialNo = function() {
-        FwPopup.showPopup(screen.$popupSelectSerialNo);
-    };
-    screen.hidePopupSelectSerialNo = function() {
-        FwPopup.destroyPopup(screen.$popupSelectSerialNo);
         jQuery('#scanBarcodeView-txtBarcodeData').val('');
     };
     screen.pdastageitemCallback = function(responseStageItem) {
@@ -1518,34 +1538,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     } 
                     else if (trackedby === 'SERIALNO') 
                     {
-                        requestSelectSerialNo = {
-                            orderId:      screen.getOrderId()
-                          , masterId:     $this.data('masterid')
-                          , masterItemId: $this.data('masteritemid')
-                        };
-                        RwServices.order.getSelectSerialNo(requestSelectSerialNo, function(responseSelectSerialNo) {
-                            var divSerialNos, divSerialNo;
-                            screen.renderPopupSelectSerialNo();
-                            divSerialNos = jQuery('#staging-popupSelectSerialNo-serialNos')
-                                .empty()
-                            ;
-                            for(var i = 0; i < responseSelectSerialNo.getSelectSerialNo.length; i++) {
-                                divSerialNo = jQuery('<div>')
-                                    .attr('id', 'staging-popupSelectSerialNo-divSerialNo' + i.toString())
-                                    .attr('class', 'staging-popupSelectSerialNo-divSerialNo')
-                                    .html(responseSelectSerialNo.getSelectSerialNo[i].mfgserial)
-                                    .click(function() {
-                                        screen.hidePopupSelectSerialNo();
-                                        jQuery('#scanBarcodeView-txtBarcodeData')
-                                            .val(jQuery(this).html())
-                                            .change()
-                                        ;
-                                    })
-                                ;
-                                divSerialNos.append(divSerialNo);
-                            }
-                            screen.showPopupSelectSerialNo();
-                        });
+                        var masterid     = $this.data('masterid');
+                        var masteritemid = $this.data('masteritemid');
+                        screen.pages.selectserialno.forward(masterid, masteritemid);
                     }
                 } 
                 else if (rectype === 'S') 
@@ -2277,15 +2272,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 });
             })
         ;
-    };
-
-    screen.renderPopupSelectSerialNo = function() {
-        var template = Mustache.render(jQuery('#tmpl-Staging-PopupSelectSerialNo').html(), {
-            captionSerialNoSelection:  RwLanguages.translate('Serial No. Selection')
-        });
-        var $popupcontent = jQuery(template);
-        screen.$popupSelectSerialNo = FwPopup.renderPopup($popupcontent, {ismodal:false});
-        FwPopup.showPopup(screen.$popupSelectSerialNo);
     };
 
     screen.subsitutepopup = function(caption, data, code, subcomplete) {

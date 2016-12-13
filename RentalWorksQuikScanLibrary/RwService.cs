@@ -671,23 +671,6 @@ namespace RentalWorksQuikScanLibrary
             }
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetSelectSerialNo(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "GetSerialNoSelection";
-            dynamic userLocation;
-
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterId");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterItemId");
-            userLocation = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks
-                                                   , usersId: session.security.webUser.usersid);
-            response.getSelectSerialNo = RwAppData.GetSelectSerialNo(conn:         FwSqlConnection.RentalWorks
-                                                                   , orderid:      request.orderId
-                                                                   , masterid:     request.masterId
-                                                                   , warehouseid:  userLocation.warehouseId
-                                                                   , masteritemid: request.masterItemId);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void CheckInAllQtyItems(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "CheckInAllQtyItems";

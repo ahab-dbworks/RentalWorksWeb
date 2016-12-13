@@ -441,5 +441,35 @@ namespace RentalWorksQuikScanLibrary.Services
             RwAppData.CancelContract(FwSqlConnection.RentalWorks, request.contractid, session.security.webUser.usersid, true);
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "orderid,masterid,masterItemid")]
+        public static void GetSelectSerialNo(dynamic request, dynamic response, dynamic session)
+        {
+            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+            response.getSelectSerialNo = RwAppData.GetSelectSerialNo(conn:         FwSqlConnection.RentalWorks
+                                                                   , orderid:      request.orderId
+                                                                   , masterid:     request.masterId
+                                                                   , warehouseid:  userLocation.warehouseId
+                                                                   , masteritemid: request.masterItemId);
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "contractid,orderid,masteritemid,rentalitemid,meter,toggledelete,containeritemid,containeroutcontractid")]
+        public static void InsertSerialSession(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "insertserialsession"))
+            {
+                sp.AddParameter("@contractid", request.contractid);
+                sp.AddParameter("@orderid", request.orderid);
+                sp.AddParameter("@masteritemid", request.masteritemid);
+                sp.AddParameter("@rentalitemid", request.rentalitemid);
+                sp.AddParameter("@activitytype", "O");
+                sp.AddParameter("@usersid", session.security.webUser.usersid);
+                sp.AddParameter("@meter", request.meter);
+                sp.AddParameter("@toggledelete", request.toggledelete);
+                sp.AddParameter("@containeritemid", request.containeritemid);
+                sp.AddParameter("@containeroutcontractid", request.containeroutcontractid);
+                sp.Execute();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

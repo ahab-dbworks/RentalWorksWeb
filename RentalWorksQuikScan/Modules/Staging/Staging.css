@@ -123,6 +123,8 @@
 #staging-popupQty-summary-table > tbody > tr > td.col2 {padding:0 10px;}
 #staging-popupQty-summary-table > tbody > tr > td.col3 {}
 #staging-popupQty-summary-table > tbody > tr > td.col4 {padding:0 0 0 10px;}
+
+
 #staging-popupSelectSerialNo {background-color:rgba(245,245,245,1.0);border-radius:6px;padding:10px;color:#000000;width:250px;}
 #staging-popupSelectSerialNo-serialNoSelection { 
     border-top-left-radius:7px;
@@ -147,3 +149,7 @@
 .staging-popupSelectSerialNo-divSerialNo:last-child { 
     border-bottom:0;
 }
+
+.staging .page-selectserialno .serialno {padding:5px;background-color:#ffffff;color:#000000;cursor:pointer;}
+.staging .page-selectserialno .serialno:not(:last-child) {border-bottom:1px solid #000000;}
+.staging .page-selectserialno .serialno.selected {background-color:#03d337;}
