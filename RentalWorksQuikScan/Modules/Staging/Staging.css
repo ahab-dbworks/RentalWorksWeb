@@ -124,18 +124,21 @@
 #staging-popupQty-summary-table > tbody > tr > td.col3 {}
 #staging-popupQty-summary-table > tbody > tr > td.col4 {padding:0 0 0 10px;}
 
-.staging .page-selectserialno .row1 {display:flex;align-items:center;justify-content:center;background-color:#607d8b;color:#ffffff;}
-.staging .page-selectserialno .row1 .field {display:flex;width:220px;}
-.staging .page-selectserialno .row1 .caption {flex:0 0 80px;align-items:center;}
-.staging .page-selectserialno .row1 .value {flex:0 0 140px;}
-.staging .page-selectserialno .row2 {display:flex;justify-content:center;background-color:#000000;color:#03d337;}
-.staging .page-selectserialno .row2 .field {display:flex;width:200px;}
-.staging .page-selectserialno .row2 .caption {flex:0 0 90px;}
-.staging .page-selectserialno .row2 .value {flex:0 0 110px;}
-.staging .page-selectserialno .row3 {display:flex;justify-content:center;background-color:#000000;color:#03d337;}
-.staging .page-selectserialno .row3 .field {display:flex;width:200px;}
-.staging .page-selectserialno .row3 .caption {flex:0 0 90px;}
-.staging .page-selectserialno .row3 .value {flex:0 0 110px;}
-.staging .page-selectserialno .serialno {padding:5px;background-color:#ffffff;color:#000000;cursor:pointer;}
-.staging .page-selectserialno .serialno:not(:last-child) {border-bottom:1px solid #000000;}
-.staging .page-selectserialno .serialno.selected {background-color:#03d337;}
+.staging .page-selectserialno .row1 {/*display:flex;align-items:center;justify-content:center;*/text-align:center;background-color:#607D8B;color:#ffffff;font-size:14px;padding:2px;}
+/*.staging .page-selectserialno .row1 .fsffield {display:flex;width:130px;}
+.staging .page-selectserialno .row1 .caption {flex:0 0 50px;align-items:center;text-align:right;padding:0 0 0 5px;box-sizing:border-box;}*/
+.staging .page-selectserialno .row1 .value {flex:0 0 80px;box-sizing:border-box;padding:0 0 0 5px;}
+.staging .page-selectserialno .row2 {display:flex;justify-content:center;background-color:#000000;color:#00C853;padding:2px;}
+.staging .page-selectserialno .row2 .fsffield {display:flex;width:200px;}
+.staging .page-selectserialno .row2 .qtyremainingoutwsuspend {color:#ff9800;}
+.staging .page-selectserialno .row2 .caption {flex:0 0 90px;font-size:14px;text-align:right;box-sizing:border-box;}
+.staging .page-selectserialno .row2 .value {flex:1 0 110px;font-size:14px;padding:0 0 0 5px;box-sizing:border-box;}
+.staging .page-selectserialno .row3 {display:flex;justify-content:center;background-color:#000000;color:#00C853;padding:0 2px 2px 2px;}
+.staging .page-selectserialno .row3 .fsffield {display:flex;width:200px;}
+.staging .page-selectserialno .row3 .caption {flex:0 0 90px;font-size:14px;text-align:right;box-sizing:border-box;}
+.staging .page-selectserialno .row3 .value {flex:1 0 110px;font-size:14px;padding:0 0 0 5px;box-sizing:border-box;}
+.staging .page-selectserialno .serialnorow {overflow:hidden;background-color:#ffffff;color:#000000;cursor:pointer;}
+.staging .page-selectserialno .serialnorow:not(:last-child) {border-bottom:1px solid #000000;}
+.staging .page-selectserialno .serialnorow.selected {background-color:#00C853;}
+.staging .page-selectserialno .serialnorow .caption {float:left;font-size:14px;height:44px;line-height:44px;padding:0 5px 0 20px;}
+.staging .page-selectserialno .serialnorow .value {float:left;font-size:16px;height:44px;line-height:44px;}
