@@ -107,13 +107,23 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Enter Meter Data', 'right', 'continue', false, function () {
+    screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', 'continue', false, function () {
         try {
             var masterid = screen.pages.selectserialno.getMasterId();
             var masteritemid = screen.pages.selectserialno.getMasterItemId()
             var description = screen.pages.selectserialno.getDescription()
             var masterno = screen.pages.selectserialno.getMasterNo()
             screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+
+    screen.$btnfinishmeters = FwMobileMasterController.addFormControl(screen, 'Finish', 'right', 'continue', false, function () {
+        try {
+            screen.pagehistory.pop();
+            screen.pagehistory.pop();
+            screen.getCurrentPage().show();
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -712,9 +722,11 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             screen.$btnclose.hide();
             screen.$btnnewsession.hide();
             screen.$btnmeters.hide();
+            screen.$btnfinishmeters.hide();
             screen.$btncreatecontract.hide();
-            screen.$tabpending.hide();
-            screen.$tabstaged.hide();
+           // screen.$tabpending.hide();
+            //screen.$tabstaged.hide();
+            jQuery('#master-header-row4').hide();
         },
         stagingmenu: {
             name: 'stagingmenu',
@@ -857,14 +869,15 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 }
                 screen.pages.staging.getElement().addClass('page-slidein').show();
                 screen.$btncreatecontract.show();
-                screen.$tabpending.show();
-                screen.$tabstaged.show();
+                jQuery('#master-header-row4').show();
                 screen.$btnclose.show();
                 jQuery('.tab.active:visible').click();
             },
             forward: function() {
                 screen.pagehistory.push(screen.pages.staging);
                 screen.pages.staging.show();
+                screen.$tabpending.show();
+                screen.$tabstaged.show();
             },
             back: function () {
                 screen.confirmCancelSuspendContract(function () {
@@ -1028,6 +1041,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 var $pageselectserialno = screen.pages.serialmeters.getElement();
                 $pageselectserialno.addClass('page-slidein').show();
                 screen.$btnback.show();
+                screen.$btnfinishmeters.show();
             },
             forward: function(masterid, masteritemid, description, masterno) {
                 var $pageserialmeters = screen.pages.serialmeters.getElement();
@@ -1051,9 +1065,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                 .addClass('serialnorow')
                                 .attr('data-masteritemid', response.funcserialmeterout[i].masteritemid)
                                 .attr('data-rentalitemid', response.funcserialmeterout[i].rentalitemid)
-                                .attr('data-valueset', 'false')
                                 .data('recorddata', response.funcserialmeterout[i])
                             ;
+                            if (response.funcserialmeterout[i].meterlast === response.funcserialmeterout[i].meterout) {
+                                $divSerialNo.attr('data-valueset', 'false')
+                            } else {
+                                $divSerialNo.attr('data-valueset', 'true')
+                            }
                             if ((response.funcserialmeterout[i].itemstatus === 'S') || (response.funcserialmeterout[i].itemstatus === 'O')) {
                                 $divSerialNo.addClass('selected');
                             }

@@ -484,7 +484,7 @@ namespace RentalWorksQuikScanLibrary.Services
                 sp.AddParameter("@activitytype", "O");
                 sp.AddParameter("@internalchar", request.internalchar);
                 sp.AddParameter("@usersid", session.security.webUser.usersid);
-                sp.AddParameter("@meter", request.meter);
+                sp.AddParameter("@meter", FwConvert.ToDecimal(request.meter));
                 sp.AddParameter("@toggledelete", FwConvert.LogicalToCharacter(request.toggledelete));
                 sp.AddParameter("@containeritemid", request.containeritemid);
                 sp.AddParameter("@containeroutcontractid", request.containeroutcontractid);
