@@ -7,6 +7,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
       htmlScanBarcode:    RwPartialController.getScanBarcodeHtml({captionBarcodeICode:RwLanguages.translate('Bar Code / I-Code')}),
       captionBC:          RwLanguages.translate('BC'),
       captionAsOf:        RwLanguages.translate('As Of'),
+      captionBarcode:     RwLanguages.translate('Barcode'),
       captionICode:       RwLanguages.translate('I-Code'),
       captionLastDeal:    RwLanguages.translate('Last Deal'),
       captionLastOrder:   RwLanguages.translate('Last Order'),
@@ -30,6 +31,16 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     $rfiditems   = screen.$view.find('.is-rfiditems');
 
     screen.$view
+        .on('keypress', '.fwmobilecontrol-value', function(e) {
+            try {
+                if (e.which === '15') {
+                    var $this = jQuery(this);
+                    $this.change();
+                }
+            } catch(ex) {
+                FwFunc.showError(ex);
+            }
+        })
         .on('change', '.fwmobilecontrol-value', function() {
             var $this, request;
             try {
@@ -101,6 +112,8 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $itemdetails.find('#is-captionLastOrder').html(RwLanguages.translate('Last Order'));
         }
 
+        $itemdetails.find('#is-trBarcode').toggle(!itemdata.isICode);
+        $itemdetails.find('#is-trSerialNo').toggle(!itemdata.isICode);
         $itemdetails.find('#is-txtICode').html(itemdata.masterNo);
         $itemdetails.find('#is-txtDescription').html(itemdata.description);
         $itemdetails.find('#is-trAisle').toggle(!itemdata.isICode);
