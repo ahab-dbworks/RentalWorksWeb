@@ -96,6 +96,8 @@ namespace RentalWorksAPI.api.v1.Data
                 newItem.categoryorderby            = dt.Rows[i]["categoryorderby"].ToString().TrimEnd();
                 newItem.subcategoryorderby         = dt.Rows[i]["subcategoryorderby"].ToString().TrimEnd();
 
+                newItem.itemaka                    = InventoryData.GetItemAkas(newItem.masterid);
+
                 result.Add(newItem);
             }
 
@@ -167,6 +169,8 @@ namespace RentalWorksAPI.api.v1.Data
                 newItem.inventorydepartmentorderby = dt.Rows[i]["inventorydepartmentorderby"].ToString().TrimEnd();
                 newItem.categoryorderby            = dt.Rows[i]["categoryorderby"].ToString().TrimEnd();
                 newItem.subcategoryorderby         = dt.Rows[i]["subcategoryorderby"].ToString().TrimEnd();
+
+                newItem.itemaka                    = InventoryData.GetItemAkas(newItem.masterid);
 
                 result.Add(newItem);
             }
@@ -308,10 +312,34 @@ namespace RentalWorksAPI.api.v1.Data
                 newCompleteKit.parentid         = dt.Rows[i]["parentid"].ToString().TrimEnd();
                 newCompleteKit.packageitemclass = dt.Rows[i]["packageitemclass"].ToString().TrimEnd();
 
+                newCompleteKit.itemaka                 = InventoryData.GetItemAkas(newCompleteKit.masterid);
+
                 response.Add(newCompleteKit);
             }
             
             return response;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static string[] GetItemAkas(string masterid)
+        {
+            FwSqlCommand qry;
+            string[] result;
+            DataTable dt = new DataTable();
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select *");
+            qry.Add("  from masteraka");
+            qry.Add(" where masterid = @masterid");
+            qry.AddParameter("@masterid", masterid);
+            dt = qry.QueryToTable();
+
+            result = new string[dt.Rows.Count];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                result[i] = dt.Rows[i]["aka"].ToString().TrimEnd();
+            }
+
+            return result;
         }
         //------------------------------------------------------------------------------
     }

@@ -2,9 +2,9 @@
 
 namespace RentalWorksAPI.api.v1.Models
 {
+    //----------------------------------------------------------------------------------------------------
     public class Item
     {
-        //----------------------------------------------------------------------------------------------------
         public string masterid              { get; set; }
         public string masterno              { get; set; }
         public string master                { get; set; }
@@ -50,6 +50,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string qty                   { get; set; }
         public string datestamp             { get; set; }
         public string warehouseid           { get; set; }
+        public string[] itemaka             { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
     public class RentalItem : Item
@@ -106,6 +107,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string periodextended      { get; set; }
         public string weeklyextended      { get; set; }
         public string taxable             { get; set; }
+        public string inactive            { get; set; }
         public string itemorder           { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
@@ -149,6 +151,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string warehouseid      { get; set; }
         public string parentid         { get; set; }
         public string packageitemclass { get; set; }
+        public string[] itemaka        { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
 }

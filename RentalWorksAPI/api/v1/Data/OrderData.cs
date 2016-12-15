@@ -368,6 +368,7 @@ namespace RentalWorksAPI.api.v1.Data
                 orderitem.periodextended       = dt.Rows[i][dt.ColumnIndex["periodextended"]].ToString().TrimEnd();
                 orderitem.weeklyextended       = dt.Rows[i][dt.ColumnIndex["weeklyextended"]].ToString().TrimEnd();
                 orderitem.taxable              = dt.Rows[i][dt.ColumnIndex["taxable"]].ToString().TrimEnd();
+                orderitem.inactive             = dt.Rows[i][dt.ColumnIndex["inactive"]].ToString().TrimEnd();
                 orderitem.itemorder            = dt.Rows[i][dt.ColumnIndex["itemorder"]].ToString().TrimEnd();
 
                 result.Add(orderitem);
