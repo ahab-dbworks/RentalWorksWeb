@@ -228,7 +228,6 @@ namespace RentalWorksQuikScanLibrary.Services
 
         }
         //---------------------------------------------------------------------------------------------
-        [FwJsonServiceMethod]
         public static bool IsSuspendedSessionsEnabled()
         {
             bool isenabled = false;
@@ -316,6 +315,7 @@ namespace RentalWorksQuikScanLibrary.Services
             qry.AddColumn("rectype", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("description", false);
+            qry.AddColumn("masterid", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("barcode", false);
             qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -323,7 +323,7 @@ namespace RentalWorksQuikScanLibrary.Services
             qry.AddColumn("vendor", false);
             qry.AddColumn("itemclass", false);
             qry.AddColumn("trackedby", false);
-            qry.Add("select rectype, masteritemid, description, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+            qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
             qry.Add("from dbo.funcstaged(@orderid, @summary)");
             qry.Add("where warehouseid = @warehouseid");
             qry.Add("order by orderby");
@@ -345,6 +345,7 @@ namespace RentalWorksQuikScanLibrary.Services
             qry.AddColumn("rectype", false);
             qry.AddColumn("masteritemid", false);
             qry.AddColumn("description", false);
+            qry.AddColumn("masterid", false);
             qry.AddColumn("masterno", false);
             qry.AddColumn("barcode", false);
             qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -352,7 +353,7 @@ namespace RentalWorksQuikScanLibrary.Services
             qry.AddColumn("vendor", false);
             qry.AddColumn("itemclass", false);
             qry.AddColumn("trackedby", false);
-            qry.Add("select rectype, masteritemid, description, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+            qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
             qry.Add("from dbo.funccheckedout(@contractid)");
             qry.Add("order by orderby");
             qry.AddParameter("@contractid", contractid);
@@ -373,41 +374,42 @@ namespace RentalWorksQuikScanLibrary.Services
             //FwValidate.TestIsNullOrEmpty(METHOD_NAME, "Your user account requires a warehouse to peform this action.", session.userLocation.warehouseId);
             //FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
 
-            //if (string.IsNullOrEmpty(request.contractid))
-            //{
-            //    response.getStagingStagedItems = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, warehouseid, false);
-            //}
-            //else
-            //{
-            //    response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid);
-            //}
+            if (string.IsNullOrEmpty(request.contractid))
+            {
+                response.getStagingStagedItems = Staging.funcstaged(FwSqlConnection.RentalWorks, request.orderid, warehouseid, false);
+            }
+            else
+            {
+                response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, request.contractid);
+            }
 
             // mv 2016-12-13 Changed the Staged list to show both the staged items and the items on the contract
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
-            {
-                qry.AddColumn("rectype", false);
-                qry.AddColumn("masteritemid", false);
-                qry.AddColumn("description", false);
-                qry.AddColumn("masterno", false);
-                qry.AddColumn("barcode", false);
-                qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
-                qry.AddColumn("vendorid", false);
-                qry.AddColumn("vendor", false);
-                qry.AddColumn("itemclass", false);
-                qry.AddColumn("trackedby", false);
-                qry.Add("select rectype, masteritemid, description, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
-                qry.Add("from dbo.funcstaged(@orderid, @summary)");
-                qry.Add("where warehouseid = @warehouseid");
-                qry.Add("union");
-                qry.Add("select rectype, masteritemid, description, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
-                qry.Add("from dbo.funccheckedout(@contractid)");
-                qry.Add("order by orderby");
-                qry.AddParameter("@orderid", request.orderid);
-                qry.AddParameter("@summary", "F");
-                qry.AddParameter("@warehouseid", warehouseid);
-                qry.AddParameter("@contractid", request.contractid);
-                response.getStagingStagedItems = qry.QueryToFwJsonTable();
-            }
+            //using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            //{
+            //    qry.AddColumn("rectype", false);
+            //    qry.AddColumn("masteritemid", false);
+            //    qry.AddColumn("description", false);
+            //    qry.AddColumn("masterid", false);
+            //    qry.AddColumn("masterno", false);
+            //    qry.AddColumn("barcode", false);
+            //    qry.AddColumn("quantity", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            //    qry.AddColumn("vendorid", false);
+            //    qry.AddColumn("vendor", false);
+            //    qry.AddColumn("itemclass", false);
+            //    qry.AddColumn("trackedby", false);
+            //    qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
+            //    qry.Add("from dbo.funcstaged(@orderid, @summary)");
+            //    qry.Add("where warehouseid = @warehouseid");
+            //    qry.Add("union");
+            //    qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby, orderby");
+            //    qry.Add("from dbo.funccheckedout(@contractid)");
+            //    qry.Add("order by orderby");
+            //    qry.AddParameter("@orderid", request.orderid);
+            //    qry.AddParameter("@summary", "F");
+            //    qry.AddParameter("@warehouseid", warehouseid);
+            //    qry.AddParameter("@contractid", request.contractid);
+            //    response.getStagingStagedItems = qry.QueryToFwJsonTable();
+            //}
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]
@@ -457,6 +459,10 @@ namespace RentalWorksQuikScanLibrary.Services
                 qry.Add("select *");
                 qry.Add("from funcserialmeterout(@orderid, @masterid, @warehouseid)");
                 qry.Add("where masteritemid = @masteritemid");
+                if (FwValidate.IsPropertyDefined(request, "onlystagedorout") && request.onlystagedorout == true)
+                {
+                    qry.Add("  and itemstatus in ('S', 'O')");
+                }
                 qry.Add("order by mfgserial");
                 qry.AddParameter("@orderid", request.orderid);
                 qry.AddParameter("@masterid", request.masterid);
