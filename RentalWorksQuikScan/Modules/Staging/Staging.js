@@ -1228,7 +1228,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
         jQuery('#staging-popupQty-msg')         .html(responseStageItem.webStageItem.msg);
         jQuery('#staging-popupQty-masterNo')    .html(responseStageItem.webStageItem.masterNo);
-        jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description);
+        jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description).show();
         jQuery('#staging-popupQty-orderDesc')   .html(screen.getOrderDesc());
         jQuery('#staging-popupQty-qtyOrdered')  .html(String(responseStageItem.webStageItem.qtyOrdered));
         jQuery('#staging-popupQty-qtySub')      .html(String(responseStageItem.webStageItem.qtySub));
@@ -1534,7 +1534,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
         jQuery('#staging-popupQty-msg')         .html(responseStageItem.webStageItem.msg);
         jQuery('#staging-popupQty-masterNo')    .html(responseStageItem.webStageItem.masterNo);
-        jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description);
+        jQuery('#staging-popupQty-description') .html(responseStageItem.webStageItem.description).show();
         jQuery('#staging-popupQty-orderDesc')   .html(screen.getOrderDesc());
         jQuery('#staging-popupQty-qtyOrdered')  .html(String(responseStageItem.webStageItem.qtyOrdered));
         jQuery('#staging-popupQty-qtySub')      .html(String(responseStageItem.webStageItem.qtySub));
@@ -1575,12 +1575,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 if (responseStageItem.request.qty === 0) {
                     screen.showPopupQty();
                 } else {
-                    screen.showPopupQty();
-                    setTimeout(
-                        function() {
-                            screen.hidePopupQty();
-                        }
-                      , 3000);
+                    screen.hidePopupQty();
+                    //screen.showPopupQty();
+                    //setTimeout(
+                    //    function() {
+                    //        screen.hidePopupQty();
+                    //    }
+                    //  , 3000);
                 }
             }
         } else {

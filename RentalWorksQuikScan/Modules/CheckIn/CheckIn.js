@@ -485,7 +485,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
         screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
         screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
-        screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description);
+        screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
         screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
         screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
         screen.$popupQty.find('#checkIn-popupQty-subQty').html(String(responseCheckInItem.webCheckInItem.subQty));
