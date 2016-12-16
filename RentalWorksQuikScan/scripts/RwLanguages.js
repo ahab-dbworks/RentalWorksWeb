@@ -292,6 +292,7 @@ RwLanguages.captions = [
   , 'Serial No. Selection'
   , 'Select QuikPick Type'
   , 'Sell'
+  , 'Serial No'
   , 'Session'
   , 'Session No'
   , 'Session In'

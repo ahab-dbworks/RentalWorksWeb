@@ -243,11 +243,11 @@ namespace RentalWorksQuikScanLibrary
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getcheckinsessioninlist", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetCheckInSessionInList(request, response, session); }
                 ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getitemstatus", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetItemStatus(request, response, session); }
-                ),
+                //new FwJsonRequestAction(
+                //    roles: new string[]{RwUserRoles.RentalWorksUser},
+                //    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getitemstatus", applicationPath)); },
+                //    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetItemStatus(request, response, session); }
+                //),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/selectdeal", applicationPath)); },
@@ -328,11 +328,11 @@ namespace RentalWorksQuikScanLibrary
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/processrfidexception", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ProcessRFIDException(request, response, session); }
                 ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/itemstatusrfid", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ItemStatusRFID(request, response, session); }
-                ),
+                //new FwJsonRequestAction(
+                //    roles: new string[]{RwUserRoles.RentalWorksUser},
+                //    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/itemstatusrfid", applicationPath)); },
+                //    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ItemStatusRFID(request, response, session); }
+                //),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/rfidclearsession", applicationPath)); },

@@ -8,6 +8,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
       captionBC:          RwLanguages.translate('BC'),
       captionAsOf:        RwLanguages.translate('As Of'),
       captionBarcode:     RwLanguages.translate('Barcode'),
+      captionSerialNo:    RwLanguages.translate('Serial No'),
       captionICode:       RwLanguages.translate('I-Code'),
       captionLastDeal:    RwLanguages.translate('Last Deal'),
       captionLastOrder:   RwLanguages.translate('Last Order'),
@@ -50,7 +51,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 };
                 if (request.barcode.length > 0) {
                     screen.resetscreen();
-                    RwServices.order.getItemStatus(request, function(response) {
+                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                         application.playStatus(response.itemdata.status === 0);
 
@@ -74,7 +75,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 request = {
                     barcode: $this.data('recorddata').tag
                 };
-                RwServices.order.getItemStatus(request, function(response) {
+                RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
                     screen.loaditemdata(response.itemdata);
                 });
             }
@@ -112,8 +113,18 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $itemdetails.find('#is-captionLastOrder').html(RwLanguages.translate('Last Order'));
         }
 
-        $itemdetails.find('#is-trBarcode').toggle(!itemdata.isICode);
-        $itemdetails.find('#is-trSerialNo').toggle(!itemdata.isICode);
+        $itemdetails.find('#is-trBarcode').toggle(itemdata.trackedby == "BARCODE");
+        if (itemdata.trackedby == "BARCODE") {
+            $itemdetails.find('#is-txtBarcode').html(itemdata.code);
+        } else {
+            $itemdetails.find('#is-txtBarcode').html('');
+        }
+        $itemdetails.find('#is-trSerialNo').toggle(itemdata.trackedby == "SERIALNO");
+        if (itemdata.trackedby == "SERIALNO") {
+            $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
+        } else {
+            $itemdetails.find('#is-txtSerialNo').html('');
+        }
         $itemdetails.find('#is-txtICode').html(itemdata.masterNo);
         $itemdetails.find('#is-txtDescription').html(itemdata.description);
         $itemdetails.find('#is-trAisle').toggle(!itemdata.isICode);
@@ -181,12 +192,12 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     screen.rfidscan = function(epcs) {
         if (epcs != '') {
             screen.resetscreen();
-            RwServices.order.itemstatusrfid({ tags: epcs }, function(response) {
+            RwServices.call('ItemStatus', 'ItemStatusRFID', request, function(response) {
                 if (response.items.length == 1) {
                     request = {
                         barcode: response.items[0].tag
                     };
-                    RwServices.order.getItemStatus(request, function(response) {
+                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                     });
                 } else {

@@ -411,6 +411,7 @@ namespace RentalWorksQuikScanLibrary
             sp.AddParameter("@msg",           SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
             result = new ExpandoObject();
+            result.code         = barcode;
             result.isICode      = sp.GetParameter("@isicode").ToBoolean();
             result.warehouseId  = sp.GetParameter("@warehouseid").ToString().TrimEnd();
             result.masterId     = sp.GetParameter("@masterid").ToString().TrimEnd();
@@ -428,6 +429,7 @@ namespace RentalWorksQuikScanLibrary
             result.orderNo      = sp.GetParameter("@orderno").ToString().TrimEnd();
             result.orderDesc    = sp.GetParameter("@orderdesc").ToString().TrimEnd();
             result.statusDate   = sp.GetParameter("@statusdate").ToShortDateString();
+            result.trackedby    = sp.GetParameter("@trackedby").ToString().TrimEnd();
             result.aisleloc     = sp.GetParameter("@aisleloc").ToString().TrimEnd();
             result.shelfloc     = sp.GetParameter("@shelfloc").ToString().TrimEnd();
             result.location     = sp.GetParameter("@location").ToString().TrimEnd();

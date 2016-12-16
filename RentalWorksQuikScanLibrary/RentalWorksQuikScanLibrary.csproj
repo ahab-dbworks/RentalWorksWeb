@@ -56,6 +56,7 @@
     <Compile Include="RwConstants.cs" />
     <Compile Include="Services\AssetDisposition.cs" />
     <Compile Include="Services\AssetSetLocation.cs" />
+    <Compile Include="Services\ItemStatus.cs" />
     <Compile Include="Services\Staging.cs" />
     <Compile Include="Services\CheckIn.cs" />
     <Compile Include="Services\Exchange.cs" />
