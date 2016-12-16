@@ -119,9 +119,9 @@
 #checkIn-serial .serial-title {background-color:#546e7a;padding:4px;font-size:14px;}
 #checkIn-serial .serial-title .serial-title-object {text-align:center;}
 #checkIn-serial .serial-details {background-color:#212121;padding:4px;color:#00c853;font-size: 14px;}
-#checkIn-serial .serial-details .serial-details-row {display:flex;}
-#checkIn-serial .serial-details .serial-details-row .serial-details-row-caption {flex:1 0 80px;text-align: right;margin-right: 5px;}
-#checkIn-serial .serial-details .serial-details-row .serial-details-row-value {flex:1 0 80px;}
+#checkIn-serial .serial-details .serial-details-row {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;}
+#checkIn-serial .serial-details .serial-details-row .serial-details-row-caption {flex:1 0 80px;width:80px;text-align: right;margin-right: 5px;}
+#checkIn-serial .serial-details .serial-details-row .serial-details-row-value {flex:1 0 80px;width:80px;}
 #checkIn-serial .serialitem.standard {background-color:#fafafa;color:#212121;border-bottom:1px solid #546e7a;cursor:pointer;overflow:auto;line-height:44px;}
 #checkIn-serial .serialitem.standard.in {background-color:#4caf50;}
 #checkIn-serial .serialitem.standard .serialitem-caption {font-size:14px;padding:0 10px 0 20px;float:left;}

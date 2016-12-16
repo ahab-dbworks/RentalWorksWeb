@@ -1429,7 +1429,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 };
                 RwServices.call('CheckIn', 'SerialSessionIn', request, function (response) {
                     FwConfirmation.destroyConfirmation($confirmation);
-                    $this.addClass('valueset').html(parseFloat(request.meter));
+                    $this.addClass('valueset').html(numberWithCommas(parseFloat(request.meter).toFixed(2)));
                     $this.closest('.metered').addClass('valueset');
                 });
             });
