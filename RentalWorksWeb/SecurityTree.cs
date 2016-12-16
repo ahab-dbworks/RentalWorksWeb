@@ -113,7 +113,7 @@ namespace RentalWorksWeb
             AddModule("Fill Container",      "{59187AA1-8F90-4AEC-B771-A84EC59A83F1}", lv1menuHome.Id, "", "order/fillcontainer",             iconbaseurl + "fillcontainer.png",        "",                 "container",     "USER");
             AddModule("Inventory Web Image", "{9E49037B-331B-47AC-88C9-C4DE5EABD4DD}", lv1menuHome.Id, "", "inventory/inventorywebimage",     iconbaseurl + "webimage.png",             "",                 "",              "USER");
             AddModule("Physical Inventory",  "{36A96F73-AAF1-465B-9A60-34F1160AEDAD}", lv1menuHome.Id, "", "utilities/physicalinventory",     iconbaseurl + "physicalinv.png",          "",                 "",              "USER");
-            AddModule("Move to Isle/Shelf",  "{80B6DE16-DE6E-4D49-869F-DA14BCE3422E}", lv1menuHome.Id, "", "inventory/movebclocation",        iconbaseurl + "moveto.png",               "",                 "",              "USER");
+            AddModule("Move To Aisle/Shelf", "{80B6DE16-DE6E-4D49-869F-DA14BCE3422E}", lv1menuHome.Id, "", "inventory/movebclocation",        iconbaseurl + "moveto.png",               "",                 "",              "USER");
             AddModule("Unassigned Items",    "{0383B8A9-EB64-4C8A-B6F2-9E3528C093DB}", lv1menuHome.Id, "", "unassigneditems",                 iconbaseurl + "unassigneditems.001.png",  "",                 "rfid",          "USER");
         }
         //---------------------------------------------------------------------------------------------

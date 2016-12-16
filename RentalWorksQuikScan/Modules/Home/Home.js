@@ -35,7 +35,7 @@ RwHome.getHomeScreen = function(viewModel, properties) {
                         hasusertype = true;
                     }
                     if (hasusertype) {
-                        caption = (typeof nodeModule.properties.htmlcaption === 'string' && nodeModule.properties.htmlcaption.length > 0) ? nodeModule.properties.htmlcaption : nodeModule.properties.caption;
+                        caption = (typeof nodeModule.properties.htmlcaption === 'string' && nodeModule.properties.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.properties.htmlcaption) : RwLanguages.translate(nodeModule.properties.caption);
                         $menuObject = RwHome.generateIcon(caption, nodeModule.properties.modulenav, nodeModule.properties.iconurl);
                         screen.$view.find('.fwmenu').append($menuObject);
                     }

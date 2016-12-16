@@ -210,6 +210,8 @@ RwLanguages.captions = [
   , 'PO No.'
   , 'PO Sub-Receive'
   , 'PO Sub-Return'
+  , 'PO<br>Receive'
+  , 'PO<br>Return'
   , 'Prospect'
   , 'Purchase Order'
   , 'QC'
