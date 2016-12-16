@@ -43,9 +43,8 @@ RwOrderController.getOrderSuspendedSessionPopup = function(suspendedInContracts)
 };
 //---------------------------------------------------------------------------------------------- 
 RwOrderController.getCheckInScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, pageTitle, pageSubTitle, requestOrdertranExists, applicationOptions, showAisleShelf, $checkInSerial;
+    var combinedViewModel, screen, pageTitle, pageSubTitle, requestOrdertranExists, applicationOptions, $checkInSerial;
     applicationOptions = application.getApplicationOptions();
-    showAisleShelf = true;
     if (typeof properties.orderId      === 'undefined') {properties.orderId      = '';}
     if (typeof properties.dealId       === 'undefined') {properties.dealId       = '';}
     if (typeof properties.departmentId === 'undefined') {properties.departmentId = '';}
@@ -84,8 +83,8 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         captionPageTitle:          RwOrderController.getPageTitle(properties)
       , captionPageSubTitle:       pageSubTitle
       , htmlScanBarcode:           RwPartialController.getScanBarcodeHtml({
-            captionInstructions: RwLanguages.translate('Select Item to Check-In...')
-          , captionBarcodeICode: RwLanguages.translate('Bar Code / I-Code')
+            captionInstructions: RwLanguages.translate('Select Item to Check-In...'),
+            captionBarcodeICode: RwLanguages.translate('Bar Code / I-Code')
         })
       , captionDesc:               RwLanguages.translate('Description')
       , captionQty:                RwLanguages.translate('Qty')
@@ -1306,7 +1305,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     html.push('  <div class="serialitem-row">');
                     html.push('    <div class="serialitem-caption">Serial No:</div>');
                     html.push('    <div class="serialitem-value">' + response.serialitems[i].mfgserial + '</div>');
-                    html.push('    <div class="serialitem-metericon"><i class="material-icons">keyboard_arrow_down</i></div>');
+                    html.push('    <div class="serialitem-metericon"><i class="material-icons">expand_more</i></div>');
                     html.push('  </div>');
                     html.push('  <div class="serialitem-meter-dropdown">');
                     html.push('    <div class="serialitem-meter-dropdown-row meteredout">');
@@ -1335,7 +1334,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     $checkInSerial.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function () {
         $checkInSerial.hidescreen();
     });
-    $checkInSerial.$btnserialmeters = FwMobileMasterController.addFormControl(screen, 'Enter Meter Data', 'right', '', false, function () {
+    $checkInSerial.$btnserialmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', 'continue', false, function () {
         $checkInSerial.find('.serial-details').hide();
         $checkInSerial.find('.serialitems').hide();
         $checkInSerial.find('.serialitem-meters').show();
@@ -1351,6 +1350,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $checkInSerial.$btnmetersback.hide();
         $checkInSerial.$btnmetersfinish.hide();
         $checkInSerial.find('.serialitems').show();
+        $checkInSerial.find('.serial-details').show();
         $checkInSerial.find('.serialitem-meters').hide();
         $checkInSerial.loadSerialItems();
     });
@@ -1396,12 +1396,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         .on('click', '.serialitem-row', function() {
             var $serialitem;
             $serialitem = jQuery(this).parent();
-            if (!$serialitem.hasClass('active')) {
-                $serialitem.addClass('active');
-                $serialitem.find('.serialitem-meter-dropdown').slideToggle(300);
-            } else {
-                $serialitem.removeClass('active');
-                $serialitem.find('.serialitem-meter-dropdown').slideToggle(300);
+            var visible = $serialitem.find('.serialitem-meter-dropdown').is(':visible');
+            $checkInSerial.find('.serialitem-meter-dropdown').hide();
+            $checkInSerial.find('.serialitem-metericon .material-icons').html('expand_more');
+            if (!visible) {
+                $serialitem.find('.serialitem-meter-dropdown').show();
+                $serialitem.find('.serialitem-metericon .material-icons').html('expand_less');
             }
         })
         .on('click', '.meterinvalue', function() {

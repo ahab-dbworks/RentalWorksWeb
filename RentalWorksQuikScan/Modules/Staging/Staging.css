@@ -124,45 +124,45 @@
 #staging-popupQty-summary-table > tbody > tr > td.col3 {}
 #staging-popupQty-summary-table > tbody > tr > td.col4 {padding:0 0 0 10px;}
 
-.staging .page-selectserialno .row1 {/*display:flex;align-items:center;justify-content:center;*/text-align:center;background-color:#607D8B;color:#ffffff;font-size:14px;padding:2px;}
+.staging .page-selectserialno .row1 {text-align:center;background-color:#546e7a;font-size:14px;padding:4px;}
 /*.staging .page-selectserialno .row1 .fsffield {display:flex;width:130px;}
 .staging .page-selectserialno .row1 .caption {flex:0 0 50px;align-items:center;text-align:right;padding:0 0 0 5px;box-sizing:border-box;}*/
 .staging .page-selectserialno .row1 .value {flex:0 0 80px;box-sizing:border-box;padding:0 0 0 5px;}
-.staging .page-selectserialno .row2 {display:flex;justify-content:center;background-color:#000000;color:#00C853;padding:2px;}
+.staging .page-selectserialno .row2 {display:flex;justify-content:center;background-color:#212121;color:#00C853;padding:2px;}
 .staging .page-selectserialno .row2 .fsffield {display:flex;width:200px;}
 .staging .page-selectserialno .row2 .qtyremainingoutwsuspend {color:#ff9800;}
 .staging .page-selectserialno .row2 .caption {flex:0 0 90px;font-size:14px;text-align:right;box-sizing:border-box;}
 .staging .page-selectserialno .row2 .value {flex:1 0 110px;font-size:14px;padding:0 0 0 5px;box-sizing:border-box;}
-.staging .page-selectserialno .row3 {display:flex;justify-content:center;background-color:#000000;color:#00C853;padding:0 2px 2px 2px;}
+.staging .page-selectserialno .row3 {display:flex;justify-content:center;background-color:#212121;color:#00C853;padding:0 2px 2px 2px;}
 .staging .page-selectserialno .row3 .fsffield {display:flex;width:200px;}
 .staging .page-selectserialno .row3 .caption {flex:0 0 90px;font-size:14px;text-align:right;box-sizing:border-box;}
 .staging .page-selectserialno .row3 .value {flex:1 0 110px;font-size:14px;padding:0 0 0 5px;box-sizing:border-box;}
-.staging .page-selectserialno .serialnorow {overflow:hidden;background-color:#ffffff;color:#000000;cursor:pointer;}
-.staging .page-selectserialno .serialnorow:not(:last-child) {border-bottom:1px solid #A5D6A7;}
-.staging .page-selectserialno .serialnorow.selected {background-color:#00C853;}
-.staging .page-selectserialno .serialnorow .caption {float:left;font-size:14px;font-weight:bold;color:#1B5E20;height:44px;line-height:44px;padding:0 10px 0 20px;}
-.staging .page-selectserialno .serialnorow .value {float:left;font-size:16px;height:44px;line-height:44px;color:#1B5E20;}
+.staging .page-selectserialno .serialnorow {overflow:auto;background-color:#ffffff;color:#000000;cursor:pointer;}
+.staging .page-selectserialno .serialnorow:not(:last-child) {border-bottom:1px solid #546e7a;}
+.staging .page-selectserialno .serialnorow.selected {background-color:#4caf50;}
+.staging .page-selectserialno .serialnorow .caption {float:left;font-size:14px;color:#212121;height:44px;line-height:44px;padding:0 10px 0 20px;}
+.staging .page-selectserialno .serialnorow .value {float:left;font-size:16px;height:44px;line-height:44px;color:#212121;font-weight:bold;}
 
-.staging .page-serialmeters .info {text-align:center;background-color:#607D8B;color:#ffffff;font-size:14px;padding:2px;}
-.staging .page-serialmeters .expander i {color:#607D8B;font-size:32px;}
+.staging .page-serialmeters .info {text-align:center;background-color:#546e7a;font-size:14px;padding:4px;}
+.staging .page-serialmeters .expander i {color:#212121;font-size:32px;}
 .staging .page-serialmeters .serialnorow {overflow:hidden;background-color:#ffffff;color:#000000;}
 .staging .page-serialmeters .serialnorow[data-valueset="false"] {border-left:10px solid #F44336;}
-.staging .page-serialmeters .serialnorow[data-valueset="true"] .serialinfo {border-left:10px solid #4CAF50;}
+.staging .page-serialmeters .serialnorow[data-valueset="true"] {border-left:10px solid #4CAF50;}
 /*.staging .page-serialmeters .serialnorow[data-valueset="false"] .row1 {background-color:#BBDEFB;}
 .staging .page-serialmeters .serialnorow[data-valueset="false"] .row2 {background-color:#FFCDD2;}*/
 .staging .page-serialmeters .serialnorow[data-valueset="false"] .row2 .psmfield .value {background-color:#F44336;}
 .staging .page-serialmeters .serialnorow[data-valueset="true"] .row2 .psmfield .value {background-color:#4CAF50;}
-.staging .page-serialmeters .serialnorow:not(:first-child) {border-top:1px solid #90A4AE;}
+.staging .page-serialmeters .serialnorow:not(:first-child) {border-top:1px solid #546e7a;}
 .staging .page-serialmeters .serialinfo {overflow:hidden;cursor:pointer;}
-.staging .page-serialmeters .serialinfo .caption {float:left;padding:0 10px 0 20px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#006064;}
-.staging .page-serialmeters .serialinfo .value {float:left;line-height:44px;height:44px;color:#006064;}
+.staging .page-serialmeters .serialinfo .caption {float:left;padding:0 10px 0 20px;line-height:44px;height:44px;font-size:14px;color:#212121;}
+.staging .page-serialmeters .serialinfo .value {float:left;line-height:44px;height:44px;color:#212121;font-weight:bold;}
 .staging .page-serialmeters .serialinfo .expander {float:right;line-height:44px;height:44px;padding:0 10px 0 0;}
 .staging .page-serialmeters .serialinfo .expander i {line-height:44px;}
 .staging .page-serialmeters .row1 {}
 .staging .page-serialmeters .row2 {}
 .staging .page-serialmeters .row1 .psmfield {overflow:hidden;}
-.staging .page-serialmeters .row1 .psmfield .caption {float:left;padding:0 10px 0 40px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#006064;}
-.staging .page-serialmeters .row1 .psmfield .value {float:right;padding:0;width:130px;line-height:44px;height:44px;text-align:center;margin:0 5px 0 0;}
+.staging .page-serialmeters .row1 .psmfield .caption {float:left;padding:0 10px 0 40px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#212121;}
+.staging .page-serialmeters .row1 .psmfield .value {float:right;padding:0;width:130px;line-height:44px;height:44px;text-align:center;font-weight: bold;}
 .staging .page-serialmeters .row2 .psmfield {overflow:hidden;}
-.staging .page-serialmeters .row2 .psmfield .caption {float:left;padding:0 10px 0 40px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#006064;}
-.staging .page-serialmeters .row2 .psmfield .value {float:right;padding:0;width:130px;line-height:44px;height:44px;text-align:center;box-sizing:border-box;cursor:pointer;background-color:#F44336;border:1px solid #777777;border-radius:5px;margin:0 5px 5px 0;}
+.staging .page-serialmeters .row2 .psmfield .caption {float:left;padding:0 10px 0 40px;line-height:44px;height:44px;font-size:14px;font-weight:bold;color:#212121;}
+.staging .page-serialmeters .row2 .psmfield .value {float:right;padding:0;width:130px;line-height:44px;height:44px;text-align:center;box-sizing:border-box;cursor:pointer;background-color:#F44336;font-weight: bold;}

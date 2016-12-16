@@ -871,12 +871,11 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 screen.$btncreatecontract.show();
                 jQuery('#master-header-row4').show();
                 screen.$btnclose.show();
-                jQuery('.tab.active:visible').click();
             },
             forward: function() {
                 screen.pagehistory.push(screen.pages.staging);
                 screen.pages.staging.show();
-                screen.$tabpending.show();
+                screen.$tabpending.show().click();
                 screen.$tabstaged.show();
             },
             back: function () {
@@ -885,6 +884,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     screen.setSessionNo('');
                     screen.pagehistory.pop();
                     screen.getCurrentPage().show();
+                    jQuery('.tab.active:visible').click();
                 });
             }
         },
@@ -1108,13 +1108,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             $row1.append($lastvalue);
                             var $lastvaluecaption = jQuery('<div class="psmfield caption">');
                             $lastvaluecaption.text(RwLanguages.translate('Last Value') + ':');
-                            var $lastvaluevalue = jQuery('<div class="psmfield value">').html(response.funcserialmeterout[i].meterlast);
+                            var $lastvaluevalue = jQuery('<div class="psmfield value">').html(numberWithCommas(parseFloat(response.funcserialmeterout[i].meterlast).toFixed(2)));
                             $lastvalue.append($lastvaluecaption, $lastvaluevalue);
                             var $outvalue = jQuery('<div class="psmfield oldvalue">');
                             $row2.append($outvalue);
                             var $outvaluecaption = jQuery('<div class="psmfield caption">');
                             $outvaluecaption.text(RwLanguages.translate('Out Value') + ':');
-                            var $outvaluevalue = jQuery('<div class="psmfield value">').html(response.funcserialmeterout[i].meterout);
+                            var $outvaluevalue = jQuery('<div class="psmfield value">').html(numberWithCommas(parseFloat(response.funcserialmeterout[i].meterout).toFixed(2)));
                             $outvalue.append($outvaluecaption, $outvaluevalue);
                             $outvaluevalue.on('click', function() {
                                 try {
@@ -1137,7 +1137,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                             var containeroutcontractid = '';
                                             screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function funcOnSuccess() {
                                                 FwConfirmation.destroyConfirmation($confirmation);
-                                                $this.html(parseFloat(meter));
+                                                $this.html(numberWithCommas(parseFloat(meter).toFixed(2)));
                                                 $this.closest('.serialnorow').attr('data-valueset', 'true');
                                             });
                                         } catch(ex) {
@@ -1913,19 +1913,19 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         FwFunc.showError(ex);
                     }
                 });
-                if ($this.attr('data-trackedby') === 'SERIALNO') {
-                    FwContextMenu.addMenuItem($contextmenu, 'Enter Meter Data', function() {
-                        try {
-                            var masterid     = $this.attr('data-masterid');
-                            var masteritemid = $this.attr('data-masteritemid');
-                            var description  = $this.attr('data-description');
-                            var masterno     = $this.attr('data-masterno');
-                            screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                }
+                //if ($this.attr('data-trackedby') === 'SERIALNO') {
+                //    FwContextMenu.addMenuItem($contextmenu, 'Enter Meter Data', function() {
+                //        try {
+                //            var masterid     = $this.attr('data-masterid');
+                //            var masteritemid = $this.attr('data-masteritemid');
+                //            var description  = $this.attr('data-description');
+                //            var masterno     = $this.attr('data-masterno');
+                //            screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
+                //        } catch(ex) {
+                //            FwFunc.showError(ex);
+                //        }
+                //    });
+                //}
             } catch(ex) {
                 FwFunc.showError(ex);
             }

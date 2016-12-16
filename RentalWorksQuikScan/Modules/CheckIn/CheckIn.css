@@ -116,31 +116,28 @@
 #checkIn-qty-btnSubtract,
 #checkIn-qty-btnAdd {min-width:40px;display:inline;}
 
-#checkIn-serial .serial-title {background-color:#546e7a;padding:5px;}
+#checkIn-serial .serial-title {background-color:#546e7a;padding:4px;font-size:14px;}
 #checkIn-serial .serial-title .serial-title-object {text-align:center;}
-#checkIn-serial .serial-details {background-color:#212121;padding:5px;color:#76ff03;}
+#checkIn-serial .serial-details {background-color:#212121;padding:4px;color:#00c853;font-size: 14px;}
 #checkIn-serial .serial-details .serial-details-row {display:flex;}
 #checkIn-serial .serial-details .serial-details-row .serial-details-row-caption {flex:1 0 80px;text-align: right;margin-right: 5px;}
 #checkIn-serial .serial-details .serial-details-row .serial-details-row-value {flex:1 0 80px;}
-#checkIn-serial .serialitem.standard {background-color:#fafafa;color:#212121;padding:10px;display:flex;border-bottom:1px solid #212121;cursor:pointer;}
+#checkIn-serial .serialitem.standard {background-color:#fafafa;color:#212121;border-bottom:1px solid #546e7a;cursor:pointer;overflow:auto;line-height:44px;}
 #checkIn-serial .serialitem.standard.in {background-color:#4caf50;}
-#checkIn-serial .serialitem.standard .serialitem-caption {flex:0 0 65px;font-size:12px;line-height:18px;}
-#checkIn-serial .serialitem.standard .serialitem-value {flex:1 0 auto;font-weight:bold;}
-#checkIn-serial .serialitem.standard .serialitem-metericon {height:18px;}
-#checkIn-serial .serialitem.standard .serialitem-metericon i {font-size:18px;}
+#checkIn-serial .serialitem.standard .serialitem-caption {font-size:14px;padding:0 10px 0 20px;float:left;}
+#checkIn-serial .serialitem.standard .serialitem-value {font-weight:bold;font-size:16px;float:left;}
 
-#checkIn-serial .serialitem.metered {background-color:#fafafa;color:#212121;border-bottom:1px solid #212121;}
-#checkIn-serial .serialitem.metered .serialitem-row {display:flex;padding:10px;cursor:pointer;}
-#checkIn-serial .serialitem.metered .serialitem-row .serialitem-caption {flex:0 0 65px;font-size:12px;line-height:18px;}
-#checkIn-serial .serialitem.metered .serialitem-row .serialitem-value {flex:1 0 auto;font-weight:bold;}
-#checkIn-serial .serialitem.metered .serialitem-row .serialitem-metericon {height:18px;}
-#checkIn-serial .serialitem.metered .serialitem-row .serialitem-metericon i {font-size:18px;}
-#checkIn-serial .serialitem.metered.valueset .serialitem-row {background-color:#4caf50;}
-#checkIn-serial .serialitem.metered .serialitem-meter-dropdown {display:none;border-top:1px solid #212121;}
-#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row {display:flex;font-weight:bold;}
-#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row.meteredout {background-color:#b3e5fc;}
-#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .serialitem-meter-dropdown-caption {flex:1 0 auto;padding:10px;}
-#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .serialitem-meter-dropdown-value {flex:0 0 100px;padding:10px;text-align:right;}
+#checkIn-serial .serialitem.metered {background-color:#fafafa;color:#212121;border-bottom:1px solid #546e7a;border-left:10px solid #f44336;}
+#checkIn-serial .serialitem.metered.valueset {border-left:10px solid #4caf50;}
+#checkIn-serial .serialitem.metered .serialitem-row {cursor:pointer;overflow:auto;line-height:44px;}
+#checkIn-serial .serialitem.metered .serialitem-row .serialitem-caption {font-size:14px;padding:0 10px 0 20px;float:left;}
+#checkIn-serial .serialitem.metered .serialitem-row .serialitem-value {font-weight:bold;font-size:16px;float:left;}
+#checkIn-serial .serialitem.metered .serialitem-row .serialitem-metericon {float:right;padding:0 10px 0 0;height:44px;}
+#checkIn-serial .serialitem.metered .serialitem-row .serialitem-metericon i {font-size:32px;line-height:44px;}
+#checkIn-serial .serialitem.metered .serialitem-meter-dropdown {display:none;}
+#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row {font-weight:bold;overflow:auto;line-height:44px;}
+#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .serialitem-meter-dropdown-caption {padding:0 10px 0 40px;float:left;font-size:14px;}
+#checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .serialitem-meter-dropdown-value {text-align:right;float:right;width:130px;text-align:center;}
 #checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .meterinvalue {background-color:#f44336;cursor:pointer;}
 #checkIn-serial .serialitem.metered .serialitem-meter-dropdown .serialitem-meter-dropdown-row .meterinvalue.valueset {background-color:#4caf50;}
 
