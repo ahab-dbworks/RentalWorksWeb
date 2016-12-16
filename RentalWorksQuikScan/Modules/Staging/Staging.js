@@ -871,11 +871,12 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 screen.$btncreatecontract.show();
                 jQuery('#master-header-row4').show();
                 screen.$btnclose.show();
+                jQuery('.tab.active').click();
             },
             forward: function() {
                 screen.pagehistory.push(screen.pages.staging);
                 screen.pages.staging.show();
-                screen.$tabpending.show().click();
+                screen.$tabpending.show();
                 screen.$tabstaged.show();
             },
             back: function () {
@@ -884,7 +885,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     screen.setSessionNo('');
                     screen.pagehistory.pop();
                     screen.getCurrentPage().show();
-                    jQuery('.tab.active:visible').click();
                 });
             }
         },
