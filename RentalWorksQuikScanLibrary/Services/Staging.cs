@@ -288,6 +288,7 @@ namespace RentalWorksQuikScanLibrary.Services
                     cmd.Add("set forcedsuspend = 'G'");
                     cmd.Add("where contractid = @contractid");
                     cmd.AddParameter("@contractid", response.contractid);
+                    cmd.Execute();
                 }
             }
         }

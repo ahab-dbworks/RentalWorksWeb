@@ -303,7 +303,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
         $listview = screen.$view.find('.listview');
         $listview.show();
         switch(properties.moduleType) {
-            case 'Order':        
+            case 'Order':
                 itemmodel = {
                     captiondescription: RwLanguages.translate('Desc'),
                     captionorderno:     RwLanguages.translate('Order No'),
@@ -315,7 +315,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                 }
                 itemtemplate = jQuery('#tmpl-getOrdersItem').html();
                 break;
-            case 'Truck': 
+            case 'Truck':
                 itemmodel = {
                     captionDescription: RwLanguages.translate('Desc'),
                     captionOrderNo:     RwLanguages.translate('Truck No'),
