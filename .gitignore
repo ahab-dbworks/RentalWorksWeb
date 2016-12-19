@@ -1,7 +1,17 @@
-app_body.htm
-app_head.htm
-app_scripts.json
-app_startupscript.htm
+RentalWorksQuikScan/app_body.htm
+RentalWorksQuikScan/app_head.htm
+RentalWorksQuikScan/app_scripts.json
+RentalWorksQuikScan/app_startupscript.js
+RentalWorksQuikScan/Application.config
+RentalWorksQuikScan/ApplicationConfig.js
+RentalWorksQuikScan/FwApplicationSchema.config
+RentalWorksQuikScan/index.htm
+
+RentalWorksWeb/app_scripts.json
+RentalWorksWeb/Application.config
+RentalWorksWeb/ApplicationConfig.js
+RentalWorksWeb/FwApplicationSchema.config
+RentalWorksWeb/index.htm
 
 
 ## Ignore Visual Studio temporary files, build results, and
