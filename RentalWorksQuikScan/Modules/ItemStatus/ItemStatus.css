@@ -6,7 +6,7 @@
 
 #itemStatus .is-error {text-align:center;display:none;margin-top:10px;}
 
-#itemStatus .is-itemdetails {display:none;background-color: #212121;margin-top:10px;}
+#itemStatus .is-itemdetails {display:none;background-color: #212121;}
 #itemStatus .is-itemdetails .is-itemstatus {text-align:center;padding:5px;}
 #itemStatus .is-itemdetails .is-detailtable {width:100%;border-collapse:collapse;border:1px solid #000000;background-color:rgba(0,0,0,1);}
 #itemStatus .is-itemdetails .is-detailtable td {margin:0;padding:1px 5px;}
