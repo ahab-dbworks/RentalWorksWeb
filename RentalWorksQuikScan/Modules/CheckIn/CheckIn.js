@@ -1412,10 +1412,17 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             dontCancelIfOrderTranExists:   true,
             failSilentlyOnOwnershipErrors: true
         };
-        RwServices.order.cancelContract(requestCancelContract, function(responseCancelContract) {
-            // in case there is an error we still want to navigate away
-        });
-        navigateAway();
+        RwServices.order.cancelContract(requestCancelContract, 
+            function doneCallback(responseCancelContract) {
+                // in case there is an error we still want to navigate away
+                navigateAway();
+            }),
+            null,
+            function failCallback() {
+                RwAppData.error(jqXHR, textStatus, errorThrown);
+                navigateAway();
+            }
+        ;
     };
 
     screen.toggleFillContainerButton = function() {

@@ -26,14 +26,17 @@ RwAppData.error = function(jqXHR, textStatus, errorThrown) {
     }
 };
 //----------------------------------------------------------------------------------------------
-RwAppData.jsonPost = function(requiresAuthToken, url, request, doneCallback, timeoutSeconds, async) {
+RwAppData.jsonPost = function(requiresAuthToken, url, request, doneCallback, timeoutSeconds, async, failCallback) {
     if (timeoutSeconds === null) {
         timeoutSeconds = applicationConfig.ajaxTimeoutSeconds;
     }
+    if (typeof failCallback !== 'function') {
+        failCallback = null;
+    }
     if ((typeof async === 'boolean') && (async === true)) {
-        FwAppData.jsonPost(requiresAuthToken, url, request, timeoutSeconds, doneCallback, jQuery('<div>'));
+        FwAppData.jsonPost(requiresAuthToken, url, request, timeoutSeconds, doneCallback, failCallback, jQuery('<div>'));
     } else {
-        FwAppData.jsonPost(requiresAuthToken, url, request, timeoutSeconds, doneCallback, null);
+        FwAppData.jsonPost(requiresAuthToken, url, request, timeoutSeconds, doneCallback, failCallback, null);
     }
 };
 //----------------------------------------------------------------------------------------------
