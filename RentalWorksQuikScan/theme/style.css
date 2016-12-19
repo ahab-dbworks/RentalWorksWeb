@@ -169,7 +169,7 @@ body.transparent .field .caption {color:#000000;}
 .rfid-items .rfid-item.exception .rfid-item-title {background-color:#953735;}
 .rfid-items .rfid-item.pending .rfid-item-title {background-color:#31859c;}
 
-.rfid-bottom {position:fixed;bottom:42px;left:0;right:0;background-color: rgba(90,90,90,1);border-top: 1px solid #000000;}
+.rfid-bottom {position:fixed;bottom:0;left:0;right:0;background-color: rgba(90,90,90,1);border-top: 1px solid #000000;}
 .rfid-bottom .rfid-rfidstatus {overflow:auto;text-align:center;margin:2px 5px 0 5px;padding:2px;font-size:14px;border:1px solid black;background-color:gray;}
 .rfid-bottom .rfid-rfidstatus .statusitem {overflow:auto;float:left;}
 .rfid-bottom .rfid-rfidstatus .statusitem.processed {margin-left:5px;margin-right:11px;}
