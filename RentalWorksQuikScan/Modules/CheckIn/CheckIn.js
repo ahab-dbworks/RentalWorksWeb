@@ -53,11 +53,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     switch(properties.checkInMode) {
         case RwConstants.checkInModes.SingleOrder:
             pageTitle               = RwLanguages.translate('Check-In');
-            pageSubTitle            = '<div class="title">' + RwLanguages.translate('Order') + ': ' + properties.webSelectOrder.orderNo + '&nbsp;&nbsp;&nbsp;&nbsp;'  + RwLanguages.translate('Session') + ': ' + properties.sessionNo + '<br/>' + properties.webSelectOrder.orderDesc + '</div>';
-            properties.orderId      = properties.webSelectOrder.orderId;
-            properties.dealId       = properties.webSelectOrder.dealId;
-            properties.departmentId = properties.webSelectOrder.departmentId;
-            properties.orderDesc    = properties.webSelectOrder.orderDesc;
+            pageSubTitle            = '<div class="title">' + properties.selectedorder.orderno + ' - ' + properties.selectedorder.orderdesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedorder.sessionno + ')</div>';
+            properties.orderId      = properties.selectedorder.orderid;
+            properties.dealId       = properties.selectedorder.dealid;
+            properties.departmentId = properties.selectedorder.departmentid;
+            properties.orderDesc    = properties.selectedorder.orderdesc;
+            properties.contractId   = properties.selectedorder.contractid;
             break;
         case RwConstants.checkInModes.MultiOrder:
             pageTitle               = RwLanguages.translate('Check-In');
@@ -65,18 +66,18 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             break;
         case RwConstants.checkInModes.Session:
             pageTitle               = RwLanguages.translate('Check-In');
-            pageSubTitle            = '<div class="title">' + RwLanguages.translate('Order') + ': ' + properties.webSelectSession.orderNo + '&nbsp;&nbsp;&nbsp;&nbsp;'  + RwLanguages.translate('Session') + ': ' + properties.webSelectSession.sessionNo + '<br/>' + properties.webSelectSession.orderDesc + '</div>';
-            properties.orderId      = properties.webSelectSession.orderId;
-            properties.dealId       = properties.webSelectSession.dealId;
-            properties.departmentId = properties.webSelectSession.departmentId;
-            properties.orderDesc    = properties.webSelectSession.orderDesc;
-            properties.contractId   = properties.webSelectSession.contractId;
+            pageSubTitle            = '<div class="title">' + properties.selectedsession.orderno + ' - ' + properties.selectedsession.orderdesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedsession.sessionno + ')</div>';
+            properties.orderId      = properties.selectedsession.orderid;
+            properties.dealId       = properties.selectedsession.dealid;
+            properties.departmentId = properties.selectedsession.departmentid;
+            properties.orderDesc    = properties.selectedsession.orderdesc;
+            properties.contractId   = properties.selectedsession.contractid;
             break;
         case RwConstants.checkInModes.Deal:
             pageTitle               = RwLanguages.translate('Check-In');
-            pageSubTitle            = '<div class="title">' + RwLanguages.translate('Deal No') + ': ' + properties.webSelectDeal.dealNo + '<br/>' + RwLanguages.translate('Desc') + ': ' + properties.webSelectDeal.dealdesc + '</div>';
-            properties.dealId       = properties.webSelectDeal.dealId;
-            properties.departmentId = properties.webSelectDeal.departmentId;
+            pageSubTitle            = '<div class="title">' + properties.selecteddeal.dealno + ' - ' + properties.selecteddeal.deal + '</div>';
+            properties.dealId       = properties.selecteddeal.dealid;
+            properties.departmentId = properties.selecteddeal.departmentid;
             break;  
     }
     combinedViewModel = jQuery.extend({
@@ -130,6 +131,10 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     //if ((sessionStorage.userType === 'USER') && (typeof applicationOptions.container !== 'undefined') && (applicationOptions.container.enabled)) {
     //    screen.$view.find('.container .fillcontainertoolbar').show();
     //}
+
+    screen.$btnclose = FwMobileMasterController.addFormControl(screen, 'Close', 'left', 'back', true, function () {
+        application.navigate('order/checkinmenu');
+    });
 
     screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'continue', true, function () {
         try {
@@ -323,7 +328,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         ;
     }
 
-    screen.$view.find('#checkIn-pageSelectorInner').toggle((applicationConfig.designMode) || (screen.getContractId() !== ''));
+    screen.$view.find('#master-header-row4').toggle((applicationConfig.designMode) || (screen.getContractId() !== ''));
     
     screen.showPopupQty = function() {
         FwPopup.showPopup(screen.$popupQty);
@@ -527,7 +532,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             .toggle((responseCheckInItem.webCheckInItem.msg.length > 0) || (responseCheckInItem.webCheckInItem.genericMsg.length > 0));
         screen.$popupQty.find('#checkIn-popupQty-qtyPanel')
             .toggle((applicationConfig.designMode) || ((responseCheckInItem.request.qty === 0) && (responseCheckInItem.webCheckInItem.isICode) && responseCheckInItem.webCheckInItem.status === 0));
-        jQuery('#checkIn-pageSelectorInner').toggle(properties.contractId !== '');
+        jQuery('#master-header-row4').toggle(properties.contractId !== '');
         if ((responseCheckInItem.request.qty === 0) || (responseCheckInItem.webCheckInItem.genericMsg.length > 0) || (responseCheckInItem.webCheckInItem.msg.length > 0)) {
             screen.showPopupQty();
             if (responseCheckInItem.webCheckInItem.status === 0) {
@@ -898,168 +903,6 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 }
             });
         })
-        //.on('click', '#checkIn-btnPendingList', function() {
-        //    var request;
-        //    try {
-        //        jQuery('#checkIn-scan').hide();
-        //        jQuery('#checkIn-sessionInList').hide();
-        //        jQuery('#checkIn-pendingList').show();
-        //        jQuery('#checkIn-rfid').hide();
-        //        jQuery('#checkIn-btnScan').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnSessionInList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnPendingList').removeClass('unselected').addClass('selected');
-        //        jQuery('#checkIn-btnRFID').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-scan').attr('data-mode', 'PENDINGLIST');
-        //        RwRFID.unregisterEvents();
-        //        request = {
-        //            contractId: screen.getContractId()
-        //        };
-        //        RwServices.order.getCheckInPendingList(request, screen.getCheckInPendingListCallback);
-        //    } catch(ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //})
-        //.on('click', '#checkIn-btnScan', function() {
-        //    try {
-        //        jQuery('#checkIn-pendingList').hide();
-        //        jQuery('#checkIn-sessionInList').hide();
-        //        jQuery('#checkIn-rfid').hide();
-        //        jQuery('#checkIn-scan').show();
-        //        jQuery('#checkIn-btnPendingList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnSessionInList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnScan').removeClass('unselected').addClass('selected');
-        //        jQuery('#checkIn-btnRFID').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-scan').attr('data-mode', 'SCAN');
-        //        RwRFID.unregisterEvents();
-        //        screen.toggleFillContainerButton();
-        //    } catch(ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //})
-        //.on('click', '#checkIn-btnRFID', function() {
-        //    try {
-        //        var request;
-        //        jQuery('#checkIn-sessionInList').hide();
-        //        jQuery('#checkIn-pendingList').hide();
-        //        jQuery('#checkIn-scan').hide();
-        //        jQuery('#checkIn-rfid').show();
-        //        jQuery('#checkIn-btnPendingList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnSessionInList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnScan').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnRFID').removeClass('unselected').addClass('selected');
-        //        jQuery('#checkIn-scan').attr('data-mode', 'RFID');
-        //        //jQuery('.rfid-rfidbuttons .btnstaging').click();
-        //        RwRFID.registerEvents(screen.rfidscan);
-        //        request = {
-        //            rfidmode:  'CHECKIN',
-        //            sessionid:  screen.getContractId(),
-        //            portal:    device.uuid
-        //        };
-        //        RwServices.order.getRFIDStatus(request, function(response) {
-        //            screen.$view.find('.rfid-rfidstatus .exceptions .statusitem-value').html(response.exceptions.length);
-        //            screen.$view.find('.rfid-rfidstatus .pending .statusitem-value').html(response.pending.length);
-        //            (response.exceptions.length > 0) ? screen.$view.find('.btnexception').show() : screen.$view.find('.btnexception').hide();
-        //            (response.pending.length > 0)    ? screen.$view.find('.btnpending').show()   : screen.$view.find('.btnpending').hide();
-        //        });
-        //    } catch(ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //})
-        //.on('click', '#checkIn-btnSessionInList', function() {
-        //    var request;
-        //    try {
-        //        jQuery('#checkIn-scan').hide();
-        //        jQuery('#checkIn-pendingList').hide();
-        //        jQuery('#checkIn-rfid').hide();
-        //        jQuery('#checkIn-sessionInList').show();
-        //        jQuery('#checkIn-btnPendingList').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnScan').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-btnSessionInList').removeClass('unselected').addClass('selected');
-        //        jQuery('#checkIn-btnRFID').removeClass('selected').addClass('unselected');
-        //        jQuery('#checkIn-scan').attr('data-mode', 'SESSIONINLIST');
-        //        RwRFID.unregisterEvents();
-        //        request = {
-        //            contractId:  screen.getContractId()
-        //        };
-        //        RwServices.order.getCheckInSessionInList(request, function(response) {
-        //            var items, ul, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0;
-        //            items = response.getCheckInSessionInList; 
-        //            ul = [];
-        //            for (var i = 0; i < items.length; i++) {
-        //                isHeaderRow = ((items[i].itemclass === 'N') || (items[i].sessionin === 0));
-        //                if (!isHeaderRow) {
-        //                    lineitemcount++;
-        //                }
-        //                totalitems += items[i].sessionin;
-        //                cssClass = '';
-        //                if (!isHeaderRow) {
-        //                    if (cssClass.length > 0) {
-        //                        cssClass += ' ';
-        //                    }
-        //                    cssClass += 'link';
-        //                }
-        //                if (cssClass.length > 0) {
-        //                    cssClass += ' ';
-        //                }
-        //                cssClass += ' itemclass-' + items[i].itemclass;
-        //                li = [];
-        //                li.push('<li class="' + cssClass +  
-        //                    '" data-rentalitemid="' + items[i].rentalitemid + 
-        //                    '" data-orderid="'      + items[i].orderid + 
-        //                    '" data-masteritemid="' + items[i].masteritemid + 
-        //                    '" data-masterid="'     + items[i].masterid + 
-        //                    '" data-vendorid="'     + items[i].vendorid +
-        //                    '" data-consignorid="'  + items[i].consignorid +
-        //                    '" data-description="'  + FwFunc.htmlEscape(items[i].description) +
-        //                    '" data-ordertranid="'  + items[i].ordertranid +
-        //                    '" data-internalchar="' + items[i].internalchar +
-        //                    '" data-sessionin="'    + items[i].sessionin +
-        //                    '" data-trackedby="'    + items[i].trackedby +
-        //                    '">');
-        //                    li.push('<div class="description">' + items[i].description + '</div>');
-        //                    if (isHeaderRow) {
-        //                        li.push('<table style="display:none;">');
-        //                    } else {
-        //                        li.push('<table>');
-        //                    }
-        //                        li.push('<tbody>');
-        //                            li.push('<tr>');
-        //                                li.push('<td class="col1 key masterno">' + RwLanguages.translate('I-Code') + ':</td>');
-        //                                li.push('<td class="col2 value masterno">' + items[i].masterno + '</td>');
-        //                                li.push('<td class="col3 key sessionin">' + RwLanguages.translate('Session In') + ':</td>');
-        //                                li.push('<td class="col4 value sessionin">' + String(items[i].sessionin) + '</td>');
-        //                            li.push('</tr>');
-        //                            if (items[i].barcode !== '') {
-        //                                li.push('<tr class="">');
-        //                                    li.push('<td class="col1 key barcode">' + RwLanguages.translate('Bar Code') + ':</td>');
-        //                                    li.push('<td colspan="3" class="value barcode">' + items[i].barcode + '</td>');
-        //                                li.push('</tr>');
-        //                            }
-        //                            li.push('<tr>');
-        //                                li.push('<td class="col1 key orderno">' + RwLanguages.translate('Order No') + ':</td>');
-        //                                li.push('<td class="col2 value orderno">' + items[i].orderno + '</td>');
-        //                                li.push('<td class="col3 key qtyordered">' + RwLanguages.translate('Ordered') + ':</td>');
-        //                                li.push('<td class="col4 value qtyordered">' + String(items[i].qtyordered) + '</td>');
-        //                            li.push('</tr>');
-        //                            if (items[i].vendorid !== '') {
-        //                                li.push('<tr>');
-        //                                    li.push('<td class="col1 key vendor">' + RwLanguages.translate('Vendor/Consignor') + ':</td>');
-        //                                    li.push('<td class="col2 value vendor" colspan="3"><div class="vendor">' + items[i].vendor + '</div></td>');
-        //                                li.push('</tr>');
-        //                            }
-        //                        li.push('</tbody>');
-        //                    li.push('</table>');
-        //                li.push('</li>');
-        //                ul.push(li.join(''));
-        //            }
-        //            ul.push(screen.getRowCountItem(lineitemcount, totalitems));
-        //            jQuery('#checkIn-sessionInList-ul').html(ul.join(''));
-        //            //screen.$btncreatecontract.toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (items.length > 0)));
-        //        });
-        //    } catch(ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //})
         .on('click', '#checkin-pendingList-btnApplyAllQtyItems', function() {
             var request;
             try {
@@ -1243,6 +1086,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             screen.$view.find('#master-header-row4').hide();
             screen.$view.find('#checkIn-serial').show();
             screen.$btncreatecontract.hide();
+            screen.$btnclose.hide();
             $checkInSerial.$btnback.show();
             if (response.serial.metered == 'T') $checkInSerial.$btnserialmeters.show();
 
@@ -1366,6 +1210,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         screen.$view.find('#master-header-row4').show();
         $checkInSerial.empty().hide();
         screen.$btncreatecontract.show();
+        screen.$btnclose.show();
         $checkInSerial.$btnback.hide();
         $checkInSerial.data('recorddata', '');
         if (typeof $checkInSerial.$btnserialmeters !== 'undefined') $checkInSerial.$btnserialmeters.hide();
@@ -1534,7 +1379,9 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }
-        screen.$tabpending.click();
+        if (screen.getContractId() !== '') {
+            screen.$tabpending.click();
+        }
 
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen', function() {

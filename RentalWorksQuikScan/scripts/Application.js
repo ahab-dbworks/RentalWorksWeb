@@ -128,38 +128,6 @@ Application.prototype.navigate = function(path) {
             case 'order/checkinmenu':
                 screen = RwOrderController.getCheckInMenuScreen({},{});
                 break;
-            case 'order/checkin/singleorder':
-                screen = RwSelectOrder.getSelectOrderScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Order,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.SingleOrder,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
-            case 'order/checkin/multiorder':
-                screen = RwOrderController.getCheckInScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Order,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.MultiOrder,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
-            case 'order/checkin/session':
-                screen = RwSelectSession.getSelectSessionScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Order
-                  , activityType: RwConstants.activityTypes.CheckIn
-                  , checkInMode:  RwConstants.checkInModes.Session
-                  , checkInType: RwConstants.checkInType.Normal
-                });
-                break;
-            case 'order/checkin/deal':
-                screen = RwSelectDeal.getSelectDealScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Order ,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.Deal,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
             case 'order/itemstatus':
                 screen = RwOrderController.getItemStatusScreen({});
                 break;
