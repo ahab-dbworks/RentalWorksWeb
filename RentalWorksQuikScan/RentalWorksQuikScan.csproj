@@ -104,6 +104,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
     <Content Include="Application.sample.config">
       <SubType>Designer</SubType>
@@ -349,6 +350,7 @@
     <Content Include="theme\images\icons\128\transfer.001.png" />
     <Content Include="theme\images\icons\128\package-truck.001.png" />
     <Content Include="theme\images\icons\128\logoff.001.png" />
+    <Content Include="FwApplicationSchema.config" />
     <None Include="JSAppBuilder.config">
       <SubType>Designer</SubType>
     </None>

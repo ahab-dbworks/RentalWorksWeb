@@ -141,7 +141,7 @@ namespace RentalWorksQuikScanLibrary.Services
                 select.PageNo   = request.pageno;
                 select.PageSize = request.pagesize;
 
-                select.Add("select v.contractid, v.status, v.statusdate, v.sessionno, v.dealno, v.deal, v.orderno, v.orderdesc, v.usersid, v.username, oc.orderid");
+                select.Add("select v.contractid, v.status, v.statusdate, v.sessionno, v.dealno, v.deal, v.orderno, v.orderdesc, v.usersid, v.username, oc.orderid, v.dealid, v.departmentid");
                 select.Add("from suspendview v with (nolock) join ordercontract oc with (nolock) on (v.contractid = oc.contractid)");
                 select.Add("where v.contracttype = 'IN'");
                 select.Add("  and v.ordertype    = 'O'");
