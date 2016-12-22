@@ -116,6 +116,7 @@
   <ItemGroup>
     <Content Include="ApplicationConfig.js" />
     <Content Include="ApplicationConfig.sample.js" />
+    <Content Include="index.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
@@ -976,6 +977,7 @@
     <Content Include="scripts\Program.js" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
+    <Content Include="app_scripts.json" />
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />

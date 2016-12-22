@@ -110,6 +110,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include=".csslintrc" />
+    <Content Include="app_head.htm" />
+    <Content Include="app_startupscript.js" />
     <Content Include="index.htm" />
     <Content Include="Modules\AssetDisposition\AssetDisposition.css" />
     <Content Include="Modules\AssetDisposition\AssetDisposition.html" />
@@ -351,6 +353,7 @@
     <Content Include="theme\images\icons\128\package-truck.001.png" />
     <Content Include="theme\images\icons\128\logoff.001.png" />
     <Content Include="FwApplicationSchema.config" />
+    <Content Include="app_scripts.json" />
     <None Include="JSAppBuilder.config">
       <SubType>Designer</SubType>
     </None>
