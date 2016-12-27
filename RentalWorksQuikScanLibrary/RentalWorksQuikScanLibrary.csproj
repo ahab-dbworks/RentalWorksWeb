@@ -48,44 +48,14 @@
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="DepartmentFilter.cs" />
-    <Compile Include="Models\ExchangeDm.cs" />
-    <Compile Include="Models\ExchangeModels.cs" />
-    <Compile Include="Models\ExchangeValidDlg.cs" />
     <Compile Include="RwAppData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RwConstants.cs" />
-    <Compile Include="Services\AssetDisposition.cs" />
-    <Compile Include="Services\AssetSetLocation.cs" />
-    <Compile Include="Services\ItemStatus.cs" />
-    <Compile Include="Services\Staging.cs" />
-    <Compile Include="Services\CheckIn.cs" />
-    <Compile Include="Services\Exchange.cs" />
-    <Compile Include="Services\FillContainer.cs" />
     <Compile Include="RwService.cs" />
     <Compile Include="RwServiceRouting.cs" />
     <Compile Include="RwUserRoles.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\InventoryWebImage.cs" />
-    <Compile Include="Services\MoveBCLocation.cs" />
-    <Compile Include="Services\POSubReceiveReturn.cs" />
-    <Compile Include="Services\QuoteMenu.cs" />
-    <Compile Include="Services\ReceiveOnSet.cs" />
-    <Compile Include="Services\RepairOrder.cs" />
-    <Compile Include="Services\RfidCheckIn.cs" />
-    <Compile Include="Services\SelectPO.cs" />
-    <Compile Include="Services\UnassignedItem.cs" />
-    <Compile Include="Services\RfidStaging.cs" />
-    <Compile Include="Services\SelectOrder.cs" />
-    <Compile Include="Validations\RwPrimaryVendor.cs" />
-    <Compile Include="Validations\RwRepairOrderDesc.cs" />
-    <Compile Include="Validations\RwManufacturer.cs" />
-    <Compile Include="Validations\RwSetNo.cs" />
-    <Compile Include="Validations\RwVendor.cs" />
-    <Compile Include="Validations\RwRetiredReason.cs" />
-    <Compile Include="Validations\RwSetCharactersByICode.cs" />
-    <Compile Include="Validations\RwRepairOrderNo.cs" />
-    <Compile Include="Validations\RwContainerDescription.cs" />
     <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>

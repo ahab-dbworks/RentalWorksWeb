@@ -11,12 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fw.Json", "..\..\lib.net\db
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksAPI", "RentalWorksAPI\RentalWorksAPI.csproj", "{81982370-068F-4922-9F56-8807515D2291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksMiddleTier", "RentalWorksMiddleTier\RentalWorksMiddleTier.csproj", "{E552D90D-F12D-41F5-AB92-8DA48667890C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksMiddleTier.Tests", "RentalWorksMiddleTier.Tests\RentalWorksMiddleTier.Tests.csproj", "{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksQuikScanLibrary", "RentalWorksQuikScanLibrary\RentalWorksQuikScanLibrary.csproj", "{97542765-AD01-4E7E-81A5-154098647DC5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksQuikScan", "RentalWorksQuikScan\RentalWorksQuikScan.csproj", "{7576C47B-B75E-4491-AF97-5FCFEF52484E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{362116D5-D26E-4EFA-9683-8C7F2F2E22C6}"
@@ -106,48 +100,6 @@ Global
 		{81982370-068F-4922-9F56-8807515D2291}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release API|Any CPU.ActiveCfg = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E552D90D-F12D-41F5-AB92-8DA48667890C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release API|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD4CEC4-A5DC-478C-AB65-76F7889BC364}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release API|Any CPU.ActiveCfg = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97542765-AD01-4E7E-81A5-154098647DC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug QuikScan Fast|Any CPU

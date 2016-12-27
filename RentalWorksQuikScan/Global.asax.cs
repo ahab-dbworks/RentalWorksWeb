@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
-using Fw.Json.Utilities;
-using System.Configuration;
+﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
+using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
-using Fw.Json.Services;
-using RentalWorksQuikScanLibrary;
+using RentalWorksQuikScan.Source;
+using System;
 
 namespace RentalWorksQuikScan
 {

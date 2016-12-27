@@ -66,12 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RentalWorksMiddleTier\RentalWorksMiddleTier.csproj">
-      <Project>{E552D90D-F12D-41F5-AB92-8DA48667890C}</Project>
-      <Name>RentalWorksMiddleTier</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
