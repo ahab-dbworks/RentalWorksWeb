@@ -1393,7 +1393,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 screen.toggleRfid();
             });
         }
-        
+        screen.toggleRfid();
         screen.toggleFillContainerButton();
     };
 

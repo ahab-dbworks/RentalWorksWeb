@@ -1,6 +1,4 @@
-﻿#unassignedItems {margin-top:10px;}
-
-#unassignedItems .ui-search .fwmobilecontrol-value {text-transform:uppercase;}
+﻿#unassignedItems .ui-search .fwmobilecontrol-value {text-transform:uppercase;}
 #unassignedItems .ui-search .fwmobilecontrol-value::-webkit-input-placeholder {text-transform: none;}
 #unassignedItems .ui-search .fwmobilecontrol-value:-moz-placeholder {text-transform: none;}
 #unassignedItems .ui-search .fwmobilecontrol-value::-moz-placeholder {text-transform: none;}
