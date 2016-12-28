@@ -1,14 +1,14 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 
-namespace RentalWorksQuikScan.Source.Validations
+namespace RentalWorksWeb.Source
 {
-    class Vendor : FwValidation
+    public class RwReport : FwReport
     {
         //---------------------------------------------------------------------------------------------
-        protected override void setBrowseQry(FwSqlSelect selectQry)
+        protected override FwSqlConnection GetApplicationSqlConnection()
         {
-            base.setBrowseQry(selectQry); 
+            return FwSqlConnection.RentalWorks;
         }
         //---------------------------------------------------------------------------------------------
     }

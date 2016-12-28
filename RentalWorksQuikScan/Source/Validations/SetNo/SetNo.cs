@@ -2,7 +2,7 @@
 
 namespace RentalWorksQuikScan.Source.Validations
 {
-    class RwSetNo : FwValidation
+    class SetNo : FwValidation
     {
         //---------------------------------------------------------------------------------------------
     }

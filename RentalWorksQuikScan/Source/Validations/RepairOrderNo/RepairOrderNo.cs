@@ -3,7 +3,7 @@ using Fw.Json.SqlServer;
 
 namespace RentalWorksQuikScan.Source.Validations
 {
-    class RwRepairOrderNo : FwValidation
+    class RepairOrderNo : FwValidation
     {
         //---------------------------------------------------------------------------------------------
         protected override void setBrowseQry(FwSqlSelect selectQry)

@@ -4,7 +4,7 @@ using Fw.Json.Utilities;
 
 namespace RentalWorksQuikScan.Source.Validations
 {
-    class RwSetCharactersByICode : FwValidation
+    class SetCharactersByICode : FwValidation
     {
         //---------------------------------------------------------------------------------------------
         protected override void setBrowseQry(FwSqlSelect selectQry)

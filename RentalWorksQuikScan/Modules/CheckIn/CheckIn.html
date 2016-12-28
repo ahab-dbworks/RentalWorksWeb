@@ -1,15 +1,14 @@
 ﻿<div id="checkIn" class="view">
   
   {{{htmlScanBarcode}}}
-  <div id="checkIn-scan" data-mode="SCAN">
-    <div class="panel center fillcontainertoolbar" style="display:none;">
-      <span class="button default btnfillcontainer">{{captionFillContainer}}</span>
-    </div>
-  </div>
+  <div id="checkIn-scan" data-mode="SCAN"></div>
 
   <div id="checkIn-serial"></div>
 
   <div id="checkIn-pendingList" class="panel" style="display:none;">
+    <div class="panel center fillcontainertoolbar" style="display:none;">
+      <span class="button default btnfillcontainer">{{captionFillContainer}}</span>
+    </div>
     <ul id="checkIn-pendingList-ul"></ul>
     <div id="checkin-pendingList-pnlApplyAllQtyItems">
       <span id="checkin-pendingList-btnApplyAllQtyItems" class="button default">{{captionApplyAllQtyItems}}</span>

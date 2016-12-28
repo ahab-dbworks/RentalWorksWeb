@@ -1150,6 +1150,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityTree.cs" />
+    <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\Grids\Contact\ContactMenu.cs" />
     <Compile Include="Source\Grids\MasterItem\MasterItemMenu.cs" />
     <Compile Include="Source\Grids\OrderActivityDates\OrderActivityDatesMenu.cs" />
@@ -1161,8 +1162,47 @@
     <Compile Include="Source\Grids\QuikEntryDepartment\QuikEntryDepartmentMenu.cs" />
     <Compile Include="Source\Grids\QuikEntryItems\QuikEntryItemsMenu.cs" />
     <Compile Include="Source\Grids\QuikEntrySubCategory\QuikEntrySubCategoryMenu.cs" />
+    <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\Modules\Settings\Group\GroupMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Group\Group.cs" />
+    <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
+    <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
+    <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
+    <Compile Include="Source\RwAppData.cs" />
+    <Compile Include="Source\RwReport.cs" />
+    <Compile Include="Source\RwService.cs" />
+    <Compile Include="Source\RwServiceRouting.cs" />
+    <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\AttributeValue\AttributeValue.cs" />
+    <Compile Include="Source\Validations\Attribute\Attribute.cs" />
+    <Compile Include="Source\Validations\BatchInvoices\BatchInvoices.cs" />
+    <Compile Include="Source\Validations\BillingCycle\BillingCycle.cs" />
+    <Compile Include="Source\Validations\Category\Category.cs" />
+    <Compile Include="Source\Validations\CompanyDepartment\CompanyDepartment.cs" />
+    <Compile Include="Source\Validations\Country\Country.cs" />
+    <Compile Include="Source\Validations\CoverLetter\CoverLetter.cs" />
+    <Compile Include="Source\Validations\Currency\Currency.cs" />
+    <Compile Include="Source\Validations\Customer\Customer.cs" />
+    <Compile Include="Source\Validations\Deal\Deal.cs" />
+    <Compile Include="Source\Validations\Event\Event.cs" />
+    <Compile Include="Source\Validations\ICode\ICode.cs" />
+    <Compile Include="Source\Validations\InventoryType\InventoryType.cs" />
+    <Compile Include="Source\Validations\Language\Language.cs" />
+    <Compile Include="Source\Validations\OfficeLocation\OfficeLocation.cs" />
+    <Compile Include="Source\Validations\OrderType\OrderType.cs" />
+    <Compile Include="Source\Validations\Order\Order.cs" />
+    <Compile Include="Source\Validations\PaymentTerms\PaymentTerms.cs" />
+    <Compile Include="Source\Validations\PayType\PayType.cs" />
+    <Compile Include="Source\Validations\RateType\RateType.cs" />
+    <Compile Include="Source\Validations\ShipVia\ShipVia.cs" />
+    <Compile Include="Source\Validations\TaxOption\TaxOption.cs" />
+    <Compile Include="Source\Validations\TermsConditions\TermsConditions.cs" />
+    <Compile Include="Source\Validations\UserOfficeLocation\UserOfficeLocation.cs" />
+    <Compile Include="Source\Validations\UserWarehouse\UserWarehouse.cs" />
+    <Compile Include="Source\Validations\User\User.cs" />
+    <Compile Include="Source\Validations\Vendor\Vendor.cs" />
+    <Compile Include="Source\Validations\Warehouse\Warehouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Application.sample.config" />
@@ -1184,10 +1224,6 @@
     <ProjectReference Include="..\..\..\lib.net\dbworks\Fw.Json\Fw.Json.csproj">
       <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
       <Name>Fw.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj">
-      <Project>{dbb14ba6-3ccc-466d-82fb-30e20d8af680}</Project>
-      <Name>RentalWorksWebLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
