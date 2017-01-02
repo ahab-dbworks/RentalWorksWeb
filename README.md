@@ -35,8 +35,8 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 - [Easiest thing is using git for windows](https://git-scm.com/)
 - other option is using Linux subsystem for windows, although I has issues with it, so more R&D is needed
 
-###Clone RentalWorksWeb Repository
-- Open Windows Explorer and got to C:\project\RentalWorks
+### Clone RentalWorksWeb Repository
+- Open Windows Explorer and go to C:\project\RentalWorks
 - Right-Click and "Git Bash Here"
 - git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
 
