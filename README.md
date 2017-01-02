@@ -29,7 +29,10 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 
 1. [Install Visual Studio 2015](doc/gettingstarted/installvisualstudio2015.md)
 2. [Install Git](doc/gettingstarted/installgit.md)
-3. [Download RentalWorksWeb Repository](doc/gettingstarted/downloadrepository.md)
+3. [Clone RentalWorksWeb Repository](doc/gettingstarted/downloadrepository.md)
+   a. Open Windows Explorer and got to C:\project\RentalWorks
+   b. Right-Click and "Git Bash Here"
+   c. git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
 4. [Create a RentalWorksWeb Module](doc/gettingstarted/createrentalworkswebmodule.md)
 5. [Create a RentalWorksQuikScan Module](doc/gettingstarted/createrentalworksquikscanmodule.md)
 
