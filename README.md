@@ -45,6 +45,13 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 - When you try to open the folder you will get a popup that says: "You don't have access to this folder - Click continue to permanently get access to this folder"
 - Click 'continue' for this folder, and with the Export folder underneath. I changed the shortcut back to "Run as me" (a member of the domain and local administrators ) and was able to open and deploy the solution.
 
+### Make the solution configuration readable
+- Go to Tools > Customize
+- Commands Tab
+- Toolbar: Standard
+- Select the item "Solution Configurations" and Modify Selection
+- Width needs to be wider so make it 180 or whatever you like
+
 ### Create a RentalWorksWeb Module
 
 ### Create a RentalWorksQuikScan Module]
