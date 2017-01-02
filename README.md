@@ -27,14 +27,27 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 
 ## Getting started
 
-1. [Install Visual Studio 2015](doc/gettingstarted/installvisualstudio2015.md)
-2. [Install Git](doc/gettingstarted/installgit.md)
-3. [Clone RentalWorksWeb Repository](doc/gettingstarted/downloadrepository.md)
-   a. Open Windows Explorer and got to C:\project\RentalWorks
-   b. Right-Click and "Git Bash Here"
-   c. git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
-4. [Create a RentalWorksWeb Module](doc/gettingstarted/createrentalworkswebmodule.md)
-5. [Create a RentalWorksQuikScan Module](doc/gettingstarted/createrentalworksquikscanmodule.md)
+### Install Visual Studio 2015
+- Install Visual Studio 2015 Enterprise.
+- You can do the default install, but you should use the C# developer configuration to get the best keybindings
+
+### Install Git
+- [Easiest thing is using git for windows](https://git-scm.com/)
+- other option is using Linux subsystem for windows, although I has issues with it, so more R&D is needed
+
+###Clone RentalWorksWeb Repository
+- Open Windows Explorer and got to C:\project\RentalWorks
+- Right-Click and "Git Bash Here"
+- git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
+
+### Make IIS work without running as administrator
+- In Windows Explorer browse to C:\Windows\System32\inetsrv\config 
+- When you try to open the folder you will get a popup that says: "You don't have access to this folder - Click continue to permanently get access to this folder"
+- Click 'continue' for this folder, and with the Export folder underneath. I changed the shortcut back to "Run as me" (a member of the domain and local administrators ) and was able to open and deploy the solution.
+
+### Create a RentalWorksWeb Module
+
+### Create a RentalWorksQuikScan Module]
 
 ## Using git
 
