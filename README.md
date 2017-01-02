@@ -52,6 +52,12 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 - Select the item "Solution Configurations" and Modify Selection
 - Width needs to be wider so make it 180 or whatever you like
 
+### Create the application config files
+- copy ApplicationConfig.sample.js to ApplicationConfig.js
+- copy Application.sample.config to Application.config
+- make necessary edits to these files
+- (need more info here about what to put in AplicationConfig.js for developers)
+
 ### Create a RentalWorksWeb Module
 
 ### Create a RentalWorksQuikScan Module]
