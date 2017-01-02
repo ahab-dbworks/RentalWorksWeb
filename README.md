@@ -58,6 +58,9 @@ Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
 - make necessary edits to these files
 - (need more info here about what to put in AplicationConfig.js for developers)
 
+### Create a virtual directory for the frameworks
+- In IIS create a Virtual Directory on Default Website with alias "fwjson", path "C:\project\lib.net\dbworks\Fw.Json\content"
+
 ### Create a RentalWorksWeb Module
 
 ### Create a RentalWorksQuikScan Module]
