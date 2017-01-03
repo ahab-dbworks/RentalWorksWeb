@@ -5,13 +5,18 @@ RentalWorksQuikScan/app_startupscript.js
 RentalWorksQuikScan/Application.config
 RentalWorksQuikScan/ApplicationConfig.js
 RentalWorksQuikScan/FwApplicationSchema.config
-RentalWorksQuikScan/index.htm
+RentalWorksQuikScan/theme/fwcursors/*
+RentalWorksQuikScan/theme/fwfonts/*
+RentalWorksQuikScan/theme/fwimages/*
 
 RentalWorksWeb/app_scripts.json
 RentalWorksWeb/Application.config
 RentalWorksWeb/ApplicationConfig.js
 RentalWorksWeb/FwApplicationSchema.config
 RentalWorksWeb/index.htm
+RentalWorksWeb/theme/fwcursors/*
+RentalWorksWeb/theme/fwfonts/*
+RentalWorksWeb/theme/fwimages/*
 
 
 ## Ignore Visual Studio temporary files, build results, and

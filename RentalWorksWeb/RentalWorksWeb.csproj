@@ -114,7 +114,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationConfig.js" />
+    <Content Include="ApplicationConfig.devsample.js" />
     <Content Include="ApplicationConfig.sample.js" />
     <Content Include="index.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
@@ -978,6 +978,7 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="app_scripts.json" />
+    <Content Include="Application.devsample.config" />
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />

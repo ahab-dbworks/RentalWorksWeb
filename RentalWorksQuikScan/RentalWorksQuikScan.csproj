@@ -108,6 +108,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationConfig.devsample.js" />
     <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
     <Content Include="Application.sample.config">
@@ -282,6 +283,9 @@
     <Content Include="theme\images\icons\128\utilities.png" />
     <Content Include="theme\images\icons\128\webimage.png" />
     <Content Include="theme\images\icons\favicon.ico" />
+    <Content Include="Application.devsample.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Application.config">
       <SubType>Designer</SubType>
     </None>
