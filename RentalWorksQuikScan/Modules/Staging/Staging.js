@@ -1264,7 +1264,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         jQuery('#staging-popupQty-btnSubItem')     .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstituteitem));
         jQuery('#staging-popupQty-btnSubComplete') .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.showsubstitutecomplete));
         if (responseStageItem.webStageItem.status === 0) {
-            if (responseStageItem.webStageItem.masterNo.length === 0) {
+            if (responseStageItem.webStageItem.isIcode) {
                 screen.hidePopupQty();
             } else {
                 if (responseStageItem.request.qty === 0) {
