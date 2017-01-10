@@ -25,6 +25,9 @@ RentalWorksWeb/theme/fwcursors/*
 RentalWorksWeb/theme/fwfonts/*
 RentalWorksWeb/theme/fwimages/*
 
+RentalWorksTest/[Bb]in/
+RentalWorksTest/[Oo]bj/
+
 [Rr]elease/
 
 

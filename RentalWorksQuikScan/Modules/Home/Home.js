@@ -36,7 +36,7 @@ RwHome.getHomeScreen = function(viewModel, properties) {
                     }
                     if (hasusertype) {
                         caption = (typeof nodeModule.properties.htmlcaption === 'string' && nodeModule.properties.htmlcaption.length > 0) ? RwLanguages.translate(nodeModule.properties.htmlcaption) : RwLanguages.translate(nodeModule.properties.caption);
-                        $menuObject = RwHome.generateIcon(caption, nodeModule.properties.modulenav, nodeModule.properties.iconurl);
+                        $menuObject = RwHome.generateIcon(caption, nodeModule.properties.modulenav, nodeModule.properties.iconurl, nodeModule.id);
                         screen.$view.find('.fwmenu').append($menuObject);
                     }
                     break;
@@ -53,8 +53,11 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     //    }
     //}
 
-    $menuObject = RwHome.generateIcon('Settings',    'account/preferences', 'theme/images/icons/128/preferences.png'); screen.$view.find('.fwmenu').append($menuObject);
-    $menuObject = RwHome.generateIcon('Logoff',      'account/logoff',      'theme/images/icons/128/logoff.png');      screen.$view.find('.fwmenu').append($menuObject);
+    $menuObject = RwHome.generateIcon('Settings', 'account/preferences', 'theme/images/icons/128/preferences.png', '5993B190-F084-4658-AEC2-1D467E26473F');
+    screen.$view.find('.fwmenu').append($menuObject);
+
+    $menuObject = RwHome.generateIcon('Logoff', 'account/logoff', 'theme/images/icons/128/logoff.png', '3F515109-1B5A-41A7-9B86-5ABF2BC12604');
+    screen.$view.find('.fwmenu').append($menuObject);
 
     screen.load = function () {
         RwRFID.init();
@@ -65,11 +68,11 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwHome.generateIcon = function(name, nav, icon) {
+RwHome.generateIcon = function(name, nav, icon, id) {
     var html, $menuObject;
 
     html = [];
-    html.push('<div class="fwmenu-item">');
+    html.push('<div class="fwmenu-item" data-securityid="' + id + '">');
     html.push('  <div class="fwmenu-item-inner">');
     html.push('    <div class="fwmenu-item-icon"><img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + icon + '"/></div>');
     html.push('    <div class="fwmenu-item-description">' + name + '</div>');
