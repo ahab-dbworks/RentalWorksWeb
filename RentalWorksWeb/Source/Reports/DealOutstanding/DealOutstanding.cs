@@ -65,12 +65,8 @@ namespace RentalWorksWeb.Source.Reports
         {
             FwSqlSelect select;
             FwSqlCommand qry;
-            FwJsonDataTable dtDetails, dtTotals;
-            List<object> totalsRow;
+            FwJsonDataTable dtDetails;
 
-        
-            FwDateTime orderdate, estrentfrom, estrentto, billperiodstart, billperiodend, contractdate;
-        
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             qry.AddColumn("orderdate",       false, FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("estrentfrom",     false, FwJsonDataTableColumn.DataTypes.Date);

@@ -26,7 +26,6 @@ namespace RentalWorksAPI
         private ConcurrentDictionary<string, EdecsMessage> _batchEpcs = new ConcurrentDictionary<string, EdecsMessage>();
         private DateTime _batchExpires = DateTime.MaxValue; // initially the batch doesn't expire until we get tags in the quickNotifyQueue
         public bool stopListening = false;
-        private Task listeningTask = null;
 
         public EdecsSubscriber(AspNetWebSocketContext context)
         {

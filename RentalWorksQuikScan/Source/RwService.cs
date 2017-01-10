@@ -335,7 +335,6 @@ namespace RentalWorksQuikScan.Source
             const string METHOD_NAME = "UnstageItem";
             string contractid, vendorid, masteritemid, usersid, orderid, warehouseid;
             decimal qty;
-            bool summary;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
@@ -353,7 +352,6 @@ namespace RentalWorksQuikScan.Source
             orderid       = request.orderid;
             session.userLocation   = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, usersid);
             warehouseid  = session.userLocation.warehouseId;
-            summary      = false;
             response.unstageItem           = RwAppData.AdvancedMoveMasterItemId(FwSqlConnection.RentalWorks, contractid, vendorid, masteritemid, qty, usersid, 4);
             response.getStagingStagedItems = Staging.funccheckedout(FwSqlConnection.RentalWorks, contractid);
         }

@@ -50,6 +50,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>App_Data/XmlDocument.xml</DocumentationFile>
     <FwPublish>false</FwPublish>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

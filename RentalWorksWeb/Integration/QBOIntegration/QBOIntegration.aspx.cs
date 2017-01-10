@@ -145,7 +145,7 @@ namespace RentalWorksWeb.Integration
 
                 RwAppData.DeleteQBOKeys(FwSqlConnection.RentalWorks, location_id);
             }
-            catch (Exception ex)
+            catch
             {
                 
             }

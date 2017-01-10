@@ -110,9 +110,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', 'continue', false, function () {
         try {
             var masterid = screen.pages.selectserialno.getMasterId();
-            var masteritemid = screen.pages.selectserialno.getMasterItemId()
-            var description = screen.pages.selectserialno.getDescription()
-            var masterno = screen.pages.selectserialno.getMasterNo()
+            var masteritemid = screen.pages.selectserialno.getMasterItemId();
+            var description = screen.pages.selectserialno.getDescription();
+            var masterno = screen.pages.selectserialno.getMasterNo();
             screen.pages.serialmeters.forward(masterid, masteritemid, description, masterno);
         } catch (ex) {
             FwFunc.showError(ex);
@@ -142,7 +142,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             contractType: 'OUT',
                             contractId: screen.getContractId(),
                             orderId: screen.getOrderId(),
-                            responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson == 'T')) ? properties.responsibleperson.responsiblepersonid : ''
+                            responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) ? properties.responsibleperson.responsiblepersonid : ''
                         };
                         application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
                     } else {
@@ -171,7 +171,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 contractid: ''
             };
             //RwServices.order.getStagingPendingItems(request, screen.getStagingPendingItemsCallback);
-            RwServices.call('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback)
+            RwServices.call('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -216,7 +216,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 contractid: screen.getContractId()
             };
             //RwServices.order.getStagingStagedItems(request, screen.getStagingStagedItemsCallback);
-            RwServices.call('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback)
+            RwServices.call('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -352,46 +352,46 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         break;
                 }
                 html.push('        <div class="value">{{orderno}}</div>');
-                html.push('      </div>')
+                html.push('      </div>');
             }
             if (typeof model.orderdate !== 'undefined') {
-                html.push('      <div class="datafield orderdate">')
+                html.push('      <div class="datafield orderdate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Date') + ':</div>');
                 html.push('        <div class="value">{{orderdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.deal !== 'undefined') {
-                html.push('      <div class="datafield deal">')
+                html.push('      <div class="datafield deal">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Deal') + ':</div>');
                 html.push('        <div class="value">{{deal}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.estrentfrom !== 'undefined') {
-                html.push('      <div class="datafield estrentfrom">')
+                html.push('      <div class="datafield estrentfrom">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Est') + ':</div>');
                 html.push('        <div class="value">{{estrentfrom}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.fromwarehouse !== 'undefined') {
-                html.push('      <div class="datafield fromwarehouse">')
+                html.push('      <div class="datafield fromwarehouse">');
                 html.push('        <div class="caption">' + RwLanguages.translate('From Warehouse') + ':</div>');
                 html.push('        <div class="value">{{fromwarehouse}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.towarehouse !== 'undefined') {
-                html.push('      <div class="datafield towarehouse">')
+                html.push('      <div class="datafield towarehouse">');
                 html.push('        <div class="caption">' + RwLanguages.translate('To Warehouse') + ':</div>');
                 html.push('        <div class="value">{{towarehouse}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.department !== 'undefined') {
-                html.push('      <div class="datafield department">')
+                html.push('      <div class="datafield department">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Department') + ':</div>');
                 html.push('        <div class="value">{{department}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.origorderno !== 'undefined') {
-                html.push('      <div class="datafield origorderno">')
+                html.push('      <div class="datafield origorderno">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Order No') + ':</div>');
                 html.push('        <div class="value">{{origorderno}}</div>');
                 html.push('      </div>');
@@ -399,43 +399,43 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             html.push('    </div>');
             html.push('    <div class="col2">');
             if (typeof model.status !== 'undefined') {
-                html.push('      <div class="datafield status">')
+                html.push('      <div class="datafield status">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Status') + ':</div>');
                 html.push('        <div class="value">{{status}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.statusdate !== 'undefined') {
-                html.push('      <div class="datafield statusdate">')
+                html.push('      <div class="datafield statusdate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('As Of') + ':</div>');
                 html.push('        <div class="value">{{statusdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.sessionno !== 'undefined') {
-                html.push('      <div class="datafield sessionno">')
+                html.push('      <div class="datafield sessionno">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Session No') + ':</div>');
                 html.push('        <div class="value">{{sessionno}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.username !== 'undefined') {
-                html.push('      <div class="datafield username">')
+                html.push('      <div class="datafield username">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Owner') + ':</div>');
                 html.push('        <div class="value">{{username}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.pickdate !== 'undefined') {
-                html.push('      <div class="datafield pickdate">')
+                html.push('      <div class="datafield pickdate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Pick Date') + ':</div>');
                 html.push('        <div class="value">{{pickdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.shipdate !== 'undefined') {
-                html.push('      <div class="datafield shipdate">')
+                html.push('      <div class="datafield shipdate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Ship Date') + ':</div>');
                 html.push('        <div class="value">{{shipdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.receivedate !== 'undefined') {
-                html.push('      <div class="datafield receivedate">')
+                html.push('      <div class="datafield receivedate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Receive Date') + ':</div>');
                 html.push('        <div class="value">{{receivedate}}</div>');
                 html.push('      </div>');
@@ -536,28 +536,28 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 html.push('      <div class="datafield orderno">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Order No') + ':</div>');
                 html.push('        <div class="value">{{orderno}}</div>');
-                html.push('      </div>')
+                html.push('      </div>');
             }
             if (typeof model.orderdate !== 'undefined') {
-                html.push('      <div class="datafield orderdate">')
+                html.push('      <div class="datafield orderdate">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Date') + ':</div>');
                 html.push('        <div class="value">{{orderdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.deal !== 'undefined') {
-                html.push('      <div class="datafield deal">')
+                html.push('      <div class="datafield deal">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Deal') + ':</div>');
                 html.push('        <div class="value">{{deal}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.estrentfrom !== 'undefined') {
-                html.push('      <div class="datafield estrentfrom">')
+                html.push('      <div class="datafield estrentfrom">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Est') + ':</div>');
                 html.push('        <div class="value">{{estrentfrom}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.warehouse !== 'undefined') {
-                html.push('      <div class="datafield warehouse">')
+                html.push('      <div class="datafield warehouse">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Warehouse') + ':</div>');
                 html.push('        <div class="value">{{warehouse}}</div>');
                 html.push('      </div>');
@@ -565,25 +565,25 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             html.push('    </div>');
             html.push('    <div class="col2">');
             if (typeof model.status !== 'undefined') {
-                html.push('      <div class="datafield">')
+                html.push('      <div class="datafield">');
                 html.push('        <div class="caption status">' + RwLanguages.translate('Status') + ':</div>');
                 html.push('        <div class="value status">{{status}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.statusdate !== 'undefined') {
-                html.push('      <div class="datafield">')
+                html.push('      <div class="datafield">');
                 html.push('        <div class="caption statusdate">' + RwLanguages.translate('As Of') + ':</div>');
                 html.push('        <div class="value statusdate">{{statusdate}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.sessionno !== 'undefined') {
-                html.push('      <div class="datafield sessionno">')
+                html.push('      <div class="datafield sessionno">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Session No') + ':</div>');
                 html.push('        <div class="value">{{sessionno}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.username !== 'undefined') {
-                html.push('      <div class="datafield username">')
+                html.push('      <div class="datafield username">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Owner') + ':</div>');
                 html.push('        <div class="value">{{username}}</div>');
                 html.push('      </div>');
@@ -699,7 +699,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
 
     screen.getCurrentPage = function () {
         return screen.pagehistory[screen.pagehistory.length - 1];
-    }
+    };
 
     screen.pagehistory = [];
     screen.pages = {
@@ -909,10 +909,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 $pageselectserialno.find('.info').empty();
                 $pageselectserialno.find('.items').empty();
                 var request = {
-                    orderid: screen.getOrderId(),
-                    masteritemid: masteritemid
-                };
-                var request = {
                     orderid:      screen.getOrderId(),
                     masterid:     masterid,
                     masteritemid: masteritemid
@@ -1048,11 +1044,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 $pageserialmeters.find('.info').html('<div class="masterno">' + RwLanguages.translate('I-Code') + ': ' + masterno + '</div><div class="description">' + description + '</div>');
                 $pageserialmeters.find('.items').empty();
                 var request = {
-                    orderid: screen.getOrderId(),
-                    masteritemid: masteritemid
-                };
-                //screen.pages.serialmeters.funcserialfrm(masteritemid);
-                var request = {
                     orderid:      screen.getOrderId(),
                     masterid:     masterid,
                     masteritemid: masteritemid,
@@ -1068,9 +1059,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                 .data('recorddata', response.funcserialmeterout[i])
                             ;
                             if (response.funcserialmeterout[i].meterlast === response.funcserialmeterout[i].meterout) {
-                                $divSerialNo.attr('data-valueset', 'false')
+                                $divSerialNo.attr('data-valueset', 'false');
                             } else {
-                                $divSerialNo.attr('data-valueset', 'true')
+                                $divSerialNo.attr('data-valueset', 'true');
                             }
                             if ((response.funcserialmeterout[i].itemstatus === 'S') || (response.funcserialmeterout[i].itemstatus === 'O')) {
                                 $divSerialNo.addClass('selected');
@@ -1116,38 +1107,38 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             $outvaluecaption.text(RwLanguages.translate('Out Value') + ':');
                             var $outvaluevalue = jQuery('<div class="psmfield value">').html(numberWithCommas(parseFloat(response.funcserialmeterout[i].meterout).toFixed(2)));
                             $outvalue.append($outvaluecaption, $outvaluevalue);
-                            $outvaluevalue.on('click', function() {
+                            $outvaluevalue.on('click', function () {
                                 try {
                                     var $confirmation, $ok, $cancel, html = [], $this;
-                                    $this         = jQuery(this);
+                                    $this = jQuery(this);
                                     $confirmation = FwConfirmation.renderConfirmation('Enter Meter Out Value', '');
-                                    $ok           = FwConfirmation.addButton($confirmation, 'Ok', false);
-                                    $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                                    $ok = FwConfirmation.addButton($confirmation, 'Ok', false);
+                                    $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
                                     html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" style="color:#555555;" data-caption="Out Value" data-datafield="meteroutvalue" data-minvalue="' + $this.closest('.serialnorow').find('.lastvalue .value').html() + '" data-formatnumeric="true"></div>');
                                     FwConfirmation.addControls($confirmation, html.join(''));
                                     FwFormField.setValue($confirmation, 'div[data-datafield="meteroutvalue"]', parseFloat($this.html()));
-                                    $ok.on('click', function() {
+                                    $ok.on('click', function () {
                                         try {
-                                            var masteritemid           = $this.closest('.serialnorow').data('recorddata').masteritemid;
-                                            var rentalitemid           = $this.closest('.serialnorow').data('recorddata').rentalitemid;
-                                            var internalchar           = '';
-                                            var meter                  = FwFormField.getValue($confirmation, 'div[data-datafield="meteroutvalue"]');
-                                            var toggledelete           = false;
-                                            var containeritemid        = '';
+                                            var masteritemid = $this.closest('.serialnorow').data('recorddata').masteritemid;
+                                            var rentalitemid = $this.closest('.serialnorow').data('recorddata').rentalitemid;
+                                            var internalchar = '';
+                                            var meter = FwFormField.getValue($confirmation, 'div[data-datafield="meteroutvalue"]');
+                                            var toggledelete = false;
+                                            var containeritemid = '';
                                             var containeroutcontractid = '';
                                             screen.insertSerialSession(masteritemid, rentalitemid, internalchar, meter, toggledelete, containeritemid, containeroutcontractid, function funcOnSuccess() {
                                                 FwConfirmation.destroyConfirmation($confirmation);
                                                 $this.html(numberWithCommas(parseFloat(meter).toFixed(2)));
                                                 $this.closest('.serialnorow').attr('data-valueset', 'true');
                                             });
-                                        } catch(ex) {
+                                        } catch (ex) {
                                             FwFunc.showError(ex);
                                         }
                                     });
-                                } catch(ex) {
+                                } catch (ex) {
                                     FwFunc.showError(ex);
                                 }
-                            })
+                            });
 
                         }
                     } catch(ex) {
@@ -1245,10 +1236,10 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         } else {
             jQuery('#staging-popupQty-genericMsg').removeClass('qssuccess').addClass('qserror');
         }
-        jQuery('#staging-popupQty-messages')      .toggle((applicationConfig.designMode) || ((responseStageItem.webStageItem.genericMsg.length > 0) || (responseStageItem.webStageItem.msg.length > 0)) && !((responseStageItem.webStageItem.isICode) && (responseStageItem.request.qty === 0)))  // hides the error so it doesn't show staged 0 message the first time you scan a qty item and it's prompting for the qty.
+        jQuery('#staging-popupQty-messages').toggle((applicationConfig.designMode) || ((responseStageItem.webStageItem.genericMsg.length > 0) || (responseStageItem.webStageItem.msg.length > 0)) && !((responseStageItem.webStageItem.isICode) && (responseStageItem.request.qty === 0)));  // hides the error so it doesn't show staged 0 message the first time you scan a qty item and it's prompting for the qty.
         jQuery('#staging-popupQty-genericMsg')    .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.genericMsg.length > 0));
         jQuery('#staging-popupQty-msg')           .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.msg.length > 0));
-        jQuery('#staging-popupQty-qty')           .toggle((applicationConfig.designMode) || ((responseStageItem.request.qty == 0) && (responseStageItem.webStageItem.isICode) && !(responseStageItem.webStageItem.showAddCompleteToOrder || responseStageItem.webStageItem.showAddItemToOrder)));
+        jQuery('#staging-popupQty-qty')           .toggle((applicationConfig.designMode) || ((responseStageItem.request.qty === 0) && (responseStageItem.webStageItem.isICode) && !(responseStageItem.webStageItem.showAddCompleteToOrder || responseStageItem.webStageItem.showAddItemToOrder)));
         jQuery('#staging-popupQty-btnStageQtyItem').toggle(true);
         jQuery('#staging-popupQty-btnUnstageMasterItem').toggle(false);
         jQuery('#staging-popupQty-fields')        .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.masterNo.length > 0));
@@ -1321,13 +1312,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 isAlternate = !isAlternate;
                 availablefor = '';
                 if (dt.Rows[i][colIndex.rectype] === 'R') {
-                    availablefor = RwLanguages.translate('Rent')
+                    availablefor = RwLanguages.translate('Rent');
                 }
                 else if (dt.Rows[i][colIndex.rectype] === 'S') {
-                    availablefor = RwLanguages.translate('Sell')
+                    availablefor = RwLanguages.translate('Sell');
                 }
                 else if (dt.Rows[i][colIndex.rectype] === 'P') {
-                    availablefor = RwLanguages.translate('Parts')
+                    availablefor = RwLanguages.translate('Parts');
                 }
                 li.push('<li class="' + cssClass + 
                     '" data-itemclass="' + dt.Rows[i][colIndex.itemclass] + 
@@ -1373,7 +1364,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                     li.push('<td class="col2 value"></td>');
                                 li.push('<td class="col3 key qtystagedandout">' + RwLanguages.translate('Staged/Out') + ':</td>');
                                 li.push('<td class="col4 value qtystagedandout">' + String(dt.Rows[i][colIndex.qtystagedandout]) + '</td>');
-                            li.push('</tr>')
+                            li.push('</tr>');
                             if (dt.Rows[i][colIndex.vendorid] !== '') {
                                 li.push('<tr>');
                                     if (qtysub === 0) {
@@ -1552,10 +1543,10 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         } else {
             jQuery('#staging-popupQty-genericMsg').removeClass('qssuccess').addClass('qserror');
         }
-        jQuery('#staging-popupQty-messages')      .toggle((applicationConfig.designMode) || ((responseStageItem.webStageItem.genericMsg.length > 0) || (responseStageItem.webStageItem.msg.length > 0)) && !((responseStageItem.webStageItem.isICode) && (responseStageItem.request.qty === 0)))  // hides the error so it doesn't show staged 0 message the first time you scan a qty item and it's prompting for the qty.
+        jQuery('#staging-popupQty-messages').toggle((applicationConfig.designMode) || ((responseStageItem.webStageItem.genericMsg.length > 0) || (responseStageItem.webStageItem.msg.length > 0)) && !((responseStageItem.webStageItem.isICode) && (responseStageItem.request.qty === 0)));  // hides the error so it doesn't show staged 0 message the first time you scan a qty item and it's prompting for the qty.
         jQuery('#staging-popupQty-genericMsg')    .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.genericMsg.length > 0));
         jQuery('#staging-popupQty-msg')           .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.msg.length > 0));
-        jQuery('#staging-popupQty-qty')           .toggle((applicationConfig.designMode) || ((responseStageItem.request.qty == 0) && (responseStageItem.webStageItem.isICode) && !(responseStageItem.webStageItem.showAddCompleteToOrder || responseStageItem.webStageItem.showAddItemToOrder)));
+        jQuery('#staging-popupQty-qty')           .toggle((applicationConfig.designMode) || ((responseStageItem.request.qty === 0) && (responseStageItem.webStageItem.isICode) && !(responseStageItem.webStageItem.showAddCompleteToOrder || responseStageItem.webStageItem.showAddItemToOrder)));
         jQuery('#staging-popupQty-btnStageQtyItem').toggle(false);
         jQuery('#staging-popupQty-btnUnstageMasterItem').toggle(true);
         jQuery('#staging-popupQty-fields')        .toggle((applicationConfig.designMode) || (responseStageItem.webStageItem.masterNo.length > 0));
@@ -1594,7 +1585,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         html.push('<div class="rfid-item ' + itemtype + '">');
             html.push('<div class="rfid-item-title"></div>');
             html.push('<div class="rfid-item-info">');
-                if (itemtype == 'processed' || itemtype == 'exception') {
+                if (itemtype === 'processed' || itemtype === 'exception') {
                     html.push('<div class="rfid-data rfid">');
                         html.push('<div class="item-caption">RFID:</div>');
                         html.push('<div class="item-value"></div>');
@@ -1608,13 +1599,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         html.push('<div class="item-value"></div>');
                     html.push('</div>');
                 }
-                if (itemtype == 'exception') {
+                if (itemtype === 'exception') {
                     html.push('<div class="rfid-data message">');
                         html.push('<div class="item-caption">Message:</div>');
                         html.push('<div class="item-value"></div>');
                     html.push('</div>');
                 }
-                if (itemtype == 'pending') {
+                if (itemtype === 'pending') {
                     html.push('<div class="rfid-data ordered">');
                         html.push('<div class="item-caption">Ordered:</div>');
                         html.push('<div class="item-value"></div>');
@@ -1633,7 +1624,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         return jQuery(html.join(''));
     };
     screen.rfidscan = function(epcs) {
-        if (epcs != '') {
+        if (epcs !== '') {
             screen.$view.find('.rfid-rfidstatus').show();
             screen.$view.find('.rfid-items').empty();
             screen.$view.find('.rfid-placeholder').show();
@@ -1655,9 +1646,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     $item = screen.rfiditem('processed');
                     $item.find('.rfid-item-title').html(response.processed[i].title);
                     $item.find('.rfid-data.rfid .item-value').html(response.processed[i].rfid);
-                    $item.find('.rfid-data.barcode .item-value').html((response.processed[i].barcode != '') ? response.processed[i].barcode : '-');
-                    $item.find('.rfid-data.serial .item-value').html((response.processed[i].serialno != '') ? response.processed[i].serialno : '-');
-                    if (response.processed[i].duplicatescan == 'T') {
+                    $item.find('.rfid-data.barcode .item-value').html((response.processed[i].barcode !== '') ? response.processed[i].barcode : '-');
+                    $item.find('.rfid-data.serial .item-value').html((response.processed[i].serialno !== '') ? response.processed[i].serialno : '-');
+                    if (response.processed[i].duplicatescan === 'T') {
                         $item.addClass('duplicate');
                     }
 
@@ -1727,7 +1718,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 request.rfid         = rfid;
                 request.portal       = device.uuid;
                 RwServices.order.processrfidexception(request, function(response) {
-                    if ((request.method == 'ReleaseAndStage') && (response.process.status != '0')) {
+                    if ((request.method === 'ReleaseAndStage') && (response.process.status != '0')) {
                         screen.exceptionconfirmation(response.process.status.toString(), response.process.msg, request.rfid);
                     } else {
                         screen.$view.find('.rfid-items').empty();
@@ -1735,8 +1726,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             $item = screen.rfiditem('exception');
                             $item.find('.rfid-item-title').html(response.exceptions[i].title);
                             $item.find('.rfid-data.rfid .item-value').html(response.exceptions[i].rfid);
-                            $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode != '') ? response.exceptions[i].barcode : '-');
-                            $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno != '') ? response.exceptions[i].serialno : '-');
+                            $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode !== '') ? response.exceptions[i].barcode : '-');
+                            $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno !== '') ? response.exceptions[i].serialno : '-');
                             $item.find('.rfid-data.message .item-value').html(response.exceptions[i].message);
                             $item.attr('data-exceptiontype', response.exceptions[i].exceptiontype);
                             screen.$view.find('.rfid-items').append($item);
@@ -2015,8 +2006,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     $item = screen.rfiditem('exception');
                     $item.find('.rfid-item-title').html(response.exceptions[i].title);
                     $item.find('.rfid-data.rfid .item-value').html(response.exceptions[i].rfid);
-                    $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode != '') ? response.exceptions[i].barcode : '-');
-                    $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno != '') ? response.exceptions[i].serialno : '-');
+                    $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode !== '') ? response.exceptions[i].barcode : '-');
+                    $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno !== '') ? response.exceptions[i].serialno : '-');
                     $item.find('.rfid-data.message .item-value').html(response.exceptions[i].message);
                     $item.attr('data-exceptiontype', response.exceptions[i].exceptiontype);
                     screen.$view.find('.rfid-items').append($item);
@@ -2561,7 +2552,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     .on('click', '.button', function() {
                         var $this;
                         $this = jQuery(this);
-                        if ($this.attr('data-step') == 'select') {
+                        if ($this.attr('data-step') === 'select') {
                             var $btns = $confirm.find('.button');
                             $btns.each(function(index, element) {
                                 var $btn;
@@ -2569,7 +2560,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                 $btn.attr('data-step', 'select').addClass('default').removeClass('green').html('Select');
                             });
                             $this.attr('data-step', 'confirm').removeClass('default').addClass('green').html('Confirm');
-                        } else if ($this.attr('data-step') == 'confirm') {
+                        } else if ($this.attr('data-step') === 'confirm') {
                             var request;
                             request = {
                                 orderid:             screen.getOrderId(),
@@ -2607,11 +2598,11 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             contractid: screen.getContractId()
                         };
                         RwServices.call('Staging', 'CancelContract', requestCancelContract, function () {
-                            try {
+                            //try {
                                 
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
+                            //} catch (ex) {
+                            //    FwFunc.showError(ex);
+                            //}
                         });
                         
                     }
@@ -2641,7 +2632,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 }
             });
         }   
-        if ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson == 'T')) {
+        if ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) {
             var $confirmation, $select, html = [];
             $confirmation = FwConfirmation.renderConfirmation('Select Responsible Person', '');
             $select       = FwConfirmation.addButton($confirmation, 'Select', true);
@@ -2649,7 +2640,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             FwConfirmation.addControls($confirmation, html.join(''));
             $confirmation.find('.body').css('color', 'black');
             FwFormField.loadItems($confirmation.find('#responsibleperson'), properties.responsibleperson.responsiblepersons, true);
-            if (properties.responsibleperson.responsiblepersonid != '') {
+            if (properties.responsibleperson.responsiblepersonid !== '') {
                 FwFormField.setValue($confirmation, '#responsibleperson', properties.responsibleperson.responsiblepersonid);
             }
             $select.on('click', function() {

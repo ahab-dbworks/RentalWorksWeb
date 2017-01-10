@@ -88,7 +88,7 @@ namespace RentalWorksAPI
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 //Log(ex.Message);
             }
