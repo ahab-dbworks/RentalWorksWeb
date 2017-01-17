@@ -12,6 +12,7 @@ namespace RentalWorksAPI.api.v1.Models
         [Required]
         public string orderdesc                  { get; set; }
         public string location                   { get; set; }
+        public string warehouse                  { get; set; }
         [Required]
         public string rental                     { get; set; }
         [Required]
