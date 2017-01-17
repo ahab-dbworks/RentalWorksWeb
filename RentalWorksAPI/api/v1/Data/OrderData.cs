@@ -113,6 +113,7 @@ namespace RentalWorksAPI.api.v1.Data
                 newOrder.ordergrosstotal           = dt.Rows[i][dt.ColumnIndex["ordergrosstotal"]].ToString().TrimEnd();
                 newOrder.ordertypedescription      = dt.Rows[i][dt.ColumnIndex["orderunit"]].ToString().TrimEnd();
                 newOrder.onlineorderno             = dt.Rows[i][dt.ColumnIndex["onlineorderno"]].ToString().TrimEnd();
+                newOrder.warehouse                 = dt.Rows[i][dt.ColumnIndex["warehouse"]].ToString().TrimEnd();
 
                 newOrder.deal                      = new OrderDeal();
                 newOrder.deal.dealid               = dt.Rows[i][dt.ColumnIndex["dealid"]].ToString().TrimEnd();
@@ -153,6 +154,7 @@ namespace RentalWorksAPI.api.v1.Data
             sp_processquote = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_processquote");
             sp_processquote.AddParameter("@orderdesc",          orderdata.orderdesc);
             sp_processquote.AddParameter("@location",           orderdata.location);
+            sp_processquote.AddParameter("@warehouse",          orderdata.warehouse);
             sp_processquote.AddParameter("@rental",             orderdata.rental);
             sp_processquote.AddParameter("@sales",              orderdata.sales);
             sp_processquote.AddParameter("@estrentfrom",        orderdata.estrentfrom);
