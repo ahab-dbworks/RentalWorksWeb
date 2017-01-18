@@ -8,7 +8,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 
-namespace RentalWorksWebLibrary.Modules
+namespace RentalWorksWeb.Source.Modules
 {
     class Customer : FwModule
     {
