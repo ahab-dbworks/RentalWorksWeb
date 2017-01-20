@@ -430,7 +430,7 @@ namespace RentalWorksQuikScan.Modules
                 else
                 {
                     qry.Add("select ordertranexists = case when exists (select *");
-                    qry.Add("                                             from ordertran ot with (nolock) join ordercontract oc on (ot.contractid = oc.contractid");
+                    qry.Add("                                             from ordertran ot with (nolock) join ordercontract oc on (ot.contractid = oc.contractid)");
                     qry.Add("                                             where oc.orderid = @orderid)");
                     qry.Add("                              then 'T'");
                     qry.Add("                              else 'F'");
