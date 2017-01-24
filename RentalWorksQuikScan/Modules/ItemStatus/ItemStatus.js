@@ -192,9 +192,9 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     screen.rfidscan = function(epcs) {
         if (epcs != '') {
             screen.resetscreen();
-            RwServices.call('ItemStatus', 'ItemStatusRFID', request, function(response) {
+            RwServices.call('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
                 if (response.items.length == 1) {
-                    request = {
+                    var request = {
                         barcode: response.items[0].tag
                     };
                     RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
@@ -258,17 +258,17 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             });
         }
 
-        if (typeof window.ZebraRFIDScanner !== 'undefined') {
-            ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_getItemStatusScreen', function() {
-                RwRFID.isConnected = true;
-            });
-            ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen', function() {
-                RwRFID.isConnected = false;
-            });
-            ZebraRFIDScanner.isConnected(function(isConnected) {
-                RwRFID.isConnected = true;
-            });
-        }
+        //if (typeof window.ZebraRFIDScanner !== 'undefined') {
+        //    ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_getItemStatusScreen', function() {
+        //        RwRFID.isConnected = true;
+        //    });
+        //    ZebraRFIDScanner.registerListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen', function() {
+        //        RwRFID.isConnected = false;
+        //    });
+        //    ZebraRFIDScanner.isConnected(function(isConnected) {
+        //        RwRFID.isConnected = true;
+        //    });
+        //}
     };
 
     screen.unload = function() {
