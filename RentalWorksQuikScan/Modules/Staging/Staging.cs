@@ -218,11 +218,36 @@ namespace RentalWorksQuikScan.Modules
                         }
                         break;
                 }
-
-                
                 response.searchresults = qry.QueryToFwJsonTable(select, true);
             }
 
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "activitytype,orderid")]
+        public static void GetResponsiblePerson(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.getresponsibleperson"))
+            {
+                sp.AddParameter("@orderid", request.orderid);
+                sp.AddParameter("@showresponsibleperson", SqlDbType.Char,    ParameterDirection.Output);
+                sp.AddParameter("@responsibleperson",     SqlDbType.VarChar, ParameterDirection.Output);
+                sp.AddParameter("@responsiblepersonid",   SqlDbType.Char,    ParameterDirection.Output);
+                sp.Execute();
+                response.responsibleperson = new ExpandoObject();
+                response.responsibleperson.showresponsibleperson = sp.GetParameter("@showresponsibleperson").ToString().Trim();
+                response.responsibleperson.responsibleperson     = sp.GetParameter("@responsibleperson").ToString().Trim();
+                response.responsibleperson.responsiblepersonid   = sp.GetParameter("@responsiblepersonid").ToString().Trim();
+            }
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("person", false);
+                qry.AddColumn("contactid", false);
+                qry.Add("select text=person, value=contactid");
+                qry.Add("from inventorycontactview");
+                qry.Add("where responsibleperson = 'T'");
+                qry.Add("order by person");
+                response.responsibleperson.responsiblepersons    = qry.QueryToDynamicList();
+            }
         }
         //---------------------------------------------------------------------------------------------
         public static bool IsSuspendedSessionsEnabled()

@@ -2233,6 +2233,7 @@ namespace RentalWorksQuikScan.Source
             result.showresponsibleperson = sp.GetParameter("@showresponsibleperson").ToString().Trim();
             result.responsibleperson     = sp.GetParameter("@responsibleperson").ToString().Trim();
             result.responsiblepersonid   = sp.GetParameter("@responsiblepersonid").ToString().Trim();
+            result.responsiblepersons    = GetResponsiblePersons(conn);
 
             return result;
         }
