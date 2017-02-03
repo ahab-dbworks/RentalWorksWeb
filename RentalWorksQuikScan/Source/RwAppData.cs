@@ -2378,8 +2378,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2398,8 +2398,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2417,8 +2417,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2436,8 +2436,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
