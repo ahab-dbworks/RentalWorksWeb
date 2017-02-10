@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwOrderController.getStagingScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, useResponsiblePerson, applicationOptions, pageTitle, pageSubTitle;
+    var combinedViewModel, screen, applicationOptions, pageTitle, pageSubTitle;
     applicationOptions = application.getApplicationOptions();
     switch (properties.moduleType) {
         case RwConstants.moduleTypes.Order:
@@ -878,6 +878,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 screen.pages.staging.show();
                 screen.$tabpending.show();
                 screen.$tabstaged.show();
+                screen.promptResponsiblePerson();
             },
             back: function () {
                 screen.confirmCancelSuspendContract(function () {
@@ -1718,7 +1719,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 request.rfid         = rfid;
                 request.portal       = device.uuid;
                 RwServices.order.processrfidexception(request, function(response) {
-                    if ((request.method === 'ReleaseAndStage') && (response.process.status != '0')) {
+                    if ((request.method === 'ReleaseAndStage') && (response.process.status !== 0)) {
                         screen.exceptionconfirmation(response.process.status.toString(), response.process.msg, request.rfid);
                     } else {
                         screen.$view.find('.rfid-items').empty();
@@ -2613,6 +2614,39 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             });
         }
     };
+
+    screen.promptResponsiblePerson = function () {
+        var requestGetResponsiblePerson = {
+            activitytype: RwConstants.activityTypes.Staging,
+            orderid: screen.getOrderId()
+        };
+        RwServices.call('Staging', 'GetResponsiblePerson', requestGetResponsiblePerson, function (response) {
+            try {
+                properties.responsibleperson = response.responsibleperson;
+                if ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) {
+                    var $confirmation, $select, html = [];
+                    $confirmation = FwConfirmation.renderConfirmation('Select Responsible Person', '');
+                    $select = FwConfirmation.addButton($confirmation, 'Select', true);
+                    html.push('<div data-control="FwFormField" class="fwcontrol fwformfield" id="responsibleperson" data-caption="Responsible Person" data-type="select" data-field="" />');
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $confirmation.find('.body').css('color', 'black');
+                    FwFormField.loadItems($confirmation.find('#responsibleperson'), properties.responsibleperson.responsiblepersons, true);
+                    if (properties.responsibleperson.responsiblepersonid !== '') {
+                        FwFormField.setValue($confirmation, '#responsibleperson', properties.responsibleperson.responsiblepersonid);
+                    }
+                    $select.on('click', function () {
+                        try {
+                            properties.responsibleperson.responsiblepersonid = FwFormField.getValue($confirmation, '#responsibleperson');
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    };
     
     screen.load = function() {
         screen.toggleRfid();
@@ -2627,25 +2661,6 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     if (screen.getCurrentPage().name === 'staging') {
                         screen.$view.find('#scanBarcodeView-txtBarcodeData').val(barcode).change();
                     }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }   
-        if ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) {
-            var $confirmation, $select, html = [];
-            $confirmation = FwConfirmation.renderConfirmation('Select Responsible Person', '');
-            $select       = FwConfirmation.addButton($confirmation, 'Select', true);
-            html.push('<div data-control="FwFormField" class="fwcontrol fwformfield" id="responsibleperson" data-caption="Responsible Person" data-type="select" data-field="" />');
-            FwConfirmation.addControls($confirmation, html.join(''));
-            $confirmation.find('.body').css('color', 'black');
-            FwFormField.loadItems($confirmation.find('#responsibleperson'), properties.responsibleperson.responsiblepersons, true);
-            if (properties.responsibleperson.responsiblepersonid !== '') {
-                FwFormField.setValue($confirmation, '#responsibleperson', properties.responsibleperson.responsiblepersonid);
-            }
-            $select.on('click', function() {
-                try {
-                    properties.responsibleperson.responsiblepersonid = FwFormField.getValue($confirmation, '#responsibleperson');
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }

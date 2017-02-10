@@ -218,11 +218,36 @@ namespace RentalWorksQuikScan.Modules
                         }
                         break;
                 }
-
-                
                 response.searchresults = qry.QueryToFwJsonTable(select, true);
             }
 
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "activitytype,orderid")]
+        public static void GetResponsiblePerson(dynamic request, dynamic response, dynamic session)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.getresponsibleperson"))
+            {
+                sp.AddParameter("@orderid", request.orderid);
+                sp.AddParameter("@showresponsibleperson", SqlDbType.Char,    ParameterDirection.Output);
+                sp.AddParameter("@responsibleperson",     SqlDbType.VarChar, ParameterDirection.Output);
+                sp.AddParameter("@responsiblepersonid",   SqlDbType.Char,    ParameterDirection.Output);
+                sp.Execute();
+                response.responsibleperson = new ExpandoObject();
+                response.responsibleperson.showresponsibleperson = sp.GetParameter("@showresponsibleperson").ToString().Trim();
+                response.responsibleperson.responsibleperson     = sp.GetParameter("@responsibleperson").ToString().Trim();
+                response.responsibleperson.responsiblepersonid   = sp.GetParameter("@responsiblepersonid").ToString().Trim();
+            }
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("person", false);
+                qry.AddColumn("contactid", false);
+                qry.Add("select text=person, value=contactid");
+                qry.Add("from inventorycontactview");
+                qry.Add("where responsibleperson = 'T'");
+                qry.Add("order by person");
+                response.responsibleperson.responsiblepersons    = qry.QueryToDynamicList();
+            }
         }
         //---------------------------------------------------------------------------------------------
         public static bool IsSuspendedSessionsEnabled()
@@ -413,25 +438,22 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod(RequiredParameters = "orderid,contractid")]
         public static void OrdertranExists(dynamic request, dynamic response, dynamic session)
         {
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            if (!(string.IsNullOrEmpty(request.contractid)))
             {
-                if (!(string.IsNullOrEmpty(request.contractid)))
+                using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "contractisempty"))
                 {
-                    qry.Add("select ordertranexists = case when exists (select *");
-                    qry.Add("                                             from ordertran with (nolock)");
-                    qry.Add("                                             where outreceivecontractid = @contractid)");
-                    qry.Add("                              then 'T'");
-                    qry.Add("                              else 'F'");
-                    qry.Add("                         end");
-                    qry.AddParameter("@contractid", request.contractid);
-                    qry.Execute();
-                    response.ordertranExists = qry.GetField("ordertranexists").ToBoolean();
+                    sp.AddParameter("@contractid", request.contractid);
+                    sp.AddParameter("@isempty", SqlDbType.Char, ParameterDirection.Output);
+                    sp.Execute();
+                    response.ordertranExists = sp.GetParameter("@isempty").ToBoolean();
                 }
-                else
+            }
+            else
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
                 {
                     qry.Add("select ordertranexists = case when exists (select *");
-                    qry.Add("                                             from ordertran ot with (nolock) join ordercontract oc on (ot.contractid = oc.contractid");
-                    qry.Add("                                             where oc.orderid = @orderid)");
+                    qry.Add("                                           from dbo.funcstaged(@orderid, 'F'))");
                     qry.Add("                              then 'T'");
                     qry.Add("                              else 'F'");
                     qry.Add("                         end");

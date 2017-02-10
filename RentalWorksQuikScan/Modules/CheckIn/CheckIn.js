@@ -1339,7 +1339,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             })
             .on('click', '#checkIn-newOrder-btnCancel', function() {
                 try {
-                    FwPopup.destroyPopup($popup);
+                    FwPopup.destroyPopup(screen.$popupQty);
                 } catch(ex) {
                     FwFunc.showError(ex);
                 }

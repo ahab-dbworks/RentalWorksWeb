@@ -118,7 +118,7 @@ namespace RentalWorksQuikScan.Modules
                         break;
                     case "NAME":
                         select.Add("and deal like @deal");
-                        select.AddParameter("@deal", request.searchvalue + "%");
+                        select.AddParameter("@deal",  "%" + request.searchvalue + "%");
                         break;
                 }
             }
@@ -193,11 +193,11 @@ namespace RentalWorksQuikScan.Modules
                         break;
                     case "DESCRIPTION":
                         select.Add("and orderdesc like @orderdesc");
-                        select.AddParameter("@orderdesc", request.searchvalue + "%");
+                        select.AddParameter("@orderdesc",  "%" + request.searchvalue + "%");
                         break;
                     case "DEAL":
                         select.Add("and deal like @deal");
-                        select.AddParameter("@deal", request.searchvalue + "%");
+                        select.AddParameter("@deal",  "%" + request.searchvalue + "%");
                         break;
                 }
             }

@@ -464,7 +464,7 @@ namespace RentalWorksQuikScan.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwModule))))
                     {
                         FwModule module = (FwModule)Activator.CreateInstance(type);
-                        module.Init("RentalWorksQuikScanLibrary", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
+                        module.Init("RentalWorksQuikScan", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
                         if (module != null)
                         {
                             methodInfo = typeof(FwModule).GetMethod(method);
@@ -501,7 +501,7 @@ namespace RentalWorksQuikScan.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwGrid))))
                     {
                         FwGrid grid = (FwGrid)Activator.CreateInstance(type);
-                        grid.Init("RentalWorksQuikScanLibrary", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
+                        grid.Init("RentalWorksQuikScan", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
                         if (grid != null)
                         {
                             methodInfo = typeof(FwGrid).GetMethod(method);
@@ -538,7 +538,7 @@ namespace RentalWorksQuikScan.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwValidation))))
                     {
                         FwValidation validation = (FwValidation)Activator.CreateInstance(type);
-                        validation.Init("RentalWorksQuikScanLibrary", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
+                        validation.Init("RentalWorksQuikScan", "Rw", typeof(RwServiceRouting).Assembly, request, response, session);
                         if (validation != null)
                         {
                             methodInfo = typeof(FwValidation).GetMethod(method);

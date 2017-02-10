@@ -2233,6 +2233,7 @@ namespace RentalWorksQuikScan.Source
             result.showresponsibleperson = sp.GetParameter("@showresponsibleperson").ToString().Trim();
             result.responsibleperson     = sp.GetParameter("@responsibleperson").ToString().Trim();
             result.responsiblepersonid   = sp.GetParameter("@responsiblepersonid").ToString().Trim();
+            result.responsiblepersons    = GetResponsiblePersons(conn);
 
             return result;
         }
@@ -2377,8 +2378,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2397,8 +2398,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2416,8 +2417,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
@@ -2435,8 +2436,8 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@msg",     SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
             result        = new ExpandoObject();
-            result.status = sp.GetParameter("@status");
-            result.msg    = sp.GetParameter("@msg");
+            result.status = sp.GetParameter("@status").ToInt32();
+            result.msg    = sp.GetParameter("@msg").ToString();
 
             return result;
         }
