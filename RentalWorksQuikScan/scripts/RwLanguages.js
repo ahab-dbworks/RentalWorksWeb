@@ -24,6 +24,7 @@ RwLanguages.captions = [
   , 'Are you finished filling this Container?'
   , 'As Of'
   , 'Assign Bar Code(s)'
+  , 'Assign Items'
   , 'Item Disposition'
   , 'Item Location'
   , 'Item Set Location'

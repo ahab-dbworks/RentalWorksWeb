@@ -257,8 +257,8 @@ Application.prototype.navigate = function(path) {
                     checkInType: RwConstants.checkInType.RfidPortal
                 });
                 break;
-            case 'unassigneditems':
-                screen = UnassignedItems.getModuleScreen({}, {});
+            case 'assignitems':
+                screen = AssignItems.getModuleScreen({}, {});
                 break;
         }
         // this is how you do the navigate away in a screen
