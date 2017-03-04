@@ -1202,7 +1202,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         
         screen.renderPopupQty();
         jQuery('#staging-popupQty')
-            .data('code',         responseStageItem.request.code)
+            .data('responseStageItem', responseStageItem)
+            .data('code', responseStageItem.request.code)
             .data('masterno',     responseStageItem.webStageItem.masterNo)
             .data('masteritemid', responseStageItem.webStageItem.masterItemId)
             .data('stageconsigned', (typeof responseStageItem.request.stageconsigned === 'boolean') ? responseStageItem.request.stageconsigned : false)
@@ -2081,7 +2082,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             FwPopup.destroyPopup(screen.$popupQty);
         }
         screen.$popupQty = FwPopup.renderPopup($popupcontent, {ismodal:false});
-        screen.$popupQty.find('#staging-popupQty-description').hide();
+        //screen.$popupQty.find('#staging-popupQty-description').hide();
         screen.$popupQty.find('#staging-popupQty-messages').hide();
         screen.$popupQty.find('#staging-popupQty-fields').hide();
         screen.$popupQty.find('#staging-popupQty-pnlAddToOrder').hide();
@@ -2235,7 +2236,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnAddComplete', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -2276,7 +2277,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnAddItem', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -2353,7 +2354,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnOverrideAvailabilityReservation', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -2394,7 +2395,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnStageConsignedItem', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -2435,7 +2436,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnTransferRepair', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
@@ -2476,7 +2477,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .on('click', '#staging-popupQty-btnAddContainerToOrder', function() {
                 var qty, requestStageItem;
                 try {
-                    qty = parseFloat(jQuery('#staging-popupQty-qty-txtQty').val());
+                    qty = parseFloat(jQuery('#staging-popupQty').data('responseStageItem').request.qty);
                     if (isNaN(qty)) {
                         qty = 0;
                     }
