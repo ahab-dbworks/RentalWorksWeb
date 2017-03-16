@@ -159,9 +159,9 @@
     <Content Include="Modules\SelectRepairOrder\SelectRepairOrderItem.html" />
     <Content Include="Modules\Staging\PopupQty.html" />
     <Content Include="Modules\Staging\PopupSelectSerialNo.html" />
-    <Content Include="Modules\UnassignedItems\UnassignedItems.css" />
-    <Content Include="Modules\UnassignedItems\UnassignedItems.html" />
-    <Content Include="Modules\UnassignedItems\UnassignedItems.js" />
+    <Content Include="Modules\AssignItems\AssignItems.css" />
+    <Content Include="Modules\AssignItems\AssignItems.html" />
+    <Content Include="Modules\AssignItems\AssignItems.js" />
     <Content Include="Modules\TimeLog\TimeLog.js" />
     <Content Include="Modules\TimeLog\TimeLog.css" />
     <Content Include="Modules\TimeLog\TimeLog.html" />
@@ -279,7 +279,7 @@
     <Content Include="theme\images\icons\128\timelog.png" />
     <Content Include="theme\images\icons\128\transferin.png" />
     <Content Include="theme\images\icons\128\transferout.png" />
-    <Content Include="theme\images\icons\128\unassigneditems.001.png" />
+    <Content Include="theme\images\icons\128\assignitems.001.png" />
     <Content Include="theme\images\icons\128\utilities.png" />
     <Content Include="theme\images\icons\128\webimage.png" />
     <Content Include="theme\images\icons\favicon.ico" />
@@ -449,7 +449,7 @@
     <Compile Include="Modules\SelectOrder\SelectOrder.cs" />
     <Compile Include="Modules\SelectPO\SelectPO.cs" />
     <Compile Include="Modules\Staging\Staging.cs" />
-    <Compile Include="Modules\UnassignedItems\UnassignedItem.cs" />
+    <Compile Include="Modules\AssignItems\AssignItem.cs" />
     <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\DepartmentFilter.cs" />
     <Compile Include="Source\RwAppData.cs" />

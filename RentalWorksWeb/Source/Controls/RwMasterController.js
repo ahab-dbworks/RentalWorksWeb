@@ -109,7 +109,7 @@ RwMasterController.getUserControl = function($userControl) {
     $user = jQuery('<div id="username" class="item">' + FwFunc.fixCaps(sessionStorage.getItem('userType')) + ': ' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div>');
     $userControl.append($user);
 
-    RwMasterController.buildOfficeLocation($userControl);
+    RwMasterController.buildOfficeLocationClassic($userControl);
 
     //$notification = FwNotification.generateNotificationArea();
     //$userControl.append($notification);
@@ -135,7 +135,7 @@ RwMasterController.getUserControl = function($userControl) {
     $userControl.append($logoff);
 };
 //----------------------------------------------------------------------------------------------
-RwMasterController.buildOfficeLocation = function($userControl) {
+RwMasterController.buildOfficeLocationClassic = function($userControl) {
     var $officelocation, userlocation;
 
     userlocation = JSON.parse(sessionStorage.getItem('location'));
@@ -285,6 +285,7 @@ RwMasterController.getHeaderView = function() {
     }
 
     FwFileMenu.renderUserControl($view, sessionStorage.getItem('userType'), sessionStorage.getItem('fullname'));
+    RwMasterController.buildOfficeLocation($view);
     $view
         .on('click', '.usersettings', function() {
             try { program.getModule('module/usersettings'); } catch (ex) { FwFunc.showError(ex); }
@@ -295,5 +296,77 @@ RwMasterController.getHeaderView = function() {
     ;
 
     return $view;
+};
+//----------------------------------------------------------------------------------------------
+RwMasterController.buildOfficeLocation = function($view) {
+    var $officelocation, userlocation, $userControl;
+
+    userlocation = JSON.parse(sessionStorage.getItem('location'));
+    $userControl = $view.find('.user-controls');
+
+    $officelocation = jQuery('<div class="officelocation"><div class="locationcolor" style="background-color:' + userlocation.locationcolor + '"></div><div class="value">' + userlocation.location + '</div></div>');
+    $userControl.prepend($officelocation);
+
+    $officelocation = jQuery('<div class="item officelocationbtn">Office Location</div>');
+    $userControl.find('.user-dropdown').prepend($officelocation);
+    $officelocation.on('click', function() {
+        var $confirmation, $ok, $cancel, html = [];
+        $confirmation = FwConfirmation.renderConfirmation('Select an office location', '');
+        $select       = FwConfirmation.addButton($confirmation, 'Select', false);
+        $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="location" data-validationname="UserOfficeLocation"></div>');
+        html.push('</div>');
+        html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="warehouse" data-validationname="UserWarehouse" data-boundfields="location" data-enabled="false"></div>');
+        html.push('</div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        $confirmation
+            .on('change', 'div[data-datafield="location"] .fwformfield-value', function() {
+                $confirmation.find('div[data-datafield="location"]').removeClass('error');
+                if (this.value == '') {
+                    FwFormField.disable($confirmation.find('div[data-datafield="warehouse"]'));
+                } else {
+                    FwFormField.enable($confirmation.find('div[data-datafield="warehouse"]'));
+                }
+                $confirmation.find('div[data-datafield="warehouse"] .fwformfield-value').val('').change();
+                $confirmation.find('div[data-datafield="warehouse"] .fwformfield-text').val('');
+            })
+            .on('change', 'div[data-datafield="warehouse"] .fwformfield-value', function() {
+                $confirmation.find('div[data-datafield="warehouse"]').removeClass('error');
+            })
+        ;
+
+        $select.on('click', function() {
+            var valid = true, request, location, warehouse;
+            location  = $confirmation.find('div[data-datafield="location"] .fwformfield-value').val();
+            warehouse = $confirmation.find('div[data-datafield="warehouse"] .fwformfield-value').val();
+            if (location == '') {
+                $confirmation.find('div[data-datafield="location"]').addClass('error');
+                valid = false;
+            }
+            if (warehouse == '') {
+                $confirmation.find('div[data-datafield="warehouse"]').addClass('error');
+                valid = false;
+            }
+            if (valid) {
+                request = {
+                    location:  location,
+                    warehouse: warehouse
+                };
+                RwServices.session.updatelocation(request, function(response) {
+                    sessionStorage.setItem('authToken', response.authToken);
+                    sessionStorage.setItem('location',  JSON.stringify(response.location));
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    program.navigate('home');
+                });
+            }
+        });
+    });
 };
 //----------------------------------------------------------------------------------------------

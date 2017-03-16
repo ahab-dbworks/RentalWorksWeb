@@ -244,7 +244,7 @@ namespace RentalWorksQuikScan.Source
         {
             dynamic result;
             FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webcheckinitem2");
+            sp = new FwSqlCommand(conn, "dbo.pdacheckinitem");
             sp.AddParameter("@code",                     code);
             sp.AddParameter("@usersid",                  usersId);
             sp.AddParameter("@qty",                      qty);
@@ -407,6 +407,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@buyer",         SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@manufacturer",  SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@pono",          SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@itemclass",     SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@status",        SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",           SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
@@ -442,6 +443,7 @@ namespace RentalWorksQuikScan.Source
             result.buyer        = sp.GetParameter("@buyer").ToString().TrimEnd();
             result.manufacturer = sp.GetParameter("@manufacturer").ToString().TrimEnd();
             result.pono         = sp.GetParameter("@pono").ToString().TrimEnd();
+            result.itemclass    = sp.GetParameter("@itemclass").ToString().TrimEnd();
             result.status       = sp.GetParameter("@status").ToInt32();
             result.msg          = sp.GetParameter("@msg").ToString().TrimEnd();
 
@@ -3991,6 +3993,18 @@ namespace RentalWorksQuikScan.Source
                 }
             }
             return deptfilter.ToString();
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic GetLastSetImageId(FwSqlConnection conn, string masterid)
+        {
+            string appdocumentid;
+            FwSqlCommand qry;
+            qry = new FwSqlCommand(conn);
+            qry.Add("select dbo.getlastsetimageid(@masterid) as appdocumentid");
+            qry.AddParameter("@masterid", masterid);
+            qry.Execute();
+            appdocumentid = qry.GetField("appdocumentid").ToString().TrimEnd();
+            return appdocumentid;
         }
         //----------------------------------------------------------------------------------------------------
     }

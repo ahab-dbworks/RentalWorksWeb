@@ -14,7 +14,7 @@ RwHomeController.getHomeScreen = function(viewModel, properties) {
     screen.properties = properties;
 
     screen.$view
-        .find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
+        //.find('#programlogo').attr('src', 'theme/images/rentalworkslogo.png');
     ;
 
     return screen;
