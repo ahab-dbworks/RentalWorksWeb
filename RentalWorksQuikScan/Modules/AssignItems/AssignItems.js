@@ -125,6 +125,11 @@ AssignItems.getModuleScreen = function(viewModel, properties) {
             };
             return request;
         },
+        beforeSearch: function() {
+            if (this.currentMode == 'BARCODE') {
+                $itemlist.find('#items .searchbox').val(RwAppData.stripBarcode($itemlist.find('#items .searchbox').val()));
+            }
+        },
         cacheItemTemplate: false,
         itemTemplate: function(model) {
             var html = [];

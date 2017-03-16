@@ -18,12 +18,17 @@ namespace RentalWorksQuikScan.Modules
             string[] images;
             byte[] image;
             bool hasImages;
-            string appimageid, uniqueid1;
+            string appimageid, uniqueid1, imagedescription = string.Empty;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             hasImages = FwValidate.IsPropertyDefined(request, "images");
 
             uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
+            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
+            {
+                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
+                imagedescription = "APPDOCUMENT_IMAGE";
+            }
 
             if (hasImages && (request.images.Length > 0))
             {
@@ -35,7 +40,7 @@ namespace RentalWorksQuikScan.Modules
                                                           uniqueid1:   uniqueid1,
                                                           uniqueid2:   string.Empty,
                                                           uniqueid3:   string.Empty,
-                                                          description: string.Empty,
+                                                          description: imagedescription,
                                                           rectype:     string.Empty,
                                                           extension:   "JPG",
                                                           image:       image);
@@ -46,7 +51,7 @@ namespace RentalWorksQuikScan.Modules
                                                        uniqueid1:   uniqueid1,
                                                        uniqueid2:   string.Empty,
                                                        uniqueid3:   string.Empty,
-                                                       description: string.Empty,
+                                                       description: imagedescription,
                                                        rectype:     string.Empty);
         }
         //---------------------------------------------------------------------------------------------
@@ -55,6 +60,7 @@ namespace RentalWorksQuikScan.Modules
         {
             //const string METHOD_NAME = "GetInventoryItem";
             string uniqueid1;
+            string imagedescription = string.Empty;
 
             response.webGetItemStatus = RwAppData.WebGetItemStatus(conn:    FwSqlConnection.RentalWorks,
                                                                    usersId: session.security.webUser.usersid,
@@ -67,12 +73,17 @@ namespace RentalWorksQuikScan.Modules
             }
 
             uniqueid1 = (!response.webGetItemStatus.isICode) ? response.webGetItemStatus.rentalitemid : response.webGetItemStatus.masterId;
+            if ((response.webGetItemStatus.isICode) && ((response.webGetItemStatus.itemclass == "W") || (response.webGetItemStatus.itemclass == "S")))
+            {
+                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, response.webGetItemStatus.masterId);
+                imagedescription = "APPDOCUMENT_IMAGE";
+            }
 
             response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
                                                        uniqueid1:   uniqueid1,
                                                        uniqueid2:   string.Empty,
                                                        uniqueid3:   string.Empty,
-                                                       description: string.Empty,
+                                                       description: imagedescription,
                                                        rectype:     string.Empty);
         }
         //---------------------------------------------------------------------------------------------
@@ -81,7 +92,7 @@ namespace RentalWorksQuikScan.Modules
         {
             const string METHOD_NAME = "DeleteAppImage";
             FwSqlCommand qry;
-            string uniqueid1;
+            string uniqueid1, imagedescription = string.Empty;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "appimageid");
@@ -93,12 +104,17 @@ namespace RentalWorksQuikScan.Modules
             qry.Execute();
 
             uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
+            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
+            {
+                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
+                imagedescription = "APPDOCUMENT_IMAGE";
+            }
 
             response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
                                                        uniqueid1:   uniqueid1,
                                                        uniqueid2:   string.Empty,
                                                        uniqueid3:   string.Empty,
-                                                       description: string.Empty,
+                                                       description: imagedescription,
                                                        rectype:     string.Empty);
         }
         //---------------------------------------------------------------------------------------------
@@ -107,12 +123,17 @@ namespace RentalWorksQuikScan.Modules
         {
             const string METHOD_NAME = "MakePrimaryAppImage";
             FwSqlCommand sp;
-            string uniqueid1;
+            string uniqueid1, imagedescription = string.Empty;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "appimageid");
 
             uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
+            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
+            {
+                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
+                imagedescription = "APPDOCUMENT_IMAGE";
+            }
 
             sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.moveappimage");
             sp.AddParameter("@uniqueid1",   uniqueid1);
@@ -128,7 +149,7 @@ namespace RentalWorksQuikScan.Modules
                                                        uniqueid1:   uniqueid1,
                                                        uniqueid2:   string.Empty,
                                                        uniqueid3:   string.Empty,
-                                                       description: string.Empty,
+                                                       description: imagedescription,
                                                        rectype:     string.Empty);
         }
         //----------------------------------------------------------------------------------------------------
