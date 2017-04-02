@@ -385,7 +385,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lib.net\dbworks\Fw.Json\Fw.Json.csproj">
+    <ProjectReference Include="..\..\Fw\Source\Fw.Json\Fw.Json.csproj">
       <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
       <Name>Fw.Json</Name>
     </ProjectReference>

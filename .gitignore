@@ -273,3 +273,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+RentalWorksQuikScan/scripts/_references\.js
+
+RentalWorksWeb/scripts/_references\.js

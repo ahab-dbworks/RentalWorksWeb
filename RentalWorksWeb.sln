@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWeb", "RentalWorksWeb\RentalWorksWeb.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fw.Json", "..\..\lib.net\dbworks\Fw.Json\Fw.Json.csproj", "{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fw.Json", "..\Fw\Source\Fw.Json\Fw.Json.csproj", "{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksAPI", "RentalWorksAPI\RentalWorksAPI.csproj", "{81982370-068F-4922-9F56-8807515D2291}"
 EndProject

@@ -2,17 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <FwMSBuildTasksPath>C:\Project\lib.net\dbworks\Fw\MSBuildTasks\Build</FwMSBuildTasksPath>
-    <MSBuildCommunityTasksPath>C:\Project\lib.net\opensource\MSBuild.Community.Tasks.Nightly\Build</MSBuildCommunityTasksPath>
-    <FwPath>C:\Project\lib.net\dbworks\Fw</FwPath>
-    <FwApplicationDirectory>C:\project\RentalWorks\RentalWorksWeb\RentalWorksQuikScan</FwApplicationDirectory>
-    <FwReleaseFolder>C:\project\RentalWorks\RentalWorksWeb\Release</FwReleaseFolder>
+    <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSolutionDir>
+    <FwMSBuildTasksPath>$(AppSolutionDir)\Fw\Build\Fw.MSBuild</FwMSBuildTasksPath>
+    <MSBuildCommunityTasksPath>$(AppSolutionDir)\Fw\Libraries\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
+    <FwJsonPath>$(AppSolutionDir)\Fw\Source\Fw.Json</FwJsonPath>
+    <FwApplicationDirectory>$(AppSolutionDir)\RentalWorksQuikScan</FwApplicationDirectory>
+    <FwReleaseFolder>$(AppSolutionDir)\Release</FwReleaseFolder>
     <FwApplicationName>RentalWorksQuikScan</FwApplicationName>
     <FwUpdateSchema>true</FwUpdateSchema>
     <FwPublish>false</FwPublish>
     <FwDeploymentDirectory>$(FwReleaseFolder)\$(FwApplicationName)</FwDeploymentDirectory>
     <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
-    <JsAppBuilderConfigFile>C:\project\RentalWorks\RentalWorksWeb\RentalWorksQuikScan\JSAppBuilder.config</JsAppBuilderConfigFile>
+    <JsAppBuilderConfigFile>$(FwApplicationDirectory)\JSAppBuilder.config</JsAppBuilderConfigFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -89,7 +90,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib.net\dbworks\Fw.Json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Fw\Libraries\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -422,7 +423,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\RentalWorksWeb\RentalWorksWeb\SecurityTree.cs">
+    <Compile Include="..\RentalWorksWeb\SecurityTree.cs">
       <Link>SecurityTree.cs</Link>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -472,15 +473,15 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lib.net\dbworks\Fw.Json\Fw.Json.csproj">
-      <Project>{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}</Project>
-      <Name>Fw.Json</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="temp\" />
     <Folder Include="theme\fonts\" />
     <Folder Include="theme\fwimages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Fw\Source\Fw.Json\Fw.Json.csproj">
+      <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
+      <Name>Fw.Json</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -511,6 +512,7 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.-->
   <Target Name="BeforeBuild">
+    <Exec Command="echo &quot;AppSolutionDir: $(AppSolutionDir)&quot;" />
     <Version VersionFile="$(FwApplicationDirectory)\version.txt" BuildType="None" RevisionType="None">
       <Output TaskParameter="Major" PropertyName="Major" />
       <Output TaskParameter="Minor" PropertyName="Minor" />
@@ -518,14 +520,14 @@
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
     <FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
-    <Exec Command="robocopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwcursors&quot; &quot;C:\project\RentalWorks\RentalWorksWeb\RentalWorksQuikScan\theme\fwcursors&quot; /MIR" ContinueOnError="true" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwfonts&quot; &quot;C:\project\RentalWorks\RentalWorksWeb\RentalWorksQuikScan\theme\fwfonts&quot; /MIR" ContinueOnError="true" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwimages&quot; &quot;C:\project\RentalWorks\RentalWorksWeb\RentalWorksQuikScan\theme\fwimages&quot; /MIR" ContinueOnError="true" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="false" />
+    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" AttachDebugger="false" />
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" />
@@ -537,12 +539,12 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="true" />
+    <!--<FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" />-->
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\fonts&quot; &quot;$(FwDeploymentDirectory)\theme\fonts&quot; /e" />
-    <Exec Command="xcopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" />
-    <Exec Command="xcopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" />
-    <Exec Command="xcopy &quot;C:\project\lib.net\dbworks\Fw.Json\content\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" />
+    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" />
+    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" />
+    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /e" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.htm" DestinationFiles="$(FwDeploymentDirectory)\index.htm" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />
@@ -557,6 +559,6 @@
     <FwReplaceInFile Path="$(FwDeploymentDirectory)\web.config" Pattern="debug=&quot;true&quot;" Replacement="debug=&quot;false&quot;" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" />
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" Version="$(Major).$(Minor).$(Build).$(Revision)" Publish="true" />
+    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" Publish="$(FwPublish)" />
   </Target>
 </Project>
