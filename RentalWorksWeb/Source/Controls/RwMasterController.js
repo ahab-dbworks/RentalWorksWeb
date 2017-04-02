@@ -43,7 +43,8 @@ RwMasterController.getHeaderClassic = function(viewModel, properties) {
         }
     }
     if (nodeApplication === null) {
-        throw 'Unable to find RentalWorks Web node in group tree. {82CB0663-92AE-4D14-A816-DBCB32C08467}';
+        sessionStorage.clear();
+        window.location.reload(true);
     }
     baseiconurl = 'theme/images/icons/home/';
     for (var lv1childno = 0; lv1childno < nodeApplication.children.length; lv1childno++) {
@@ -247,7 +248,8 @@ RwMasterController.getHeaderView = function() {
         }
     }
     if (nodeApplication === null) {
-        throw 'Unable to find RentalWorks Web node in group tree. {2D01C87F-8760-455E-AB34-9ADBF6CB16CC}';
+        sessionStorage.clear();
+        window.location.reload(true);
     }
     baseiconurl = 'theme/images/icons/home/';
     for (var lv1childno = 0; lv1childno < nodeApplication.children.length; lv1childno++) {
