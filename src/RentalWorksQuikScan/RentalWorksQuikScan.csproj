@@ -2,16 +2,17 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSolutionDir>
-    <FwMSBuildTasksPath>$(AppSolutionDir)\Fw\Build\Fw.MSBuild</FwMSBuildTasksPath>
-    <MSBuildCommunityTasksPath>$(AppSolutionDir)\Fw\Libraries\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
-    <FwJsonPath>$(AppSolutionDir)\Fw\Source\Fw.Json</FwJsonPath>
-    <FwApplicationDirectory>$(AppSolutionDir)\RentalWorksQuikScan</FwApplicationDirectory>
-    <FwReleaseFolder>$(AppSolutionDir)\Release</FwReleaseFolder>
+    <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
+    <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
+    <FwMSBuildTasksPath>$(AppSolutionDir)\lib\Fw\build\Fw.MSBuild</FwMSBuildTasksPath>
+    <MSBuildCommunityTasksPath>$(AppSolutionDir)\lib\Fw\lib\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
+    <FwJsonPath>$(AppSolutionDir)\lib\Fw\src\Fw.Json</FwJsonPath>
+    <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksQuikScan</FwApplicationDirectory>
+    <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwApplicationName>RentalWorksQuikScan</FwApplicationName>
     <FwUpdateSchema>true</FwUpdateSchema>
     <FwPublish>false</FwPublish>
-    <FwDeploymentDirectory>$(FwReleaseFolder)\$(FwApplicationName)</FwDeploymentDirectory>
+    <FwDeploymentDirectory>$(FwBuildFolder)\$(FwApplicationName)</FwDeploymentDirectory>
     <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
     <JsAppBuilderConfigFile>$(FwApplicationDirectory)\JSAppBuilder.config</JsAppBuilderConfigFile>
     <FileUpgradeFlags>
@@ -90,7 +91,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Fw\Libraries\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\lib\Fw\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -478,7 +479,7 @@
     <Folder Include="theme\fwimages\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Fw\Source\Fw.Json\Fw.Json.csproj">
+    <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj">
       <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
       <Name>Fw.Json</Name>
     </ProjectReference>
