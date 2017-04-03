@@ -1,3 +1,6 @@
 [submodule "lib/Fw"]
 	path = lib/Fw
 	url = git@github.com:DatabaseWorks/Fw.git
+[submodule "Fw/lib/Fw"]
+	path = Fw/lib/Fw
+	url = git@github.com:DatabaseWorks/Fw.git
