@@ -246,7 +246,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.Add("from inventorycontactview");
                 qry.Add("where responsibleperson = 'T'");
                 qry.Add("order by person");
-                response.responsibleperson.responsiblepersons    = qry.QueryToDynamicList();
+                response.responsibleperson.responsiblepersons    = qry.QueryToDynamicList2();
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -488,7 +488,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@masterid", request.masterid);
                 qry.AddParameter("@warehouseid", userLocation.warehouseId);
                 qry.AddParameter("@masteritemid", request.masteritemid);
-                response.funcserialmeterout = qry.QueryToDynamicList();
+                response.funcserialmeterout = qry.QueryToDynamicList2();
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -525,7 +525,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@warehouseid", userLocation.warehouseId);
                 qry.AddParameter("@contractid", request.contractid);
                 qry.AddParameter("@masteritemid", request.masteritemid);
-                response.funcserialfrm = qry.QueryToDynamicObject();
+                response.funcserialfrm = qry.QueryToDynamicObject2();
              }
         }
         //---------------------------------------------------------------------------------------------

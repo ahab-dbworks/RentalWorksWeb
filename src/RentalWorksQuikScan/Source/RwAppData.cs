@@ -1205,7 +1205,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from inventorycontactview");
             qry.Add("where responsibleperson = 'T'");
             qry.Add("order by person");
-            rows = qry.QueryToDynamicList();
+            rows = qry.QueryToDynamicList2();
             return rows;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1542,7 +1542,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@groupby", "DETAIL");
 
             result = new ExpandoObject();
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -1707,7 +1707,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@masterid", masterId);
             qry.AddParameter("@userswarehouseid", usersWarehouseId);
             qry.AddParameter("@filterwareouseid", filterWarehouseId);  // you can pass null if you want all warehouses
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
             
             return result;
         }
@@ -1859,7 +1859,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from users with(nolock)");
             qry.Add("where usersid = @usersid");
             qry.AddParameter("@usersid", usersId);
-            dataSet = qry.QueryToDynamicList();
+            dataSet = qry.QueryToDynamicList2();
             if (dataSet.Count == 0)
             {
                 throw new Exception("Can't find user.");
@@ -1880,7 +1880,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from contact with(nolock)");
             qry.Add("where contactid = @contactid");
             qry.AddParameter("@contactid", contactId);
-            rows = qry.QueryToDynamicList();
+            rows = qry.QueryToDynamicList2();
             if (rows.Count == 0)
             {
                 throw new Exception("Can't find contact.");
@@ -1999,7 +1999,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from masteritemview with(nolock)");
             qry.Add("where masteritemid = @masteritemid");
             qry.AddParameter("@masteritemid", masteritemid);
-            list = qry.QueryToDynamicList();
+            list = qry.QueryToDynamicList2();
             if (list.Count.Equals(0))
             {
                 throw new Exception("GetMasterItemViewByMasterItemId: masteritem '" + masteritemid + "' not found.");
@@ -2022,7 +2022,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by orderby");
             qry.AddParameter("@orderid",        orderid);
             qry.AddParameter("@masteritemid",   masteritemid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2051,7 +2051,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from   qsmaster(@masterno, @warehouseid)");
             qry.AddParameter("@masterno", masterno);
             qry.AddParameter("@warehouseid", warehouseid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
             if (Object.ReferenceEquals(null, result))
             {
                 throw new Exception("GetItem: masterno " + masterno + " was not found!");
@@ -2250,7 +2250,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from   dbo.funccheckoutexceptionrfid2(@orderid, @warehouseid)");
             qry.AddParameter("@orderid", orderid);
             qry.AddParameter("@warehouseid", warehouseid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2296,7 +2296,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@usersid",   usersid);
             qry.AddParameter("@portal",    portal);
             qry.AddParameter("@batchid",   batchid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2312,7 +2312,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@sessionid", sessionid);
             qry.AddParameter("@usersid",   usersid);
             qry.AddParameter("@portal",    portal);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2338,7 +2338,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("where  exceptionflg = 'T'");
             qry.Add("order by orderno, itemorder, masterno");
             qry.AddParameter("@sessionid", sessionid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2352,7 +2352,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("select *");
             qry.Add("from   dbo.funcitemstatusrfid(@tags)");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2597,7 +2597,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from   dbo.repairstatusrfid(@tags)");
             qry.Add("order by inrepair desc");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2612,7 +2612,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from   dbo.funcitemstatusrfid(@tags) fis join rentalitem ri with (nolock) on (fis.rentalitemid = ri.rentalitemid)");
             qry.Add("order by qcrequired desc");
             qry.AddParameter("@tags", tags);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -2739,7 +2739,7 @@ namespace RentalWorksQuikScan.Source
                     qrycontainerdefinitions.Add("order by description");
                     qrycontainerdefinitions.AddParameter("@warehouseid", user_warehouseid);
                     qrycontainerdefinitions.AddParameter("@barcode", barcode);
-                    result.selectcontainers = qrycontainerdefinitions.QueryToDynamicList();
+                    result.selectcontainers = qrycontainerdefinitions.QueryToDynamicList2();
                     for(int i = 0; i < result.selectcontainers.Count; i++)
                     {
                         result.selectcontainers[0].containerid = FwCryptography.AjaxEncrypt(result.selectcontainers[0].containerid);
@@ -2794,7 +2794,7 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("order by master");
                 qry.AddParameter("@warehouseid", warehouseid);
                 qry.AddParameter("@scannablemasteritem", container.scannablemasterid);
-                containerdescs = qry.QueryToDynamicList();
+                containerdescs = qry.QueryToDynamicList2();
             }
             result = new ExpandoObject();
             result.scannablemasterid = container.scannablemasterid;
@@ -2843,7 +2843,7 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("order by master");
                 qry.AddParameter("@warehouseid", user_warehouseid);
                 qry.AddParameter("@scannablemasteritem", container.scannablemasterid);
-                containerdescs = qry.QueryToDynamicList();
+                containerdescs = qry.QueryToDynamicList2();
             }
             hascontainerdesc    = !string.IsNullOrEmpty(selected_containerdesc);
             changecontainertype = (hascontainerdesc && (container.description != selected_containerdesc));
@@ -3255,7 +3255,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@groupitems", groupitems);
             qry.AddParameter("@warehouseid", warehouseid);
             qry.AddParameter("@masteritemid", masteritemid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -3302,7 +3302,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@groupitems", groupitems);
             qry.AddParameter("@warehouseid", warehouseid);
             qry.AddParameter("@masteritemid", masteritemid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -3535,7 +3535,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("from retiredreason with (nolock)");
             qry.Add("where inactive <> 'T'");
             qry.Add("order by retiredreason");
-            results = qry.QueryToDynamicList();
+            results = qry.QueryToDynamicList2();
 
             return results;
         }
@@ -3602,7 +3602,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by orderdate desc, orderno desc");
             qry.AddParameter("@webusersid", webusersid);
             qry.AddParameter("@dealid", dealid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3623,7 +3623,7 @@ namespace RentalWorksQuikScan.Source
             }
             qry.Add("order by deal asc");
             qry.AddParameter("@webusersid", webusersid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3644,7 +3644,7 @@ namespace RentalWorksQuikScan.Source
             }
             qry.Add("order by eventno desc");
             qry.AddParameter("@webusersid", webusersid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3666,7 +3666,7 @@ namespace RentalWorksQuikScan.Source
                 qry.AddParameter("@orderno", orderno);
             }
             qry.Add("order by orderdate");
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3685,7 +3685,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@orderid",    orderid);
             qry.AddParameter("@dealid",     dealid);
             qry.AddParameter("@eventid",    eventid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3704,7 +3704,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by usertimeid");
             qry.AddParameter("@usersid", usersid);
             qry.AddParameter("@orderid", orderid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3832,7 +3832,7 @@ namespace RentalWorksQuikScan.Source
                 qry.Add("from dbo.funcgetcontainer(@barcode, @warehouseid)");
                 qry.AddParameter("@barcode", barcode);
                 qry.AddParameter("@warehouseid", warehouseid);
-                result = qry.QueryToDynamicObject();
+                result = qry.QueryToDynamicObject2();
             }
 
             return result;
@@ -3925,7 +3925,7 @@ namespace RentalWorksQuikScan.Source
             qry = new FwSqlCommand(conn);
             qry.Add("select * from dbo.funcstagingsubstituteitem(@usersid)");
             qry.AddParameter("@usersid", usersid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -3938,7 +3938,7 @@ namespace RentalWorksQuikScan.Source
             qry = new FwSqlCommand(conn);
             qry.Add("select * from dbo.funcstagingsubstitutecomplete(@usersid)");
             qry.AddParameter("@usersid", usersid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }

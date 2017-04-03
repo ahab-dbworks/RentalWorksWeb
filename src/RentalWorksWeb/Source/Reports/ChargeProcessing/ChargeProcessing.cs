@@ -477,7 +477,7 @@ namespace RentalWorksWeb.Source.Reports
                 qry.AddParameter("@batchto",   batchto.GetSqlValue());
             }
 
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }

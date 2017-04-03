@@ -32,7 +32,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.Add("from repair with (nolock)");
                     qry.Add("where repairid = @repairid");
                     qry.AddParameter("@repairid", response.webSelectRepairOrder.repairId);
-                    response.repair = qry.QueryToDynamicObject();
+                    response.repair = qry.QueryToDynamicObject2();
                 }
                 using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
                 {
@@ -47,7 +47,7 @@ namespace RentalWorksQuikScan.Modules
                     qry.AddParameter("@repairid", response.webSelectRepairOrder.repairId);
                     //response.images = qry.QueryToDynamicList();
                     response.appdocuments = new List<ExpandoObject>();
-                    List<dynamic> appdocumentimages = qry.QueryToDynamicList();
+                    List<dynamic> appdocumentimages = qry.QueryToDynamicList2();
                     string appdocumentid = string.Empty;
                     dynamic appdocument = null;
                     for (int i = 0; i < appdocumentimages.Count; i++)

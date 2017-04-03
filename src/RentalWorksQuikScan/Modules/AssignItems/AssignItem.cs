@@ -192,7 +192,7 @@ namespace RentalWorksQuikScan.Modules
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select * from dbo.funcvalidaterfidtag(@epcs)");
             qry.AddParameter("@epcs", request.epcs);
-            validatetagsresult = qry.QueryToDynamicList();
+            validatetagsresult = qry.QueryToDynamicList2();
 
             qry2 = new FwSqlCommand(FwSqlConnection.RentalWorks);
             if (request.selectedrecord.rowtype == "I-CODE")
@@ -210,7 +210,7 @@ namespace RentalWorksQuikScan.Modules
             qry2.AddParameter("@masterid",    request.selectedrecord.masterid);
             qry2.AddParameter("@warehouseid", userLocation.warehouseId);
             qry2.AddParameter("@orderid",     request.selectedrecord.orderid);
-            recordstoupdate = qry2.QueryToDynamicList();
+            recordstoupdate = qry2.QueryToDynamicList2();
 
             for (int i = 0; i < validatetagsresult.Count; i++)
             {
@@ -279,7 +279,7 @@ namespace RentalWorksQuikScan.Modules
             qry3.AddParameter("@masterid",    request.selectedrecord.masterid);
             qry3.AddParameter("@rowtype",     request.selectedrecord.rowtype);
             qry3.AddParameter("@warehouseid", userLocation.warehouseId);
-            assignassetresult = qry3.QueryToDynamicObject();
+            assignassetresult = qry3.QueryToDynamicObject2();
 
             response.assignedassetupdate = assignassetresult;
         }

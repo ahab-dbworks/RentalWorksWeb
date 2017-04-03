@@ -22,7 +22,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@searchvalue", request.searchvalue);
             qry.AddParameter("@warehouseid", userLocation.warehouseId);
 
-            response.itemdetails = qry.QueryToDynamicList();
+            response.itemdetails = qry.QueryToDynamicList2();
 
             for (int i = 0; i < response.itemdetails.Count; i++)
             {
@@ -157,7 +157,7 @@ namespace RentalWorksQuikScan.Modules
                 qry3.AddParameter("@warehouseid",        userLocation.warehouseId);
             }
 
-            response.itemdetails = qry3.QueryToDynamicList();
+            response.itemdetails = qry3.QueryToDynamicList2();
 
             for (int i = 0; i < response.itemdetails.Count; i++)
             {
@@ -188,7 +188,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@purchasefororderid", request.recorddata.purchasefororderid);
             qry.AddParameter("@warehouseid",        userLocation.warehouseId);
 
-            response.itemdetails = qry.QueryToDynamicList();
+            response.itemdetails = qry.QueryToDynamicList2();
 
             for (int i = 0; i < response.itemdetails.Count; i++)
             {
@@ -213,7 +213,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@orderid",  request.orderid);
             qry.AddParameter("@masterid", request.masterid);
 
-            response.assetlocations = qry.QueryToDynamicList();
+            response.assetlocations = qry.QueryToDynamicList2();
         }
         //---------------------------------------------------------------------------------------------
     }

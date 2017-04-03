@@ -88,7 +88,7 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("where dealstatus = 'ACTIVE'");
             qry.Add("order by deal");
 
-            response.productions = qry.QueryToDynamicList();
+            response.productions = qry.QueryToDynamicList2();
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -106,7 +106,7 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("order by setno");
             //qry.AddParameter("@dealid", request.production);
 
-            response.sets = qry.QueryToDynamicList();
+            response.sets = qry.QueryToDynamicList2();
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -196,7 +196,7 @@ namespace RentalWorksQuikScan.Modules
                 qry2.Add("from   receiveonsetorderview");
                 qry2.Add("where orderid = @orderid");
                 qry2.AddParameter("@orderid", response.record.orderid);
-                response.record = qry2.QueryToDynamicList();
+                response.record = qry2.QueryToDynamicList2();
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -221,7 +221,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@outreceivecontractid", request.receivecontractid);
             qry.AddParameter("@warehouseid",          userLocation.warehouseId);
 
-            response.items = qry.QueryToDynamicList();
+            response.items = qry.QueryToDynamicList2();
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]

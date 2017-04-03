@@ -78,7 +78,7 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("from   dealview");
             qry.Add("where  statustype <> 'I'");
             qry.Add("order by deal");
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             response.deals = result;
         }
@@ -147,7 +147,7 @@ namespace RentalWorksQuikScan.Modules
             qry.Add("from   qsdealorderview");
             qry.Add("where  orderid = @orderid");
             qry.AddParameter("@orderid", orderid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }

@@ -69,7 +69,7 @@ namespace RentalWorksWeb.Source
             qry.Add("from users with(nolock)");
             qry.Add("where usersid = @usersid");
             qry.AddParameter("@usersid", usersId);
-            dataSet = qry.QueryToDynamicList();
+            dataSet = qry.QueryToDynamicList2();
             if (dataSet.Count == 0)
             {
                 throw new Exception("Can't find user.");
@@ -90,7 +90,7 @@ namespace RentalWorksWeb.Source
             qry.Add("from contact with(nolock)");
             qry.Add("where contactid = @contactid");
             qry.AddParameter("@contactid", contactId);
-            rows = qry.QueryToDynamicList();
+            rows = qry.QueryToDynamicList2();
             if (rows.Count == 0)
             {
                 throw new Exception("Can't find contact.");
@@ -108,7 +108,7 @@ namespace RentalWorksWeb.Source
             qry = new FwSqlCommand(conn);
             qry.Add("select qboconsumerkey, qboconsumersecret, qborequesttokenurl, qboaccesstokenurl, qboauthorizeurl, qbooauthurl, qbobaseurl");
             qry.Add("from chgbatchcontrol with (nolock)");
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -145,7 +145,7 @@ namespace RentalWorksWeb.Source
             qry.Add("  and exporttype     = 'QBO'");
             qry.Add("  and locationid     = @locationid");
             qry.AddParameter("@locationid", locationid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -177,7 +177,7 @@ namespace RentalWorksWeb.Source
             sp.AddParameter("@fromdate",   batchfrom.GetSqlValue());
             sp.AddParameter("@todate",     batchto.GetSqlValue());
             sp.AddParameter("@locationid", locationid);
-            result = sp.QueryToDynamicList();
+            result = sp.QueryToDynamicList2();
 
             return result;
         }
@@ -192,7 +192,7 @@ namespace RentalWorksWeb.Source
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -208,7 +208,7 @@ namespace RentalWorksWeb.Source
             qry.Add("where invoiceid = @invoiceid");
             qry.Add("  and itemclass <> 'ST'");
             qry.AddParameter("@invoiceid", invoiceid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
@@ -239,7 +239,7 @@ namespace RentalWorksWeb.Source
             qry.Add("from taxoption with (nolock)");
             qry.Add("where taxitemcode = @taxitemcode");
             qry.AddParameter("@taxitemcode", taxitemcode);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -254,7 +254,7 @@ namespace RentalWorksWeb.Source
             qry.Add("from glaccount with (nolock)");
             qry.Add("where glaccountid = @accountid");
             qry.AddParameter("@accountid", accountid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -285,7 +285,7 @@ namespace RentalWorksWeb.Source
             qry.Add("  from location with (nolock)");
             qry.Add(" where locationid = @locationid");
             qry.AddParameter("@locationid", locationid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             result.locationid    = FwCryptography.AjaxEncrypt(result.locationid);
             result.locationcolor = FwConvert.OleToHex((int)result.locationcolor);

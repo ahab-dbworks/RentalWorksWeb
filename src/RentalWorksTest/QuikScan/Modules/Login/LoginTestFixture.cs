@@ -48,7 +48,7 @@ namespace RentalWorksTest.QuikScan.Modules
                 qry.Add("from webusersview with (nolock)");
                 qry.Add("where userloginname = @userloginname");
                 qry.AddParameter("@userloginname", data.username);
-                result = qry.QueryToDynamicObject();
+                result = qry.QueryToDynamicObject2();
             }
             return result;
         }

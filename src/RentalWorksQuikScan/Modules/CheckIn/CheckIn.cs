@@ -247,7 +247,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@warehouseid",  warehouseid);
             qry.AddParameter("@contractid",   contractid);
             qry.AddParameter("@masterid",     masterid);
-            result = qry.QueryToDynamicObject();
+            result = qry.QueryToDynamicObject2();
 
             return result;
         }
@@ -264,7 +264,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@warehouseid",  warehouseid);
             qry.AddParameter("@contractid",   contractid);
             qry.AddParameter("@masterid",     masterid);
-            result = qry.QueryToDynamicList();
+            result = qry.QueryToDynamicList2();
 
             return result;
         }
