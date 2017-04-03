@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Fw.Json.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Fw_Json_com_elementexpress_certtransaction_Express" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://certtransaction.elementexpress.com/express.asmx</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
