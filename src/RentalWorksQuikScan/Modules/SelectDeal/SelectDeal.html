@@ -1,0 +1,21 @@
+﻿<div id="selectDealView" class="view">
+  {{{htmlScanBarcode}}}
+  <div id="selectDealView-response">
+    <div id="selectDealView-error" class="panel qserror">
+      {{valueMsg}}
+    </div>
+    <div id="selectDealView-selectDeal" class="panel">
+      <div id="selectDealView-deal" class="field">
+        <div class="caption"><div class="label">{{captionDealDesc}}</div><div id="selectDealView-deal-txtDealNo" class="number"></div></div>
+        <div class="value"><div id="selectDealView-deal-txtDealDesc" class="readonlytextbox"></div></div>
+      </div>
+      <div id="selectDealView-department" class="field">
+        <div class="caption"><div class="label">{{captionDepartment}}</div></div>
+        <div class="value"><div id="selectDealView-department-txtDepartment" class="readonlytextbox"></div></div>
+      </div>
+      <div id="selectDealView-buttons">
+        <div class="center"><button id="selectDealView-btnSelectDeal" class="button default">{{captionConfirm}}</button></div>
+      </div>
+    </div>
+  </div>
+</div>

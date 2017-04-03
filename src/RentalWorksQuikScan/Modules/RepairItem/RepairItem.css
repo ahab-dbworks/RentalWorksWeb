@@ -1,0 +1,13 @@
+﻿/*RepairItemView*/
+#repairItemView-qty input {width:70px;margin:0 10px;text-align:center;}
+#repairItemView-summary table {margin:0 auto;}
+#repairItemView-summary table td.col1{width:100px;}
+#repairItemView-summary table td.col2{width:25px;}
+#repairItemView-summary table td.col3{width:100px;}
+#repairItemView-summary table td.col4{width:25px;}
+
+#repairItemView .repairItemView-RFID .repairItemView-inrepair .rfid-sectiontitle {text-align:center;font-weight:bold;padding:2px;border:1px solid #5C1919;background-color:rgba(182,30,30,1);background-image:linear-gradient(transparent,rgba(0,0,0,.6));letter-spacing:1px;font-size:20px;}
+#repairItemView .repairItemView-RFID .repairItemView-notinrepair .rfid-sectiontitle {text-align:center;font-weight:bold;padding:2px;border:1px solid #193f5c;background-color:#1F76BA;background-image:linear-gradient(transparent,rgba(0,0,0,.6));letter-spacing:1px;font-size:20px;}
+#repairItemView .modeSelector {text-align:center;background-color:rgba(90,90,90,1);position:fixed;bottom:20px;left:0;right:0;/*height:44px;*/border-top:1px solid #000000;}
+#repairItemView .modeSelector .modebtn {display:inline-block;min-width:50px;line-height:40px;padding:0 5px;font-size:14px;color:#ffffff;cursor:pointer;}
+#repairItemView .modeSelector .modebtn.selected {background-color:#000000;}

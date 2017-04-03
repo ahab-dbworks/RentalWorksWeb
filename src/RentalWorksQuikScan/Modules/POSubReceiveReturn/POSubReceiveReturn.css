@@ -1,0 +1,64 @@
+﻿#poSubReceiveReturn-summary table {width:250px;margin:0 auto;}
+#poSubReceiveReturn-summary td {width:25%;}
+#poSubReceiveReturn-summary td.col1,
+#poSubReceiveReturn-summary td.col3 {font-weight:bold;color:rgba(0,255,0,1);text-align:left;padding:0 5px 0 0;}
+#poSubReceiveReturn-summary td.col2,
+#poSubReceiveReturn-summary td.col4 {text-align:left;font-weight:bold;}
+#poSubReceiveReturn-divAssignBarCodeButtons {}
+#poSubReceiveReturn-btnDisplayBarcodes,
+#poSubReceiveReturn-btnHideBarcodes {width:100px;}
+#poSubReceiveReturn-txtAssignBarCodeContainer {margin:5px 0;}
+#poSubReceiveReturn-txtAssignBarCode {width:170px;}
+#poSubReceiveReturn-btnScan {width:70px;}
+#poSubReceiveReturn-items-divRemainingView {text-align:center;border-bottom:1px solid rgba(80,80,80,1);}
+#poSubReceiveReturn-items-ulRemainingView li {width:100px;}
+#poSubReceiveReturn-items {}
+#poSubReceiveReturn-items-ul {width:100%;padding:0;margin:0;}
+#poSubReceiveReturn-items-ul > li {border-bottom:1px solid rgba(80,80,80,1);color:#ffffff;margin:0;padding:5px 5px;vertical-align:top;text-align:left;font-size:10px;list-style-type:none;}
+#poSubReceiveReturn-items-ul > li.link:active {background-color:#007acc;}
+#poSubReceiveReturn-items-ul > li:last-child {border-bottom:0;}
+#poSubReceiveReturn-items-ul > li.normal > td {color:#ffffff;}
+#poSubReceiveReturn-items-ul > li.alternate > td {color:#ffffff;}
+#poSubReceiveReturn-items-ul > li.link {cursor:pointer;}
+#poSubReceiveReturn-items-ul > li > div.description {font-weight:bold;font-size:12px;}
+#poSubReceiveReturn-items-ul > li.link > div.description {color:#00aaff;}
+#poSubReceiveReturn-items-ul > li > div.empty {text-align:center;font-size:12px;}
+#poSubReceiveReturn-items-ul > li > table {width:100%;table-layout:fixed;border-collapse:collapse;margin:0 0 0 5px;font-size:10px;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td {padding:2px;border:0;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.value {text-align:right;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.col1 {text-align:left;width:65px;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.col2 {text-align:left;padding:0 10px 0 0;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.col3 {text-align:left;width:60px;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.col4 {text-align:right;width:40px;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.missingqty.key {font-weight:bold;font-size:11px;}
+#poSubReceiveReturn-items-ul > li > table > tbody > tr > td.missingqty.value {font-weight:bold;font-size:11px;}
+#poSubReceiveReturn-items-pnlCreateContract {border-top:1px solid rgba(80,80,80,1);}
+#poSubReceiveReturn input.txtSession {width:60px;}
+#poSubReceiveReturn span.button.default.minus,
+#poSubReceiveReturn span.button.default.plus {width:32px;margin:0;}
+#poSubReceiveReturn-popupQty {background-color:rgba(245,245,245,1.0);border-radius:6px;padding:10px;color:#000000;width:250px;}
+#poSubReceiveReturn-divCaptionSubReceiveHeader {color:rgba(0,0,0,1);font-size:12px;font-weight:bold;}
+#poSubReceiveReturn-popupQty-summary-table-tdMasterNo {text-align:center;color:#ffffff;}
+#poSubReceiveReturn-popupQty-divDetails {font-size:10px;margin:5px 0 0 0;border-radius:7px;border:1px solid #000000;background-color:#000000;}
+#poSubReceiveReturn-popupQty-tableDetails {margin:0 auto;color:#00ff00;border-collapse:collapse;}
+#poSubReceiveReturn-popupQty-tableDetails-tdMasterNo {text-align:left;}
+#poSubReceiveReturn-popupQty-tableDetails > tbody > tr > td.value {padding:0 10px;}
+#poSubReceiveReturn-popupQty-divFieldPanel {}
+#poSubReceiveReturn-divCaptionAssignBarcode {font-size:12px;margin:5px 0 0 0;}
+#poSubReceiveReturn-txtVendorBarCode {text-align:center;}
+#poSubReceiveReturn-tableVendorBarCodes {margin:10px auto;width:256px;border-collapse:collapse;}
+#poSubReceiveReturn-tableVendorBarCodes > tbody > tr > td {height:48px;border-bottom:1px solid #777777;}
+#poSubReceiveReturn-tableVendorBarCodes > tbody > tr > td.barcode {text-align:left;font-size:12px;}
+#poSubReceiveReturn-tableVendorBarCodes > tbody > tr > td.delete {width:64px;text-align:center;}
+#poSubReceiveReturn-tableVendorBarCodes > tbody > tr > td.delete img {cursor:pointer;}
+#poSubReceiveReturn-barcodes-caption {font-size:12px;margin:0 0 5px 0;}
+#poSubReceiveReturn-btnOK,
+#poSubReceiveReturn-btnCancel {margin:0 5px;}
+#poSubReceiveReturn-ulReceiveBy li {width:100px;}
+#poSubReceiveReturn-fieldQty {text-align:center;}
+#poSubReceiveReturn-popupQty-messages {margin:5px 0 0 0;}
+#poSubReceiveReturn-popupQty-messages-genericMsg {font-size:12px;}
+#poSubReceiveReturn-popupQty-messages-msg {font-size:12px;}
+#poSubReceiveReturn-popupQty-divFieldPanel {margin:20px 0 0 0;}
+#poSubReceiveReturn-popupQty-buttons {margin:20px 0 0 0;/*border-top:1px solid #aaaaaa;*/}
+#poSubReceiveReturn-lblQty {font-size:12px;}

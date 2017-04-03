@@ -1,0 +1,47 @@
+﻿<div id="selectPOView" class="view">
+  <div class="selectpo-search">
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="PO No." />
+      <div class="fwmobilecontrol-search"><div class="icon-search"></div></div>
+    </div>
+  </div>
+  
+  <div id="selectPOView-messages">
+    <div id="selectPOView-msg" class="qserror">{{valueMsg}}</div>
+  </div>
+
+  <div class="browsepurchaseorders-container panel">
+    <ul class="browsepurchaseorders"></ul>
+  </div>
+
+  <!--<div class="listview" data-pageno="1" data-pagesize="15" data-totalpages="0"></div>-->
+
+  <div id="selectPOView-response">
+
+    <div id="selectPOView-info" class="panel">
+      <div id="selectPOView-poDesc" class="field">
+        <div class="caption"><div class="label captionPONo">{{captionPONo}}</div><div class="number valuePONo"></div></div>
+        <div class="value"><div class="readonlytextbox valuePODesc"></div></div>
+      </div>
+      <div id="selectPOView-vendor" class="field">
+        <div class="caption"><div class="label captionVendor">{{captionVendor}}</div><div class="number valueVendorNo"></div></div>
+        <div class="value"><div class="readonlytextbox"></div></div>
+      </div>
+      <div id="selectPOView-deal" class="field">
+        <div class="caption"><div class="label captionDeal">{{captionDeal}}</div><div class="number valueDealNo"></div></div>
+        <div class="value"><div class="readonlytextbox valueDeal"></div></div>
+      </div>
+      <div id="selectPOView-orderDesc" class="field">
+        <div class="caption"><div class="label captionOrderDesc">{{captionOrderDesc}}</div><div class="number valueOrderNo"></div></div>
+        <div class="value"><div class="readonlytextbox valueOrderDesc"></div></div>
+      </div>
+    </div>
+
+    <div id="selectPOView-confirm" class="panel">
+      <div class="field">
+        <div class="center"><button id="selectPOView-btnSelectPO" class="button default">{{captionConfirm}}</button></div>
+      </div>
+    </div>
+
+  </div>
+</div>

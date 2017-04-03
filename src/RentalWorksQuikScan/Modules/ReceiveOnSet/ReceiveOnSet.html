@@ -1,0 +1,48 @@
+﻿<div id="receiveOnSet" class="view">
+
+  <div class="rfv-findpo">
+    <div id="posearch"></div>
+  </div>
+
+  <div class="rfv-findset">
+    <div id="setsearch"></div>
+  </div>
+
+  <div class="rfv-newset"></div>
+
+  <div class="rfv-scan">
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="I-Code" />
+    </div>
+    <div class="items"></div>
+  </div>
+
+  <div class="rfv-itemupdate">
+    <div class="item-title">
+      <div class="item-description"></div>
+      <div class="item-icode"></div>
+    </div>
+    <div class="item-icodefields">
+      <div class="item-icodefields-row">
+        <div class="item-icodefields-caption">Remaining:</div><div class="item-icodefields-value remaining"></div>
+        <div class="item-icodefields-caption">Received:</div><div class="item-icodefields-value received"></div>
+      </div>
+      <div class="item-icodefields-row">
+        <div class="item-icodefields-caption">Session:</div><div class="item-icodefields-value session"></div>
+        <div class="item-icodefields-caption">Returned:</div><div class="item-icodefields-value returned"></div>
+      </div>
+    </div>
+    <div class="item-fields"></div>
+  </div>
+
+  <div class="rfv-signaturecapture view">
+    <div id="contractSignatureView-buttons" class="center">
+      <div>
+        <span class="button default clearButton">{{captionClearSignature}}</span>
+      </div>
+    </div>
+    <canvas id="rfv-canvasSignature" class="pad" width="546" height="150"></canvas>
+    <input type="hidden" name="output" class="output">
+  </div>
+
+</div>

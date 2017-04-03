@@ -1,0 +1,21 @@
+﻿#loginView input.readonly {background-color:#555555;color:#ffffff;}
+#loginView .button-strip {text-align:right;margin:10px 10px 0 0;}
+#loginView-btnLogin {width:100px;}
+#loginView-captionLogin {font-size:14px;}
+#loginView-valueVersion {font-size:12px;}
+#loginView-footerLinks {position:fixed;z-index:1;height:60px;bottom:21px;left:0;right:0;text-align:center;background-color:#000000;border-top:1px solid #1b1b1b;border-bottom:1px solid #555555;background-color:rgba(0,0,0,1);background-image:linear-gradient(#1a1a19,#454545);}
+#loginView-footerLinksInner {border-top:1px solid #676667;}
+#loginView-footerLinks .link{min-width:49px;display:inline-block;color:#ffffff;cursor:pointer;padding:5px 10px;border-bottom:1px solid #2b2b2b;border-right:1px solid #777777;border-left:1px solid #2b2b2b;}
+#loginView-footerLinks .link:first-child{border-left:1px solid #777777;}
+#loginView-footerLinks .link:active {background-color:rgba(0,0,0,1);background-image: linear-gradient(rgba(50,50,50,1),rgba(0,0,0,0));}
+#loginView-footerLinks .link .icon{display:block;height:24px;line-height:24px;vertical-align:middle;margin:0;padding:0;}
+#loginView-footerLinks .link .icon img {height:24px;width:24px;}
+#loginView-footerLinks .link .caption{display:block;height:24px;line-height:24px;vertical-align:middle;font-size:12px;margin:0;padding:0;}
+
+
+.mobileloginpage .apptitle {color:#f2f2f2;}
+.mobileloginpage .mobilelogin-email-caption {color:#f2f2f2 !important;}
+.mobileloginpage .mobilelogin-email-value {color:#f2f2f2 !important;}
+.mobileloginpage .mobilelogin-password-caption {color:#f2f2f2 !important;}
+.mobileloginpage .mobilelogin-password-value {color:#f2f2f2 !important;}
+.mobileloginpage .mobilelogin-footer {color:#f2f2f2;}

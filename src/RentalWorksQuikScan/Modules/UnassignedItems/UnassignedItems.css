@@ -1,0 +1,47 @@
+﻿#unassignedItems .ui-search .fwmobilecontrol-value {text-transform:uppercase;}
+#unassignedItems .ui-search .fwmobilecontrol-value::-webkit-input-placeholder {text-transform: none;}
+#unassignedItems .ui-search .fwmobilecontrol-value:-moz-placeholder {text-transform: none;}
+#unassignedItems .ui-search .fwmobilecontrol-value::-moz-placeholder {text-transform: none;}
+#unassignedItems .ui-search .fwmobilecontrol-value:-ms-input-placeholder {text-transform: none;}
+#unassignedItems .ui-search .ui-search-results {margin-top:10px;}
+
+#unassignedItems .record {font-size: 14px;border-bottom: 1px solid #454545;padding: 5px;cursor: pointer;will-change:opacity, transform;transition:all .1s ease-out;}
+#unassignedItems .record:active {background-color:rgba(69,69,69,.6);}
+#unassignedItems .record .row {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+#unassignedItems .record .row .caption.fixed {flex: 0 0 90px;width:90px;}
+#unassignedItems .record .row .caption.dynamic {flex: 0 0 auto;margin-right:5px;}
+#unassignedItems .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}
+
+#unassignedItems .record.po .desc {color:#03a9f4;text-decoration:underline;}
+#unassignedItems .record.item .desc {color:#cfd8dc;text-decoration:underline;}
+#unassignedItems .norecord {text-align:center;margin:10px 0;}
+
+#unassignedItems .tabpage {background-color:#212121;/*border: 1px solid rgba(0,0,0,.7);*/}
+
+#unassignedItems .ui-po {display:none;}
+#unassignedItems .ui-po .ui-po-info {background-color:#546e7a;padding:5px;}
+#unassignedItems .ui-po .ui-po-info .orderdesc {font-size:18px;text-align:center;}
+#unassignedItems .ui-po .ui-po-info .orderno {text-align:center;}
+#unassignedItems .ui-po .ui-po-items {background-color:rgba(0,0,0,.5);/*border:1px solid rgba(0,0,0,.7);*/}
+
+#unassignedItems .ui-itemassign {display:none;}
+#unassignedItems .ui-itemassign .ui-itemassign-info {background-color:#546e7a;padding:5px;}
+#unassignedItems .ui-itemassign .ui-itemassign-info .desc {font-size:18px;text-align:center;}
+#unassignedItems .ui-itemassign .ui-itemassign-item {background-color:#212121;/*border:1px solid rgba(0,0,0,.7);*/padding:10px;}
+#unassignedItems .ui-itemassign .ui-itemassign-item .pending {text-align:center;color: #9E9E9E;font-size: 18px;}
+#unassignedItems .ui-itemassign .ui-itemassign-item .pending .pendingcaption {display:inline-block;margin-right:5px;}
+#unassignedItems .ui-itemassign .ui-itemassign-item .pending .pendingvalue {display:inline-block;}
+#unassignedItems .ui-itemassign .ui-itemassign-item .buttoncontainer {text-align:center;margin:15px 0;}
+#unassignedItems .ui-itemassign .ui-itemassign-item .buttoncontainer .button {margin:0 10px;}
+
+#unassignedItems .ui-itemassign .ui-itemassign-item div[data-datafield="barcode"] input {text-transform: uppercase;}
+#unassignedItems .ui-itemassign .ui-itemassign-item div[data-datafield="mfgserial"] input {text-transform: uppercase;}
+#unassignedItems .ui-itemassign .ui-itemassign-item div[data-datafield="rfid"] {display:none;}
+
+#unassignedItems .ui-selectitem {display:none;background-color:#212121;}
+#unassignedItems .ui-selectitem .record {font-size: 14px;border-bottom: 1px solid #454545;padding: 5px;cursor: pointer;will-change:opacity, transform;transition:all .1s ease-out;min-height:24px;}
+#unassignedItems .ui-selectitem .record:active {background-color:rgba(69,69,69,.6);}
+#unassignedItems .ui-selectitem .record .row {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+#unassignedItems .ui-selectitem .record .row .caption.fixed {flex: 0 0 70px;width:70px;}
+#unassignedItems .ui-selectitem .record .row .caption.dynamic {flex: 0 0 auto;margin-right:5px;}
+#unassignedItems .ui-selectitem .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}

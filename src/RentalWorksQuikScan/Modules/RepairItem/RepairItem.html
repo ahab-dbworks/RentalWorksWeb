@@ -1,0 +1,66 @@
+﻿<div id="repairItemView" class="view">
+  <div class="repairItemView-Scan">
+    {{{htmlScanBarcode}}}
+    <div id="repairItemView-response">
+      <div id="repairItemView-messages" class="panel2">
+        <div id="repairItemView-genericMsg" class="qserror"><span id="repairItemView-genericMsgValue"></span></div>
+        <div id="repairItemView-msg" class="qsmessage"><span id="repairItemView-msgValue"></span></div>
+      </div>
+      <div id="repairItemView-qty" class="panel qtypanel">
+        <div class="field">
+          <div class="caption center">{{captionQty}}<input type="number" class="textbox qty" /></div>
+        </div>
+        <div id="repairItemView-submit" class="buttonpanel center">
+          <span id="repairItemView-btnSubmit" class="button default">{{captionSubmit}}</span>
+        </div>
+      </div>
+      <div id="repairItemView-info" class="panel">
+        <div class="field">
+          <div class="caption"><div class="label">{{captionICode}}:</div><div class="number"><span id="repairItemView-ICodeBarcode"></span></div></div>
+          <div class="value"><div class="readonlytextbox"><span id="repairItemView-master"></span></div></div>
+        </div>
+        <div id="repairItemView-summary" class="field tablefield">
+          <div class="control">
+            <table>
+              <tbody>
+                <tr>
+                  <td class="col1">{{captionInRepair}}</td>
+                  <td class="col2"><span id="repairItemView-inRepair"></span></td>
+                  <td class="col3">{{captionReleased}}</td>
+                  <td class="col4"><span id="repairItemView-released"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="repairItemView-status" class="panel">
+        <div id="repairItemView-lastorder" class="field">
+          <div class="caption">{{captionLastOrder}}</div>
+          <div class="control"><div class="readonlytextbox"><span id="repairItemView-lastOrder"></span></div></div>
+        </div>
+        <div id="repairItemView-lastdeal" class="field">
+          <div class="caption">{{captionLastDeal}}</div>
+          <div class="control"><div class="readonlytextbox"><span id="repairItemView-deal"></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="repairItemView-RFID" style="display:none;">
+    <div class="repairItemView-inrepair panel">
+      <div class="rfid-sectiontitle">In Repair</div>
+      <div class="rfid-placeholder">0 tags scanned.</div>
+      <div class="rfid-items"></div>
+    </div>
+    <div class="repairItemView-notinrepair panel">
+      <div class="rfid-sectiontitle">Item Not In Repair</div>
+      <div class="rfid-placeholder">0 tags scanned.</div>
+      <div class="rfid-items"></div>
+    </div>
+  </div>
+
+  <div class="modeSelector" style="display:none;">
+    <div class="modebtn btnScan selected">{{captionScanButton}}</div>
+    <div class="modebtn btnRFID">{{captionRFIDButton}}</div>
+  </div>
+</div>

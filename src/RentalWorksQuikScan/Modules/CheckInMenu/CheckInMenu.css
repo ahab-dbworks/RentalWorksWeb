@@ -1,0 +1,34 @@
+﻿#checkInMenuView .cim-findorder {display:none;}
+#checkInMenuView .cim-findsession {display:none;}
+#checkInMenuView .cim-finddeal {display:none;}
+
+#checkInMenuView .cim-findorder .fwmobilesearch .item {padding:.3em;}
+#checkInMenuView .cim-findorder .fwmobilesearch .item {border-bottom: 1px solid rgba(80,80,80,1);}
+#checkInMenuView .cim-findorder .fwmobilesearch .item:last-child {border-bottom: 0;}
+#checkInMenuView .cim-findorder .fwmobilesearch .row1 {color: #00aaff;text-decoration: underline;font-size: .75em;font-weight: bold;}
+#checkInMenuView .cim-findorder .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#checkInMenuView .cim-findorder .fwmobilesearch .col1 {flex: 1 1 0;}
+#checkInMenuView .cim-findorder .fwmobilesearch .col2 {flex: 1 1 0;}
+#checkInMenuView .cim-findorder .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;}
+#checkInMenuView .cim-findorder .fwmobilesearch .caption {flex: 0 0 9em;width:9em;font-size:.625em;color: #aaaaaa;}
+#checkInMenuView .cim-findorder .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
+
+#checkInMenuView .cim-findsession .fwmobilesearch .item {padding:.3em;}
+#checkInMenuView .cim-findsession .fwmobilesearch .item {border-bottom: 1px solid rgba(80,80,80,1);}
+#checkInMenuView .cim-findsession .fwmobilesearch .item:last-child {border-bottom: 0;}
+#checkInMenuView .cim-findsession .fwmobilesearch .row1 {color: #00aaff;text-decoration: underline;font-size: .75em;font-weight: bold;}
+#checkInMenuView .cim-findsession .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#checkInMenuView .cim-findsession .fwmobilesearch .col1 {flex: 1 1 0;}
+#checkInMenuView .cim-findsession .fwmobilesearch .col2 {flex: 1 1 0;}
+#checkInMenuView .cim-findsession .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;}
+#checkInMenuView .cim-findsession .fwmobilesearch .caption {flex: 0 0 9em;width:9em;font-size:.625em;color: #aaaaaa;}
+#checkInMenuView .cim-findsession .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
+
+
+#checkInMenuView .record {font-size: 12px;border-bottom: 1px solid #454545;padding: 5px;cursor: pointer;will-change:opacity, transform;transition:all .1s ease-out;}
+#checkInMenuView .record:active {background-color:rgba(69,69,69,.6);}
+#checkInMenuView .record .row {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+#checkInMenuView .record .row .caption.fixed {flex: 0 0 90px;width:90px;}
+#checkInMenuView .record .row .caption.dynamic {flex: 0 0 auto;margin-right:5px;}
+#checkInMenuView .record .row .caption.bold {font-weight:bold;}
+#checkInMenuView .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}
