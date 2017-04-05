@@ -9,6 +9,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
       captionAsOf:        RwLanguages.translate('As Of'),
       captionBarcode:     RwLanguages.translate('Barcode'),
       captionSerialNo:    RwLanguages.translate('Serial No'),
+      captionRFID:        RwLanguages.translate('RFID'),
       captionICode:       RwLanguages.translate('I-Code'),
       captionLastDeal:    RwLanguages.translate('Last Deal'),
       captionLastOrder:   RwLanguages.translate('Last Order'),
@@ -125,6 +126,12 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
         } else {
             $itemdetails.find('#is-txtSerialNo').html('');
+        }
+        $itemdetails.find('#is-trRFID').toggle(itemdata.trackedby == "RFID");
+        if (itemdata.trackedby == "RFID") {
+            $itemdetails.find('#is-txtRFID').html(itemdata.code);
+        } else {
+            $itemdetails.find('#is-txtRFID').html('');
         }
         $itemdetails.find('#is-txtICode').html(itemdata.masterNo);
         $itemdetails.find('#is-txtDescription').html(itemdata.description);
