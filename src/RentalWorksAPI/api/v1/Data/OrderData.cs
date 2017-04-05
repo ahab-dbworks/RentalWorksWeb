@@ -595,6 +595,34 @@ namespace RentalWorksAPI.api.v1.Data
 
             return response;
         }
+        //------------------------------------------------------------------------------
+        public static CopyOrderResult CopyQuoteOrder(CopyOrderParameters request)
+        {
+            FwSqlCommand sp;
+            CopyOrderResult response = new CopyOrderResult();
+
+            sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.apirest_copyquoteorder");
+            sp.AddParameter("@fromorderid",        request.orderid);
+            sp.AddParameter("@webusersid",         request.webusersid);
+            sp.AddParameter("@newordertype",       request.ordertype);
+            sp.AddParameter("@copyquoterates",     request.copyquoterates);
+            sp.AddParameter("@copyinventoryrates", request.copyinventoryrates);
+            sp.AddParameter("@copyquotedates",     request.copyquotedates);
+            sp.AddParameter("@usecurrentdate",     request.usecurrentdate);
+            sp.AddParameter("@copylineitemnotes",  request.copylineitemnotes);
+            sp.AddParameter("@combinesubs",        request.combinesubs);
+            sp.AddParameter("@copydocuments",      request.copydocuments);
+            sp.AddParameter("@neworderid",         SqlDbType.NVarChar, ParameterDirection.Output);
+            sp.AddParameter("@errno",              SqlDbType.Int,      ParameterDirection.Output);
+            sp.AddParameter("@errmsg",             SqlDbType.NVarChar, ParameterDirection.Output);
+            sp.ExecuteNonQuery();
+
+            response.neworderid = sp.GetParameter("@neworderid").ToString().TrimEnd();
+            response.errno      = sp.GetParameter("@errno").ToString().TrimEnd();
+            response.errmsg     = sp.GetParameter("@errmsg").ToString().TrimEnd();
+
+            return response;
+        }
         //----------------------------------------------------------------------------------------------------
     }
 }

@@ -340,6 +340,42 @@ namespace RentalWorksAPI.api.v1.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, new { response = result } );
         }
         //----------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Copy a Quote.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("v1/quote/copy")]
+        public HttpResponseMessage CopyOrder([FromBody]CopyOrderParameters request)
+        {
+            Error result = new Error();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            if (OrderData.GetOrder(request.orderid, "Q", null, "", "", "").Count == 0)
+            {
+                watch.Stop();
+                AppData.LogWebApiAudit(request.orderid, "v1/quote/copy", new JavaScriptSerializer().Serialize(request), "", "404: The requested quote was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                ThrowError("404", "The requested quote was not found.");
+            }
+
+            result = OrderData.CopyQuoteOrder(request);
+
+            if (result.errno != "0")
+            {
+                watch.Stop();
+                AppData.LogWebApiAudit(request.orderid, "v1/quote/copy", new JavaScriptSerializer().Serialize(request), "", result.errno + ": " + result.errmsg, Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                ThrowError(result.errno, result.errmsg);
+            }
+
+            watch.Stop();
+            AppData.LogWebApiAudit(request.orderid, "v1/quote/copy", new JavaScriptSerializer().Serialize(request), new JavaScriptSerializer().Serialize(result), "", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { response = result });
+        }
+        //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)
         {
             switch (errno)

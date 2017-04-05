@@ -153,4 +153,26 @@ namespace RentalWorksAPI.api.v1.Models
         public string webusersid { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
+    public class CopyOrderParameters
+    {
+        [Required]
+        public string orderid            { get; set; }
+        [Required]
+        public string webusersid         { get; set; }
+        //public string dealid             { get; set; } //2017-03-08 MY: Not present in 2015
+        public string ordertype          { get; set; }
+        public string copyquoterates     { get; set; }
+        public string copyinventoryrates { get; set; }
+        public string copyquotedates     { get; set; }
+        public string usecurrentdate     { get; set; }
+        public string copylineitemnotes  { get; set; }
+        public string combinesubs        { get; set; }
+        public string copydocuments      { get; set; }
+    }
+    //----------------------------------------------------------------------------------------------------
+    public class CopyOrderResult : Error
+    {
+        public string neworderid { get; set; }
+    }
+    //----------------------------------------------------------------------------------------------------
 }
