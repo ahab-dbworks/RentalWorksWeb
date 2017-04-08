@@ -26,6 +26,7 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                             shelf:    screendata.shelf
                         };
                         RwServices.call("MoveBCLocation", "BarcodeMove", request, function(response) {
+                            $movebclocationstatus.removeClass('success error');
                             if (response.barcodemove.status == '0') {
                                 $movebclocationstatus.show().addClass('success');
                                 $movebclocationstatus.find('.msg').html('Item (' + request.barcode + ') moved to aisle: ' + request.aisle + ' shelf: ' + request.shelf);
@@ -42,8 +43,8 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                         application.playStatus(false);
                     }
                 } else {
-                    screendata.aisle = $this.val().split('-')[0];
-                    screendata.shelf = $this.val().split('-')[1];
+                    screendata.aisle = $this.val().split('-')[0].toUpperCase();
+                    screendata.shelf = $this.val().split('-')[1].toUpperCase();
                     $aisleshelfinfo.removeClass('notset');
                     $aisleshelfinfo.find('.aisle .value').html(screendata.aisle);
                     $aisleshelfinfo.find('.shelf .value').html(screendata.shelf);

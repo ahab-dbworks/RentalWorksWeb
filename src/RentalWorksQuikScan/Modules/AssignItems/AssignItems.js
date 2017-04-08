@@ -346,7 +346,7 @@ AssignItems.getModuleScreen = function(viewModel, properties) {
             $multiscan.find('.multiscan-tags').empty();
             $multiscan.find('.multiscan-readready').hide();
             if (response.assignedassetupdate != null) selectedrecord = response.assignedassetupdate;
-            $multiscan.find('.pending .value').html((response.assignedassetupdate != null) ? response.assignedassetupdate.qtynonserial : '0');
+            $multiscan.find('.pending .value').html((response.assignedassetupdate != null) ? response.assignedassetupdate.qty : '0');
             $multiscan.find('.tagsread .value').html(response.records.length);
             $multiscan.find('.assigned .value').html(response.assignedcount);
             $multiscan.find('.exception .value').html(response.exceptioncount);
@@ -377,7 +377,7 @@ AssignItems.getModuleScreen = function(viewModel, properties) {
     $multiscan.showscreen = function() {
         $multiscan.show();
         $multiscan.find('.multiscan-title').html(selectedrecord.master);
-        $multiscan.find('.pending .value').html(selectedrecord.qtynonserial);
+        $multiscan.find('.pending .value').html(selectedrecord.qty);
         RwRFID.registerEvents($multiscan.rfidscan);
     };
     $multiscan.clearscreen = function() {

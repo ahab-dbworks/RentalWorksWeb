@@ -35,7 +35,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("orderdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
-                                //qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select orderid, orderdesc, status, orderno, orderdate, deal, estrentfrom, estrentto, statusdate");
                                 select.Add("from  dbo.funcorder('O' ,'F') o");
                                 select.Add("where o.ordertype = 'O'");
@@ -55,7 +55,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("orderdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
-                                //qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select orderid, orderdesc, status, orderno, orderdate, deal, estrentfrom, estrentto, statusdate");
                                 select.Add("from  dbo.funcorder('O' ,'F') o");
                                 select.Add("where o.ordertype = 'O'");
@@ -75,7 +75,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("orderdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
-                                //qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select orderid, orderdesc, status, orderno, orderdate, deal, estrentfrom, estrentto, statusdate");
                                 select.Add("from  dbo.funcorder('O' ,'F') o");
                                 select.Add("where o.ordertype = 'O'");

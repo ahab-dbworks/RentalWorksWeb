@@ -18,7 +18,7 @@
 #checkIn-pendingList-ul > li > table > tbody > tr > td.col3 {text-align:left;width:60px;}
 #checkIn-pendingList-ul > li > table > tbody > tr > td.col4 {text-align:right;width:40px;}
 #checkIn-pendingList-ul > li > table > tbody > tr > td.vendor {color:rgb(255,178,140);}
-#checkIn-pendingList-ul > li > table > tbody > tr > td.vendor div.vendor {width:225px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+#checkIn-pendingList-ul > li > table > tbody > tr > td.vendor div.vendor {/*width:225px;*/overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 #checkIn-pendingList-ul > li > table > tbody > tr > td.qtystillout.key {font-weight:bold;font-size:11px;}
 #checkIn-pendingList-ul > li > table > tbody > tr > td.qtystillout.value {font-weight:bold;font-size:11px;}
 #checkIn-pendingList-ul > li.itemclass-C > div.description {background:#8888ff;}

@@ -1395,12 +1395,39 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         }
         screen.toggleRfid();
         screen.toggleFillContainerButton();
+
+        jQuery(window).on('scroll', function() {
+            screen.evalWindowPosition();
+        });
+        jQuery(window).on('touchmove', function() {
+            screen.evalWindowPosition();
+        });
     };
 
     screen.unload = function() {
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getCheckInScreen');
+        }
+        jQuery(window).off('scroll').off('touchmove');
+    };
+
+    screen.evalWindowPosition = function() {
+        if (jQuery(window).scrollTop() > 152) {
+            var $jumptotop;
+
+            $jumptotop = jQuery('<div>')
+                .html('<i class="material-icons">arrow_upward</i>')
+                .addClass('fwchip jumptotop')
+                .on('click', function() {
+                    jQuery(window).scrollTop(0);
+                });
+
+            if (screen.$view.find('.jumptotop').length == 0) {
+                screen.$view.append($jumptotop);
+            }
+        } else {
+            screen.$view.find('.jumptotop').remove();
         }
     };
 

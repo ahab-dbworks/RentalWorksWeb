@@ -30,6 +30,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
+            <summary>
+            Copy an order.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.GetQuotes(RentalWorksAPI.api.v1.Models.OrderParameters)">
             <summary>
             Get a list of all quotes.
@@ -93,6 +99,12 @@
         <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.CancelQuote(RentalWorksAPI.api.v1.Models.CancelOrderParameters)">
             <summary>
             Cancels a quote.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
+            <summary>
+            Copy a Quote.
             </summary>
             <returns></returns>
         </member>
