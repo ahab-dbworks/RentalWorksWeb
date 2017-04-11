@@ -440,12 +440,16 @@ namespace RentalWorksQuikScan.Modules
         {
             if (!(string.IsNullOrEmpty(request.contractid)))
             {
-                using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "contractisempty"))
+                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
                 {
-                    sp.AddParameter("@contractid", request.contractid);
-                    sp.AddParameter("@isempty", SqlDbType.Char, ParameterDirection.Output);
-                    sp.Execute();
-                    response.ordertranExists = sp.GetParameter("@isempty").ToBoolean();
+                    qry.Add("select ordertranexists = case when exists (select *");
+                    qry.Add("                                           from dbo.funccheckedout(@contractid))");
+                    qry.Add("                              then 'T'");
+                    qry.Add("                              else 'F'");
+                    qry.Add("                         end");
+                    qry.AddParameter("@contractid", request.contractid);
+                    qry.Execute();
+                    response.ordertranExists = qry.GetField("ordertranexists").ToBoolean();
                 }
             }
             else
