@@ -1,34 +1,36 @@
-RentalWorksAPI/[Bb]in/
-RentalWorksAPI/[Oo]bj/
+src/RentalWorksAPI/[Bb]in/
+src/RentalWorksAPI/[Oo]bj/
 
-RentalWorksQuikScan/[Bb]in/
-RentalWorksQuikScan/[Oo]bj/
-RentalWorksQuikScan/app_body.htm
-RentalWorksQuikScan/app_head.htm
-RentalWorksQuikScan/app_scripts.json
-RentalWorksQuikScan/app_startupscript.js
-RentalWorksQuikScan/Application.config
-RentalWorksQuikScan/ApplicationConfig.js
-RentalWorksQuikScan/FwApplicationSchema.config
-RentalWorksQuikScan/theme/fwcursors/*
-RentalWorksQuikScan/theme/fwfonts/*
-RentalWorksQuikScan/theme/fwimages/*
+src/RentalWorksQuikScan/[Bb]in/
+src/RentalWorksQuikScan/[Oo]bj/
+src/RentalWorksQuikScan/app_body.htm
+src/RentalWorksQuikScan/app_head.htm
+src/RentalWorksQuikScan/app_scripts.json
+src/RentalWorksQuikScan/app_startupscript.js
+src/RentalWorksQuikScan/Application.config
+src/RentalWorksQuikScan/ApplicationConfig.js
+src/RentalWorksQuikScan/FwApplicationSchema.config
+src/RentalWorksQuikScan/scripts/_references\.js
+src/RentalWorksQuikScan/theme/fwcursors/*
+src/RentalWorksQuikScan/theme/fwfonts/*
+src/RentalWorksQuikScan/theme/fwimages/*
 
-RentalWorksWeb/[Bb]in/
-RentalWorksWeb/[Oo]bj/
-RentalWorksWeb/app_scripts.json
-RentalWorksWeb/Application.config
-RentalWorksWeb/ApplicationConfig.js
-RentalWorksWeb/FwApplicationSchema.config
-RentalWorksWeb/index.htm
-RentalWorksWeb/theme/fwcursors/*
-RentalWorksWeb/theme/fwfonts/*
-RentalWorksWeb/theme/fwimages/*
+src/RentalWorksWeb/[Bb]in/
+src/RentalWorksWeb/[Oo]bj/
+src/RentalWorksWeb/app_scripts.json
+src/RentalWorksWeb/Application.config
+src/RentalWorksWeb/ApplicationConfig.js
+src/RentalWorksWeb/FwApplicationSchema.config
+src/RentalWorksWeb/index.htm
+src/RentalWorksWeb/scripts/_references\.js
+src/RentalWorksWeb/theme/fwcursors/*
+src/RentalWorksWeb/theme/fwfonts/*
+src/RentalWorksWeb/theme/fwimages/*
 
-RentalWorksTest/[Bb]in/
-RentalWorksTest/[Oo]bj/
+src/RentalWorksTest/[Bb]in/
+src/RentalWorksTest/[Oo]bj/
 
-[Rr]elease/
+[Bb]uild/
 
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -273,3 +275,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
