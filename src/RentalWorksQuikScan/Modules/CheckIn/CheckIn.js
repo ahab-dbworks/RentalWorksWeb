@@ -481,22 +481,26 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         if (responseCheckInItem.request.playStatus) {
             application.playStatus(responseCheckInItem.webCheckInItem.status === 0);
         }
-        isScannedICode = (responseCheckInItem.webCheckInItem.isICode) && (responseCheckInItem.request.orderId.length === 0);
+        isScannedICode = (responseCheckInItem.webCheckInItem.isICode) && (responseCheckInItem.request.masterItemId.length === 0);
         if (screen.$view.find('#checkIn-btnPendingList').hasClass('selected')) {
             screen.$view.find('#checkIn-btnPendingList').click();
         }
-        valTxtQty = (isScannedICode) ? '0' : String(responseCheckInItem.webCheckInItem.stillOut);
+        valTxtQty = (isScannedICode) ? '1' : String(responseCheckInItem.webCheckInItem.stillOut);
         screen.$popupQty.find('#checkIn-qty-txtQty').val(valTxtQty);
         screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
         screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
         screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
         screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
-        screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
-        screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
-        screen.$popupQty.find('#checkIn-popupQty-subQty').html(String(responseCheckInItem.webCheckInItem.subQty));
-        screen.$popupQty.find('#checkIn-popupQty-stillOut').html(String(responseCheckInItem.webCheckInItem.stillOut));
-        screen.$popupQty.find('#checkIn-popupQty-totalIn').html(String(responseCheckInItem.webCheckInItem.totalIn));
-        screen.$popupQty.find('#checkIn-popupQty-summary-table-trVendor').toggle(responseCheckInItem.webCheckInItem.vendorId.length > 0);
+        if (!isScannedICode) {
+            screen.$popupQty.find('.row2,.row3,.row4').show();
+            screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
+            screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
+            screen.$popupQty.find('#checkIn-popupQty-subQty').html(String(responseCheckInItem.webCheckInItem.subQty));
+            screen.$popupQty.find('#checkIn-popupQty-stillOut').html(String(responseCheckInItem.webCheckInItem.stillOut));
+            screen.$popupQty.find('#checkIn-popupQty-totalIn').html(String(responseCheckInItem.webCheckInItem.totalIn));
+            screen.$popupQty.find('#checkIn-popupQty-summary-table-trVendor').toggle(responseCheckInItem.webCheckInItem.vendorId.length > 0);
+        }
+
         if (responseCheckInItem.webCheckInItem.vendorId.length > 0) {
             screen.$popupQty.find('#checkIn-popupQty-vendor').html(responseCheckInItem.webCheckInItem.vendor);
         }
@@ -1359,15 +1363,19 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             .on('click', '#checkIn-qty-btnSubtract', function() {
                 var quantity;
                 quantity = Number(jQuery('#checkIn-qty-txtQty').val()) - 1;
-                if (quantity >= 0) {
+                if (quantity > 0) {
                     jQuery('#checkIn-qty-txtQty').val(quantity);
                 }
             })
             .on('click', '#checkIn-qty-btnAdd', function() {
                 var quantity, remaining;
-                remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
                 quantity = Number(jQuery('#checkIn-qty-txtQty').val()) + 1;
-                if (quantity <= remaining) {
+                if (screen.$popupQty.find('.row2').is(':visible')) {
+                    remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
+                    if (quantity <= remaining) {
+                        jQuery('#checkIn-qty-txtQty').val(quantity);
+                    }
+                } else {
                     jQuery('#checkIn-qty-txtQty').val(quantity);
                 }
             })
