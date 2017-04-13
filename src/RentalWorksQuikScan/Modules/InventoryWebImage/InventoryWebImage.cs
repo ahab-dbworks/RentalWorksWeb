@@ -100,7 +100,7 @@ namespace RentalWorksQuikScan.Modules
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("delete appimage");
             qry.Add("where appimageid = @appimageid");
-            qry.AddParameter("@appimageid", request.appimageid);
+            qry.AddParameter("@appimageid", FwCryptography.AjaxDecrypt(request.appimageid));
             qry.Execute();
 
             uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
@@ -141,7 +141,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@uniqueid3",   "");
             sp.AddParameter("@description", "");
             sp.AddParameter("@rectype",     "");
-            sp.AddParameter("@appimageid",  request.appimageid);
+            sp.AddParameter("@appimageid",  FwCryptography.AjaxDecrypt(request.appimageid));
             sp.AddParameter("@toindex",     "0");
             sp.Execute();
 
@@ -161,7 +161,7 @@ namespace RentalWorksQuikScan.Modules
 
             qry = new FwSqlCommand(conn);
             qry.Add("select appimageid, thumbnail");
-            qry.Add("from appimage");
+            qry.Add("from appimage with (nolock)");
             qry.Add("where uniqueid1   = @uniqueid1");
             qry.Add("  and uniqueid2   = @uniqueid2");
             qry.Add("  and uniqueid3   = @uniqueid3");
@@ -178,7 +178,7 @@ namespace RentalWorksQuikScan.Modules
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 result[i] = new ExpandoObject();
-                result[i].appimageid = new FwDatabaseField(dt.Rows[i]["appimageid"]).ToString().TrimEnd();
+                result[i].appimageid = FwCryptography.AjaxEncrypt(new FwDatabaseField(dt.Rows[i]["appimageid"]).ToString().TrimEnd());
                 result[i].thumbnail  = new FwDatabaseField(dt.Rows[i]["thumbnail"]).ToBase64String();
             }
             

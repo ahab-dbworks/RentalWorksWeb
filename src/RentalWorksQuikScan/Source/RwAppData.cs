@@ -1841,7 +1841,7 @@ namespace RentalWorksQuikScan.Source
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 result[i] = new ExpandoObject();
-                result[i].appimageid = new FwDatabaseField(dt.Rows[i]["appimageid"]).ToString().TrimEnd();
+                result[i].appimageid = FwCryptography.AjaxEncrypt(new FwDatabaseField(dt.Rows[i]["appimageid"]).ToString().TrimEnd());
                 result[i].thumbnail  = new FwDatabaseField(dt.Rows[i]["thumbnail"]).ToBase64String();
             }
             

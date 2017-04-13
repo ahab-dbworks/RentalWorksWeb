@@ -189,11 +189,19 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
         $itemdetails.find('.is-images').empty();
         for(i = 0; i < itemdata.images.length; i++) {
-            img = jQuery('<img>')
+            var $img = jQuery('<img>')
                     .attr('src', 'data:image/jpeg;base64,' + itemdata.images[i].thumbnail)
                     .attr('data-appimageid', itemdata.images[i].appimageid)
-            ;
-            $itemdetails.find('.is-images').append(img);
+                ;
+            $itemdetails.find('.is-images').append($img);
+            $img.on('click', function () {
+                var $this = jQuery(this);
+                var html = [];
+                html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + $this.attr('data-appimageid') + '&thumbnail=false' + '\" >');
+                html = html.join('\n');
+                var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', html);
+                var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+            });
         }
     };
 
