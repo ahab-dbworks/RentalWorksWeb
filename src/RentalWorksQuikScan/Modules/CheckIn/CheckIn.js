@@ -515,10 +515,29 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             //jQuery('#masterLoggedInView-captionPageSubTitle').html(RwLanguages.translate('Session') + ': ' + properties.sessionNo);
             FwMobileMasterController.setTitle(RwLanguages.translate('Session') + ': ' + properties.sessionNo);
         }
-        screen.$popupQty.find('#checkIn-newOrder')
-            .toggle((applicationConfig.designMode) || (responseCheckInItem.webCheckInItem.showNewOrder));
-        screen.$popupQty.find('#checkIn-newOrder-btnSwap')
-            .toggle(responseCheckInItem.webCheckInItem.allowSwap);
+        //screen.$popupQty.find('#checkIn-newOrder')
+        //    .toggle((applicationConfig.designMode) || (responseCheckInItem.webCheckInItem.showNewOrder));
+        //screen.$popupQty.find('#checkIn-newOrder-btnSwap')
+        //    .toggle(responseCheckInItem.webCheckInItem.allowSwap);
+        screen.$popupQty.find('#checkIn-newOrder').hide();
+        screen.$popupQty.find('#checkIn-newOrder-btnSwap').hide();
+        switch (responseCheckInItem.webCheckInItem.status) {
+            //case '1005': //Item count exceeds quantity ordered - Item   - 2017/02/24 MY: removed due to Emil
+            case 1015:
+            case 1019:   //Package Truck
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                break;
+            case 104: //Item is Staged on Order
+            case 301: //I-Code / Bar Code not found in Inventory.
+                break;
+            case 1007: //item is on new order - no swap available
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                break;
+            case 1005: //item is on new order - swap available
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                screen.$popupQty.find('#checkIn-newOrder-btnSwap').show();
+                break;
+        }
         if (responseCheckInItem.webCheckInItem.status === 0) {
             screen.$popupQty.find('#checkIn-popupQty-genericMsg').removeClass('qserror').addClass('qssuccess');
         }
@@ -941,37 +960,51 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 $confirmation = FwConfirmation.renderConfirmation('Exception', '<div class="exceptionbuttons"></div>');
                 $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 switch ($this.attr('data-exceptiontype')) {
-                    case '1005': //Item count exceeds quantity ordered - Item
-                    case '1019':
+                    //case '1005': //Item count exceeds quantity ordered - Item   - 2017/02/24 MY: removed due to Emil
+                    case '1015':
+                    case '1019':   //Package Truck
                         $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
                         break;
                     case '104': //Item is Staged on Order
                     case '301': //I-Code / Bar Code not found in Inventory.
                         break;
+                    case '1007': //item is on new order - no swap available
+                        $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
+                        break;
+                    case '1005': //item is on new order - swap available
+                        $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
+                        $confirmation.find('.exceptionbuttons').append('<div class="swap">Swap</div>');
+                        break;
                 }
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear item?</div>');
 
                 $confirmation.find('.exceptionbuttons')
-                    .on('click', '.addordertosession, .clear', function() {
+                    .on('click', '.addordertosession, .clear, .swap', function() {
+                        var request = {};
                         if (jQuery(this).hasClass('addordertosession')) {
                             request.method = 'AddOrderToSession';
                         } else if (jQuery(this).hasClass('clear')) {
                             request.method = 'Clear';
+                        } else if (jQuery(this).hasClass('swap')) {
+                            request.method = 'Swap';
                         }
                         request.sessionid    = screen.getContractId();
                         request.rfid         = $this.find('.rfid-data.rfid .item-value').html();
-                        request.portal       = device.uuid;
+                        request.portal       = device.uuid,
+                        request.moduletype   = properties.moduleType;
+                        request.checkinmode  = properties.checkInMode;
                         RwServices.order.processrfidexception(request, function(response) {
-                            screenStageItem.$view.find('.rfid-items').empty();
+                            screen.$view.find('.rfid-items').empty();
                             for (var i = 0; i < response.exceptions.length; i++) {
-                                $item = screenStageItem.rfiditem('exception');
+                                var $item;
+                                $item = screen.rfiditem('exception');
                                 $item.find('.rfid-item-title').html(response.exceptions[i].title);
                                 $item.find('.rfid-data.rfid .item-value').html(response.exceptions[i].rfid);
                                 $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode !== '' ) ? response.exceptions[i].barcode : '-');
                                 $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno !== '') ? response.exceptions[i].serialno : '-');
                                 $item.find('.rfid-data.message .item-value').html(response.exceptions[i].message);
                                 $item.attr('data-exceptiontype', response.exceptions[i].exceptiontype);
-                                screenStageItem.$view.find('.rfid-items').append($item);
+                                screen.$view.find('.rfid-items').append($item);
                             }
                         });
                         FwConfirmation.destroyConfirmation($confirmation);
