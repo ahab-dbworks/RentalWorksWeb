@@ -9,26 +9,26 @@
         <div class="control">
           <table id="checkIn-popupQty-summary-table">
             <tbody>
-              <tr>
+              <tr class="row1">
                 <td id="checkIn-popupQty-summary-table-tdMasterNo" colspan="4"><span class="label">{{captionICodeDesc}}: </span><span id="checkIn-popupQty-masterNo" class="number"></span></td>
               </tr>
-              <tr>
+              <tr class="row2" style="display:none">
                 <td class="col1">{{captionRemaining}}:</td>
                 <td id="checkIn-popupQty-stillOut" class="col2"></td>
                 <td class="col3">{{captionSessionIn}}:</td>
                 <td id="checkIn-popupQty-sessionIn" class="col4"></td>
               </tr>
-              <tr>
+              <tr class="row3" style="display:none">
                 <td class="col1">{{captionQtyOrdered}}:</td>
                 <td id="checkIn-popupQty-qtyOrdered" class="col2"></td>
                 <td class="col3">{{captionTotalIn}}:</td>
                 <td id="checkIn-popupQty-totalIn" class="col4"></td>
               </tr>
-              <tr>
+              <tr class="row4" style="display:none">
                 <td class="col1">{{captionSubQty}}:</td>
                 <td id="checkIn-popupQty-subQty" class="col2"></td>
               </tr>
-              <tr id="checkIn-popupQty-summary-table-trVendor">
+              <tr id="checkIn-popupQty-summary-table-trVendor" class="row5" style="display:none">
                 <td id="checkIn-popupQty-summary-table-tdVendor" colspan="4"><div id="checkIn-popupQty-summary-table-divVendor"><span class="label">{{captionSubVendor}}: </span><span id="checkIn-popupQty-vendor"></span></div></td>
               </tr>
             </tbody>
