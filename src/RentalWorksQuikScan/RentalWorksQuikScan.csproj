@@ -528,7 +528,8 @@
   <Target Name="AfterBuild">
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" AttachDebugger="false" />
+    <!--<FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" AttachDebugger="false" />-->
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" />
@@ -540,7 +541,6 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
-    <!--<FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" />-->
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\fonts&quot; &quot;$(FwDeploymentDirectory)\theme\fonts&quot; /e" />
     <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" />
@@ -560,6 +560,7 @@
     <FwReplaceInFile Path="$(FwDeploymentDirectory)\web.config" Pattern="debug=&quot;true&quot;" Replacement="debug=&quot;false&quot;" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" />
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" Publish="$(FwPublish)" />
+    <!--<FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" Publish="$(FwPublish)" />-->
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
 </Project>
