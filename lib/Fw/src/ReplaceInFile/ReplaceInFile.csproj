@@ -9,10 +9,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{326C0C27-EDBE-434E-B7DD-03CC6EB20811}</ProjectGuid>
+    <ProjectGuid>{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>JSAppBuilder</RootNamespace>
-    <AssemblyName>JSAppBuilder</AssemblyName>
+    <RootNamespace>ReplaceInFile</RootNamespace>
+    <AssemblyName>ReplaceInFile</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,8 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,20 +53,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Fw.MSBuild\Fw.MSBuild.csproj">
-      <Project>{fad66725-a1f9-4395-89dc-ec2b9cb2cade}</Project>
-      <Name>Fw.MSBuild</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
-    <MakeDir Directories="$(FwSolutionDir)\build\JSAppBuilder" Condition="!Exists('$(FwSolutionDir)\build\JSAppBuilder')" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MsBuild.dll&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MSBuild.dll.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll.config&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MSBuild.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.pdb&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.exe&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.exe.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe.config&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.pdb&quot;" />
+    <MakeDir Directories="$(FwSolutionDir)\build\ReplaceInFile" Condition="!Exists('$(FwSolutionDir)\build\ReplaceInFile')" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\ReplaceInFile.exe&quot; &quot;$(FwSolutionDir)\build\ReplaceInFile\ReplaceInFile.exe&quot;" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\ReplaceInFile.exe.config&quot; &quot;$(FwSolutionDir)\build\ReplaceInFile\ReplaceInFile.exe.config&quot;" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\ReplaceInFile.pdb&quot; &quot;$(FwSolutionDir)\build\ReplaceInFile\ReplaceInFile.pdb&quot;" />
   </Target>
 </Project>
