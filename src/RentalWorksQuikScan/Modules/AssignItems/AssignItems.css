@@ -42,4 +42,5 @@
 #assignItems .ui-multiscan .multiscan-tags .multiscanrecord .row .value {}
 #assignItems .ui-multiscan .multiscan-readready {text-align:center;line-height:64vh;}
 
-
+#assignItems .ui-scan {display:none;}
+#assignItems .ui-scan .fwmobilecontrol-value {text-align:center;}

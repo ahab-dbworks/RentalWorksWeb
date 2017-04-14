@@ -258,7 +258,13 @@ Application.prototype.navigate = function(path) {
                 });
                 break;
             case 'assignitems':
-                screen = AssignItems.getModuleScreen({}, {});
+                screen = AssignItems.getMenuScreen({}, {});
+                break;
+            case 'assignitems/newitems':
+                screen = AssignItems.getNewItemsScreen({}, {});
+                break;
+            case 'assignitems/existingitems':
+                screen = AssignItems.getExistingItemsScreen({}, {});
                 break;
         }
         // this is how you do the navigate away in a screen

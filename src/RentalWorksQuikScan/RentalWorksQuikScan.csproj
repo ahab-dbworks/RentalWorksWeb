@@ -129,6 +129,8 @@
     <Content Include="Modules\AssetSetLocation\AssetSetLocation.js" />
     <Content Include="Modules\AssetSetLocation\AssetSetLocationQuantityTemplate.html" />
     <Content Include="Modules\AssetSetLocation\AssetSetLocationBarcodeTemplate.html" />
+    <Content Include="Modules\AssignItems\AssignItemsMenu.html" />
+    <Content Include="Modules\AssignItems\ExistingItems.html" />
     <Content Include="Modules\CheckIn\PopupQty.html" />
     <Content Include="Modules\Exchange\Exchange.css" />
     <Content Include="Modules\Exchange\Exchange.html" />
@@ -162,7 +164,7 @@
     <Content Include="Modules\Staging\PopupQty.html" />
     <Content Include="Modules\Staging\PopupSelectSerialNo.html" />
     <Content Include="Modules\AssignItems\AssignItems.css" />
-    <Content Include="Modules\AssignItems\AssignItems.html" />
+    <Content Include="Modules\AssignItems\NewItems.html" />
     <Content Include="Modules\AssignItems\AssignItems.js" />
     <Content Include="Modules\TimeLog\TimeLog.js" />
     <Content Include="Modules\TimeLog\TimeLog.css" />

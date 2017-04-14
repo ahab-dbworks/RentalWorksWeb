@@ -61,3 +61,37 @@ RwRFID.unregisterEvents = function() {
     }
 };
 //----------------------------------------------------------------------------------------------
+RwRFID.setTslRfidPowerLevel = function () {
+    if (typeof window.TslReader === 'object' && typeof window.TslReader.getPowerLevel === 'function') {
+        var htmlSlider = [];
+        htmlSlider.push('<div>');
+        htmlSlider.push('  <div id="slider" style="margin:48px 32px 32px 32px;"></div>');
+        htmlSlider.push('</div>');
+        var $rfidmenu = FwConfirmation.renderConfirmation('RFID Antenna Power (dB)', htmlSlider.join('\n'));
+        var $btnCancel = FwConfirmation.addButton($rfidmenu, 'Close', true);
+        window.TslReader.getPowerLevel(
+            function success(args) {
+                var outputPower = args[1];
+                var minPower = args[2];
+                var maxPower = args[3];
+                var rfidPowerLevelSlider = $rfidmenu.find('#slider').get(0);
+                noUiSlider.create(rfidPowerLevelSlider, {
+                    start: [outputPower],
+                    range: {
+                        'min': [minPower],
+                        'max': [maxPower]
+                    },
+                    tooltips: [wNumb({ decimals: 0 })]
+                });
+                rfidPowerLevelSlider.noUiSlider.on('change', function () {
+                    var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
+                    if (typeof window.TslReader === 'object') {
+                        window.TslReader.setPowerLevel(rfidPowerLevel);
+                    }
+                });
+                jQuery('.tslpanel').show();
+            })
+        ;
+    }
+};
+//----------------------------------------------------------------------------------------------
