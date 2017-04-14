@@ -1352,7 +1352,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     requestChangeQty = jQuery.extend({}, properties.responseCheckInItem.request);
                     requestChangeQty.qty = parseInt($txtQty.val());
                     remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
-                    if ( (isNaN(requestChangeQty.qty) || (requestChangeQty.qty <= 0) || (requestChangeQty.qty > remaining)) ) {
+                    if (isNaN(requestChangeQty.qty) || requestChangeQty.qty <= 0 || (screen.$popupQty.find('.row2').is(':visible') && requestChangeQty.qty > remaining)) {
                         throw 'Invalid qty.';
                     }
                     RwServices.order.checkInItem(requestChangeQty, function(responseChangeQty) {
