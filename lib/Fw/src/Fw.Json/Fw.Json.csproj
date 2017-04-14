@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fw.Json</RootNamespace>
+    <AssemblyName>Fw.Json</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EO.Base, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\EO.Pdf\EO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.Pdf, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\EO.Pdf\EO.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\EPPlus\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=b0d5abe00db94ce4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\JsonFx\JsonFx.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.ServiceModel.Channels" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Content\Source\Grids\AppDocumentVersion\AccidentDocumentVersionMenu.cs" />
+    <Compile Include="Content\Source\Grids\AuditHistory\AuditHistoryMenu.cs" />
+    <Compile Include="Content\Source\Grids\ContactCompany\ContactCompanyMenu.cs" />
+    <Compile Include="Content\Source\Grids\ContactDocument\ContactDocumentMenu.cs" />
+    <Compile Include="Content\Source\Grids\ContactEmailHistory\ContactEmailHistoryMenu.cs" />
+    <Compile Include="Content\Source\Grids\ContactNote\ContactNoteMenu.cs" />
+    <Compile Include="Content\Source\Grids\ContactPersonalEvent\ContactPersonalEventMenu.cs" />
+    <Compile Include="HttpHandlers\FwAppImageHandler.cs" />
+    <Compile Include="HttpHandlers\FwAppDocumentHandler.cs" />
+    <Compile Include="HttpHandlers\FwDownloadHandler.cs" />
+    <Compile Include="HttpHandlers\FwUrlReportHandler.cs" />
+    <Compile Include="HttpHandlers\FwDataUrlToImgHandler.cs" />
+    <Compile Include="HttpHandlers\FwWebContentReportHandler.cs" />
+    <Compile Include="Mustache\Block.cs" />
+    <Compile Include="Mustache\EndSection.cs" />
+    <Compile Include="Mustache\FileSystemTemplateLocator.cs" />
+    <Compile Include="Mustache\InvertedBlock.cs" />
+    <Compile Include="Mustache\LiteralText.cs" />
+    <Compile Include="Mustache\NustacheException.cs" />
+    <Compile Include="Mustache\Parser.cs" />
+    <Compile Include="Mustache\Part.cs" />
+    <Compile Include="Mustache\Render.cs" />
+    <Compile Include="Mustache\RenderContext.cs" />
+    <Compile Include="Mustache\Scanner.cs" />
+    <Compile Include="Mustache\Section.cs" />
+    <Compile Include="Mustache\Template.cs" />
+    <Compile Include="Mustache\TemplateDefinition.cs" />
+    <Compile Include="Mustache\TemplateInclude.cs" />
+    <Compile Include="Mustache\ValueGetter.cs" />
+    <Compile Include="Mustache\VariableReference.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ElementExpress\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Common\FwJsonRequest.cs" />
+    <Compile Include="Services\Common\FwFormField.cs" />
+    <Compile Include="Services\Common\FwFormFieldValue.cs" />
+    <Compile Include="Services\Common\FwJsonDataField.cs" />
+    <Compile Include="Services\Common\FwJsonConverter.cs" />
+    <Compile Include="Services\Common\FwJsonDataTable.cs" />
+    <Compile Include="Services\Common\FwJsonDataTableColumn.cs" />
+    <Compile Include="Services\Common\FwJsonFormTable.cs" />
+    <Compile Include="Services\Common\FwJsonObject.cs" />
+    <Compile Include="Services\Common\FwJsonRequestAction.cs" />
+    <Compile Include="Services\Common\FwJsonServiceMethodAttribute.cs" />
+    <Compile Include="Services\FwBrowse.cs" />
+    <Compile Include="Services\FwCreditCardService.cs" />
+    <Compile Include="Services\FwEmailService.cs" />
+    <Compile Include="Services\FwReport.cs" />
+    <Compile Include="Services\FwServices.cs" />
+    <Compile Include="Services\FwValidation.cs" />
+    <Compile Include="Services\FwGrid.cs" />
+    <Compile Include="Services\FwJsonService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\FwAccountService.cs" />
+    <Compile Include="Services\FwModule.cs" />
+    <Compile Include="Services\FwForm.cs" />
+    <Compile Include="Services\Grids\FwAppDocumentVersion.cs" />
+    <Compile Include="Services\Grids\FwContactEmailHistory.cs" />
+    <Compile Include="Services\Grids\FwContactPersonalEvent.cs" />
+    <Compile Include="Services\Grids\FwContactCompany.cs" />
+    <Compile Include="Services\Grids\FwContactDocument.cs" />
+    <Compile Include="Services\Grids\FwContactNote.cs" />
+    <Compile Include="Services\Validations\FwCompany.cs" />
+    <Compile Include="Services\Validations\FwContactCompany.cs" />
+    <Compile Include="Services\Validations\FwContactEvent.cs" />
+    <Compile Include="Services\Validations\FwContactTitle.cs" />
+    <Compile Include="Services\Validations\FwUsers.cs" />
+    <Compile Include="Services\Validations\FwDocumentType.cs" />
+    <Compile Include="Services\Validations\FwWebUsersEmail.cs" />
+    <Compile Include="SqlServer\Entities\FwWebUserSettings.cs" />
+    <Compile Include="SqlServer\Entities\FwSource.cs" />
+    <Compile Include="SqlServer\FwDatabases.cs" />
+    <Compile Include="SqlServer\FwSqlLog.cs" />
+    <Compile Include="SqlServer\Entities\FwControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SqlServer\FwSqlSelect.cs" />
+    <Compile Include="SqlServer\FwSqlSelectStatement.cs" />
+    <Compile Include="SqlServer\FwSqlColumn.cs" />
+    <Compile Include="SqlServer\FwSqlColumnSchema.cs" />
+    <Compile Include="SqlServer\FwSqlTable.cs" />
+    <Compile Include="SqlServer\FwSqlTableRow.cs" />
+    <Compile Include="Utilities\FwFtp.cs" />
+    <Compile Include="Utilities\FwZebraReport.cs" />
+    <Compile Include="ValueTypes\FwApplicationConfig.cs" />
+    <Compile Include="SqlServer\FwSqlData.cs" />
+    <Compile Include="SqlServer\FwDatabaseField.cs" />
+    <Compile Include="SqlServer\FwFields.cs" />
+    <Compile Include="SqlServer\FwSqlCommand.cs" />
+    <Compile Include="SqlServer\FwSqlConnection.cs" />
+    <Compile Include="Utilities\FwValidate.cs" />
+    <Compile Include="Utilities\FwCompression.cs" />
+    <Compile Include="Utilities\FwConvert.cs" />
+    <Compile Include="Utilities\FwCryptography.cs" />
+    <Compile Include="Utilities\FwFunc.cs" />
+    <Compile Include="Utilities\FwGraphics.cs" />
+    <Compile Include="Utilities\FwXml.cs" />
+    <Compile Include="Utilities\FwVersion.cs" />
+    <Compile Include="ValueTypes\FwApplicationSchema.cs" />
+    <Compile Include="ValueTypes\FwApplicationSchemaClasses.cs" />
+    <Compile Include="ValueTypes\FwApplicationSchemaXml.cs" />
+    <Compile Include="ValueTypes\FwApplicationTreeBranch.cs" />
+    <Compile Include="ValueTypes\FwGroupSecurityNode.cs" />
+    <Compile Include="ValueTypes\FwDateTime.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueTypes\FwApplicationTree.cs" />
+    <Compile Include="ValueTypes\FwApplicationTreeNode.cs" />
+    <Compile Include="Web References\com.elementexpress.certtransaction\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\lib\EO.Pdf\EO.Base.dll">
+      <Link>EO.Base.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\EO.Pdf\EO.Base.xml">
+      <Link>EO.Base.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\EO.Pdf\EO.Pdf.dll">
+      <Link>EO.Pdf.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\EO.Pdf\EO.Pdf.xml">
+      <Link>EO.Pdf.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\EPPlus\EPPlus.dll">
+      <Link>EPPlus.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\EPPlus\EPPlus.XML">
+      <Link>EPPlus.XML</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\JsonFX\JsonFx.dll">
+      <Link>JsonFx.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\JsonFX\JsonFx.pdb">
+      <Link>JsonFx.pdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\JsonFX\JsonFx.xml">
+      <Link>JsonFx.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.dll">
+      <Link>Newtonsoft.Json.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.pdb">
+      <Link>Newtonsoft.Json.pdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.xml">
+      <Link>Newtonsoft.Json.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\scripts\FwControls\FwAppImage.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_key.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_combobox.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_validation.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_appdocumentimage.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_utcdatetime.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_utcdate.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_utctime.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_note.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_money.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_olecolor.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_legend.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_checkbox.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_time12.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_hidden.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_text.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_number.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_date.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_phone.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_time.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_rowtextcolor.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_rowbackgroundcolor.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_appimage.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowseColumns\FwBrowseColumn_appdocumentversion.js" />
+    <Content Include="Content\scripts\FwControls\FwApplicationTree.js" />
+    <Content Include="Content\scripts\FwControls\FwCharge.js" />
+    <Content Include="Content\scripts\FwControls\FwContextMenu.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_encrypt.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_text.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_editor.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_textarea.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_select.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_percent.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_number.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_ssn.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_checkboxlist.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_orderby.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_datetime.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_time.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_password.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_email.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_validation.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_multiselectvalidation.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_date.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_color.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_searchbox.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_key.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_phone.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_url.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_zipcode.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_money.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_radio.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_checkbox.js" />
+    <Content Include="Content\scripts\FwControls\FwFormFields\FwFormField_combobox.js" />
+    <Content Include="Content\scripts\FwControls\FwListView.js" />
+    <Content Include="Content\scripts\FwControls\FwMenu.js" />
+    <Content Include="Content\scripts\FwControls\FwReport.js" />
+    <Content Include="Content\scripts\FwControls\FwConfirmation.js" />
+    <Content Include="Content\scripts\FwControls\FwNotification.js" />
+    <Content Include="Content\scripts\FwControls\FwMultiSelectValidation.js" />
+    <Content Include="Content\scripts\FwControls\FwFileMenu.js" />
+    <Content Include="Content\scripts\FwEPS\FwEPS.js" />
+    <Content Include="Content\scripts\FwSecurity.js" />
+    <Content Include="Content\scripts\FwServices.js" />
+    <Content Include="Content\scripts\hybrid\FwHybridMasterController.js" />
+    <Content Include="Content\scripts\jquery\colorpicker\colpick.css" />
+    <Content Include="Content\scripts\jquery\colorpicker\colpick.js" />
+    <Content Include="Content\scripts\jquery\datepicker\datepicker.css" />
+    <Content Include="Content\scripts\FwEPS\FwEPS.css" />
+    <Content Include="Content\scripts\fastclick.js" />
+    <Content Include="Content\scripts\FwApplication.js" />
+    <Content Include="Content\scripts\FwControls\FwAudit.js" />
+    <Content Include="Content\scripts\FwControls\FwScheduler.js" />
+    <Content Include="Content\scripts\FwControls\FwOverlay.js" />
+    <Content Include="Content\scripts\FwControls\FwModule.js" />
+    <Content Include="Content\scripts\FwControls\FwRibbon.js" />
+    <Content Include="Content\scripts\FwControls\FwBrowse.js" />
+    <Content Include="Content\scripts\FwControls\FwTabs.js" />
+    <Content Include="Content\scripts\FwControls\FwContainer.js" />
+    <Content Include="Content\scripts\FwControls\FwPopup.js" />
+    <Content Include="Content\scripts\FwControls\FwValidation.js" />
+    <Content Include="Content\scripts\FwPages\FwBasePages.js" />
+    <Content Include="Content\scripts\jquery\datepicker\bootstrap-datepicker.js" />
+    <Content Include="Content\scripts\jquery\inputmask\jquery.inputmask.js" />
+    <Content Include="Content\scripts\jquery\jquery-2.1.0.js" />
+    <Content Include="Content\scripts\jquery\jquery-2.2.3.js" />
+    <Content Include="Content\scripts\jquery\jquery-3.0.0.js" />
+    <Content Include="Content\scripts\jquery\jquery-3.1.1.js" />
+    <Content Include="Content\scripts\jquery\jquery.color.js" />
+    <Content Include="Content\scripts\jquery\jquery.FwConversion.js" />
+    <Content Include="Content\scripts\jquery\jquery-2.0.3.js" />
+    <Content Include="Content\scripts\FwControls\FwControl.js" />
+    <Content Include="Content\scripts\FwControls\FwFormField.js" />
+    <Content Include="Content\scripts\jquery\jquery-1.7.1.min.js" />
+    <Content Include="Content\scripts\jquery\jquery-1.8.3.js" />
+    <Content Include="Content\scripts\jquery\jquery-1.9.0.js" />
+    <Content Include="Content\scripts\jquery\jquery-1.9.1.js" />
+    <Content Include="Content\scripts\jquery\jquery-2.0.0.js" />
+    <Content Include="Content\scripts\jquery\jquery-jgestures-0.90.js" />
+    <Content Include="Content\scripts\jquery\jquery.mousewheel.js" />
+    <Content Include="Content\scripts\jquery\jquery.RemoveClassPrefix.js" />
+    <Content Include="Content\scripts\jquery\jquery-sortable.js" />
+    <Content Include="Content\scripts\jquery\noUiSlider\nouislider.css" />
+    <Content Include="Content\scripts\jquery\noUiSlider\nouislider.js" />
+    <Content Include="Content\scripts\jquery\timepicker\timepicker.css" />
+    <Content Include="Content\scripts\jquery\timepicker\jquery.timepicker.js" />
+    <Content Include="Content\scripts\mobile\FwMobileMasterController.js" />
+    <Content Include="Content\scripts\mobile\FwMobileModuleControl.js" />
+    <Content Include="Content\scripts\mobile\FwMobileSearch.js" />
+    <Content Include="Content\scripts\modernizr\modernizr-2.6.2.js" />
+    <Content Include="Content\scripts\mustache\mustache-0.7.0.js" />
+    <Content Include="Content\scripts\jquery\jquery.signaturepad.js" />
+    <Content Include="Content\scripts\FwAppData.js" />
+    <Content Include="Content\scripts\FwLanguages.js" />
+    <Content Include="Content\scripts\mustache\mustache-2.3.0.js" />
+    <Content Include="Content\scripts\polyfill.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\.gitignore" />
+    <Content Include="Content\scripts\Sortable-1.1.1\Gruntfile.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\index.html" />
+    <Content Include="Content\scripts\Sortable-1.1.1\jquery.binding.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\.meteor\.gitignore" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\client\define-object-type.css" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\client\define-object-type.html" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\client\define-object-type.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\model.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\example\server\fixtures.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\methods.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\package.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\reactivize.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\template.html" />
+    <Content Include="Content\scripts\Sortable-1.1.1\meteor\test.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\ng-sortable.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\react-sortable-mixin.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\Sortable.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\Sortable.min.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\app.css" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\app.js" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-01.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-02.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-03.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-04.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-05.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-06.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-07.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-08.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\face-09.jpg" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\logo.png" />
+    <Content Include="Content\scripts\Sortable-1.1.1\st\og-image.png" />
+    <Content Include="Content\scripts\FwFunc.js" />
+    <Content Include="Content\scripts\jquery\jquery.FwPopup.js" />
+    <Content Include="Content\scripts\jquery\jquery-noconflict.js" />
+    <Content Include="Content\scripts\modernizr\modernizr-2.5.3.js" />
+    <Content Include="Content\scripts\mustache\mustache-0.5.0.js" />
+    <Content Include="Content\scripts\wnumb-1.0.2\test.html" />
+    <Content Include="Content\scripts\wnumb-1.0.2\wNumb.js" />
+    <Content Include="Content\Source\Controls\FwReport-Email.htm" />
+    <Content Include="Content\Source\Pages\Master.htm" />
+    <Content Include="Content\Source\Grids\AppDocumentVersion\FwAppDocumentVersionGridController.js" />
+    <Content Include="Content\Source\Grids\AuditHistory\AuditHistoryBrowse.htm" />
+    <Content Include="Content\Source\Grids\AuditHistory\FwAuditHistoryGridController.js" />
+    <Content Include="Content\Source\Grids\ContactCompany\ContactCompanyBrowse.htm" />
+    <Content Include="Content\Source\Grids\ContactCompany\FwContactCompanyGridController.js" />
+    <Content Include="Content\Source\Grids\ContactDocument\ContactDocumentBrowse.htm" />
+    <Content Include="Content\Source\Grids\ContactDocument\FwContactDocumentGridController.js" />
+    <Content Include="Content\Source\Grids\ContactEmailHistory\ContactEmailHistoryBrowse.htm" />
+    <Content Include="Content\Source\Grids\ContactEmailHistory\FwContactEmailHistoryGridController.js" />
+    <Content Include="Content\Source\Grids\ContactNote\FwContactNoteGridController.js" />
+    <Content Include="Content\Source\Grids\ContactPersonalEvent\FwContactPersonalEventGridController.js" />
+    <Content Include="Content\Source\Grids\ContactPersonalEvent\ContactPersonalEventBrowse.htm" />
+    <Content Include="Content\Source\Grids\ContactNote\ContactNoteBrowse.htm" />
+    <Content Include="Content\Source\Grids\AppDocumentVersion\AppDocumentVersionBrowse.htm" />
+    <Content Include="Content\Source\Validations\Company\CompanyBrowse.htm" />
+    <Content Include="Content\Source\Validations\ContactEvent\ContactEventBrowse.htm" />
+    <Content Include="Content\Source\Validations\ContactCompany\ContactCompanyBrowse.htm" />
+    <Content Include="Content\Source\Validations\DocumentType\DocumentTypeBrowse.htm" />
+    <Content Include="Content\Source\Validations\ReportDef\ReportDefBrowse.htm" />
+    <Content Include="Content\Source\Validations\ContactTitle\ContactTitleBrowse.htm" />
+    <Content Include="Content\Source\Validations\Users\UsersBrowse.htm" />
+    <Content Include="Content\Source\Validations\WebUsersEmail\WebUsersEmailBrowse.htm" />
+    <Content Include="Content\theme\FwAppImage.css" />
+    <Content Include="Content\theme\FwContextMenu.css" />
+    <Content Include="Content\theme\fwcursors\pen.001.cur" />
+    <Content Include="Content\theme\fwfonts\bgothm\bgothm.002-webfont.svg" />
+    <Content Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.svg" />
+    <Content Include="Content\theme\fwimages\icons\128\add.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\arrow-east.png" />
+    <Content Include="Content\theme\fwimages\icons\128\arrow-north.png" />
+    <Content Include="Content\theme\fwimages\icons\128\arrow-south.png" />
+    <Content Include="Content\theme\fwimages\icons\128\arrow-west.png" />
+    <Content Include="Content\theme\fwimages\icons\128\back.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\browsesearch.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\cancel.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\close.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\continue.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\datepicker.png" />
+    <Content Include="Content\theme\fwimages\icons\128\downarrow.png" />
+    <Content Include="Content\theme\fwimages\icons\128\dropdownarrow.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\ellipsisbutton.002.png" />
+    <Content Include="Content\theme\fwimages\icons\128\filter_dark.png" />
+    <Content Include="Content\theme\fwimages\icons\128\home.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\logoff.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\menu.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\menuhome.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\print.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\notification.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\orderbydirection_asc2.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\orderbydirection_desc2.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\pager_first.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\pager_last.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\pager_next.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\pager_prev.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\preferences.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\refresh.002.png" />
+    <Content Include="Content\theme\fwimages\icons\128\refresh.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\save.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-editable-false.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-editable-true.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-tab.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-visible-false.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-visible-false.002.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-visible-true.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\securitytree-visible-true.002.png" />
+    <Content Include="Content\theme\fwimages\icons\128\sortasc_dark.png" />
+    <Content Include="Content\theme\fwimages\icons\128\sortdesc_dark.png" />
+    <Content Include="Content\theme\fwimages\icons\128\sortoff_dark.png" />
+    <Content Include="Content\theme\fwimages\icons\128\timepicker.png" />
+    <Content Include="Content\theme\fwimages\icons\128\usersettings.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\verticalellipsis.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\apptree-visible-no.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\apptree-visible-yes.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\browser_first.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\browser_last.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\browser_next.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\browser_previous.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\browsesearch.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\datepicker.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\document-new.png" />
+    <Content Include="Content\theme\fwimages\icons\16\fileextension-document.png" />
+    <Content Include="Content\theme\fwimages\icons\16\fileextension-generic.png" />
+    <Content Include="Content\theme\fwimages\icons\16\fileextension-image.png" />
+    <Content Include="Content\theme\fwimages\icons\16\fileextension-pdf.png" />
+    <Content Include="Content\theme\fwimages\icons\16\fileextension-spreadsheet.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_first.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_first_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_last.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_last_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_next.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_next_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_previous.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\pager_previous_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\refresh.001.png" />
+    <Content Include="Content\theme\fwimages\icons\16\usersettings.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\notification_error.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\notification_info.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_first.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_first_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_last.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_last_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_next.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_next_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_previous.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\pager_previous_disabled.001.png" />
+    <Content Include="Content\theme\fwimages\icons\128\loading.001.gif" />
+    <Content Include="Content\theme\fwimages\icons\32\refresh.002.png" />
+    <Content Include="Content\theme\fwimages\icons\32\notification_success.001.png" />
+    <Content Include="Content\theme\fwimages\icons\32\notification_warning.001.png" />
+    <Content Include="Content\theme\fwimages\icons\9x5\SortAsc.001.png" />
+    <Content Include="Content\theme\fwimages\icons\9x5\SortDesc.001.png" />
+    <Content Include="Content\theme\fwimages\icons\9x5\SortOff.001.png" />
+    <Content Include="Content\theme\fwimages\icons\arrow_down.001.png" />
+    <Content Include="Content\theme\fwimages\icons\ellipsisbutton.001.png" />
+    <Content Include="Content\theme\fwimages\icons\transparent_spacer.png" />
+    <Content Include="Content\theme\fwimages\textures\pattern-es41.png" />
+    <Content Include="Content\theme\fwimages\textures\seamlesstexture6_1200.jpg" />
+    <Content Include="Content\theme\FwConfirmation.css" />
+    <Content Include="Content\theme\FwMobileModuleControl.css" />
+    <Content Include="Content\theme\FwMobileSearch.css" />
+    <Content Include="Content\theme\FwNotification.css" />
+    <Content Include="Content\theme\FwOverlay.css" />
+    <Content Include="Content\theme\FwModule.css" />
+    <Content Include="Content\theme\FwMenu.css" />
+    <Content Include="Content\theme\FwFileMenu.css" />
+    <Content Include="Content\theme\FwRibbon.css" />
+    <Content Include="Content\theme\FwContainer.css" />
+    <Content Include="Content\theme\databaseworks.css" />
+    <Content Include="Content\theme\FwFormField.css" />
+    <Content Include="Content\theme\FwBrowse.css" />
+    <Content Include="Content\theme\FwScheduler.css" />
+    <Content Include="Content\theme\FwTabs.css" />
+    <Content Include="Content\theme\quikscan.css" />
+    <Content Include="Graphics\dropdownarrow.001.svg" />
+    <Content Include="Graphics\securitytree-editable-false.001.svg" />
+    <Content Include="Graphics\securitytree-editable-true.001.svg" />
+    <Content Include="Graphics\securitytree-form-tab.001.svg" />
+    <Content Include="Graphics\securitytree-visible-false.001.svg" />
+    <Content Include="Graphics\securitytree-visible-false.002.svg" />
+    <Content Include="Graphics\securitytree-visible-true.001.svg" />
+    <Content Include="Graphics\securitytree-visible-true.002.svg" />
+    <Content Include="scripts\_referencesToExclude.txt" />
+    <None Include="Content\scripts\wnumb-1.0.2\README.md" />
+    <None Include="Content\theme\fwfonts\bgothm\bgothm.002-webfont.eot" />
+    <None Include="Content\theme\fwfonts\bgothm\bgothm.002-webfont.ttf" />
+    <None Include="Content\theme\fwfonts\bgothm\bgothm.002-webfont.woff" />
+    <None Include="Content\theme\fwfonts\bgothm\bgothm.002-webfont.woff2" />
+    <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.eot" />
+    <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
+    <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
+    <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
+    <None Include="Service References\ElementExpress\Fw.Json.ElementExpress.Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ElementExpress\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ElementExpress\configuration.svcinfo" />
+    <None Include="Service References\ElementExpress\configuration91.svcinfo" />
+    <None Include="Service References\ElementExpress\express.disco" />
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ElementExpress\express.wsdl" />
+    <None Include="Web References\com.elementexpress.certtransaction\express.disco" />
+    <None Include="Content\scripts\Sortable-1.1.1\.editorconfig" />
+    <None Include="Content\scripts\Sortable-1.1.1\.jshintrc" />
+    <None Include="Content\scripts\Sortable-1.1.1\bower.json" />
+    <None Include="Content\scripts\Sortable-1.1.1\component.json" />
+    <None Include="Content\scripts\Sortable-1.1.1\CONTRIBUTING.md" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\.meteor\packages" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\.meteor\release" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\.meteor\versions" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\package.json" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\packages\Sortable" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\README.md" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\run.bat" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\example\run.sh" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\publish.sh" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\README.md" />
+    <None Include="Content\scripts\Sortable-1.1.1\meteor\runtests.sh" />
+    <None Include="Content\scripts\Sortable-1.1.1\package.json" />
+    <None Include="Content\scripts\Sortable-1.1.1\README.md" />
+    <None Include="scripts\_references.js" />
+    <None Include="Web References\com.elementexpress.certtransaction\express.wsdl" />
+    <None Include="Web References\com.elementexpress.certtransaction\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\com.elementexpress.certtransaction\Response.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Source\Modules\Home\" />
+    <Folder Include="Content\Source\Modules\Settings\" />
+    <Folder Include="Content\Source\Reports\" />
+    <Folder Include="Content\Source\SubModules\" />
+    <Folder Include="Services\Modules\" />
+    <Folder Include="Services\Reports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ValueTypes\ApplicationConfig.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ValueTypes\FwApplicationSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ValueTypes\JSAppBuilder.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://certtransaction.elementexpress.com/express.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\com.elementexpress.certtransaction\</RelPath>
+      <UpdateFromURL>https://certtransaction.elementexpress.com/express.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Fw_Json_com_elementexpress_certtransaction_Express</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ElementExpress\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
