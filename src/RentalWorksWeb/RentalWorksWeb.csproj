@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
-    <FwMSBuildTasksPath>$(AppSolutionDir)\lib\Fw\build\Fw.MSBuild</FwMSBuildTasksPath>
+    <!--<FwMSBuildTasksPath>$(AppSolutionDir)\lib\Fw\build\Fw.MSBuild</FwMSBuildTasksPath>-->
     <MSBuildCommunityTasksPath>$(AppSolutionDir)\lib\Fw\lib\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
     <FwJsonPath>$(AppSolutionDir)\lib\Fw\src\Fw.Json</FwJsonPath>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWeb</FwApplicationDirectory>
@@ -19,8 +19,8 @@
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
-  <UsingTask TaskName="Fw.MSBuildTasks.FwReplaceInFile" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
-  <UsingTask TaskName="Fw.MSBuildTasks.FwJSAppBuilder" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
+  <!--<UsingTask TaskName="Fw.MSBuildTasks.FwReplaceInFile" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
+  <UsingTask TaskName="Fw.MSBuildTasks.FwJSAppBuilder" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />-->
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -1268,7 +1268,8 @@
       <Output TaskParameter="Build" PropertyName="Build" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
-    <FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
+    <!--<FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />-->
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
@@ -1302,7 +1303,8 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.css" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.css" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" />
-    <FwReplaceInFile Path="$(FwDeploymentDirectory)\web.config" Pattern="debug=&quot;true&quot;" Replacement="debug=&quot;false&quot;" />
+    <!--<FwReplaceInFile Path="$(FwDeploymentDirectory)\web.config" Pattern="debug=&quot;true&quot;" Replacement="debug=&quot;false&quot;" />-->
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="true" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\ckeditor" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\ckeditor')" />
