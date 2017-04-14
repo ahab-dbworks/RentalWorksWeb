@@ -1,0 +1,73 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">  
+  <PropertyGroup>    
+    <FwMSBuildTasksPath>C:\Project\lib.net\dbworks\Fw\MSBuildTasks\Build</FwMSBuildTasksPath>
+    <MSBuildCommunityTasksPath>C:\Project\lib.net\opensource\MSBuild.Community.Tasks.Nightly\Build</MSBuildCommunityTasksPath>
+    <FwDeploymentDirectory>$(FwReleaseFolder)\$(FwApplicationName)</FwDeploymentDirectory>
+    <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
+  </PropertyGroup>
+  <UsingTask TaskName="Fw.MSBuildTasks.FwReplaceInFile" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
+  <UsingTask TaskName="MSBuild.Community.Tasks.Zip" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
+  <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
+  <ItemGroup>
+    <PublishedFiles Include="$(FwDeploymentDirectory)\**\*" />
+  </ItemGroup>
+  <Target Name="FwBeforeBuild">
+    <CallTarget Targets="FwBeforePublishWebApplication" />      
+  </Target>
+  <Target Name="FwAfterBuild">
+    <CallTarget Targets="FwPublishWebApplication" />
+  </Target>
+  <Target Name="FwBeforePublishWebApplication" Condition="$(FwPublish)=='true'">
+    <Version VersionFile="$(FwApplicationDirectory)\version.txt" BuildType="None" RevisionType="None">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
+    <FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />    
+    <!--<RemoveDir Directories="C:\Project\lib.net\ms\AjaxControlToolkit_3.0.30512\AjaxControlToolkit\bin" />
+    <RemoveDir Directories="C:\Project\lib.net\ms\AjaxControlToolkit_3.0.30512\AjaxControlToolkit\obj" />
+    <RemoveDir Directories="C:\Project\lib.net\opensource\ExcelDataReader-38911\Excel\bin" />
+    <RemoveDir Directories="C:\Project\lib.net\opensource\ExcelDataReader-38911\Excel\obj" />
+    <RemoveDir Directories="C:\Project\lib.net\dbworks\Fw\bin" />
+    <RemoveDir Directories="C:\Project\lib.net\dbworks\Fw\obj" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\rentalworks\bin" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\rentalworks\obj" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\RentalWorksLibrary\bin" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\RentalWorksLibrary\obj" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\RentalWorksPocket.NET\bin" />
+    <RemoveDir Directories="C:\Project\RentalWorks\Web\RentalWorksPocket.NET\obj" />
+    <RemoveDir Directories="$(ProjectVarName)\bin" />
+    <RemoveDir Directories="$(ProjectVarName)\obj" />-->
+  </Target>  
+  <Target Name="FwPublishWebApplication" Condition="$(FwPublish)=='true'">
+    <Version VersionFile="$(FwApplicationDirectory)\version.txt" BuildType="None" RevisionType="None">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
+    <RemoveDir Directories="$(FwDeploymentTempDirectory)" />
+    <RemoveDir Directories="$(FwDeploymentDirectory)" />
+    <Delete Files="$(FwReleaseFolder)\$(FwApplicationName)_$(Major).$(Minor).$(Build).zip" />
+    <Copy SourceFiles="@(Content)" DestinationFolder="$(FwDeploymentTempDirectory)\%(Content.RelativeDir)" />
+    <CreateItem Include="$(OutputPath)\*">
+      <Output TaskParameter="Include" ItemName="Binaries" />
+    </CreateItem>    
+    <MakeDir Directories="$(FwDeploymentTempDirectory)\bin" Condition="!Exists('$(FwDeploymentTempDirectory)\bin')" />
+    <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentTempDirectory)\bin&quot; /e" />
+    <FwReplaceInFile Path="$(FwDeploymentTempDirectory)\web.config" Pattern="&lt;compilation debug=\&quot;true\&quot;" Replacement="&lt;compilation debug=&quot;false&quot;" />
+    <FwReplaceInFile Path="$(FwDeploymentTempDirectory)\application.config" Pattern="&lt;Dev&gt;.*&lt;/Dev&gt;" Replacement="" />
+    <Copy SourceFiles="$(FwDeploymentTempDirectory)\Application.config" DestinationFiles="$(FwDeploymentTempDirectory)\Application.sample.config" />
+    <Delete Files="$(FwDeploymentTempDirectory)\Application.config" />
+    <Copy SourceFiles="$(FwDeploymentTempDirectory)\Web.config" DestinationFiles="$(FwDeploymentTempDirectory)\Web.SQLServer2005.config" />
+    <FwReplaceInFile Path="$(FwDeploymentTempDirectory)\Web.config" Pattern="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Replacement="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <FwReplaceInFile Path="$(FwDeploymentTempDirectory)\Web.SQLServer2005.config" Pattern="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Replacement="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <AspNetCompiler PhysicalPath="$(FwDeploymentTempDirectory)" VirtualPath="/" TargetPath="$(FwDeploymentDirectory)" ToolPath="C:\Windows\Microsoft.NET\Framework\v4.0.30319\">
+    </AspNetCompiler>
+    <RemoveDir Directories="$(FwDeploymentTempDirectory)" />    
+    <!--Zip Files="@(PublishedFiles)" ZipLevel="9" WorkingDirectory="$(FwDeploymentDirectory)" ZipFileName="$(FwReleaseFolder)\$(FwApplicationName)_$(Major).$(Minor).$(Build).zip" />
+    <RemoveDir Directories="$(FwDeploymentDirectory)" />-->
+  </Target>  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets"/>
+</Project>
