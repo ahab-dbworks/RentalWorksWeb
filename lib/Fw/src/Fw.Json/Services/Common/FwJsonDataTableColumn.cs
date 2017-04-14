@@ -8,7 +8,7 @@ namespace Fw.Json.Services
     public class FwJsonDataTableColumn
     {
         //---------------------------------------------------------------------------------------------
-        public enum DataTypes{Text, Date, Time, DateTime, Decimal, Boolean, CurrencyString, CurrencyStringNoDollarSign, CurrencyStringNoDollarSignNoDecimalPlaces, PhoneUS, ZipcodeUS, Percentage, OleToHtmlColor, Integer, JpgDataUrl, UTCDateTime}
+        public enum DataTypes{Text, Date, Time, DateTime, DateTimeOffset, Decimal, Boolean, CurrencyString, CurrencyStringNoDollarSign, CurrencyStringNoDollarSignNoDecimalPlaces, PhoneUS, ZipcodeUS, Percentage, OleToHtmlColor, Integer, JpgDataUrl, UTCDateTime}
         //---------------------------------------------------------------------------------------------
         public string    Name               = string.Empty;
         public string    DataField          = string.Empty;

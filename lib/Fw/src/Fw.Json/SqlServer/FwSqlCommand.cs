@@ -1137,6 +1137,17 @@ namespace Fw.Json.SqlServer
                                             data = "";
                                         }
                                         break;
+                                    case FwJsonDataTableColumn.DataTypes.DateTimeOffset:
+                                        if (!reader.IsDBNull(ordinal))
+                                        {
+                                            //data = new FwDatabaseField(reader.GetDateTimeOffset(ordinal)).ToShortDateTimeString();
+                                            data = (reader.GetDateTimeOffset(ordinal)).LocalDateTime;
+                                        }
+                                        else
+                                        {
+                                            data = "";
+                                        }
+                                        break;
                                     case FwJsonDataTableColumn.DataTypes.Decimal:
                                         if (!reader.IsDBNull(ordinal))
                                         {

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Xml.Serialization;
-using Fw.Json.SqlServer;
+﻿using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Web;
 
 namespace Fw.Json.Services
 {
@@ -187,6 +185,7 @@ namespace Fw.Json.Services
         {
             int worksheetcol = 1, colcount = 0;
             FwJsonDataTableColumn col;
+            int maxRowHeight, imageHeight, maxColumnWidth, imageWidth;
 
             worksheetcol = 1;
             for (int colno = 0; colno < this.Columns.Count; colno++)
@@ -204,14 +203,49 @@ namespace Fw.Json.Services
             worksheet.Cells[1, 1, 1, colcount].AutoFilter = true;
             for (int rowno = 0; rowno < this.Rows.Count; rowno++)
             {
+                maxRowHeight = 0;
                 worksheetcol = 1;
                 for (int colno = 0; colno < this.Columns.Count; colno++)
                 {
+                    maxColumnWidth = 0;
                     col = this.Columns[colno];
                     if ((!col.IsUniqueId) && (col.IsVisible))
                     {
-                        worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
-                        worksheetcol++;
+                       if (col.DataType == FwJsonDataTableColumn.DataTypes.JpgDataUrl)
+                        {
+                            string base64img = this.GetValue(rowno, colno).ToString().Replace("data:image/jpg;base64,", "");
+                            if (!string.IsNullOrEmpty(base64img))
+                            {
+                                byte[] img = Convert.FromBase64String(base64img);
+                                using (Stream stream = new MemoryStream(img))
+                                {
+                                    Bitmap image = new Bitmap(stream);
+                                    ExcelPicture excelImage = null;
+                                    if (image != null)
+                                    {
+                                        imageWidth             = image.Width  / 4;
+                                        imageHeight            = image.Height / 4;
+                                        excelImage             = worksheet.Drawings.AddPicture(Guid.NewGuid().ToString(), image);
+                                        excelImage.From.Column = colno - 2;
+                                        excelImage.From.Row    = rowno + 1;
+                                        excelImage.SetSize(imageWidth, imageHeight);
+
+                                        maxRowHeight                         = (maxRowHeight   < imageHeight) ? imageHeight : maxRowHeight;
+                                        maxColumnWidth                       = (maxColumnWidth < imageWidth)  ? imageWidth  : maxColumnWidth;
+                                        worksheet.Row(rowno + 2).Height      = maxRowHeight;
+                                        worksheet.Column(colno - 1).Width    = maxColumnWidth;
+
+                                        excelImage.SetPosition(rowno + 1, 1, colno - 2, 1);
+                                    }
+                                }
+                            }
+                            worksheetcol++;
+                        }
+                        else
+                        {
+                            worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
+                            worksheetcol++;
+                        }
                     }
                 }
             }
