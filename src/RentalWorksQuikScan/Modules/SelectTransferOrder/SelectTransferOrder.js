@@ -35,7 +35,7 @@ RwSelectTransferOrder.getSelectTransferOrderScreen = function(viewModel, propert
                 if (typeof properties.activityType !== 'undefined') {
                     request.activityType = properties.activityType;
                 }
-                RwServices.call('SelectOrder', 'WebSelectOrder', request, function(response) {
+                RwServices.callMethod('SelectOrder', 'WebSelectOrder', request, function(response) {
                     application.playStatus(response.webSelectOrder.status === 0);
                     if ((response) && (typeof response.request !== 'undefined') && (typeof response.webSelectOrder !== 'undefined')) {
                         properties.webSelectOrder = response.webSelectOrder;

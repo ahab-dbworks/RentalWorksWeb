@@ -86,7 +86,7 @@ RwServices.utility.timelogviewentries                  = function(request, doneC
 
 //----------------------------------------------------------------------------------------------
 // mv2016-04-20 got tired of registering services, now you can do this...
-RwServices.call = function (servicename, methodname, request, doneCallback, async, timeout) {
+RwServices.callMethod = function (servicename, methodname, request, doneCallback, async, timeout) {
     if (typeof timeout !== 'number') {
         timeout = null;
     }

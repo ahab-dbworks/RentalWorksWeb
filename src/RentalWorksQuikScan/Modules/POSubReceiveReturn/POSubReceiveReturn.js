@@ -377,7 +377,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
           , contractId: properties.contractId
           , showAll:    showAll
         };
-        RwServices.call('POSubReceiveReturn', 'GetPOSubReceiveReturnPendingList', request, function(response) {
+        RwServices.callMethod('POSubReceiveReturn', 'GetPOSubReceiveReturnPendingList', request, function(response) {
             var dt, ul, li, isAlternate, colIndex, masteritemid, masterno, description, trackedby, netqtyordered, qtyreceived, qtyremaining, qtyreturned, qtysession;
             var showCreateContract = false;
             isAlternate = false;
@@ -462,7 +462,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
     };
 
     screen.webSubReceiveReturnItem = function(request, onComplete) {
-        RwServices.call('POSubReceiveReturn', 'WebSubReceiveReturnItem', request, function(response) {
+        RwServices.callMethod('POSubReceiveReturn', 'WebSubReceiveReturnItem', request, function(response) {
             var status, genericMsg, msg, masteritemid, masterno, description, isbarcode, netqtyordered, qtyreceived, qtyremaining, qtyreturned, qtysession, setReceiveReturnByVendorBarCode;
             try {  
                 if ((typeof response === 'object') && (typeof response.webSubReceiveReturnItem === 'object')) {

@@ -27,7 +27,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             pageno: 1,
             pagesize: 1000
         }
-        RwServices.call('RepairOrder', 'GetRepairOrders', request, function(response) {
+        RwServices.callMethod('RepairOrder', 'GetRepairOrders', request, function(response) {
             var itemtemplate, rowhtml, itemmodel, dt, html;
             dt = response.repairorders;
             html = [];
@@ -114,7 +114,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             //for (var i = 0; i < $deleteimages.length; i++) {
             //    request.deleteimages.push($deleteimages.eq(i).attr('data-appdocumentid'));
             //}
-            RwServices.call("RepairOrder", "UpdateRepairOrder", request, function(response) {
+            RwServices.callMethod("RepairOrder", "UpdateRepairOrder", request, function(response) {
                 try {
                     if (properties.mode === 'sendtorepair') {
                         application.popScreen();
@@ -144,7 +144,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             requestSelectRepairOrder = {
                 code: barcode.toUpperCase()
             };
-            RwServices.call('RepairOrder', 'GetRepairOrder', requestSelectRepairOrder, function(response) {
+            RwServices.callMethod('RepairOrder', 'GetRepairOrder', requestSelectRepairOrder, function(response) {
                 try {
                     screen.$view.find('.repairorder-search').toggle(response.webSelectRepairOrder.status !== 0);
                     properties.webSelectRepairOrder = response.webSelectRepairOrder;

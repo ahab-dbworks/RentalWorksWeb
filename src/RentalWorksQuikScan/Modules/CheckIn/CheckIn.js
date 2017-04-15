@@ -141,7 +141,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             var request = {
                 contractid: screen.getContractId()
             };
-            RwServices.call('CheckIn', 'GetShowCreateContract', request, function (response) {
+            RwServices.callMethod('CheckIn', 'GetShowCreateContract', request, function (response) {
                 try {
                     if (response.showcreatecontract) {
                         properties.contract = {
@@ -1116,7 +1116,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             contractid:   screen.getContractId()
         }
         $checkInSerial.data('recorddata', request);
-        RwServices.call('CheckIn', 'GetSerialInfo', request, function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialInfo', request, function (response) {
             var html = [];
             screen.$view.find('#scanBarcodeView').hide();
             screen.$view.find('#checkIn-pendingList').hide();
@@ -1154,7 +1154,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
     $checkInSerial.loadSerialItems = function() {
         $checkInSerial.find('.serialitems').empty();
-        RwServices.call('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem;
                 html.push('<div class="serialitem standard' + ((response.serialitems[i].itemstatus == 'O') ? '' : ' in') + '">');
@@ -1169,7 +1169,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
     $checkInSerial.loadSerialMeters = function() {
         $checkInSerial.find('.serialitem-meters').empty();
-        RwServices.call('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
             var zerosetflg = true;
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem, meterinvalue, notsetflg;
@@ -1269,7 +1269,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 meter:        '0',
                 toggledelete: 'T'
             };
-            RwServices.call('CheckIn', 'SerialSessionIn', request, function (response) {
+            RwServices.callMethod('CheckIn', 'SerialSessionIn', request, function (response) {
                 $checkInSerial.find('.qtyremaining').html(response.serial.qtyout);
                 $checkInSerial.find('.qtyin').html(response.serial.qtyin);
                 $this.toggleClass('in');
@@ -1309,7 +1309,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     meter:        FwFormField.getValue($confirmation, 'div[data-datafield="meterinvalue"]'),
                     toggledelete: 'F'
                 };
-                RwServices.call('CheckIn', 'SerialSessionIn', request, function (response) {
+                RwServices.callMethod('CheckIn', 'SerialSessionIn', request, function (response) {
                     FwConfirmation.destroyConfirmation($confirmation);
                     $this.addClass('valueset').html(numberWithCommas(parseFloat(request.meter).toFixed(2)));
                     $this.closest('.metered').addClass('valueset');

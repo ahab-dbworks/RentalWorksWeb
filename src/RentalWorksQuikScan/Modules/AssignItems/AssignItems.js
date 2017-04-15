@@ -312,7 +312,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
                                 rfid:           rfid,
                                 mfgdate:        mfgdate
                             };
-                            RwServices.call("AssignItem", "UpdateAssignableItemAsset", request, function(response) {
+                            RwServices.callMethod("AssignItem", "UpdateAssignableItemAsset", request, function(response) {
                                 try {
                                     if (response.updateitem.status == '0') {
                                         $itemassign.clearscreen();
@@ -479,7 +479,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             epcs:           epcs,
             selectedrecord: selectedrecord
         };
-        RwServices.call("AssignItem", "MultiScanTags", request, function(response) {
+        RwServices.callMethod("AssignItem", "MultiScanTags", request, function(response) {
             try {
                 var html, $record;
                 $multiscan.find('.multiscan-tags').empty();
@@ -601,7 +601,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             request = {
                 code: $this.val()
             };
-            RwServices.call("AssignItem", "GetBarcodeRFIDItem", request, function(response) {
+            RwServices.callMethod("AssignItem", "GetBarcodeRFIDItem", request, function(response) {
                 if (response.recorddata.status == 0) {
                     RwRFID.unregisterEvents();
                     selectedrecord = response.recorddata;
@@ -665,7 +665,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
                                 mfgdate:        mfgdate
                             };
                             request.selectedrecord.rowtype = 'I-CODE';
-                            RwServices.call("AssignItem", "UpdateAssignableItemAsset", request, function(response) {
+                            RwServices.callMethod("AssignItem", "UpdateAssignableItemAsset", request, function(response) {
                                 try {
                                     if (response.updateitem.status == '0') {
                                         $itemassign.clearscreen();

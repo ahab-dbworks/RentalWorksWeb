@@ -112,7 +112,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             var request = {
 
             };
-            RwServices.call('Exchange', 'CreateExchangeContract', request, function(response) {
+            RwServices.callMethod('Exchange', 'CreateExchangeContract', request, function(response) {
                 try {
                     screen.setexchangecontractid(response.createexchangecontract.exchangecontractid);
                     screen.pages.exchange.show();
@@ -232,7 +232,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                     searchmode: '',
                     searchvalue: ''
                 };
-                RwServices.call('Exchange', 'PendingExchangeSearch', requestPendingExchangeSearch, function(response) {
+                RwServices.callMethod('Exchange', 'PendingExchangeSearch', requestPendingExchangeSearch, function(response) {
                     try {
                         if (response.searchresults.Rows.length > 0) {
                             // show the suspended sessions button
@@ -247,7 +247,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                     pageno: 0,
                     pagesize: 0
                 };
-                RwServices.call('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(response) {
+                RwServices.callMethod('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(response) {
                     try {
                         if (response.searchresults.Rows.length > 0) {
                             // show the suspended sessions button
@@ -361,7 +361,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                     FwConfirmation.yesNo('Cancel Contract?', 'Cancel Exchange Contract?', 
                         function onyes() {
                             try {
-                                RwServices.call('Exchange', 'CancelContract', requestCancelContract, function(responseCancelContract) {
+                                RwServices.callMethod('Exchange', 'CancelContract', requestCancelContract, function(responseCancelContract) {
                                     screen.pages.exchange.back2();
                                 });
                             } catch(ex) {
@@ -407,7 +407,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
             show: function() {
                 var requestGetNewExchangeModel = {
                 };
-                RwServices.call('Exchange', 'GetNewExchangeModel', requestGetNewExchangeModel, function(responseGetNewExchangeModel) {
+                RwServices.callMethod('Exchange', 'GetNewExchangeModel', requestGetNewExchangeModel, function(responseGetNewExchangeModel) {
                     try {
                         if (typeof responseGetNewExchangeModel.exchange === 'object') {
                             screen.setexchange(responseGetNewExchangeModel.exchange);
@@ -554,7 +554,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                     var request = {
                         exchange: screen.getexchange()
                     };
-                    RwServices.call('Exchange', 'GetItemInfo', request, function(response) {
+                    RwServices.callMethod('Exchange', 'GetItemInfo', request, function(response) {
                         try {
                             application.playStatus(response.success);
                             if (response.getiteminfo.success === false) {
@@ -649,7 +649,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         var request = {
             exchange: screen.getexchange()
         };
-        RwServices.call('Exchange', 'ExchangeItem', request, function(response) {
+        RwServices.callMethod('Exchange', 'ExchangeItem', request, function(response) {
             screen.exchangeItemResponse
             try {
                 screen.exchangeItemResponse(response);
@@ -824,7 +824,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                         pagesize: 0,
                         orderid: model.orderid
                     };
-                    RwServices.call('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
+                    RwServices.callMethod('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
                         try {
                             if (responseSuspendedSessionSearch.searchresults.Rows.length === 0) {
                                 var requestCreateExchangeContract = {
@@ -832,7 +832,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                                     dealid: screen.getdealid(),
                                     departmentid: screen.getdepartmentid()
                                 };
-                                RwServices.call('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
+                                RwServices.callMethod('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
                                     try {
                                         screen.setexchangecontractid(responseCreateExchangeContract.createexchangecontract.exchangecontractid);
                                         screen.setsessionno(responseCreateExchangeContract.createexchangecontract.sessionno);
@@ -912,7 +912,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                         pagesize: 0,
                         dealid: model.dealid
                     };
-                    RwServices.call('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
+                    RwServices.callMethod('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
                         try {
                             if (responseSuspendedSessionSearch.searchresults.Rows.length === 0) {
                                 var requestCreateExchangeContract = {
@@ -920,7 +920,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                                     dealid: screen.getdealid(),
                                     departmentid: screen.getdepartmentid()
                                 };
-                                RwServices.call('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
+                                RwServices.callMethod('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
                                     try {
                                         screen.setexchangecontractid(responseCreateExchangeContract.createexchangecontract.exchangecontractid);
                                         screen.setsessionno(responseCreateExchangeContract.createexchangecontract.sessionno);
@@ -995,7 +995,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                         pagesize: 0,
                         departmentid: model.departmentid
                     };
-                    RwServices.call('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
+                    RwServices.callMethod('Exchange', 'SuspendedSessionSearch', requestSuspendedSessionSearch, function(responseSuspendedSessionSearch) {
                         try {
                             if (responseSuspendedSessionSearch.searchresults.Rows.length === 0) {
                                 var requestCreateExchangeContract = {
@@ -1003,7 +1003,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                                     dealid: screen.getdealid(),
                                     departmentid: screen.getdepartmentid()
                                 };
-                                RwServices.call('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
+                                RwServices.callMethod('Exchange', 'CreateExchangeContract', requestCreateExchangeContract, function(responseCreateExchangeContract) {
                                     try {
                                         screen.setexchangecontractid(responseCreateExchangeContract.createexchangecontract.exchangecontractid);
                                         screen.setsessionno(responseCreateExchangeContract.createexchangecontract.sessionno);
@@ -1767,7 +1767,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 FwConfirmation.yesNo('Cancel Contract?', 'Cancel Exchange Contract?', 
                     function onyes() {
                         try {
-                            RwServices.call('Exchange', 'CancelContract', request, function(response) {
+                            RwServices.callMethod('Exchange', 'CancelContract', request, function(response) {
                                 navigateAway();
                             });
                         } catch(ex) {

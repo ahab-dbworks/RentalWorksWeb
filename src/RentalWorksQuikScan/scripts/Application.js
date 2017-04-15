@@ -270,7 +270,7 @@ Application.prototype.navigate = function(path) {
         // this is how you do the navigate away in a screen
         // instead of returning true/false it makes you manually call a function, so you can use callbacks in beforeNavigateAway
         // screen.beforeNavigateAway = function(navigateAway) {
-        //     RwServices.call('Module', 'Method', {}, function(response) {
+        //     RwServices.callMethod('Module', 'Method', {}, function(response) {
         //       if (response.iscool) { navigateAway(); }
         //     }}
         // };

@@ -122,7 +122,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
                     masterid: screen.getMasterId(),
                     orderid: this.value
                 };
-                RwServices.call('AssetDisposition', 'GetMaxRetireQty', request, function(response) {
+                RwServices.callMethod('AssetDisposition', 'GetMaxRetireQty', request, function(response) {
                     try {
                         FwFormField.enable(screen.$view.find('.fieldretireqty'));
                         if (response.maxretireqty > 0) {
@@ -226,7 +226,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
                 barcode: screen.getBarcode()
             };
             if (request.barcode.length > 0) {
-                RwServices.call('AssetDisposition', 'GetItemStatus', request, function(response) {
+                RwServices.callMethod('AssetDisposition', 'GetItemStatus', request, function(response) {
                     try {
                         screen.setWebGetItemStatus(response.webGetItemStatus);
                         screen.setFuncMasterWh(response.funcMasterWh);
@@ -431,7 +431,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
             lossamount:          screen.getLossAmount(),
             notes:               screen.getRetireNote()
         };
-        RwServices.call('AssetDisposition', 'RetireItem', requestRetireItem, function(response) {
+        RwServices.callMethod('AssetDisposition', 'RetireItem', requestRetireItem, function(response) {
             try {
                 application.navigate('home/home');
             } catch(ex) {

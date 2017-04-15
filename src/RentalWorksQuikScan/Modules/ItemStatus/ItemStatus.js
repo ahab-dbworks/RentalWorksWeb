@@ -52,7 +52,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 };
                 if (request.barcode.length > 0) {
                     screen.resetscreen();
-                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                    RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                         application.playStatus(response.itemdata.status === 0);
 
@@ -77,7 +77,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 request = {
                     barcode: $this.data('recorddata').tag
                 };
-                RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                     screen.loaditemdata(response.itemdata);
                 });
             }
@@ -209,12 +209,12 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         screen.$view.find('.fwmobilecontrol-value').val('');
         if (epcs != '') {
             screen.resetscreen();
-            RwServices.call('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
+            RwServices.callMethod('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
                 if (response.items.length == 1) {
                     var request = {
                         barcode: response.items[0].tag
                     };
-                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                    RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                     });
                 } else {

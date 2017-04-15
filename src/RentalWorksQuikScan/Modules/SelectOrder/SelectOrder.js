@@ -50,7 +50,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
     //        pageno: 1,
     //        pagesize: 1000
     //    }
-    //    RwServices.call('SelectOrder', 'GetOrders', getOrdersRequest, function(response) {
+    //    RwServices.callMethod('SelectOrder', 'GetOrders', getOrdersRequest, function(response) {
     //        var itemtemplate, rowhtml, itemmodel, dt, html;
     //        dt = response.GetOrders;
     //        html = [];
@@ -123,7 +123,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
         if (typeof properties.activityType !== 'undefined') {
             request.activityType = properties.activityType;
         }
-        RwServices.call('SelectOrder', 'WebSelectOrder', request, function(response) {
+        RwServices.callMethod('SelectOrder', 'WebSelectOrder', request, function(response) {
             if (!skipconfirmation) {
                 application.playStatus(response.webSelectOrder.status <= 0);
             }
@@ -333,7 +333,7 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
             },
             function(request) {
                 request.searchstring = screen.$view.find('.fwmobilecontrol-value').val().toUpperCase();
-                RwServices.call('SelectOrder', 'GetOrders', request, function(response) {
+                RwServices.callMethod('SelectOrder', 'GetOrders', request, function(response) {
                     FwListView.clear($listview);
                     FwListView.load($listview, request, response.GetOrders, itemtemplate, itemmodel);
                 });

@@ -25,7 +25,7 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                             aisle:    screendata.aisle,
                             shelf:    screendata.shelf
                         };
-                        RwServices.call("MoveBCLocation", "BarcodeMove", request, function(response) {
+                        RwServices.callMethod("MoveBCLocation", "BarcodeMove", request, function(response) {
                             $movebclocationstatus.removeClass('success error');
                             if (response.barcodemove.status == '0') {
                                 $movebclocationstatus.show().addClass('success');
