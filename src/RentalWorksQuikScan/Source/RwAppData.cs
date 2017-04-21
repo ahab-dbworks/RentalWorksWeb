@@ -407,6 +407,9 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@buyer",         SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@manufacturer",  SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@pono",          SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@barcode",       SqlDbType.VarChar,   ParameterDirection.Output);
+            sp.AddParameter("@mfgserial",     SqlDbType.VarChar,   ParameterDirection.Output);
+            sp.AddParameter("@rfid",          SqlDbType.VarChar,   ParameterDirection.Output);
             sp.AddParameter("@itemclass",     SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@status",        SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",           SqlDbType.NVarChar, ParameterDirection.Output);
@@ -443,6 +446,9 @@ namespace RentalWorksQuikScan.Source
             result.buyer        = sp.GetParameter("@buyer").ToString().TrimEnd();
             result.manufacturer = sp.GetParameter("@manufacturer").ToString().TrimEnd();
             result.pono         = sp.GetParameter("@pono").ToString().TrimEnd();
+            result.barcode      = sp.GetParameter("@barcode").ToString().TrimEnd();
+            result.mfgserial    = sp.GetParameter("@mfgserial").ToString().TrimEnd();
+            result.rfid         = sp.GetParameter("@rfid").ToString().TrimEnd();
             result.itemclass    = sp.GetParameter("@itemclass").ToString().TrimEnd();
             result.status       = sp.GetParameter("@status").ToInt32();
             result.msg          = sp.GetParameter("@msg").ToString().TrimEnd();

@@ -115,24 +115,30 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $itemdetails.find('#is-captionLastOrder').html(RwLanguages.translate('Last Order'));
         }
 
-        $itemdetails.find('#is-trBarcode').toggle(itemdata.trackedby == "BARCODE");
-        if (itemdata.trackedby == "BARCODE") {
-            $itemdetails.find('#is-txtBarcode').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtBarcode').html('');
-        }
-        $itemdetails.find('#is-trSerialNo').toggle(itemdata.trackedby == "SERIALNO");
-        if (itemdata.trackedby == "SERIALNO") {
-            $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtSerialNo').html('');
-        }
-        $itemdetails.find('#is-trRFID').toggle(itemdata.trackedby == "RFID");
-        if (itemdata.trackedby == "RFID") {
-            $itemdetails.find('#is-txtRFID').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtRFID').html('');
-        }
+        //$itemdetails.find('#is-trBarcode').toggle(itemdata.trackedby == "BARCODE");
+        //if (itemdata.trackedby == "BARCODE") {
+        //    $itemdetails.find('#is-txtBarcode').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtBarcode').html('');
+        //}
+        //$itemdetails.find('#is-trSerialNo').toggle(itemdata.trackedby == "SERIALNO");
+        //if (itemdata.trackedby == "SERIALNO") {
+        //    $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtSerialNo').html('');
+        //}
+        //$itemdetails.find('#is-trRFID').toggle(itemdata.trackedby == "RFID");
+        //if (itemdata.trackedby == "RFID") {
+        //    $itemdetails.find('#is-txtRFID').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtRFID').html('');
+        //}
+        $itemdetails.find('#is-trBarcode').toggle(itemdata.barcode != '');
+        $itemdetails.find('#is-txtBarcode').html(itemdata.barcode);
+        $itemdetails.find('#is-trSerialNo').toggle(itemdata.mfgserial != '');
+        $itemdetails.find('#is-txtSerialNo').html(itemdata.mfgserial);
+        $itemdetails.find('#is-trRFID').toggle(itemdata.rfid != '');
+        $itemdetails.find('#is-txtRFID').html(itemdata.rfid);
         $itemdetails.find('#is-txtICode').html(itemdata.masterNo);
         $itemdetails.find('#is-txtDescription').html(itemdata.description);
         $itemdetails.find('#is-trAisle').toggle(!itemdata.isICode);
