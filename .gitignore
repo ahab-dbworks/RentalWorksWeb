@@ -276,3 +276,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
+
+src/RentalWorksWeb/App_Data/Temp/
