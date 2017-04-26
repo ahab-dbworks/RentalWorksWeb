@@ -221,10 +221,13 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 contractId:  screen.getContractId()
             };
             RwServices.order.getCheckInSessionInList(request, function(response) {
-                var items, ul, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0;
+                var items, ul, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0, hasUnassignedQtyItems=false;
                 items = response.getCheckInSessionInList; 
                 ul = [];
                 for (var i = 0; i < items.length; i++) {
+                    if (!hasUnassignedQtyItems) {
+                        hasUnassignedQtyItems = items[i].orderid === "xxxxxxxx" && items[i].trackedby === 'QUANTITY';
+                    }
                     isHeaderRow = ((items[i].itemclass === 'N') || (items[i].sessionin === 0));
                     if (!isHeaderRow) {
                         lineitemcount++;
@@ -293,6 +296,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 }
                 ul.push(screen.getRowCountItem(lineitemcount, totalitems));
                 jQuery('#checkIn-sessionInList-ul').html(ul.join(''));
+                jQuery('#checkIn-sessionInList-btnReconcileQtyItems').toggle(hasUnassignedQtyItems)
                 //screen.$btncreatecontract.toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (items.length > 0)));
             });
         } catch(ex) {
@@ -812,6 +816,18 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             } catch(ex) {
                 FwFunc.showError(ex);
             }
+        })
+        .on('click', '#checkIn-sessionInList-btnReconcileQtyItems', function () {
+            var request = {
+                contractid: screen.getContractId()
+            };
+            RwServices.callMethod('CheckIn', 'ReconcileNonBC', request, function () {
+                try {
+                    jQuery('#checkIn-pageSelector .selected').click();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
         })
         .on('click', '#checkIn-pendingList-ul > li.link', function() {
             var $this, orderId, masterItemId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId;

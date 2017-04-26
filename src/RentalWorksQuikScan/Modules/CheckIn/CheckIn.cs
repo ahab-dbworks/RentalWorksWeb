@@ -289,5 +289,18 @@ namespace RentalWorksQuikScan.Modules
             qry.Execute();
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod(RequiredParameters = "contractid")]
+        public void ReconcileNonBC(dynamic request, dynamic response, dynamic session)
+        {
+            string usersid = RwAppData.GetUsersId(session);
+            string contractid = request.contractid;
+            using (FwSqlCommand sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "reconcilenonbc"))
+            {
+                sp.AddParameter("@contractid", contractid);
+                sp.AddParameter("@usersid", usersid);
+                sp.Execute();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

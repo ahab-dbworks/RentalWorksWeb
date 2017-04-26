@@ -53,6 +53,8 @@
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.vendor div.vendor {width:225px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.sessionin.key {font-size:11px;}
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.sessionin.value {font-size:11px;}
+#checkIn-sessionInList-ul > li[data-orderid=""] table,
+#checkIn-sessionInList-ul > li[data-orderid="xxxxxxxx"] table{background-color:#e57373;}
 #checkIn-sessionInList-ul > li.itemclass-C > div.description {background:#8888ff;}
 #checkIn-sessionInList-ul > li.itemclass-C,
 #checkIn-sessionInList-ul > li.itemclass-CI,
