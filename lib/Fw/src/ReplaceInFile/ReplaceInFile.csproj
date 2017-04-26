@@ -35,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FwPublish>true</FwPublish>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,7 +55,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
+  <Target Name="AfterBuild" Condition="$(FwPublish)=='true'">
     <MakeDir Directories="$(FwSolutionDir)\build\ReplaceInFile" Condition="!Exists('$(FwSolutionDir)\build\ReplaceInFile')" />
     <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\ReplaceInFile.exe&quot; &quot;$(FwSolutionDir)\build\ReplaceInFile\ReplaceInFile.exe&quot;" />
     <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\ReplaceInFile.exe.config&quot; &quot;$(FwSolutionDir)\build\ReplaceInFile\ReplaceInFile.exe.config&quot;" />

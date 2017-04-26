@@ -46,8 +46,8 @@ html.flexbox .fwconfirmation .fwconfirmationbox {}
 .fwconfirmation .fwconfirmationbox .body .message {cursor: default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 .fwconfirmation .fwconfirmationbox .body .controls:after {content:"";display:table;clear:both;}
 html.no-touch .fwconfirmation .fwconfirmationbox .more {display:none !important;}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar {padding:10px;text-align:center;}
-.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button {margin:0 4px;padding:.4em;cursor:pointer;min-width:5em;font-size:1em;display:inline-block;}
+.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar {padding:10px 0;text-align:center;}
+.fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar .fwconfirmation-button {margin:0 4px;padding:.4em;cursor:pointer;min-width:4em;font-size:1em;display:inline-block;}
 
 /* jquery.FwPopup.js and FwPopup.js (FwPopup.attach) */
 .FwPopup-divOverlay {background-color:rgba(0,0,0,0.5);position:fixed;top:0;left:0;bottom:0;right:0;cursor:pointer;}

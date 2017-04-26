@@ -48,24 +48,24 @@ namespace Fw.Json.Services
         public static void AddLicense()
         {
             //2015
-            EO.Pdf.Runtime.AddLicense(
-                "iZ9Zl8DADOul5vvPuIlZl6Sx5+6r2+kD9O2f5qT1DPOetKbC2rFwprbB3LRb" +
-                "l/cGDcSx5+0DEPJ668Gz3K5rrrPD27BvmaQHEPGs4PP/6KFvmaTA6YxDl6Sx" +
-                "y7us4Ov/DPOu6enPFLKzyvz2FsKqxrrp4tltrM39/PJs3sHO566s4Ov/DPOu" +
-                "6enPuIl1pvD6DuSn6unPuIl14+30EO2s3MKetZ9Zl6TNF+ic3PIEEMidtbrJ" +
-                "4rFvqbrB27F1pvD6DuSn6unaD71GgaSxy5914+30EO2s3OnP566l4Of2GfKe" +
-                "3MKetZ9Zl6TNDOul5vvPuIlZl6Sxy59Zl8DyD+NZ6/0BELxbvNO/++OfmaQH" +
-                "EPGs4PP/6KFqrLLBzZ9otZGbyw==");
+            //EO.Pdf.Runtime.AddLicense(
+            //    "iZ9Zl8DADOul5vvPuIlZl6Sx5+6r2+kD9O2f5qT1DPOetKbC2rFwprbB3LRb" +
+            //    "l/cGDcSx5+0DEPJ668Gz3K5rrrPD27BvmaQHEPGs4PP/6KFvmaTA6YxDl6Sx" +
+            //    "y7us4Ov/DPOu6enPFLKzyvz2FsKqxrrp4tltrM39/PJs3sHO566s4Ov/DPOu" +
+            //    "6enPuIl1pvD6DuSn6unPuIl14+30EO2s3MKetZ9Zl6TNF+ic3PIEEMidtbrJ" +
+            //    "4rFvqbrB27F1pvD6DuSn6unaD71GgaSxy5914+30EO2s3OnP566l4Of2GfKe" +
+            //    "3MKetZ9Zl6TNDOul5vvPuIlZl6Sxy59Zl8DyD+NZ6/0BELxbvNO/++OfmaQH" +
+            //    "EPGs4PP/6KFqrLLBzZ9otZGbyw==");
 
             //2017
-            //EO.Pdf.Runtime.AddLicense(
-            //    "xa5rrrPD27BwmaQHEPGs4PP/6KFvmaTA6YxDl6Sxy7us4Ov/DPOu6enPDMSu" + 
-            //    "4PjK4tlx3svW1qqm37zX7syfyMHO566s4Ov/DPOu6enPuIl1pvD6DuSn6unP" + 
-            //    "uIl14+30EO2s3MKetZ9Zl6TNF+ic3PIEEMidtbrJ4rFvqbrB27F1pvD6DuSn" + 
-            //    "6unaD71GgaSxy5914+30EO2s3OnP566l4Of2GfKe3MKetZ9Zl6TNDOul5vvP" + 
-            //    "uIlZl6Sxy59Zl8DyD+NZ6/0BELxbvNO/++OfmaQHEPGs4PP/6KFqrrLBzZ9o" + 
-            //    "tZGby59Zl8DADOul5vvPuIlZl6Sx5+6r2+kD9O2f5qT1DPOetKbC2rFwprbB" + 
-            //    "3LRbl/cGDcSx5+0DEPJ668Gz3A==");
+            EO.Pdf.Runtime.AddLicense(
+                "LdoPvUaBpLHLn3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4" +
+                "iVmXpLHLn1mXwPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqussHNn2i1" +
+                "kZvLn1mXwMAM66Xm+8+4iVmXpLHn7qvb6QP07Z/mpPUM8560psLasXCmtsHc" +
+                "tFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZpAcQ8azg8//ooW+ZpMDpjEOX" +
+                "pLHLu6zg6/8M867p6c/61IHH+P7/so/tuwkA7HHu+dLtsYbewc7nrqzg6/8M" +
+                "867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azcwp61n1mXpM0X6Jzc8gQQyJ21" +
+                "usnisW+pusHbsXWm8PoO5Kfq6Q==");
         }
         //---------------------------------------------------------------------------------------------
         abstract protected FwSqlConnection GetApplicationSqlConnection();
@@ -105,7 +105,7 @@ namespace Fw.Json.Services
                 DownloadableResult result = new DownloadableResult(); ;
                 filename = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
                 path = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
-                result.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload.ashx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(excelPackageResult.Filename + ".xlsx") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
+                result.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(excelPackageResult.Filename + ".xlsx") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
                 result.Path = path;
                 excelPackageResult.ExcelPackage.File = new FileInfo(path);
                 excelPackageResult.ExcelPackage.Save();
@@ -366,7 +366,7 @@ namespace Fw.Json.Services
             filename    = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".html";
             path        = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
             File.WriteAllText(path, html);
-            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload.ashx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".html") + "&asattachment=false");
+            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".html") + "&asattachment=false");
 
             return downloadurl;
         }
@@ -492,7 +492,7 @@ namespace Fw.Json.Services
             HtmlToPdf.Options.BaseUrl                    = FwFunc.GetRequestBaseUrl();
             HtmlToPdf.Options.AutoAdjustForDPI           = false;
             HtmlToPdf.Options.RepeatTableHeaderAndFooter = true;
-            HtmlToPdf.Options.PreserveHighResImages      = true;
+            HtmlToPdf.Options.JpegQualityLevel = 100; //.PreserveHighResImages      = true;
             HtmlToPdf.Options.PageSize                   = printOptions.GetPageSize();
             HtmlToPdf.Options.OutputArea                 = printOptions.GetOutputArea();
             HtmlToPdf.Options.AutoFitX                   = HtmlToPdfAutoFitMode.None;
@@ -513,7 +513,7 @@ namespace Fw.Json.Services
             //pdfdoc = new PdfDocument();
             //htmltopdfresult = HtmlToPdf.ConvertHtml(bodyHtml, pdfdoc);
             //pdfdoc.Save(path);
-            renderPdfResult.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload.ashx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".pdf") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
+            renderPdfResult.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".pdf") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
             renderPdfResult.Path        = path;
 
             return renderPdfResult;

@@ -1,0 +1,12 @@
+C:\project2\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.exe.config
+C:\project2\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.exe
+C:\project2\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.pdb
+C:\project2\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.csprojResolveAssemblyReference.cache
+C:\project2\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.exe
+C:\project2\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.pdb
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.exe.config
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.exe
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Debug\ReplaceInFile.pdb
+C:\gitprojects\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.csprojResolveAssemblyReference.cache
+C:\gitprojects\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.exe
+C:\gitprojects\Fw\src\ReplaceInFile\obj\Debug\ReplaceInFile.pdb

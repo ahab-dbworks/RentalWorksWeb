@@ -1,0 +1,5 @@
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Release\ReplaceInFile.exe.config
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Release\ReplaceInFile.exe
+C:\gitprojects\Fw\src\ReplaceInFile\bin\Release\ReplaceInFile.pdb
+C:\gitprojects\Fw\src\ReplaceInFile\obj\Release\ReplaceInFile.exe
+C:\gitprojects\Fw\src\ReplaceInFile\obj\Release\ReplaceInFile.pdb

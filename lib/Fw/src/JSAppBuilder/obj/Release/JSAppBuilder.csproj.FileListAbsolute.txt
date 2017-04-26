@@ -1,0 +1,9 @@
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\JSAppBuilder.exe.config
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\JSAppBuilder.exe
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\JSAppBuilder.pdb
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\Fw.MSBuild.dll
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\ILMerge.exe
+C:\gitprojects\Fw\src\JSAppBuilder\bin\Release\Fw.MSBuild.dll.config
+C:\gitprojects\Fw\src\JSAppBuilder\obj\Release\JSAppBuilder.csprojResolveAssemblyReference.cache
+C:\gitprojects\Fw\src\JSAppBuilder\obj\Release\JSAppBuilder.exe
+C:\gitprojects\Fw\src\JSAppBuilder\obj\Release\JSAppBuilder.pdb

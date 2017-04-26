@@ -1,0 +1,6 @@
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Release\Fw.MSBuild.dll.config
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Release\Fw.MSBuild.dll
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Release\fw.net.xml
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Release\ILMerge.exe
+C:\gitprojects\Fw\src\Fw.MSBuild\obj\Release\Fw.MSBuild.csprojResolveAssemblyReference.cache
+C:\gitprojects\Fw\src\Fw.MSBuild\obj\Release\Fw.MSBuild.dll

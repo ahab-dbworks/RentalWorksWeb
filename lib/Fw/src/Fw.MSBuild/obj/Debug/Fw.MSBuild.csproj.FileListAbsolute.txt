@@ -1,0 +1,14 @@
+C:\project2\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.dll.config
+C:\project2\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.dll
+C:\project2\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.pdb
+C:\project2\Fw\src\Fw.MSBuild\bin\Debug\ILMerge.exe
+C:\project2\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.csprojResolveAssemblyReference.cache
+C:\project2\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.dll
+C:\project2\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.pdb
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.dll.config
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.dll
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Debug\Fw.MSBuild.pdb
+C:\gitprojects\Fw\src\Fw.MSBuild\bin\Debug\ILMerge.exe
+C:\gitprojects\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.csprojResolveAssemblyReference.cache
+C:\gitprojects\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.dll
+C:\gitprojects\Fw\src\Fw.MSBuild\obj\Debug\Fw.MSBuild.pdb

@@ -48,7 +48,7 @@ namespace Fw.Json.HttpHandlers
                     context.Response.StatusCode  = 200;
                     context.Response.ContentType = FwAppDocumentHandler.GetMimeType(extension);
                     context.Response.WriteFile(filepath);
-                    contentdisposition = ((asattachment == "true") ? "attachment; " : string.Empty) + "filename=\"" + saveas + "\"";
+                    contentdisposition = ((asattachment == "true") ? "attachment; " : "inline; ") + "filename=\"" + saveas + "\"";
                     context.Response.Headers["Content-Disposition"] = contentdisposition;
                     context.Response.Flush();
                 }
@@ -58,27 +58,27 @@ namespace Fw.Json.HttpHandlers
                     context.Response.Flush();
                 }
             
-                try
-                {
-                    // clean up the file.
-                    if (File.Exists(filepath))
-                    {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            try 
-                            {
-                                File.Delete(filepath);
-                                break;
-                            }
-                            catch
-                            {
-                                Thread.Sleep(1000);
-                            }
-                            finally{}
-                        }
+                //try
+                //{
+                //    // clean up the file.
+                //    if (File.Exists(filepath))
+                //    {
+                //        for (int i = 0; i < 10; i++)
+                //        {
+                //            try 
+                //            {
+                //                File.Delete(filepath);
+                //                break;
+                //            }
+                //            catch
+                //            {
+                //                Thread.Sleep(1000);
+                //            }
+                //            finally{}
+                //        }
                     
-                    }
-                } catch { }
+                //    }
+                //} catch { }
 
                 try
                 {

@@ -31,7 +31,7 @@ html.theme-classic .fwcontextmenuitem:not(:first-child) {border-top:1px solid #e
 
 /*#region Default Theme*/
 html.theme-default .fwcontextmenutitle {background-color:rgb(104,33,122);color:#ffffff;padding:.25em 0;text-align:center;border-radius:.25em .25em 0 0;font-size:.8em;}
-html.theme-default .fwcontextmenubox {border:1px solid #e0e0e0;background-color:#ffffff;border-radius:.5em;}
+html.theme-default .fwcontextmenubox {border:1px solid #e0e0e0;background-color:#ffffff;border-radius:.5em;overflow:hidden;}
 html.theme-default .fwcontextmenuitem {padding:1em 0;text-align:center;color:rgb(48,106,255);font-size:1em;}
 html.theme-default .fwcontextmenucancel .fwcontextmenuitem {font-weight:bold;border-top:1px solid #e0e0e0;}
 html.theme-default .fwcontextmenuitem:hover {background-color:rgb(48,106,255);color:#ffffff;}
