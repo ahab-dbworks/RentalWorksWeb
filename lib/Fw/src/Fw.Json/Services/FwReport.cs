@@ -16,6 +16,7 @@ using Fw.Json.SqlServer.Entities;
 using Fw.Json.Utilities;
 using OfficeOpenXml;
 using Fw.Json.ValueTypes;
+using System.Linq;
 
 namespace Fw.Json.Services
 {
@@ -100,12 +101,12 @@ namespace Fw.Json.Services
             {
                 if (excelPackageResult.Filename == null)
                 {
-                    excelPackageResult.Filename = getReportName();
+                    excelPackageResult.Filename = getReportFileName();
                 }
                 DownloadableResult result = new DownloadableResult(); ;
                 filename = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
                 path = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
-                result.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(excelPackageResult.Filename + ".xlsx") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
+                result.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportFileName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(excelPackageResult.Filename + ".xlsx") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
                 result.Path = path;
                 excelPackageResult.ExcelPackage.File = new FileInfo(path);
                 excelPackageResult.ExcelPackage.Save();
@@ -234,6 +235,14 @@ namespace Fw.Json.Services
         protected virtual string getReportName()
         {
             return "Untitled Report";
+        }
+        //---------------------------------------------------------------------------------------------
+        protected virtual string getReportFileName()
+        {
+            String filename = new String(getReportName()
+                .Where(ch => Char.IsLetterOrDigit(ch))
+                .ToArray());
+            return filename;
         }
         //---------------------------------------------------------------------------------------------
         private PrintOptions getRequestPrintOptions()
@@ -366,7 +375,7 @@ namespace Fw.Json.Services
             filename    = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".html";
             path        = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
             File.WriteAllText(path, html);
-            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".html") + "&asattachment=false");
+            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportFileName() + ".html?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportFileName() + ".html") + "&asattachment=false");
 
             return downloadurl;
         }
@@ -513,7 +522,7 @@ namespace Fw.Json.Services
             //pdfdoc = new PdfDocument();
             //htmltopdfresult = HtmlToPdf.ConvertHtml(bodyHtml, pdfdoc);
             //pdfdoc.Save(path);
-            renderPdfResult.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportName() + ".pdf") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
+            renderPdfResult.DownloadUrl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + getReportFileName() + ".pdf?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(getReportFileName() + ".pdf") + "&asattachment=" + printOptions.DownloadAsAttachment.ToString().ToLower());
             renderPdfResult.Path        = path;
 
             return renderPdfResult;

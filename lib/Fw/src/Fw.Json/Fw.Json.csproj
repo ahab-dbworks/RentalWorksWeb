@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -672,16 +671,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="Update Fw GateWorksWeb" Condition="'$(Configuration)'=='Update Fw GateWorksWeb'">
-    <Exec Command="powershell -file &quot;$(MSBuildProjectDirectory)\Update_Fw_GateWorksWeb.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />  
-  </Target>
-  <Target Name="Update Fw RentalWorksWeb" Condition="'$(Configuration)'=='Update Fw RentalWorksWeb'">
-    <Exec Command="powershell -file &quot;$(MSBuildProjectDirectory)\Update_Fw_RentalWorksWeb.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
-  </Target>
-  <Target Name="Update Fw RentalWorksWeb_2015_001" Condition="'$(Configuration)'=='Update Fw RentalWorksWeb_2015_001'">
-    <Exec Command="powershell -file &quot;$(MSBuildProjectDirectory)\Update_Fw_RentalWorksWeb_2015_001.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
-  </Target>
-  <Target Name="Update Fw TransWorksWeb" Condition="'$(Configuration)'=='Update Fw TransWorksWeb'">
-    <Exec Command="powershell -file &quot;$(MSBuildProjectDirectory)\Update_Fw_TransWorksWeb.ps1&quot;" ContinueOnError="true" IgnoreExitCode="true" />
-  </Target>
 </Project>
