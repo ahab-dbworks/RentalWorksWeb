@@ -3,7 +3,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
     var combinedViewModel, screen, applicationOptions;
     applicationOptions = application.getApplicationOptions();
     combinedViewModel = jQuery.extend({
-      captionPageTitle:           RwLanguages.translate('Item Disposition'),
+      captionPageTitle:           RwLanguages.translate('Asset Disposition'),
       htmlScanBarcode:            RwPartialController.getScanBarcodeHtml({captionBarcodeICode:RwLanguages.translate('Bar Code / I-Code')}),
       captionBC:                  RwLanguages.translate('BC'),
       

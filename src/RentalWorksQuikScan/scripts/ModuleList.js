@@ -13,7 +13,7 @@ var ModuleList = [
     { name: RwLanguages.translate('Transfer Out'),        nav: 'order/transferout',           icon: 'theme/images/icons/128/transferout.png',          appoption: '',                 usertype: ['USER']        },
     { name: RwLanguages.translate('Transfer In'),         nav: 'order/transferin',            icon: 'theme/images/icons/128/transferin.png',           appoption: '',                 usertype: ['USER']        },
     { name: RwLanguages.translate('Repair'),              nav: 'inventory/repairmenu',        icon: 'theme/images/icons/128/repair.png',               appoption: '',                 usertype: ['USER']        },
-    { name: RwLanguages.translate('Item Disposition'),    nav: 'inventory/assetdisposition',  icon: 'theme/images/icons/128/assetdisposition.001.png', appoption: 'production',       usertype: ['USER']        },
+    { name: RwLanguages.translate('Asset Disposition'),    nav: 'inventory/assetdisposition',  icon: 'theme/images/icons/128/assetdisposition.001.png', appoption: 'production',       usertype: ['USER']        },
     { name: RwLanguages.translate('Package Truck'),       nav: 'order/packagetruck',          icon: 'theme/images/icons/128/package-truck.001.png',    appoption: 'packagetruck',     usertype: ['USER']        },
     { name: RwLanguages.translate('QuikPick'),            nav: 'quote/quotemenu',             icon: 'theme/images/icons/128/quikpick.png',             appoption: '',                 usertype: ['USER']        },
     //{ name: RwLanguages.translate('Exchange'),            nav: 'utilities/exchange',          icon: 'theme/images/icons/128/exchange.002.png',         appoption: '',                 usertype: ['USER']        },

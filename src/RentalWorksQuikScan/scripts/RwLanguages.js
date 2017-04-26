@@ -25,7 +25,7 @@ RwLanguages.captions = [
   , 'As Of'
   , 'Assign Bar Code(s)'
   , 'Assign Items'
-  , 'Item Disposition'
+  , 'Asset Disposition'
   , 'Item Location'
   , 'Item Set Location'
   , 'Attach'
