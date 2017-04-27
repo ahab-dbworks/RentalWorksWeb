@@ -1,4 +1,5 @@
 $mode = "test"
+New-Item "src/RentalWorksWeb/App_Data/Temp/Downloads" -type directory
 Copy-Item "src/RentalWorksAPI/Application.$mode.config" "src/RentalWorksAPI/Application.config"
 Copy-Item "src/RentalWorksQuikScan/Application.$mode.config" "src/RentalWorksQuikScan/Application.config"
 Copy-Item "src/RentalWorksQuikScan/Application.$mode.config" "src/RentalWorksQuikScan/ApplicationConfig.js"
