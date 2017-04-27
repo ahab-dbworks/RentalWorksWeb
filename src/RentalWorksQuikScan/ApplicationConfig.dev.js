@@ -1,10 +1,10 @@
-﻿<ApplicationConfig>
+<ApplicationConfig>
   <Sites>
-    <Site Name="Default">
+    <Site Name="Local">
       <DatabaseConnections>
         <DatabaseConnection Name="RentalWorks">
-          <Server>localhost</Server>
-          <Database>rentalworks</Database>
+          <Server>sqldemo01.dbworkscloud.com</Server>
+          <Database>rentalworksdev</Database>
         </DatabaseConnection>
       </DatabaseConnections>
     </Site>

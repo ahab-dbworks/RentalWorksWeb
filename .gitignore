@@ -4,6 +4,7 @@
 
 /src/RentalWorksAPI/Properties/PublishProfiles/Dbworks\.pubxml\.user
 /src/RentalWorksAPI/RentalWorksAPI\.csproj\.user
+/src/RentalWorksAPI/Application.config
 /src/RentalWorksAPI/bin/
 /src/RentalWorksAPI/obj/
 
@@ -52,9 +53,3 @@
 /lib/Fw/src/obj/
 /lib/Fw/src/ReplaceInFile/bin/
 /lib/Fw/src/ReplaceInFile/obj/
-
-/src/RentalWorksMiddleTier/RentalWorksMiddleTier\.csproj\.user
-/src/RentalWorksMiddleTier/Properties/PublishProfiles/RentalWorksMiddleTier\.pubxml\.user
-
-
-

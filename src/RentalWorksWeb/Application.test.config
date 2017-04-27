@@ -4,7 +4,7 @@
       <DatabaseConnections>
         <DatabaseConnection Name="RentalWorks">
           <Server>sqldemo01.dbworkscloud.com</Server>
-          <Database>rentalworksdev</Database>
+          <Database>rentalworksdevtest</Database>
         </DatabaseConnection>
       </DatabaseConnections>
     </Site>
