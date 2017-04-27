@@ -344,6 +344,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="application.sample.config" />
+    <Content Include="Application.test.config" />
+    <Content Include="Application.dev.config" />
     <None Include="Properties\PublishProfiles\Dbworks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

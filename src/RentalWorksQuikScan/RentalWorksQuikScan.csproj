@@ -107,6 +107,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ApplicationConfig.dev.js" />
     <Content Include="ApplicationConfig.devsample.js" />
     <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
@@ -284,12 +285,11 @@
     <Content Include="theme\images\icons\128\utilities.png" />
     <Content Include="theme\images\icons\128\webimage.png" />
     <Content Include="theme\images\icons\favicon.ico" />
-    <Content Include="Application.devsample.config">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Application.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Application.test.config" />
+    <Content Include="Application.dev.config" />
     <None Include="ApplicationConfig.js" />
     <Content Include="app_startupscriptsrc.js" />
     <Content Include="audio\error.wav">

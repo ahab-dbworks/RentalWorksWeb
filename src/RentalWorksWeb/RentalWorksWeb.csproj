@@ -93,7 +93,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Fw\Libraries\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\lib\Fw\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -113,8 +113,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationConfig.devsample.js" />
+    <Content Include="ApplicationConfig.dev.js" />
+    <Content Include="ApplicationConfig.js" />
     <Content Include="ApplicationConfig.sample.js" />
+    <Content Include="ApplicationConfig.test.js" />
     <Content Include="index.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
@@ -977,7 +979,8 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="app_scripts.json" />
-    <Content Include="Application.devsample.config" />
+    <Content Include="Application.dev.config" />
+    <Content Include="Application.test.config" />
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
