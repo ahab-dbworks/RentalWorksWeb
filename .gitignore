@@ -38,6 +38,7 @@
 /src/RentalWorksWeb/theme/fwimages/*
 
 /src/RentalWorksTest/RentalWorksTest\.csproj\.user
+/src/RentalWorksTest/Application.config
 /src/RentalWorksTest/bin/
 /src/RentalWorksTest/obj/
 
