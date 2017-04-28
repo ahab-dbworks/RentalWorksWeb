@@ -36,7 +36,7 @@ else
 # Run your code that needs to be elevated here
 $ScriptPath = (Get-Variable MyInvocation).Value
 $SolutionDir = Split-Path $ScriptPath.MyCommand.Path
-New-WebVirtualDirectory -Site "Default Web Site" -Name "fwrwjson" -PhysicalPath "$SolutionDir\lib\Fw" 
+New-WebVirtualDirectory -Site "Default Web Site" -Name "rwfwjson" -PhysicalPath "$SolutionDir\lib\Fw" 
 $mode = "dev"
 New-Item "src/RentalWorksWeb/App_Data/Temp/Downloads" -type directory
 Copy-Item "src/RentalWorksAPI/Application.$mode.config" "src/RentalWorksAPI/Application.config"

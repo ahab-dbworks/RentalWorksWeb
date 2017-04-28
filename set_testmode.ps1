@@ -47,5 +47,5 @@ Copy-Item "src\RentalWorksWeb\ApplicationConfig.$mode.js" "src\RentalWorksWeb\Ap
 #create the fw virtual directory
 $ScriptPath = (Get-Variable MyInvocation).Value
 $SolutionDir = Split-Path $ScriptPath.MyCommand.Path
-New-WebVirtualDirectory -Site "Default Web Site" -Name "fwrwjson" -PhysicalPath "$SolutionDir\lib\Fw" 
+New-WebVirtualDirectory -Site "Default Web Site" -Name "rwfwjson" -PhysicalPath "$SolutionDir\lib\Fw" 
 
