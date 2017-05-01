@@ -54,3 +54,5 @@
 /lib/Fw/src/obj/
 /lib/Fw/src/ReplaceInFile/bin/
 /lib/Fw/src/ReplaceInFile/obj/
+
+/TestResult\.xml
