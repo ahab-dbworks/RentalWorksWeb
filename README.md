@@ -8,11 +8,11 @@ Learn more about: [RentalWorks](http://www.dbworks.com/products/rentalworks)
 
 The RentalWorksWeb repository consists of the following projects:
 
-1. Fw.Json
-2. RentalWorksAPI
-3. RentalWorksQuikScan
-4. RentalWorksTest
-5. RentalWorksWeb
+1. Fw.Json - The shared framework (The framework has it' own repository so changes need to be made there and then synced to this project with a script)
+2. RentalWorksAPI - REST API for RentalWorks
+3. RentalWorksQuikScan - iOS/Android web app
+4. RentalWorksTest - Integration Tests
+5. RentalWorksWeb - Responsive Web App
 
 ## Getting started
 
@@ -37,7 +37,7 @@ The RentalWorksWeb repository consists of the following projects:
 - Width needs to be wider so make it 180 or whatever you like
 
 ### Create Virtual Directories and set Application.config files to dev database
-- run the powershell script set_devemode.ps1
+- run the powershell script set_devemode.ps1.  If it doesn't work you will need to run the second version of the script from an administrative powershell command prompt or manually do what the script does.
 
 ## License
 RentalWorksWeb is copyright by Database Works, Inc.  All rights reserved.  You are not permitted to redistribute this source code or compiled binaries without permission from Database Works.
