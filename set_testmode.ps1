@@ -6,15 +6,13 @@ $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWin
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
  
 # Check to see if we are currently running "as Administrator"
-if ($myWindowsPrincipal.IsInRole($adminRole))
-   {
+if ($myWindowsPrincipal.IsInRole($adminRole)) {
    # We are running "as Administrator" - so change the title and background color to indicate this
    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
    clear-host
-   }
-else
-   {
+}
+else {
    # We are not running "as Administrator" - so relaunch as administrator
    
    # Create a new process object that starts PowerShell
@@ -31,21 +29,9 @@ else
    
    # Exit from the current, unelevated, process
    exit
-   }
+}
  
 # Run your code that needs to be elevated here
-
-$mode = "test"
-New-Item "src\RentalWorksWeb\App_Data\Temp\Downloads" -type directory
-Copy-Item "src\RentalWorksAPI\Application.$mode.config" "src\RentalWorksAPI\Application.config"
-Copy-Item "src\RentalWorksQuikScan\Application.$mode.config" "src\RentalWorksQuikScan\Application.config"
-Copy-Item "src\RentalWorksQuikScan\Application.$mode.config" "src\RentalWorksQuikScan\ApplicationConfig.js"
-Copy-Item "src\RentalWorksTest\Application.$mode.config" "src\RentalWorksTest\Application.config"
-Copy-Item "src\RentalWorksWeb\Application.$mode.config" "src\RentalWorksWeb\Application.config"
-Copy-Item "src\RentalWorksWeb\ApplicationConfig.$mode.js" "src\RentalWorksWeb\ApplicationConfig.js"
-
-#create the fw virtual directory
-$ScriptPath = (Get-Variable MyInvocation).Value
-$SolutionDir = Split-Path $ScriptPath.MyCommand.Path
-New-WebVirtualDirectory -Site "Default Web Site" -Name "rwfwjson" -PhysicalPath "$SolutionDir\lib\Fw" 
+powershell -noexit -File ./set_testmode2.ps1
+powershell -noexit -File ./build_Debug.ps1
 

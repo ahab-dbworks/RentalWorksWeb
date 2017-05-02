@@ -5,15 +5,13 @@ $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWin
 $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
  
 # Check to see if we are currently running "as Administrator"
-if ($myWindowsPrincipal.IsInRole($adminRole))
-   {
+if ($myWindowsPrincipal.IsInRole($adminRole)) {
    # We are running "as Administrator" - so change the title and background color to indicate this
    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
    clear-host
-   }
-else
-   {
+}
+else {
    # We are not running "as Administrator" - so relaunch as administrator
    
    # Create a new process object that starts PowerShell
@@ -30,7 +28,8 @@ else
    
    # Exit from the current, unelevated, process
    exit
-   }
+}
  
 # Run your code that needs to be elevated here
-powershell -noexit -File ./set_devmode2.ps1
+powershell ./set_devmode2.ps1
+powershell ./build_Debug.ps1

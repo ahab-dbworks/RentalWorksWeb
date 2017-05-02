@@ -5,7 +5,7 @@ if (-Not(Test-Path 'IIS:\Sites\Default Web Site\rwfwjson')) {
 	New-WebVirtualDirectory -Site "Default Web Site" -Name "rwfwjson" -PhysicalPath "$SolutionDir\lib\Fw\src\Fw.Json\content" -Force
 }
 
-$mode = "dev"
+$mode = "test"
 if(!(Test-Path -Path "$SolutionDir\src\RentalWorksWeb\App_Data\Temp\Downloads" )){
 	New-Item "src/RentalWorksWeb/App_Data/Temp/Downloads" -type directory
 }
