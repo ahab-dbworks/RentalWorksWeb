@@ -8,7 +8,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
       captionBC:                  RwLanguages.translate('BC'),
       
       // screenItemStatus
-      captionCheckInDate:         RwLanguages.translate('Check In Date'),
+      captionCheckInDate:         RwLanguages.translate('Check-In Date'),
       captionSetCharacterName:    RwLanguages.translate('Set Character Name'),
       captionSetCharacter:        RwLanguages.translate('Set Character'),
       captionOnOrder:             RwLanguages.translate('On Order'),
