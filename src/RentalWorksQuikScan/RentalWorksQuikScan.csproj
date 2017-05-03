@@ -108,7 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
-    <Content Include="ApplicationConfig.devsample.js" />
     <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
     <Content Include="Application.sample.config">
@@ -155,10 +154,6 @@
     <Content Include="Modules\ReceiveOnSet\ReceiveOnSet.js" />
     <Content Include="Modules\SelectPO\SubRentalPOBrowseItem.html" />
     <Content Include="Modules\SelectPO\SuspendedSession.html" />
-    <Content Include="Modules\SelectRepairOrder\SelectRepairOrder.css" />
-    <Content Include="Modules\SelectRepairOrder\SelectRepairOrder.html" />
-    <Content Include="Modules\SelectRepairOrder\SelectRepairOrder.js" />
-    <Content Include="Modules\SelectRepairOrder\SelectRepairOrderItem.html" />
     <Content Include="Modules\Staging\PopupQty.html" />
     <Content Include="Modules\Staging\PopupSelectSerialNo.html" />
     <Content Include="Modules\AssignItems\AssignItems.css" />

@@ -310,7 +310,7 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void CreateContract(dynamic request, dynamic response, dynamic session)
         {
-            FwSqlCommand qry;
+            FwSqlCommand qry, qry2, qry3;
             response.contract = new ExpandoObject();
             byte[] image;
             int width  = 0,
@@ -334,6 +334,22 @@ namespace RentalWorksQuikScan.Modules
             response.contract.outcontractid = qry.GetParameter("@outcontractid").ToString();
             response.contract.errno         = qry.GetParameter("@errno").ToString();
             response.contract.errmsg        = qry.GetParameter("@errmsg").ToString();
+
+            qry2 = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry2.Add("select contractno");
+            qry2.Add("  from contract with (nolock)");
+            qry2.Add(" where contractid = @outcontractid");
+            qry2.AddParameter("@outcontractid", response.contract.outcontractid);
+            qry2.Execute();
+            response.contract.outcontractno = qry2.GetField("contractno").ToString();
+
+            qry3 = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry3.Add("select contractno");
+            qry3.Add("  from contract with (nolock)");
+            qry3.Add(" where contractid = @receivecontractid");
+            qry3.AddParameter("@receivecontractid", response.receivecontractid);
+            qry3.Execute();
+            response.contract.receivecontractno = qry3.GetField("contractno").ToString();
         }
         //---------------------------------------------------------------------------------------------
     }

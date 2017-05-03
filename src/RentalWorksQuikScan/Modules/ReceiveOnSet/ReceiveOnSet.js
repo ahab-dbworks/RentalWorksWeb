@@ -693,7 +693,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         };
         RwServices.callMethod("ReceiveOnSet", "CreateContract", request, function(response) {
             var $confirmation, $ok;
-            $confirmation = FwConfirmation.renderConfirmation('Message', 'RECEIVE Contract created (' + screen.properties.receivecontractid + ')<br />OUT Contract created (' + response.contract.outcontractid + ')');
+            $confirmation = FwConfirmation.renderConfirmation('Message', 'RECEIVE Contract created (' + response.contract.receivecontractno + ')<br />OUT Contract created (' + response.contract.outcontractno + ')');
             $ok           = FwConfirmation.addButton($confirmation, 'Ok', true);
 
             if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
