@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
+    <Content Include="ApplicationConfig.test.js" />
     <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
     <Content Include="Application.sample.config">
