@@ -542,7 +542,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Barcode" data-type="text" data-required="true" data-datafield="barcode" />');
             html.push('</div>');
             html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Item Location" data-type="text" data-required="true" data-datafield="assetlocation" />');
+            html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Asset Location" data-type="text" data-required="true" data-datafield="assetlocation" />');
             html.push('</div>');
             application.setScanTarget('div[data-datafield="barcode"] .fwformfield-value');
         } else if (recorddata.trackedby === 'QUANTITY') {

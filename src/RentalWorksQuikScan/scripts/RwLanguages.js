@@ -468,3 +468,6 @@ if ((!localStorage.getItem('currentCulture')) || (!RwLanguages.cultures.hasOwnPr
     localStorage.setItem('currentCulture', 'enUs');
     RwLanguages.currentCulture = localStorage.getItem('currentCulture');
 }
+
+//Eventually RwLanguages need to be replaced with AppLanguages
+AppLanguages = RwLanguages;
