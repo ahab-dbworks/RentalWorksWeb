@@ -1,0 +1,72 @@
+﻿<div data-name="AuditHistory" data-control="FwBrowse"
+  data-type="Grid" 
+  id="auditHistoryBrowse" 
+  class="fwcontrol fwbrowse" 
+  data-caption="Audit History" 
+  data-datatable="webauditview" 
+  data-version="1" 
+  data-pageno="1" 
+  data-pagesize="15" 
+  data-rendermode="template" 
+  data-orderby="" 
+  data-showsearch="false"
+  data-hasadd="false"
+  data-hasedit="false"
+  data-hasdelete="false"
+  data-controller="FwAuditHistoryGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field"  
+      data-cssclass="webauditid" 
+      data-caption=""
+      data-isuniqueid="true"
+      data-browsedatafield="webauditid"
+      data-browsedatatype="key" 
+      data-formsaveorder="1"
+      data-formdatafield="webauditview.webauditid"
+      data-formdatatype="key"
+      data-formreadonly="true"
+      data-sort="off">
+    </div>
+    <div class="field"  
+      data-cssclass="createdflag" 
+      data-caption=""
+      data-isuniqueid="false"
+      data-browsedatafield="createdflag"
+      data-browsedatatype="text" 
+      data-formsaveorder="1"
+      data-formdatafield="webauditview.createdflag"
+      data-formdatatype="text"
+      data-formreadonly="true"
+      data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="200px" data-visible="true">
+    <div class="field" 
+      data-cssclass="updatedate" 
+      data-caption="Date"
+      data-isuniqueid="false"
+      data-browsedatafield="updatedate"
+      data-browsedatatype="utcdatetime"
+      data-formsaveorder="1"
+      data-formdatafield="webauditview.updatedate"
+      data-formdatatype="utcdatetime"
+      data-formreadonly="true"
+      data-sort="desc">
+    </div>
+  </div>
+  <div class="column" data-width="200px" data-visible="true">
+    <div class="field" 
+      data-cssclass="name" 
+      data-caption="Name"
+      data-isuniqueid="false"
+      data-browsedatafield="name"
+      data-browsedatatype="text"
+      data-formsaveorder="1"
+      data-formdatafield="webauditview.name"
+      data-formdatatype="text"
+      data-formreadonly="true"
+      data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true"></div>
+</div>

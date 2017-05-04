@@ -17,7 +17,6 @@
     <FwDeploymentTempDirectory>$(FwDeploymentDirectory)Temp</FwDeploymentTempDirectory>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
-  <UsingTask TaskName="Fw.MSBuildTasks.FwReplaceInFile" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -344,6 +343,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="application.sample.config" />
+    <Content Include="Application.test.config" />
+    <Content Include="Application.dev.config" />
     <None Include="Properties\PublishProfiles\Dbworks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -436,7 +437,7 @@
       <Output TaskParameter="Build" PropertyName="Build" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
-    <FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -447,6 +448,7 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\Web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="true" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" />
   </Target>

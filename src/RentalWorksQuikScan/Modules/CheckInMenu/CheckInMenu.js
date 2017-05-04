@@ -57,7 +57,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             dealid:       orderinfo.dealid,
             departmentid: orderinfo.departmentid
         };
-        RwServices.call('CheckIn', 'CreateSuspendedSession', request, function (response) {
+        RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
             var props, checkInItemScreen;
             props = {
                 moduleType:   RwConstants.moduleTypes.Order,
@@ -235,7 +235,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 pageno:   0,
                 pagesize: 0
             };
-            RwServices.call('CheckIn', 'SessionSearch', request, function (response) {
+            RwServices.callMethod('CheckIn', 'SessionSearch', request, function (response) {
                 try {
                     if (response.searchresults.Rows.length > 0) {
                         screen.setOrderInfo(recorddata);
@@ -252,7 +252,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                             dealid:       recorddata.dealid,
                             departmentid: recorddata.departmentid
                         };
-                        RwServices.call('CheckIn', 'CreateSuspendedSession', request, function (response) {
+                        RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
                             var props, checkInItemScreen;
                             props = {
                                 moduleType:   RwConstants.moduleTypes.Order,

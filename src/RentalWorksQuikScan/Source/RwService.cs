@@ -1021,6 +1021,46 @@ namespace RentalWorksQuikScan.Source
                                                            aisle:                  string.Empty,
                                                            shelf:                  string.Empty);
                     break;
+                case "Swap":
+                    itemstatus = RwAppData.WebGetItemStatus(conn:    FwSqlConnection.RentalWorks,
+                                                            usersId: session.security.webUser.usersid,
+                                                            barcode: request.rfid);
+                    RwAppData.ModuleType  moduleType      = (RwAppData.ModuleType) Enum.Parse(typeof(RwAppData.ModuleType),  request.moduletype);
+                    RwAppData.CheckInMode checkInMode     = (RwAppData.CheckInMode)Enum.Parse(typeof(RwAppData.CheckInMode), request.checkinmode);
+                    dynamic webcheckinitem;
+                    webcheckinitem = RwAppData.WebCheckInItem(conn:                   FwSqlConnection.RentalWorks,
+                                                              usersId:                session.security.webUser.usersid,
+                                                              moduleType:             moduleType,
+                                                              checkInMode:            checkInMode,
+                                                              code:                   request.rfid,
+                                                              masterItemId:           itemstatus.masteritemid,
+                                                              qty:                    1,
+                                                              newOrderAction:         "S",
+                                                              containeritemid:        string.Empty,
+                                                              containeroutcontractid: string.Empty,
+                                                              aisle:                  string.Empty,
+                                                              shelf:                  string.Empty,
+                                                              parentid:               string.Empty,
+                                                              vendorId:               itemstatus.vendorid,
+                                                              disablemultiorder:      false,
+                                                              contractId:             request.sessionid,
+                                                              orderId:                itemstatus.orderid,
+                                                              dealId:                 itemstatus.dealid,
+                                                              departmentId:           itemstatus.departmentid);
+
+                    FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+                    qry.Add("update scannedtag");
+                    qry.Add("   set status = 'PROCESSED'");
+                    qry.Add(" where sessionid = @sessionid");
+                    qry.Add("   and tag = @rfid");
+                    qry.AddParameter("@sessionid", request.sessionid);
+                    qry.AddParameter("@rfid",      request.rfid);
+                    qry.Execute();
+
+                    response.process        = new ExpandoObject();
+                    response.process.status = webcheckinitem.status;
+                    response.process.msg    = webcheckinitem.msg;
+                    break;
             }
             response.exceptions = RwAppData.GetRFIDExceptions(conn:      FwSqlConnection.RentalWorks,
                                                               sessionid: request.sessionid,

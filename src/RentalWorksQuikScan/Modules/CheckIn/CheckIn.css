@@ -53,6 +53,8 @@
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.vendor div.vendor {width:225px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.sessionin.key {font-size:11px;}
 #checkIn-sessionInList-ul > li > table > tbody > tr > td.sessionin.value {font-size:11px;}
+#checkIn-sessionInList-ul > li[data-orderid=""] table,
+#checkIn-sessionInList-ul > li[data-orderid="xxxxxxxx"] table{background-color:#e57373;}
 #checkIn-sessionInList-ul > li.itemclass-C > div.description {background:#8888ff;}
 #checkIn-sessionInList-ul > li.itemclass-C,
 #checkIn-sessionInList-ul > li.itemclass-CI,
@@ -67,7 +69,7 @@
 #checkIn-sessionInList-pnlCreateContract {padding:10px 0;}
 
 #checkIn-qty-lblQty {margin:0 5px 0 0;}
-#checkIn-qty-btnCheckIn {margin:10px 0;}
+#checkIn-qty-btnCheckIn {margin:5px 0;}
 #checkIn-summary table {margin:0 auto;}
 #checkIn-summary table td.col1{width:100px;}
 #checkIn-summary table td.col2{width:25px;}

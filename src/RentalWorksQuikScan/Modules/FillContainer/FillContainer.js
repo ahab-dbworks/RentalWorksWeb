@@ -106,7 +106,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                     containerid:    containerid,
                     containerdesc:  FwFormField.getText(screen.$view, '.containerdesc')
                 };
-                RwServices.call('FillContainer', 'SelectContainer', request, function(response) {
+                RwServices.callMethod('FillContainer', 'SelectContainer', request, function(response) {
                     var masterno, description, containerno, containerid, containeritemid, outcontractid, rentalitemid, usecontainerno, serviceerrormessage;
                     try {
                         if (response.serviceerrormessage.length > 0) {
@@ -140,7 +140,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                 contractid: screen.getCheckInContractId(),
                 containeritemid: screen.getContainerItemId()
             };
-            RwServices.call('FillContainer', 'GetContainerItems', request, function (response) {
+            RwServices.callMethod('FillContainer', 'GetContainerItems', request, function (response) {
                 if (response.containeritems.Rows.length > 0) {
                     var requestCreateContainer;
                     try {
@@ -821,7 +821,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                         qty:             parseFloat($confirmation.find('.txtqty').val()),
                         containeritemid: screen.getContainerItemId()
                     };
-                    RwServices.call('FillContainer', 'RemoveItemFromContainer', requestRemoveItemFromContainer, function(responseRemoveItemFromContainer) {
+                    RwServices.callMethod('FillContainer', 'RemoveItemFromContainer', requestRemoveItemFromContainer, function(responseRemoveItemFromContainer) {
                         try {
                             screen.getContainerItemsCallback(responseRemoveItemFromContainer);
                         } catch(ex) {
@@ -865,7 +865,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                 orderid:         screen.getCheckInOrderId()
             };
         }
-        RwServices.call('FillContainer', 'GetContainerPendingItems', request, screen.getPendingItemsCallback);
+        RwServices.callMethod('FillContainer', 'GetContainerPendingItems', request, screen.getPendingItemsCallback);
     };
     
     screen.$view.on('click', '#fillcontainer-btnpendingitems', function() {
@@ -1061,7 +1061,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                     barcode:      barcode,
                     containerid:  FwFormField.getValue(screen.$view, '.containerdesc')
                 };
-                RwServices.call('FillContainer', 'InstantiateContainer', request, function(response) {
+                RwServices.callMethod('FillContainer', 'InstantiateContainer', request, function(response) {
                     var masterno, description, containerno, containerid, containeritemid, outcontractid, rentalitemid, usecontainerno, serviceerrormessage;
                     try {
                         if (response.serviceerrormessage.length > 0) {
@@ -1123,7 +1123,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                         departmentid:   screen.getDepartmentId()
                     };
                 }
-                RwServices.call('FillContainer', 'SelectContainer', request, function(response) {
+                RwServices.callMethod('FillContainer', 'SelectContainer', request, function(response) {
                     var masterno, description, containerno, containerid, containeritemid, outcontractid, rentalitemid, usecontainerno, containerdescoptions=[], serviceerrormessage;
                     try {
                         // Case 1: An error occured, show the message
@@ -1309,7 +1309,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     //                containerid:    FwFormField.getValue(screen.$view, '.containerdesc'),
     //                containerdesc:  FwFormField.getText(screen.$view, '.containerdesc')
     //            };
-    //            RwServices.call('FillContainer', 'SelectContainer', request, function(response) {
+    //            RwServices.callMethod('FillContainer', 'SelectContainer', request, function(response) {
     //                var masterno, description, containerno, orderid, containeritemid, containeroutcontractid, rentalitemid, usecontainerno, serviceerrormessage;
     //                try {
     //                    if (response.serviceerrormessage.length > 0) {
@@ -1347,7 +1347,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                     requestCloseContainer = {
                         contractid: screen.getContainerOutContractId()
                     };
-                    RwServices.call('FillContainer', 'CloseContainer', requestCloseContainer, function(responseCloseContainer) {
+                    RwServices.callMethod('FillContainer', 'CloseContainer', requestCloseContainer, function(responseCloseContainer) {
                         try {
                             screen.resetVariables();
                             screen.$view.find('.scannableitem .fwformfield-value').val('');
@@ -1415,7 +1415,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                 requestCloseContainer = {
                     contractid: screen.getContainerOutContractId()
                 };
-                RwServices.call('FillContainer', 'CloseContainer', requestCloseContainer, function(responseCloseContainer) {
+                RwServices.callMethod('FillContainer', 'CloseContainer', requestCloseContainer, function(responseCloseContainer) {
                     try {
                         application.popScreen();
                         application.setScanTarget('#scanBarcodeView-txtBarcodeData');
@@ -1456,7 +1456,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                         rentalitemid: screen.getRentalitemid(),
                         containerno:  $confirmation.find('.txtcontainerno').val()
                     };
-                    RwServices.call('FillContainer', 'SetContainerNo', requestSetContainerNo, function(response) {
+                    RwServices.callMethod('FillContainer', 'SetContainerNo', requestSetContainerNo, function(response) {
                         try {
                             if (properties.mode === 'fillcontainer') {
                                 screen.$view.find('.subtitlecontainerno').text(response.containerno);

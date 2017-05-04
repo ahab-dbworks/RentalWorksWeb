@@ -83,7 +83,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
             pagesize: 1000,
             moduletype: properties.moduleType
         };
-        RwServices.call('SelectPO', 'GetPurchaseOrders', request, function(response) {
+        RwServices.callMethod('SelectPO', 'GetPurchaseOrders', request, function(response) {
             var itemtemplate, rowhtml, itemmodel, dt, html;
             dt = response.datatable;
             html = [];
@@ -127,7 +127,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
             moduleType: properties.moduleType,
             forcecreatecontract: forcecreatecontract
         };
-        RwServices.call('SelectPO', 'WebSelectPO', request, function(response) {
+        RwServices.callMethod('SelectPO', 'WebSelectPO', request, function(response) {
             var activityType;
             try {
                 if (!skipconfirmation) {
@@ -147,7 +147,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
                                 sessionNo: $suspendedsession.attr('data-sessionno'),
                                 contractId: $suspendedsession.attr('data-contractid')
                             };
-                            RwServices.call('SelectPO', 'WebSelectPO', requestSelectSession, function(responserequestSelectSession) {
+                            RwServices.callMethod('SelectPO', 'WebSelectPO', requestSelectSession, function(responserequestSelectSession) {
                                 try {
                                     screen.selectPOStep2(responserequestSelectSession, skipconfirmation);
                                 } catch(ex) {
@@ -257,7 +257,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
     //            moduletype: properties.moduleType
     //        },
     //        function(request) {
-    //            RwServices.call('SelectPO', 'GetPurchaseOrders', request, function(response) {
+    //            RwServices.callMethod('SelectPO', 'GetPurchaseOrders', request, function(response) {
     //                FwListView.load($listview, request, response.datatable, jQuery('#tmpl-SelectPO-SubRentalPOBrowseItem').html());
     //            });
     //        }

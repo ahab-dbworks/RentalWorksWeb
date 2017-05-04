@@ -27,7 +27,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             pageno: 1,
             pagesize: 1000
         }
-        RwServices.call('RepairOrder', 'GetRepairOrders', request, function(response) {
+        RwServices.callMethod('RepairOrder', 'GetRepairOrders', request, function(response) {
             var itemtemplate, rowhtml, itemmodel, dt, html;
             dt = response.repairorders;
             html = [];
@@ -74,7 +74,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
         screen.$btnsave.hide();
         screen.$view.find('.repairorder-search .fwmobilecontrol-value').val('');
         screen.$view.find('.repairorder-search').show();
-        screen.$view.find('#repairorder-msg').hide();
+        //screen.$view.find('#repairorder-msg').hide();
         screen.$view.find('.selectrepairorder').hide();
         screen.$view.find('.appdocuments').empty();
         screen.$view.find('.btnaddappdocument').show();
@@ -114,17 +114,18 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             //for (var i = 0; i < $deleteimages.length; i++) {
             //    request.deleteimages.push($deleteimages.eq(i).attr('data-appdocumentid'));
             //}
-            RwServices.call("RepairOrder", "UpdateRepairOrder", request, function(response) {
+            RwServices.callMethod("RepairOrder", "UpdateRepairOrder", request, function(response) {
                 try {
                     if (properties.mode === 'sendtorepair') {
                         application.popScreen();
                     } else if (properties.mode == "repairorder") {
                         screen.resetRepairOrder();
-                        jQuery('#repairorder-txtGenericError').html('SUCCESS');
-                        jQuery('#repairorder-txtMsg').html("Repair Order Updated.");
-                        jQuery('#repairorder-msg')
-                            .attr('class', 'qssuccess')
-                            .show();
+                        //jQuery('#repairorder-txtGenericError').html('SUCCESS');
+                        //jQuery('#repairorder-txtMsg').html("Repair Order Updated.");
+                        //jQuery('#repairorder-msg')
+                        //    .attr('class', 'qssuccess')
+                        //    .show();
+                        FwNotification.renderNotification('SUCCESS', 'Repair Order Updated');
                         application.playStatus(true);
                     }
                 } catch(ex) {
@@ -144,16 +145,19 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             requestSelectRepairOrder = {
                 code: barcode.toUpperCase()
             };
-            RwServices.call('RepairOrder', 'GetRepairOrder', requestSelectRepairOrder, function(response) {
+            RwServices.callMethod('RepairOrder', 'GetRepairOrder', requestSelectRepairOrder, function(response) {
                 try {
                     screen.$view.find('.repairorder-search').toggle(response.webSelectRepairOrder.status !== 0);
                     properties.webSelectRepairOrder = response.webSelectRepairOrder;
-                    jQuery('#repairorder-msg')
-                        .toggle(response.webSelectRepairOrder.status !== 0)
-                        .attr('class', (response.webSelectRepairOrder.status !== 0) ? 'qserror' : 'qssuccess')
-                    ;
-                    jQuery('#repairorder-txtGenericError').html(response.webSelectRepairOrder.genericMsg);
-                    jQuery('#repairorder-txtMsg').html(response.webSelectRepairOrder.msg);
+                    //jQuery('#repairorder-msg')
+                    //    .toggle(response.webSelectRepairOrder.status !== 0)
+                    //    .attr('class', (response.webSelectRepairOrder.status !== 0) ? 'qserror' : 'qssuccess')
+                    //;
+                    //jQuery('#repairorder-txtGenericError').html(response.webSelectRepairOrder.genericMsg);
+                    //jQuery('#repairorder-txtMsg').html(response.webSelectRepairOrder.msg);
+                    if (response.webSelectRepairOrder.status !== 0) {
+                        FwNotification.renderNotification('ERROR', '<div>' + response.webSelectRepairOrder.genericMsg + '</div><div>' + response.webSelectRepairOrder.msg + '</div>');
+                    }
                     
                     screen.$view.find('.selectrepairorder').toggle(response.webSelectRepairOrder.status === 0);
                     if (response.webSelectRepairOrder.status === 0) {

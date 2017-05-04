@@ -61,7 +61,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         request = {
             barcode: searchvalue
         }
-        RwServices.call("QuoteMenu", "FindQuote", request, function(response) {
+        RwServices.callMethod("QuoteMenu", "FindQuote", request, function(response) {
             try {
                 if (response.dealorder.length > 0) {
                     $records.loadrecords(response.dealorder);
@@ -177,7 +177,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             {value:'O',     text:'Order'}
         ], true);
 
-        RwServices.call("QuoteMenu", "GetDeals", {}, function(response) {
+        RwServices.callMethod("QuoteMenu", "GetDeals", {}, function(response) {
             var dealvalues = []
             for (var i = 0; i < response.deals.length; i++) {
                 dealvalues.push({value: response.deals[i].dealid, text: response.deals[i].deal});
@@ -208,7 +208,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
                 ratetype:    FwFormField.getValue($neworder, 'div[data-datafield="rate"]'),
                 ordertype:   FwFormField.getValue($neworder, 'div[data-datafield="selecttype"]')
             };
-            RwServices.call("QuoteMenu", "NewQuote", request, function(response) {
+            RwServices.callMethod("QuoteMenu", "NewQuote", request, function(response) {
                 try {
                     $addnew.$back.click();
                     screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, '');

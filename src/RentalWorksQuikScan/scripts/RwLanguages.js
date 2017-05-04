@@ -25,7 +25,7 @@ RwLanguages.captions = [
   , 'As Of'
   , 'Assign Bar Code(s)'
   , 'Assign Items'
-  , 'Item Disposition'
+  , 'Asset Disposition'
   , 'Item Location'
   , 'Item Set Location'
   , 'Attach'
@@ -424,6 +424,30 @@ RwLanguages.cultures.es   = jQuery.extend({}, RwLanguages.cultures.neutral, RwLa
 
 
 RwLanguages.cultures.marvel = {
+    //rename Item to Asset
+    'Add Item': 'Add Asset',
+    'Assign Items': 'Assign Assets',
+    'Item Location': 'Asset Location',
+    'Item Set Location': 'Asset Set Location',
+    'Check In Item': 'Check In Asset',
+    'Container<br/>Item': 'Container<br/>Asset',
+    'Container Items': 'Container Assets',
+    'Item Desc': 'Asset Desc',
+    'Item Status' : 'Asset Status',
+    'ITEM VALUE': 'ASSET VALUE',
+    'Items': 'Assets',
+    'Order Item Status': 'Order Asset Status',         
+    'Pending Items': 'Pending Assets',
+    'Remove Item': 'Remove Asset',
+    'Remove Item from Container?': 'Remove Asset from Container?',
+    'Retire Items': 'Retire Assets',
+    'Select Item to Check-In...': 'Select Asset to Check-In...',
+    'Select Item to Stage...': 'Select Asset to Stage...',
+    'Stage Consigned Item': 'Stage Consigned Item',
+    'Substitute Item': 'Substitute Asset',
+    'Unassigned Items': 'Unassigned Assets',
+    'Unstage Item?': 'Unstage Asset?',
+
     'Bar Code / I-Code': 'Barcode',
     'Deal':              'Production',
     'Deal Desc.':        'Production Desc.',
@@ -432,7 +456,7 @@ RwLanguages.cultures.marvel = {
     'Order':             'Set',
     'Order Check-In':    'Set Check-In',
     'Order Desc.':       'Set Desc.',
-    'Order Item Status': 'Set Item Status',
+    'Order Item Status': 'Set Asset Status',
     'Order No':          'Set No',
     'Order Number':      'Set Number',
     'Order Staging':     'Set Staging'
@@ -444,3 +468,6 @@ if ((!localStorage.getItem('currentCulture')) || (!RwLanguages.cultures.hasOwnPr
     localStorage.setItem('currentCulture', 'enUs');
     RwLanguages.currentCulture = localStorage.getItem('currentCulture');
 }
+
+//Eventually RwLanguages need to be replaced with AppLanguages
+AppLanguages = RwLanguages;

@@ -284,5 +284,25 @@ namespace RentalWorksQuikScan.Modules
             response.assignedassetupdate = assignassetresult;
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public void GetBarcodeRFIDItem(dynamic request, dynamic response, dynamic session)
+        {
+            dynamic userLocation;
+            FwSqlCommand qry;
+
+            userLocation = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks,
+                                                     usersId: session.security.webUser.usersid);
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.AddColumn("mfgdate", false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.Add("select *");
+            qry.Add("  from dbo.funcgetrentalitem(@code, @warehouseid, @webusersid)");
+            qry.AddParameter("@code",        request.code);
+            qry.AddParameter("@warehouseid", userLocation.warehouseId);
+            qry.AddParameter("@webusersid",  session.security.webUser.webusersid);
+
+            response.recorddata = qry.QueryToDynamicObject2();
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

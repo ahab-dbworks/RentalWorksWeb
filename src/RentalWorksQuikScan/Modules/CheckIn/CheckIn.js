@@ -141,7 +141,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             var request = {
                 contractid: screen.getContractId()
             };
-            RwServices.call('CheckIn', 'GetShowCreateContract', request, function (response) {
+            RwServices.callMethod('CheckIn', 'GetShowCreateContract', request, function (response) {
                 try {
                     if (response.showcreatecontract) {
                         properties.contract = {
@@ -221,10 +221,13 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 contractId:  screen.getContractId()
             };
             RwServices.order.getCheckInSessionInList(request, function(response) {
-                var items, ul, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0;
+                var items, ul, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0, hasUnassignedQtyItems=false;
                 items = response.getCheckInSessionInList; 
                 ul = [];
                 for (var i = 0; i < items.length; i++) {
+                    if (!hasUnassignedQtyItems) {
+                        hasUnassignedQtyItems = items[i].orderid === "xxxxxxxx" && items[i].trackedby === 'QUANTITY';
+                    }
                     isHeaderRow = ((items[i].itemclass === 'N') || (items[i].sessionin === 0));
                     if (!isHeaderRow) {
                         lineitemcount++;
@@ -293,6 +296,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 }
                 ul.push(screen.getRowCountItem(lineitemcount, totalitems));
                 jQuery('#checkIn-sessionInList-ul').html(ul.join(''));
+                jQuery('#checkIn-sessionInList-btnReconcileQtyItems').toggle(hasUnassignedQtyItems)
                 //screen.$btncreatecontract.toggle((applicationConfig.designMode) || ((sessionStorage.users_enablecreatecontract === 'T') && (items.length > 0)));
             });
         } catch(ex) {
@@ -481,22 +485,26 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         if (responseCheckInItem.request.playStatus) {
             application.playStatus(responseCheckInItem.webCheckInItem.status === 0);
         }
-        isScannedICode = (responseCheckInItem.webCheckInItem.isICode) && (responseCheckInItem.request.orderId.length === 0);
+        isScannedICode = (responseCheckInItem.webCheckInItem.isICode) && (responseCheckInItem.request.masterItemId.length === 0);
         if (screen.$view.find('#checkIn-btnPendingList').hasClass('selected')) {
             screen.$view.find('#checkIn-btnPendingList').click();
         }
-        valTxtQty = (isScannedICode) ? '0' : String(responseCheckInItem.webCheckInItem.stillOut);
+        valTxtQty = (isScannedICode) ? '1' : String(responseCheckInItem.webCheckInItem.stillOut);
         screen.$popupQty.find('#checkIn-qty-txtQty').val(valTxtQty);
         screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
         screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
         screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
         screen.$popupQty.find('#checkIn-popupQty-description').html(responseCheckInItem.webCheckInItem.description).show();
-        screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
-        screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
-        screen.$popupQty.find('#checkIn-popupQty-subQty').html(String(responseCheckInItem.webCheckInItem.subQty));
-        screen.$popupQty.find('#checkIn-popupQty-stillOut').html(String(responseCheckInItem.webCheckInItem.stillOut));
-        screen.$popupQty.find('#checkIn-popupQty-totalIn').html(String(responseCheckInItem.webCheckInItem.totalIn));
-        screen.$popupQty.find('#checkIn-popupQty-summary-table-trVendor').toggle(responseCheckInItem.webCheckInItem.vendorId.length > 0);
+        if (!isScannedICode) {
+            screen.$popupQty.find('.row2,.row3,.row4').show();
+            screen.$popupQty.find('#checkIn-popupQty-qtyOrdered').html(String(responseCheckInItem.webCheckInItem.qtyOrdered));
+            screen.$popupQty.find('#checkIn-popupQty-sessionIn').html(String(responseCheckInItem.webCheckInItem.sessionIn));
+            screen.$popupQty.find('#checkIn-popupQty-subQty').html(String(responseCheckInItem.webCheckInItem.subQty));
+            screen.$popupQty.find('#checkIn-popupQty-stillOut').html(String(responseCheckInItem.webCheckInItem.stillOut));
+            screen.$popupQty.find('#checkIn-popupQty-totalIn').html(String(responseCheckInItem.webCheckInItem.totalIn));
+            screen.$popupQty.find('#checkIn-popupQty-summary-table-trVendor').toggle(responseCheckInItem.webCheckInItem.vendorId.length > 0);
+        }
+
         if (responseCheckInItem.webCheckInItem.vendorId.length > 0) {
             screen.$popupQty.find('#checkIn-popupQty-vendor').html(responseCheckInItem.webCheckInItem.vendor);
         }
@@ -515,10 +523,29 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             //jQuery('#masterLoggedInView-captionPageSubTitle').html(RwLanguages.translate('Session') + ': ' + properties.sessionNo);
             FwMobileMasterController.setTitle(RwLanguages.translate('Session') + ': ' + properties.sessionNo);
         }
-        screen.$popupQty.find('#checkIn-newOrder')
-            .toggle((applicationConfig.designMode) || (responseCheckInItem.webCheckInItem.showNewOrder));
-        screen.$popupQty.find('#checkIn-newOrder-btnSwap')
-            .toggle(responseCheckInItem.webCheckInItem.allowSwap);
+        //screen.$popupQty.find('#checkIn-newOrder')
+        //    .toggle((applicationConfig.designMode) || (responseCheckInItem.webCheckInItem.showNewOrder));
+        //screen.$popupQty.find('#checkIn-newOrder-btnSwap')
+        //    .toggle(responseCheckInItem.webCheckInItem.allowSwap);
+        screen.$popupQty.find('#checkIn-newOrder').hide();
+        screen.$popupQty.find('#checkIn-newOrder-btnSwap').hide();
+        switch (responseCheckInItem.webCheckInItem.status) {
+            //case '1005': //Item count exceeds quantity ordered - Item   - 2017/02/24 MY: removed due to Emil
+            case 1015:
+            case 1019:   //Package Truck
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                break;
+            case 104: //Item is Staged on Order
+            case 301: //I-Code / Bar Code not found in Inventory.
+                break;
+            case 1007: //item is on new order - no swap available
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                break;
+            case 1005: //item is on new order - swap available
+                screen.$popupQty.find('#checkIn-newOrder').show();
+                screen.$popupQty.find('#checkIn-newOrder-btnSwap').show();
+                break;
+        }
         if (responseCheckInItem.webCheckInItem.status === 0) {
             screen.$popupQty.find('#checkIn-popupQty-genericMsg').removeClass('qserror').addClass('qssuccess');
         }
@@ -790,6 +817,18 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 FwFunc.showError(ex);
             }
         })
+        .on('click', '#checkIn-sessionInList-btnReconcileQtyItems', function () {
+            var request = {
+                contractid: screen.getContractId()
+            };
+            RwServices.callMethod('CheckIn', 'ReconcileNonBC', request, function () {
+                try {
+                    jQuery('#checkIn-pageSelector .selected').click();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        })
         .on('click', '#checkIn-pendingList-ul > li.link', function() {
             var $this, orderId, masterItemId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId;
             try {
@@ -941,37 +980,51 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 $confirmation = FwConfirmation.renderConfirmation('Exception', '<div class="exceptionbuttons"></div>');
                 $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 switch ($this.attr('data-exceptiontype')) {
-                    case '1005': //Item count exceeds quantity ordered - Item
-                    case '1019':
+                    //case '1005': //Item count exceeds quantity ordered - Item   - 2017/02/24 MY: removed due to Emil
+                    case '1015':
+                    case '1019':   //Package Truck
                         $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
                         break;
                     case '104': //Item is Staged on Order
                     case '301': //I-Code / Bar Code not found in Inventory.
                         break;
+                    case '1007': //item is on new order - no swap available
+                        $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
+                        break;
+                    case '1005': //item is on new order - swap available
+                        $confirmation.find('.exceptionbuttons').append('<div class="addordertosession">Add Order to check-in Session?</div>');
+                        $confirmation.find('.exceptionbuttons').append('<div class="swap">Swap</div>');
+                        break;
                 }
                 $confirmation.find('.exceptionbuttons').append('<div class="clear">Clear item?</div>');
 
                 $confirmation.find('.exceptionbuttons')
-                    .on('click', '.addordertosession, .clear', function() {
+                    .on('click', '.addordertosession, .clear, .swap', function() {
+                        var request = {};
                         if (jQuery(this).hasClass('addordertosession')) {
                             request.method = 'AddOrderToSession';
                         } else if (jQuery(this).hasClass('clear')) {
                             request.method = 'Clear';
+                        } else if (jQuery(this).hasClass('swap')) {
+                            request.method = 'Swap';
                         }
                         request.sessionid    = screen.getContractId();
                         request.rfid         = $this.find('.rfid-data.rfid .item-value').html();
-                        request.portal       = device.uuid;
+                        request.portal       = device.uuid,
+                        request.moduletype   = properties.moduleType;
+                        request.checkinmode  = properties.checkInMode;
                         RwServices.order.processrfidexception(request, function(response) {
-                            screenStageItem.$view.find('.rfid-items').empty();
+                            screen.$view.find('.rfid-items').empty();
                             for (var i = 0; i < response.exceptions.length; i++) {
-                                $item = screenStageItem.rfiditem('exception');
+                                var $item;
+                                $item = screen.rfiditem('exception');
                                 $item.find('.rfid-item-title').html(response.exceptions[i].title);
                                 $item.find('.rfid-data.rfid .item-value').html(response.exceptions[i].rfid);
                                 $item.find('.rfid-data.barcode .item-value').html((response.exceptions[i].barcode !== '' ) ? response.exceptions[i].barcode : '-');
                                 $item.find('.rfid-data.serial .item-value').html((response.exceptions[i].serialno !== '') ? response.exceptions[i].serialno : '-');
                                 $item.find('.rfid-data.message .item-value').html(response.exceptions[i].message);
                                 $item.attr('data-exceptiontype', response.exceptions[i].exceptiontype);
-                                screenStageItem.$view.find('.rfid-items').append($item);
+                                screen.$view.find('.rfid-items').append($item);
                             }
                         });
                         FwConfirmation.destroyConfirmation($confirmation);
@@ -1079,7 +1132,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             contractid:   screen.getContractId()
         }
         $checkInSerial.data('recorddata', request);
-        RwServices.call('CheckIn', 'GetSerialInfo', request, function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialInfo', request, function (response) {
             var html = [];
             screen.$view.find('#scanBarcodeView').hide();
             screen.$view.find('#checkIn-pendingList').hide();
@@ -1117,7 +1170,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
     $checkInSerial.loadSerialItems = function() {
         $checkInSerial.find('.serialitems').empty();
-        RwServices.call('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem;
                 html.push('<div class="serialitem standard' + ((response.serialitems[i].itemstatus == 'O') ? '' : ' in') + '">');
@@ -1132,7 +1185,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
     $checkInSerial.loadSerialMeters = function() {
         $checkInSerial.find('.serialitem-meters').empty();
-        RwServices.call('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
+        RwServices.callMethod('CheckIn', 'GetSerialItems', $checkInSerial.data('recorddata'), function (response) {
             var zerosetflg = true;
             for (var i = 0; i < response.serialitems.length; i++) {
                 var html = [], $serialitem, meterinvalue, notsetflg;
@@ -1232,7 +1285,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 meter:        '0',
                 toggledelete: 'T'
             };
-            RwServices.call('CheckIn', 'SerialSessionIn', request, function (response) {
+            RwServices.callMethod('CheckIn', 'SerialSessionIn', request, function (response) {
                 $checkInSerial.find('.qtyremaining').html(response.serial.qtyout);
                 $checkInSerial.find('.qtyin').html(response.serial.qtyin);
                 $this.toggleClass('in');
@@ -1272,7 +1325,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     meter:        FwFormField.getValue($confirmation, 'div[data-datafield="meterinvalue"]'),
                     toggledelete: 'F'
                 };
-                RwServices.call('CheckIn', 'SerialSessionIn', request, function (response) {
+                RwServices.callMethod('CheckIn', 'SerialSessionIn', request, function (response) {
                     FwConfirmation.destroyConfirmation($confirmation);
                     $this.addClass('valueset').html(numberWithCommas(parseFloat(request.meter).toFixed(2)));
                     $this.closest('.metered').addClass('valueset');
@@ -1315,7 +1368,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     requestChangeQty = jQuery.extend({}, properties.responseCheckInItem.request);
                     requestChangeQty.qty = parseInt($txtQty.val());
                     remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
-                    if ( (isNaN(requestChangeQty.qty) || (requestChangeQty.qty <= 0) || (requestChangeQty.qty > remaining)) ) {
+                    if (isNaN(requestChangeQty.qty) || requestChangeQty.qty <= 0 || (screen.$popupQty.find('.row2').is(':visible') && requestChangeQty.qty > remaining)) {
                         throw 'Invalid qty.';
                     }
                     RwServices.order.checkInItem(requestChangeQty, function(responseChangeQty) {
@@ -1359,15 +1412,19 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             .on('click', '#checkIn-qty-btnSubtract', function() {
                 var quantity;
                 quantity = Number(jQuery('#checkIn-qty-txtQty').val()) - 1;
-                if (quantity >= 0) {
+                if (quantity > 0) {
                     jQuery('#checkIn-qty-txtQty').val(quantity);
                 }
             })
             .on('click', '#checkIn-qty-btnAdd', function() {
                 var quantity, remaining;
-                remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
                 quantity = Number(jQuery('#checkIn-qty-txtQty').val()) + 1;
-                if (quantity <= remaining) {
+                if (screen.$popupQty.find('.row2').is(':visible')) {
+                    remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
+                    if (quantity <= remaining) {
+                        jQuery('#checkIn-qty-txtQty').val(quantity);
+                    }
+                } else {
                     jQuery('#checkIn-qty-txtQty').val(quantity);
                 }
             })

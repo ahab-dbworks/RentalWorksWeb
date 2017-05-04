@@ -37,7 +37,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                                         item:      properties.webGetItemStatus,
                                         images:    [imageData]
                                     };
-                                    RwServices.call("InventoryWebImage", "AddInventoryWebImage", request, function(response) {
+                                    RwServices.callMethod("InventoryWebImage", "AddInventoryWebImage", request, function(response) {
                                         try {
                                             $item.refreshimages(response.appImages);
                                             application.playStatus(true);
@@ -88,7 +88,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                     request = {
                         barcode:  RwAppData.stripBarcode($this.val().toUpperCase())
                     };
-                    RwServices.call("InventoryWebImage", "GetInventoryItem", request, function(response) {
+                    RwServices.callMethod("InventoryWebImage", "GetInventoryItem", request, function(response) {
                         try {
                             if (response.webGetItemStatus.status == 0) {
                                 screen.$view.find('.fwmobilecontrol-value').val('');
@@ -125,13 +125,24 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
             try {
                 $img = jQuery(this);
                 $contextmenu = FwContextMenu.render('');
-                FwContextMenu.addMenuItem($contextmenu, 'Delete Image', function() {
+                FwContextMenu.addMenuItem($contextmenu, 'View Image', function () {
+                    try {
+                        var html = [];
+                        html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + $img.attr('data-appimageid') + '&thumbnail=false' + '\" >');
+                        html = html.join('\n');
+                        var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', html);
+                        var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwContextMenu.addMenuItem($contextmenu, 'Delete Image', function () {
                     request = {
                         barcode:    properties.barcode,
                         item:       properties.webGetItemStatus,
                         appimageid: $img.attr('data-appimageid')
                     };
-                    RwServices.call("InventoryWebImage", "DeleteAppImage", request, function(response) {
+                    RwServices.callMethod("InventoryWebImage", "DeleteAppImage", request, function(response) {
                         try {
                             $item.refreshimages(response.appImages);
                             application.playStatus(true);
@@ -146,7 +157,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                         item:       properties.webGetItemStatus,
                         appimageid: $img.attr('data-appimageid')
                     };
-                    RwServices.call("InventoryWebImage", "MakePrimaryAppImage", request, function(response) {
+                    RwServices.callMethod("InventoryWebImage", "MakePrimaryAppImage", request, function(response) {
                         try {
                             $item.refreshimages(response.appImages);
                         } catch(ex) {

@@ -445,7 +445,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tags: tags
         };
-        RwServices.call("RfidCheckIn", "ProcessBatch", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "ProcessBatch", request, function(response) {
             try {
                 screen.batchid = response.batchid;
                 screen.loadProcessed(response.funcscannedtag);
@@ -483,7 +483,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "AddItemToOrder", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "AddItemToOrder", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -498,7 +498,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "AddCompleteToOrder", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "AddCompleteToOrder", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -513,7 +513,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "OverrideAvailabilityConflict", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "OverrideAvailabilityConflict", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -528,7 +528,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "TransferItemInRepair", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "TransferItemInRepair", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -543,7 +543,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "ReleaseFromRepair", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "ReleaseFromRepair", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -558,7 +558,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             tag: $item.attr('data-tag')
         };
-        RwServices.call("RfidCheckIn", "ClearException", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "ClearException", request, function(response) {
             try {
                 screen.handleExceptionResponse(response, $item);
             } catch(ex) {
@@ -591,7 +591,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             orderid: screen.getOrderId(),
             portal: screen.getPortal()
         };
-        RwServices.call("RfidCheckIn", "ClearAllExceptions", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "ClearAllExceptions", request, function(response) {
             try {
                 screen.loadExceptions(response.funcscannedtagexception);
             } catch(ex) {
@@ -647,7 +647,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             portal: screen.getPortal(),
             batchid: screen.getBatchId()
         };
-        RwServices.call("RfidCheckIn", "GetExceptions", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "GetExceptions", request, function(response) {
             try {
                 screen.loadExceptions(response.funcscannedtagexception);
             } catch(ex) {
@@ -733,7 +733,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             rectype: 'R',
             containeritemid: ''
         };
-        RwServices.call("RfidCheckIn", "GetPendingItems", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "GetPendingItems", request, function(response) {
             try {
                 var dt = response.funccheckoutexception;
                 var html = [];
@@ -776,7 +776,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
         var request = {
             orderid: screen.getOrderId()
         };
-        RwServices.call("RfidCheckIn", "GetSessionItems", request, function (response) {
+        RwServices.callMethod("RfidCheckIn", "GetSessionItems", request, function (response) {
             try {
                 var dt = response.funcstageditemsweb;
                 var html = [];
@@ -820,7 +820,7 @@ RFIDCheckIn.getModuleScreen = function(viewModel, properties) {
             orderid: screen.getOrderId(),
             barcode: $item.attr('data-barcode')
         };
-        RwServices.call("RfidCheckIn", "UnstageItem", request, function(response) {
+        RwServices.callMethod("RfidCheckIn", "UnstageItem", request, function(response) {
             try {
                 switch(response.status) {
                     case 0:

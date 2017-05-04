@@ -92,7 +92,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             request = {
                 orderid: screen.properties.selectedpo.orderid
             };
-            RwServices.call("ReceiveOnSet", "GetPOReceiveContractID", request, function(response) {
+            RwServices.callMethod("ReceiveOnSet", "GetPOReceiveContractID", request, function(response) {
                 screen.properties.receivecontractid = response.outreceivecontractid;
                 screen.properties.podealid          = recorddata.dealid;
                 $findpo.hide();
@@ -203,7 +203,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                 request = {
                     production: $newset.find('div[data-datafield="production"] .fwformfield-value').val()
                 }
-                RwServices.call("ReceiveOnSet", "LoadSets", request, function(response) {
+                RwServices.callMethod("ReceiveOnSet", "LoadSets", request, function(response) {
                     FwFormField.loadItems($newset.find('div[data-datafield="setno"]'), response.sets);
                 });
             }
@@ -227,7 +227,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                 eststartdate: $newset.find('div[data-datafield="eststartdate"] .fwformfield-value').val(),
                 estenddate:   $newset.find('div[data-datafield="estenddate"] .fwformfield-value').val()
             };
-            RwServices.call("ReceiveOnSet", "NewOrder", request, function(response) {
+            RwServices.callMethod("ReceiveOnSet", "NewOrder", request, function(response) {
                 if ((typeof response.record.errno !== 'undefined') && (response.record.errno !== 0)) {
                     FwFunc.showError(response.record.errmsg);
                 } else {
@@ -247,7 +247,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         $newset.$save.show();
 
         if ($newset.find('div[data-datafield="production"] .fwformfield-value').is(':empty')) {
-            RwServices.call("ReceiveOnSet", "LoadProductions", {}, function(response) {
+            RwServices.callMethod("ReceiveOnSet", "LoadProductions", {}, function(response) {
                 FwFormField.loadItems($newset.find('div[data-datafield="production"]'), response.productions);
             });
         }
@@ -349,7 +349,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             orderid:           screen.properties.selectedpo.orderid,
             receivecontractid: ((typeof screen.properties.receivecontractid !== 'undefined') ? screen.properties.receivecontractid : '')
         };
-        RwServices.call("ReceiveOnSet", "LoadItems", request, function(response) {
+        RwServices.callMethod("ReceiveOnSet", "LoadItems", request, function(response) {
             var html = [], $item;
 
             html.push('<div class="record">');
@@ -426,7 +426,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                                     barcode:      barcode,
                                     images:       [imageData]
                                 };
-                                RwServices.call("ReceiveOnSet", "POReceiveImage", request, function(response) {
+                                RwServices.callMethod("ReceiveOnSet", "POReceiveImage", request, function(response) {
                                     try {
                                         application.playStatus(true);
                                         FwConfirmation.destroyConfirmation($confirmation);
@@ -542,7 +542,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Barcode" data-type="text" data-required="true" data-datafield="barcode" />');
             html.push('</div>');
             html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Item Location" data-type="text" data-required="true" data-datafield="assetlocation" />');
+            html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Asset Location" data-type="text" data-required="true" data-datafield="assetlocation" />');
             html.push('</div>');
             application.setScanTarget('div[data-datafield="barcode"] .fwformfield-value');
         } else if (recorddata.trackedby === 'QUANTITY') {
@@ -594,7 +594,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                 }
             }
 
-            RwServices.call("ReceiveOnSet", "POReceive", request, function(response) {
+            RwServices.callMethod("ReceiveOnSet", "POReceive", request, function(response) {
                 if (response.receive.errno === "0") {
                     screen.properties.receivecontractid = response.receive.receivecontractid;
                     $itemupdate.hide();
@@ -691,9 +691,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             orderid:           screen.properties.selectedorder.orderid,
             signatureimage:    screen.$view.find('.rfv-signaturecapture').signaturePad().getSignatureImage('image/jpeg').replace('data:image/jpeg;base64,', '')
         };
-        RwServices.call("ReceiveOnSet", "CreateContract", request, function(response) {
+        RwServices.callMethod("ReceiveOnSet", "CreateContract", request, function(response) {
             var $confirmation, $ok;
-            $confirmation = FwConfirmation.renderConfirmation('Message', 'RECEIVE Contract created (' + screen.properties.receivecontractid + ')<br />OUT Contract created (' + response.contract.outcontractid + ')');
+            $confirmation = FwConfirmation.renderConfirmation('Message', 'RECEIVE Contract created (' + response.contract.receivecontractno + ')<br />OUT Contract created (' + response.contract.outcontractno + ')');
             $ok           = FwConfirmation.addButton($confirmation, 'Ok', true);
 
             if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {

@@ -2,74 +2,42 @@
 
 Complete Inventory Tracking & Asset Management Software
 
-RentalWorks takes your rental operation to the next level. This powerful 
-software combines state-of-the-art rental inventory tracking with secure and 
-accurate accounting and purchasing features.
-
 Learn more about: [RentalWorks](http://www.dbworks.com/products/rentalworks)
 
 ## Overview
 
 The RentalWorksWeb repository consists of the following projects:
 
-1. Fw.Json
-2. RentalWorksAPI
-3. RentalWorksMiddleTier
-4. RentalWorksMiddleTier.Tests
-5. RentalWorksQuikScan
-6. RentalWorksQuikScanLibrary
-7. RentalWorksWeb
-8. RentalWorksWebLibrary
-
-## Contributing to RentalWorksWeb development
-
-Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
+1. Fw.Json - The shared framework (The framework has it' own repository so changes need to be made there and then synced to this project with a script)
+2. RentalWorksAPI - REST API for RentalWorks
+3. RentalWorksQuikScan - iOS/Android web app
+4. RentalWorksTest - Integration Tests
+5. RentalWorksWeb - Responsive Web App
 
 ## Getting started
 
-### Install Visual Studio 2015
-- Install Visual Studio 2015 Enterprise.
-- You can do the default install, but you should use the C# developer configuration to get the best keybindings
+### Install Visual Studio 2017
+- Install Visual Studio 2017 Enterprise.
+- At minimum you will need to be able to compile for ASP.NET and for Windows Forms and Console apps.
+- After installed, troubleshoot compatibility on the devenv.exe and tell it to always run with administrative rights to give permission for IIS Management.
 
 ### Install Git
-- [Easiest thing is using git for windows](https://git-scm.com/)
-- other option is using Linux subsystem for windows, although I has issues with it, so more R&D is needed
+- https://git-scm.com/)
 
 ### Clone RentalWorksWeb Repository
-- Open Windows Explorer and go to C:\project\RentalWorks
+- Open Windows Explorer and go to C:\project\RentalWorks or wherever you want to create the "RentalWorksWeb" diretory
 - Right-Click and "Git Bash Here"
 - git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
 
-### Make IIS work without running as administrator
-- In Windows Explorer browse to C:\Windows\System32\inetsrv\config 
-- When you try to open the folder you will get a popup that says: "You don't have access to this folder - Click continue to permanently get access to this folder"
-- Click 'continue' for this folder, and with the Export folder underneath. I changed the shortcut back to "Run as me" (a member of the domain and local administrators ) and was able to open and deploy the solution.
-
-### Make the solution configuration readable
+### Make the solution configuration field wider so you can read it
 - Go to Tools > Customize
 - Commands Tab
 - Toolbar: Standard
 - Select the item "Solution Configurations" and Modify Selection
 - Width needs to be wider so make it 180 or whatever you like
 
-### Create the application config files
-- copy ApplicationConfig.devsample.js to ApplicationConfig.js
-- copy Application.devsample.config to Application.config
-- make necessary edits to these files
-- (need more info here about what to put in AplicationConfig.js for developers)
-
-### Create a virtual directory for the frameworks
-- In IIS create a Virtual Directory on Default Website with alias "fwjson", path "C:\project\lib.net\dbworks\Fw.Json\content"
-
-### Create a RentalWorksWeb Module
-
-### Create a RentalWorksQuikScan Module]
-
-## Using git
-
-- [Working locally](doc/usinggit/workinglocally.md)
-- [Pushing/pulling from the gitlab server](doc/usinggit/pushingpulling.md)
+### Create Virtual Directories and set Application.config files to dev database
+- run the powershell script set_devemode.ps1.  If it doesn't work you will need to run the second version of the script from an administrative powershell command prompt or manually do what the script does.
 
 ## License
-
-RentalWorksWeb is a closed source project owned by Database Works, Inc.  All rights reserved.
+RentalWorksWeb is copyright by Database Works, Inc.  All rights reserved.  You are not permitted to redistribute this source code or compiled binaries without permission from Database Works.

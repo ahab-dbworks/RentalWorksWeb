@@ -52,7 +52,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 };
                 if (request.barcode.length > 0) {
                     screen.resetscreen();
-                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                    RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                         application.playStatus(response.itemdata.status === 0);
 
@@ -77,7 +77,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                 request = {
                     barcode: $this.data('recorddata').tag
                 };
-                RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                     screen.loaditemdata(response.itemdata);
                 });
             }
@@ -115,24 +115,30 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $itemdetails.find('#is-captionLastOrder').html(RwLanguages.translate('Last Order'));
         }
 
-        $itemdetails.find('#is-trBarcode').toggle(itemdata.trackedby == "BARCODE");
-        if (itemdata.trackedby == "BARCODE") {
-            $itemdetails.find('#is-txtBarcode').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtBarcode').html('');
-        }
-        $itemdetails.find('#is-trSerialNo').toggle(itemdata.trackedby == "SERIALNO");
-        if (itemdata.trackedby == "SERIALNO") {
-            $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtSerialNo').html('');
-        }
-        $itemdetails.find('#is-trRFID').toggle(itemdata.trackedby == "RFID");
-        if (itemdata.trackedby == "RFID") {
-            $itemdetails.find('#is-txtRFID').html(itemdata.code);
-        } else {
-            $itemdetails.find('#is-txtRFID').html('');
-        }
+        //$itemdetails.find('#is-trBarcode').toggle(itemdata.trackedby == "BARCODE");
+        //if (itemdata.trackedby == "BARCODE") {
+        //    $itemdetails.find('#is-txtBarcode').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtBarcode').html('');
+        //}
+        //$itemdetails.find('#is-trSerialNo').toggle(itemdata.trackedby == "SERIALNO");
+        //if (itemdata.trackedby == "SERIALNO") {
+        //    $itemdetails.find('#is-txtSerialNo').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtSerialNo').html('');
+        //}
+        //$itemdetails.find('#is-trRFID').toggle(itemdata.trackedby == "RFID");
+        //if (itemdata.trackedby == "RFID") {
+        //    $itemdetails.find('#is-txtRFID').html(itemdata.code);
+        //} else {
+        //    $itemdetails.find('#is-txtRFID').html('');
+        //}
+        $itemdetails.find('#is-trBarcode').toggle(itemdata.barcode != '');
+        $itemdetails.find('#is-txtBarcode').html(itemdata.barcode);
+        $itemdetails.find('#is-trSerialNo').toggle(itemdata.mfgserial != '');
+        $itemdetails.find('#is-txtSerialNo').html(itemdata.mfgserial);
+        $itemdetails.find('#is-trRFID').toggle(itemdata.rfid != '');
+        $itemdetails.find('#is-txtRFID').html(itemdata.rfid);
         $itemdetails.find('#is-txtICode').html(itemdata.masterNo);
         $itemdetails.find('#is-txtDescription').html(itemdata.description);
         $itemdetails.find('#is-trAisle').toggle(!itemdata.isICode);
@@ -189,11 +195,19 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
 
         $itemdetails.find('.is-images').empty();
         for(i = 0; i < itemdata.images.length; i++) {
-            img = jQuery('<img>')
+            var $img = jQuery('<img>')
                     .attr('src', 'data:image/jpeg;base64,' + itemdata.images[i].thumbnail)
                     .attr('data-appimageid', itemdata.images[i].appimageid)
-            ;
-            $itemdetails.find('.is-images').append(img);
+                ;
+            $itemdetails.find('.is-images').append($img);
+            $img.on('click', function () {
+                var $this = jQuery(this);
+                var html = [];
+                html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + $this.attr('data-appimageid') + '&thumbnail=false' + '\" >');
+                html = html.join('\n');
+                var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', html);
+                var $btnClose = FwConfirmation.addButton($confirmation, 'Close', true);
+            });
         }
     };
 
@@ -201,12 +215,12 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
         screen.$view.find('.fwmobilecontrol-value').val('');
         if (epcs != '') {
             screen.resetscreen();
-            RwServices.call('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
+            RwServices.callMethod('ItemStatus', 'ItemStatusRFID', { tags: epcs }, function (response) {
                 if (response.items.length == 1) {
                     var request = {
                         barcode: response.items[0].tag
                     };
-                    RwServices.call('ItemStatus', 'GetItemStatus', request, function(response) {
+                    RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
                     });
                 } else {

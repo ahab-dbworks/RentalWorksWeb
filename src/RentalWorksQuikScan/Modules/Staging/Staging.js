@@ -93,7 +93,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             var request = {
                 orderid: screen.getOrderId()
             };
-            RwServices.call('Staging', 'CreateSuspendedSession', request, function (response) {
+            RwServices.callMethod('Staging', 'CreateSuspendedSession', request, function (response) {
                 try {
                     screen.setContractId(response.contractid);
                     screen.setSessionNo(response.sessionno);
@@ -135,7 +135,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 orderid: screen.getOrderId(),
                 contractid: screen.getContractId()
             };
-            RwServices.call('Staging', 'OrdertranExists', request, function (response) {
+            RwServices.callMethod('Staging', 'OrdertranExists', request, function (response) {
                 try {
                     if (response.ordertranExists) {
                         properties.contract = {
@@ -171,7 +171,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 contractid: ''
             };
             //RwServices.order.getStagingPendingItems(request, screen.getStagingPendingItemsCallback);
-            RwServices.call('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
+            RwServices.callMethod('Staging', 'GetPendingItems', request, screen.getStagingPendingItemsCallback);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -216,7 +216,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 contractid: screen.getContractId()
             };
             //RwServices.order.getStagingStagedItems(request, screen.getStagingStagedItemsCallback);
-            RwServices.call('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback);
+            RwServices.callMethod('Staging', 'GetStagedItems', request, screen.getStagingStagedItemsCallback);
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -459,7 +459,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             pageno: 0,
                             pagesize: 0
                         };
-                        RwServices.call('Staging', 'GetOrderSuspendedSessions', request1, function (response1) {
+                        RwServices.callMethod('Staging', 'GetOrderSuspendedSessions', request1, function (response1) {
                             try {
                                 if (response1.searchresults.Rows.length > 0) {
                                     screen.setOrder(model);
@@ -469,7 +469,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                     var request2 = {
                                         orderid: model.orderid
                                     };
-                                    RwServices.call('Staging', 'CreateSuspendedSession', request2, function (response2) {
+                                    RwServices.callMethod('Staging', 'CreateSuspendedSession', request2, function (response2) {
                                         try {
                                             var data = JSON.parse(JSON.stringify(model));
                                             data.contractid = response2.contractid;
@@ -742,7 +742,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         searchvalue: '',
                         moduletype: properties.moduleType
                     };
-                    RwServices.call('Staging', 'GetSearchResults', request, function (response) {
+                    RwServices.callMethod('Staging', 'GetSearchResults', request, function (response) {
                         if (response.searchresults.TotalRows > 0) {
                             screen.pages.stagingmenu.show2();
                             screen.$view.find('.btnSuspendedSessions').show();
@@ -784,7 +784,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         searchvalue: '',
                         moduletype: properties.moduleType
                     };
-                    RwServices.call('Staging', 'GetSearchResults', request, function (response) {
+                    RwServices.callMethod('Staging', 'GetSearchResults', request, function (response) {
                         if (response.searchresults.TotalRows > 0) {
                             screen.$btnback.show();
                         }
@@ -921,7 +921,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     masterid:     masterid,
                     masteritemid: masteritemid
                 };
-                RwServices.call('Staging', 'funcserialmeterout', request, function(response) {
+                RwServices.callMethod('Staging', 'funcserialmeterout', request, function(response) {
                     try {
                         for(var i = 0; i < response.funcserialmeterout.length; i++) {
                             var $divSerialNo = jQuery('<div>')
@@ -996,7 +996,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     contractid: screen.getContractId(),
                     masteritemid: masteritemid
                 };
-                RwServices.call('Staging', 'funcserialfrm', request, function(response) {
+                RwServices.callMethod('Staging', 'funcserialfrm', request, function(response) {
                     try {
                         if (response !== null) {
                             screen.pages.selectserialno.setMasterId(response.funcserialfrm.masterid);
@@ -1057,7 +1057,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     masteritemid: masteritemid,
                     onlystagedorout: true
                 };
-                RwServices.call('Staging', 'funcserialmeterout', request, function(response) {
+                RwServices.callMethod('Staging', 'funcserialmeterout', request, function(response) {
                     try {
                         for(var i = 0; i < response.funcserialmeterout.length; i++) {
                             var $divSerialNo = jQuery('<div>')
@@ -1176,7 +1176,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             containeritemid: containeritemid,
             containeroutcontractid: containeroutcontractid
         };
-        RwServices.call('Staging', 'InsertSerialSession', request, function(responseSelectSerialNo) {
+        RwServices.callMethod('Staging', 'InsertSerialSession', request, function(responseSelectSerialNo) {
              try {
                 funcOnSuccess();
              } catch(ex) {
@@ -2600,13 +2600,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             callback();
         }
         else {
-            RwServices.call('Staging', 'OrdertranExists', requestOTE, function (responseOTE) {
+            RwServices.callMethod('Staging', 'OrdertranExists', requestOTE, function (responseOTE) {
                 try {
                     if (!responseOTE.ordertranExists) {
                         var requestCancelContract = {
                             contractid: screen.getContractId()
                         };
-                        RwServices.call('Staging', 'CancelContract', requestCancelContract, function () {
+                        RwServices.callMethod('Staging', 'CancelContract', requestCancelContract, function () {
                             //try {
                                 
                             //} catch (ex) {
@@ -2628,7 +2628,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             activitytype: RwConstants.activityTypes.Staging,
             orderid: screen.getOrderId()
         };
-        RwServices.call('Staging', 'GetResponsiblePerson', requestGetResponsiblePerson, function (response) {
+        RwServices.callMethod('Staging', 'GetResponsiblePerson', requestGetResponsiblePerson, function (response) {
             try {
                 properties.responsibleperson = response.responsibleperson;
                 if ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) {

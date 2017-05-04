@@ -74,7 +74,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
                     } else {
                         request.location = FwFormField.getValue($scan, 'div[data-datafield="location"]')
                     }
-                    RwServices.call("AssetSetLocation", "SaveItemInformation", request, function(response) {
+                    RwServices.callMethod("AssetSetLocation", "SaveItemInformation", request, function(response) {
                         plugin.previousState();
                         $scan.loadcallback(response.itemdetails);
                     });
@@ -164,7 +164,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
         request = {
             searchvalue: searchvalue
         };
-        RwServices.call("AssetSetLocation", "ScanSearch", request, function(response) {
+        RwServices.callMethod("AssetSetLocation", "ScanSearch", request, function(response) {
             $scan.loadcallback(response.itemdetails);
         });
     };
@@ -237,7 +237,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             orderid:  orderid,
             masterid: masterid
         }
-        RwServices.call("AssetSetLocation", "LoadAssetLocations", request, function(response) {
+        RwServices.callMethod("AssetSetLocation", "LoadAssetLocations", request, function(response) {
             var totalqty = 0;
             for (var i = 0; i < response.assetlocations.length; i++) {
                 $scan.addassetsetlocation();
@@ -368,7 +368,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             request = {
                 recorddata: recorddata
             };
-            RwServices.call("AssetSetLocation", "LoadItemInformation", request, function(response) {
+            RwServices.callMethod("AssetSetLocation", "LoadItemInformation", request, function(response) {
                 $scan.loadcallback(response.itemdetails);
             });
         }

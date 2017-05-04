@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
-    <FwMSBuildTasksPath>$(AppSolutionDir)\lib\Fw\build\Fw.MSBuild</FwMSBuildTasksPath>
     <MSBuildCommunityTasksPath>$(AppSolutionDir)\lib\Fw\lib\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
     <FwJsonPath>$(AppSolutionDir)\lib\Fw\src\Fw.Json</FwJsonPath>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWeb</FwApplicationDirectory>
@@ -19,8 +18,6 @@
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
-  <UsingTask TaskName="Fw.MSBuildTasks.FwReplaceInFile" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
-  <UsingTask TaskName="Fw.MSBuildTasks.FwJSAppBuilder" AssemblyFile="$(FwMSBuildTasksPath)\Fw.MSBuild.dll" />
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -91,12 +88,12 @@
     </Reference>
     <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Fw\Libraries\EPPlus\EPPlus.dll</HintPath>
+      <HintPath>..\..\lib\Fw\lib\EPPlus\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Fw\Libraries\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\lib\Fw\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -116,8 +113,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ApplicationConfig.devsample.js" />
+    <Content Include="ApplicationConfig.dev.js" />
+    <Content Include="ApplicationConfig.js" />
     <Content Include="ApplicationConfig.sample.js" />
+    <Content Include="ApplicationConfig.test.js" />
+    <Content Include="App_Data\Client\ReportLogo.png" />
     <Content Include="index.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
@@ -980,7 +980,8 @@
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="app_scripts.json" />
-    <Content Include="Application.devsample.config" />
+    <Content Include="Application.dev.config" />
+    <Content Include="Application.test.config" />
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
@@ -1230,6 +1231,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Modules\Home\" />
     <Folder Include="Source\Modules\Utilities\" />
   </ItemGroup>
@@ -1268,7 +1270,7 @@
       <Output TaskParameter="Build" PropertyName="Build" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
-    <FwReplaceInFile Path="$(FwApplicationDirectory)\Properties\AssemblyInfo.cs" Pattern="AssemblyVersion\(&quot;.*&quot;\)" Replacement="AssemblyVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="true" IgnoreExitCode="true" />
@@ -1276,7 +1278,7 @@
   <Target Name="AfterBuild">
   </Target>
   <Target Name="FwDebugTarget" Condition="$(FwPublish)=='false'">
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" AttachDebugger="false" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
   <Target Name="FwPublishTarget" Condition="$(FwPublish)=='true'">
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" />
@@ -1288,7 +1290,6 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
-    <!--<FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" UpdateSchema="$(FwUpdateSchema)" Publish="$(FwPublish)" />-->
     <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" />
     <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /e" />
@@ -1302,7 +1303,7 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.css" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.css" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" />
-    <FwReplaceInFile Path="$(FwDeploymentDirectory)\web.config" Pattern="debug=&quot;true&quot;" Replacement="debug=&quot;false&quot;" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="true" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /e" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Libraries\ckeditor" Condition="!Exists('$(FwDeploymentDirectory)\Libraries\ckeditor')" />
@@ -1318,6 +1319,6 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data" Condition="!Exists('$(FwDeploymentDirectory)\App_Data')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" />
-    <FwJSAppBuilder ConfigFilePath="$(JsAppBuilderConfigFile)" SolutionDir="$(AppSolutionDir)" Version="$(Major).$(Minor).$(Build).$(Revision)" Publish="true" />
+    <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="true" IgnoreExitCode="true" />
   </Target>
 </Project>
