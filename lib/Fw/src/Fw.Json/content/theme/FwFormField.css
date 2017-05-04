@@ -152,13 +152,13 @@ html.mobile .fwformfield[data-type="combobox"] .pager {height:38px;line-height:3
 .fwformfield[data-type="combobox"] .pager .btnLastPage {display:inline-block;vertical-align:middle;}
 .fwformfield[data-type="combobox"] .pager .txtPageNo {box-sizing:border-box;display:inline-block;vertical-align:middle;text-align:center;border:0;border-radius:0;margin:0 5px;}
 html.desktop .fwformfield[data-type="combobox"] .pager .txtPageNo {height:22px;line-height:22px;width:32px;font-size:14px;}
-html.mobile .fwformfield[data-type="combobox"] .pager .txtPageNo {height:32px;line-height:32px;width:42px;font-size:18px;}
+html.mobile .fwformfield[data-type="combobox"] .pager .txtPageNo {height:32px;/*line-height:32px;*/width:42px;/*font-size:18px;*/}
 .fwformfield[data-type="combobox"] .pager .of {display:inline-block;vertical-align: middle;}
 html.desktop .fwformfield[data-type="combobox"] .pager .of {height:22px;line-height:22px;width:22px;}
-html.mobile .fwformfield[data-type="combobox"] .pager .of {height:32px;line-height:32px;width:22px;}
+html.mobile .fwformfield[data-type="combobox"] .pager .of {height:32px;line-height:32px;/*width:22px;*/}
 .fwformfield[data-type="combobox"] .pager .txtTotalPages {display:inline-block;vertical-align:middle;}
 html.desktop .fwformfield[data-type="combobox"] .pager .txtTotalPages {height:22px;line-height:22px;width:22px;}
-html.mobile .fwformfield[data-type="combobox"] .pager .txtTotalPages {height:32px;line-height:32px;width:32px;}
+html.mobile .fwformfield[data-type="combobox"] .pager .txtTotalPages {height:32px;line-height:32px;/*width:32px;*/}
 .fwformfield[data-type="combobox"] .pager .pagerbutton {cursor:pointer;font-size:32px;padding:0 5px;}
 .fwformfield[data-type="combobox"] .pager .pagerbutton[data-enabled="false"] {opacity:.6;}
 .fwformfield[data-type="combobox"] .pager .firsticon {background-size:cover;background-image:url(fwimages/icons/128/pager_first.001.png);}
