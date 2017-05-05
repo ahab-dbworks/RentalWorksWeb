@@ -2,14 +2,13 @@
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
+using OfficeOpenXml;
+using RentalWorksWeb.Integration;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
-using OfficeOpenXml;
+using System.Dynamic;
+using System.Text;
 
 namespace RentalWorksWeb.Source.Reports
 {
@@ -29,8 +28,8 @@ namespace RentalWorksWeb.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            //const string METHOD = "ChargeProcessing.renderHeaderHtml";
-            //string html, locationid, chgbatchno, chgbatchdate;
+            //const string METHOD = "RwChargeProcessing.renderHeaderHtml";
+            string html;//, locationid, chgbatchno, chgbatchdate;
             //StringBuilder sb;
 
             //FwValidate.TestPropertyDefined(METHOD, request.parameters, "batchno");
@@ -41,8 +40,9 @@ namespace RentalWorksWeb.Source.Reports
             //sb.Replace("[CHGBATCHNO]", chgbatchno);
             //sb.Replace("[BATCHDATE]", chgbatchdate);
             //html = sb.ToString();
+            html = null;
 
-            return null;
+            return html;
         }
         //---------------------------------------------------------------------------------------------
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
@@ -110,7 +110,10 @@ namespace RentalWorksWeb.Source.Reports
                     break;
                 case "LoadForm":
                     response.orderbylist = GetOrderByList();
-                    response.locationid  = session.security.webUser.locationid;
+                    response.qbo         = ValidateQBOConnected(session.security.webUser.locationid);
+                    break;
+                case "ExportToQBO":
+                    response.export = QBOIntegrationData.ExportInvoicesToQBO(request.batchno, request.batchfrom, request.batchto, session.security.webUser.locationid, session.security.webUser.usersid);
                     break;
             }
         }
@@ -119,9 +122,11 @@ namespace RentalWorksWeb.Source.Reports
         {
             FwSqlCommand qry, qry2;
             FwDateTime asof = request.asofdate;
+            bool receiptsenabled;
+            dynamic invoiceids;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.createchargebatch2");
-            //qry.AddParameter("@sessionid",    ""); //MY 7/19/2016 added to 2017
+            qry.AddParameter("@sessionid",    session.security.webUser.webusersid);
             qry.AddParameter("@usersid",      session.security.webUser.usersid);
             qry.AddParameter("@asof",         asof.GetSqlValue());
             qry.AddParameter("@dealid",       "");
@@ -149,6 +154,41 @@ namespace RentalWorksWeb.Source.Reports
                 response.chgbatchno   = qry2.GetField("chgbatchno").ToString();
                 response.chgbatchdate = qry2.GetField("chgbatchdate").ToShortDateString();
             }
+
+            receiptsenabled = RwAppData.HasAppOption("Receipts");
+            invoiceids      = ExportInvoices(FwSqlConnection.RentalWorks, response.chgbatchid, "", "", session.security.webUser.locationid);
+            if (!receiptsenabled)
+            {
+                for (int i = 0; i < invoiceids.Count; i++)
+                {
+                    CloseInvoice(FwSqlConnection.RentalWorks, invoiceids[i].invoiceid, session.security.webUser.usersid);
+                }
+            }
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static void CloseInvoice(FwSqlConnection conn, string invoiceid, string usersid)
+        {
+            FwSqlCommand sp;
+
+            sp = new FwSqlCommand(conn, "dbo.closeinvoice");
+            sp.AddParameter("@invoiceid", invoiceid);
+            sp.AddParameter("@usersid",   usersid);
+            sp.Execute();
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic ExportInvoices(FwSqlConnection conn, string batchno, FwDateTime batchfrom, FwDateTime batchto, string locationid)
+        {
+            FwSqlCommand sp;
+            dynamic result;
+
+            sp = new FwSqlCommand(conn, "dbo.exportinvoices");
+            sp.AddParameter("@chgbatchid", batchno);
+            sp.AddParameter("@fromdate",   batchfrom.GetSqlValue());
+            sp.AddParameter("@todate",     batchto.GetSqlValue());
+            sp.AddParameter("@locationid", locationid);
+            result = sp.QueryToDynamicList2();
+
+            return result;
         }
         //---------------------------------------------------------------------------------------------
         public List<FwReportOrderByItem> GetOrderByList() 
@@ -160,6 +200,30 @@ namespace RentalWorksWeb.Source.Reports
             orderByItems.Add(new FwReportOrderByItem() {value="invoiceno",  text="Invoice No",  selected="T", orderbydirection="asc"});
             orderByItems.Add(new FwReportOrderByItem() {value="orderno",    text="Order No",    selected="T", orderbydirection="asc"});
             return orderByItems;
+        }
+        //---------------------------------------------------------------------------------------------
+        public static dynamic ValidateQBOConnected(string locationid)
+        {
+            dynamic qbokeys, result = new ExpandoObject();
+
+            qbokeys = QBOIntegrationData.GetQBOKeys(FwSqlConnection.RentalWorks, locationid);
+            if ((qbokeys != null) && (qbokeys.accesstoken != ""))
+            {
+                DateTime expiredt = FwConvert.ToDateTime(qbokeys.accesstokendate);
+                int expiresindays = (expiredt.AddDays(180) - DateTime.Now.Date).Days;
+
+                if (expiresindays > 0)
+                {
+                    result.connected = true;
+                    result.dateconnected = FwConvert.ToUSShortDate(qbokeys.accesstokendate);
+                    result.expiresindays = expiresindays.ToString();
+                }
+                else {
+                    result.connected = false;
+                }
+            }
+
+            return result;
         }
         //---------------------------------------------------------------------------------------------
         public static void GetChgBatch(string locationid, string chgbatchid, out string chgbatchno, out string chgbatchdate)
@@ -271,8 +335,8 @@ namespace RentalWorksWeb.Source.Reports
                 string invoiceid, orderid, splitrate;
                 decimal rental, meter, sales, space, vehicle, labor, parts, asset, misc, discount, tax1, tax2, tax, total;
 
-                invoiceid = dt.GetValue(rowno, "invoiceid").ToString().TrimEnd();
-                orderid   = dt.GetValue(rowno, "orderid").ToString().TrimEnd();
+                invoiceid = FwCryptography.AjaxDecrypt(dt.GetValue(rowno, "invoiceid").ToString().TrimEnd());
+                orderid   = FwCryptography.AjaxDecrypt(dt.GetValue(rowno, "orderid").ToString().TrimEnd());
                 splitrate = dt.GetValue(rowno, "splitrentalflg").ToString().TrimEnd();
                 calinvoicetotals(invoiceid, orderid, splitrate, 
                                  out rental, out meter, out sales, out space, out vehicle, out labor, out parts, out asset,out misc, out discount, 

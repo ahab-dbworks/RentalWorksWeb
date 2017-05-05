@@ -1,5 +1,5 @@
 ﻿window.onload = function() {
-    if ((typeof parent.RwChargeProcessingController == 'undefined') || (!parent.RwChargeProcessingController.verifyAuthToken())) {
+    if ((typeof parent.RwIntegrationController == 'undefined') || (!parent.RwIntegrationController.verifyAuthToken())) {
        intuit.ipp.jQuery('#qboconnect').empty();
        intuit.ipp.jQuery('#qboconnect').append('<div>Please login to use this feature.</div>');
     } else {
@@ -44,39 +44,6 @@
                         }
                     }
                 );
-            }
-        })
-        .on('click', '.exporttoqbo', function() {
-            if (!intuit.ipp.jQuery(this).hasClass('disabled')) {
-                var formdata = parent.RwChargeProcessingController.getFormData();
-                if (formdata.run == true) {
-                    var $confirm = parent.FwConfirmation.renderConfirmation('Export batch to Quickbooks', 'Running please wait...');
-                    PageMethods.ExportToQBO(formdata,
-                        function (result, userContext, methodName) {
-                            if (result.status == "0") {
-                                //$confirm.find('.message').html(result.message);
-                                var html = [];
-                                html.push('<table style="table-layout:fixed;border-collapse:collapse;text-align:left;font-size:13px;">');
-                                html.push('<thead><tr><th style="width:90px;">Invoice No</th><th>Status</th></tr></thead>')
-                                html.push('<tbody>');
-                                for (var i = 0; i < result.invoices.length; i++) {
-                                    html.push('<tr><th>' + result.invoices[i].invoiceno + '</th><th>' + result.invoices[i].message + '</th></tr>');
-                                }
-                                html.push('</tbody>');
-                                html.push('</table>');
-                                $confirm.find('.message').html(html.join(''));
-                            } else {
-                                $confirm.find('.message').html(result.message);
-                            }
-                            parent.FwConfirmation.addButton($confirm, 'Ok', true);
-                        },
-                        function (error, userContext, methodName) {
-                            if (error !== null) {
-                                alert(error.message);
-                            }
-                        }
-                    );
-                }
             }
         })
     ;

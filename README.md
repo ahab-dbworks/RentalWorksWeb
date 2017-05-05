@@ -1,4 +1,4 @@
-# RentalWorks
+# RentalWorks  [![Build Status](http://jenkins.dbworks.com:8080/buildStatus/icon?job=RentalWorksWeb-Develop)](http://jenkins.dbworks.com:8080/job/RentalWorksWeb-Develop/)
 
 Complete Inventory Tracking & Asset Management Software
 
@@ -23,21 +23,26 @@ The RentalWorksWeb repository consists of the following projects:
 
 ### Install Git
 - https://git-scm.com/)
+- Setup your SSH keys for github https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 
 ### Clone RentalWorksWeb Repository
-- Open Windows Explorer and go to C:\project\RentalWorks or wherever you want to create the "RentalWorksWeb" diretory
+- Open Windows Explorer and go to the parent directory where you want to create the "RentalWorksWeb" directory
 - Right-Click and "Git Bash Here"
-- git clone http://gitlab/DatabaseWorks/RentalWorksWeb.git
+- git clone git@github.com:DatabaseWorks/RentalWorksWeb.git
 
-### Make the solution configuration field wider so you can read it
-- Go to Tools > Customize
-- Commands Tab
-- Toolbar: Standard
-- Select the item "Solution Configurations" and Modify Selection
-- Width needs to be wider so make it 180 or whatever you like
+### Visual Studio Configuration
+1. Make the Solution configuration field wide enough to read
+    - Go to Tools > Customize
+    - Commands Tab
+    - Toolbar: Standard
+    - Select the item "Solution Configurations" and Modify Selection
+    - Width needs to be wider so make it 180 or whatever you like
+2. Set indenting for HTML files to 2 spaces
 
 ### Create Virtual Directories and set Application.config files to dev database
 - run the powershell script set_devemode.ps1.  If it doesn't work you will need to run the second version of the script from an administrative powershell command prompt or manually do what the script does.
 
 ## License
 RentalWorksWeb is copyright by Database Works, Inc.  All rights reserved.  You are not permitted to redistribute this source code or compiled binaries without permission from Database Works.
+
+test jenkins

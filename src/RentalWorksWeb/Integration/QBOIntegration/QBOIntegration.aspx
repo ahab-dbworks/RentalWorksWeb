@@ -29,9 +29,6 @@
         <div class="date"><div class="datelabel">Last Connected:</div><div id="dateconnected" class="dateconnected" runat="server"></div></div>
         <div id="expire" class="expire" runat="server"><div class="expirelabel">Expires In:</div><div id="expiredays" class="expiredays" runat="server"></div></div>
       </div>
-      <div class="qbofunctions">
-        <div id="exporttoqbo" class="btn exporttoqbo" runat="server">Export batch to Quickbooks</div>
-      </div>
     </form>
   </body>
 </html>

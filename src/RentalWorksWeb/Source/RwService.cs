@@ -121,7 +121,7 @@ namespace RentalWorksWeb.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwModule))))
                     {
                         FwModule module = (FwModule)Activator.CreateInstance(type);
-                        module.Init("RentalWorksWeb.Source.Modules", "", typeof(RwService).Assembly, request, response, session);
+                        module.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (module != null)
                         {
                             typeof(FwModule).GetMethod(method).Invoke(module, new object[0]);
@@ -151,7 +151,7 @@ namespace RentalWorksWeb.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwGrid))))
                     {
                         FwGrid grid = (FwGrid)Activator.CreateInstance(type);
-                        grid.Init("RentalWorksWeb.Source.Grids", "", typeof(RwService).Assembly, request, response, session);
+                        grid.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (grid != null)
                         {
                             typeof(FwGrid).GetMethod(method).Invoke(grid, new object[0]);
@@ -181,7 +181,7 @@ namespace RentalWorksWeb.Source
                     if ((type != null) && (type.IsSubclassOf(typeof(FwValidation))))
                     {
                         FwValidation validation = (FwValidation)Activator.CreateInstance(type);
-                        validation.Init("RentalWorksWeb.Source.Validations", "", typeof(RwService).Assembly, request, response, session);
+                        validation.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (validation != null)
                         {
                             typeof(FwValidation).GetMethod(method).Invoke(validation, new object[0]);
