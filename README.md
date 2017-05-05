@@ -1,4 +1,4 @@
-# RentalWorks
+# RentalWorks  [![Build Status](http://jenkins.dbworks.com:8080/buildStatus/icon?job=RentalWorksWeb-Develop)](http://jenkins.dbworks.com:8080/job/RentalWorksWeb-Develop/)
 
 Complete Inventory Tracking & Asset Management Software
 
@@ -41,5 +41,3 @@ The RentalWorksWeb repository consists of the following projects:
 
 ## License
 RentalWorksWeb is copyright by Database Works, Inc.  All rights reserved.  You are not permitted to redistribute this source code or compiled binaries without permission from Database Works.
-
-test
