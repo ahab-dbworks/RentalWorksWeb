@@ -126,7 +126,7 @@ namespace RentalWorksWeb.Source.Reports
             dynamic invoiceids;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.createchargebatch2");
-            //qry.AddParameter("@sessionid",    ""); //MY 7/19/2016 added to 2017
+            qry.AddParameter("@sessionid",    session.security.webUser.webusersid);
             qry.AddParameter("@usersid",      session.security.webUser.usersid);
             qry.AddParameter("@asof",         asof.GetSqlValue());
             qry.AddParameter("@dealid",       "");

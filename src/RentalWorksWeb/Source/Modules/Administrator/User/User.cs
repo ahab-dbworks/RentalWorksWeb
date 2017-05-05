@@ -10,7 +10,7 @@ using Fw.Json.SqlServer.Entities;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 
-namespace RentalWorksWeb.Modules
+namespace RentalWorksWeb.Source.Modules
 {
     class User : FwModule
     {

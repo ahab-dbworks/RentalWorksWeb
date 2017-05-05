@@ -1055,6 +1055,7 @@
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
     <Content Include="Source\Validations\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Validations\Category\CategoryBrowse.htm" />
+    <Content Include="Source\Validations\Group\GroupBrowse.htm" />
     <Content Include="Source\Validations\ICode\ICodeBrowse.htm" />
     <Content Include="Source\Validations\InventoryType\InventoryTypeBrowse.htm" />
     <Content Include="Source\Validations\Order\OrderBrowse.htm" />
@@ -1215,6 +1216,7 @@
     <Compile Include="Source\Validations\Customer\Customer.cs" />
     <Compile Include="Source\Validations\Deal\Deal.cs" />
     <Compile Include="Source\Validations\Event\Event.cs" />
+    <Compile Include="Source\Validations\Group\Group.cs" />
     <Compile Include="Source\Validations\ICode\ICode.cs" />
     <Compile Include="Source\Validations\InventoryType\InventoryType.cs" />
     <Compile Include="Source\Validations\Language\Language.cs" />
