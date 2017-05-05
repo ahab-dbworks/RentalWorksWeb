@@ -1,21 +1,21 @@
-﻿RwChargeProcessingController = {
-    Module: 'ChargeProcessing',
+﻿RwReceiptProcessingController = {
+    Module: 'ReceiptProcessing',
     ModuleOptions: {
         ReportOptions: {
             HasDownloadExcel: true
         }
     }
 };
-RwChargeProcessingController.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, RwChargeProcessingController.ModuleOptions);
+RwReceiptProcessingController.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, RwReceiptProcessingController.ModuleOptions);
 //----------------------------------------------------------------------------------------------
-RwChargeProcessingController.getModuleScreen = function(viewModel, properties) {
+RwReceiptProcessingController.getModuleScreen = function(viewModel, properties) {
     var screen, $form;
     screen            = {};
     screen.$view      = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
     screen.viewModel  = viewModel;
     screen.properties = properties;
 
-    $form = RwChargeProcessingController.openForm();
+    $form = RwReceiptProcessingController.openForm();
 
     screen.load = function () {
         FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -25,7 +25,7 @@ RwChargeProcessingController.getModuleScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwChargeProcessingController.openForm = function() {
+RwReceiptProcessingController.openForm = function() {
     var $form, batchid, batchno;
     
     batchid = "";
@@ -37,18 +37,19 @@ RwChargeProcessingController.openForm = function() {
     });
 
     $form
-        .on('click', '.createbatch', function() {
+        .on('click', '.processreceipts', function() {
             var request;
             request = {
-                method:   'CreateCharge',
-                asofdate: FwFormField.getValue($form, 'div[data-datafield="asofdate"]')
+                method:      'ProcessReceipts',
+                processfrom: FwFormField.getValue($form, 'div[data-datafield="processfrom"]'),
+                processto:   FwFormField.getValue($form, 'div[data-datafield="processto"]')
             };
             FwReport.getData($form, request, function(response) {
-                if ((response.status == '0') && (response.chgbatchid != '')) {
+                if (response.chgbatchid != '') {
                     FwFormField.setValue($form, 'div[data-datafield="batchno"]', response.chgbatchid, response.chgbatchno, true);
                     FwFormField.setValue($form, 'div[data-datafield="exported"]', response.chgbatchdate);
-                } else if ((response.status == '0') && (response.chgbatchid == '')) {
-                    FwNotification.renderNotification('WARNING', 'No Approved Invoices to Process.');
+                } else if (response.chgbatchid == '') {
+                    FwNotification.renderNotification('WARNING', 'No receipts to process.');
                 } else {
                     FwFunc.showError(response.msg);
                 }
@@ -104,10 +105,10 @@ RwChargeProcessingController.openForm = function() {
                            if (response.export.status == "0") {
                                 var html = [];
                                 html.push('<table style="table-layout:fixed;border-collapse:collapse;text-align:left;font-size:13px;">');
-                                html.push('<thead><tr><th style="width:90px;">Invoice No</th><th>Status</th></tr></thead>')
+                                html.push('<thead><tr><th style="width:90px;">Receipt</th><th>Status</th></tr></thead>')
                                 html.push('<tbody>');
-                                for (var i = 0; i < response.export.invoices.length; i++) {
-                                    html.push('<tr><th>' + response.export.invoices[i].invoiceno + '</th><th>' + response.export.invoices[i].message + '</th></tr>');
+                                for (var i = 0; i < response.export.receipts.length; i++) {
+                                    html.push('<tr><th>' + response.export.receipts[i].receiptno + '</th><th>' + response.export.receipts[i].message + '</th></tr>');
                                 }
                                 html.push('</tbody>');
                                 html.push('</table>');
@@ -152,9 +153,9 @@ RwChargeProcessingController.openForm = function() {
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwChargeProcessingController.onLoadForm = function($form) {
+RwReceiptProcessingController.onLoadForm = function($form) {
     var request = {}, appOptions;
-    FwReport.load($form, RwChargeProcessingController.ModuleOptions.ReportOptions);
+    FwReport.load($form, RwReceiptProcessingController.ModuleOptions.ReportOptions);
     appOptions = program.getApplicationOptions();
 
     request.method = "LoadForm";
@@ -170,7 +171,8 @@ RwChargeProcessingController.onLoadForm = function($form) {
     });
 
     FwFormField.setValue($form, 'div[data-datafield="viewbatch"]', true, '', true);
-    FwFormField.setValue($form, 'div[data-datafield="asofdate"]', FwFunc.getDate());
+    FwFormField.setValue($form, 'div[data-datafield="processfrom"]', FwFunc.getDate());
+    FwFormField.setValue($form, 'div[data-datafield="processto"]', FwFunc.getDate());
 
     if ((typeof appOptions['quickbooks'] != 'undefined') && (appOptions['quickbooks'].enabled)) {
         //$form.find('.qbo').attr('src', window.location.pathname + 'integration/qbointegration/qbointegration.aspx');
@@ -178,12 +180,12 @@ RwChargeProcessingController.onLoadForm = function($form) {
     }
 };
 //----------------------------------------------------------------------------------------------
-RwChargeProcessingController.loadRelatedValidationFields = function(validationName, $valuefield, $tr) {
+RwReceiptProcessingController.loadRelatedValidationFields = function(validationName, $valuefield, $tr) {
     var $form;
 
     $form = $valuefield.closest('.fwform');
     switch (validationName) {
-        case 'BatchInvoices':
+        case 'BatchAR':
             $form.find('div[data-datafield="exported"] input.fwformfield-value').val($tr.find('.field[data-browsedatafield="chgbatchdate"]').attr('data-originalvalue'));
             break;
     }

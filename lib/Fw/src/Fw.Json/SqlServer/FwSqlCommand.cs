@@ -1666,6 +1666,10 @@ namespace Fw.Json.SqlServer
                             {
                                 data = ((string)data).TrimEnd();
                             }
+                            else if (data is DateTime)
+                            {
+                                data = new FwDatabaseField(data).ToShortDateTimeString();
+                            }
                         }
                         else
                         {

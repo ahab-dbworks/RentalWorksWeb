@@ -30,16 +30,19 @@ namespace RentalWorksWeb
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
 
             //Reports 
-            var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports", "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png", "Deal Reports");
-                                          AddModule("Deal Outstanding",    "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
+            var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
+                                            AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
 
             // Add Utilities 
-            var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing", "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id, utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
-                                          AddModule("Process Deal Invoices",  "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",   "module/chargeprocessing", utilitiesiconbaseurl + "placeholder.png", "Charge<br/>Processing", "", "");
+            var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing",       "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id,                                                                                 utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
+                                                AddModule("Process Deal Invoices",   "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",        "module/chargeprocessing",        utilitiesiconbaseurl + "placeholder.png", "", "", "");
+                                                AddModule("Process Receipts",        "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv2menuChargeProcessing.Id, "RwReceiptProcessingController",       "module/receiptprocessing",       utilitiesiconbaseurl + "placeholder.png", "", "", "");
+                                                AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv2menuChargeProcessing.Id, "RwVendorInvoiceProcessingController", "module/vendorinvoiceprocessing", utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
-            AddModule("Group",  "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "RwGroupController",   "module/group", administratoriconbaseurl + "group.png");
-            AddModule("User",   "{029022E9-7920-4B3E-95EB-0024DCB028AC}", lv1menuAdministrator.Id, "RwUserController",    "module/user",  administratoriconbaseurl + "user.png");
+            AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "RwGroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
+            AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
+            AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "RwUserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
 
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "RwUserSettingsController");

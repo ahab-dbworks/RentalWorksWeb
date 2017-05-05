@@ -75,34 +75,33 @@ Program.prototype.getApplicationOptions = function() {
 //---------------------------------------------------------------------------------
 Program.prototype.modules = [
     //Home Modules
-    { urlpattern: /^module\/quote$/,                getScreen: function() { return RwQuoteController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/order$/,                getScreen: function() { return RwOrderController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customer$/,             getScreen: function() { return RwCustomerController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/deal$/,                 getScreen: function() { return RwDealController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendor$/,               getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/contact$/,              getScreen: function() { return RwContactController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/rentalinventory$/,      getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/salesinventory$/,       getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/barcodeditems$/,        getScreen: function() { return RwBarCodedItemsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/serialitems$/,          getScreen: function() { return RwSerialItemsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/repairorder$/,          getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
-
+    { urlpattern: /^module\/quote$/,                  getScreen: function() { return RwQuoteController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/order$/,                  getScreen: function() { return RwOrderController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customer$/,               getScreen: function() { return RwCustomerController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/deal$/,                   getScreen: function() { return RwDealController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/contact$/,                getScreen: function() { return RwContactController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/rentalinventory$/,        getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/salesinventory$/,         getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/barcodeditems$/,          getScreen: function() { return RwBarCodedItemsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/serialitems$/,            getScreen: function() { return RwSerialItemsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/repairorder$/,            getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
     //Settings Modules
-  , { urlpattern: /^module\/customersettings/,      getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/ordertype$/,            getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/usersettings/,            getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
     //Reports
-  , { urlpattern: /^module\/dealoutstanding/, getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
-  , { urlpattern: /^module\/chargeprocessing/,      getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/chargeprocessing/,        getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/receiptprocessing/,       getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorinvoiceprocessing/, getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
     //Administrator
-  , { urlpattern: /^module\/group/,                 getScreen: function() { return RwGroupController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/usersettings/,          getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/group/,                   getScreen: function() { return RwGroupController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/integration/,             getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                    getScreen: function() { return RwUserController.getModuleScreen({}, {}); } }
     //Exports
-  , { urlpattern: /^module\/example/,               getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/example/,                 getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];
 //---------------------------------------------------------------------------------
 Program.prototype.routes = [

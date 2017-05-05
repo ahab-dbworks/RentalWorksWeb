@@ -293,5 +293,20 @@ namespace RentalWorksWeb.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static bool HasAppOption(string option)
+        {
+            FwSqlCommand qry;
+            bool result;
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select hasoption = dbo.hasappoption(@option)");
+            qry.AddParameter("@option", option);
+            qry.Execute();
+
+            result = qry.GetField("hasoption").ToBoolean();
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

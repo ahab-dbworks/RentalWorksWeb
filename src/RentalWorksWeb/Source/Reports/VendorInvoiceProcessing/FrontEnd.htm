@@ -1,4 +1,4 @@
-﻿<div class="fwcontrol fwcontainer fwform fwreport chargeprocessingexport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwChargeProcessingController">
+﻿<div class="fwcontrol fwcontainer fwform fwreport vendorinvoiceprocessingexport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor Invoice Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwVendorInvoiceProcessingController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -10,20 +10,13 @@
           <div class="formcolumn">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Create Batch">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div style="float:left;margin:9px 10px 0 0;"><div class="createbatch fwformcontrol" data-type="button">Process All Approved Invoices</div></div>
-                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="asofdate" style="float:left;width:46%;"></div>
+                <div style="float:left;margin:9px 10px 0 0;"><div class="createbatch fwformcontrol" data-type="button">Process All Approved Vendor Invoices</div></div>
               </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View Batch">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="viewbatch" style="float:left;width:10%;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Batch No" data-datafield="batchno" data-validationname="BatchInvoices" style="float:left;width:45%;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Batch No" data-datafield="batchno" data-validationname="BatchVendorInvoice" data-required="true" style="float:left;width:45%;"></div>
                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Exported" data-datafield="exported" data-enabled="false" style="float:left;width:45%;"></div>
-              </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="viewdates" style="float:left;width:10%;"></div>
-                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date Range From" data-datafield="batchfrom" data-enabled="false" style="float:left;width:45%;"></div>
-                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date Range To" data-datafield="batchto" data-enabled="false" style="float:left;width:45%;"></div>
               </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Data By">

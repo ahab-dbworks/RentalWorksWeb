@@ -347,7 +347,7 @@ namespace RentalWorksQuikScan.Modules
             qry3.Add("select contractno");
             qry3.Add("  from contract with (nolock)");
             qry3.Add(" where contractid = @receivecontractid");
-            qry3.AddParameter("@receivecontractid", response.receivecontractid);
+            qry3.AddParameter("@receivecontractid", request.receivecontractid);
             qry3.Execute();
             response.contract.receivecontractno = qry3.GetField("contractno").ToString();
         }
