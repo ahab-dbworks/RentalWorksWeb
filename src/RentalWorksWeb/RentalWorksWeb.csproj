@@ -1052,7 +1052,9 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\BatchAR\BatchARBrowse.htm" />
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
+    <Content Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoiceBrowse.htm" />
     <Content Include="Source\Validations\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Validations\Category\CategoryBrowse.htm" />
     <Content Include="Source\Validations\Group\GroupBrowse.htm" />
@@ -1206,7 +1208,9 @@
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\AttributeValue\AttributeValue.cs" />
     <Compile Include="Source\Validations\Attribute\Attribute.cs" />
+    <Compile Include="Source\Validations\BatchAR\BatchAR.cs" />
     <Compile Include="Source\Validations\BatchInvoices\BatchInvoices.cs" />
+    <Compile Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoice.cs" />
     <Compile Include="Source\Validations\BillingCycle\BillingCycle.cs" />
     <Compile Include="Source\Validations\Category\Category.cs" />
     <Compile Include="Source\Validations\CompanyDepartment\CompanyDepartment.cs" />
