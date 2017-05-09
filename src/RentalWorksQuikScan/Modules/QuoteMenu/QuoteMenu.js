@@ -16,113 +16,102 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     FwControl.renderRuntimeControls($fwcontrols);
 
     $search   = screen.$view.find('.qm-search');
-    $records  = screen.$view.find('.qm-records');
     $neworder = screen.$view.find('.qm-newquote');
 
-    $addnew = FwMobileMasterController.modulecontrols.triggerHandler('addnew');
-    $addnew.on('click', function() {
-        var $back, $continue;
-        $addnew.hide();
-        $search.hide();
-        $records.hide();
-        $neworder.rendernew();
-
-        $addnew.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
-            try {
-                $search.show();
-                $records.show();
-                $neworder.empty();
-                $addnew.show();
-                $addnew.$back.remove();
-                $continue.remove();
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
-        $continue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', 'continue', true, function() {
-            $neworder.createquoteorder();
-        });
-    });
-
-    $search
-        .on('change', '.fwmobilecontrol-value', function() {
-            var $this;
-            $this = jQuery(this);
-            $search.findquote($this.val().toUpperCase());
-        })
-        .on('click', '.fwmobilecontrol-search', function() {
-            $search.findquote($search.find('.fwmobilecontrol-value').val().toUpperCase());
-        })
-    ;
-    $search.findquote = function(searchvalue) {
-        var request;
-        $records.empty();
-        request = {
-            barcode: searchvalue
-        }
-        RwServices.callMethod("QuoteMenu", "FindQuote", request, function(response) {
-            try {
-                if (response.dealorder.length > 0) {
-                    $records.loadrecords(response.dealorder);
-                } else if (response.dealorder.length == 0) {
-                    $records.append('<div class="norecords" style="text-align:center;">0 records found.</div>');
-                    application.playStatus(false);
+    $search.find('#searchcontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'New',
+                orientation: 'right',
+                icon:        'add',
+                state:       0,
+                buttonclick: function () {
+                    $search.hide();
+                    $neworder.showscreen();
                 }
+            }
+        ]
+    });
+    $search.find('#quotesearch').fwmobilesearch({
+        service:   'QuoteMenu',
+        method:    'QuoteSearch',
+        searchModes: [
+            { value: 'QUOTE',       caption: 'Quote/Order No' },
+            { value: 'DESCRIPTION', caption: 'Description' }
+        ],
+        cacheItemTemplate: false,
+        itemTemplate: function(model) {
+            var html = [];
+            html.push('<div class="record order">');
+            html.push('  <div class="row">');
+            html.push('    <div class="caption fixed">Desc:</div>');
+            html.push('    <div class="value desc">{{orderdesc}}</div>');
+            html.push('  </div>');
+            html.push('  <div class="row">');
+            html.push('    <div class="caption fixed">Order:</div>');
+            html.push('    <div class="value orderno">{{orderno}}</div>');
+            html.push('    <div class="caption dynamic">Date:</div>');
+            html.push('    <div class="value date">{{orderdate}}</div>');
+            html.push('  </div>');
+            html.push('  <div class="row">');
+            html.push('    <div class="caption fixed">Deal:</div>');
+            html.push('    <div class="value deal">{{deal}}</div>');
+            html.push('  </div>');
+            html.push('  <div class="row">');
+            html.push('    <div class="caption fixed">Start Date:</div>');
+            html.push('    <div class="value startdate">{{estrentfrom}}</div>');
+            html.push('    <div class="caption dynamic">End Date:</div>');
+            html.push('    <div class="value enddate">{{estrentto}}</div>');
+            html.push('  </div>');
+            html.push('</div>');
+            html = html.join('\n');
+            return html;
+        },
+        recordClick: function(recorddata) {
+            try {
+                screen.loadquote(recorddata.orderid, recorddata.orderno, recorddata.orderdesc, recorddata.ordertype);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
-    };
-
-    $records
-        .on('click', '.record', function() {
-            var $this = jQuery(this);
-            screen.loadquote($this.data('recorddata').orderid, $this.data('recorddata').orderno, $this.data('recorddata').orderdesc, $this.data('recorddata').ordertype);
-        })
-    ;
-    $records.loadrecords = function(records) {
-        var html = [], $item;
-        html.push('<div class="record order">');
-        html.push('  <div class="row">');
-        html.push('    <div class="caption fixed">Desc:</div>');
-        html.push('    <div class="value desc"></div>');
-        html.push('  </div>');
-        html.push('  <div class="row">');
-        html.push('    <div class="caption fixed">Order:</div>');
-        html.push('    <div class="value orderno"></div>');
-        html.push('    <div class="caption dynamic">Date:</div>');
-        html.push('    <div class="value date"></div>');
-        html.push('  </div>');
-        html.push('  <div class="row">');
-        html.push('    <div class="caption fixed">Deal:</div>');
-        html.push('    <div class="value deal"></div>');
-        html.push('  </div>');
-        html.push('  <div class="row">');
-        html.push('    <div class="caption fixed">Start Date:</div>');
-        html.push('    <div class="value startdate"></div>');
-        html.push('    <div class="caption dynamic">End Date:</div>');
-        html.push('    <div class="value enddate"></div>');
-        html.push('  </div>');
-        html.push('</div>');
-        
-
-        for (var i = 0; i < records.length; i++) {
-            $item = jQuery(html.join(''));
-
-            $item.find('.desc').html(records[i].orderdesc);
-            $item.find('.orderno').html(records[i].orderno);
-            $item.find('.date').html(records[i].orderdate);
-            $item.find('.deal').html(records[i].deal);
-            $item.find('.startdate').html(records[i].estrentfrom);
-            $item.find('.enddate').html(records[i].estrentto);
-
-            $item.data('recorddata', records[i]);
-            $records.append($item);
         }
+    });
+    $search.showscreen = function() {
+        $search.show();
+        $search.find('#quotesearch').fwmobilesearch('search');
+        application.setScanTarget('.qm-search .fwmobilesearch .searchbox');
     };
 
-
+    $neworder.find('#newquotecontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        'arrow_back',
+                state:       0,
+                buttonclick: function () {
+                    try {
+                        $search.show();
+                        $neworder.hidescreen();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            },
+            {
+                caption:     'Continue',
+                orientation: 'right',
+                icon:        'arrow_forward',
+                state:       0,
+                buttonclick: function () {
+                    try {
+                        $neworder.createquoteorder();
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            }
+        ]
+    });
     $neworder
         .on('change', 'div[data-datafield="startdate"] input', function() {
             var $this, $enddate;
@@ -143,30 +132,31 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             }
         })
     ;
-    $neworder.rendernew = function() {
+    $neworder.showscreen = function() {
         var html = [], $newbody, applicationOptions, ratevalues = [];
+        $neworder.show();
         applicationOptions = application.getApplicationOptions();
 
         html.push('<div class="qm-newquote-title">New Quote/Order</div>');
         html.push('<div class="qm-newquote-fields">');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Select QuikPick Type" data-type="select" data-datafield="selecttype" data-required="true" />');
-        html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Deal" data-type="select" data-datafield="deal" />');
-        html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Description" data-type="text" data-datafield="description" data-required="true" />');
-        html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Estimated Start Date" data-type="date" data-datafield="startdate" data-required="true" />');
-        html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Estimated End Date" data-type="date" data-datafield="enddate" />');
-        html.push('    </div>');
-        html.push('    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Rate" data-type="select" data-datafield="rate" />');
-        html.push('    </div>');
+        html.push('  </div>');
         html.push('</div>');
         $newbody = jQuery(html.join(''));
 
@@ -193,7 +183,11 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
 
         FwFormField.setValue($newbody, 'div[data-datafield="startdate"]', FwFunc.getDate());
 
-        $neworder.append($newbody);
+        $neworder.find('#newquoteform').append($newbody);
+    };
+    $neworder.hidescreen = function() {
+        $neworder.hide();
+        $neworder.find('#newquoteform').empty();
     };
     $neworder.createquoteorder = function() {
         var request;
@@ -210,7 +204,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             };
             RwServices.callMethod("QuoteMenu", "NewQuote", request, function(response) {
                 try {
-                    $addnew.$back.click();
+                    $neworder.hidescreen();
                     screen.loadquote(response.order.orderid, response.order.orderno, response.order.orderdesc, '');
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -253,7 +247,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('.fwmobilecontrol-value');
+        $search.showscreen();
     };
 
     return screen;

@@ -5,7 +5,7 @@
 #quoteMenuView .qm-search .fwmobilecontrol-value::-moz-placeholder {text-transform: none;}
 #quoteMenuView .qm-search .fwmobilecontrol-value:-ms-input-placeholder {text-transform: none;}
 
-#quoteMenuView .qm-newquote {background-color:#212121;}
+#quoteMenuView .qm-newquote {background-color:#212121;display:none;}
 #quoteMenuView .qm-newquote .qm-newquote-title {background-color:#546e7a;padding:5px;font-size:18px;text-align:center;}
 #quoteMenuView .qm-newquote .qm-newquote-fields {padding:10px;}
 

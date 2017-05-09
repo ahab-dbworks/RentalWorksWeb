@@ -1,4 +1,5 @@
-﻿using Fw.Json.Services.Common;
+﻿using Fw.Json.Services;
+using Fw.Json.Services.Common;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using RentalWorksQuikScan.Source;
@@ -9,62 +10,47 @@ namespace RentalWorksQuikScan.Modules
 {
     class QuoteMenu
     {
-        //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void FindQuote(dynamic request, dynamic response, dynamic session)
+        public void QuoteSearch(dynamic request, dynamic response, dynamic session)
         {
+            const string METHOD_NAME = "QuoteSearch";
             dynamic userLocation;
+            FwSqlCommand qry;
+            FwSqlSelect select = new FwSqlSelect();
+
+            FwValidate.TestPropertyDefined(METHOD_NAME, request, "searchvalue");
 
             userLocation = RwAppData.GetUserLocation(conn:    FwSqlConnection.RentalWorks,
                                                      usersId: session.security.webUser.usersid);
-            
-            response.dealorder = GetDealOrderByBarcode(conn:       FwSqlConnection.RentalWorks,
-                                                       barcode:    request.barcode,
-                                                       usersid:    session.security.webUser.usersid,
-                                                       locationid: userLocation.locationId);
-        }
-        //----------------------------------------------------------------------------------------------------
-        private static dynamic GetDealOrderByBarcode(FwSqlConnection conn, string barcode, string usersid, string locationid)
-        {
-            dynamic result;
-            DataTable dt = new DataTable();
-            FwSqlCommand qry;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("select *");
-            qry.Add("from qsdealorderview");
-            qry.Add("where locationid = @locationid");
-            if (barcode != "")
+            qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("estrentto",   false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("statusdate",  false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("orderdate",   false, FwJsonDataTableColumn.DataTypes.Date);
+            select.PageNo   = request.pageno;
+            select.PageSize = request.pagesize;
+            select.Add("select *");
+            select.Add("from   qsdealorderview");
+            select.Add(" where locationid = @locationid");
+            if (!string.IsNullOrEmpty(request.searchvalue))
             {
-                qry.Add("  and  orderno   = @barcode");
-                qry.AddParameter("@barcode", barcode);
+                switch ((string)request.searchmode)
+                {
+                    case "QUOTE":
+                        select.Add("and orderno like @orderno");
+                        select.AddParameter("@orderno", request.searchvalue + "%");
+                        break;
+                    case "DESCRIPTION":
+                        select.Add("and orderdesc like @orderdesc");
+                        select.AddParameter("@orderdesc", "%" + request.searchvalue + "%");
+                        break;
+                }
             }
-            DepartmentFilter.SetDepartmentFilter(usersid, qry);
-            qry.Add("order by orderdate desc, orderno desc");
-            qry.AddParameter("@locationid", locationid);
-            dt = qry.QueryToTable();
-            result = new ExpandoObject[dt.Rows.Count];
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                result[i]             = new ExpandoObject();
-                result[i].orderid     = new FwDatabaseField(dt.Rows[i]["orderid"]).ToString().TrimEnd();
-                result[i].orderno     = new FwDatabaseField(dt.Rows[i]["orderno"]).ToString().TrimEnd();
-                result[i].dealno      = new FwDatabaseField(dt.Rows[i]["dealno"]).ToString().TrimEnd();
-                result[i].deal        = new FwDatabaseField(dt.Rows[i]["deal"]).ToString().TrimEnd();
-                result[i].orderdesc   = new FwDatabaseField(dt.Rows[i]["orderdesc"]).ToString().TrimEnd();
-                result[i].estrentfrom = new FwDatabaseField(dt.Rows[i]["estrentfrom"]).ToShortDateString();
-                result[i].estfromtime = new FwDatabaseField(dt.Rows[i]["estfromtime"]).ToString().TrimEnd();
-                result[i].estrentto   = new FwDatabaseField(dt.Rows[i]["estrentto"]).ToShortDateString();
-                result[i].esttotime   = new FwDatabaseField(dt.Rows[i]["esttotime"]).ToString().TrimEnd();
-                result[i].ordertype   = new FwDatabaseField(dt.Rows[i]["ordertype"]).ToString().TrimEnd();
-                result[i].status      = new FwDatabaseField(dt.Rows[i]["status"]).ToString().TrimEnd();
-                result[i].statusdate  = new FwDatabaseField(dt.Rows[i]["statusdate"]).ToShortDateString();
-                result[i].inputbyid   = new FwDatabaseField(dt.Rows[i]["inputbyid"]).ToString().TrimEnd();
-                result[i].orderdate   = new FwDatabaseField(dt.Rows[i]["orderdate"]).ToShortDateString();
-                result[i].locationid  = new FwDatabaseField(dt.Rows[i]["locationid"]).ToString().TrimEnd();
-            }
+            select.Add("order by orderdate desc, orderno desc");
+            select.AddParameter("@locationid", userLocation.locationId);
 
-            return result;
+            response.searchresults = qry.QueryToFwJsonTable(select, true);
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
