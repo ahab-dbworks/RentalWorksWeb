@@ -452,7 +452,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         recordClick: function (model) {
             try {
                 var mode = screen.$search.attr('data-mode');
-                if (mode === 'orderno' || mode === 'orderdesc') {
+                if (mode === 'orderno' || mode === 'orderdesc' || mode === 'deal') {
                     if (screen.getIsSuspendedSessionsEnabled()) {
                         var request1 = {
                             orderid: model.orderid,

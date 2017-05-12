@@ -66,12 +66,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             break;
         case RwConstants.checkInModes.Session:
             pageTitle               = RwLanguages.translate('Check-In');
-            pageSubTitle            = '<div class="title">' + properties.selectedsession.orderno + ' - ' + properties.selectedsession.orderdesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedsession.sessionno + ')</div>';
-            properties.orderId      = properties.selectedsession.orderid;
-            properties.dealId       = properties.selectedsession.dealid;
-            properties.departmentId = properties.selectedsession.departmentid;
-            properties.orderDesc    = properties.selectedsession.orderdesc;
-            properties.contractId   = properties.selectedsession.contractid;
+            pageSubTitle            = '<div class="title">' + properties.selectedsession.orderNo + ' - ' + properties.selectedsession.orderDesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedsession.sessionNo + ')</div>';
+            properties.orderId      = properties.selectedsession.orderId;
+            properties.dealId       = properties.selectedsession.dealId;
+            properties.departmentId = properties.selectedsession.departmentId;
+            properties.orderDesc    = properties.selectedsession.orderDesc;
+            properties.contractId   = properties.selectedsession.contractId;
             break;
         case RwConstants.checkInModes.Deal:
             pageTitle               = RwLanguages.translate('Check-In');
@@ -386,12 +386,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                         RwServices.order.selectSession(requestSelectSession, function(responseSelectSession) {
                             var requestCheckInItem2;
                             try {
-                                properties.webSelectSession = responseSelectSession.webSelectSession;
+                                properties.selectedsession = responseSelectSession.webSelectSession;
                                 if (((properties.moduleType === RwConstants.moduleTypes.Order) || (properties.moduleType === RwConstants.moduleTypes.Transfer)) && 
                                     (properties.activityType === RwConstants.activityTypes.CheckIn)) {
                                     checkInItemScreen_viewModel = {};
                                     checkInItemScreen_properties = jQuery.extend({}, properties, {
-                                        webSelectSession: properties.webSelectSession
+                                        selectedsession: properties.selectedsession
                                     });
                                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                     application.updateScreen(checkInItemScreen);
@@ -441,12 +441,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                 RwServices.order.selectSession(requestSelectSession, function(responseSelectSession) {
                                     var requestCheckInItem2;
                                     try {
-                                        properties.webSelectSession = responseSelectSession.webSelectSession;
+                                        properties.selectedsession = responseSelectSession.webSelectSession;
                                         if (((properties.moduleType === RwConstants.moduleTypes.Order) || (properties.moduleType === RwConstants.moduleTypes.Transfer)) && 
                                             (properties.activityType === RwConstants.activityTypes.CheckIn)) {
                                             checkInItemScreen_viewModel = {};
                                             checkInItemScreen_properties = jQuery.extend({}, properties, {
-                                                webSelectSession: properties.webSelectSession
+                                                selectedsession: properties.selectedsession
                                             });
                                             checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                             application.updateScreen(checkInItemScreen);
