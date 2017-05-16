@@ -66,12 +66,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             break;
         case RwConstants.checkInModes.Session:
             pageTitle               = RwLanguages.translate('Check-In');
-            pageSubTitle            = '<div class="title">' + properties.selectedsession.orderNo + ' - ' + properties.selectedsession.orderDesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedsession.sessionNo + ')</div>';
-            properties.orderId      = properties.selectedsession.orderId;
-            properties.dealId       = properties.selectedsession.dealId;
-            properties.departmentId = properties.selectedsession.departmentId;
-            properties.orderDesc    = properties.selectedsession.orderDesc;
-            properties.contractId   = properties.selectedsession.contractId;
+            pageSubTitle            = '<div class="title">' + properties.selectedsession.orderno + ' - ' + properties.selectedsession.orderdesc + ' (' + RwLanguages.translate('Session') + ': ' + properties.selectedsession.sessionno + ')</div>';
+            properties.orderId      = properties.selectedsession.orderid;
+            properties.dealId       = properties.selectedsession.dealid;
+            properties.departmentId = properties.selectedsession.departmentid;
+            properties.orderDesc    = properties.selectedsession.orderdesc;
+            properties.contractId   = properties.selectedsession.contractid;
             break;
         case RwConstants.checkInModes.Deal:
             pageTitle               = RwLanguages.translate('Check-In');

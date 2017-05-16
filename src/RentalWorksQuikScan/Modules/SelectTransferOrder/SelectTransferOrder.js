@@ -91,7 +91,7 @@ RwSelectTransferOrder.getSelectTransferOrderScreen = function(viewModel, propert
                                     properties.checkInMode = 'Session';
                                     RwServices.order.selectSession(requestSelectSession, function(responseSelectSession) {
                                         try {
-                                            properties.webSelectSession = responseSelectSession.webSelectSession;
+                                            properties.selectedsession = responseSelectSession.webSelectSession;
                                             if (((properties.moduleType == RwConstants.moduleTypes.Order) || (properties.moduleType == RwConstants.moduleTypes.Transfer)) && 
                                                 (properties.activityType == RwConstants.activityTypes.CheckIn)) {
                                                 checkInItemScreen_viewModel = {};

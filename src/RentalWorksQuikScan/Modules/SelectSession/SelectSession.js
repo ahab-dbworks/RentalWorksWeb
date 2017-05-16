@@ -38,11 +38,11 @@ RwSelectSession.getSelectSessionScreen = function(viewModel, properties) {
                         properties.webSelectSession = response.webSelectSession
                         application.playStatus(response.webSelectSession.status === 0);
                         jQuery('#selectSessionView-error').html(response.webSelectSession.msg);
-                        jQuery('#selectSessionView-order-txtOrderNo').html(response.webSelectSession.orderNo);
-                        jQuery('#selectSessionView-order-txtOrderDesc').html(response.webSelectSession.orderDesc);
-                        jQuery('#selectSessionView-deal-txtDealNo').html(response.webSelectSession.dealNo);
+                        jQuery('#selectSessionView-order-txtOrderNo').html(response.webSelectSession.orderno);
+                        jQuery('#selectSessionView-order-txtOrderDesc').html(response.webSelectSession.orderdesc);
+                        jQuery('#selectSessionView-deal-txtDealNo').html(response.webSelectSession.dealno);
                         jQuery('#selectSessionView-deal-txtDeal').html(response.webSelectSession.deal);
-                        jQuery('#selectSessionView-fromWarehouse-txtFromWarehouse').html(response.webSelectSession.fromWarehouse);
+                        jQuery('#selectSessionView-fromWarehouse-txtFromWarehouse').html(response.webSelectSession.fromwarehouse);
                         jQuery('#selectSessionView-toWarehouse-txtToWarehouse').html(response.webSelectSession.warehouse);
                         jQuery('#selectSessionView-response').show();
                         jQuery('#selectSessionView-error').toggle(response.webSelectSession.status !== 0);
@@ -65,7 +65,7 @@ RwSelectSession.getSelectSessionScreen = function(viewModel, properties) {
                     (properties.activityType == RwConstants.activityTypes.CheckIn)) {
                     checkInItemScreen_viewModel = {};
                     checkInItemScreen_properties = jQuery.extend({}, properties, {
-                        webSelectSession: properties.webSelectSession
+                        selectedsession: properties.webSelectSession
                     });
                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                     application.pushScreen(checkInItemScreen);
