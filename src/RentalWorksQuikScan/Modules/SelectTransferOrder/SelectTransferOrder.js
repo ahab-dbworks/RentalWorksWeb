@@ -96,7 +96,7 @@ RwSelectTransferOrder.getSelectTransferOrderScreen = function(viewModel, propert
                                                 (properties.activityType == RwConstants.activityTypes.CheckIn)) {
                                                 checkInItemScreen_viewModel = {};
                                                 checkInItemScreen_properties = jQuery.extend({}, properties, {
-                                                    webSelectSession: properties.webSelectSession
+                                                    selectedsession: properties.selectedsession
                                                 });
                                                 checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                                 application.pushScreen(checkInItemScreen);

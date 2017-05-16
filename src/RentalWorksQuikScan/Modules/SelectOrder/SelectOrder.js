@@ -203,12 +203,12 @@ RwSelectOrder.getSelectOrderScreen = function(viewModel, properties) {'use stric
                                     properties.checkInMode = 'Session';
                                     RwServices.order.selectSession(requestSelectSession, function(responseSelectSession) {
                                         try {
-                                            properties.webSelectSession = responseSelectSession.webSelectSession;
+                                            properties.selectedsession = responseSelectSession.webSelectSession;
                                             if (((properties.moduleType == RwConstants.moduleTypes.Order) || (properties.moduleType == RwConstants.moduleTypes.Transfer) || (properties.moduleType == RwConstants.moduleTypes.Truck)) && 
                                                 (properties.activityType == RwConstants.activityTypes.CheckIn)) {
                                                 checkInItemScreen_viewModel = {};
                                                 checkInItemScreen_properties = jQuery.extend({}, properties, {
-                                                    webSelectSession: properties.webSelectSession
+                                                    selectedsession: properties.selectedsession
                                                 });
                                                 if (properties.checkInType === RwConstants.checkInType.Normal) {
                                                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);

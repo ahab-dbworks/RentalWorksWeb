@@ -35,7 +35,7 @@ RwSelectSession.getSelectSessionScreen = function(viewModel, properties) {
                 }
                 RwServices.order.selectSession(request, function(response) {
                     try {
-                        properties.webSelectSession = response.webSelectSession
+                        properties.selectedsession = response.webSelectSession
                         application.playStatus(response.webSelectSession.status === 0);
                         jQuery('#selectSessionView-error').html(response.webSelectSession.msg);
                         jQuery('#selectSessionView-order-txtOrderNo').html(response.webSelectSession.orderno);
@@ -65,7 +65,7 @@ RwSelectSession.getSelectSessionScreen = function(viewModel, properties) {
                     (properties.activityType == RwConstants.activityTypes.CheckIn)) {
                     checkInItemScreen_viewModel = {};
                     checkInItemScreen_properties = jQuery.extend({}, properties, {
-                        selectedsession: properties.webSelectSession
+                        selectedsession: properties.selectedsession
                     });
                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                     application.pushScreen(checkInItemScreen);
