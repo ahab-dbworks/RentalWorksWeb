@@ -144,6 +144,11 @@ namespace RentalWorksQuikScan.Modules
                 select.Add("  and v.ordertype    = 'O'");
                 select.Add("  and v.locationid   = @locationid");
                 select.AddParameter("@locationid", userLocation.locationId);
+                if (!string.IsNullOrEmpty(request.searchvalue))
+                {
+                    select.Add("  and v.sessionno = @sessionno");
+                    select.AddParameter("@sessionno", request.searchvalue);
+                }
                 if (!string.IsNullOrEmpty(request.orderid))
                 {
                     select.Add("  and oc.orderid = @orderid");

@@ -231,9 +231,10 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata) {
             var request = {
-                orderid:  recorddata.orderid,
-                pageno:   0,
-                pagesize: 0
+                orderid:     recorddata.orderid,
+                pageno:      0,
+                pagesize:    0,
+                searchvalue: ''
             };
             RwServices.callMethod('CheckIn', 'SessionSearch', request, function (response) {
                 try {
