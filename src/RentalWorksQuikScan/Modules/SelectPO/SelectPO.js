@@ -220,7 +220,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
             if (pono.length > 0) {
                 screen.selectPO(pono, false, false);
             } else {
-                screen.loadSubRentalPurchaseOrders();
+                screen.loadPurchaseOrders();
             }
 
         } catch(ex) {
