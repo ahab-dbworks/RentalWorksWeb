@@ -235,6 +235,22 @@
     <Compile Include="api\v1\Data\InventoryData.cs" />
     <Compile Include="api\v1\Data\InvoiceData.cs" />
     <Compile Include="api\v1\Data\OrderData.cs" />
+    <Compile Include="api\v2\Controllers\AccountController.cs" />
+    <Compile Include="api\v2\Controllers\DealController.cs" />
+    <Compile Include="api\v2\Controllers\InventoryController.cs" />
+    <Compile Include="api\v2\Controllers\MaintenanceController.cs" />
+    <Compile Include="api\v2\Controllers\OrderController.cs" />
+    <Compile Include="api\v2\Data\AccountData.cs" />
+    <Compile Include="api\v2\Data\DealData.cs" />
+    <Compile Include="api\v2\Data\InventoryData.cs" />
+    <Compile Include="api\v2\Data\MaintenanceData.cs" />
+    <Compile Include="api\v2\Data\OrderData.cs" />
+    <Compile Include="api\v2\Models\InventoryModels.cs" />
+    <Compile Include="api\v2\Models\OrderModels.cs" />
+    <Compile Include="api\v2\Models\WebUsersModels.cs" />
+    <Compile Include="api\v2\Models\AddressModels.cs" />
+    <Compile Include="api\v2\Models\DealModel.cs" />
+    <Compile Include="api\v2\Models\MaintenanceModel.cs" />
     <Compile Include="AppData.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -304,6 +320,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Routing\NamespaceHttpControllerSelector.cs" />
+    <Compile Include="Routing\VersionConstraint.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

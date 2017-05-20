@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
-using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
+﻿using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using RentalWorksAPI.Filters;
+using RentalWorksAPI.Routing;
+using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using System.Web.Http.Routing;
 
 namespace RentalWorksAPI
 {
@@ -23,14 +21,20 @@ namespace RentalWorksAPI
             config.EnableCors();
             config.MessageHandlers.Add(new PreflightRequestHandler());
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+            var constraintsResolver = new DefaultInlineConstraintResolver(); 
+            constraintsResolver.ConstraintMap.Add("apiVersion1Constraint", typeof(RwAPIv1Constraint)); 
+            constraintsResolver.ConstraintMap.Add("apiVersion2Constraint", typeof(RwAPIv2Constraint)); 
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            // Web API routes
+            //config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes(constraintsResolver); 
+            config.Services.Replace(typeof(IHttpControllerSelector), new NamespaceHttpControllerSelector(config)); 
+
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
 
             config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore};
         }

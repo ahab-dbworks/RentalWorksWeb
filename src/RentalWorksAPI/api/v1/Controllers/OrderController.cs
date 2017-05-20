@@ -9,9 +9,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class OrderController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/order")]
+        [Route("order")]
         public HttpResponseMessage GetOrders([FromBody]OrderParameters request)
         {
             List<Order> result = new List<Order>();
@@ -39,7 +40,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="orderid">Order Id</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/order/{orderid}")]
+        [Route("order/{orderid}")]
         public HttpResponseMessage GetOrder([FromUri]string orderid)
         {
             List<Order> orders = new List<Order>();
@@ -65,7 +66,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="order"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/order/save")]
+        [Route("order/save")]
         public HttpResponseMessage ProcessOrder([FromBody]Order order)
         {
             Order result     = new Order();
@@ -115,7 +116,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/order/lineitems")]
+        [Route("order/lineitems")]
         public HttpResponseMessage ProcessOrderLineItem([FromBody]OrderItems orderitem)
         {
             dynamic orderitemresponse;
@@ -154,7 +155,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/order/cancel")]
+        [Route("order/cancel")]
         public HttpResponseMessage CancelOrder([FromBody]CancelOrderParameters request)
         {
             Error result = new Error();
@@ -188,7 +189,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/order/copy")]
+        [Route("order/copy")]
         public HttpResponseMessage CopyOrder([FromBody]CopyOrderParameters request)
         {
             Error result = new Error();

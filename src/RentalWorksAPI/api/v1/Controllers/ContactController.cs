@@ -9,14 +9,15 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")]
     public class ContactController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/contact")]
+        [Route("contact")]
         public HttpResponseMessage GetContacts()
         {
             List<Contact> result = new List<Contact>();
@@ -30,7 +31,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/contact/{contactid}")]
+        [Route("contact/{contactid}")]
         public HttpResponseMessage GetContact([FromUri]string contactid)
         {
             List<Contact> result = new List<Contact>();
@@ -47,7 +48,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/contact/{webusersid}/orders")]
+        [Route("contact/{webusersid}/orders")]
         public HttpResponseMessage GetContactOrders([FromUri]string webusersid, [FromBody]OrderParameters request)
         {
             WebUsers webuserinfo;
@@ -68,7 +69,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/contact/save")]
+        [Route("contact/save")]
         public HttpResponseMessage ProcessContact([FromBody]Contact contact)
         {
             List<Contact> result = new List<Contact>();
@@ -107,7 +108,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/contact/{webusersid}/deals")]
+        [Route("contact/{webusersid}/deals")]
         public HttpResponseMessage GetContactDeals([FromUri]string webusersid)
         {
             ContactDeals result = new ContactDeals();

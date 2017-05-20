@@ -8,14 +8,15 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web.Http;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class InventoryController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/inventory/rental/{asofdate}")]
+        [Route("inventory/rental/{asofdate}")]
         public HttpResponseMessage GetRentalInventoryAsOf([FromUri]string asofdate)
         {
             DateTime dDate;
@@ -36,7 +37,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/inventory/sales/{asofdate}")]
+        [Route("inventory/sales/{asofdate}")]
         public HttpResponseMessage GetSalesInventoryAsOf([FromUri]string asofdate)
         {
             DateTime dDate;
@@ -57,7 +58,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/inventory/highlyuseditems")]
+        [Route("inventory/highlyuseditems")]
         public HttpResponseMessage GetHighlyUsedInventory([FromBody]HighlyUsedItem request)
         {
             List<RentalItem> result = new List<RentalItem>();
@@ -71,7 +72,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/inventory/completesandkits")]
+        [Route("inventory/completesandkits")]
         public HttpResponseMessage GetCompletesAndKits([FromBody]CompletesAndKits request)
         {
             List<CompleteKit> result = new List<CompleteKit>();

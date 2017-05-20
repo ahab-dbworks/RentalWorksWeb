@@ -4,105 +4,105 @@
         <name>RentalWorksAPI</name>
     </assembly>
     <members>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.GetOrders(RentalWorksAPI.api.v1.Models.OrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.OrderController.GetOrders(RentalWorksAPI.api.v1.Models.OrderParameters)">
             <summary>
             Get a list of all orders.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.GetOrder(System.String)">
+        <member name="M:RentalWorksAPI.api.v1.OrderController.GetOrder(System.String)">
             <summary>
             Get a specific order.
             </summary>
             <param name="orderid">Order Id</param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.ProcessOrder(RentalWorksAPI.api.v1.Models.Order)">
+        <member name="M:RentalWorksAPI.api.v1.OrderController.ProcessOrder(RentalWorksAPI.api.v1.Models.Order)">
             <summary>
             Create or update a order.
             </summary>
             <param name="order"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.CancelOrder(RentalWorksAPI.api.v1.Models.CancelOrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.OrderController.CancelOrder(RentalWorksAPI.api.v1.Models.CancelOrderParameters)">
             <summary>
             Cancels an order.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.OrderController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.OrderController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
             <summary>
             Copy an order.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.GetQuotes(RentalWorksAPI.api.v1.Models.OrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.GetQuotes(RentalWorksAPI.api.v1.Models.OrderParameters)">
             <summary>
             Get a list of all quotes.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.GetQuote(System.String)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.GetQuote(System.String)">
             <summary>
             Get a specific quote.
             </summary>
             <param name="quoteid">Quote Id</param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.ProcessQuote(RentalWorksAPI.api.v1.Models.Order)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.ProcessQuote(RentalWorksAPI.api.v1.Models.Order)">
             <summary>
             Create or update a quote.
             </summary>
             <param name="quote"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.SubmitQuote(RentalWorksAPI.api.v1.Models.OrderSubmit)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.SubmitQuote(RentalWorksAPI.api.v1.Models.OrderSubmit)">
             <summary>
             Submit a quote.
             </summary>
             <param name="quote"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.NewQuoteVersion(RentalWorksAPI.api.v1.Models.OrderSubmit)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.NewQuoteVersion(RentalWorksAPI.api.v1.Models.OrderSubmit)">
             <summary>
             Creates a new version of a quote.
             </summary>
             <param name="quote"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.ProcessQuoteLineItem(RentalWorksAPI.api.v1.Models.OrderItems)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.ProcessQuoteLineItem(RentalWorksAPI.api.v1.Models.OrderItems)">
             <summary>
             Add or update a single or multiple line items on a quote.
             </summary>
             <param name="orderitem"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.RemoveLineItem(RentalWorksAPI.api.v1.Models.DeleteLineItem)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.RemoveLineItem(RentalWorksAPI.api.v1.Models.DeleteLineItem)">
             <summary>
             Removes a line item from a quote.
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.QuoteToOrder(RentalWorksAPI.api.v1.Models.QuoteToOrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.QuoteToOrder(RentalWorksAPI.api.v1.Models.QuoteToOrderParameters)">
             <summary>
             Converts a quote to an order.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.WebClearQuote(System.String)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.WebClearQuote(System.String)">
             <summary>
             Clears all items, item notes, and notes from a quote.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.CancelQuote(RentalWorksAPI.api.v1.Models.CancelOrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.CancelQuote(RentalWorksAPI.api.v1.Models.CancelOrderParameters)">
             <summary>
             Cancels a quote.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:RentalWorksAPI.api.v1.Controllers.QuoteController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
+        <member name="M:RentalWorksAPI.api.v1.QuoteController.CopyOrder(RentalWorksAPI.api.v1.Models.CopyOrderParameters)">
             <summary>
             Copy a Quote.
             </summary>

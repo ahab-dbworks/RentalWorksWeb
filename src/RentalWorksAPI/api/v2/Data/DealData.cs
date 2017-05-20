@@ -6,7 +6,7 @@ using System.Dynamic;
 
 namespace RentalWorksAPI.api.v2.Data
 {
-    public class DealV2Data
+    public class DealData
     {
         //----------------------------------------------------------------------------------------------------
         public static List<Deal> GetDeal(string dealid, string dealno)

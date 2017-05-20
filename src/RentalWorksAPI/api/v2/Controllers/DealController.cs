@@ -8,14 +8,15 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace RentalWorksAPI.api.v2.Controllers
+namespace RentalWorksAPI.api.v2
 {
     [AppConfigAuthorize]
-    public class DealV2Controller : ApiController
+    [RoutePrefix("{apiVersion2:apiVersion2Constraint(v2)}")] 
+    public class DealController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpGet]
-        [Route("v2/deal")]
+        [Route("deal")]
         public HttpResponseMessage GetDeals([FromUri]string dealid="", [FromUri]string dealno="")
         {
             List<Deal> result = new List<Deal>();
@@ -23,7 +24,7 @@ namespace RentalWorksAPI.api.v2.Controllers
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            result = DealV2Data.GetDeal(dealid, dealno);
+            result = DealData.GetDeal(dealid, dealno);
 
             if ((result.Count == 0) && (string.IsNullOrEmpty(dealid)) && (string.IsNullOrEmpty(dealno)))
                 ThrowError("404", "No deals were found.");
@@ -34,7 +35,7 @@ namespace RentalWorksAPI.api.v2.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v2/deal")]
+        [Route("deal")]
         public HttpResponseMessage ProcessDeal([FromBody]Deal deal)
         {
             List<Deal> result = new List<Deal>();
@@ -43,18 +44,18 @@ namespace RentalWorksAPI.api.v2.Controllers
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            saveresponse = DealV2Data.ProcessDeal(deal);
+            saveresponse = DealData.ProcessDeal(deal);
             
             if (saveresponse.errno != "0")
                 ThrowError(saveresponse.errno, saveresponse.errmsg);
 
-            result = DealV2Data.GetDeal(saveresponse.dealid, "");
+            result = DealData.GetDeal(saveresponse.dealid, "");
 
             return Request.CreateResponse(HttpStatusCode.OK, new { deal = result[0] } );
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPut]
-        [Route("v2/deal")]
+        [Route("deal")]
         public HttpResponseMessage ProcessDealByNo([FromBody]Deal deal, [FromUri]string dealid="", [FromUri]string dealno="")
         {
             List<Deal> result    = new List<Deal>();
@@ -67,14 +68,14 @@ namespace RentalWorksAPI.api.v2.Controllers
             if ((string.IsNullOrEmpty(dealid)) && (string.IsNullOrEmpty(dealno)))
                 ThrowError("400", "Either dealid or dealno must be passed.");
 
-            finddeal = DealV2Data.GetDeal(dealid, dealno);
+            finddeal = DealData.GetDeal(dealid, dealno);
             if ((finddeal.Count == 0) && ((!string.IsNullOrEmpty(dealid)) || (!string.IsNullOrEmpty(dealno))))
                 ThrowError("404", "The requested deal was not found.");
 
             try {
                 deal.dealid  = finddeal[0].dealid;
                 deal.dealno  = finddeal[0].dealno;
-                saveresponse = DealV2Data.ProcessDeal(deal);
+                saveresponse = DealData.ProcessDeal(deal);
             }
             catch (Exception ex) {
                 ThrowError("500", ex.Message);
@@ -83,7 +84,7 @@ namespace RentalWorksAPI.api.v2.Controllers
             if (saveresponse.errno != "0")
                 ThrowError("404", saveresponse.errmsg);
 
-            result = DealV2Data.GetDeal(saveresponse.dealid, "");
+            result = DealData.GetDeal(saveresponse.dealid, "");
 
             return Request.CreateResponse(HttpStatusCode.OK, new { deal = result[0] } );
         }

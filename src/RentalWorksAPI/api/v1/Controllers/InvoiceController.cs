@@ -7,14 +7,15 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class InvoiceController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/invoice/{asofdate}")]
+        [Route("invoice/{asofdate}")]
         public HttpResponseMessage GetInvoicesAsOf([FromUri]string asofdate)
         {
             List<Invoice> result = new List<Invoice>();

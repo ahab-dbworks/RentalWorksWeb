@@ -377,6 +377,7 @@
     <Content Include="Content\scripts\jquery\timepicker\jquery.timepicker.js" />
     <Content Include="Content\scripts\mobile\FwMobileMasterController.js" />
     <Content Include="Content\scripts\mobile\FwMobileModuleControl.js" />
+    <Content Include="Content\scripts\mobile\FwMobileModuleTabs.js" />
     <Content Include="Content\scripts\mobile\FwMobileSearch.js" />
     <Content Include="Content\scripts\modernizr\modernizr-2.6.2.js" />
     <Content Include="Content\scripts\mustache\mustache-0.7.0.js" />
@@ -545,6 +546,7 @@
     <Content Include="Content\theme\fwimages\textures\seamlesstexture6_1200.jpg" />
     <Content Include="Content\theme\FwConfirmation.css" />
     <Content Include="Content\theme\FwMobileModuleControl.css" />
+    <Content Include="Content\theme\FwMobileModuleTabs.css" />
     <Content Include="Content\theme\FwMobileSearch.css" />
     <Content Include="Content\theme\FwNotification.css" />
     <Content Include="Content\theme\FwOverlay.css" />

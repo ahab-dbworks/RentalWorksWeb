@@ -1,29 +1,40 @@
-﻿using RentalWorksAPI.api.v1.Data;
-using RentalWorksAPI.api.v1.Models;
+﻿using RentalWorksAPI.api.v2.Data;
+using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.Filters;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace RentalWorksAPI.api.v1
+namespace RentalWorksAPI.api.v2
 {
     [AppConfigAuthorize]
-    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
+    [RoutePrefix("{apiVersion2:apiVersion2Constraint(v2)}/account")]
     public class AccountController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
-        [HttpPost]
-        [Route("account/login")]
-        public HttpResponseMessage Login([FromBody]Login request)
+        [HttpGet]
+        [Route("login")]
+        public HttpResponseMessage Login([FromUri]string password, [FromUri]string username="", [FromUri]string email="")
         {
             dynamic req = new ExpandoObject();
             WebUsers response = new WebUsers();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
+            if (username == "" && email == "")
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Username or Email is required."));
 
-            req = AccountData.WebGetUsers(request.email, request.password);
+            if (username != "")
+            {
+
+            }
+            else if (email != "")
+            {
+                req = AccountData.WebGetUsers(email, password);
+            }
+
             if (req.errno != "0")
             {
                 string message = req.errmsg;
@@ -34,37 +45,41 @@ namespace RentalWorksAPI.api.v1
                 response = AccountData.WebUsersView(req.webusersid);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { user = response } );
+            return Request.CreateResponse(HttpStatusCode.OK, new { user = response });
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpPost]
-        [Route("account/changepassword")]
-        public HttpResponseMessage ChangePassword([FromBody]ChangePassword request)
+        [HttpGet]
+        [Route("user")]
+        public HttpResponseMessage Users([FromUri]List<string> webusersid)
         {
-            dynamic req = new ExpandoObject();
-            Error response = new Error();
+            List<WebUsers> response = new List<WebUsers>();
+            WebUsers webuser = new WebUsers();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            response = AccountData.WebUsersSetPassword(request.webusersid, request.password);
+            for (int i = 0; i < webusersid.Count; i++)
+            {
+                webuser = AccountData.WebUsersView(webusersid[i]);
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { response = response } );
+                response.Add(webuser);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { webusers = response });
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpPost]
-        [Route("account/resetpassword")]
-        public HttpResponseMessage ResetPassword([FromBody]ResetPassword request)
+        [HttpGet]
+        [Route("rwuser")]
+        public HttpResponseMessage GetRwUsers([FromUri]string locationid, [FromUri]string departmentid="", [FromUri]string groupsid="")
         {
-            dynamic req = new ExpandoObject();
-            Error response = new Error();
+            List<WebUsers> response = new List<WebUsers>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            response = AccountData.WebUsersResetPassword(request.email);
-            
-            return Request.CreateResponse(HttpStatusCode.OK, new { response = response } );
+            response = AccountData.GetRwUsers(locationid, departmentid, groupsid);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { webusers = response });
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

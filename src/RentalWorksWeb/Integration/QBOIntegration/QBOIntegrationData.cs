@@ -729,6 +729,7 @@ namespace RentalWorksWeb.Integration
             {
                 dynamic newInvoice = new ExpandoObject();
                 string newInvoiceJson;
+                string TxnTaxCodeRefValue = string.Empty;
 
                 newInvoice.DocNumber                       = invoice.invoiceno;
                 newInvoice.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
@@ -757,9 +758,11 @@ namespace RentalWorksWeb.Integration
 
                 if (invoice.taxitemcode != "")
                 {
+                    TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
+
                     newInvoice.TxnTaxDetail                     = new ExpandoObject();
                     newInvoice.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                    newInvoice.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
+                    newInvoice.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;
                 }
 
                 if (invoice.printnotes != "")
@@ -776,6 +779,15 @@ namespace RentalWorksWeb.Integration
                 for (int j = 0; j < invoice.items.Count; j++)
                 {
                     dynamic newItem = new ExpandoObject();
+                    string  taxCodeRefValue = string.Empty;
+                    if (invoice.taxcountry == "U")
+                    {
+                        taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                    }
+                    else if (invoice.taxcountry == "C")
+                    {
+                        taxCodeRefValue = TxnTaxCodeRefValue;
+                    }
 
                     newItem.Id                                   = j+1;
                     newItem.DetailType                           = "SalesItemLineDetail";
@@ -785,7 +797,7 @@ namespace RentalWorksWeb.Integration
                     newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
                     newItem.SalesItemLineDetail.UnitPrice        = (invoice.items[j].qty != 0) ? (invoice.items[j].linetotal / invoice.items[j].qty) : "0";
                     newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-                    newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                    newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;
                     newItem.Amount                               = invoice.items[j].linetotal;
 
                     newInvoice.Line.Add(newItem);
@@ -1336,7 +1348,7 @@ namespace RentalWorksWeb.Integration
             dynamic result;
 
             qry = new FwSqlCommand(conn);
-            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, chgbatchno, invoicetotal");
+            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal");
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);

@@ -1670,6 +1670,11 @@ namespace Fw.Json.SqlServer
                             {
                                 data = new FwDatabaseField(data).ToShortDateTimeString();
                             }
+
+                            if (reader.IsDBNull(ordinal))
+                            {
+                                data = string.Empty;
+                            }
                         }
                         else
                         {

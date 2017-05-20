@@ -9,14 +9,15 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class CustomerController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/customer")]
+        [Route("customer")]
         public HttpResponseMessage GetCustomers()
         {
             List<Customer> result = new List<Customer>();
@@ -30,7 +31,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/customer/{customerid}")]
+        [Route("customer/{customerid}")]
         public HttpResponseMessage GetCustomer([FromUri]string customerid)
         {
             List<Customer> result = new List<Customer>();
@@ -47,7 +48,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/customer/customerno={customerno}")]
+        [Route("customer/customerno={customerno}")]
         public HttpResponseMessage GetCustomerByNo([FromUri]string customerno)
         {
             List<Customer> result = new List<Customer>();
@@ -64,7 +65,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/customer/{customerid}/orders")]
+        [Route("customer/{customerid}/orders")]
         public HttpResponseMessage GetCustomerOrders([FromUri]string customerid, [FromBody]OrderParameters request)
         {
             List<Customer> customerinfo;
@@ -85,7 +86,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/customer/save")]
+        [Route("customer/save")]
         public HttpResponseMessage ProcessCustomer([FromBody]Customer customer)
         {
             List<Customer> result = new List<Customer>();
@@ -130,7 +131,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPut]
-        [Route("v1/customer/customerno={customerno}")]
+        [Route("customer/customerno={customerno}")]
         public HttpResponseMessage ProcessCustomerByNo([FromBody]Customer customer, [FromUri]string customerno)
         {
             List<Customer> result       = new List<Customer>();

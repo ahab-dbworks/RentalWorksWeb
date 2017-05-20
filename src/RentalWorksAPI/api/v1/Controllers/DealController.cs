@@ -9,14 +9,15 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class DealController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/deal")]
+        [Route("deal")]
         public HttpResponseMessage GetDeals()
         {
             List<Deal> result = new List<Deal>();
@@ -30,7 +31,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/deal/{dealid}")]
+        [Route("deal/{dealid}")]
         public HttpResponseMessage GetDeal([FromUri]string dealid)
         {
             List<Deal> result = new List<Deal>();
@@ -47,7 +48,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/deal/dealno={dealno}")]
+        [Route("deal/dealno={dealno}")]
         public HttpResponseMessage GetDealByNo([FromUri]string dealno)
         {
             List<Deal> result = new List<Deal>();
@@ -64,7 +65,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("v1/deal/save")]
+        [Route("deal/save")]
         public HttpResponseMessage ProcessDeal([FromBody]Deal deal)
         {
             List<Deal> result = new List<Deal>();
@@ -120,7 +121,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPut]
-        [Route("v1/deal/dealno={dealno}")]
+        [Route("deal/dealno={dealno}")]
         public HttpResponseMessage ProcessDealByNo([FromBody]Deal deal, [FromUri]string dealno)
         {
             List<Deal> result    = new List<Deal>();

@@ -9,9 +9,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 
-namespace RentalWorksAPI.api.v1.Controllers
+namespace RentalWorksAPI.api.v1
 {
     [AppConfigAuthorize]
+    [RoutePrefix("{apiVersion1:apiVersion1Constraint(v1)}")] 
     public class QuoteController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="quoteid">Quote Id</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/{quoteid}")]
+        [Route("quote/{quoteid}")]
         public HttpResponseMessage GetQuote([FromUri]string quoteid)
         {
             List<Order> orders = new List<Order>();
@@ -65,7 +66,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="quote"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/save")]
+        [Route("quote/save")]
         public HttpResponseMessage ProcessQuote([FromBody]Order quote)
         {
             Order result     = new Order();
@@ -120,7 +121,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="quote"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/submit")]
+        [Route("quote/submit")]
         public HttpResponseMessage SubmitQuote([FromBody]OrderSubmit quote)
         {
             Order result     = new Order();
@@ -153,7 +154,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="quote"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/version")]
+        [Route("quote/version")]
         public HttpResponseMessage NewQuoteVersion([FromBody]OrderSubmit quote)
         {
             Order result                   = new Order();
@@ -182,7 +183,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="orderitem"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/lineitems")]
+        [Route("quote/lineitems")]
         public HttpResponseMessage ProcessQuoteLineItem([FromBody]OrderItems orderitem)
         {
             dynamic orderitemresponse;
@@ -222,7 +223,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/removelineitem")]
+        [Route("quote/removelineitem")]
         public HttpResponseMessage RemoveLineItem([FromBody]DeleteLineItem request)
         {
             Error result = new Error();
@@ -249,7 +250,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/quotetoorder")]
+        [Route("quote/quotetoorder")]
         public HttpResponseMessage QuoteToOrder([FromBody]QuoteToOrderParameters request)
         {
             QuoteToOrderResult result = new QuoteToOrderResult();
@@ -283,7 +284,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/{quoteid}/clearquote")]
+        [Route("quote/{quoteid}/clearquote")]
         public HttpResponseMessage WebClearQuote([FromUri]string quoteid)
         {
             Error result = new Error();
@@ -310,7 +311,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/cancel")]
+        [Route("quote/cancel")]
         public HttpResponseMessage CancelQuote([FromBody]CancelOrderParameters request)
         {
             Error result = new Error();
@@ -345,7 +346,7 @@ namespace RentalWorksAPI.api.v1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("v1/quote/copy")]
+        [Route("quote/copy")]
         public HttpResponseMessage CopyOrder([FromBody]CopyOrderParameters request)
         {
             Error result = new Error();
