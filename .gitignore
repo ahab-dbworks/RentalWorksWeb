@@ -1,14 +1,14 @@
-/\.vs/
+/.vs/
 /build/
 /packages/
 
-/src/RentalWorksAPI/Properties/PublishProfiles/Dbworks\.pubxml\.user
-/src/RentalWorksAPI/RentalWorksAPI\.csproj\.user
+/src/RentalWorksAPI/Properties/PublishProfiles/Dbworks.pubxml.user
+/src/RentalWorksAPI/RentalWorksAPI.csproj.user
 /src/RentalWorksAPI/Application.config
 /src/RentalWorksAPI/bin/
 /src/RentalWorksAPI/obj/
 
-/src/RentalWorksQuikScan/RentalWorksQuikScan\.csproj\.user
+/src/RentalWorksQuikScan/RentalWorksQuikScan.csproj.user
 /src/RentalWorksQuikScan/bin/
 /src/RentalWorksQuikScan/obj/
 /src/RentalWorksQuikScan/app_body.htm
@@ -18,12 +18,12 @@
 /src/RentalWorksQuikScan/Application.config
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
-/src/RentalWorksQuikScan/scripts/_references\.js
+/src/RentalWorksQuikScan/scripts/_references.js
 /src/RentalWorksQuikScan/theme/fwcursors/*
 /src/RentalWorksQuikScan/theme/fwfonts/*
 /src/RentalWorksQuikScan/theme/fwimages/*
 
-/src/RentalWorksWeb/RentalWorksWeb\.csproj\.user
+/src/RentalWorksWeb/RentalWorksWeb.csproj.user
 /src/RentalWorksWeb/App_Data/Temp/
 /src/RentalWorksWeb/bin/
 /src/RentalWorksWeb/obj/
@@ -32,27 +32,31 @@
 /src/RentalWorksWeb/ApplicationConfig.js
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
-/src/RentalWorksWeb/scripts/_references\.js
+/src/RentalWorksWeb/scripts/_references.js
 /src/RentalWorksWeb/theme/fwcursors/*
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
 
-/src/RentalWorksTest/RentalWorksTest\.csproj\.user
+/src/RentalWorksTest/RentalWorksTest.csproj.user
 /src/RentalWorksTest/Application.config
 /src/RentalWorksTest/bin/
 /src/RentalWorksTest/obj/
 
-/lib/Fw/src/Fw\.Json/bin/
-/lib/Fw/src/Fw\.Json/obj/
-/lib/Fw/src/Fw\.Json/scripts/_references\.js
-/lib/Fw/src/Fw\.MSBuild/bin/
-/lib/Fw/src/Fw\.MSBuild/obj/
-/lib/Fw/src/Fw\.MSBuild\.Test/bin/
-/lib/Fw/src/Fw\.MSBuild\.Test/obj/
+/lib/Fw/src/Fw.Json/obj/
+/lib/Fw/src/Fw.Json/bin/
+/lib/Fw/src/Fw.Json/scripts/_references.js
+/lib/Fw/src/Fw.MSBuild/bin/
+/lib/Fw/src/Fw.MSBuild/obj/
+/lib/Fw/src/Fw.MSBuild/Fw.MSBuild.csproj.user
+/lib/Fw/src/Fw.MSBuild.Test/bin/
+/lib/Fw/src/Fw.MSBuild.Test/obj/
+/lib/Fw/src/Fw.MSBuild.Test/Fw.MSBuild.Test.csproj.user
 /lib/Fw/src/JSAppBuilder/bin/
 /lib/Fw/src/JSAppBuilder/obj/
-/lib/Fw/src/obj/
+/lib/Fw/src/JSAppBuilder/JSAppBuilder.csproj.user
 /lib/Fw/src/ReplaceInFile/bin/
 /lib/Fw/src/ReplaceInFile/obj/
+/lib/Fw/src/ReplaceInFile/ReplaceInFile.csproj.user
 
-/TestResult\.xml
+
+/TestResult.xml
