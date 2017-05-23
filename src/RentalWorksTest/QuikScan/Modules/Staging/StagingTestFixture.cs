@@ -5,7 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using RentalWorksAPI.api.v1.Controllers;
+using RentalWorksAPI.api.v1;
 using RentalWorksAPI.api.v1.Data;
 using RentalWorksAPI.api.v1.Models;
 using RentalWorksTest.QuikScan.Modules;
