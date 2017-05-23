@@ -53,17 +53,11 @@ namespace RentalWorksAPI.api.v2
         public HttpResponseMessage Users([FromUri]List<string> webusersid)
         {
             List<WebUsers> response = new List<WebUsers>();
-            WebUsers webuser = new WebUsers();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            for (int i = 0; i < webusersid.Count; i++)
-            {
-                webuser = AccountData.WebUsersView(webusersid[i]);
-
-                response.Add(webuser);
-            }
+            response = AccountData.GetUsers(webusersid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { webusers = response });
         }

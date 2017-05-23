@@ -10,6 +10,9 @@
         public string name                  { get; set; }
         public string username              { get; set; }
         public string fullname              { get; set; }
+        public string firstname             { get; set; }
+        public string lastname              { get; set; }
+        public string loginname             { get; set; }
         public string email                 { get; set; }
         public string changepasswordatlogin { get; set; }
         public string primarydepartmentid   { get; set; }

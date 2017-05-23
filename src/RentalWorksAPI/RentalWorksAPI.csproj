@@ -246,6 +246,7 @@
     <Compile Include="api\v2\Data\MaintenanceData.cs" />
     <Compile Include="api\v2\Data\OrderData.cs" />
     <Compile Include="api\v2\Models\InventoryModels.cs" />
+    <Compile Include="api\v2\Models\ItemModels.cs" />
     <Compile Include="api\v2\Models\OrderModels.cs" />
     <Compile Include="api\v2\Models\WebUsersModels.cs" />
     <Compile Include="api\v2\Models\AddressModels.cs" />

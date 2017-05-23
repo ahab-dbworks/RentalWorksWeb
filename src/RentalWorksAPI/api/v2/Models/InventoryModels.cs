@@ -7,14 +7,14 @@ namespace RentalWorksAPI.api.v2.Models
     {
         public string masterid                { get; set; }
         public string warehouseid             { get; set; }
-        public int total                      { get; set; }
-        public int consigned                  { get; set; }
-        public int inqty                      { get; set; }
-        public int incontainer                { get; set; }
-        public int qcrequired                 { get; set; }
-        public int staged                     { get; set; }
-        public int outqty                     { get; set; }
-        public int inrepair                   { get; set; }
+        public int qty                        { get; set; }
+        public int qtyconsigned               { get; set; }
+        public int qtyin                      { get; set; }
+        public int qtyincontainer             { get; set; }
+        public int qtyqcrequired              { get; set; }
+        public int qtystaged                  { get; set; }
+        public int qtyout                     { get; set; }
+        public int qtyinrepair                { get; set; }
         public List<Transaction> transactions { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string datetime { get; set; }
         public string orderid  { get; set; }
         public string orderno  { get; set; }
-        public string dealname { get; set; }
+        public string deal     { get; set; }
         public int qty         { get; set; }
     }
     //----------------------------------------------------------------------------------------------------

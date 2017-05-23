@@ -15,7 +15,7 @@ namespace RentalWorksAPI.api.v2
         //----------------------------------------------------------------------------------------------------
         [HttpGet]
         [Route("csrsdeals")]
-        public HttpResponseMessage GetCsrsDealss([FromUri]string locationid, [FromUri]List<string> csrid)
+        public HttpResponseMessage GetCsrsDeals([FromUri]string locationid, [FromUri]List<string> csrid)
         {
             List<Csrs> result = new List<Csrs>();
             Csrs csrs = new Csrs();
@@ -31,6 +31,25 @@ namespace RentalWorksAPI.api.v2
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = result } );
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpGet]
+        [Route("ordersanditems")]
+        public HttpResponseMessage GetOrdersAndItems([FromUri]OAIFilter filter)
+        {
+            List<OrdersAndItems> result = new List<OrdersAndItems>();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            //for (int i = 0; i < csrid.Count; i++)
+            //{
+            //    csrs = OrderData.GetCsrs(locationid, csrid[i]);
+
+            //    result.Add(csrs);
+            //}
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

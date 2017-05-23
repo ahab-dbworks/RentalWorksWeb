@@ -27,16 +27,16 @@ namespace RentalWorksAPI.api.v2.Data
             {
                 ICode icode = new ICode();
 
-                icode.masterid    = icodes[i].masterid;
-                icode.warehouseid = icodes[i].warehouseid;
-                icode.total       = icodes[i].total;
-                icode.consigned   = icodes[i].consigned;
-                icode.inqty       = icodes[i].qtyin;
-                icode.incontainer = icodes[i].incontainer;
-                icode.qcrequired  = icodes[i].qcrequired;
-                icode.staged      = icodes[i].staged;
-                icode.outqty      = icodes[i].qtyout;
-                icode.inrepair    = icodes[i].inrepair;
+                icode.masterid       = icodes[i].masterid;
+                icode.warehouseid    = icodes[i].warehouseid;
+                icode.qty            = icodes[i].qty;
+                icode.qtyconsigned   = icodes[i].qtyconsigned;
+                icode.qtyin          = icodes[i].qtyin;
+                icode.qtyincontainer = icodes[i].qtyincontainer;
+                icode.qtyqcrequired  = icodes[i].qtyqcrequired;
+                icode.qtystaged      = icodes[i].qtystaged;
+                icode.qtyout         = icodes[i].qtyout;
+                icode.qtyinrepair    = icodes[i].qtyinrepair;
 
                 if (transactionhistoryqty.GetValueOrDefault() != 0)
                 {
@@ -72,7 +72,7 @@ namespace RentalWorksAPI.api.v2.Data
                 transaction.datetime = transactions[i].datetime;
                 transaction.orderid  = transactions[i].orderid;
                 transaction.orderno  = transactions[i].orderno;
-                transaction.dealname = transactions[i].deal;
+                transaction.deal     = transactions[i].deal;
                 transaction.qty      = transactions[i].qty;
 
                 result.Add(transaction);

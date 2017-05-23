@@ -2,6 +2,7 @@
 using RentalWorksAPI.api.v2.Models;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Text;
 
 namespace RentalWorksAPI.api.v2.Data
 {
@@ -51,14 +52,22 @@ namespace RentalWorksAPI.api.v2.Data
             response.name                    = qryresult.name;
             response.username                = qryresult.username;
             response.fullname                = qryresult.fullname;
+            response.firstname               = qryresult.firstname;
+            response.lastname                = qryresult.lastname;
+            response.groupsid                = qryresult.groupsid;
+            response.group                   = qryresult.groups;
             response.email                   = qryresult.email;
             response.changepasswordatlogin   = qryresult.changepasswordatlogin;
             response.primarydepartmentid     = qryresult.primarydepartmentid;
+            //response.primarydepartment         = qryresult.primarydepartment;
             response.rentaldepartmentid      = qryresult.rentaldepartmentid;
+            //response.rentaldepartment         = qryresult.rentaldepartment;
             response.salesdepartmentid       = qryresult.salesdepartmentid;
+            //response.salesdepartment         = qryresult.salesdepartment;
             response.rentalagentusersid      = qryresult.rentalagentusersid;
             response.salesagentusersid       = qryresult.salesagentusersid;
             response.partsdepartmentid       = qryresult.partsdepartmentid;
+            //response.partsdepartment         = qryresult.partsdepartment;
             response.labordepartmentid       = qryresult.labordepartmentid;
             response.miscdepartmentid        = qryresult.miscdepartmentid;
             response.spacedepartmentid       = qryresult.spacedepartmentid;
@@ -74,6 +83,65 @@ namespace RentalWorksAPI.api.v2.Data
             response.phoneextension          = qryresult.phoneextension;
             response.fax                     = qryresult.fax;
             response.usertype                = qryresult.usertype;
+
+            return response;
+        }
+        //------------------------------------------------------------------------------
+        public static List<WebUsers> GetUsers(List<string> webusersids)
+        {
+            FwSqlCommand qry;
+            dynamic qryresult       = new ExpandoObject();
+            List<WebUsers> response = new List<WebUsers>();
+            string result, parameterName, parameterValue;
+            StringBuilder sb = new StringBuilder();
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select *");
+            qry.Add("  from apirest_accountlogin");
+            qry.Add(" where usertype   = 'USER'");
+            if (webusersids.Count > 0)
+            {
+                sb.Append("   and webusersid in (");
+                for (int i = 0; i < webusersids.Count; i++)
+                {
+                    parameterName  = "@webusersid" + i.ToString();
+                    parameterValue = webusersids[i];
+                    if (i > 0)
+                    {
+                        sb.Append(",");
+                    }
+                    sb.Append(parameterName);
+                    qry.AddParameter(parameterName, parameterValue);
+                }
+                sb.Append(")");
+                result = sb.ToString();
+                qry.Add(result);
+            }
+            qryresult = qry.QueryToDynamicList2();
+
+            for (int i = 0; i < qryresult.Count; i++)
+            {
+                WebUsers webuser = new WebUsers();
+
+                webuser.webusersid              = qryresult[i].webusersid;
+                webuser.fullname                = qryresult[i].fullname;
+                webuser.email                   = qryresult[i].email;
+                webuser.warehouse               = qryresult[i].warehouse;
+                webuser.group                   = qryresult[i].groups;
+                webuser.groupsid                = qryresult[i].groupsid;
+                webuser.primarydepartmentid     = qryresult[i].primarydepartmentid;
+                //webuser.primarydepartment         = qryresult[i].primarydepartment;
+                webuser.rentaldepartmentid      = qryresult[i].rentaldepartmentid;
+                //webuser.rentaldepartment         = qryresult[i].rentaldepartment;
+                webuser.salesdepartmentid       = qryresult[i].salesdepartmentid;
+                //webuser.salesdepartment         = qryresult[i].salesdepartment;
+                webuser.rentalagentusersid      = qryresult[i].rentalagentusersid;
+                webuser.salesagentusersid       = qryresult[i].salesagentusersid;
+                webuser.partsdepartmentid       = qryresult[i].partsdepartmentid;
+                //webuser.partsdepartment         = qryresult[i].partsdepartment;
+
+                response.Add(webuser);
+            }
 
             return response;
         }
