@@ -71,10 +71,10 @@ namespace RentalWorksWeb.Source.Reports
             select.Add("from  dbo.funcdealoutstandingrpt(@fromdate,");
             select.Add("                                 @todate,");
             select.Add("                                 @datetouse,");
-            select.Add("                                 @ShowDepartmentFrom,");
-            select.Add("                                 @AllEverOut,");
+            select.Add("                                 @departmenttype,");
+            select.Add("                                 @alleverout,");
             select.Add("                                 @showpending,");
-            select.Add("                                 @PrintNone,");
+            select.Add("                                 @shownones,");
             select.Add("                                 @contractid,");
             select.Add("                                 @showbarcodes,");
             select.Add("                                 @showresponsibleperson,");
@@ -83,11 +83,10 @@ namespace RentalWorksWeb.Source.Reports
             select.AddParameter("@fromdate" ,               request.parameters.fromdate);
             select.AddParameter("@todate" ,                 request.parameters.todate);
             select.AddParameter("@datetouse" ,              request.parameters.datetouse);
-            select.AddParameter("@ShowDepartmentFrom" ,     request.parameters.ShowDepartmentFrom);
-            select.AddParameter("@AllEverOut" ,             request.parameters.AllEverOut);
-            select.AddParameter("@showpending" ,            request.parameters.AllEverOut);
+            select.AddParameter("@departmenttype",          request.parameters.ShowDepartmentFrom);
+            select.AddParameter("@alleverout",              request.parameters.AllEverOut);
             select.AddParameter("@showpending" ,            request.parameters.IncludePendingExchanges);
-            select.AddParameter("@PrintNone" ,              request.parameters.PrintNone);
+            select.AddParameter("@shownones",               request.parameters.PrintNone);
             select.AddParameter("@contractid" ,             "");
             select.AddParameter("@showbarcodes" ,           request.parameters.ShowBarcodes);
             select.AddParameter("@showresponsibleperson" ,  request.parameters.ShowResponsiblePerson);
