@@ -87,185 +87,197 @@ Application.prototype.playStatus = function (isSuccessful) {
 Application.prototype.navigate = function(path) {
     var me, screen;
     me = this;
+    var lowercasepath = path.toLowerCase();
     if (sessionStorage.getItem('sessionLock') === 'true') {
         FwFunc.showError('Navigation is locked.');
     } else {
         sessionStorage.setItem('activePath', path);
-        switch(path.toLowerCase()) {
-            case 'account/login':
-                if (!sessionStorage.getItem('authToken')) {
-                    screen = RwAccountController.getLoginScreen({}, {});
-                } else {
-                    me.navigate('home/home');
+        var foundroute = false;
+        for (var routeno = 0; routeno < RwRoutes.length; routeno++) {
+            var route = RwRoutes[routeno];
+            if (route.url === lowercasepath) {
+                foundroute = true;
+                screen = route.action();
+                break;
+            }
+        }
+        if (!foundroute) {
+            switch (path.toLowerCase()) {
+                case 'account/login':
+                    if (!sessionStorage.getItem('authToken')) {
+                        screen = RwAccountController.getLoginScreen({}, {});
+                    } else {
+                        me.navigate('home/home');
+                        return;
+                    }
+                    break;
+                case 'account/preferences':
+                    screen = RwAccountController.getPreferencesScreen({}, {});
+                    break;
+                case 'account/privacypolicy':
+                    screen = RwAccountController.getPrivacyPolicyScreen({}, {});
+                    break;
+                case 'account/support':
+                    screen = RwAccountController.getSupportScreen({}, {});
+                    break;
+                case 'home/home':
+                    screens = [];
+                    screen = RwHome.getHomeScreen({}, {});
+                    break;
+                case 'staging':
+                    screen = RwOrderController.getStagingScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Order,
+                        activityType: RwConstants.activityTypes.Staging,
+                        stagingType: RwConstants.stagingType.Normal
+                    });
+                    break;
+                case 'order/fillcontainer':
+                    screen = RwFillContainer.getFillContainerScreen({}, {
+                        mode: 'fillcontainer'
+                    });
+                    break;
+                case 'order/checkinmenu':
+                    screen = RwOrderController.getCheckInMenuScreen({}, {});
+                    break;
+                case 'order/itemstatus':
+                    screen = RwOrderController.getItemStatusScreen({});
+                    break;
+                case 'inventory/subreceive':
+                    screen = RwSelectPO.getSelectPOScreen({}, {
+                        moduleType: RwConstants.moduleTypes.SubReceive,
+                        activityType: RwConstants.activityTypes.SubReceive
+                    });
+                    break;
+                case 'inventory/subreturn':
+                    screen = RwSelectPO.getSelectPOScreen({}, {
+                        moduleType: RwConstants.moduleTypes.SubReturn
+                        , activityType: RwConstants.activityTypes.SubReturn
+                    });
+                    break;
+                case 'inventory/repairmenu':
+                    screen = RwInventoryController.getRepairMenuScreen({}, {});
+                    break;
+                case 'inventory/repair/complete':
+                    screen = RwInventoryController.getRepairItemScreen({}, {
+                        repairMode: RwConstants.repairModes.Complete
+                    });
+                    break;
+                case 'inventory/repair/release':
+                    screen = RwInventoryController.getRepairItemScreen({}, {
+                        repairMode: RwConstants.repairModes.Release
+                    });
+                    break;
+                case 'inventory/repair/repairorder':
+                    screen = RwInventoryController.getRepairOrderScreen({}, { mode: 'repairorder' });
+                    break;
+                case 'inventory/assetdisposition':
+                    screen = RwInventoryController.getAssetDispositionScreen({}, {});
+                    break;
+                case 'inventory/inventorywebimage':
+                    screen = RwInventoryController.getInventoryWebImageScreen({}, {});
+                    break;
+                case 'order/packagetruck':
+                    screen = RwOrderController.getPackageTruckMenuScreen({}, {});
+                    break;
+                case 'order/packagetruck/staging':
+                    screen = RwOrderController.getStagingScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Truck,
+                        activityType: RwConstants.activityTypes.Staging
+                    });
+                    break;
+                case 'order/packagetruck/checkin':
+                    screen = RwSelectOrder.getSelectOrderScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Truck,
+                        activityType: RwConstants.activityTypes.CheckIn,
+                        checkInMode: RwConstants.checkInModes.SingleOrder,
+                        checkInType: RwConstants.checkInType.Normal
+                    });
+                    break;
+                case 'utilities/exchange':
+                    screen = Exchange.getModuleScreen({}, {});
+                    break;
+                case 'utilities/physicalinventory':
+                    screen = RwSelectPhyInv.getSelectPhyInvScreen({}, {
+                        moduleType: RwConstants.moduleTypes.PhyInv
+                    });
+                    break;
+                case 'inventory/qc':
+                    screen = RwInventoryController.getQCScreen({}, {});
+                    break;
+                case 'transferout':
+                    screen = RwOrderController.getStagingScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Transfer,
+                        activityType: RwConstants.activityTypes.Staging,
+                        stagingType: RwConstants.stagingType.Normal
+                    });
+                    break;
+                case 'order/transferin':
+                    screen = RwOrderController.getTransferInMenuScreen({}, {});
+                    break;
+                case 'order/transferin/singleorder':
+                    screen = RwSelectTransferOrder.getSelectTransferOrderScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Transfer,
+                        activityType: RwConstants.activityTypes.CheckIn,
+                        checkInMode: RwConstants.checkInModes.SingleOrder,
+                        checkInType: RwConstants.checkInType.Normal
+                    });
+                    break;
+                case 'order/transferin/session':
+                    screen = RwSelectSession.getSelectSessionScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Transfer,
+                        activityType: RwConstants.activityTypes.CheckIn,
+                        checkInMode: RwConstants.checkInModes.Session,
+                        checkInType: RwConstants.checkInType.Normal
+                    });
+                    break;
+                case 'inventory/movebclocation':
+                    screen = RwInventoryController.getMoveBCLocationScreen({}, {});
+                    break;
+                case 'account/logoff':
+                    FwApplicationTree.tree = null;
+                    sessionStorage.clear();
+                    me.screens = [];
+                    me.navigate('account/login');
                     return;
-                }
-                break;
-            case 'account/preferences':
-                screen = RwAccountController.getPreferencesScreen({}, {});
-                break;
-            case 'account/privacypolicy':
-                screen = RwAccountController.getPrivacyPolicyScreen({}, {});
-                break;
-            case 'account/support':
-                screen = RwAccountController.getSupportScreen({}, {});
-                break;
-            case 'home/home':
-                screens = [];
-                screen = RwHome.getHomeScreen({}, {});
-                break;
-            case 'staging':
-                screen = RwOrderController.getStagingScreen({}, {
-                    moduleType: RwConstants.moduleTypes.Order,
-                    activityType: RwConstants.activityTypes.Staging,
-                    stagingType: RwConstants.stagingType.Normal
-                });
-                break;
-            case 'order/fillcontainer':
-                screen = RwFillContainer.getFillContainerScreen({}, {
-                    mode: 'fillcontainer'
-                });
-                break;
-            case 'order/checkinmenu':
-                screen = RwOrderController.getCheckInMenuScreen({},{});
-                break;
-            case 'order/itemstatus':
-                screen = RwOrderController.getItemStatusScreen({});
-                break;
-            case 'inventory/subreceive':
-                screen = RwSelectPO.getSelectPOScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.SubReceive,
-                    activityType: RwConstants.activityTypes.SubReceive
-                });
-                break;
-            case 'inventory/subreturn':
-                screen = RwSelectPO.getSelectPOScreen({}, {
-                    moduleType: RwConstants.moduleTypes.SubReturn
-                  , activityType: RwConstants.activityTypes.SubReturn
-                });
-                break;
-            case 'inventory/repairmenu':
-                screen = RwInventoryController.getRepairMenuScreen({}, {});
-                break;
-            case 'inventory/repair/complete':
-                screen = RwInventoryController.getRepairItemScreen({}, {
-                    repairMode: RwConstants.repairModes.Complete
-                });
-                break;
-            case 'inventory/repair/release':
-                screen = RwInventoryController.getRepairItemScreen({}, {
-                    repairMode: RwConstants.repairModes.Release
-                });
-                break;
-            case 'inventory/repair/repairorder':
-                screen = RwInventoryController.getRepairOrderScreen({}, {mode:'repairorder'});
-                break;
-            case 'inventory/assetdisposition':
-                screen = RwInventoryController.getAssetDispositionScreen({}, {});
-                break;
-            case 'inventory/inventorywebimage':
-                screen = RwInventoryController.getInventoryWebImageScreen({}, {});
-                break;
-            case 'order/packagetruck':
-                screen = RwOrderController.getPackageTruckMenuScreen({}, {});
-                break;
-            case 'order/packagetruck/staging':
-                screen = RwOrderController.getStagingScreen({}, {
-                    moduleType: RwConstants.moduleTypes.Truck,
-                    activityType: RwConstants.activityTypes.Staging
-                });
-                break;
-            case 'order/packagetruck/checkin':
-                screen = RwSelectOrder.getSelectOrderScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Truck,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.SingleOrder,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
-            case 'utilities/exchange':
-                screen = Exchange.getModuleScreen({}, {});
-                break;
-            case 'utilities/physicalinventory':
-                screen = RwSelectPhyInv.getSelectPhyInvScreen({}, {
-                    moduleType: RwConstants.moduleTypes.PhyInv
-                });
-                break;
-            case 'inventory/qc':
-                screen = RwInventoryController.getQCScreen({}, {});
-                break;
-            case 'transferout':
-                screen = RwOrderController.getStagingScreen({}, {
-                    moduleType: RwConstants.moduleTypes.Transfer,
-                    activityType: RwConstants.activityTypes.Staging,
-                    stagingType: RwConstants.stagingType.Normal
-                });
-                break;
-            case 'order/transferin':
-                screen = RwOrderController.getTransferInMenuScreen({},{});
-                break;
-            case 'order/transferin/singleorder':
-                screen = RwSelectTransferOrder.getSelectTransferOrderScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Transfer,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.SingleOrder,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
-            case 'order/transferin/session':
-                screen = RwSelectSession.getSelectSessionScreen({}, {
-                    moduleType:   RwConstants.moduleTypes.Transfer,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInMode:  RwConstants.checkInModes.Session,
-                    checkInType:  RwConstants.checkInType.Normal
-                });
-                break;
-            case 'inventory/movebclocation':
-                screen = RwInventoryController.getMoveBCLocationScreen({}, {});
-                break;
-            case 'account/logoff':
-                FwApplicationTree.tree = null;
-                sessionStorage.clear();
-                me.screens = [];
-                me.navigate('account/login');
-                return;
-            case 'quote/quotemenu':
-                screen = RwQuoteMenu.getQuoteMenuScreen({}, {});
-                break;
-            case 'quote/quote':
-                screen = RwQuote.getQuoteScreen({}, {});
-                break;
-            case 'timelog':
-                screen = TimeLog.getModuleScreen({}, {});
-                break;
-            case 'receiveonset':
-                screen = ReceiveOnSet.getModuleScreen({}, {});
-                break;
-            case 'assetsetlocation':
-                screen = AssetSetLocation.getModuleScreen({}, {});
-                break;
-            case 'rfidstaging':
-                screen = RwSelectOrder.getSelectOrderScreen({}, {
-                    moduleType: RwConstants.moduleTypes.Order,
-                    activityType: RwConstants.activityTypes.Staging,
-                    stagingType: RwConstants.stagingType.RfidPortal
-                });
-                break;
-            case 'rfidcheckin':
-                screen = RwSelectOrder.getSelectOrderScreen({}, {
-                    moduleType: RwConstants.moduleTypes.Order,
-                    activityType: RwConstants.activityTypes.CheckIn,
-                    checkInType: RwConstants.checkInType.RfidPortal
-                });
-                break;
-            case 'assignitems':
-                screen = AssignItems.getMenuScreen({}, {});
-                break;
-            case 'assignitems/newitems':
-                screen = AssignItems.getNewItemsScreen({}, {});
-                break;
-            case 'assignitems/existingitems':
-                screen = AssignItems.getExistingItemsScreen({}, {});
-                break;
+                case 'quote/quotemenu':
+                    screen = RwQuoteMenu.getQuoteMenuScreen({}, {});
+                    break;
+                case 'quote/quote':
+                    screen = RwQuote.getQuoteScreen({}, {});
+                    break;
+                case 'timelog':
+                    screen = TimeLog.getModuleScreen({}, {});
+                    break;
+                case 'receiveonset':
+                    screen = ReceiveOnSet.getModuleScreen({}, {});
+                    break;
+                case 'assetsetlocation':
+                    screen = AssetSetLocation.getModuleScreen({}, {});
+                    break;
+                case 'rfidstaging':
+                    screen = RwSelectOrder.getSelectOrderScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Order,
+                        activityType: RwConstants.activityTypes.Staging,
+                        stagingType: RwConstants.stagingType.RfidPortal
+                    });
+                    break;
+                case 'rfidcheckin':
+                    screen = RwSelectOrder.getSelectOrderScreen({}, {
+                        moduleType: RwConstants.moduleTypes.Order,
+                        activityType: RwConstants.activityTypes.CheckIn,
+                        checkInType: RwConstants.checkInType.RfidPortal
+                    });
+                    break;
+                case 'assignitems':
+                    screen = AssignItems.getMenuScreen({}, {});
+                    break;
+                case 'assignitems/newitems':
+                    screen = AssignItems.getNewItemsScreen({}, {});
+                    break;
+                case 'assignitems/existingitems':
+                    screen = AssignItems.getExistingItemsScreen({}, {});
+                    break;
+            }
         }
         // this is how you do the navigate away in a screen
         // instead of returning true/false it makes you manually call a function, so you can use callbacks in beforeNavigateAway

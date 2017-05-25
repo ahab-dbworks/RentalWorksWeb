@@ -1233,6 +1233,11 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetUserLocation(dynamic session)
+        {
+            return RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+        }
+        //----------------------------------------------------------------------------------------------------
         public static dynamic GetStagingPendingItems(FwSqlConnection conn, string orderId, string warehouseId, string contractId)
         {
             dynamic result;

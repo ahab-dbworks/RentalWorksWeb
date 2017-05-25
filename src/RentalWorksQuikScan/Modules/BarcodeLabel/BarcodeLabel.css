@@ -1,0 +1,28 @@
+﻿.barcodelabel .page-menu .mispacer {background-color:#eeeeee;height:22px;border-bottom:1px solid #cccccc;}
+.barcodelabel .page-menu .mi {display:flex;align-items:center;padding:10px 10px 10px 20px;background-color:#ffffff;color:#000000;border-bottom:1px solid #cccccc;cursor:pointer;}
+.barcodelabel .page-menu .mi:active {background-color:#bdbdbd;}
+.barcodelabel .page-menu .mi .label {flex:1 0 0;}
+.barcodelabel .page-menu .mi i {flex:0 0 22px;color:#cccccc;}
+
+.barcodelabel .record {font-size:.625em;border-bottom: 1px solid #454545;padding:.3em;cursor: pointer;will-change:opacity, transform;transition:all .1s ease-out;}
+.barcodelabel .record:active {background-color:#0f53b8;}
+.barcodelabel .record[data-selected="true"] {background-color: #0d47a1;}
+.barcodelabel .record .row {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+.barcodelabel .record .row .caption {color:#aaaaaa;}
+.barcodelabel .record .row .caption.fixed {flex: 0 0 74px;width:74px;}
+.barcodelabel .record .row .caption.dynamic {flex: 0 0 auto;margin-right:5px;}
+.barcodelabel .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}
+.barcodelabel .record .desc {font-size:.75rem;color:#03a9f4;text-decoration:underline;}
+.barcodelabel .norecord {text-align:center;}
+
+.barcodelabel-printdialog input,
+.barcodelabel-printdialog select {width:100%;font-size:13px;box-sizing:border-box;height:44px;border-radius:5px;border:1px solid #cccccc;background-color:#ffffff;color:#000000;}
+.barcodelabel-printdialog .host { display: block; width: 100%; box-sizing: border-box; border-radius: 3px; border: 1px solid #bbbbbb; font-size: 16px; padding: 6px; }
+.barcodelabel-printdialog .port { display: block; width: 100px; box-sizing: border-box; border-radius: 3px; border: 1px solid #bbbbbb; font-size: 16px; padding: 6px; }
+.barcodelabel-printdialog .qty { display: block; width: 50px; box-sizing: border-box; border-radius: 3px; border: 1px solid #bbbbbb; font-size: 16px; padding: 6px; }
+
+.page-uploadbarcodelabel .field {margin:20px 0 0 0;}
+.page-uploadbarcodelabel .caption {margin:0 0 3px 0;}
+.page-uploadbarcodelabel .value input {width:100%;font-size:13px;box-sizing:border-box;padding:10px;border-radius:5px;border:1px solid #cccccc;background-color:#ffffff;color:#000000;}
+.page-uploadbarcodelabel .value select {width:100%;font-size:13px;box-sizing:border-box;height:44px;border-radius:5px;border:1px solid #cccccc;background-color:#ffffff;color:#000000;}
+.page-uploadbarcodelabel .explanation {font-size:12px;padding:10px;}

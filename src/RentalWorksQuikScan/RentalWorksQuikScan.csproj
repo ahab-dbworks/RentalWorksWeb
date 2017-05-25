@@ -129,6 +129,9 @@
     <Content Include="Modules\AssetSetLocation\AssetSetLocationBarcodeTemplate.html" />
     <Content Include="Modules\AssignItems\AssignItemsMenu.html" />
     <Content Include="Modules\AssignItems\ExistingItems.html" />
+    <Content Include="Modules\BarcodeLabel\BarcodeLabel.css" />
+    <Content Include="Modules\BarcodeLabel\BarcodeLabel.html" />
+    <Content Include="Modules\BarcodeLabel\BarcodeLabel.js" />
     <Content Include="Modules\CheckIn\PopupQty.html" />
     <Content Include="Modules\Exchange\Exchange.css" />
     <Content Include="Modules\Exchange\Exchange.html" />
@@ -425,6 +428,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Modules\BarcodeLabel\BarcodeLabel.cs" />
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />

@@ -38,6 +38,8 @@ RwLanguages.captions = [
   , 'Bar Code / I-Code'
   , 'BC / Serial'
   , 'Bar Code No'
+  , 'Barcode Image'
+  , 'Barcode Label'
   , 'BC'
   , 'Black'
   , 'Blue'
