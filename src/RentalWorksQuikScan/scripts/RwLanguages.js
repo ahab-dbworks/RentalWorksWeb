@@ -437,8 +437,7 @@ RwLanguages.cultures.marvel = {
     'Item Desc': 'Asset Desc',
     'Item Status' : 'Asset Status',
     'ITEM VALUE': 'ASSET VALUE',
-    'Items': 'Assets',
-    'Order Item Status': 'Order Asset Status',         
+    'Items': 'Assets',        
     'Pending Items': 'Pending Assets',
     'Remove Item': 'Remove Asset',
     'Remove Item from Container?': 'Remove Asset from Container?',
@@ -458,7 +457,7 @@ RwLanguages.cultures.marvel = {
     'Order':             'Set',
     'Order Check-In':    'Set Check-In',
     'Order Desc.':       'Set Desc.',
-    'Order Item Status': 'Set Asset Status',
+    'Order Item Status': 'Set Character Status',
     'Order No':          'Set No',
     'Order Number':      'Set Number',
     'Order Staging':     'Set Staging'
