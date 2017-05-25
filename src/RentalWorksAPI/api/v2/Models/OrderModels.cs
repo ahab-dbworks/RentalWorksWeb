@@ -12,19 +12,6 @@ namespace RentalWorksAPI.api.v2.Models
         public List<Deal> deals { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
-    public class OAIFilter
-    {
-        public string locationid             { get; set; } //required
-        public string departmentid           { get; set; } = "";
-        public string lastmodifiedfromdate   { get; set; } = "";
-        public string lastmodifiedtodate     { get; set; } = "";
-        public string includeavailabilityqty { get; set; } = "";
-        public string orderid                { get; set; } = "";
-        public List<string> agentid          { get; set; }
-        public List<string> status           { get; set; }
-        public List<string> dealid           { get; set; }
-    }
-    //----------------------------------------------------------------------------------------------------
     public class OrdersAndItems
     {
         public string dealid      { get; set; }
@@ -47,7 +34,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string ordertypeid           { get; set; }
         public string ordertype             { get; set; }
         public string departmentid          { get; set; }
-        public string deparment             { get; set; }
+        public string department            { get; set; }
         public string rental                { get; set; }
         public string sales                 { get; set; }
         public string labor                 { get; set; }

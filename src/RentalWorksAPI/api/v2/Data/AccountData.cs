@@ -59,15 +59,15 @@ namespace RentalWorksAPI.api.v2.Data
             response.email                   = qryresult.email;
             response.changepasswordatlogin   = qryresult.changepasswordatlogin;
             response.primarydepartmentid     = qryresult.primarydepartmentid;
-            //response.primarydepartment         = qryresult.primarydepartment;
+            response.primarydepartment         = qryresult.primarydepartment;
             response.rentaldepartmentid      = qryresult.rentaldepartmentid;
-            //response.rentaldepartment         = qryresult.rentaldepartment;
+            response.rentaldepartment         = qryresult.rentaldepartment;
             response.salesdepartmentid       = qryresult.salesdepartmentid;
-            //response.salesdepartment         = qryresult.salesdepartment;
+            response.salesdepartment         = qryresult.salesdepartment;
             response.rentalagentusersid      = qryresult.rentalagentusersid;
             response.salesagentusersid       = qryresult.salesagentusersid;
             response.partsdepartmentid       = qryresult.partsdepartmentid;
-            //response.partsdepartment         = qryresult.partsdepartment;
+            response.partsdepartment         = qryresult.partsdepartment;
             response.labordepartmentid       = qryresult.labordepartmentid;
             response.miscdepartmentid        = qryresult.miscdepartmentid;
             response.spacedepartmentid       = qryresult.spacedepartmentid;
@@ -130,15 +130,15 @@ namespace RentalWorksAPI.api.v2.Data
                 webuser.group                   = qryresult[i].groups;
                 webuser.groupsid                = qryresult[i].groupsid;
                 webuser.primarydepartmentid     = qryresult[i].primarydepartmentid;
-                //webuser.primarydepartment         = qryresult[i].primarydepartment;
+                webuser.primarydepartment         = qryresult[i].primarydepartment;
                 webuser.rentaldepartmentid      = qryresult[i].rentaldepartmentid;
-                //webuser.rentaldepartment         = qryresult[i].rentaldepartment;
+                webuser.rentaldepartment         = qryresult[i].rentaldepartment;
                 webuser.salesdepartmentid       = qryresult[i].salesdepartmentid;
-                //webuser.salesdepartment         = qryresult[i].salesdepartment;
+                webuser.salesdepartment         = qryresult[i].salesdepartment;
                 webuser.rentalagentusersid      = qryresult[i].rentalagentusersid;
                 webuser.salesagentusersid       = qryresult[i].salesagentusersid;
                 webuser.partsdepartmentid       = qryresult[i].partsdepartmentid;
-                //webuser.partsdepartment         = qryresult[i].partsdepartment;
+                webuser.partsdepartment         = qryresult[i].partsdepartment;
 
                 response.Add(webuser);
             }

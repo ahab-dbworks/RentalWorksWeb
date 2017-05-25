@@ -236,7 +236,6 @@
     <Compile Include="api\v1\Data\InvoiceData.cs" />
     <Compile Include="api\v1\Data\OrderData.cs" />
     <Compile Include="api\v2\Controllers\AccountController.cs" />
-    <Compile Include="api\v2\Controllers\DealController.cs" />
     <Compile Include="api\v2\Controllers\InventoryController.cs" />
     <Compile Include="api\v2\Controllers\MaintenanceController.cs" />
     <Compile Include="api\v2\Controllers\OrderController.cs" />

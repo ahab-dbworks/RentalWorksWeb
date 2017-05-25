@@ -18,10 +18,13 @@
         public string primarydepartmentid   { get; set; }
         public string primarydepartment     { get; set; }
         public string rentaldepartmentid    { get; set; }
+        public string rentaldepartment      { get; set; }
         public string salesdepartmentid     { get; set; }
+        public string salesdepartment       { get; set; }
         public string rentalagentusersid    { get; set; }
         public string salesagentusersid     { get; set; }
         public string partsdepartmentid     { get; set; }
+        public string partsdepartment       { get; set; }
         public string labordepartmentid     { get; set; }
         public string miscdepartmentid      { get; set; }
         public string spacedepartmentid     { get; set; }

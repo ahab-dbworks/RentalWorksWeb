@@ -35,19 +35,16 @@ namespace RentalWorksAPI.api.v2
         //----------------------------------------------------------------------------------------------------
         [HttpGet]
         [Route("ordersanditems")]
-        public HttpResponseMessage GetOrdersAndItems([FromUri]OAIFilter filter)
+        public HttpResponseMessage GetOrdersAndItems([FromUri]string locationid, [FromUri]string departmentid="", [FromUri]string lastmodifiedfromdate="",
+                                                     [FromUri]string lastmodifiedtodate="", [FromUri]string includeavailabilityqty="", [FromUri]string orderid="",
+                                                     [FromUri]List<string> agentid=null, [FromUri]List<string> status=null, [FromUri]List<string> dealid=null)
         {
             List<OrdersAndItems> result = new List<OrdersAndItems>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            //for (int i = 0; i < csrid.Count; i++)
-            //{
-            //    csrs = OrderData.GetCsrs(locationid, csrid[i]);
-
-            //    result.Add(csrs);
-            //}
+            result = OrderData.GetOrdersAndItems(locationid, departmentid, lastmodifiedfromdate, lastmodifiedtodate, includeavailabilityqty, orderid, agentid, status, dealid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
         }

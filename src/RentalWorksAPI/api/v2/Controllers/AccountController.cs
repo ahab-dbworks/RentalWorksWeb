@@ -50,7 +50,7 @@ namespace RentalWorksAPI.api.v2
         //----------------------------------------------------------------------------------------------------
         [HttpGet]
         [Route("user")]
-        public HttpResponseMessage Users([FromUri]List<string> webusersid)
+        public HttpResponseMessage Users([FromUri]List<string> webusersid=null)
         {
             List<WebUsers> response = new List<WebUsers>();
 
