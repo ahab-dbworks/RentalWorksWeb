@@ -1159,7 +1159,7 @@ namespace RentalWorksWeb.Integration
                 newPaymentMethod.Name = paymentmethod;
 
                 newPaymentMethodJson = JsonConvert.SerializeObject(newPaymentMethod);
-                _paymentmethod       = PostToJsonObject("paymentmethod", newPaymentMethodJson).Vendor;
+                _paymentmethod       = PostToJsonObject("paymentmethod", newPaymentMethodJson).Name;
                 PaymentMethods.Add(_paymentmethod);
             }
 
