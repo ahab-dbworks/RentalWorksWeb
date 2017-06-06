@@ -1,8 +1,9 @@
 ﻿using Fw.Json.SqlServer;
 using RentalWorksAPI.api.v2.Models;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusModels;
+using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 
 namespace RentalWorksAPI.api.v2.Data
 {
@@ -76,6 +77,65 @@ namespace RentalWorksAPI.api.v2.Data
                 transaction.qty      = transactions[i].qty;
 
                 result.Add(transaction);
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static ItemStatus GetItemStatus(string barcode, string serialno, string rfid)
+        {
+            ItemStatus result = new ItemStatus();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("masterid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("masterno", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("master", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("mfgserial", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("rfid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("barcode", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("status", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.AddColumn("rentalitemid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
+                qry.Add("select *");
+                qry.Add("from apirest_itemstatusfunc(@barcode, @serialno, @rfid)");
+                qry.AddParameter("@barcode", barcode);
+                qry.AddParameter("@serialno", serialno);
+                qry.AddParameter("@rfid", rfid);
+                result = qry.QueryToTypedObject<ItemStatus>();
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<ItemStatusHistory> GetItemStatusHistory(string rentalitemid, int days)
+        {
+            List<ItemStatusHistory> result = new List<ItemStatusHistory>();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("datetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("qty", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Integer);
+                qry.Add("select *");
+                qry.Add("from apirest_itemstatushistoryfunc(@rentalitemid, @days)");
+                qry.AddParameter("@rentalitemid", rentalitemid);
+                qry.AddParameter("@days", days);
+                result = qry.QueryToTypedList<ItemStatusHistory>();
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<WarehouseAddToOrderItem> GetWarehouseAddToOrder(string warehouseid)
+        {
+            List<WarehouseAddToOrderItem> result = new List<WarehouseAddToOrderItem>();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from apirest_warehouseaddtoorderview");
+                qry.Add("where warehouseid = @warehouseid");
+                qry.AddParameter("@warehouseid", warehouseid);
+                result = qry.QueryToTypedList<WarehouseAddToOrderItem>();
             }
 
             return result;

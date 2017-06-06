@@ -65,4 +65,23 @@ namespace RentalWorksAPI.api.v2.Models
         public string webusersid  { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
+    
+    //----------------------------------------------------------------------------------------------------
+    
+
+    public class OrderStatusDetail
+    {
+        public string rectype { get; set; }
+        public string masterid { get; set; }
+        public string masterno { get; set; }
+        public string description { get; set; }
+        public string trackedby { get; set; }
+        public string barcode { get; set; }
+        public string msfserial { get; set; }
+        public string rfid { get; set; }
+        public string vendorconsignor { get; set; }
+        public string outdatetime { get; set; }
+        public string indatetime { get; set; }
+    }
+    //----------------------------------------------------------------------------------------------------
 }

@@ -68,17 +68,17 @@ namespace RentalWorksWeb.Source.Reports
 
             select = new FwSqlSelect();
             select.Add("select * ");
-            select.Add("from  dbo.funcdealoutstandingrpt(@fromdate,");
-            select.Add("                                 @todate,");
-            select.Add("                                 @datetouse,");
-            select.Add("                                 @departmenttype,");
-            select.Add("                                 @alleverout,");
-            select.Add("                                 @showpending,");
-            select.Add("                                 @shownones,");
-            select.Add("                                 @contractid,");
-            select.Add("                                 @showbarcodes,");
-            select.Add("                                 @showresponsibleperson,");
-            select.Add("                                 @showitemvalue");
+            select.Add("from  dbo.funcdealoutstandingrpt2 (@fromdate,");
+            select.Add("                                   @todate,");
+            select.Add("                                   @datetouse,");
+            select.Add("                                   @departmenttype,");
+            select.Add("                                   @alleverout,");
+            select.Add("                                   @showpending,");
+            select.Add("                                   @shownones,");
+            select.Add("                                   @contractid,");
+            select.Add("                                   @showbarcodes,");
+            select.Add("                                   @showresponsibleperson,");
+            select.Add("                                   @showitemvalue");
             select.Add("                               ) rpt");
             select.AddParameter("@fromdate" ,               request.parameters.fromdate);
             select.AddParameter("@todate" ,                 request.parameters.todate);

@@ -1,7 +1,11 @@
 ﻿using Fw.Json.SqlServer;
+using Newtonsoft.Json;
 using RentalWorksAPI.api.v2.Models;
+using RentalWorksAPI.api.v2.Models.OrderModels.LineItems;
+using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetailModels;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 
 namespace RentalWorksAPI.api.v2.Data
 {
@@ -272,6 +276,52 @@ namespace RentalWorksAPI.api.v2.Data
             }
 
             return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<OrderStatus> GetOrderStatus(string orderid)
+        {
+            List<OrderStatus> orderstatuslist;
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("outdatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("indatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.Add("select *");
+                qry.Add("from apirest_orderstatusdetail(@orderid)");
+                qry.AddParameter("@orderid", orderid);
+                orderstatuslist = qry.QueryToTypedList<OrderStatus>();
+            }
+
+            return orderstatuslist;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<OrderStatusDetail> GetOrderStatusDetail(string orderid)
+        {
+            List<OrderStatusDetail> orderstatusdetaillist;
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.AddColumn("outdatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.AddColumn("indatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+                qry.Add("select *");
+                qry.Add("from apirest_orderstatusdetail(@orderid)");
+                qry.AddParameter("@orderid", orderid);
+                orderstatusdetaillist = qry.QueryToTypedList<OrderStatusDetail>();
+            }
+
+            return orderstatusdetaillist;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<LineItem> GetLineItems(string orderid)
+        {
+            List<LineItem> orderstatusdetaillist;
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from apirest_lineitems(@orderid)");
+                qry.AddParameter("@orderid", orderid);
+                orderstatusdetaillist = qry.QueryToTypedList<LineItem>();
+            }
+
+            return orderstatusdetaillist;
         }
         //------------------------------------------------------------------------------
     }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Fw.Json.Utilities;
 using System.Dynamic;
 using Fw.Json.ValueTypes;
+using Newtonsoft.Json;
 
 namespace Fw.Json.SqlServer
 {
@@ -1870,6 +1871,30 @@ namespace Fw.Json.SqlServer
             }
             
             return rows;
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Run a query and return a typed list, by using QueryToDynamicList2, and then serializing it to json than deserializing to the desired type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public List<T> QueryToTypedList<T>()
+        {
+            string json = JsonConvert.SerializeObject(QueryToDynamicList2());
+            List<T> results = JsonConvert.DeserializeObject<List<T>>(json);
+            return results;
+        }
+        //------------------------------------------------------------------------------------
+        /// <summary>
+        /// Run a query and return a typed object, by using QueryToDynamicObject2, and then serializing it to json than deserializing to the desired type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T QueryToTypedObject<T>()
+        {
+            string json = JsonConvert.SerializeObject(QueryToDynamicObject2());
+            T result = JsonConvert.DeserializeObject<T>(json);
+            return result;
         }
         //------------------------------------------------------------------------------------
         /// <summary>

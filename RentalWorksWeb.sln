@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWeb", "src\RentalWorksWeb\RentalWorksWeb.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 EndProject
@@ -25,6 +25,7 @@ Global
 		Debug API|Any CPU = Debug API|Any CPU
 		Debug MiddleTier|Any CPU = Debug MiddleTier|Any CPU
 		Debug QuikScan Fast|Any CPU = Debug QuikScan Fast|Any CPU
+		Debug RentalWorksTest|Any CPU = Debug RentalWorksTest|Any CPU
 		Debug Web Fast|Any CPU = Debug Web Fast|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release API|Any CPU = Release API|Any CPU
@@ -37,6 +38,7 @@ Global
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web Fast|Any CPU.ActiveCfg = Debug Web Fast|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web Fast|Any CPU.Build.0 = Debug Web Fast|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -54,6 +56,7 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,6 +75,7 @@ Global
 		{81982370-068F-4922-9F56-8807515D2291}.Debug API|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -86,6 +90,7 @@ Global
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug QuikScan Fast|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug QuikScan Fast|Any CPU.Build.0 = Debug QuikScan Fast|Any CPU
+		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -102,6 +107,8 @@ Global
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
+		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

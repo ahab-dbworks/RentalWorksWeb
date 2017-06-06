@@ -1,8 +1,10 @@
 ﻿using Fw.Json.SqlServer;
 using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
-using RentalWorksAPI.api.v2.Models.OrderModels.LineItems;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetailModels;
+using RentalWorksAPI.api.v2.Models.WarehouseModels.MoveToContract;
+using RentalWorksAPI.api.v2.Models.WarehouseModels.StageItemModels;
+using RentalWorksAPI.api.v2.Models.WarehouseModels.UnstageItemModels;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,29 +15,9 @@ using System.Web.Http;
 namespace RentalWorksAPI.api.v2
 {
     [AppConfigAuthorize]
-    [RoutePrefix("{apiVersion2:apiVersion2Constraint(v2)}/order")]
-    public class OrderController : ApiController
+    [RoutePrefix("{apiVersion2:apiVersion2Constraint(v2)}/warehouse")]
+    public class WarehouseController : ApiController
     {
-        //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("csrsdeals")]
-        public HttpResponseMessage GetCsrsDeals([FromUri]string locationid, [FromUri]List<string> csrid)
-        {
-            List<Csrs> result = new List<Csrs>();
-            Csrs csrs = new Csrs();
-
-            if (!ModelState.IsValid)
-                ThrowError("400", "");
-
-            for (int i = 0; i < csrid.Count; i++)
-            {
-                csrs = OrderData.GetCsrs(locationid, csrid[i]);
-
-                result.Add(csrs);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = result } );
-        }
         //----------------------------------------------------------------------------------------------------
         [HttpGet]
         [Route("ordersanditems")]
@@ -53,39 +35,58 @@ namespace RentalWorksAPI.api.v2
             return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("orderstatusdetail")]
-        public HttpResponseMessage GetOrderStatusDetail([FromUri]string orderid)
+        [HttpPost]
+        [Route("stageitem")]
+        public HttpResponseMessage StageItem([FromBody]StageItemRequest request)
         {
-            OrderStatusDetailResponse response = new OrderStatusDetailResponse();
-            response.order.orderid = orderid;
-            response.order.orderdesc = FwSqlCommand.GetData(FwSqlConnection.RentalWorks, "dealorder", "orderid", orderid, "orderdesc").ToString().TrimEnd();
-            List<OrderStatus> orderstatus = OrderData.GetOrderStatus(orderid);
-            List<OrderStatusDetail> orderstatusdetail = OrderData.GetOrderStatusDetail(orderid);
-            foreach (OrderStatus lineitem in orderstatus)
+            StageItemResponse response = new StageItemResponse();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            foreach (StageItem item in request.items)
             {
-                var detailitems = orderstatusdetail.Where(x => x.masterid == lineitem.masterid);
-                lineitem.physicalassets.AddRange(detailitems);
+                StageItemQry stageItemResult = WarehouseData.StageItem(request.orderid, item.barcode, item.masteritemid, item.qty);
+            }
+
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = response });
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("unstageitem")]
+        public HttpResponseMessage UnstageItem([FromBody]UnstageItemRequest request)
+        {
+            UnstageItemResponse response = new UnstageItemResponse();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            foreach (UnstageItemRequestItem item in request.items)
+            {
+                UnstageItemQry stageItemResult = WarehouseData.UnstageItem(request.orderid, item.barcode, item.masteritemid, item.qty);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = response });
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("movetocontract")]
+        public HttpResponseMessage MoveToContract([FromBody]MoveToContractRequest request)
+        {
+            MoveToContractResponse response = new MoveToContractResponse();
+            response.order.orderid = request.orderid;
+            for (int i = request.items.Count - 1; i >= 0; i--)
+            {
+                StagedItem requestitem = request.items[i];
+                MoveToContractSp responseitem = WarehouseData.MoveToContract(request.usersid, request.orderid, requestitem.barcode, requestitem.masteritemid, requestitem.quantity);
+                response.order.items.Add(responseitem);
             }
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-        //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("lineitems")]
-        public HttpResponseMessage LineItems([FromUri]string orderid)
-        {
-            LineItemsResponse response = new LineItemsResponse();
-            response.order.orderid = orderid;
-            response.order.items = OrderData.GetLineItems(orderid);
-
-            if (!ModelState.IsValid)
-                ThrowError("400", "");
-
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return Request.CreateResponse(HttpStatusCode.OK, new { order = response });
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)
