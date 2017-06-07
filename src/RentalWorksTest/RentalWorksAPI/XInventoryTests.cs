@@ -16,8 +16,8 @@ namespace RentalWorksTest.RentalWorksAPI
 {
     public class XInventoryTests
     {
+        //----------------------------------------------------------------------------------------------------
         private readonly ITestOutputHelper output;
-
         public XInventoryTests(ITestOutputHelper output)
         {
             this.output = output;
@@ -42,7 +42,7 @@ namespace RentalWorksTest.RentalWorksAPI
                 for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
                 {
                     yield return new object[] { new ItemStatusData {
-                        barcode=dt.GetValue(rowno, "barcode").ToString().TrimEnd()
+                        barcode = dt.GetValue(rowno, "barcode").ToString().TrimEnd()
                     } };
                 }
             }
@@ -56,7 +56,7 @@ namespace RentalWorksTest.RentalWorksAPI
                 for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
                 {
                     yield return new object[] { new ItemStatusData {
-                        serialno=dt.GetValue(rowno, "mfgserial").ToString().TrimEnd()
+                        serialno = dt.GetValue(rowno, "mfgserial").ToString().TrimEnd()
                     } };
                 }
             }
@@ -70,7 +70,7 @@ namespace RentalWorksTest.RentalWorksAPI
                 for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
                 {
                     yield return new object[] { new ItemStatusData {
-                        rfid=dt.GetValue(rowno, "rfid").ToString().TrimEnd()
+                        rfid = dt.GetValue(rowno, "rfid").ToString().TrimEnd()
                     } };
                 }
             }
@@ -81,19 +81,19 @@ namespace RentalWorksTest.RentalWorksAPI
         public void ItemStatus(ItemStatusData data)
         {
             string url = string.Format("v2/inventory/itemstatus?barcode={0}&serialno={1}&rfid={2}&days={3}", data.barcode, data.serialno, data.rfid, data.days);
-            ItemStatusResponse response;
             using (HttpClient client = FuncApi.CreateHttpClient())
             {
                 HttpResponseMessage message = client.GetAsync(url).Result;
                 if (!message.IsSuccessStatusCode)
                 {
-                    output.WriteLine(message.Content.ReadAsStringAsync().Result);
+                    FuncApi.LogWebServiceError(output, message);
                 }
                 Assert.True(message.IsSuccessStatusCode);
-                response = message.Content.ReadAsAsync<ItemStatusResponse>().Result;
+                ItemStatusResponse response = message.Content.ReadAsAsync<ItemStatusResponse>().Result;
+                Assert.NotNull(response);
+                //Assert.NotEmpty(response.items);
             }
-            Assert.NotNull(response);
-            //Assert.NotEmpty(response.items);
+
         }
         //----------------------------------------------------------------------------------------------------
         public class WarehouseAddToOrderData
@@ -105,13 +105,13 @@ namespace RentalWorksTest.RentalWorksAPI
         {
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
-                qry.Add("select warehouseid");
+                qry.Add("select top 1 warehouseid");
                 qry.Add("from warehouse with (nolock)");
                 FwJsonDataTable dt = qry.QueryToFwJsonTable(true);
                 for (int rowno = 0; rowno < dt.Rows.Count; rowno++)
                 {
                     yield return new object[] { new WarehouseAddToOrderData {
-                        warehouseid=dt.GetValue(rowno, "warehouseid").ToString().TrimEnd()
+                        warehouseid = dt.GetValue(rowno, "warehouseid").ToString().TrimEnd()
                     } };
                 }
             }  
@@ -128,7 +128,7 @@ namespace RentalWorksTest.RentalWorksAPI
                 HttpResponseMessage message = client.GetAsync(url).Result;
                 if (!message.IsSuccessStatusCode)
                 {
-                    output.WriteLine(message.Content.ReadAsStringAsync().Result);
+                    FuncApi.LogWebServiceError(output, message);
                 }
                 Assert.True(message.IsSuccessStatusCode);
                 response = message.Content.ReadAsAsync<WarehouseAddToOrderResponse>().Result;

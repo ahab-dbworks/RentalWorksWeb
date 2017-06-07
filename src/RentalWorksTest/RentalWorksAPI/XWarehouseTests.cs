@@ -7,11 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace RentalWorksTest.RentalWorksAPI
 {
     public class XUnitWarehouseTests
     {
+        //----------------------------------------------------------------------------------------------------
+        private readonly ITestOutputHelper output;
+        public XUnitWarehouseTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
         //----------------------------------------------------------------------------------------------------
         [Fact]
         public void StageItem()
@@ -24,6 +31,10 @@ namespace RentalWorksTest.RentalWorksAPI
                 request.orderid = "B000V5V5";
                 request.items = new List<StageItem>();
                 HttpResponseMessage message = client.PostAsJsonAsync<StageItemRequest>(url, request).Result;
+                if (!message.IsSuccessStatusCode)
+                {
+                    FuncApi.LogWebServiceError(output, message);
+                }
                 Assert.True(message.IsSuccessStatusCode, "Didn't get a success status code.");
                 response = message.Content.ReadAsAsync<OrderStatusDetailResponse>().Result;
             }
@@ -44,7 +55,11 @@ namespace RentalWorksTest.RentalWorksAPI
                 request.orderid = "B000V5V5";
                 request.items = new List<UnstageItemRequestItem>();
                 HttpResponseMessage message = client.PostAsJsonAsync<UnstageItemRequest>(url, request).Result;
-                Assert.True(message.IsSuccessStatusCode, "Didn't get a success status code.");
+                if (!message.IsSuccessStatusCode)
+                {
+                    FuncApi.LogWebServiceError(output, message);
+                }
+                Assert.True(message.IsSuccessStatusCode);
                 response = message.Content.ReadAsAsync<OrderStatusDetailResponse>().Result;
             }
             Assert.NotNull(response);
@@ -54,7 +69,7 @@ namespace RentalWorksTest.RentalWorksAPI
         }
         //----------------------------------------------------------------------------------------------------
         [Fact]
-        public void GetOrdersAndItems()
+        public void MoveToContract()
         {
             string url = "v2/order/movetocontract";
             MoveToContractResponse response;
@@ -65,6 +80,10 @@ namespace RentalWorksTest.RentalWorksAPI
                 request.usersid = "";
                 request.items.Add(new StagedItem() { barcode="", masteritemid="", quantity=1 });
                 HttpResponseMessage message = client.PostAsJsonAsync<MoveToContractRequest>(url, request).Result;
+                if (!message.IsSuccessStatusCode)
+                {
+                    FuncApi.LogWebServiceError(output, message);
+                }
                 Assert.True(message.IsSuccessStatusCode);
                 response = message.Content.ReadAsAsync<MoveToContractResponse>().Result;
             }
