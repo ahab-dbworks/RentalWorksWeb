@@ -59,9 +59,9 @@ namespace RentalWorksAPI.api.v2.Data
             response.email                   = qryresult.email;
             response.changepasswordatlogin   = qryresult.changepasswordatlogin;
             response.primarydepartmentid     = qryresult.primarydepartmentid;
-            response.primarydepartment         = qryresult.primarydepartment;
+            response.primarydepartment       = qryresult.primarydepartment;
             response.rentaldepartmentid      = qryresult.rentaldepartmentid;
-            response.rentaldepartment         = qryresult.rentaldepartment;
+            response.rentaldepartment        = qryresult.rentaldepartment;
             response.salesdepartmentid       = qryresult.salesdepartmentid;
             response.salesdepartment         = qryresult.salesdepartment;
             response.rentalagentusersid      = qryresult.rentalagentusersid;
