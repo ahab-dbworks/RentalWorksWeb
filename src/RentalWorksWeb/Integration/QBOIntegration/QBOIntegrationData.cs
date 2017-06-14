@@ -648,7 +648,8 @@ namespace RentalWorksWeb.Integration
             {
                 for (int i = 0; i < Accounts.Count; i++)
                 {
-                    if (Accounts[i].Name == accountinfo.glacctdesc)
+                    //if (Accounts[i].Name == accountinfo.glacctdesc)
+                    if (Accounts[i].FullyQualifiedName == accountinfo.glacctdesc)   //jh 06/12/2017 CAS-20384-ZPXQ
                     {
                         account = Accounts[i];
                         break;
@@ -658,7 +659,8 @@ namespace RentalWorksWeb.Integration
 
             if (account == null)
             {
-                account = QueryToJsonObject("select * from account where name = '" + accountinfo.glacctdesc + "'").QueryResponse.Account;
+                //account = QueryToJsonObject("select * from account where name = '" + accountinfo.glacctdesc + "'").QueryResponse.Account;
+                account = QueryToJsonObject("select * from account where FullyQualifiedName = '" + accountinfo.glacctdesc + "'").QueryResponse.Account;  //jh 06/12/2017 CAS-20384-ZPXQ
                 if (account != null)
                 {
                     account = account[0];
