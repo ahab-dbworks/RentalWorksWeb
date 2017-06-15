@@ -1,5 +1,8 @@
 ﻿using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
+using RentalWorksAPI.api.v2.Models.AccountModels.Login;
+using RentalWorksAPI.api.v2.Models.AccountModels.User;
+using RentalWorksAPI.api.v2.Models.AccountModels.RwUser;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -14,25 +17,25 @@ namespace RentalWorksAPI.api.v2
     public class AccountController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login([FromUri]string password, [FromUri]string username="", [FromUri]string email="")
+        public HttpResponseMessage Login([FromBody]Login request)
         {
             dynamic req = new ExpandoObject();
             WebUsers response = new WebUsers();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
-            if (username == "" && email == "")
+            if (request.username == "" && request.email == "")
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Username or Email is required."));
 
-            if (username != "")
+            if (request.username != "")
             {
 
             }
-            else if (email != "")
+            else if (request.email != "")
             {
-                req = AccountData.WebGetUsers(email, password);
+                req = AccountData.WebGetUsers(request.email, request.password);
             }
 
             if (req.errno != "0")
@@ -48,30 +51,30 @@ namespace RentalWorksAPI.api.v2
             return Request.CreateResponse(HttpStatusCode.OK, new { user = response });
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("user")]
-        public HttpResponseMessage Users([FromUri]List<string> webusersid=null)
+        public HttpResponseMessage Users([FromBody]User request)
         {
             List<WebUsers> response = new List<WebUsers>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            response = AccountData.GetUsers(webusersid);
+            response = AccountData.GetUsers(request.webusersid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { webusers = response });
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("rwuser")]
-        public HttpResponseMessage GetRwUsers([FromUri]string locationid, [FromUri]string departmentid="", [FromUri]string groupsid="")
+        public HttpResponseMessage GetRwUsers([FromBody]RwUser request)
         {
             List<WebUsers> response = new List<WebUsers>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            response = AccountData.GetRwUsers(locationid, departmentid, groupsid);
+            response = AccountData.GetRwUsers(request.locationid, request.departmentid, request.groupsid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { webusers = response });
         }

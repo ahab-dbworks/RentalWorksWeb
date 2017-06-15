@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace RentalWorksAPI.api.v2.Models
 {
@@ -12,7 +9,7 @@ namespace RentalWorksAPI.api.v2.Models
         public List<Deal> deals { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
-    public class OrdersAndItems
+    public class OrdersAndItemsResponse
     {
         public string dealid      { get; set; }
         public string deal        { get; set; }
@@ -65,10 +62,6 @@ namespace RentalWorksAPI.api.v2.Models
         public string webusersid  { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------------------------------
-    
-
     public class OrderStatusDetail
     {
         public string rectype { get; set; }

@@ -61,12 +61,12 @@ namespace RentalWorksAPI.api.v2.Data
             return deals;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<OrdersAndItems> GetOrdersAndItems(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate, string includeavailabilityqty,
-                                                       string orderid, List<string> agentid, List<string> status, List<string> dealid)
+        public static List<OrdersAndItemsResponse> GetOrdersAndItems(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate, string includeavailabilityqty,
+                                                                     string orderid, List<string> agentid, List<string> status, List<string> dealid)
         {
             FwSqlCommand qry;
-            List<OrdersAndItems> result = new List<OrdersAndItems>();
-            dynamic qryresult           = new ExpandoObject();
+            List<OrdersAndItemsResponse> result = new List<OrdersAndItemsResponse>();
+            dynamic qryresult                   = new ExpandoObject();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select distinct dealid, deal");
@@ -84,7 +84,7 @@ namespace RentalWorksAPI.api.v2.Data
 
             for (int i = 0; i < qryresult.Count; i++)
             {
-                OrdersAndItems ordersanditems = new OrdersAndItems();
+                OrdersAndItemsResponse ordersanditems = new OrdersAndItemsResponse();
 
                 ordersanditems.dealid = qryresult[i].dealid;
                 ordersanditems.deal   = qryresult[i].deal;

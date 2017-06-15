@@ -19,22 +19,6 @@ namespace RentalWorksAPI.api.v2
     public class WarehouseController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("ordersanditems")]
-        public HttpResponseMessage GetOrdersAndItems([FromUri]string locationid, [FromUri]string departmentid="", [FromUri]string lastmodifiedfromdate="",
-                                                     [FromUri]string lastmodifiedtodate="", [FromUri]string includeavailabilityqty="", [FromUri]string orderid="",
-                                                     [FromUri]List<string> agentid=null, [FromUri]List<string> status=null, [FromUri]List<string> dealid=null)
-        {
-            List<OrdersAndItems> result = new List<OrdersAndItems>();
-
-            if (!ModelState.IsValid)
-                ThrowError("400", "");
-
-            result = OrderData.GetOrdersAndItems(locationid, departmentid, lastmodifiedfromdate, lastmodifiedtodate, includeavailabilityqty, orderid, agentid, status, dealid);
-
-            return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
-        }
-        //----------------------------------------------------------------------------------------------------
         [HttpPost]
         [Route("stageitem")]
         public HttpResponseMessage StageItem([FromBody]StageItemRequest request)

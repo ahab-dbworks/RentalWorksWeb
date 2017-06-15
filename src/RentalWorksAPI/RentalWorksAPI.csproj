@@ -246,7 +246,11 @@
     <Compile Include="api\v2\Data\MaintenanceData.cs" />
     <Compile Include="api\v2\Data\OrderData.cs" />
     <Compile Include="api\v2\Data\WarehouseData.cs" />
+    <Compile Include="api\v2\Models\AccountModels\Login\Login.cs" />
+    <Compile Include="api\v2\Models\AccountModels\RwUser\RWUser.cs" />
+    <Compile Include="api\v2\Models\AccountModels\User\User.cs" />
     <Compile Include="api\v2\Models\InventoryModels.cs" />
+    <Compile Include="api\v2\Models\InventoryModels\ICodeStatus\ICodeStatus.cs" />
     <Compile Include="api\v2\Models\InventoryModels\ItemStatusModels\ItemStatusResponse.cs" />
     <Compile Include="api\v2\Models\InventoryModels\WarehouseAddToOrder\WarehouseAddToOrderItem.cs" />
     <Compile Include="api\v2\Models\InventoryModels\WarehouseAddToOrder\WarehouseAddToOrderResponse.cs" />
@@ -254,9 +258,11 @@
     <Compile Include="api\v2\Models\InventoryModels\ItemStatusModels\ItemStatus.cs" />
     <Compile Include="api\v2\Models\InventoryModels\ItemStatusModels\ItemStatusHistory.cs" />
     <Compile Include="api\v2\Models\OrderModels.cs" />
+    <Compile Include="api\v2\Models\OrderModels\CsrsDeals\CsrsDeals.cs" />
     <Compile Include="api\v2\Models\OrderModels\LineItems\LineItem.cs" />
     <Compile Include="api\v2\Models\OrderModels\LineItems\LineItemOrder.cs" />
     <Compile Include="api\v2\Models\OrderModels\LineItems\LineItemsResponse.cs" />
+    <Compile Include="api\v2\Models\OrderModels\OrdersAndItems\OrdersAndItems.cs" />
     <Compile Include="api\v2\Models\OrderModels\OrderStatusDetailModels\OrderStatus.cs" />
     <Compile Include="api\v2\Models\OrderModels\OrderStatusDetailModels\OrderStatusDetailReponseOrder.cs" />
     <Compile Include="api\v2\Models\OrderModels\OrderStatusDetailModels\OrderStatusDetailResponse.cs" />

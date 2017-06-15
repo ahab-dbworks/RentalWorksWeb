@@ -1,5 +1,6 @@
 ﻿using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ICodeStatus;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusModels;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using RentalWorksAPI.Filters;
@@ -15,16 +16,16 @@ namespace RentalWorksAPI.api.v2
     public class InventoryController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("icodestatus")]
-        public HttpResponseMessage GetICodeStatuses([FromUri]string warehouseid, [FromUri]int? transactionhistoryqty = 0, [FromUri]string masterid = "")
+        public HttpResponseMessage GetICodeStatuses([FromBody]ICodeStatus request)
         {
             List<ICode> result = new List<ICode>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            result = InventoryData.GetICodes(masterid, warehouseid, transactionhistoryqty);
+            result = InventoryData.GetICodes(request.masterid, request.warehouseid, request.transactionhistoryqty);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { icodes = result });
         }

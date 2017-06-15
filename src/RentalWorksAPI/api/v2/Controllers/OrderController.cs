@@ -1,7 +1,9 @@
 ﻿using Fw.Json.SqlServer;
 using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
+using RentalWorksAPI.api.v2.Models.OrderModels.CsrsDeals;
 using RentalWorksAPI.api.v2.Models.OrderModels.LineItems;
+using RentalWorksAPI.api.v2.Models.OrderModels.OrdersAndItems;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetailModels;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
@@ -17,9 +19,9 @@ namespace RentalWorksAPI.api.v2
     public class OrderController : ApiController
     {
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("csrsdeals")]
-        public HttpResponseMessage GetCsrsDeals([FromUri]string locationid, [FromUri]List<string> csrid)
+        public HttpResponseMessage GetCsrsDeals([FromBody]CsrsDeals request)
         {
             List<Csrs> result = new List<Csrs>();
             Csrs csrs = new Csrs();
@@ -27,9 +29,9 @@ namespace RentalWorksAPI.api.v2
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            for (int i = 0; i < csrid.Count; i++)
+            for (int i = 0; i < request.csrid.Count; i++)
             {
-                csrs = OrderData.GetCsrs(locationid, csrid[i]);
+                csrs = OrderData.GetCsrs(request.locationid, request.csrid[i]);
 
                 result.Add(csrs);
             }
@@ -37,18 +39,16 @@ namespace RentalWorksAPI.api.v2
             return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = result } );
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("ordersanditems")]
-        public HttpResponseMessage GetOrdersAndItems([FromUri]string locationid, [FromUri]string departmentid="", [FromUri]string lastmodifiedfromdate="",
-                                                     [FromUri]string lastmodifiedtodate="", [FromUri]string includeavailabilityqty="", [FromUri]string orderid="",
-                                                     [FromUri]List<string> agentid=null, [FromUri]List<string> status=null, [FromUri]List<string> dealid=null)
+        public HttpResponseMessage GetOrdersAndItems([FromBody]OrdersAndItems request)
         {
-            List<OrdersAndItems> result = new List<OrdersAndItems>();
+            List<OrdersAndItemsResponse> result = new List<OrdersAndItemsResponse>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            result = OrderData.GetOrdersAndItems(locationid, departmentid, lastmodifiedfromdate, lastmodifiedtodate, includeavailabilityqty, orderid, agentid, status, dealid);
+            result = OrderData.GetOrdersAndItems(request.locationid, request.departmentid, request.lastmodifiedfromdate, request.lastmodifiedtodate, request.includeavailabilityqty, request.orderid, request.agentid, request.status, request.dealid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
         }

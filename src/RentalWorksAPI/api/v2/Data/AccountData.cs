@@ -99,7 +99,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.Add("select *");
             qry.Add("  from apirest_accountlogin");
             qry.Add(" where usertype   = 'USER'");
-            if (webusersids.Count > 0)
+            if (webusersids != null)
             {
                 sb.Append("   and webusersid in (");
                 for (int i = 0; i < webusersids.Count; i++)
@@ -130,9 +130,9 @@ namespace RentalWorksAPI.api.v2.Data
                 webuser.group                   = qryresult[i].groups;
                 webuser.groupsid                = qryresult[i].groupsid;
                 webuser.primarydepartmentid     = qryresult[i].primarydepartmentid;
-                webuser.primarydepartment         = qryresult[i].primarydepartment;
+                webuser.primarydepartment       = qryresult[i].primarydepartment;
                 webuser.rentaldepartmentid      = qryresult[i].rentaldepartmentid;
-                webuser.rentaldepartment         = qryresult[i].rentaldepartment;
+                webuser.rentaldepartment        = qryresult[i].rentaldepartment;
                 webuser.salesdepartmentid       = qryresult[i].salesdepartmentid;
                 webuser.salesdepartment         = qryresult[i].salesdepartment;
                 webuser.rentalagentusersid      = qryresult[i].rentalagentusersid;
