@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SqlServer\FwDatabases.cs" />
+    <Compile Remove="SqlServer\FwSqlColumn.cs" />
+    <Compile Remove="SqlServer\FwSqlColumnSchema.cs" />
+    <Compile Remove="SqlServer\FwSqlCommand.cs" />
+    <Compile Remove="SqlServer\FwSqlData.cs" />
+    <Compile Remove="SqlServer\FwSqlSelect.cs" />
+    <Compile Remove="SqlServer\FwSqlTable.cs" />
+    <Compile Remove="SqlServer\FwSqlTableRow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Models\GetRequest.Dto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
+  </ItemGroup>
+
+</Project>

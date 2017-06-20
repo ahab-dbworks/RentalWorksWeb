@@ -1,0 +1,15 @@
+C:\gitprojects\RentalWorksCore\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.deps.json
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.csprojResolveAssemblyReference.cache
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.csproj.CoreCompileInputs.cache
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.AssemblyInfo.cs
+C:\gitprojects\RentalWorksCore\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.dll
+C:\gitprojects\RentalWorksCore\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.pdb
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.dll
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.pdb
+C:\gitprojects\RentalWorksWeb\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.deps.json
+C:\gitprojects\RentalWorksWeb\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.dll
+C:\gitprojects\RentalWorksWeb\lib\FwCore\bin\Debug\netcoreapp2.0\FwCore.pdb
+C:\gitprojects\RentalWorksWeb\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.csprojResolveAssemblyReference.cache
+C:\gitprojects\RentalWorksWeb\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.AssemblyInfo.cs
+C:\gitprojects\RentalWorksWeb\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.dll
+C:\gitprojects\RentalWorksWeb\lib\FwCore\obj\Debug\netcoreapp2.0\FwCore.pdb

@@ -1,0 +1,5 @@
+C:\gitprojects\RentalWorksCore\lib\FwCore\bin\Debug\netstandard2.0\FwCore.deps.json
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netstandard2.0\FwCore.csprojResolveAssemblyReference.cache
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netstandard2.0\FwCore.csproj.CoreCompileInputs.cache
+C:\gitprojects\RentalWorksCore\lib\FwCore\obj\Debug\netstandard2.0\FwCore.AssemblyInfo.cs
+C:\gitprojects\RentalWorksCore\lib\FwCore\bin\Debug\netstandard2.0\FwCore.dll

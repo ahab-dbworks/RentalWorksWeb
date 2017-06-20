@@ -18,16 +18,22 @@ namespace RentalWorksWeb
         //---------------------------------------------------------------------------------------------
         private void BuildRentalWorksWebTree()
         {
+            string settingsiconbaseurl      = "theme/images/icons/settings/";
             string reportsiconbaseurl       = "theme/images/icons/reports/";
             string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
-            AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
-            var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
-            var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
-            var lv1menuAdministrator = AddLv1ModuleMenu("Administrator",   "{F188CB01-F627-4DD3-9B91-B6486F0977DC}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
-            var lv1menuSubModules    = AddLv1SubModulesMenu("Sub-Modules", "{B8E34B04-EB99-4068-AD9E-BDC32D02967A}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
-            var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
+            var application = AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            var lv1menuSettings      = AddLv1ModuleMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
+            var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
+            var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
+            var lv1menuAdministrator = AddLv1ModuleMenu("Administrator",   "{F188CB01-F627-4DD3-9B91-B6486F0977DC}", application.Id);
+            var lv1menuSubModules    = AddLv1SubModulesMenu("Sub-Modules", "{B8E34B04-EB99-4068-AD9E-BDC32D02967A}", application.Id);
+            var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
+
+            //Reports 
+            var lv2menuCustomerMaintenance = AddLv2ModuleMenu("Customer Maintenance", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "RwCustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png");
 
             //Reports 
             var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");

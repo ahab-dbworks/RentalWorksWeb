@@ -83,8 +83,6 @@
     <Compile Include="RentalWorksAPI\FuncApi.cs" />
     <Compile Include="RentalWorksAPI\WebServiceException.cs" />
     <Compile Include="RentalWorksAPI\XInventoryTests.cs" />
-    <Compile Include="RentalWorksAPI\XWarehouseTests.cs" />
-    <Compile Include="RentalWorksAPI\XOrderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

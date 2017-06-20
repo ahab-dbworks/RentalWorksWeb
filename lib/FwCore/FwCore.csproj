@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mustache_old\**" />
+    <Compile Remove="OldFw\**" />
+    <Compile Remove="Services_old\**" />
+    <Compile Remove="SqlServer_old\**" />
+    <Compile Remove="Utilities_old\**" />
+    <Compile Remove="ValueTypes_old\**" />
+    <EmbeddedResource Remove="Mustache_old\**" />
+    <EmbeddedResource Remove="OldFw\**" />
+    <EmbeddedResource Remove="Services_old\**" />
+    <EmbeddedResource Remove="SqlServer_old\**" />
+    <EmbeddedResource Remove="Utilities_old\**" />
+    <EmbeddedResource Remove="ValueTypes_old\**" />
+    <None Remove="Mustache_old\**" />
+    <None Remove="OldFw\**" />
+    <None Remove="Services_old\**" />
+    <None Remove="SqlServer_old\**" />
+    <None Remove="Utilities_old\**" />
+    <None Remove="ValueTypes_old\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0-preview1-final" />
+  </ItemGroup>
+
+</Project>

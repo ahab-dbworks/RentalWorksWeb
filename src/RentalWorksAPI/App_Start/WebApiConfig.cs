@@ -28,13 +28,19 @@ namespace RentalWorksAPI
             // Web API routes
             //config.MapHttpAttributeRoutes();
             config.MapHttpAttributeRoutes(constraintsResolver); 
-            config.Services.Replace(typeof(IHttpControllerSelector), new NamespaceHttpControllerSelector(config)); 
+            config.Services.Replace(typeof(IHttpControllerSelector), new NamespaceHttpControllerSelector(config));
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",
             //    defaults: new { id = RouteParameter.Optional }
             //);
+
+            config.Routes.MapHttpRoute(
+                name: "RentalWorksWebApi",
+                routeTemplate: "appapi/v1/{controller}",
+                defaults: new { id = RouteParameter.Optional }
+            );
 
             config.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore};
         }
