@@ -1,5 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
+using Fw.Json.Utilities;
+using System;
 using System.Text;
 
 namespace RentalWorksWeb.Source.Reports
@@ -68,47 +70,79 @@ namespace RentalWorksWeb.Source.Reports
 
             select = new FwSqlSelect();
             select.Add("select * ");
-            select.Add("from  dbo.funcdealoutstandingrpt2 (@fromdate,");
-            select.Add("                                   @todate,");
-            select.Add("                                   @datetouse,");
-            select.Add("                                   @departmenttype,");
-            select.Add("                                   @alleverout,");
-            select.Add("                                   @showpending,");
-            select.Add("                                   @shownones,");
-            select.Add("                                   @contractid,");
-            select.Add("                                   @showbarcodes,");
-            select.Add("                                   @showresponsibleperson,");
-            select.Add("                                   @showitemvalue");
-            select.Add("                               ) rpt");
-            select.AddParameter("@fromdate" ,               request.parameters.fromdate);
-            select.AddParameter("@todate" ,                 request.parameters.todate);
-            select.AddParameter("@datetouse" ,              request.parameters.datetouse);
+            select.Add("from  dbo.funcdealoutstandingrpt2(@fromdate,");
+            select.Add("                                  @todate,");
+            select.Add("                                  @datetouse,");
+            select.Add("                                  @departmenttype,");
+            select.Add("                                  @alleverout,");
+            select.Add("                                  @showpending,");
+            select.Add("                                  @shownones,");
+            select.Add("                                  @contractid,");
+            select.Add("                                  @showbarcodes,");
+            select.Add("                                  @showresponsibleperson,");
+            select.Add("                                  @showitemvalue,");
+            select.Add("                                  @officelocationids,");
+            select.Add("                                  @companydepartmentids,");
+            select.Add("                                  @customerids,");
+            select.Add("                                  @dealids,");
+            select.Add("                                  @orderunitids,");
+            select.Add("                                  @orderids,");
+            select.Add("                                  @inventorydepartmentids,");
+            select.Add("                                  @categoryids,");
+            select.Add("                                  @masterids) rpt");
+            select.AddParameter("@fromdate",                request.parameters.fromdate);
+            select.AddParameter("@todate",                  request.parameters.todate);
+            select.AddParameter("@datetouse",               request.parameters.datetouse);
             select.AddParameter("@departmenttype",          request.parameters.ShowDepartmentFrom);
             select.AddParameter("@alleverout",              request.parameters.AllEverOut);
-            select.AddParameter("@showpending" ,            request.parameters.IncludePendingExchanges);
+            select.AddParameter("@showpending",             request.parameters.IncludePendingExchanges);
             select.AddParameter("@shownones",               request.parameters.PrintNone);
             select.AddParameter("@contractid" ,             "");
-            select.AddParameter("@showbarcodes" ,           request.parameters.ShowBarcodes);
-            select.AddParameter("@showresponsibleperson" ,  request.parameters.ShowResponsiblePerson);
-            select.AddParameter("@showitemvalue"         ,  request.parameters.IncludeValueCost);
+            select.AddParameter("@showbarcodes",            request.parameters.ShowBarcodes);
+            select.AddParameter("@showresponsibleperson",   request.parameters.ShowResponsiblePerson);
+            select.AddParameter("@showitemvalue",           request.parameters.IncludeValueCost);
+            select.AddParameter("@officelocationids",       GetCommaListDecrypt(request.parameters.officelocation));
+            select.AddParameter("@companydepartmentids",    GetCommaListDecrypt(request.parameters.companydepartment));
+            select.AddParameter("@customerids",             GetCommaListDecrypt(request.parameters.customer));
+            select.AddParameter("@dealids",                 GetCommaListDecrypt(request.parameters.deal));
+            select.AddParameter("@orderunitids",            GetCommaListDecrypt(request.parameters.order));
+            select.AddParameter("@orderids",                GetCommaListDecrypt(request.parameters.orderunit));
+            select.AddParameter("@inventorydepartmentids",  GetCommaListDecrypt(request.parameters.inventorytype));
+            select.AddParameter("@categoryids",             GetCommaListDecrypt(request.parameters.category));
+            select.AddParameter("@masterids",               GetCommaListDecrypt(request.parameters.icode));
 
             select.Parse();
-            select.AddWhereIn("and", "locationid",      request.parameters.officelocation, true);
-            select.AddWhereIn("and", "orderdepartmentid",    request.parameters.companydepartment, true);
-            select.AddWhereIn("and", "customerid",      request.parameters.customer, true);
-            select.AddWhereIn("and", "dealid",          request.parameters.deal, true);
-            select.AddWhereIn("and", "orderid",         request.parameters.order, true);
-            select.AddWhereIn("and", "inventorydepartmentid", request.parameters.inventorytype, true);
-            select.AddWhereIn("and", "categoryid",      request.parameters.category, true);
-            select.AddWhereIn("and", "masterid",        request.parameters.icode, true);
-
+            //select.AddWhereIn("and", "locationid",      request.parameters.officelocation, true);
+            //select.AddWhereIn("and", "orderdepartmentid",    request.parameters.companydepartment, true);
+            //select.AddWhereIn("and", "customerid",      request.parameters.customer, true);
+            //select.AddWhereIn("and", "dealid",          request.parameters.deal, true);
+            //select.AddWhereIn("and", "orderid",         request.parameters.order, true);
+            //select.AddWhereIn("and", "inventorydepartmentid", request.parameters.inventorytype, true);
+            //select.AddWhereIn("and", "categoryid",      request.parameters.category, true);
+            //select.AddWhereIn("and", "masterid",        request.parameters.icode, true);
 
             select.Add("order by location, displaydepartment, deal, dealno, orderby, orderno, itemorder, description");
             dtDetails = qry.QueryToFwJsonTable(select, true);
-
      
-
             return dtDetails;
+        }
+        //---------------------------------------------------------------------------------------------
+        public string GetCommaListDecrypt(string encryptedlist)
+        {
+            string[] values;
+            string result = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(encryptedlist))
+            {
+                values = encryptedlist.Split(new char[]{','}, StringSplitOptions.None);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = FwCryptography.AjaxDecrypt(values[i]);
+                }
+                result = string.Join(",", values);
+            }
+
+            return result;
         }
         //---------------------------------------------------------------------------------------------
         public override void GetData()
