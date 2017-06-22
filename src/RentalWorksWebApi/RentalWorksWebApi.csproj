@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="api\v1\Models\**" />
+    <Content Remove="api\v1\Models\**" />
+    <EmbeddedResource Remove="api\v1\Models\**" />
+    <None Remove="api\v1\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="api\v1\Controllers\ValuesController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>

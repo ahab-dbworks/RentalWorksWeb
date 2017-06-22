@@ -1,14 +1,17 @@
+using FwStandard.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FwStandard.SqlServer
 {
-    public enum FwQueryTimeouts {Default, Report}
+    //public enum FwQueryTimeouts {Default, Report}
     public class FwSqlCommand : IDisposable
     {
         //------------------------------------------------------------------------------------
@@ -22,16 +25,16 @@ namespace FwStandard.SqlServer
         private StringBuilder sql;
         private FwSqlLogEntry sqlLogEntry;
         //------------------------------------------------------------------------------------                
-        public string Sql {get{return sql.ToString();}}
+        public string Sql { get { return sql.ToString(); } }
         //------------------------------------------------------------------------------------                
         public int RowCount { get; private set; }
         public List<string> FieldNames { get { return new List<string>(fields.Keys); } }
-        public SqlParameterCollection Parameters {get { return this.sqlCommand.Parameters; }}
-        public SqlTransaction Transaction { get{return this.sqlCommand.Transaction;} set{this.sqlCommand.Transaction = value;} }
-        public string QryTextDebug 
-        { 
-            get 
-            { 
+        public SqlParameterCollection Parameters { get { return this.sqlCommand.Parameters; } }
+        public SqlTransaction Transaction { get { return this.sqlCommand.Transaction; } set { this.sqlCommand.Transaction = value; } }
+        public string QryTextDebug
+        {
+            get
+            {
                 StringBuilder sb;
                 string result;
 
@@ -51,7 +54,7 @@ namespace FwStandard.SqlServer
                         }
                         sb.Append(Parameters[i].ParameterName);
                         sb.Append(" ");
-                        switch(Parameters[i].SqlDbType)
+                        switch (Parameters[i].SqlDbType)
                         {
                             // text
                             case SqlDbType.Char:
@@ -107,7 +110,7 @@ namespace FwStandard.SqlServer
                                 sb.AppendLine(Parameters[i].SqlDbType.ToString());
                                 break;
                         }
-                        
+
                     }
                 }
                 if (this.Parameters.Count > 0)
@@ -122,7 +125,7 @@ namespace FwStandard.SqlServer
                         sb.Append("set ");
                         sb.Append(Parameters[i].ParameterName);
                         sb.Append(" = ");
-                        switch(Parameters[i].SqlDbType)
+                        switch (Parameters[i].SqlDbType)
                         {
                             // text
                             case SqlDbType.Char:
@@ -244,9 +247,9 @@ namespace FwStandard.SqlServer
                     }
                 }
                 result = sb.ToString();
-                
+
                 return result;
-            } 
+            }
         }
         //------------------------------------------------------------------------------------
         public FwSqlCommand(FwSqlConnection conn, int timeout)
@@ -324,7 +327,7 @@ namespace FwStandard.SqlServer
             parameter = sqlCommand.Parameters.Add(name, sqlDbType, -1);
             parameter.Direction = direction;
             parameter.Precision = precision;
-            parameter.Scale     = scale;
+            parameter.Scale = scale;
         }
         //------------------------------------------------------------------------------------
         public FwDatabaseField GetParameter(string name)
@@ -376,14 +379,14 @@ namespace FwStandard.SqlServer
             if (this.sqlCommand.Parameters.Count > 0)
             {
                 sql.Append("declare\r\n  ");
-                for(int i = 0; i < this.sqlCommand.Parameters.Count; i++)
+                for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
                 {
                     if (sqlCommand.Parameters[i].ParameterName.Length > maxParameterWidth)
                     {
                         maxParameterWidth = sqlCommand.Parameters[i].ParameterName.Length;
                     }
                 }
-                for(int i = 0; i < this.sqlCommand.Parameters.Count; i++)
+                for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
                 {
                     if (!hasFirstDeclareParameter)
                     {
@@ -398,16 +401,16 @@ namespace FwStandard.SqlServer
                     }
                     sql.Append(this.sqlCommand.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
                     sql.Append(" ");
-                    switch(this.sqlCommand.Parameters[i].SqlDbType)
+                    switch (this.sqlCommand.Parameters[i].SqlDbType)
                     {
-                        case SqlDbType.BigInt: 
+                        case SqlDbType.BigInt:
                             sql.Append("bigint");
                             if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
                             {
                                 sql.Append(" = " + this.sqlCommand.Parameters[i].Value.ToString());
                             }
                             break;
-                        case SqlDbType.Binary: 
+                        case SqlDbType.Binary:
                             sql.Append("binary(8000)");
                             if ((this.sqlCommand.Parameters[i].Value != null) && (!string.IsNullOrEmpty(this.sqlCommand.Parameters[i].Value.ToString())))
                             {
@@ -612,7 +615,7 @@ namespace FwStandard.SqlServer
                             }
                             break;
 
-                    
+
                     }
                 }
             }
@@ -623,7 +626,7 @@ namespace FwStandard.SqlServer
             else if (sqlCommand.CommandType == CommandType.StoredProcedure)
             {
                 sql.Append("\r\n\r\nexec " + qryText + "\r\n  ");
-                for(int i = 0; i < sqlCommand.Parameters.Count; i++)
+                for (int i = 0; i < sqlCommand.Parameters.Count; i++)
                 {
                     if (!hasFirstExecParameter)
                     {
@@ -645,7 +648,7 @@ namespace FwStandard.SqlServer
                 if (sqlCommand.Parameters.Count > 0)
                 {
                     sql.Append("\r\n\r\nselect\r\n  ");
-                    for(int i = 0; i < sqlCommand.Parameters.Count; i++)
+                    for (int i = 0; i < sqlCommand.Parameters.Count; i++)
                     {
                         if ((sqlCommand.Parameters[i].Direction == ParameterDirection.InputOutput) || (sqlCommand.Parameters[i].Direction == ParameterDirection.Output))
                         {
@@ -688,7 +691,7 @@ namespace FwStandard.SqlServer
                 this.RowCount = this.sqlCommand.ExecuteNonQuery();
                 this.sqlLogEntry.Stop();
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 if (ex.Message.StartsWith("Cannot insert duplicate key row in object"))
                 {
@@ -707,21 +710,21 @@ namespace FwStandard.SqlServer
                 }
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteNonQuery()");
             }
-            
+
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
         public int ExecuteInsertQuery(string tablename)
         {
             StringBuilder insertColumnsNames, insertParameterNames;
-            
+
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 this.sqlConnection.Open();
-                insertColumnsNames   = new StringBuilder();
+                insertColumnsNames = new StringBuilder();
                 insertParameterNames = new StringBuilder();
-                for(int i = 0; i < this.sqlCommand.Parameters.Count; i++)
+                for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
                 {
                     if (i > 0)
                     {
@@ -745,14 +748,14 @@ namespace FwStandard.SqlServer
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
-            
+
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
         public int ExecuteUpdateQuery(string tablename, string primarykeyname, string primarykeyvalue)
         {
             StringBuilder updateColumnsNames, updateParameterNames;
-            
+
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteUpdateQuery()");
@@ -761,7 +764,7 @@ namespace FwStandard.SqlServer
                     qryText = new StringBuilder();
                 }
                 this.sqlConnection.Open();
-                updateColumnsNames   = new StringBuilder();
+                updateColumnsNames = new StringBuilder();
                 updateParameterNames = new StringBuilder();
                 qryText.Append("update ");
                 qryText.AppendLine(tablename);
@@ -791,7 +794,7 @@ namespace FwStandard.SqlServer
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteUpdateQuery()");
             }
-            
+
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
@@ -896,7 +899,7 @@ namespace FwStandard.SqlServer
             field.FieldValue = this.fields.GetField(fieldName);
             if (field.FieldValue == null || field.FieldValue == DBNull.Value)
             {
-                switch(type)
+                switch (type)
                 {
                     case SqlDbType.DateTime:
                         field.FieldValue = DateTime.MinValue;
@@ -942,38 +945,38 @@ namespace FwStandard.SqlServer
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable QueryToFwJsonTable()
-        {
-            return QueryToFwJsonTable(0, 0);
-        }
+        //public FwJsonDataTable QueryToFwJsonTable()
+        //{
+        //    return QueryToFwJsonTable(0, 0);
+        //}
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable QueryToFwJsonTable(int pageNo, int pageSize)
-        {
-            FwSqlSelect select;
+        //public FwJsonDataTable QueryToFwJsonTable(int pageNo, int pageSize)
+        //{
+        //    FwSqlSelect select;
 
-            select = new FwSqlSelect();
-            select.PageNo = pageNo;
-            select.PageSize = pageSize;
-            select.Add(this.qryText.ToString());
-            select.Parse();
-            
-            return QueryToFwJsonTable(select, false);
-        }
+        //    select = new FwSqlSelect();
+        //    select.PageNo = pageNo;
+        //    select.PageSize = pageSize;
+        //    select.Add(this.qryText.ToString());
+        //    select.Parse();
+
+        //    return QueryToFwJsonTable(select, false);
+        //}
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable QueryToFwJsonTable(FwSqlSelect select, bool includeAllColumns)
-        {
-            FwJsonDataTable dt;
+        //public FwJsonDataTable QueryToFwJsonTable(FwSqlSelect select, bool includeAllColumns)
+        //{
+        //    FwJsonDataTable dt;
 
-            dt = new FwJsonDataTable();
-            dt.PageNo           = select.PageNo;
-            dt.PageSize         = select.PageSize;
-            select.EnablePaging = ((select.PageNo != 0) && (select.PageSize != 0));
-            select.SetQuery(this);
+        //    dt = new FwJsonDataTable();
+        //    dt.PageNo = select.PageNo;
+        //    dt.PageSize = select.PageSize;
+        //    select.EnablePaging = ((select.PageNo != 0) && (select.PageSize != 0));
+        //    select.SetQuery(this);
 
-            QueryToFwJsonTable(dt, this.qryText.ToString(), includeAllColumns);
+        //    QueryToFwJsonTable(dt, this.qryText.ToString(), includeAllColumns);
 
-            return dt;
-        }
+        //    return dt;
+        //}
         //------------------------------------------------------------------------------------
         public FwJsonDataTable QueryToFwJsonTable(bool includeAllColumns)
         {
@@ -1061,7 +1064,8 @@ namespace FwStandard.SqlServer
                                 data = string.Empty;
                                 if (dt.Columns[i].IsUniqueId)
                                 {
-                                    data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
+                                    //data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
+                                    data = reader.GetValue(ordinal).ToString().Trim();
                                 }
                                 else
                                 {
@@ -1259,7 +1263,7 @@ namespace FwStandard.SqlServer
                 this.sqlCommand.Connection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable()");
             }
-            
+
             return dt;
         }
         //------------------------------------------------------------------------------------
@@ -1461,7 +1465,7 @@ namespace FwStandard.SqlServer
         //        this.sqlCommand.Connection.Close();
         //        FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable(select)");
         //    }
-            
+
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
@@ -1483,10 +1487,10 @@ namespace FwStandard.SqlServer
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 if (this.sqlCommand.CommandType == CommandType.StoredProcedure)
-                {                
+                {
                     this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                     this.sqlLogEntry.Start();
-                    this.RowCount = this.sqlCommand.ExecuteNonQuery();                
+                    this.RowCount = this.sqlCommand.ExecuteNonQuery();
                     this.sqlLogEntry.Stop();
                 }
                 else
@@ -1532,7 +1536,7 @@ namespace FwStandard.SqlServer
             dynamic rowObj;
             IDictionary<string, object> row;
             string fieldName;
-            
+
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
@@ -1574,7 +1578,7 @@ namespace FwStandard.SqlServer
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
             }
-            
+
             return rows;
         }
         //------------------------------------------------------------------------------------
@@ -1599,7 +1603,7 @@ namespace FwStandard.SqlServer
             dynamic rowObj;
             IDictionary<string, object> row;
             string fieldName;
-            
+
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
@@ -1652,7 +1656,8 @@ namespace FwStandard.SqlServer
                                 FwJsonDataTableColumn column = indexedColumns[fieldName];
                                 if (indexedColumns[fieldName].IsUniqueId)
                                 {
-                                    data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
+                                    //data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
+                                    data = reader.GetValue(ordinal).ToString();
                                 }
                                 else
                                 {
@@ -1838,7 +1843,7 @@ namespace FwStandard.SqlServer
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
             }
-            
+
             return rows;
         }
         //------------------------------------------------------------------------------------
@@ -1929,7 +1934,7 @@ namespace FwStandard.SqlServer
             qry.AddParameter("@wherecolumnvalue", wherecolumnvalue);
             qry.Execute();
             result = (qry.RowCount == 1) ? qry.GetField(selectcolumn) : null;
-            
+
             return result;
         }
 
@@ -1937,11 +1942,11 @@ namespace FwStandard.SqlServer
         public static string GetStringData(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwDatabaseField field;
-            string result=string.Empty;
+            string result = string.Empty;
 
-            field  = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            field = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
             result = (field != null) ? field.ToString().TrimEnd() : string.Empty;
-            
+
             return result;
         }
         //------------------------------------------------------------------------------------
@@ -1950,9 +1955,9 @@ namespace FwStandard.SqlServer
             FwDatabaseField field;
             bool result;
 
-            field  = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            field = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
             result = (field != null) ? field.ToBoolean() : false;
-            
+
             return result;
         }
         //------------------------------------------------------------------------------------
@@ -1973,7 +1978,7 @@ namespace FwStandard.SqlServer
             {
                 throw new Exception(string.Format("Expected rowcount to be 1, but found {0} rows. Table/View: {1}, column: {2}, value: {3}", qry.RowCount, tablename, wherecolumn, wherecolumnvalue));
             }
-            
+
             return result;
         }
         //------------------------------------------------------------------------------------
@@ -2007,6 +2012,222 @@ namespace FwStandard.SqlServer
                 this.AddParameter(parameter, values[i]);
             }
             return parameters.ToString();
+        }
+        //------------------------------------------------------------------------------------
+        public List<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)
+        {
+            List<T> results = null;
+            //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
+            //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
+            this.Add("for json path");
+            this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
+            this.AddParameter("@fetchsize", pageSize);
+            if (openAndCloseConnection)
+            {
+                this.sqlCommand.Connection.Open();
+            }
+            this.sqlCommand.CommandText = this.qryText.ToString();
+            //if (!this.sqlCommand.CommandText.Contains("order by"))
+            //{
+            //    throw new Exception("order by expression is required with paged queries.");
+            //}
+            using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
+            {
+                StringBuilder jsonResult = new StringBuilder();
+                if (!reader.HasRows)
+                {
+                    jsonResult.Append("[]");
+                }
+                else
+                {
+                    while (reader.Read())
+                    {
+                        jsonResult.Append(reader.GetValue(0).ToString());
+                    }
+
+                }
+                results = JsonConvert.DeserializeObject<List<T>>(jsonResult.ToString());
+                if (openAndCloseConnection)
+                {
+                    this.sqlCommand.Connection.Close();
+                }
+                return results;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public int Insert(bool openAndCloseConnection, string tablename, object businessObject)
+        {
+            try
+            {
+                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Open();
+                }
+                var insertColumnsNames = new StringBuilder();
+                var insertParameterNames = new StringBuilder();
+                var i = 0;
+                var propertyInfos = businessObject.GetType().GetProperties();
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var hasIgnoreDataMemberAttribute = propertyInfo.IsDefined(typeof(IgnoreDataMemberAttribute));
+                    if (!hasIgnoreDataMemberAttribute)
+                    {
+                        object propertyValue = propertyInfo.GetValue(businessObject);
+                        if (propertyInfo.Name == "datestamp" || propertyValue != null)
+                        {
+                            if (i > 0)
+                            {
+                                insertColumnsNames.Append(",");
+                                insertParameterNames.Append(",");
+                            }
+                            insertColumnsNames.Append("[");
+                            insertColumnsNames.Append(propertyInfo.Name);
+                            insertColumnsNames.Append("]");
+                            insertParameterNames.Append("@" + propertyInfo.Name);
+                            if (propertyInfo.Name == "datestamp")
+                            {
+                                propertyValue = DateTime.UtcNow;
+                                businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
+                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                            }
+                            else
+                            {
+                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                            }
+                            i++;
+                        }
+                    }
+                }
+                this.sqlCommand.CommandText = "insert into " + tablename + "(" + insertColumnsNames + ")\nvalues (" + insertParameterNames + ")";
+                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry.Start();
+                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.sqlLogEntry.Stop();
+            }
+            finally
+            {
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Close();
+                }
+                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
+            }
+
+            return this.RowCount;
+        }
+        //------------------------------------------------------------------------------------
+        public int Update(bool openAndCloseConnection, string tablename, object businessObject)
+        {
+            try
+            {
+                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Open();
+                }
+                var setStatements = new StringBuilder();
+                var whereClause = new StringBuilder();
+                var i = 0;
+                var propertyInfos = businessObject.GetType().GetProperties();
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var hasIgnoreDataMemberAttribute = propertyInfo.IsDefined(typeof(IgnoreDataMemberAttribute));
+                    if (!hasIgnoreDataMemberAttribute)
+                    {
+                        var hasPrimaryKeyAttribute = propertyInfo.IsDefined(typeof(FwPrimaryKeyAttribute));
+                        object propertyValue = propertyInfo.GetValue(businessObject);
+                        if (hasPrimaryKeyAttribute)
+                        {
+                            if (whereClause.Length > 0)
+                            {
+                                whereClause.Append("and ");
+                            }
+                            whereClause.Append(propertyInfo.Name);
+                            whereClause.Append(" = @");
+                            whereClause.AppendLine(propertyInfo.Name);
+                            this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                        }
+                        else if (propertyInfo.Name == "datestamp" || propertyValue != null)
+                        {
+                            if (i > 0)
+                            {
+                                setStatements.Append("  ,");
+                            }
+                            setStatements.Append("[");
+                            setStatements.Append(propertyInfo.Name);
+                            setStatements.Append("] = @");
+                            setStatements.AppendLine(propertyInfo.Name);
+                            if (propertyInfo.Name == "datestamp")
+                            {
+                                propertyValue = DateTime.UtcNow;
+                                businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
+                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                            }
+                            else
+                            {
+                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                            }
+                            i++;
+                        }
+                    }
+                }
+                StringBuilder sql = new StringBuilder();
+                sql.Append("update ");
+                sql.AppendLine(tablename);
+                sql.Append("set");
+                sql.Append(setStatements);
+                sql.AppendLine("where");
+                sql.Append(whereClause);
+                this.sqlCommand.CommandText = sql.ToString();
+                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry.Start();
+                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.sqlLogEntry.Stop();
+            }
+            finally
+            {
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Close();
+                }
+                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
+            }
+
+            return this.RowCount;
+        }
+        //------------------------------------------------------------------------------------
+        public int Delete(bool openAndCloseConnection, string tablename, string whereClause, DeleteRequestDto request)
+        {
+            StringBuilder sql = new StringBuilder();
+            try
+            {
+                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
+                sql.AppendLine("delete from " + tablename);
+                sql.AppendLine(whereClause);
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Open();
+                }
+                this.sqlCommand.CommandText = sql.ToString();
+                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry.Start();
+                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.sqlLogEntry.Stop();
+            }
+            finally
+            {
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Close();
+                }
+                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
+            }
+
+            return this.RowCount;
         }
         //------------------------------------------------------------------------------------
     }

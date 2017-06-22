@@ -1,7 +1,0 @@
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\bin\Debug\netstandard1.6\FwStandard.deps.json
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\bin\Debug\netstandard1.6\FwStandard.dll
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\bin\Debug\netstandard1.6\FwStandard.pdb
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\obj\Debug\netstandard1.6\FwStandard.csprojResolveAssemblyReference.cache
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\obj\Debug\netstandard1.6\FwStandard.AssemblyInfo.cs
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\obj\Debug\netstandard1.6\FwStandard.dll
-C:\gitprojects\RentalWorksWeb\lib\FwStandard\obj\Debug\netstandard1.6\FwStandard.pdb

@@ -60,3 +60,12 @@
 
 
 /TestResult.xml
+
+/lib/FwStandard/bin/
+/lib/FwStandard/obj/
+
+/src/RentalWorksLogic/bin/
+/src/RentalWorksLogic/obj/
+
+src/RentalWorksWebApi/bin/
+/src/RentalWorksWebApi/obj/

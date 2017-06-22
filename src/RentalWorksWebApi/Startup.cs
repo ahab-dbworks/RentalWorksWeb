@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AutoMapper;
-using RentalWorksLogic.Settings;
-using RentalWorksApi2.Models;
 
 namespace RentalWorksWebApi
 {
@@ -24,7 +17,7 @@ namespace RentalWorksWebApi
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            Mapper.Initialize(cfg => cfg.CreateMap<CustomerStatusLogic, CustomerStatusDto>());
+            //Mapper.Initialize(cfg => cfg.CreateMap<CustomerStatusLogic, CustomerStatusDto>());
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -32,6 +25,8 @@ namespace RentalWorksWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            ApplicationConfig appConfig = Configuration.GetSection("ApplicationConfig").Get<ApplicationConfig>();
+
             // Adds services required for using options.
             services.AddOptions();
 

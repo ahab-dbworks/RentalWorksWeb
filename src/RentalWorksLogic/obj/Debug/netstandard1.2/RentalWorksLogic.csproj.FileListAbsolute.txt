@@ -1,2 +1,0 @@
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.2\RentalWorksLogic.deps.json
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\obj\Debug\netstandard1.2\RentalWorksLogic.AssemblyInfo.cs

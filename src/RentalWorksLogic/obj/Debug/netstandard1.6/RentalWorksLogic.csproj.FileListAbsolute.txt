@@ -1,9 +1,0 @@
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.6\RentalWorksLogic.deps.json
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.6\RentalWorksLogic.dll
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.6\FwStandard.dll
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.6\FwStandard.pdb
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\obj\Debug\netstandard1.6\RentalWorksLogic.csprojResolveAssemblyReference.cache
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\obj\Debug\netstandard1.6\RentalWorksLogic.AssemblyInfo.cs
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\bin\Debug\netstandard1.6\RentalWorksLogic.pdb
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\obj\Debug\netstandard1.6\RentalWorksLogic.dll
-C:\gitprojects\RentalWorksWeb\src\RentalWorksLogic\obj\Debug\netstandard1.6\RentalWorksLogic.pdb

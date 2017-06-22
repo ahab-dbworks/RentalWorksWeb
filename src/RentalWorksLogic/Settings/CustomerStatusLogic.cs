@@ -7,97 +7,114 @@ using System.Collections.Generic;
 namespace RentalWorksLogic.Settings
 {
     public class CustomerStatusLogic
-
     {
-        public string CustomerStatusId { get; set; }
-        public string CustomerStatus { get; set; }
-        public string StatusType { get; set; }
-        public string CreditStatusId { get; set; }
-        public string DateStamp { get; set; }
+        [FwPrimaryKey]
+        public string custstatusid { get; set; } = string.Empty;
+        public string custstatus { get; set; } = string.Empty;
+        public string statustype { get; set; } = string.Empty;
+        public string creditstatusid { get; set; } = string.Empty;
+        public DateTime? datestamp { get; set; } = null;
+        public string inactive { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------
-        private readonly DatabaseConfig _dbConfig;
+        private DatabaseConfig _dbConfig { get; set; }
         public CustomerStatusLogic(DatabaseConfig dbConfig)
         {
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        public List<CustomerStatusLogic> Browse(BrowseRequestDto request)
+        public FwJsonDataTable Browse(BrowseRequestDto request)
+        {
+            FwJsonDataTable dt = null;
+            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                qry.AddColumn("custstatusid", "custstatusid", FwJsonDataTableColumn.DataTypes.Text, false, true, false);
+                qry.AddColumn("custstatus", "custstatus", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("statustype", "statustype", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("creditstatusid", "creditstatusid", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("inactive", "inactive", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("datestamp", "datestamp", FwJsonDataTableColumn.DataTypes.UTCDateTime, true, false, false);
+                qry.Add("select *");
+                qry.Add("from custstatus with (nolock)");
+                dt = qry.QueryToFwJsonTable(false);
+            }
+            return dt;
+        }
+        //------------------------------------------------------------------------------------
+        public List<CustomerStatusLogic> Select(BrowseRequestDto request)
         {
             List<CustomerStatusLogic> results;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand2 qry = new FwSqlCommand2(conn, _dbConfig.QueryTimeout);
-                qry.Add("select CustomerStatusId = custstatusid,");
-                qry.Add("       CustomerStatus   = rtrim(custstatus),");
-                qry.Add("       StatusType       = statustype,");
-                qry.Add("       CreditStatusId   = rtrim(creditstatusid),");
-                qry.Add("       DateStamp        = convert(varchar(33), datestamp, 126)");
+                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                qry.AddColumn("custstatusid", "custstatusid", FwJsonDataTableColumn.DataTypes.Text, false, true, false);
+                qry.AddColumn("custstatus", "custstatus", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("statustype", "statustype", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("creditstatusid", "creditstatusid", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("inactive", "inactive", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("datestamp", "datestamp", FwJsonDataTableColumn.DataTypes.UTCDateTime, true, false, false);
+                qry.Add("select *");
                 qry.Add("from custstatus with (nolock)");
-                switch (request.orderby)
-                {
-                    case "CustomerStatus, StatusType":
-                        qry.Add("order by custstatus, statustype " + request.orderbydirection.ToString());
-                        break;
-                    case "CustomerStatus":
-                    case "StatusType":
-                        qry.Add("order by " + request.orderby + " " + request.orderbydirection.ToString());
-                        break;
-                    default:
-                        throw new Exception("Unsupported order by " + request.orderby);
-                }
                 results = qry.Select<CustomerStatusLogic>(true, request.pageno, request.pagesize);
             }
             return results;
         }
         //------------------------------------------------------------------------------------
-        public CustomerStatusLogic Get(string custstatusid)
+        public List<CustomerStatusLogic> Get(string custstatusid)
         {
             List<CustomerStatusLogic> records = null;
-            CustomerStatusLogic result = null;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand2 qry = new FwSqlCommand2(conn, _dbConfig.QueryTimeout);
-                qry.Add("select CustomerStatusId = custstatusid,");
-                qry.Add("       CustomerStatus   = rtrim(custstatus),");
-                qry.Add("       StatusType       = statustype,");
-                qry.Add("       CreditStatusId   = creditstatusid");
+                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                qry.AddColumn("custstatusid", "custstatusid", FwJsonDataTableColumn.DataTypes.Text, false, true, false);
+                qry.AddColumn("custstatus", "custstatus", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("statustype", "statustype", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("creditstatusid", "creditstatusid", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("inactive", "inactive", FwJsonDataTableColumn.DataTypes.Text, true, false, false);
+                qry.AddColumn("datestamp", "datestamp", FwJsonDataTableColumn.DataTypes.UTCDateTime, true, false, false);
+                qry.Add("select top 1 *");
                 qry.Add("from custstatus with (nolock)");
                 qry.Add("where custstatusid = @custstatusid");
                 qry.Add("order by custstatus");
                 qry.AddParameter("@custstatusid", custstatusid);
                 records = qry.Select<CustomerStatusLogic>(true, 1, 1);
-                if (records.Count > 0)
+            }
+            return records;
+        }
+        //------------------------------------------------------------------------------------
+        public void Save(DatabaseConfig dbConfig)
+        {
+            _dbConfig = dbConfig;
+            if (string.IsNullOrEmpty(custstatusid))
+            {
+                //insert
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                 {
-                    result = records[0];
+                    this.custstatusid = FwSqlData.GetNextId(conn, _dbConfig);
+                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                    cmd.Insert(true, "custstatus", this);
                 }
             }
-            return result;
-        }
-        //------------------------------------------------------------------------------------
-        public void Insert(InsertRequestDto request)
-        {
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            else
             {
-                FwSqlCommand2 cmd = new FwSqlCommand2(conn, _dbConfig.QueryTimeout);
-                cmd.Insert(true, "custstatus", request);
+                // update
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                    cmd.Update(true, "custstatus", this);
+                }
             }
         }
         //------------------------------------------------------------------------------------
-        public void Update(UpdateRequestDto request)
+        public void Delete()
         {
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand2 cmd = new FwSqlCommand2(conn, _dbConfig.QueryTimeout);
-                cmd.Update(true, "custstatus", request);
-            }
-        }
-        //------------------------------------------------------------------------------------
-        public void Delete(DeleteRequestDto request)
-        {
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
-            {
-                FwSqlCommand2 cmd = new FwSqlCommand2(conn, _dbConfig.QueryTimeout);
-                cmd.Delete(true, "custstatus", "where custstatusid = @custstatusid", request);
+                FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                cmd.Add("delete from custstatus");
+                cmd.Add("where custstatusid = @custstatusid");
+                cmd.AddParameter("@custstatusid", custstatusid);
+                cmd.ExecuteNonQuery();
             }
         }
         //------------------------------------------------------------------------------------
