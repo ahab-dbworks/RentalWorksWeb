@@ -171,13 +171,13 @@ Program.prototype.navigateHashChange = function(path) {
     
     for (var i = 0; i < program.routes.length; i++) {
         match = program.routes[i].urlpattern.exec(path);
-        if (match !== null) {
+        if (match != null) {
             screen = program.routes[i].getScreen(match);
             break;
         }
     }
 
-    if (screen !== null) {
+    if (screen != null) {
         me.updateScreen(screen);
     }
 };
@@ -209,12 +209,12 @@ Program.prototype.getModule = function(path) {
         if (window.location.hash.replace('#/','') !== path) {
             for (var i = 0; i < program.modules.length; i++) {
                 match = program.modules[i].urlpattern.exec(path);
-                if (match !== null) {
+                if (match != null) {
                     screen = program.modules[i].getScreen(match);
                     break;
                 }
             }
-            if (screen !== null) {
+            if (screen != null) {
                 window.location.hash = '/' + path;
                 if (this.screens.length > 0) {
                     if (typeof this.screens[this.screens.length - 1].unload !== 'undefined') {
