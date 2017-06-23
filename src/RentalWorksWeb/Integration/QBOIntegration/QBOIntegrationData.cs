@@ -809,6 +809,22 @@ namespace RentalWorksWeb.Integration
                 _invoice       = PostToJsonObject("invoice", newInvoiceJson).Invoice;
                 Invoices.Add(_invoice);
 
+                //jh 06/22/2017 CAS-20810-L6T5
+                if (invoice.taxcountry == "C") // if Canada
+                {
+                    decimal taxAmount = _invoice.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
+                    if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                    {
+                        dynamic newInvoice2 = new ExpandoObject();
+                        dynamic _invoice2 = new ExpandoObject();
+                        newInvoice2 = _invoice;
+                        newInvoice2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
+                        newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                        newInvoiceJson = JsonConvert.SerializeObject(newInvoice2);
+                        _invoice2 = PostToJsonObject("invoice", newInvoiceJson).Invoice;
+                    }
+                }
+
                 result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
             }
 
@@ -1350,7 +1366,8 @@ namespace RentalWorksWeb.Integration
             dynamic result;
 
             qry = new FwSqlCommand(conn);
-            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal");
+            //qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal");
+            qry.Add("select invoiceid, invoiceno, invoicedate, customer, billtoadd1, billtoadd2, billtocity, billtostate, billtozip, billtocountry, invoiceclass, pono, payterms, invoiceduedate, printnotes, taxitemcode, taxvendor, taxcountry, chgbatchno, invoicetotal, invoicetax");  //jh 06/22/2017 CAS-20810-L6T5
             qry.Add("from invoiceview with (nolock)");
             qry.Add("where invoiceid = @invoiceid");
             qry.AddParameter("@invoiceid", invoiceid);
