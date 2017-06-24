@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.DirectoryServices.AccountManagement;
 
 namespace RentalWorksAPI.api.v2
 {
@@ -29,23 +30,35 @@ namespace RentalWorksAPI.api.v2
             if (request.username == "" && request.email == "")
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Username or Email is required."));
 
-            if (request.username != "")
+            if (request.domain != "")
             {
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, request.domain))
+                {
+                    bool isValid = pc.ValidateCredentials(request.username, request.password);
 
-            }
-            else if (request.email != "")
-            {
-                req = AccountData.WebGetUsers(request.email, request.password);
-            }
-
-            if (req.errno != "0")
-            {
-                string message = req.errmsg;
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, message));
+                    if (isValid)
+                    {
+                        response = AccountData.WebUsersView("", request.email);
+                    }
+                    else
+                    {
+                        string message = "Invalid username and/or password.";
+                        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, message));
+                    }
+                }
             }
             else
             {
-                response = AccountData.WebUsersView(req.webusersid);
+                req = AccountData.WebGetUsers(request.email, request.password);
+                if (req.errno != "0")
+                {
+                    string message = req.errmsg;
+                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, message));
+                }
+                else
+                {
+                    response = AccountData.WebUsersView(req.webusersid, "");
+                }
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, new { user = response });

@@ -48,7 +48,7 @@ namespace RentalWorksAPI.api.v2
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            result = OrderData.GetOrdersAndItems(request.locationid, request.departmentid, request.lastmodifiedfromdate, request.lastmodifiedtodate, request.includeavailabilityqty, request.orderid, request.agentid, request.status, request.dealid);
+            result = OrderData.GetOrdersAndItems(request.locationid, request.departmentid, request.lastmodifiedfromdate, request.lastmodifiedtodate, request.orderid, request.agentid, request.status, request.dealid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { OrdersAndItems = result } );
         }

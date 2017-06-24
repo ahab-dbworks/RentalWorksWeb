@@ -36,7 +36,9 @@ namespace RentalWorksAPI.api.v2.Models
         public string warehouseid           { get; set; }
         public string qtystaged             { get; set; }
         public string qtyout                { get; set; }
+        public string qtyin                 { get; set; }
         public string qtyremaining          { get; set; }
+        public string qtyconflict           { get; set; }
         public string availabletofulfillqty { get; set; }
     }
     //----------------------------------------------------------------------------------------------------

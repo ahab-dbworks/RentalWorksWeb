@@ -1,4 +1,5 @@
 ﻿using Fw.Json.SqlServer;
+using Fw.Json.Utilities;
 using Newtonsoft.Json;
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.OrderModels.LineItems;
@@ -61,7 +62,7 @@ namespace RentalWorksAPI.api.v2.Data
             return deals;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<OrdersAndItemsResponse> GetOrdersAndItems(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate, string includeavailabilityqty,
+        public static List<OrdersAndItemsResponse> GetOrdersAndItems(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate,
                                                                      string orderid, List<string> agentid, List<string> status, List<string> dealid)
         {
             FwSqlCommand qry;
@@ -88,7 +89,7 @@ namespace RentalWorksAPI.api.v2.Data
 
                 ordersanditems.dealid = qryresult[i].dealid;
                 ordersanditems.deal   = qryresult[i].deal;
-                ordersanditems.orders = GetOAIOrders(locationid, departmentid, lastmodifiedfromdate, lastmodifiedtodate, includeavailabilityqty, orderid, agentid, status, qryresult[i].dealid);
+                ordersanditems.orders = GetOAIOrders(locationid, departmentid, lastmodifiedfromdate, lastmodifiedtodate, orderid, agentid, status, qryresult[i].dealid);
 
                 result.Add(ordersanditems);
             }
@@ -96,7 +97,7 @@ namespace RentalWorksAPI.api.v2.Data
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<Order> GetOAIOrders(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate, string includeavailabilityqty,
+        public static List<Order> GetOAIOrders(string locationid, string departmentid, string lastmodifiedfromdate, string lastmodifiedtodate,
                                                   string orderid, List<string> agentid, List<string> status, string dealid)
         {
             FwSqlCommand qry;
@@ -109,7 +110,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.AddColumn("createddate",      false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("lastmodifieddate", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.Add("select *");
-            qry.Add("  from apirest_ordersfunc(@agentids, @dealid, @departmentid, @locationid, @status, @lastmodifiedfromdate, @lastmodifiedtodate, @includeavailabilityqty @orderid)");
+            qry.Add("  from apirest_ordersfunc(@agentids, @dealid, @departmentid, @locationid, @status, @lastmodifiedfromdate, @lastmodifiedtodate, @orderid)");
             qry.AddParameter("@agentids",               string.Join(",", agentid));
             qry.AddParameter("@dealid",                 dealid);
             qry.AddParameter("@departmentid",           departmentid);
@@ -117,7 +118,6 @@ namespace RentalWorksAPI.api.v2.Data
             qry.AddParameter("@status",                 string.Join(",", status));
             qry.AddParameter("@lastmodifiedfromdate",   lastmodifiedfromdate);
             qry.AddParameter("@lastmodifiedtodate",     lastmodifiedtodate);
-            qry.AddParameter("@includeavailabilityqty", includeavailabilityqty);
             qry.AddParameter("@orderid",                orderid);
 
             qryresult = qry.QueryToDynamicList2();
@@ -145,7 +145,7 @@ namespace RentalWorksAPI.api.v2.Data
                 order.labor            = qryresult[i].labor;
                 order.misc             = qryresult[i].misc;
                 order.orderedbycontact = qryresult[i].orderedbycontact;
-                order.createdbyuserid  = qryresult[i].createdbyuserid;
+                order.createdbyuserid  = qryresult[i].createdbyusersid;
                 order.createdby        = qryresult[i].createdby;
                 //order.createddate      = qryresult[i].createddate;
                 order.lastmodifieddate = qryresult[i].lastmodifieddate;
@@ -183,6 +183,8 @@ namespace RentalWorksAPI.api.v2.Data
                 order.ordernotes = GetOAIOrderNotes(qryresult[i].orderid);
 
                 order.items = GetOAIItems(qryresult[i].orderid);
+
+                result.Add(order);
             }
 
             return result;
@@ -229,8 +231,12 @@ namespace RentalWorksAPI.api.v2.Data
             dynamic qryresult = new ExpandoObject();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.AddColumn("rentfromdate", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
-            qry.AddColumn("renttodate",   false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("rentfromdate",   false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("renttodate",     false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("price",          false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("unitextended",   false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("weeklyextended", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("periodextended", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
             qry.Add("select *");
             qry.Add("  from apirest_ordersanditemsfunc(@orderid)");
             qry.AddParameter("@orderid", orderid);
@@ -255,11 +261,11 @@ namespace RentalWorksAPI.api.v2.Data
                 item.rentfromtime          = qryresult[i].rentfromtime;
                 item.renttodate            = qryresult[i].renttodate;
                 item.renttotime            = qryresult[i].renttotime;
-                item.qtyordered            = qryresult[i].qtyordered;
-                item.subqty                = qryresult[i].subqty;
+                item.qtyordered            = FwConvert.ToString(qryresult[i].qtyordered);
+                item.subqty                = FwConvert.ToString(qryresult[i].subqty);
                 item.unit                  = qryresult[i].unit;
                 item.price                 = qryresult[i].price;
-                item.daysinwk              = qryresult[i].daysinweeks;
+                item.daysinwk              = FwConvert.ToString(qryresult[i].daysinweeks);
                 item.notes                 = qryresult[i].notes;
                 item.parentid              = qryresult[i].parentid;
                 item.unitextended          = qryresult[i].unitextended;
@@ -267,10 +273,12 @@ namespace RentalWorksAPI.api.v2.Data
                 item.periodextended        = qryresult[i].periodextended;
                 item.taxable               = qryresult[i].taxable;
                 item.warehouseid           = qryresult[i].warehouseid;
-                item.qtystaged             = qryresult[i].qtystaged;
-                item.qtyout                = qryresult[i].qtyout;
-                item.qtyremaining          = qryresult[i].qtyremaining;
-                item.availabletofulfillqty = qryresult[i].availabletofullfillqty;
+                item.qtystaged             = FwConvert.ToString(qryresult[i].qtystaged);
+                item.qtyout                = FwConvert.ToString(qryresult[i].qtyout);
+                item.qtyin                 = FwConvert.ToString(qryresult[i].qtyin);
+                item.qtyremaining          = FwConvert.ToString(qryresult[i].qtyremaining);
+                item.qtyconflict           = FwConvert.ToString(qryresult[i].qtyconflict);
+                item.availabletofulfillqty = FwConvert.ToString(qryresult[i].availabletofullfillqty);
 
                 result.Add(item);
             }
