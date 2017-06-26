@@ -67,5 +67,6 @@
 /src/RentalWorksLogic/bin/
 /src/RentalWorksLogic/obj/
 
-src/RentalWorksWebApi/bin/
+/src/RentalWorksWebApi/bin/
 /src/RentalWorksWebApi/obj/
+/src/RentalWorksWebApi/appsettings.Development.json

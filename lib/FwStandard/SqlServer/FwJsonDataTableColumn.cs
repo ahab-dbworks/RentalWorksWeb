@@ -3,11 +3,9 @@
     public class FwJsonDataTableColumn
     {
         //---------------------------------------------------------------------------------------------
-        public enum DataTypes{Text, Date, Time, DateTime, DateTimeOffset, Decimal, Boolean, CurrencyString, CurrencyStringNoDollarSign, CurrencyStringNoDollarSignNoDecimalPlaces, PhoneUS, ZipcodeUS, Percentage, OleToHtmlColor, Integer, JpgDataUrl, UTCDateTime}
-        //---------------------------------------------------------------------------------------------
         public string    Name               = string.Empty;
         public string    DataField          = string.Empty;
-        public DataTypes DataType           = DataTypes.Text;
+        public FwDataTypes DataType        = FwDataTypes.Text;
         public bool      IsUniqueId         = false;
         public bool      IsVisible          = false;
         //---------------------------------------------------------------------------------------------
@@ -35,14 +33,14 @@
             this.IsVisible  = true;
         }
         //---------------------------------------------------------------------------------------------
-        public FwJsonDataTableColumn(string name, string dataField, DataTypes dataType)
+        public FwJsonDataTableColumn(string name, string dataField, FwDataTypes dataType)
         {
             this.DataField  = dataField;
             this.DataType   = dataType;
             this.IsVisible  = true;
         }
          //---------------------------------------------------------------------------------------------
-        public FwJsonDataTableColumn(string name, string dataField, DataTypes dataType, bool isVisible, bool isUniqueId)
+        public FwJsonDataTableColumn(string name, string dataField, FwDataTypes dataType, bool isVisible, bool isUniqueId)
         {
             this.Name       = name;
             this.DataField  = dataField;

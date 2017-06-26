@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RentalWorksLogic.Settings;
 
 namespace RentalWorksWebApi
 {
@@ -17,7 +20,10 @@ namespace RentalWorksWebApi
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            //Mapper.Initialize(cfg => cfg.CreateMap<CustomerStatusLogic, CustomerStatusDto>());
+            Mapper.Initialize(cfg => {
+                cfg.AddProfile<FwSqlMapperProfile>();
+                cfg.CreateMap<CustomerStatusLogic, CustomerStatusLogic>();
+            });
         }
 
         public IConfigurationRoot Configuration { get; }

@@ -202,7 +202,7 @@ namespace FwStandard.SqlServer
         //            col = this.Columns[colno];
         //            if ((!col.IsUniqueId) && (col.IsVisible))
         //            {
-        //               if (col.DataType == FwJsonDataTableColumn.DataTypes.JpgDataUrl)
+        //               if (col.DataType == FwSqlDataTypes.JpgDataUrl)
         //                {
         //                    string base64img = this.GetValue(rowno, colno).ToString().Replace("data:image/jpg;base64,", "");
         //                    if (!string.IsNullOrEmpty(base64img))
@@ -345,22 +345,22 @@ namespace FwStandard.SqlServer
                     {
                         switch(Columns[indexSumColumns[sumcolno]].DataType)
                         {
-                            case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                            case FwDataTypes.CurrencyString:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                            case FwDataTypes.CurrencyStringNoDollarSign:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Decimal:
+                            case FwDataTypes.Decimal:
                                 row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Integer:
+                            case FwDataTypes.Integer:
                                 row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Percentage:
+                            case FwDataTypes.Percentage:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
                                 break;
                             default:
@@ -441,22 +441,22 @@ namespace FwStandard.SqlServer
                     {
                         switch(Columns[indexSumColumns[sumcolno]].DataType)
                         {
-                            case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                            case FwDataTypes.CurrencyString:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(totals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                            case FwDataTypes.CurrencyStringNoDollarSign:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(totals[sumcolno]);
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Decimal:
+                            case FwDataTypes.Decimal:
                                 row[indexSumColumns[sumcolno]] = totals[sumcolno];
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Integer:
+                            case FwDataTypes.Integer:
                                 row[indexSumColumns[sumcolno]] = totals[sumcolno];
                                 break;
-                            case FwJsonDataTableColumn.DataTypes.Percentage:
+                            case FwDataTypes.Percentage:
                                 row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]) + "%";
                                 break;
                             default:
@@ -472,7 +472,7 @@ namespace FwStandard.SqlServer
             }
         }
         //---------------------------------------------------------------------------------------------
-        public void FormatColumn(string columnName, FwJsonDataTableColumn.DataTypes dataType)
+        public void FormatColumn(string columnName, FwDataTypes dataType)
         {
             int colno;
             object cell;
@@ -483,22 +483,22 @@ namespace FwStandard.SqlServer
                 cell = this.Rows[rowno][colno];
                 switch(dataType)
                 {
-                    case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                    case FwDataTypes.CurrencyString:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyString(new FwDatabaseField(cell).ToDecimal());
                         break;
-                    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                    case FwDataTypes.CurrencyStringNoDollarSign:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyStringNoDollarSign(new FwDatabaseField(cell).ToDecimal());
                         break;
-                    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(new FwDatabaseField(cell).ToDecimal());
                         break;
-                    case FwJsonDataTableColumn.DataTypes.Decimal:
+                    case FwDataTypes.Decimal:
                         this.Rows[rowno][colno] = new FwDatabaseField(cell).ToDecimal();
                         break;
-                    case FwJsonDataTableColumn.DataTypes.Integer:
+                    case FwDataTypes.Integer:
                         this.Rows[rowno][colno] = new FwDatabaseField(cell).ToInt32();
                         break;
-                    case FwJsonDataTableColumn.DataTypes.Percentage:
+                    case FwDataTypes.Percentage:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyStringNoDollarSign(new FwDatabaseField(cell).ToDecimal()) + "%";
                         break;
                     default:

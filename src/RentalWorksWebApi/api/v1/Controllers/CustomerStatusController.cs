@@ -21,47 +21,54 @@ namespace RentalWorksCoreApi.Controllers.v1
         [HttpPost("browse")]
         public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
         {
-            CustomerStatusLogic csl = new CustomerStatusLogic(_appConfig.DatabaseSettings);
-            FwJsonDataTable dt = csl.Browse(request);
+            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+            FwJsonDataTable dt = customerStatus.Browse(request);
             return dt;
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
         [HttpGet]
-        public List<CustomerStatusLogic> Get(int pageno, int pagesize)
+        public IEnumerable<CustomerStatusLogic> Get(int pageno, int pagesize)
         {
             BrowseRequestDto request = new BrowseRequestDto();
             request.pageno = pageno;
             request.pagesize = pagesize;
-            CustomerStatusLogic cs = new CustomerStatusLogic(_appConfig.DatabaseSettings);
-            List<CustomerStatusLogic> customerStatusRecords = cs.Select(request);
+            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+            IEnumerable<CustomerStatusLogic> customerStatusRecords = customerStatus.Select<CustomerStatusLogic>(request);
             return customerStatusRecords;
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
-        [HttpGet("{custstatusid}")]
-        public List<CustomerStatusLogic> Get(string custstatusid)
+        [HttpGet("{id}")]
+        public IEnumerable<CustomerStatusLogic> Get(string id)
         {
-            CustomerStatusLogic csl = new CustomerStatusLogic(_appConfig.DatabaseSettings);
-            List<CustomerStatusLogic> records = csl.Get(custstatusid);
+            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+            customerStatus.Load<CustomerStatusLogic>(id);
+            List<CustomerStatusLogic> records = new List<CustomerStatusLogic>();
+            records.Add(customerStatus);
             return records;
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
         [HttpPost]
-        public CustomerStatusLogic Post([FromBody]CustomerStatusLogic model)
+        public CustomerStatusLogic Post([FromBody]CustomerStatusLogic customerStatus)
         {
-            model.Save(_appConfig.DatabaseSettings);
-            return model;
+            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+            customerStatus.Save();
+            return customerStatus;
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/customerstatusid
-        [HttpDelete("{custstatusid}")]
-        public void Delete(string custstatusid)
+        [HttpDelete("{id}")]
+        public void Delete(string id)
         {
-            CustomerStatusLogic csl = new CustomerStatusLogic(_appConfig.DatabaseSettings);
-            csl.custstatusid = custstatusid;
-            csl.Delete();
+            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+            customerStatus.CustomerStatusId = id;
+            customerStatus.Delete();
         }
         //------------------------------------------------------------------------------------
     }

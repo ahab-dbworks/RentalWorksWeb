@@ -1,4 +1,8 @@
+using Dapper;
+using FwStandard.BusinessLogic;
+using FwStandard.ConfigSection;
 using FwStandard.Models;
+using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -345,14 +349,14 @@ namespace FwStandard.SqlServer
             this.columns.Add(new FwJsonDataTableColumn(dataField, encrypt));
         }
         //------------------------------------------------------------------------------------
-        public void AddColumn(string dataField, bool encrypt, FwJsonDataTableColumn.DataTypes dataType)
+        public void AddColumn(string dataField, bool encrypt, FwDataTypes dataType)
         {
             FwJsonDataTableColumn column = new FwJsonDataTableColumn(dataField, encrypt);
             column.DataType = dataType;
             this.columns.Add(column);
         }
         //------------------------------------------------------------------------------------
-        public void AddColumn(string name, string dataField, FwJsonDataTableColumn.DataTypes dataType, bool isVisible, bool isUniqueId, bool encrypt)
+        public void AddColumn(string name, string dataField, FwDataTypes dataType, bool isVisible, bool isUniqueId, bool encrypt)
         {
             FwJsonDataTableColumn column = new FwJsonDataTableColumn(dataField, encrypt);
             column.Name = name;
@@ -362,7 +366,7 @@ namespace FwStandard.SqlServer
             this.columns.Add(column);
         }
         //------------------------------------------------------------------------------------
-        public void AddColumn(string name, string dataField, FwJsonDataTableColumn.DataTypes dataType, bool encrypt)
+        public void AddColumn(string name, string dataField, FwDataTypes dataType, bool encrypt)
         {
             FwJsonDataTableColumn column = new FwJsonDataTableColumn(dataField, encrypt);
             column.Name = name;
@@ -1027,7 +1031,7 @@ namespace FwStandard.SqlServer
                             }
                             if (!found)
                             {
-                                dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwJsonDataTableColumn.DataTypes.Text));
+                                dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
                             }
                         }
                         columns = dt.Columns;
@@ -1071,7 +1075,7 @@ namespace FwStandard.SqlServer
                                 {
                                     switch (dt.Columns[i].DataType)
                                     {
-                                        case FwJsonDataTableColumn.DataTypes.Text:
+                                        case FwDataTypes.Text:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = reader.GetValue(ordinal).ToString().Trim();
@@ -1081,7 +1085,7 @@ namespace FwStandard.SqlServer
                                                 data = string.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Date:
+                                        case FwDataTypes.Date:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateString();
@@ -1091,7 +1095,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Time:
+                                        case FwDataTypes.Time:
                                             if (!reader.IsDBNull(ordinal) && !string.IsNullOrWhiteSpace(reader.GetValue(ordinal).ToString()))
                                             {
                                                 data = FwConvert.ToShortTime12(reader.GetValue(ordinal).ToString());
@@ -1101,7 +1105,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.DateTime:
+                                        case FwDataTypes.DateTime:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateTimeString();
@@ -1111,7 +1115,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.DateTimeOffset:
+                                        case FwDataTypes.DateTimeOffset:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 //data = new FwDatabaseField(reader.GetDateTimeOffset(ordinal)).ToShortDateTimeString();
@@ -1122,7 +1126,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Decimal:
+                                        case FwDataTypes.Decimal:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = reader.GetDecimal(ordinal);
@@ -1132,7 +1136,7 @@ namespace FwStandard.SqlServer
                                                 data = 0.0m;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Boolean:
+                                        case FwDataTypes.Boolean:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToBoolean(reader.GetString(ordinal).TrimEnd());
@@ -1142,7 +1146,7 @@ namespace FwStandard.SqlServer
                                                 data = false;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                                        case FwDataTypes.CurrencyString:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyString(reader.GetDecimal(ordinal));
@@ -1152,7 +1156,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyString(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                                        case FwDataTypes.CurrencyStringNoDollarSign:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(reader.GetDecimal(ordinal));
@@ -1162,7 +1166,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                                        case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(reader.GetDecimal(ordinal));
@@ -1172,7 +1176,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.PhoneUS:
+                                        case FwDataTypes.PhoneUS:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToPhoneUS(reader.GetString(ordinal));
@@ -1182,7 +1186,7 @@ namespace FwStandard.SqlServer
                                                 data = String.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.ZipcodeUS:
+                                        case FwDataTypes.ZipcodeUS:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToZipcodeUS(reader.GetString(ordinal));
@@ -1192,7 +1196,7 @@ namespace FwStandard.SqlServer
                                                 data = String.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Percentage:
+                                        case FwDataTypes.Percentage:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(FwConvert.ToDecimal(reader.GetValue(ordinal))) + "%";
@@ -1202,7 +1206,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(0.0m) + "%";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.OleToHtmlColor:
+                                        case FwDataTypes.OleToHtmlColor:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.OleToHex(reader.GetInt32(ordinal));
@@ -1212,7 +1216,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.OleToHex(0);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Integer:
+                                        case FwDataTypes.Integer:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToInt32(reader.GetValue(ordinal));
@@ -1222,7 +1226,7 @@ namespace FwStandard.SqlServer
                                                 data = 0;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.JpgDataUrl:
+                                        case FwDataTypes.JpgDataUrl:
                                             data = string.Empty;
                                             if (!reader.IsDBNull(ordinal))
                                             {
@@ -1235,7 +1239,7 @@ namespace FwStandard.SqlServer
                                                 }
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.UTCDateTime:
+                                        case FwDataTypes.UTCDateTime:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToUniversalIso8601DateTimeString();
@@ -1663,7 +1667,7 @@ namespace FwStandard.SqlServer
                                 {
                                     switch (column.DataType)
                                     {
-                                        case FwJsonDataTableColumn.DataTypes.Text:
+                                        case FwDataTypes.Text:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = reader.GetValue(ordinal).ToString().Trim();
@@ -1673,7 +1677,7 @@ namespace FwStandard.SqlServer
                                                 data = string.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Date:
+                                        case FwDataTypes.Date:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateString();
@@ -1683,7 +1687,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Time:
+                                        case FwDataTypes.Time:
                                             if (!reader.IsDBNull(ordinal) && !string.IsNullOrWhiteSpace(reader.GetValue(ordinal).ToString()))
                                             {
                                                 data = FwConvert.ToShortTime12(reader.GetValue(ordinal).ToString());
@@ -1693,7 +1697,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.DateTime:
+                                        case FwDataTypes.DateTime:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateTimeString();
@@ -1703,7 +1707,7 @@ namespace FwStandard.SqlServer
                                                 data = "";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Decimal:
+                                        case FwDataTypes.Decimal:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = reader.GetDecimal(ordinal);
@@ -1713,7 +1717,7 @@ namespace FwStandard.SqlServer
                                                 data = 0.0m;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Boolean:
+                                        case FwDataTypes.Boolean:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToBoolean(reader.GetString(ordinal).TrimEnd());
@@ -1723,7 +1727,7 @@ namespace FwStandard.SqlServer
                                                 data = false;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                                        case FwDataTypes.CurrencyString:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyString(reader.GetDecimal(ordinal));
@@ -1733,7 +1737,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyString(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                                        case FwDataTypes.CurrencyStringNoDollarSign:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(reader.GetDecimal(ordinal));
@@ -1743,7 +1747,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                                        case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(reader.GetDecimal(ordinal));
@@ -1753,7 +1757,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(0.0m);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.PhoneUS:
+                                        case FwDataTypes.PhoneUS:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToPhoneUS(reader.GetString(ordinal));
@@ -1763,7 +1767,7 @@ namespace FwStandard.SqlServer
                                                 data = String.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.ZipcodeUS:
+                                        case FwDataTypes.ZipcodeUS:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToZipcodeUS(reader.GetString(ordinal));
@@ -1773,7 +1777,7 @@ namespace FwStandard.SqlServer
                                                 data = String.Empty;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Percentage:
+                                        case FwDataTypes.Percentage:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(FwConvert.ToDecimal(reader.GetValue(ordinal))) + "%";
@@ -1783,7 +1787,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.ToCurrencyStringNoDollarSign(0.0m) + "%";
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.OleToHtmlColor:
+                                        case FwDataTypes.OleToHtmlColor:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.OleToHex(reader.GetInt32(ordinal));
@@ -1793,7 +1797,7 @@ namespace FwStandard.SqlServer
                                                 data = FwConvert.OleToHex(0);
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.Integer:
+                                        case FwDataTypes.Integer:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = FwConvert.ToInt32(reader.GetValue(ordinal));
@@ -1803,7 +1807,7 @@ namespace FwStandard.SqlServer
                                                 data = 0;
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.JpgDataUrl:
+                                        case FwDataTypes.JpgDataUrl:
                                             data = string.Empty;
                                             if (!reader.IsDBNull(ordinal))
                                             {
@@ -1816,7 +1820,7 @@ namespace FwStandard.SqlServer
                                                 }
                                             }
                                             break;
-                                        case FwJsonDataTableColumn.DataTypes.UTCDateTime:
+                                        case FwDataTypes.UTCDateTime:
                                             if (!reader.IsDBNull(ordinal))
                                             {
                                                 data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToUniversalIso8601DateTimeString();
@@ -2014,48 +2018,81 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public List<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)
+        public IEnumerable<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)
         {
-            List<T> results = null;
+            IEnumerable<T> results = null;
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
             //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
-            this.Add("for json path");
+            //this.Add("for json path");
             this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
             this.AddParameter("@fetchsize", pageSize);
             if (openAndCloseConnection)
             {
                 this.sqlCommand.Connection.Open();
             }
-            this.sqlCommand.CommandText = this.qryText.ToString();
+            // the commented code is if you use the "for json" in the sql query
+            //this.sqlCommand.CommandText = this.qryText.ToString();
             //if (!this.sqlCommand.CommandText.Contains("order by"))
             //{
             //    throw new Exception("order by expression is required with paged queries.");
             //}
-            using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
-            {
-                StringBuilder jsonResult = new StringBuilder();
-                if (!reader.HasRows)
-                {
-                    jsonResult.Append("[]");
-                }
-                else
-                {
-                    while (reader.Read())
-                    {
-                        jsonResult.Append(reader.GetValue(0).ToString());
-                    }
+            //using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
+            //{
+            //    StringBuilder jsonResult = new StringBuilder();
+            //    if (!reader.HasRows)
+            //    {
+            //        jsonResult.Append("[]");
+            //    }
+            //    else
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            jsonResult.Append(reader.GetValue(0).ToString());
+            //        }
 
-                }
-                results = JsonConvert.DeserializeObject<List<T>>(jsonResult.ToString());
-                if (openAndCloseConnection)
-                {
-                    this.sqlCommand.Connection.Close();
-                }
-                return results;
+            //    }
+            //    results = JsonConvert.DeserializeObject<List<T>>(jsonResult.ToString());
+            //    if (openAndCloseConnection)
+            //    {
+            //        this.sqlCommand.Connection.Close();
+            //    }
+            //    return results;
+            //}
+            // Uses Dapper to perform the conversion from query to object list
+            var parameters = new DynamicParameters();
+            foreach (SqlParameter p in this.Parameters)
+            {
+                parameters.Add(p.ParameterName, p.Value);
             }
+            results = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
+            return results;
         }
         //------------------------------------------------------------------------------------
-        public int Insert(bool openAndCloseConnection, string tablename, object businessObject)
+        public T SelectOne<T>(bool openAndCloseConnection)
+        {
+            IEnumerable<T> records = null;
+            if (openAndCloseConnection)
+            {
+                this.sqlCommand.Connection.Open();
+            }
+            // Uses Dapper to perform the conversion from query to object list
+            var parameters = new DynamicParameters();
+            foreach (SqlParameter p in this.Parameters)
+            {
+                parameters.Add(p.ParameterName, p.Value);
+            }
+            records = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
+            T result = default(T);
+            var results = records.AsList<T>();
+            if (results.Count > 0)
+            {
+                result = results[0];    
+            }
+            
+            return result;
+        }
+        //------------------------------------------------------------------------------------
+        public int Insert(bool openAndCloseConnection, string tablename, object businessObject, DatabaseConfig dbConfig)
         {
             try
             {
@@ -2070,11 +2107,29 @@ namespace FwStandard.SqlServer
                 var propertyInfos = businessObject.GetType().GetProperties();
                 foreach (var propertyInfo in propertyInfos)
                 {
-                    var hasIgnoreDataMemberAttribute = propertyInfo.IsDefined(typeof(IgnoreDataMemberAttribute));
-                    if (!hasIgnoreDataMemberAttribute)
+                    var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
+                    if (!hasJsonIgnoreAttribute)
                     {
                         object propertyValue = propertyInfo.GetValue(businessObject);
-                        if (propertyInfo.Name == "datestamp" || propertyValue != null)
+                        bool hasFwSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
+                        string sqlColumnName = propertyInfo.Name;
+                        if (hasFwSqlDataFieldAttribute)
+                        {
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                            {
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            }
+                            if (sqlDataFieldAttribute.IsPrimaryKey)
+                            {
+                                using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+                                {
+                                    propertyValue = FwSqlData.GetNextId(conn, dbConfig);
+                                }
+                                propertyInfo.SetValue(businessObject, propertyValue);
+                            }
+                        }
+                        if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
                         {
                             if (i > 0)
                             {
@@ -2082,13 +2137,13 @@ namespace FwStandard.SqlServer
                                 insertParameterNames.Append(",");
                             }
                             insertColumnsNames.Append("[");
-                            insertColumnsNames.Append(propertyInfo.Name);
+                            insertColumnsNames.Append(sqlColumnName);
                             insertColumnsNames.Append("]");
                             insertParameterNames.Append("@" + propertyInfo.Name);
-                            if (propertyInfo.Name == "datestamp")
+                            if (propertyInfo.Name.ToLower() == "datestamp")
                             {
                                 propertyValue = DateTime.UtcNow;
-                                businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
+                                businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
                                 this.AddParameter("@" + propertyInfo.Name, propertyValue);
                             }
                             else
@@ -2133,21 +2188,26 @@ namespace FwStandard.SqlServer
                 var propertyInfos = businessObject.GetType().GetProperties();
                 foreach (var propertyInfo in propertyInfos)
                 {
-                    var hasIgnoreDataMemberAttribute = propertyInfo.IsDefined(typeof(IgnoreDataMemberAttribute));
-                    if (!hasIgnoreDataMemberAttribute)
+                    var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
+                    if (!hasJsonIgnoreAttribute)
                     {
-                        var hasPrimaryKeyAttribute = propertyInfo.IsDefined(typeof(FwPrimaryKeyAttribute));
-                        object propertyValue = propertyInfo.GetValue(businessObject);
-                        if (hasPrimaryKeyAttribute)
+                        var propertyValue = propertyInfo.GetValue(businessObject);
+                        var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
+                        if (hasSqlDataFieldAttribute)
                         {
-                            if (whereClause.Length > 0)
+                            var sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            if (sqlDataFieldAttribute.IsPrimaryKey)
                             {
-                                whereClause.Append("and ");
+                                if (whereClause.Length > 0)
+                                {
+                                    whereClause.Append("and ");
+                                }
+                                whereClause.Append(propertyInfo.Name);
+                                whereClause.Append(" = @");
+                                whereClause.AppendLine(propertyInfo.Name);
+                                
+                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
                             }
-                            whereClause.Append(propertyInfo.Name);
-                            whereClause.Append(" = @");
-                            whereClause.AppendLine(propertyInfo.Name);
-                            this.AddParameter("@" + propertyInfo.Name, propertyValue);
                         }
                         else if (propertyInfo.Name == "datestamp" || propertyValue != null)
                         {
@@ -2173,11 +2233,75 @@ namespace FwStandard.SqlServer
                         }
                     }
                 }
+                if (whereClause.Length == 0)
+                {
+                    throw new Exception("Unable to perform update.  Primary key is not defined.");
+                }
                 StringBuilder sql = new StringBuilder();
                 sql.Append("update ");
                 sql.AppendLine(tablename);
                 sql.Append("set");
+                if (setStatements.Length == 0)
+                {
+                    return 0;
+                }
                 sql.Append(setStatements);
+                sql.AppendLine("where");
+                sql.Append(whereClause);
+                this.sqlCommand.CommandText = sql.ToString();
+                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry.Start();
+                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.sqlLogEntry.Stop();
+            }
+            finally
+            {
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Close();
+                }
+                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
+            }
+
+            return this.RowCount;
+        }
+        //------------------------------------------------------------------------------------
+        public int Delete(bool openAndCloseConnection, string tablename, object businessObject)
+        {
+            try
+            {
+                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
+                if (openAndCloseConnection)
+                {
+                    this.sqlConnection.Open();
+                }
+                var setStatements = new StringBuilder();
+                var whereClause = new StringBuilder();
+                var propertyInfos = businessObject.GetType().GetProperties();
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var hasPrimaryKeyAttribute = propertyInfo.IsDefined(typeof(FwPrimaryKeyAttribute));
+                    object propertyValue = propertyInfo.GetValue(businessObject);
+                    if (hasPrimaryKeyAttribute)
+                    {
+                        if (whereClause.Length > 0)
+                        {
+                            whereClause.Append("and ");
+                        }
+                        whereClause.Append(propertyInfo.Name);
+                        whereClause.Append(" = @");
+                        whereClause.AppendLine(propertyInfo.Name);
+                        this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                    }
+                }
+                if (whereClause.Length == 0)
+                {
+                    throw new Exception("Unable to perform delete.  Primary key is not defined.");
+                }
+                var sql = new StringBuilder();
+                sql.Append("delete from ");
+                sql.AppendLine(tablename);
                 sql.AppendLine("where");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
