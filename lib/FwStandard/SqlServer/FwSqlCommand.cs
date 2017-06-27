@@ -2192,44 +2192,53 @@ namespace FwStandard.SqlServer
                     if (!hasJsonIgnoreAttribute)
                     {
                         var propertyValue = propertyInfo.GetValue(businessObject);
+                        string sqlColumnName = propertyInfo.Name;
                         var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
                         if (hasSqlDataFieldAttribute)
                         {
-                            var sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            //var sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                            {
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            }
+
                             if (sqlDataFieldAttribute.IsPrimaryKey)
                             {
                                 if (whereClause.Length > 0)
                                 {
                                     whereClause.Append("and ");
                                 }
-                                whereClause.Append(propertyInfo.Name);
+                                whereClause.Append(sqlColumnName);
                                 whereClause.Append(" = @");
-                                whereClause.AppendLine(propertyInfo.Name);
-                                
-                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                                whereClause.AppendLine(sqlColumnName);
+
+                                this.AddParameter("@" + sqlColumnName, propertyValue);
                             }
-                        }
-                        else if (propertyInfo.Name == "datestamp" || propertyValue != null)
-                        {
-                            if (i > 0)
+
+                            else if (propertyInfo.Name == "datestamp" || propertyValue != null)
                             {
-                                setStatements.Append("  ,");
+                                if (i > 0)
+                                {
+                                    setStatements.Append("  ,");
+                                }
+                                setStatements.Append("[");
+                                setStatements.Append(sqlColumnName);
+                                setStatements.Append("] = @");
+                                setStatements.AppendLine(sqlColumnName);
+                                if (sqlColumnName == "datestamp")
+                                {
+                                    propertyValue = DateTime.UtcNow;
+                                    businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
+                                    this.AddParameter("@" + sqlColumnName, propertyValue);
+                                }
+                                else
+                                {
+                                    this.AddParameter("@" + sqlColumnName, propertyValue);
+                                }
+                                i++;
                             }
-                            setStatements.Append("[");
-                            setStatements.Append(propertyInfo.Name);
-                            setStatements.Append("] = @");
-                            setStatements.AppendLine(propertyInfo.Name);
-                            if (propertyInfo.Name == "datestamp")
-                            {
-                                propertyValue = DateTime.UtcNow;
-                                businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
-                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
-                            }
-                            else
-                            {
-                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
-                            }
-                            i++;
                         }
                     }
                 }

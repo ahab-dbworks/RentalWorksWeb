@@ -195,15 +195,47 @@ namespace FwStandard.BusinessLogic
             return results;
         }
         //------------------------------------------------------------------------------------
-        public void Load<T>(string custstatusid)
+        public void Load<T>(string primaryKeyValue) // should be an Array/List
         {
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 SetBaseSelectQuery(qry);
-                qry.Add("where custstatusid = @custstatusid");
-                qry.Add("order by custstatus");
-                qry.AddParameter("@custstatusid", custstatusid);
+                //qry.Add("where custstatusid = @custstatusid");
+                //qry.Add("order by custstatus");
+                //qry.AddParameter("@custstatusid", custstatusid);
+
+                //jh 06/26/2017
+                List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+                int k = 0;
+                foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                {
+                    if (k == 0)
+                    {
+                        qry.Add("where ");
+                    }
+                    else
+                    {
+                        qry.Add("and ");
+                    }
+                    FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                    string sqlColumnName = primaryKeyProperty.Name;
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    {
+                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                    }
+                    qry.Add(sqlColumnName);
+                    qry.Add(" = @keyvalue" + k.ToString());
+                    k++;
+                }
+
+                k = 0;
+                foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                {
+                    qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyValue);
+                    k++;
+                }
+
                 var record = qry.SelectOne<T>(true);
                 Mapper.Map(record, this);
             }
@@ -239,7 +271,8 @@ namespace FwStandard.BusinessLogic
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                int rowcount = cmd.Delete(true, "custstatus", this);
+                //int rowcount = cmd.Delete(true, "custstatus", this);
+                int rowcount = cmd.Delete(true, TableName, this);   //jh 06/26/2017
                 return rowcount > 0;
             }
         }
