@@ -3,7 +3,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 
-namespace RentalWorksLogic.Settings
+namespace RentalWorksWebLogic.Settings
 {
     [FwSqlTable("custstatus", hasInsert: true, hasUpdate: true, hasDelete: true)]
     public class CustomerStatusLogic : FwBusinessLogic

@@ -30,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj" />
-    <ProjectReference Include="..\RentalWorksLogic\RentalWorksWebLogic.csproj" />
+    <ProjectReference Include="..\RentalWorksWebLogic\RentalWorksWebLogic.csproj" />
   </ItemGroup>
 
 </Project>

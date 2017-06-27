@@ -2,7 +2,7 @@
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksLogic.Settings;
+using RentalWorksWebLogic.Settings;
 using RentalWorksWebApi;
 using System.Collections.Generic;
 

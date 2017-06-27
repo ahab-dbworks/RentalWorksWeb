@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksTest", "src\Rent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FwStandard", "lib\FwStandard\FwStandard.csproj", "{BF70FE28-DA24-40EC-AA7E-613803411E12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWebLogic", "src\RentalWorksLogic\RentalWorksWebLogic.csproj", "{0F824886-971C-44FC-B4AB-B6073E02C149}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWebLogic", "src\RentalWorksWebLogic\RentalWorksWebLogic.csproj", "{0F824886-971C-44FC-B4AB-B6073E02C149}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWebApi", "src\RentalWorksWebApi\RentalWorksWebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
 EndProject

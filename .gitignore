@@ -64,8 +64,8 @@
 /lib/FwStandard/bin/
 /lib/FwStandard/obj/
 
-/src/RentalWorksLogic/bin/
-/src/RentalWorksLogic/obj/
+/src/RentalWorksWebLogic/bin/
+/src/RentalWorksWebLogic/obj/
 
 /src/RentalWorksWebApi/bin/
 /src/RentalWorksWebApi/obj/

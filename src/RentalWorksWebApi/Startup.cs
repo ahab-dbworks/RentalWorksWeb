@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RentalWorksLogic.Settings;
+using RentalWorksWebLogic.Settings;
 
 namespace RentalWorksWebApi
 {
