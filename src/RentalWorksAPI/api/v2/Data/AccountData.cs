@@ -32,7 +32,7 @@ namespace RentalWorksAPI.api.v2.Data
             return response;
         }
         //------------------------------------------------------------------------------
-        public static WebUsers WebUsersView(string webusersid, string email)
+        public static WebUsers WebUsersView(string webusersid, string username)
         {
             FwSqlCommand qry;
             dynamic qryresult = new ExpandoObject();
@@ -46,10 +46,10 @@ namespace RentalWorksAPI.api.v2.Data
                 qry.Add(" where webusersid = @webusersid");
                 qry.AddParameter("@webusersid", webusersid);
             }
-            if (!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(username))
             {
-                qry.Add(" where email = @email");
-                qry.AddParameter("@email", email);
+                qry.Add(" where loginname = @username");
+                qry.AddParameter("@username", username);
             } 
             qryresult = qry.QueryToDynamicObject2();
 

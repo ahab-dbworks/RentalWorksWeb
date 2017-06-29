@@ -1,6 +1,6 @@
 ﻿using Fw.Json.SqlServer;
 using RentalWorksAPI.api.v2.Models;
-using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusModels;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatus;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -82,26 +82,36 @@ namespace RentalWorksAPI.api.v2.Data
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static ItemStatus GetItemStatus(string barcode, string serialno, string rfid)
+        public static ItemStatusResponse GetItemStatus(string barcode, string serialno, string rfid, int? days)
         {
-            ItemStatus result = new ItemStatus();
+            ItemStatusResponse result = new ItemStatusResponse();
+            dynamic qryresult         = new ExpandoObject();
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
-                qry.AddColumn("masterid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("masterno", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("master", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("mfgserial", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("rfid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("barcode", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("status", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("rentalitemid", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Text);
                 qry.Add("select *");
                 qry.Add("from apirest_itemstatusfunc(@barcode, @serialno, @rfid)");
-                qry.AddParameter("@barcode", barcode);
+                qry.AddParameter("@barcode",  barcode);
                 qry.AddParameter("@serialno", serialno);
-                qry.AddParameter("@rfid", rfid);
-                result = qry.QueryToTypedObject<ItemStatus>();
+                qry.AddParameter("@rfid",     rfid);
+                qryresult = qry.QueryToDynamicObject2();
+            }
+
+            if (qryresult.masterid != "")
+            {
+                result.rentalitemid = qryresult.rentalitemid;
+                result.masterid     = qryresult.masterid;
+                result.masterno     = qryresult.masterno;
+                result.master       = qryresult.master;
+                result.mfgserial    = qryresult.mfgserial;
+                result.rfid         = qryresult.rfid;
+                result.barcode      = qryresult.rentalitemid;
+                result.status       = qryresult.status;
+
+                if (days.GetValueOrDefault() != 0)
+                {
+                    result.transactions = GetItemStatusHistory(qryresult.rentalitemid, days.Value);
+                }
             }
 
             return result;
@@ -110,16 +120,31 @@ namespace RentalWorksAPI.api.v2.Data
         public static List<ItemStatusHistory> GetItemStatusHistory(string rentalitemid, int days)
         {
             List<ItemStatusHistory> result = new List<ItemStatusHistory>();
+            dynamic qryresult              = new ExpandoObject();
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
-                qry.AddColumn("datetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
-                qry.AddColumn("qty", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Integer);
+                qry.AddColumn("datetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
+                qry.AddColumn("qty",      false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Integer);
                 qry.Add("select *");
                 qry.Add("from apirest_itemstatushistoryfunc(@rentalitemid, @days)");
                 qry.AddParameter("@rentalitemid", rentalitemid);
-                qry.AddParameter("@days", days);
-                result = qry.QueryToTypedList<ItemStatusHistory>();
+                qry.AddParameter("@days",         days);
+                qryresult = qry.QueryToDynamicList2();
+            }
+
+            for (int i = 0; i < qryresult.Count; i++)
+            {
+                ItemStatusHistory transaction = new ItemStatusHistory();
+
+                transaction.type     = qryresult[i].type;
+                transaction.datetime = qryresult[i].datetime;
+                transaction.orderid  = qryresult[i].orderid;
+                transaction.orderno  = qryresult[i].orderno;
+                transaction.dealname = qryresult[i].dealname;
+                transaction.qty      = qryresult[i].qty;
+
+                result.Add(transaction);
             }
 
             return result;
@@ -128,6 +153,7 @@ namespace RentalWorksAPI.api.v2.Data
         public static List<WarehouseAddToOrderItem> GetWarehouseAddToOrder(string warehouseid)
         {
             List<WarehouseAddToOrderItem> result = new List<WarehouseAddToOrderItem>();
+            dynamic qryresult                    = new ExpandoObject();
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
@@ -135,7 +161,18 @@ namespace RentalWorksAPI.api.v2.Data
                 qry.Add("from apirest_warehouseaddtoorderview");
                 qry.Add("where warehouseid = @warehouseid");
                 qry.AddParameter("@warehouseid", warehouseid);
-                result = qry.QueryToTypedList<WarehouseAddToOrderItem>();
+                qryresult = qry.QueryToDynamicList2();
+            }
+
+            for (int i = 0; i < qryresult.Count; i++)
+            {
+                WarehouseAddToOrderItem item = new WarehouseAddToOrderItem();
+
+                item.masterid     = qryresult[i].masterid;
+                item.masterno     = qryresult[i].masterno;
+                item.master       = qryresult[i].master;
+                item.departmentid = qryresult[i].departmentid;
+                item.department   = qryresult[i].department;
             }
 
             return result;

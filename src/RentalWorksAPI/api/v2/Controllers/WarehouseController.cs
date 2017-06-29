@@ -1,13 +1,8 @@
-﻿using Fw.Json.SqlServer;
-using RentalWorksAPI.api.v2.Data;
-using RentalWorksAPI.api.v2.Models;
-using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetailModels;
+﻿using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models.WarehouseModels.MoveToContract;
 using RentalWorksAPI.api.v2.Models.WarehouseModels.StageItemModels;
 using RentalWorksAPI.api.v2.Models.WarehouseModels.UnstageItemModels;
 using RentalWorksAPI.Filters;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -32,7 +27,6 @@ namespace RentalWorksAPI.api.v2
             {
                 StageItemQry stageItemResult = WarehouseData.StageItem(request.orderid, item.barcode, item.masteritemid, item.qty);
             }
-
 
             return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = response });
         }
@@ -83,7 +77,6 @@ namespace RentalWorksAPI.api.v2
                 default:    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, errmsg));
             }
         }
-
         //----------------------------------------------------------------------------------------------------
     }
 }

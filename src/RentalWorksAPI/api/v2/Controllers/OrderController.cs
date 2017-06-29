@@ -2,9 +2,8 @@
 using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.OrderModels.CsrsDeals;
-using RentalWorksAPI.api.v2.Models.OrderModels.LineItems;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrdersAndItems;
-using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetailModels;
+using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetail;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,34 +57,15 @@ namespace RentalWorksAPI.api.v2
         public HttpResponseMessage GetOrderStatusDetail([FromUri]string orderid)
         {
             OrderStatusDetailResponse response = new OrderStatusDetailResponse();
-            response.order.orderid = orderid;
-            response.order.orderdesc = FwSqlCommand.GetData(FwSqlConnection.RentalWorks, "dealorder", "orderid", orderid, "orderdesc").ToString().TrimEnd();
-            List<OrderStatus> orderstatus = OrderData.GetOrderStatus(orderid);
-            List<OrderStatusDetail> orderstatusdetail = OrderData.GetOrderStatusDetail(orderid);
-            foreach (OrderStatus lineitem in orderstatus)
-            {
-                var detailitems = orderstatusdetail.Where(x => x.masterid == lineitem.masterid);
-                lineitem.physicalassets.AddRange(detailitems);
-            }
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-        //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("lineitems")]
-        public HttpResponseMessage LineItems([FromUri]string orderid)
-        {
-            LineItemsResponse response = new LineItemsResponse();
-            response.order.orderid = orderid;
-            response.order.items = OrderData.GetLineItems(orderid);
+            response.orderid   = orderid;
+            response.orderdesc = FwSqlCommand.GetData(FwSqlConnection.RentalWorks, "dealorder", "orderid", orderid, "orderdesc").ToString().TrimEnd();
+            response.items     = OrderData.GetOrderStatusDetail(orderid);
 
-            if (!ModelState.IsValid)
-                ThrowError("400", "");
-
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return Request.CreateResponse(HttpStatusCode.OK, new { Order = response } );
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

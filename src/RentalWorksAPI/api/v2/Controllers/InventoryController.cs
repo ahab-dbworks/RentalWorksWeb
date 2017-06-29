@@ -1,7 +1,7 @@
 ﻿using RentalWorksAPI.api.v2.Data;
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ICodeStatus;
-using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusModels;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatus;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
@@ -30,34 +30,32 @@ namespace RentalWorksAPI.api.v2
             return Request.CreateResponse(HttpStatusCode.OK, new { icodes = result });
         }
         //----------------------------------------------------------------------------------------------------
-        [HttpGet]
+        [HttpPost]
         [Route("itemstatus")]
-        public HttpResponseMessage GetItemStatus([FromUri]string barcode = "", [FromUri]string serialno = "", [FromUri]string rfid = "", [FromUri]int? days = 0)
+        public HttpResponseMessage GetItemStatus([FromBody]ItemStatus request)
         {
             ItemStatusResponse response = new ItemStatusResponse();
-
-            //if (!ModelState.IsValid)
-            //    ThrowError("400", "");
-
-            response.item = InventoryData.GetItemStatus(barcode, serialno, rfid);
-
-            response.item.transactions = InventoryData.GetItemStatusHistory(response.item.rentalitemid, (int)days);
-
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-        //----------------------------------------------------------------------------------------------------
-        [HttpGet]
-        [Route("warehouseaddtoorder")]
-        public HttpResponseMessage WarehouseAddToOrder([FromUri]string warehouseid = "")
-        {
-            WarehouseAddToOrderResponse response = new WarehouseAddToOrderResponse();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            response.items = InventoryData.GetWarehouseAddToOrder(warehouseid);
+            response = InventoryData.GetItemStatus(request.barcode, request.serialno, request.rfid, request.days);
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return Request.CreateResponse(HttpStatusCode.OK, new { item = response } );
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpGet]
+        [Route("warehouseaddtoorder")]
+        public HttpResponseMessage WarehouseAddToOrder([FromUri]string warehouseid)
+        {
+            List<WarehouseAddToOrderItem> response = new List<WarehouseAddToOrderItem>();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            response = InventoryData.GetWarehouseAddToOrder(warehouseid);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { items = response } );
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

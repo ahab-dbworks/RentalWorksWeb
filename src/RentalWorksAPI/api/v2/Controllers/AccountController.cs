@@ -27,8 +27,6 @@ namespace RentalWorksAPI.api.v2
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
-            if (request.username == "" && request.email == "")
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Username or Email is required."));
 
             if (request.domain != "")
             {
@@ -38,7 +36,8 @@ namespace RentalWorksAPI.api.v2
 
                     if (isValid)
                     {
-                        response = AccountData.WebUsersView("", request.email);
+                        response = AccountData.WebUsersView("", request.username);
+                        //if (response 
                     }
                     else
                     {
@@ -49,7 +48,7 @@ namespace RentalWorksAPI.api.v2
             }
             else
             {
-                req = AccountData.WebGetUsers(request.email, request.password);
+                req = AccountData.WebGetUsers(request.username, request.password);
                 if (req.errno != "0")
                 {
                     string message = req.errmsg;
