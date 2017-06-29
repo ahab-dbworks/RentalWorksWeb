@@ -9,13 +9,9 @@ using System.Collections.Generic;
 namespace RentalWorksCoreApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class CustomerStatusController : Controller
+    public class CustomerStatusController : RwController
     {
-        private readonly ApplicationConfig _appConfig;
-        public CustomerStatusController(IOptions<ApplicationConfig> appConfig)
-        {
-            _appConfig = appConfig.Value;
-        }
+        public CustomerStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         [HttpPost("browse")]
@@ -42,14 +38,23 @@ namespace RentalWorksCoreApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
-        public IEnumerable<CustomerStatusLogic> Get(string id)
+        //public IEnumerable<CustomerStatusLogic> Get(string id)
+        //{
+        //    string[] ids = id.Split('~');
+        //    CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+        //    customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+        //    customerStatus.Load<CustomerStatusLogic>(ids);
+        //    List<CustomerStatusLogic> records = new List<CustomerStatusLogic>();
+        //    records.Add(customerStatus);
+        //    return records;
+        //}
+        public CustomerStatusLogic Get(string id)
         {
+            string[] ids = id.Split('~');
             CustomerStatusLogic customerStatus = new CustomerStatusLogic();
             customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-            customerStatus.Load<CustomerStatusLogic>(id);
-            List<CustomerStatusLogic> records = new List<CustomerStatusLogic>();
-            records.Add(customerStatus);
-            return records;
+            customerStatus.Load<CustomerStatusLogic>(ids);
+            return customerStatus;
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
@@ -61,13 +66,20 @@ namespace RentalWorksCoreApi.Controllers.v1
             return customerStatus;
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/customerstatus/customerstatusid
-        [HttpDelete("{id}")]
-        public void Delete(string id)
+        //// DELETE api/v1/customerstatus/customerstatusid
+        //[HttpDelete("{id}")]
+        //public void Delete(string id)
+        //{
+        //    CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+        //    customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+        //    customerStatus.CustomerStatusId = id;
+        //    customerStatus.Delete();
+        //}
+        // DELETE api/v1/customerstatus
+        [HttpDelete]
+        public void Delete([FromBody]CustomerStatusLogic customerStatus)
         {
-            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
             customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-            customerStatus.CustomerStatusId = id;
             customerStatus.Delete();
         }
         //------------------------------------------------------------------------------------

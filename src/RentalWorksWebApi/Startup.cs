@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RentalWorksWebDataLayer.Settings;
 using RentalWorksWebLogic.Settings;
 
 namespace RentalWorksWebApi
@@ -22,7 +23,10 @@ namespace RentalWorksWebApi
 
             Mapper.Initialize(cfg => {
                 cfg.AddProfile<FwSqlMapperProfile>();
-                cfg.CreateMap<CustomerStatusLogic, CustomerStatusLogic>();
+                cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
+                cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
+                cfg.CreateMap<OrderLogic, DealOrderRecord>();
+                cfg.CreateMap<OrderLogic, DealOrderDetailRecord>();
             });
         }
 

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FwStandard.BusinessLogic;
+//using FwStandard.DataLayer;
 
 namespace FwStandard.SqlServer
 {
@@ -7,7 +7,7 @@ namespace FwStandard.SqlServer
     {
         public FwSqlMapperProfile()
         {
-            CreateMap<FwBusinessLogic, FwBusinessLogic>();
+            //CreateMap<FwDataRecord, FwDataRecord>();  //jh 06/28/2017 don't think this is needed
         }
     }
 }

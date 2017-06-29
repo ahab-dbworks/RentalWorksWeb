@@ -9,75 +9,75 @@ using System.Collections.Generic;
 namespace RentalWorksCoreApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class GlAccountController : RwController
+    public class OrderController : RwController
     {
-        public GlAccountController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/glaccount/browse
+        // POST api/v1/order/browse
         [HttpPost("browse")]
         public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
         {
-            GlAccountLogic l = new GlAccountLogic();
+            OrderLogic l = new OrderLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
             FwJsonDataTable dt = l.Browse(request);
             return dt;
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/glaccount
+        // GET api/v1/order
         [HttpGet]
-        public IEnumerable<GlAccountLogic> Get(int pageno, int pagesize)
+        public IEnumerable<OrderLogic> Get(int pageno, int pagesize)
         {
             BrowseRequestDto request = new BrowseRequestDto();
             request.pageno = pageno;
             request.pagesize = pagesize;
-            GlAccountLogic l = new GlAccountLogic();
+            OrderLogic l = new OrderLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
-            IEnumerable<GlAccountLogic> records = l.Select<GlAccountLogic>(request);
+            IEnumerable<OrderLogic> records = l.Select<OrderLogic>(request);
             return records;
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/glaccount/A0000001
+        // GET api/v1/order/A0000001
         [HttpGet("{id}")]
-        //public IEnumerable<GlAccountLogic> Get(string id)
+        //public IEnumerable<OrderLogic> Get(string id)
         //{
         //    string[] ids = id.Split('~');
-        //    GlAccountLogic l = new GlAccountLogic();
+        //    OrderLogic l = new OrderLogic();
         //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.Load<GlAccountLogic>(ids);
-        //    List<GlAccountLogic> records = new List<GlAccountLogic>();
+        //    l.Load<OrderLogic>(ids);
+        //    List<OrderLogic> records = new List<OrderLogic>();
         //    records.Add(l);
         //    return records;
         //}
-        public GlAccountLogic Get(string id)
+        public OrderLogic Get(string id)
         {
             string[] ids = id.Split('~');
-            GlAccountLogic l = new GlAccountLogic();
+            OrderLogic l = new OrderLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
-            l.Load<GlAccountLogic>(ids);
+            l.Load<OrderLogic>(ids);
             return l;
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/glaccount
+        // POST api/v1/order
         [HttpPost]
-        public GlAccountLogic Post([FromBody]GlAccountLogic l)
+        public OrderLogic Post([FromBody]OrderLogic l)
         {
             l.SetDbConfig(_appConfig.DatabaseSettings);
             l.Save();
             return l;
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/glaccount/A0000001
+        //// DELETE api/v1/order/A0000001
         //[HttpDelete("{id}")]
         //public void Delete(string id)
         //{
-        //    GlAccountLogic l = new GlAccountLogic();
+        //    OrderLogic l = new OrderLogic();
         //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.GlAccountId = id;
+        //    l.OrderId = id;
         //    l.Delete();
         //}
-        // DELETE api/v1/glaccount
+        // DELETE api/v1/order
         [HttpDelete]
-        public void Delete([FromBody]GlAccountLogic l)
+        public void Delete([FromBody]OrderLogic l)
         {
             l.SetDbConfig(_appConfig.DatabaseSettings);
             l.Delete();

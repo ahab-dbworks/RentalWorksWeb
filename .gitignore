@@ -70,3 +70,7 @@
 /src/RentalWorksWebApi/bin/
 /src/RentalWorksWebApi/obj/
 /src/RentalWorksWebApi/appsettings.Development.json
+
+
+/src/RentalWorksWebDataLayer/obj/
+/src/RentalWorksWebDataLayer/bin/

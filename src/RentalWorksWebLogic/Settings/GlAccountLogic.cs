@@ -1,31 +1,26 @@
 ﻿using FwStandard.BusinessLogic;
-using FwStandard.SqlServer;
-using FwStandard.SqlServer.Attributes;
 using System;
+using RentalWorksWebDataLayer.Settings;
+using System.Collections.Generic;
+using FwStandard.Models;
 
 namespace RentalWorksWebLogic.Settings
 {
-    [FwSqlTable("glaccount", hasInsert: true, hasUpdate: true, hasDelete: true)]
-    public class GlAccountLogic : FwBusinessLogic
+    public class GlAccountLogic : RwBusinessLogic
     {
-        [FwSqlDataField("glaccountid", FwDataTypes.Text, isPrimaryKey: true)]
-        public string GlAccountId { get; set; } = "";
-
-        [FwSqlDataField("glno", FwDataTypes.Text)]
-        public string GlAccountNo { get; set; } = "";
-
-        [FwSqlDataField("glacctdesc", FwDataTypes.Text)]
-        public string GlAccountDescription { get; set; } = "";
-
-        [FwSqlDataField("gltype", FwDataTypes.Text)]
-        public string GlAccountType { get; set; } = "";
-
-        [FwSqlDataField("datestamp", FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; } = null;
-
-        [FwSqlDataField("inactive", FwDataTypes.Boolean)]
-        public string Inactive { get; set; } = "";
-
+        GlAccountRecord glAccount = new GlAccountRecord();
+        //------------------------------------------------------------------------------------
+        public GlAccountLogic()
+        {
+            dataRecords.Add(glAccount);
+        }
+        //------------------------------------------------------------------------------------
+        public string GlAccountId { get { return glAccount.GlAccountId; } set { glAccount.GlAccountId = value;} }
+        public string GlAccountNo { get { return glAccount.GlAccountNo; } set { glAccount.GlAccountNo = value; } }
+        public string GlAccountDescription { get { return glAccount.GlAccountDescription; } set { glAccount.GlAccountDescription = value; } }
+        public string GlAccountType { get { return glAccount.GlAccountType; } set { glAccount.GlAccountType = value; } }
+        public DateTime? DateStamp { get { return glAccount.DateStamp; } set { glAccount.DateStamp = value; } }
+        public string Inactive { get { return glAccount.Inactive; } set { glAccount.Inactive = value; } }
         //------------------------------------------------------------------------------------
     }
 }

@@ -2290,18 +2290,34 @@ namespace FwStandard.SqlServer
                 var propertyInfos = businessObject.GetType().GetProperties();
                 foreach (var propertyInfo in propertyInfos)
                 {
-                    var hasPrimaryKeyAttribute = propertyInfo.IsDefined(typeof(FwPrimaryKeyAttribute));
-                    object propertyValue = propertyInfo.GetValue(businessObject);
-                    if (hasPrimaryKeyAttribute)
+                    var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
+                    if (!hasJsonIgnoreAttribute)
                     {
-                        if (whereClause.Length > 0)
+
+                        var propertyValue = propertyInfo.GetValue(businessObject);
+                        string sqlColumnName = propertyInfo.Name;
+                        var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
+                        if (hasSqlDataFieldAttribute)
                         {
-                            whereClause.Append("and ");
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                            {
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            }
+
+                            if (sqlDataFieldAttribute.IsPrimaryKey)
+                            {
+                                if (whereClause.Length > 0)
+                                {
+                                    whereClause.Append("and ");
+                                }
+                                whereClause.Append(sqlColumnName);
+                                whereClause.Append(" = @");
+                                whereClause.AppendLine(sqlColumnName);
+
+                                this.AddParameter("@" + sqlColumnName, propertyValue);
+                            }
                         }
-                        whereClause.Append(propertyInfo.Name);
-                        whereClause.Append(" = @");
-                        whereClause.AppendLine(propertyInfo.Name);
-                        this.AddParameter("@" + propertyInfo.Name, propertyValue);
                     }
                 }
                 if (whereClause.Length == 0)
