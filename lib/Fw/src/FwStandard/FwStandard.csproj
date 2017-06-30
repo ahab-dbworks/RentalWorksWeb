@@ -9,7 +9,6 @@
     <Compile Remove="SqlServer\FwDatabases.cs" />
     <Compile Remove="SqlServer\FwSqlColumn.cs" />
     <Compile Remove="SqlServer\FwSqlColumnSchema.cs" />
-    <Compile Remove="SqlServer\FwSqlSelect.cs" />
     <Compile Remove="SqlServer\FwSqlTable.cs" />
     <Compile Remove="SqlServer\FwSqlTableRow.cs" />
   </ItemGroup>

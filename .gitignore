@@ -58,19 +58,21 @@
 /lib/Fw/src/ReplaceInFile/obj/
 /lib/Fw/src/ReplaceInFile/ReplaceInFile.csproj.user
 
-
-/TestResult.xml
-
-/lib/FwStandard/bin/
-/lib/FwStandard/obj/
+/lib/Fw/src/FwStandard/bin/
+/lib/Fw/src/FwStandard/obj/
+/lib/Fw/src/FwStandard/FwStandard.csproj.user
 
 /src/RentalWorksWebLogic/bin/
 /src/RentalWorksWebLogic/obj/
+/src/RentalWorksWebLogic/RentalWorksWebLogic.csproj.user
 
 /src/RentalWorksWebApi/bin/
 /src/RentalWorksWebApi/obj/
+/src/RentalWorksWebApi/RentalWorksApi.csproj.user
 /src/RentalWorksWebApi/appsettings.Development.json
-
 
 /src/RentalWorksWebDataLayer/obj/
 /src/RentalWorksWebDataLayer/bin/
+/src/RentalWorksWebDataLayer/RentalWorksWebDataLayer.csproj.user
+
+/TestResult.xml

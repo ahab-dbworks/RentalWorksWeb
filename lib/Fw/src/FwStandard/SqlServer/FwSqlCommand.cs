@@ -986,8 +986,15 @@ namespace FwStandard.SqlServer
         {
             FwJsonDataTable dt;
 
+            FwSqlSelect select = new FwSqlSelect();
+            select.PageNo = 1;
+            select.PageSize = 20;
+            select.Add(this.qryText.ToString());
+            select.Parse();
+            select.SetQuery(this);
             dt = new FwJsonDataTable();
-
+            dt.PageNo = 1;
+            dt.PageSize = 20;
             QueryToFwJsonTable(dt, this.qryText.ToString(), includeAllColumns);
 
             return dt;
@@ -2196,8 +2203,6 @@ namespace FwStandard.SqlServer
                         var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
                         if (hasSqlDataFieldAttribute)
                         {
-                            //var sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
-
                             FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
                             if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                             {
@@ -2290,33 +2295,26 @@ namespace FwStandard.SqlServer
                 var propertyInfos = businessObject.GetType().GetProperties();
                 foreach (var propertyInfo in propertyInfos)
                 {
-                    var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
-                    if (!hasJsonIgnoreAttribute)
+                    var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
+                    var propertyValue = propertyInfo.GetValue(businessObject);
+                    string sqlColumnName = propertyInfo.Name;
+                    if (hasSqlDataFieldAttribute)
                     {
-
-                        var propertyValue = propertyInfo.GetValue(businessObject);
-                        string sqlColumnName = propertyInfo.Name;
-                        var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
-                        if (hasSqlDataFieldAttribute)
+                        var sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlDataFieldAttribute.IsPrimaryKey)
                         {
-                            FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
                             if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                             {
                                 sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-
-                            if (sqlDataFieldAttribute.IsPrimaryKey)
+                            if (whereClause.Length > 0)
                             {
-                                if (whereClause.Length > 0)
-                                {
-                                    whereClause.Append("and ");
-                                }
-                                whereClause.Append(sqlColumnName);
-                                whereClause.Append(" = @");
-                                whereClause.AppendLine(sqlColumnName);
-
-                                this.AddParameter("@" + sqlColumnName, propertyValue);
+                                whereClause.Append("and ");
                             }
+                            whereClause.Append(sqlColumnName);
+                            whereClause.Append(" = @");
+                            whereClause.AppendLine(sqlColumnName);
+                            this.AddParameter("@" + sqlColumnName, propertyValue);
                         }
                     }
                 }
@@ -2329,37 +2327,6 @@ namespace FwStandard.SqlServer
                 sql.AppendLine(tablename);
                 sql.AppendLine("where");
                 sql.Append(whereClause);
-                this.sqlCommand.CommandText = sql.ToString();
-                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
-                this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
-                this.sqlLogEntry.Stop();
-            }
-            finally
-            {
-                if (openAndCloseConnection)
-                {
-                    this.sqlConnection.Close();
-                }
-                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
-            }
-
-            return this.RowCount;
-        }
-        //------------------------------------------------------------------------------------
-        public int Delete(bool openAndCloseConnection, string tablename, string whereClause, DeleteRequestDto request)
-        {
-            StringBuilder sql = new StringBuilder();
-            try
-            {
-                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
-                sql.AppendLine("delete from " + tablename);
-                sql.AppendLine(whereClause);
-                if (openAndCloseConnection)
-                {
-                    this.sqlConnection.Open();
-                }
                 this.sqlCommand.CommandText = sql.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);

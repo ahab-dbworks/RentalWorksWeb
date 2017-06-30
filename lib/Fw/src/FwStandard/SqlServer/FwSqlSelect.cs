@@ -342,12 +342,12 @@ namespace FwStandard.SqlServer
             return sb.ToString();
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string column, string parameterList, bool decrypt)
+        public void AddWhereIn(string conjunction, string column, string parameterList)
         {
-            AddWhereIn(conjunction, column, parameterList, decrypt, true);
+            AddWhereIn(conjunction, column, parameterList, true);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string column, string parameterList, bool decrypt, bool selectAllIfEmpty)
+        public void AddWhereIn(string conjunction, string column, string parameterList, bool selectAllIfEmpty)
         {
             string[] fields;
             StringBuilder sb;
@@ -362,7 +362,7 @@ namespace FwStandard.SqlServer
                 for (int i = 0; i < fields.Length; i++)
                 {
                     parameterName  = "@" + column.Replace('.', '_') + i.ToString();
-                    parameterValue = decrypt ? FwCryptography.AjaxDecrypt(fields[i]) : fields[i];
+                    parameterValue = fields[i];
                     if (i > 0)
                     {
                         sb.Append(",");
@@ -376,12 +376,12 @@ namespace FwStandard.SqlServer
             }
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after, bool decrypt)
+        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after)
         {
-            AddWhereIn(conjunction, paramternameprefix, before, parameterList, after, decrypt, true);
+            AddWhereIn(conjunction, paramternameprefix, before, parameterList, after, true);
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after, bool decrypt, bool selectAllIfEmpty)
+        public void AddWhereIn(string conjunction, string paramternameprefix, string before, string parameterList, string after, bool selectAllIfEmpty)
         {
             string[] fields;
             StringBuilder sb;
@@ -396,7 +396,7 @@ namespace FwStandard.SqlServer
                 for (int i = 0; i < fields.Length; i++)
                 {
                     parameterName  = "@" + paramternameprefix + i.ToString();
-                    parameterValue = decrypt ? FwCryptography.AjaxDecrypt(fields[i]) : fields[i];
+                    parameterValue = fields[i];
                     if (i > 0)
                     {
                         sb.Append(",");
@@ -411,7 +411,7 @@ namespace FwStandard.SqlServer
             }
         }
         //---------------------------------------------------------------------------------------------
-        public void AddWhereInFromCheckboxList(string conjunction, string column, dynamic parameterList, bool decrypt)
+        public void AddWhereInFromCheckboxList(string conjunction, string column, dynamic parameterList)
         {
             StringBuilder sb;
             string paramString;
@@ -422,7 +422,7 @@ namespace FwStandard.SqlServer
                 sb.Append(parameter.value);
             }
             paramString = sb.ToString();
-            AddWhereIn(conjunction, column, paramString, decrypt, true);
+            AddWhereIn(conjunction, column, paramString, true);
         }
         //---------------------------------------------------------------------------------------------
         //public void AddWhereInFromCheckboxList(string conjunction, string column, dynamic parameterList, List<FwReportStatusItem> allowedList, bool decrypt)
