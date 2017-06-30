@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\FwStandard\FwStandard.csproj" />
+    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
     <ProjectReference Include="..\RentalWorksWebDataLayer\RentalWorksWebDataLayer.csproj" />
   </ItemGroup>
 

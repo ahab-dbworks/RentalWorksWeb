@@ -29,8 +29,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\FwStandard\FwStandard.csproj" />
     <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj" />
+    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
     <ProjectReference Include="..\RentalWorksWebDataLayer\RentalWorksWebDataLayer.csproj" />
     <ProjectReference Include="..\RentalWorksWebLogic\RentalWorksWebLogic.csproj" />
   </ItemGroup>
