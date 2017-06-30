@@ -884,7 +884,7 @@ namespace RentalWorksQuikScan.Source
                     qry.Add(" from   dbo.funcpoitem(@poid) p");
                     qry.Add(" where  p.rectype in ('R','S','P')");
                     qry.Add(" and    p.warehouseid = @warehouseid");
-                    qry.Add(" and (p.netqtyordered > (p.qtyreceived");
+                    qry.Add(" and (p.qtyreceived > (p.qtyreturned");
                     qry.Add("                            - isnull((select sum(ot.qty)");
                     qry.Add("                                      from  ordertran ot");
                     qry.Add("                                      where ot.orderid           = p.orderid");

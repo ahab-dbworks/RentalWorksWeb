@@ -5,19 +5,19 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
     
     if (typeof properties.moduleType === 'undefined') throw 'POSubReceiveReturn.getPOReceiveReturnScreen: properties.moduleType is required.';
     switch(properties.moduleType) {
-        case RwConstants.moduleTypes.SubReturn:  
-            pageTitle = RwLanguages.translate('PO Sub-Return');
-            contractType = 'RETURN';
-            captionBarcodeICode = RwLanguages.translate('Bar Code / I-Code');
-            captionReceiveBy = RwLanguages.translate('Return by');
-            captionOK = RwLanguages.translate('Return');
-            break;
         case RwConstants.moduleTypes.SubReceive:
             pageTitle = RwLanguages.translate('PO Sub-Receive');
             contractType = 'RECEIVE';
             captionBarcodeICode = RwLanguages.translate('I-Code');
             captionReceiveBy = RwLanguages.translate('Receive by');
             captionOK = RwLanguages.translate('Receive');
+            break;
+        case RwConstants.moduleTypes.SubReturn:  
+            pageTitle = RwLanguages.translate('PO Sub-Return');
+            contractType = 'RETURN';
+            captionBarcodeICode = RwLanguages.translate('Bar Code / I-Code');
+            captionReceiveBy = RwLanguages.translate('Return by');
+            captionOK = RwLanguages.translate('Return');
             break;
         default: throw 'POSubReceiveReturn.getPOReceiveReturnScreen moduleType not supported';
     };
