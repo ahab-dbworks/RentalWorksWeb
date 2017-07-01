@@ -184,6 +184,8 @@ namespace RentalWorksAPI.api.v2.Data
                 webuser.webusersid            = qryresult[i].webusersid;
                 webuser.usersid               = qryresult[i].usersid;
                 webuser.fullname              = qryresult[i].fullname;
+                webuser.firstname             = qryresult[i].firstname;
+                webuser.lastname              = qryresult[i].lastname;
                 webuser.locationid            = qryresult[i].locationid;
                 webuser.location              = qryresult[i].location;
                 webuser.primarydepartmentid   = qryresult[i].departmentid;

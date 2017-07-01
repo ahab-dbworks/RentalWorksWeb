@@ -23,12 +23,9 @@ namespace RentalWorksAPI.api.v2
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            foreach (StageItem item in request.items)
-            {
-                StageItemQry stageItemResult = WarehouseData.StageItem(request.orderid, item.barcode, item.masteritemid, item.qty);
-            }
+            response = WarehouseData.StageItem(request.orderid, request.webusersid, request.items);
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = response });
+            return Request.CreateResponse(HttpStatusCode.OK, new { order = response });
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
@@ -40,12 +37,9 @@ namespace RentalWorksAPI.api.v2
             if (!ModelState.IsValid)
                 ThrowError("400", "");
 
-            foreach (UnstageItemRequestItem item in request.items)
-            {
-                UnstageItemQry stageItemResult = WarehouseData.UnstageItem(request.orderid, item.barcode, item.masteritemid, item.qty);
-            }
+            response = WarehouseData.UnstageItem(request.orderid, request.webusersid, request.items);
 
-            return Request.CreateResponse(HttpStatusCode.OK, new { Csrs = response });
+            return Request.CreateResponse(HttpStatusCode.OK, new { order = response });
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
@@ -53,16 +47,11 @@ namespace RentalWorksAPI.api.v2
         public HttpResponseMessage MoveToContract([FromBody]MoveToContractRequest request)
         {
             MoveToContractResponse response = new MoveToContractResponse();
-            response.order.orderid = request.orderid;
-            for (int i = request.items.Count - 1; i >= 0; i--)
-            {
-                StagedItem requestitem = request.items[i];
-                MoveToContractSp responseitem = WarehouseData.MoveToContract(request.usersid, request.orderid, requestitem.barcode, requestitem.masteritemid, requestitem.quantity);
-                response.order.items.Add(responseitem);
-            }
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
+
+            response = WarehouseData.MoveToContract(request.orderid, request.webusersid, request.items);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { order = response });
         }

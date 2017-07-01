@@ -286,10 +286,50 @@ namespace RentalWorksAPI.api.v2.Data
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static List<OrderStatusItems> GetOrderStatusDetail(string orderid)
+        public static List<OrderStatusItems> GetOrderStatus(string orderid)
         {
-            List<OrderStatusItems> result = new List<OrderStatusItems>();;
-            dynamic qryresult             = new ExpandoObject();
+            List<OrderStatusItems> result            = new List<OrderStatusItems>();
+            List<OrderStatusItemDetail> detailresult = new List<OrderStatusItemDetail>();
+            dynamic qryresult                        = new ExpandoObject();
+
+            detailresult = GetOrderStatusDetail(orderid);
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from apirest_orderstatus(@orderid)");
+                qry.AddParameter("@orderid", orderid);
+                qryresult = qry.QueryToDynamicList2();
+
+                for (int i = 0; i < qryresult.Count; i++)
+                {
+                    OrderStatusItems item = new OrderStatusItems();
+
+                    item.rectype         = qryresult[i].rectype;
+                    item.masterid        = qryresult[i].masterid;
+                    item.masterno        = qryresult[i].masterno;
+                    item.description     = qryresult[i].description;
+                    item.qtyordered      = qryresult[i].qtyordered;
+                    item.qtystaged       = qryresult[i].qtystaged;
+                    item.qtyout          = qryresult[i].qtyout;
+                    item.qtyin           = qryresult[i].qtyin;
+                    item.qtystillout     = qryresult[i].qtystillout;
+                    item.itemorder       = qryresult[i].itemorder;
+                    item.trackedby       = qryresult[i].trackedby;
+
+                    item.physicalassets  = detailresult.Where(x => x.masterid == item.masterid).ToList();
+
+                    result.Add(item);
+                }
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<OrderStatusItemDetail> GetOrderStatusDetail(string orderid)
+        {
+            List<OrderStatusItemDetail> result = new List<OrderStatusItemDetail>();;
+            dynamic qryresult                  = new ExpandoObject();
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
@@ -302,22 +342,18 @@ namespace RentalWorksAPI.api.v2.Data
 
                 for (int i = 0; i < qryresult.Count; i++)
                 {
-                    OrderStatusItems item = new OrderStatusItems();
+                    OrderStatusItemDetail item = new OrderStatusItemDetail();
 
+                    item.rentalitemid    = qryresult[i].rentalitemid;
                     item.rectype         = qryresult[i].rectype;
                     item.masterid        = qryresult[i].masterid;
                     item.masterno        = qryresult[i].masterno;
                     item.description     = qryresult[i].description;
-                    //item.qtyordered      = FwConvert.ToString(qryresult[i].qtyordered);
-                    //item.qtystaged       = FwConvert.ToString(qryresult[i].qtystaged);
-                    //item.qtyout          = FwConvert.ToString(qryresult[i].qtyout);
-                    //item.qtyin           = FwConvert.ToString(qryresult[i].qtyin);
-                    //item.qtystillout     = FwConvert.ToString(qryresult[i].qtystillout);
-                    //item.itemorder       = qryresult[i].itemorder;
                     item.trackedby       = qryresult[i].trackedby;
                     item.barcode         = qryresult[i].barcode;
                     item.serialno        = qryresult[i].mfgserial;
-                    item.vendorconsignor = qryresult[i].vendor;
+                    item.rfid            = qryresult[i].rfid;
+                    item.vendor          = qryresult[i].vendor;
                     item.outdatetime     = qryresult[i].outdatetime;
                     item.indatetime      = qryresult[i].indatetime;
 

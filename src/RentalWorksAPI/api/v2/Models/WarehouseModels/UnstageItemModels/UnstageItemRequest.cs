@@ -7,7 +7,8 @@ namespace RentalWorksAPI.api.v2.Models.WarehouseModels.UnstageItemModels
 {
     public class UnstageItemRequest
     {
-        public string orderid { get; set; }
-        public List<UnstageItemRequestItem> items { get; set; }
+        public string orderid                     { get; set; }
+        public string webusersid                  { get; set; }
+        public List<UnstageItem> items { get; set; }
     }
 }

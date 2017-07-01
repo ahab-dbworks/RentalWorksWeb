@@ -2,76 +2,135 @@
 using RentalWorksAPI.api.v2.Models.WarehouseModels.MoveToContract;
 using RentalWorksAPI.api.v2.Models.WarehouseModels.StageItemModels;
 using RentalWorksAPI.api.v2.Models.WarehouseModels.UnstageItemModels;
+using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 
 namespace RentalWorksAPI.api.v2.Data
 {
     public class WarehouseData
     {
         //----------------------------------------------------------------------------------------------------
-        public static StageItemQry StageItem(string orderid, string code, string masteritemid, int qty)
+        public static StageItemResponse StageItem(string orderid, string webusersid, List<StageItem> items)
         {
-            StageItemQry result = new StageItemQry();
+            StageItemResponse result = new StageItemResponse();
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_stageitem"))
+            result.orderid = orderid;
+            result.items   = new List<StageItemResponseItem>();
+
+            for (int i = 0; i < items.Count; i++)
             {
-                qry.AddParameter("@orderid", orderid);
-                qry.AddParameter("@code", code);
-                qry.AddParameter("@masteritemid", SqlDbType.Char, ParameterDirection.InputOutput, masteritemid);
-                qry.AddParameter("@qty", qty);
-                qry.AddParameter("@statuscode", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@barcode", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@masterid", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@quantity", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
-                result = qry.QueryToTypedObject<StageItemQry>();
+                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_stageitem"))
+                {
+                    qry.AddParameter("@orderid",       orderid);
+                    qry.AddParameter("@code",          items[i].barcode);
+                    qry.AddParameter("@webusersid",    webusersid);
+                    qry.AddParameter("@qty",           items[i].qty);
+                    qry.AddParameter("@masteritemid",  SqlDbType.Char,    ParameterDirection.InputOutput, items[i].masteritemid);
+                    qry.AddParameter("@statuscode",    SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@barcode",       SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@masterid",      SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@quantity",      SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.Execute();
+
+                    StageItemResponseItem item = new StageItemResponseItem();
+                    item.statuscode    = qry.GetParameter("@statuscode").ToString().TrimEnd();
+                    item.statusmessage = qry.GetParameter("@statusmessage").ToString().TrimEnd();
+                    item.barcode       = qry.GetParameter("@barcode").ToString().TrimEnd();
+                    item.masteritemid  = qry.GetParameter("@masteritemid").ToString().TrimEnd();
+                    item.masterid      = qry.GetParameter("@masterid").ToString().TrimEnd();
+                    item.quantity      = qry.GetParameter("@quantity").ToInt32();
+                    item.datetimestamp = qry.GetParameter("@datetimestamp").ToString().TrimEnd();
+
+                    result.items.Add(item);
+                }
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static UnstageItemQry UnstageItem(string orderid, string code, string masteritemid, int qty)
+        public static UnstageItemResponse UnstageItem(string orderid, string webusersid, List<UnstageItem> items)
         {
-            UnstageItemQry result = new UnstageItemQry();
+            UnstageItemResponse result = new UnstageItemResponse();
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_unstageitem"))
+            result.orderid = orderid;
+            result.items   = new List<UnstageItemResponseItem>();
+
+            for (int i = 0; i < items.Count; i++)
             {
-                qry.AddParameter("@orderid", orderid);
-                qry.AddParameter("@code", code);
-                qry.AddParameter("@masteritemid", SqlDbType.Char, ParameterDirection.InputOutput, masteritemid);
-                qry.AddParameter("@qty", qty);
-                qry.AddParameter("@statuscode", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@barcode", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@masterid", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@quantity", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
-                result = qry.QueryToTypedObject<UnstageItemQry>();
+                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_unstageitem"))
+                {
+                    qry.AddParameter("@orderid",       orderid);
+                    qry.AddParameter("@code",          items[i].barcode);
+                    qry.AddParameter("@webusersid",    webusersid);
+                    qry.AddParameter("@qty",           items[i].qty);
+                    qry.AddParameter("@masteritemid",  SqlDbType.Char,    ParameterDirection.InputOutput, items[i].masteritemid);
+                    qry.AddParameter("@statuscode",    SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@barcode",       SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@masterid",      SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@quantity",      SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.Execute();
+
+                    UnstageItemResponseItem item = new UnstageItemResponseItem();
+                    item.statuscode    = qry.GetParameter("@statuscode").ToString().TrimEnd();
+                    item.statusmessage = qry.GetParameter("@statusmessage").ToString().TrimEnd();
+                    item.barcode       = qry.GetParameter("@barcode").ToString().TrimEnd();
+                    item.masteritemid  = qry.GetParameter("@masteritemid").ToString().TrimEnd();
+                    item.masterid      = qry.GetParameter("@masterid").ToString().TrimEnd();
+                    item.quantity      = qry.GetParameter("@quantity").ToInt32();
+                    item.datetimestamp = qry.GetParameter("@datetimestamp").ToString().TrimEnd();
+
+                    result.items.Add(item);
+                }
             }
 
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static MoveToContractSp MoveToContract(string usersid, string orderid, string code, string masteritemid, int qty)
+        public static MoveToContractResponse MoveToContract(string orderid, string webusersid, List<MoveToContactItem> items)
         {
-            MoveToContractSp result = new MoveToContractSp();
+            MoveToContractResponse result = new MoveToContractResponse();
+            string contractid             = string.Empty;
 
-            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_movetocontract"))
+            result.orderid = orderid;
+            result.items   = new List<MoveToContractResponseItem>();
+
+            for (int i = 0; i < items.Count; i++)
             {
-                qry.AddColumn("datetimestamp", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
-                qry.AddParameter("@usersid", usersid); // required
-                qry.AddParameter("@orderid", orderid); //required
-                qry.AddParameter("@code", code);
-                qry.AddParameter("@masteritemid", SqlDbType.Char, ParameterDirection.InputOutput, masteritemid);
-                qry.AddParameter("@qty", qty);
-                qry.AddParameter("@statuscode", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@barcode", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@masterid", SqlDbType.VarChar, ParameterDirection.Output);
-                qry.AddParameter("@quantity", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
-                result = qry.QueryToTypedObject<MoveToContractSp>();
+                using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks, "apirest_movetocontract"))
+                {
+                    qry.AddColumn("datetimestamp", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
+                    qry.AddParameter("@webusersid",    webusersid); //required
+                    qry.AddParameter("@orderid",       orderid);    //required
+                    qry.AddParameter("@code",          items[i].barcode);
+                    qry.AddParameter("@qty",           items[i].qty);
+                    qry.AddParameter("@masteritemid",  SqlDbType.Char,    ParameterDirection.InputOutput, items[i].masteritemid);
+                    qry.AddParameter("@contractid",    SqlDbType.Char,    ParameterDirection.InputOutput, contractid);
+                    qry.AddParameter("@statuscode",    SqlDbType.Int,     ParameterDirection.Output);
+                    qry.AddParameter("@statusmessage", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@barcode",       SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@masterid",      SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.AddParameter("@quantity",      SqlDbType.Int,     ParameterDirection.Output);
+                    qry.AddParameter("@datetimestamp", SqlDbType.VarChar, ParameterDirection.Output);
+                    qry.Execute();
+
+                    contractid = qry.GetParameter("@contractid").ToString().TrimEnd();
+
+                    MoveToContractResponseItem item = new MoveToContractResponseItem();
+                    item.statuscode    = qry.GetParameter("@statuscode").ToString().TrimEnd();
+                    item.statusmessage = qry.GetParameter("@statusmessage").ToString().TrimEnd();
+                    item.barcode       = qry.GetParameter("@barcode").ToString().TrimEnd();
+                    item.masteritemid  = qry.GetParameter("@masteritemid").ToString().TrimEnd();
+                    item.masterid      = qry.GetParameter("@masterid").ToString().TrimEnd();
+                    item.quantity      = qry.GetParameter("@quantity").ToInt32();
+                    item.datetimestamp = qry.GetParameter("@datetimestamp").ToString().TrimEnd();
+
+                    result.items.Add(item);
+                }
             }
 
             return result;

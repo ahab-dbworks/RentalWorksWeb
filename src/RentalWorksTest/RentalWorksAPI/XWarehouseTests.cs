@@ -53,7 +53,7 @@ namespace RentalWorksTest.RentalWorksAPI
             {
                 UnstageItemRequest request = new UnstageItemRequest();
                 request.orderid = "B000V5V5";
-                request.items = new List<UnstageItemRequestItem>();
+                request.items = new List<UnstageItem>();
                 HttpResponseMessage message = client.PostAsJsonAsync<UnstageItemRequest>(url, request).Result;
                 if (!message.IsSuccessStatusCode)
                 {
@@ -78,7 +78,7 @@ namespace RentalWorksTest.RentalWorksAPI
                 MoveToContractRequest request = new MoveToContractRequest();
                 request.orderid = "";
                 request.usersid = "";
-                request.items.Add(new StagedItem() { barcode="", masteritemid="", quantity=1 });
+                request.items.Add(new MoveToContactItem() { barcode="", masteritemid="", quantity=1 });
                 HttpResponseMessage message = client.PostAsJsonAsync<MoveToContractRequest>(url, request).Result;
                 if (!message.IsSuccessStatusCode)
                 {

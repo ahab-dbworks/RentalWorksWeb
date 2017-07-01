@@ -63,7 +63,7 @@ namespace RentalWorksAPI.api.v2
 
             response.orderid   = orderid;
             response.orderdesc = FwSqlCommand.GetData(FwSqlConnection.RentalWorks, "dealorder", "orderid", orderid, "orderdesc").ToString().TrimEnd();
-            response.items     = OrderData.GetOrderStatusDetail(orderid);
+            response.items     = OrderData.GetOrderStatus(orderid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { Order = response } );
         }

@@ -171,8 +171,10 @@ namespace RentalWorksAPI.api.v2.Data
                 item.masterid     = qryresult[i].masterid;
                 item.masterno     = qryresult[i].masterno;
                 item.master       = qryresult[i].master;
-                item.departmentid = qryresult[i].departmentid;
-                item.department   = qryresult[i].department;
+                item.departmentid = qryresult[i].inventorytypeid;
+                item.department   = qryresult[i].inventorytype;
+
+                result.Add(item);
             }
 
             return result;
