@@ -1,27 +1,26 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
-using RentalWorksWebApi;
+using System;
 using System.Collections.Generic;
 
-namespace RentalWorksCoreApi.Controllers.v1
+namespace RentalWorksWebApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class GlAccountController : RwController
+    public class GlAccountController : RwDataController
     {
         public GlAccountController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/glaccount/browse
-        [HttpPost("browse")]
-        public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
+        protected override FwJsonDataTable doBrowse(BrowseRequestDto request)
         {
             GlAccountLogic l = new GlAccountLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
-            FwJsonDataTable dt = l.Browse(request);
-            return dt;
+            return l.Browse(request);
         }
+
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount
         [HttpGet]
@@ -36,25 +35,31 @@ namespace RentalWorksCoreApi.Controllers.v1
             return records;
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/glaccount/A0000001
         [HttpGet("{id}")]
-        //public IEnumerable<GlAccountLogic> Get(string id)
-        //{
-        //    string[] ids = id.Split('~');
-        //    GlAccountLogic l = new GlAccountLogic();
-        //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.Load<GlAccountLogic>(ids);
-        //    List<GlAccountLogic> records = new List<GlAccountLogic>();
-        //    records.Add(l);
-        //    return records;
-        //}
-        public GlAccountLogic Get(string id)
+        public IActionResult Get(string id)
         {
-            string[] ids = id.Split('~');
-            GlAccountLogic l = new GlAccountLogic();
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            l.Load<GlAccountLogic>(ids);
-            return l;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                GlAccountLogic customerStatus = new GlAccountLogic();
+                customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+                if (customerStatus.Load<GlAccountLogic>(ids))
+                {
+                    return new OkObjectResult(customerStatus);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount
@@ -63,23 +68,15 @@ namespace RentalWorksCoreApi.Controllers.v1
         {
             l.SetDbConfig(_appConfig.DatabaseSettings);
             l.Save();
+            l.Load<GlAccountLogic>();
             return l;
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/glaccount/A0000001
-        //[HttpDelete("{id}")]
-        //public void Delete(string id)
-        //{
-        //    GlAccountLogic l = new GlAccountLogic();
-        //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.GlAccountId = id;
-        //    l.Delete();
-        //}
-        // DELETE api/v1/glaccount
-        [HttpDelete]
-        public void Delete([FromBody]GlAccountLogic l)
+        protected override void doDelete(string[] ids)
         {
+            GlAccountLogic l = new GlAccountLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
+            l.SetPrimaryKeys(ids);
             l.Delete();
         }
         //------------------------------------------------------------------------------------

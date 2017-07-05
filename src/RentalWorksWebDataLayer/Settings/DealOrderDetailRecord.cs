@@ -1,25 +1,24 @@
-﻿using FwStandard.DataLayer;
-using FwStandard.SqlServer;
+﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
 
 namespace RentalWorksWebDataLayer.Settings
 {
     [FwSqlTable("dealorderdetail", hasInsert: true, hasUpdate: true, hasDelete: true)]
-    public class DealOrderDetailRecord : FwDataRecord
+    public class DealOrderDetailRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField("orderid", FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(columnName: "orderid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
         public string OrderId { get; set; } = "";
-
-        [FwSqlDataField("maxcumulativediscount", FwDataTypes.Decimal)]
-        public decimal MaximumCumulativeDiscount { get; set; } = 0;
-
-        [FwSqlDataField("poapprovalstatusid", FwDataTypes.Text)]
-        public string PoApprovalStatusId { get; set; } = "";
-
-        [FwSqlDataField("datestamp", FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; } = null;
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(columnName: "maxcumulativediscount", dataType: FwDataTypes.Decimal, precision: 5, scale: 2)]
+        public decimal MaximumCumulativeDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(columnName: "poapprovalstatusid", dataType: FwDataTypes.Text, length: 8)]
+        public string PoApprovalStatusId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        public DateTime? DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

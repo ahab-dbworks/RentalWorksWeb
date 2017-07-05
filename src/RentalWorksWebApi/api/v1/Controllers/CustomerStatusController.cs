@@ -1,26 +1,23 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
-using RentalWorksWebApi;
+using System;
 using System.Collections.Generic;
 
-namespace RentalWorksCoreApi.Controllers.v1
+namespace RentalWorksWebApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class CustomerStatusController : RwController
+    public class CustomerStatusController : RwDataController
     {
         public CustomerStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/browse
-        [HttpPost("browse")]
-        public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
-        {
-            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
-            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-            FwJsonDataTable dt = customerStatus.Browse(request);
-            return dt;
+        protected override FwJsonDataTable doBrowse(BrowseRequestDto request) {
+            CustomerStatusLogic l = new CustomerStatusLogic();
+            l.SetDbConfig(_appConfig.DatabaseSettings);
+            return l.Browse(request);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
@@ -38,23 +35,30 @@ namespace RentalWorksCoreApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
-        //public IEnumerable<CustomerStatusLogic> Get(string id)
-        //{
-        //    string[] ids = id.Split('~');
-        //    CustomerStatusLogic customerStatus = new CustomerStatusLogic();
-        //    customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-        //    customerStatus.Load<CustomerStatusLogic>(ids);
-        //    List<CustomerStatusLogic> records = new List<CustomerStatusLogic>();
-        //    records.Add(customerStatus);
-        //    return records;
-        //}
-        public CustomerStatusLogic Get(string id)
+        public IActionResult Get(string id)
         {
-            string[] ids = id.Split('~');
-            CustomerStatusLogic customerStatus = new CustomerStatusLogic();
-            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-            customerStatus.Load<CustomerStatusLogic>(ids);
-            return customerStatus;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                CustomerStatusLogic customerStatus = new CustomerStatusLogic();
+                customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+                if (customerStatus.Load<CustomerStatusLogic>(ids))
+                {
+                    return new OkObjectResult(customerStatus);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus
@@ -63,24 +67,15 @@ namespace RentalWorksCoreApi.Controllers.v1
         {
             customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
             customerStatus.Save();
+            customerStatus.Load<CustomerStatusLogic>();
             return customerStatus;
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/customerstatus/customerstatusid
-        //[HttpDelete("{id}")]
-        //public void Delete(string id)
-        //{
-        //    CustomerStatusLogic customerStatus = new CustomerStatusLogic();
-        //    customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-        //    customerStatus.CustomerStatusId = id;
-        //    customerStatus.Delete();
-        //}
-        // DELETE api/v1/customerstatus
-        [HttpDelete]
-        public void Delete([FromBody]CustomerStatusLogic customerStatus)
-        {
-            customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-            customerStatus.Delete();
+        protected override void doDelete(string[] ids) {
+            CustomerStatusLogic l = new CustomerStatusLogic();
+            l.SetDbConfig(_appConfig.DatabaseSettings);
+            l.SetPrimaryKeys(ids);
+            l.Delete();
         }
         //------------------------------------------------------------------------------------
     }

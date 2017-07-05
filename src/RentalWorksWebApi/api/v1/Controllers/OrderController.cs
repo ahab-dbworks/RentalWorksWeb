@@ -1,32 +1,32 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
-using RentalWorksWebApi;
+using System;
 using System.Collections.Generic;
 
-namespace RentalWorksCoreApi.Controllers.v1
+namespace RentalWorksWebApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class OrderController : RwController
+    public class OrderController : RwDataController
     {
         public OrderController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/order/browse
-        [HttpPost("browse")]
-        public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
+    //------------------------------------------------------------------------------------
+    protected override FwJsonDataTable doBrowse(BrowseRequestDto request)
         {
             OrderLogic l = new OrderLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
-            FwJsonDataTable dt = l.Browse(request);
-            return dt;
+            return l.Browse(request);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/order
         [HttpGet]
         public IEnumerable<OrderLogic> Get(int pageno, int pagesize)
         {
+            ApplicationLogging.log("performing OrderController.Get");
+
             BrowseRequestDto request = new BrowseRequestDto();
             request.pageno = pageno;
             request.pagesize = pagesize;
@@ -36,25 +36,30 @@ namespace RentalWorksCoreApi.Controllers.v1
             return records;
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/order/A0000001
-        [HttpGet("{id}")]
-        //public IEnumerable<OrderLogic> Get(string id)
-        //{
-        //    string[] ids = id.Split('~');
-        //    OrderLogic l = new OrderLogic();
-        //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.Load<OrderLogic>(ids);
-        //    List<OrderLogic> records = new List<OrderLogic>();
-        //    records.Add(l);
-        //    return records;
-        //}
-        public OrderLogic Get(string id)
+        public IActionResult Get(string id)
         {
-            string[] ids = id.Split('~');
-            OrderLogic l = new OrderLogic();
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            l.Load<OrderLogic>(ids);
-            return l;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic customerStatus = new OrderLogic();
+                customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
+                if (customerStatus.Load<OrderLogic>(ids))
+                {
+                    return new OkObjectResult(customerStatus);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/order
@@ -63,23 +68,15 @@ namespace RentalWorksCoreApi.Controllers.v1
         {
             l.SetDbConfig(_appConfig.DatabaseSettings);
             l.Save();
+            l.Load<OrderLogic>();
             return l;
         }
         //------------------------------------------------------------------------------------
-        //// DELETE api/v1/order/A0000001
-        //[HttpDelete("{id}")]
-        //public void Delete(string id)
-        //{
-        //    OrderLogic l = new OrderLogic();
-        //    l.SetDbConfig(_appConfig.DatabaseSettings);
-        //    l.OrderId = id;
-        //    l.Delete();
-        //}
-        // DELETE api/v1/order
-        [HttpDelete]
-        public void Delete([FromBody]OrderLogic l)
+        protected override void doDelete(string[] ids)
         {
+            OrderLogic l = new OrderLogic();
             l.SetDbConfig(_appConfig.DatabaseSettings);
+            l.SetPrimaryKeys(ids);
             l.Delete();
         }
         //------------------------------------------------------------------------------------

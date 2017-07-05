@@ -25,8 +25,8 @@ namespace RentalWorksWebApi
                 cfg.AddProfile<FwSqlMapperProfile>();
                 cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
                 cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
-                cfg.CreateMap<OrderLogic, DealOrderRecord>();
-                cfg.CreateMap<OrderLogic, DealOrderDetailRecord>();
+                cfg.CreateMap<OrderLogic, OrderLoader>();
+                cfg.CreateMap<OrderLoader, OrderLogic>();
             });
         }
 
@@ -52,6 +52,8 @@ namespace RentalWorksWebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            ApplicationLogging.LoggerFactory = loggerFactory;
 
             app.UseMvc();
         }
