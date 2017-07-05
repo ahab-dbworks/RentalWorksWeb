@@ -2222,7 +2222,7 @@ namespace FwStandard.SqlServer
                                 this.AddParameter("@" + sqlColumnName, propertyValue);
                             }
 
-                            else if (propertyInfo.Name == "datestamp" || propertyValue != null)
+                            else if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
                             {
                                 if (i > 0)
                                 {
@@ -2235,7 +2235,7 @@ namespace FwStandard.SqlServer
                                 if (sqlColumnName == "datestamp")
                                 {
                                     propertyValue = DateTime.UtcNow;
-                                    businessObject.GetType().GetProperty("datestamp").SetValue(businessObject, propertyValue);
+                                    businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
                                     this.AddParameter("@" + sqlColumnName, propertyValue);
                                 }
                                 else

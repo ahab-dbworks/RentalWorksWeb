@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-//using System.Text;
+
 
 namespace FwStandard.DataLayer
 {
@@ -86,7 +86,7 @@ namespace FwStandard.DataLayer
         }
         //------------------------------------------------------------------------------------
         [JsonIgnore]
-        protected virtual bool AllPrimaryKeysHaveValues
+        public virtual bool AllPrimaryKeysHaveValues
         {
             get
             {
@@ -109,7 +109,7 @@ namespace FwStandard.DataLayer
         }
         //------------------------------------------------------------------------------------
         [JsonIgnore]
-        protected virtual bool NoPrimaryKeysHaveValues
+        public virtual bool NoPrimaryKeysHaveValues
         {
             get
             {
@@ -208,84 +208,65 @@ namespace FwStandard.DataLayer
             return results;
         }
         //------------------------------------------------------------------------------------
-        public virtual void Load<T>(string[] primaryKeyValues) 
+        public virtual bool Load<T>(string[] primaryKeyValues)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+            int k = 0;
+            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                SetBaseSelectQuery(qry);
-                List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
-                int k = 0;
-                foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
-                {
-                    if (k == 0)
-                    {
-                        qry.Add("where ");
-                    }
-                    else
-                    {
-                        qry.Add("and ");
-                    }
-                    FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                    string sqlColumnName = primaryKeyProperty.Name;
-                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
-                    {
-                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
-                    }
-                    qry.Add(sqlColumnName);
-                    qry.Add(" = @keyvalue" + k.ToString());
-                    k++;
-                }
-
-                k = 0;
-                foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
-                {
-                    qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyValues[k]);
-                    k++;
-                }
-
-                var record = qry.SelectOne<T>(true);
-                Mapper.Map(record, this);
+                primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
             }
+            return Load<T>();
         }
         //------------------------------------------------------------------------------------
-        public virtual int Save()
+        public virtual bool Load<T>()
         {
-            int rowsAffected = 0;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            bool loaded = false;
+            if (AllPrimaryKeysHaveValues)
             {
-                if (NoPrimaryKeysHaveValues)
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                 {
-                    //insert
-                    SetPrimaryKeyIdsForInsert(conn);
-                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    rowsAffected = cmd.Insert(true, TableName, this, _dbConfig);
-                }
-                else if (AllPrimaryKeysHaveValues)
-                {
-                    // update
-                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    rowsAffected = cmd.Update(true, TableName, this);
+                    FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                    SetBaseSelectQuery(qry);
+                    List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+                    int k = 0;
+                    foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                    {
+                        if (k == 0)
+                        {
+                            qry.Add("where ");
+                        }
+                        else
+                        {
+                            qry.Add("and ");
+                        }
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        string sqlColumnName = primaryKeyProperty.Name;
+                        if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                        {
+                            sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                        }
+                        qry.Add(sqlColumnName);
+                        qry.Add(" = @keyvalue" + k.ToString());
+                        k++;
+                    }
+                    k = 0;
+                    foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                    {
+                        qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+                        k++;
+                    }
+                    var record = qry.SelectOne<T>(true);
+                    Mapper.Map(record, this);
+                    loaded = (record != null);
 
                 }
-                else
-                {
-                    throw new Exception("Primary key values were not supplied for all primary keys.");
-                }
             }
-            return rowsAffected;
-        }
-        //------------------------------------------------------------------------------------
-        public virtual bool Delete()
-        {
-            bool success = false;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            else
             {
-                FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                int rowcount = cmd.Delete(true, TableName, this);   
-                success = (rowcount > 0);
+                throw new Exception("One or more Primary Key values are missing on " + GetType().ToString() + ".Load");
             }
-            return success;
+            return loaded;
         }
         //------------------------------------------------------------------------------------
     }
