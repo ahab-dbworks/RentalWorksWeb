@@ -1018,6 +1018,9 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\RwUserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusController.js" />
     <Content Include="Source\Modules\Settings\UserSettings\RwUserSettingsController.js" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
     <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
@@ -1196,6 +1199,8 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.cs" />
+    <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />

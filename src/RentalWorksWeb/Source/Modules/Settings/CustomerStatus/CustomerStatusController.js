@@ -1,17 +1,18 @@
 ﻿//----------------------------------------------------------------------------------------------
-var RwCustomerStatusController = {
-    Module: 'CustomerStatus'
+var CustomerStatusController = {
+    Module: 'CustomerStatus',
+    apiurl: 'api/v1/customerstatus'
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.getModuleScreen = function(viewModel, properties) {
+CustomerStatusController.getModuleScreen = function(viewModel, properties) {
     var screen, $browse;
 
     screen            = {};
-    screen.$view      = FwModule.getModuleControl('RwCustomerStatusController');
+    screen.$view      = FwModule.getModuleControl('CustomerStatusController');
     screen.viewModel  = viewModel;
     screen.properties = properties;
 
-    $browse = RwCustomerStatusController.openBrowse();
+    $browse = CustomerStatusController.openBrowse();
 
     screen.load = function () {
         FwModule.openModuleTab($browse, 'Customer Status', false, 'BROWSE', true);
@@ -25,7 +26,7 @@ RwCustomerStatusController.getModuleScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.openBrowse = function() {
+CustomerStatusController.openBrowse = function() {
     var $browse;
 
     $browse = jQuery(jQuery('#tmpl-modules-CustomerStatusBrowse').html());
@@ -35,7 +36,7 @@ RwCustomerStatusController.openBrowse = function() {
     return $browse;
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.openForm = function(mode) {
+CustomerStatusController.openForm = function(mode) {
     var $form;
 
     $form = jQuery(jQuery('#tmpl-modules-CustomerStatusForm').html());
@@ -44,27 +45,27 @@ RwCustomerStatusController.openForm = function(mode) {
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.loadForm = function(uniqueids) {
+CustomerStatusController.loadForm = function(uniqueids) {
     var $form;
 
-    $form = RwCustomerStatusController.openForm('EDIT');
-    $form.find('div.fwformfield[data-datafield="customer.customerid"] input').val(uniqueids.clientid);
-    FwModule.loadForm(RwCustomerStatusController.Module, $form);
+    $form = CustomerStatusController.openForm('EDIT');
+    $form.find('div.fwformfield[data-datafield="CustomerStatusId"] input').val(uniqueids.CustomerStatusId);
+    FwModule.loadForm(CustomerStatusController.Module, $form);
 
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.saveForm = function($form, closetab, navigationpath) {
-    FwModule.saveForm(RwCustomerStatusController.Module, $form, closetab, navigationpath);
+CustomerStatusController.saveForm = function($form, closetab, navigationpath) {
+    FwModule.saveForm(CustomerStatusController.Module, $form, closetab, navigationpath);
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.loadAudit = function($form) {
+CustomerStatusController.loadAudit = function($form) {
     var uniqueid;
-    uniqueid = $form.find('div.fwformfield[data-datafield="customer.customerid"] input').val();
+    uniqueid = $form.find('div.fwformfield[data-datafield="CustomerStatusId"] input').val();
     FwModule.loadAudit($form, uniqueid);
 };
 //----------------------------------------------------------------------------------------------
-RwCustomerStatusController.afterLoad = function($form) {
+CustomerStatusController.afterLoad = function($form) {
     
 };
 //----------------------------------------------------------------------------------------------
