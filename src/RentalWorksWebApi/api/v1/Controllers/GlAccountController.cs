@@ -1,11 +1,7 @@
 ﻿using FwStandard.Models;
-using FwStandard.SqlServer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
-using System;
-using System.Collections.Generic;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -14,70 +10,39 @@ namespace RentalWorksWebApi.Controllers.v1
     {
         public GlAccountController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        protected override FwJsonDataTable doBrowse(BrowseRequestDto request)
+        // POST api/v1/glaccount/browse
+        [HttpPost("browse")]
+        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
         {
-            GlAccountLogic l = new GlAccountLogic();
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            return l.Browse(request);
+            return doBrowse(browseRequest, typeof(GlAccountLogic));
         }
-
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount
         [HttpGet]
-        public IEnumerable<GlAccountLogic> Get(int pageno, int pagesize)
+        public IActionResult Get(int pageno, int pagesize)
         {
-            BrowseRequestDto request = new BrowseRequestDto();
-            request.pageno = pageno;
-            request.pagesize = pagesize;
-            GlAccountLogic l = new GlAccountLogic();
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            IEnumerable<GlAccountLogic> records = l.Select<GlAccountLogic>(request);
-            return records;
+            return doGet<GlAccountLogic>(pageno, pagesize, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
+        // GET api/v1/glaccount/A0000001
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                string[] ids = id.Split('~');
-                GlAccountLogic customerStatus = new GlAccountLogic();
-                customerStatus.SetDbConfig(_appConfig.DatabaseSettings);
-                if (customerStatus.Load<GlAccountLogic>(ids))
-                {
-                    return new OkObjectResult(customerStatus);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
-            }
+            return doGet<GlAccountLogic>(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount
         [HttpPost]
-        public GlAccountLogic Post([FromBody]GlAccountLogic l)
+        public IActionResult Post([FromBody]GlAccountLogic l)
         {
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            l.Save();
-            l.Load<GlAccountLogic>();
-            return l;
+            return doPost<GlAccountLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        protected override void doDelete(string[] ids)
+        // DELETE api/v1/glaccount/A0000001
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
         {
-            GlAccountLogic l = new GlAccountLogic();
-            l.SetDbConfig(_appConfig.DatabaseSettings);
-            l.SetPrimaryKeys(ids);
-            l.Delete();
+            return doDelete(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
     }

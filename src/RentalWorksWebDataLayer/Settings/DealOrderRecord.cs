@@ -4,7 +4,7 @@ using System;
 
 namespace RentalWorksWebDataLayer.Settings
 {
-    [FwSqlTable("dealorder", hasInsert: true, hasUpdate: true, hasDelete: true)]
+    [FwSqlTable("dealorder")]
     public class DealOrderRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------

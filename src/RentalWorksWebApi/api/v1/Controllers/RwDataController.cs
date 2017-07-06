@@ -1,7 +1,11 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -11,25 +15,113 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         public RwDataController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/businesslogic/browse
-        [HttpPost("browse")]
-        public FwJsonDataTable Browse([FromBody]BrowseRequestDto request)
+        protected FwBusinessLogic CreateBusinessLogic(Type type)
         {
-            FwJsonDataTable dt = doBrowse(request);
-            return dt;
+            return (FwBusinessLogic)Activator.CreateInstance(type);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/businesslogic/id
-        [HttpDelete("{id}")]
-        public void Delete(string id)
+        protected IActionResult doBrowse(BrowseRequestDto browseRequest, Type type)
         {
-            string[] ids = id.Split('~');
-            doDelete(ids);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                FwBusinessLogic l = CreateBusinessLogic(type);
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                FwJsonDataTable dt = l.Browse(browseRequest);
+                return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void doDelete(string[] ids) { }
+        protected IActionResult doGet<T>(int pageno, int pagesize, Type type)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                BrowseRequestDto request = new BrowseRequestDto();
+                request.pageno = pageno;
+                request.pagesize = pagesize;
+                FwBusinessLogic l = CreateBusinessLogic(type);
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                IEnumerable<T> records = l.Select<T>(request);
+                return new OkObjectResult(records);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
         //------------------------------------------------------------------------------------
-        protected abstract FwJsonDataTable doBrowse(BrowseRequestDto request);
+        protected IActionResult doGet<T>(string id, Type type)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                FwBusinessLogic l = CreateBusinessLogic(type);
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                if (l.Load<T>(ids))
+                {
+                    return new OkObjectResult(l);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected IActionResult doPost<T>(FwBusinessLogic l)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.Save();
+                l.Load<T>();
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected IActionResult doDelete(string id, Type type)
+        {
+            try
+            {
+                string[] ids = id.Split('~');
+                FwBusinessLogic l = CreateBusinessLogic(type);
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.SetPrimaryKeys(ids);
+                l.Delete();
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
         //------------------------------------------------------------------------------------
     }
 }

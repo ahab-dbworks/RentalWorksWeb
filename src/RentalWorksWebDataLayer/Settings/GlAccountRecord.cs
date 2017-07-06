@@ -4,7 +4,7 @@ using System;
 
 namespace RentalWorksWebDataLayer.Settings
 {
-    [FwSqlTable("glaccount", hasInsert: true, hasUpdate: true, hasDelete: true)]
+    [FwSqlTable("glaccount")]
     public class GlAccountRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
