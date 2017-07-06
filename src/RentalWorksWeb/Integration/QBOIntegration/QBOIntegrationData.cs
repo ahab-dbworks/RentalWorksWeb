@@ -866,6 +866,7 @@ namespace RentalWorksWeb.Integration
             {
                 dynamic newCreditMemo = new ExpandoObject();
                 string newCreditMemoJson;
+                string TxnTaxCodeRefValue = string.Empty;
 
                 newCreditMemo.DocNumber                       = invoice.invoiceno;
                 newCreditMemo.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
@@ -894,9 +895,13 @@ namespace RentalWorksWeb.Integration
 
                 if (invoice.taxitemcode != "")
                 {
+
+                    TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
+
                     newCreditMemo.TxnTaxDetail                     = new ExpandoObject();
                     newCreditMemo.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                    newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
+                    //newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
+                    newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
                 }
 
                 if (invoice.printnotes != "")
@@ -914,13 +919,26 @@ namespace RentalWorksWeb.Integration
                 {
                     dynamic newItem = new ExpandoObject();
 
+                    //jh 07/05/2017 CAS-20755-XOPL
+                    string taxCodeRefValue = string.Empty;
+                    if (invoice.taxcountry == "U")
+                    {
+                        taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                    }
+                    else if (invoice.taxcountry == "C")
+                    {
+                        taxCodeRefValue = TxnTaxCodeRefValue;
+                    }
+
+
                     newItem.Id                                   = j+1;
                     newItem.DetailType                           = "SalesItemLineDetail";
                     newItem.SalesItemLineDetail                  = new ExpandoObject();
                     newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
                     newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
                     newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-                    newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                    //newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                    newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
                     newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
                     newItem.Amount                               = invoice.items[j].linetotal*(-1);
 
@@ -930,6 +948,23 @@ namespace RentalWorksWeb.Integration
                 newCreditMemoJson = JsonConvert.SerializeObject(newCreditMemo);
                 creditmemo        = PostToJsonObject("creditmemo", newCreditMemoJson).CreditMemo;
                 CreditMemos.Add(creditmemo);
+
+                //jh 07/05/2017 CAS-20810-L6T5
+                if (invoice.taxcountry == "C") // if Canada
+                {
+                    decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
+                    if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                    {
+                        dynamic newCreditMemo2 = new ExpandoObject();
+                        dynamic creditmemo2 = new ExpandoObject();
+                        creditmemo2 = creditmemo;
+                        creditmemo2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
+                        creditmemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                        newCreditMemoJson = JsonConvert.SerializeObject(newCreditMemo2);
+                        creditmemo2 = PostToJsonObject("creditmemo", newCreditMemoJson).CreditMemo;
+                    }
+                }
+
 
                 result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
             }
