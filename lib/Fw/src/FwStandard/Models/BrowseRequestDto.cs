@@ -7,9 +7,9 @@ namespace FwStandard.Models
     public class BrowseRequestDto
     {
         public enum OrderByDirections { asc, desc }
-        public string miscfields { get; set; }
+        public Dictionary<string, object> miscfields { get; set; }
         public string module { get; set; }
-        public string[] options { get; set; }
+        public Dictionary<string, object> options { get; set; }
         public string orderby { get; set; }
         public OrderByDirections orderbydirection { get; set; }
         public int pageno { get; set; }
