@@ -957,9 +957,9 @@ namespace RentalWorksWeb.Integration
                     {
                         dynamic newCreditMemo2 = new ExpandoObject();
                         dynamic creditmemo2 = new ExpandoObject();
-                        creditmemo2 = creditmemo;
-                        creditmemo2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
-                        creditmemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                        newCreditMemo2 = creditmemo;
+                        newCreditMemo2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
+                        newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
                         newCreditMemoJson = JsonConvert.SerializeObject(newCreditMemo2);
                         creditmemo2 = PostToJsonObject("creditmemo", newCreditMemoJson).CreditMemo;
                     }
