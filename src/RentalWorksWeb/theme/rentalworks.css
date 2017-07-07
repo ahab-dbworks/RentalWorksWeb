@@ -13,7 +13,7 @@
 /***************************
 Master
 ***************************/
-#master {min-width:1183px;}
+#master {/*min-width:1183px;*/}
 #master-header .usercontrol #logoff {cursor:pointer;}
 #master-header #officelocation {cursor:pointer;position:relative;}
 #master-header #officelocation .caption {display:inline-block;}

@@ -1199,7 +1199,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />

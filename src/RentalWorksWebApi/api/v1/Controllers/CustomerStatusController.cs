@@ -45,5 +45,12 @@ namespace RentalWorksWebApi.Controllers.v1
             return doDelete(id, typeof(CustomerStatusLogic));
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/customerstatus/validateduplicate
+        [HttpPost("validateduplicate")]
+        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        {
+            return new OkObjectResult(true);
+        }
+        //------------------------------------------------------------------------------------
     }
 }

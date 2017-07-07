@@ -114,8 +114,8 @@ namespace RentalWorksWebApi.Controllers.v1
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 l.SetPrimaryKeys(ids);
-                l.Delete();
-                return new OkResult();
+                bool success = l.Delete();
+                return new OkObjectResult(success);
             }
             catch (Exception ex)
             {
