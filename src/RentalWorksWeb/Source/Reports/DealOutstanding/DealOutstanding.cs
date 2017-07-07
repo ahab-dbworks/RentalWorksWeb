@@ -48,6 +48,13 @@ namespace RentalWorksWeb.Source.Reports
             else if (request.parameters.IncludeValueCost == "U") { sb.Replace("[LBLITEMVALUE]", "Unit Value" ); }
             else if (request.parameters.IncludeValueCost == "P") { sb.Replace("[LBLITEMVALUE]", "Unit Cost"  ); }
             else                                                 { sb.Replace("[LBLITEMVALUE]", ""           ); }
+
+            if (request.parameters.ShowImages == "T")
+            {
+                sb.Replace("<div id=\"imagecaption\"></div>", "Image");
+                sb.Replace("<div id=\"imagevalue\"></div>", "<img style=\"max-height:200px;max-width:200px;\" src=\"{{image}}\">");
+            }
+
             html        = sb.ToString();
             html        = this.applyTableToTemplate(html, "details", dtDealOutstanding);
 
@@ -67,10 +74,11 @@ namespace RentalWorksWeb.Source.Reports
             qry.AddColumn("billperiodstart", false, FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("billperiodend",   false, FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("contractdate",    false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("image",           false, FwJsonDataTableColumn.DataTypes.JpgDataUrl);
 
             select = new FwSqlSelect();
             select.Add("select * ");
-            select.Add("from  dbo.funcdealoutstandingrpt2(@fromdate,");
+            select.Add("from  dbo.funcdealoutstandingrpt3(@fromdate,");
             select.Add("                                  @todate,");
             select.Add("                                  @datetouse,");
             select.Add("                                  @departmenttype,");
@@ -81,6 +89,7 @@ namespace RentalWorksWeb.Source.Reports
             select.Add("                                  @showbarcodes,");
             select.Add("                                  @showresponsibleperson,");
             select.Add("                                  @showitemvalue,");
+            select.Add("                                  @returnimagemode,");
             select.Add("                                  @officelocationids,");
             select.Add("                                  @companydepartmentids,");
             select.Add("                                  @customerids,");
@@ -101,6 +110,7 @@ namespace RentalWorksWeb.Source.Reports
             select.AddParameter("@showbarcodes",            request.parameters.ShowBarcodes);
             select.AddParameter("@showresponsibleperson",   request.parameters.ShowResponsiblePerson);
             select.AddParameter("@showitemvalue",           request.parameters.IncludeValueCost);
+            select.AddParameter("@returnimagemode",         "T");
             select.AddParameter("@officelocationids",       GetCommaListDecrypt(request.parameters.officelocation));
             select.AddParameter("@companydepartmentids",    GetCommaListDecrypt(request.parameters.companydepartment));
             select.AddParameter("@customerids",             GetCommaListDecrypt(request.parameters.customer));
@@ -112,16 +122,16 @@ namespace RentalWorksWeb.Source.Reports
             select.AddParameter("@masterids",               GetCommaListDecrypt(request.parameters.icode));
 
             select.Parse();
-            //select.AddWhereIn("and", "locationid",      request.parameters.officelocation, true);
-            //select.AddWhereIn("and", "orderdepartmentid",    request.parameters.companydepartment, true);
-            //select.AddWhereIn("and", "customerid",      request.parameters.customer, true);
-            //select.AddWhereIn("and", "dealid",          request.parameters.deal, true);
-            //select.AddWhereIn("and", "orderid",         request.parameters.order, true);
-            //select.AddWhereIn("and", "inventorydepartmentid", request.parameters.inventorytype, true);
-            //select.AddWhereIn("and", "categoryid",      request.parameters.category, true);
-            //select.AddWhereIn("and", "masterid",        request.parameters.icode, true);
+            //select.AddWhereIn("and", "locationid",            request.parameters.officelocation,    true);
+            //select.AddWhereIn("and", "orderdepartmentid",     request.parameters.companydepartment, true);
+            //select.AddWhereIn("and", "customerid",            request.parameters.customer,          true);
+            //select.AddWhereIn("and", "dealid",                request.parameters.deal,              true);
+            //select.AddWhereIn("and", "orderid",               request.parameters.order,             true);
+            //select.AddWhereIn("and", "inventorydepartmentid", request.parameters.inventorytype,     true);
+            //select.AddWhereIn("and", "categoryid",            request.parameters.category,          true);
+            //select.AddWhereIn("and", "masterid",              request.parameters.icode,             true);
 
-            select.Add("order by location, displaydepartment, deal, dealno, orderby, orderno, itemorder, description");
+            select.Add("order by location, displaydepartment, deal, orderno, itemorder, barcode");
             dtDetails = qry.QueryToFwJsonTable(select, true);
      
             return dtDetails;
