@@ -75,6 +75,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             html.push('    <div class="caption fixed">Description:</div><div class="value">{{orderdesc}}</div>');
             html.push('  </div>');
             html.push('  <div class="row">');
+            html.push('    <div class="caption fixed">Set No:</div><div class="value">{{setno}}</div>');
+            html.push('  </div>');
+            html.push('  <div class="row">');
             html.push('    <div class="caption fixed">Vendor:</div><div class="value">{{vendor}}</div>');
             html.push('  </div>');
             html.push('  <div class="row">');
@@ -95,6 +98,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             RwServices.callMethod("ReceiveOnSet", "GetPOReceiveContractID", request, function(response) {
                 screen.properties.receivecontractid = response.outreceivecontractid;
                 screen.properties.podealid          = recorddata.dealid;
+                screen.properties.departmentid      = recorddata.departmentid;
                 $findpo.hide();
                 if (recorddata.setno !== '') {
                     $findset.find('#setsearch input').val(recorddata.setno);
@@ -115,8 +119,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         upperCase: true,
         getRequest: function() {
             var request = {
-                dealid:  screen.properties.podealid,
-                showall: screen.properties.showall
+                dealid:       screen.properties.podealid,
+                departmentid: screen.properties.departmentid,
+                showall:      screen.properties.showall
             };
             return request;
         },
@@ -129,6 +134,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             var html = [];
 
             html.push('<div class="record">');
+            html.push('  <div class="row">');
+            html.push('    <div class="caption fixed bold">Department:</div><div class="value">{{department}}</div>');
+            html.push('  </div>');
             html.push('  <div class="row">');
             html.push('    <div class="caption fixed bold">Set Character:</div><div class="value">{{orderdesc}}</div>');
             html.push('  </div>');

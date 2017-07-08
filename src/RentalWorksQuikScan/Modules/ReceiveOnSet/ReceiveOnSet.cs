@@ -130,7 +130,8 @@ namespace RentalWorksQuikScan.Modules
             select.PageSize = request.pagesize;
             select.Add("select *");
             select.Add("  from receiveonsetorderview with (nolock)");
-            select.Add(" where warehouseid = @warehouseid");
+            select.Add(" where warehouseid  = @warehouseid");
+            select.Add("   and departmentid = @departmentid");
             if (!request.showall)
             {
                 select.Add("   and dealid      = @dealid");
@@ -154,8 +155,9 @@ namespace RentalWorksQuikScan.Modules
                 }
             }
             select.Add("order by orderdate desc, orderno desc");
-            select.AddParameter("@warehouseid", userLocation.warehouseId);
-            select.AddParameter("@dealid", request.dealid);
+            select.AddParameter("@warehouseid",  userLocation.warehouseId);
+            select.AddParameter("@departmentid", request.departmentid);
+            select.AddParameter("@dealid",       request.dealid);
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
         }
