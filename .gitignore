@@ -33,6 +33,7 @@
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
 /src/RentalWorksWeb/scripts/_references.js
+/src/RentalWorksWeb/Source/TypeScript/
 /src/RentalWorksWeb/theme/fwcursors/*
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
@@ -77,5 +78,3 @@
 /src/RentalWorksWebDataLayer/RentalWorksWebDataLayer.csproj.user
 
 /TestResult.xml
-
-src/RentalWorksWeb/Source/TypeScript/
