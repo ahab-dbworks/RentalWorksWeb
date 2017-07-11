@@ -1,0 +1,579 @@
+{
+	"variables": [],
+	"info": {
+		"name": "RentalWorks API",
+		"_postman_id": "57d9016a-024c-0f9d-a523-494c0378fdbd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer Type",
+			"description": "",
+			"item": [
+				{
+					"name": "CustomerType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/0000014M",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CustomerType\": \"CUSTOMER TYPE ABC\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"CustomerTypeId\": \"00003A6F\",\n    \"CustomerType\": \"CUSTOMER TYPE XYZ\",\n    \"DefaultRentalDiscountPercent\": 1.9\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/00003A6F",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CustomerStatus",
+			"description": "",
+			"item": [
+				{
+					"name": "CustomerStatus: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerStatus: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerStatus: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus/0000013X",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerStatus: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"CustomerStatus\": \"TEST60\",\n        \"StatusType\": \"X\"\n    }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerStatus: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CustomerStatusId\": \"00003A3Z\",\n    \"CustomerStatus\":\"TEST61\",\n    \"StatusType\":\"U\",\n    \"CreditStatusId\":\"\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerStatus: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customerstatus/00003A3Z",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GlAccount",
+			"description": "",
+			"item": [
+				{
+					"name": "GlAccount: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GlAccount: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"GlAccount\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GlAccount: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount/00001HZG",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GlAccount: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"GlAccountNo\": \"5557\",\n        \"GlAccountDescription\": \"NEW ACCOUNT TEST\",\n        \"GlAccountType\": \"INCOME\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GlAccount: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"GlAccountId\": \"00003A45\",\n    \"GlAccountNo\": \"5559\",\n    \"GlAccountDescription\": \"NEW ACCOUNT TESTXXX\",\n    \"GlAccountType\": \"INCOME\",\n    \"Inactive\": \"\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GlAccount: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/glaccount/000039C8",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"description": "",
+			"item": [
+				{
+					"name": "Orders: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/000026P1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"OrderId\": \"000026P1\",\n        \"OrderDescription\": \"HERE IS A NEW ORDER FROM PRODUCTIONX\",\n        \"MaximumCumulativeDiscount\": 25\n    }\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/000011KO",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"orderId\": \"000011KO\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VendorClass",
+			"description": "",
+			"item": [
+				{
+					"name": "VendorClass: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorClass: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorClass: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass/B0002TWG",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorClass: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VendorClass\": \"VENDOR CLASS 5\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorClass: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"VendorClassId\": \"00003A6D\",\n    \"VendorClass\":\"VENDOR CLASS 6\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorClass: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorclass/00003A6D",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Controllers.v1
             return (FwBusinessLogic)Activator.CreateInstance(type);
         }
         //------------------------------------------------------------------------------------
-        protected IActionResult doBrowse(BrowseRequestDto browseRequest, Type type)
+        protected virtual IActionResult doBrowse(BrowseRequestDto browseRequest, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected IActionResult doGet<T>(int pageno, int pagesize, Type type)
+        protected virtual IActionResult doGet<T>(int pageno, int pagesize, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected IActionResult doGet<T>(string id, Type type)
+        protected virtual IActionResult doGet<T>(string id, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected IActionResult doPost<T>(FwBusinessLogic l)
+        protected virtual IActionResult doPost<T>(FwBusinessLogic l)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected IActionResult doDelete(string id, Type type)
+        protected virtual IActionResult doDelete(string id, Type type)
         {
             try
             {
@@ -121,6 +121,11 @@ namespace RentalWorksWebApi.Controllers.v1
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
             }
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual IActionResult doValidateDuplicate(ValidateDuplicateRequest request)
+        {
+            return new OkObjectResult(true);
         }
         //------------------------------------------------------------------------------------
     }

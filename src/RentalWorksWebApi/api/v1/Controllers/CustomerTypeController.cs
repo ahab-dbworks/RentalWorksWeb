@@ -6,51 +6,51 @@ using RentalWorksWebLogic.Settings;
 namespace RentalWorksWebApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class CustomerStatusController : RwDataController
+    public class CustomerTypeController : RwDataController
     {
-        public CustomerStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/browse
+        // POST api/v1/customertype/browse
         [HttpPost("browse")]
         public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(CustomerStatusLogic));
+            return doBrowse(browseRequest, typeof(CustomerTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus
+        // GET api/v1/customertype
         [HttpGet]
         public IActionResult Get(int pageno, int pagesize)
         {
-            return doGet<CustomerStatusLogic>(pageno, pagesize, typeof(CustomerStatusLogic));
+            return doGet<CustomerTypeLogic>(pageno, pagesize, typeof(CustomerTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus/A0000001
+        // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            return doGet<CustomerStatusLogic>(id, typeof(CustomerStatusLogic));
+            return doGet<CustomerTypeLogic>(id, typeof(CustomerTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus
+        // POST api/v1/customertype
         [HttpPost]
-        public IActionResult Post([FromBody]CustomerStatusLogic l)
+        public IActionResult Post([FromBody]CustomerTypeLogic l)
         {
-            return doPost<CustomerStatusLogic>(l);
+            return doPost<CustomerTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/customerstatus/A0000001
+        // DELETE api/v1/customertype/A0000001
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            return doDelete(id, typeof(CustomerStatusLogic));
+            return doDelete(id, typeof(CustomerTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/validateduplicate
+        // POST api/v1/customertype/validateduplicate
         [HttpPost("validateduplicate")]
         public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
         {
             return doValidateDuplicate(request);
         }
-        //------------------------------------------------------------------------------------
-    }
+    //------------------------------------------------------------------------------------
+}
 }

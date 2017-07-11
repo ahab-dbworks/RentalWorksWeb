@@ -34,6 +34,8 @@ namespace RentalWorksWebApi
                 cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
                 cfg.CreateMap<OrderLogic, OrderLoader>();
                 cfg.CreateMap<OrderLoader, OrderLogic>();
+                cfg.CreateMap<VendorClassLogic, VendorClassRecord>();
+                cfg.CreateMap<CustomerTypeLogic, CustomerTypeRecord>();
             });
         }
 
