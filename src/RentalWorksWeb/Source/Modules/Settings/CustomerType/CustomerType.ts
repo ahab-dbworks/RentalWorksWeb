@@ -69,9 +69,9 @@ class CustomerType {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomerTypeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-
-        return $form;
     }
+
+
 
     afterLoad($form: any) {
 
