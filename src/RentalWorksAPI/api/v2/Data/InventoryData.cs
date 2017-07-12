@@ -39,7 +39,7 @@ namespace RentalWorksAPI.api.v2.Data
                 icode.qtyout         = icodes[i].qtyout;
                 icode.qtyinrepair    = icodes[i].qtyinrepair;
 
-                if (transactionhistoryqty.GetValueOrDefault() != 0)
+                if (transactionhistoryqty.GetValueOrDefault() > 0)
                 {
                     icode.transactions = GetTransactions(masterid, warehouseid, transactionhistoryqty.Value);
                 }
@@ -57,11 +57,11 @@ namespace RentalWorksAPI.api.v2.Data
             dynamic transactions = new ExpandoObject();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
-            qry.Add("select *");
-            qry.Add("  from apirest_icodestatushistoryfunc(@masterid, @warehouseid, @transactionhistoryqty)");
+            qry.Add("select top " + transactionhistoryqty + " *");
+            qry.Add("  from apirest_icodestatushistoryfunc(@masterid, @warehouseid)");
+            qry.Add("order by activitydatetime desc");
             qry.AddParameter("@masterid",              masterid);
             qry.AddParameter("@warehouseid",           warehouseid);
-            qry.AddParameter("@transactionhistoryqty", transactionhistoryqty);
 
             transactions = qry.QueryToDynamicList2();
 
@@ -69,12 +69,12 @@ namespace RentalWorksAPI.api.v2.Data
             {
                 Transaction transaction = new Transaction();
 
-                transaction.type     = transactions[i].type;
-                transaction.datetime = transactions[i].datetime;
-                transaction.orderid  = transactions[i].orderid;
-                transaction.orderno  = transactions[i].orderno;
-                transaction.deal     = transactions[i].deal;
-                transaction.qty      = transactions[i].qty;
+                transaction.type             = transactions[i].type;
+                transaction.activitydatetime = transactions[i].activitydatetime;
+                transaction.orderid          = transactions[i].orderid;
+                transaction.orderno          = transactions[i].orderno;
+                transaction.deal             = transactions[i].deal;
+                transaction.qty              = transactions[i].qty;
 
                 result.Add(transaction);
             }

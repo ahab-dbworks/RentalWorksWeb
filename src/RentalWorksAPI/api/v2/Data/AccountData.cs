@@ -164,6 +164,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.Add("select *");
             qry.Add("  from apirest_accountlogin");
             qry.Add(" where locationid = @locationid");
+            qry.Add("   and inactive   <> 'T'");
             qry.AddParameter("@locationid", locationid);
             if (!string.IsNullOrEmpty(departmentid))
             {

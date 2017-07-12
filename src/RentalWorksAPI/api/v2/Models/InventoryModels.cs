@@ -20,12 +20,12 @@ namespace RentalWorksAPI.api.v2.Models
     //----------------------------------------------------------------------------------------------------
     public class Transaction
     {
-        public string type     { get; set; }
-        public string datetime { get; set; }
-        public string orderid  { get; set; }
-        public string orderno  { get; set; }
-        public string deal     { get; set; }
-        public int qty         { get; set; }
+        public string type             { get; set; }
+        public string activitydatetime { get; set; }
+        public string orderid          { get; set; }
+        public string orderno          { get; set; }
+        public string deal             { get; set; }
+        public int qty                 { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
 }
