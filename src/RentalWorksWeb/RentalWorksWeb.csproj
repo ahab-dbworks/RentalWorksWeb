@@ -1035,6 +1035,8 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\RwUserSettingsController.js" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
     <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
@@ -1214,6 +1216,7 @@
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
@@ -1290,6 +1293,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -1306,7 +1310,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54304</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

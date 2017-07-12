@@ -28,6 +28,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/repairorder$/,            getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
     //Settings Modules
   , { urlpattern: /^module\/customerstatus$/,         getScreen: function() { return CustomerStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customertype$/,           getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
   , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
