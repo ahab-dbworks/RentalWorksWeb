@@ -14,13 +14,20 @@ namespace FwStandard.BusinessLogic
     public class FwBusinessLogic
     {
         [JsonIgnore]
-        public List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
+        protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
 
         [JsonIgnore]
-        public FwDataRecord dataLoader = null;
+        protected FwDataRecord dataLoader = null;
+
+        public FwBusinessLogicCustomValues _Custom = null;
 
         //------------------------------------------------------------------------------------
-        public void SetDbConfig(DatabaseConfig dbConfig)
+        public FwBusinessLogic()
+        {
+            _Custom = new FwBusinessLogicCustomValues(this.GetType().Name.Replace("Logic", ""));
+        }
+    //------------------------------------------------------------------------------------
+    public void SetDbConfig(DatabaseConfig dbConfig)
         {
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {
@@ -30,9 +37,10 @@ namespace FwStandard.BusinessLogic
             {
                 dataLoader.SetDbConfig(dbConfig);
             }
+            _Custom.SetDbConfig(dbConfig);
         }
-        //------------------------------------------------------------------------------------
-        public FwJsonDataTable Browse(BrowseRequestDto request)
+    //------------------------------------------------------------------------------------
+    public FwJsonDataTable Browse(BrowseRequestDto request)
         {
             FwJsonDataTable browse = null;
             if (dataLoader == null)
@@ -89,20 +97,17 @@ namespace FwStandard.BusinessLogic
                 blLoaded = dataLoader.Load<T>(primaryKeyValues);
                 Mapper.Map(dataLoader, this);
             }
+            if ((blLoaded) && (_Custom != null))
+            {
+                _Custom.Load(primaryKeyValues);
+            }
+
             return blLoaded;
         }
         //------------------------------------------------------------------------------------
         public virtual bool Load<T>()
         {
-            int pkIndex = 0;
-            List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
-            string[] ids = new string[pkProperties.Count];
-            foreach (PropertyInfo pkProperty in pkProperties)
-            {
-                ids[pkIndex] = pkProperty.GetValue(this).ToString();
-                pkIndex++;
-            }
-            return Load<T>(ids);
+            return Load<T>(GetPrimaryKeys());
         }
         //------------------------------------------------------------------------------------
         protected virtual List<PropertyInfo> GetPrimaryKeyProperties()
@@ -152,6 +157,19 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
+        public virtual string[] GetPrimaryKeys()
+        {
+            int pkIndex = 0;
+            List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
+            string[] ids = new string[pkProperties.Count];
+            foreach (PropertyInfo pkProperty in pkProperties)
+            {
+                ids[pkIndex] = pkProperty.GetValue(this).ToString();
+                pkIndex++;
+            }
+            return ids;
+        }
+        //------------------------------------------------------------------------------------
         public virtual void SetPrimaryKeys(string[] ids)
         {
             int pkIndex = 0;
@@ -170,6 +188,10 @@ namespace FwStandard.BusinessLogic
             {
                 rowsAffected = rowsAffected + rec.Save();
             }
+            if (_Custom != null)
+            {
+                _Custom.Save(GetPrimaryKeys());
+            }
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
@@ -181,6 +203,59 @@ namespace FwStandard.BusinessLogic
                 success = ((success) && rec.Delete());
             }
             return success;
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual List<PropertyInfo> GetTitleProperties()
+        {
+            List<PropertyInfo> titleProperties = new List<PropertyInfo>();
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.IsDefined(typeof(FwBusinessLogicFieldAttribute)))
+                {
+                    foreach (Attribute attribute in property.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                        {
+                            FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                            if (businessLogicFieldAttribute.IsTitle)
+                            {
+                                titleProperties.Add(property);
+                            }
+                        }
+                    }
+                }
+            }
+            return titleProperties;
+        }
+        //------------------------------------------------------------------------------------
+        public virtual string _Title
+        {
+            get
+            {
+                List<PropertyInfo> titles = GetTitleProperties();
+                string title = "";
+                foreach (PropertyInfo property in titles)
+                {
+                    object propertyValue = property.GetValue(this);
+                    if (propertyValue != null)
+                    {
+                        if (!title.Equals(string.Empty))
+                        {
+                            title = title + " ";
+                        }
+                        if (propertyValue is string)
+                        {
+                            title = title + (propertyValue as string).TrimEnd(); ;
+                        }
+                        else
+                        {
+                            throw new Exception("Property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic._Title]");
+                        }
+                    }
+                }
+                return title;
+            }
         }
         //------------------------------------------------------------------------------------
     }
