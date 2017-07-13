@@ -1035,6 +1035,8 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClassBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\RwUserSettingsController.js" />
@@ -1216,6 +1218,7 @@
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
@@ -1293,6 +1296,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
   </ItemGroup>
   <ItemGroup>

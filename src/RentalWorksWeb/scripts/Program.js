@@ -32,6 +32,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorclass/,             getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
