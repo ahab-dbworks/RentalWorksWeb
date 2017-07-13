@@ -1039,6 +1039,8 @@
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\GlAccount\GlAccountBrowse.htm" />
+    <Content Include="Source\Modules\Settings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\RwUserSettingsController.js" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
     <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
@@ -1220,6 +1222,7 @@
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
@@ -1298,6 +1301,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

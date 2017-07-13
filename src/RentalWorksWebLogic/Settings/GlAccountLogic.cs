@@ -15,6 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string GlAccountId { get { return glAccount.GlAccountId; } set { glAccount.GlAccountId = value;} }
+        [FwBusinessLogicField(isTitle: true)]
         public string GlAccountNo { get { return glAccount.GlAccountNo; } set { glAccount.GlAccountNo = value; } }
         public string GlAccountDescription { get { return glAccount.GlAccountDescription; } set { glAccount.GlAccountDescription = value; } }
         public string GlAccountType { get { return glAccount.GlAccountType; } set { glAccount.GlAccountType = value; } }

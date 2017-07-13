@@ -15,6 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string CustomerTypeId { get { return customerType.CustomerTypeId; } set { customerType.CustomerTypeId = value; } }
+        [FwBusinessLogicField(isTitle: true)]
         public string CustomerType { get { return customerType.CustomerType; } set { customerType.CustomerType = value; } }
         public decimal DefaultRentalDiscountPercent { get { return customerType.DefaultRentalDiscountPercent; } set { customerType.DefaultRentalDiscountPercent = value; } }
         public decimal DefaultSalesDiscountPercent { get { return customerType.DefaultSalesDiscountPercent; } set { customerType.DefaultSalesDiscountPercent = value; } }

@@ -45,5 +45,12 @@ namespace RentalWorksWebApi.Controllers.v1
             return doDelete(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/glaccount/validateduplicate
+        [HttpPost("validateduplicate")]
+        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        {
+            return doValidateDuplicate(request);
+        }
+        //------------------------------------------------------------------------------------
     }
 }
