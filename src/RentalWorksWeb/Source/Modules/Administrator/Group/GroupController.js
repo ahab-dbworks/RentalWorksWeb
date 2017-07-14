@@ -1,10 +1,10 @@
 //----------------------------------------------------------------------------------------------
-var RwGroupController = {
+var GroupController = {
     Module: 'Group'
 };
-RwGroupController.ModuleOptions = jQuery.extend({}, FwModule.ModuleOptions, RwGroupController.ModuleOptions);
+GroupController.ModuleOptions = jQuery.extend({}, FwModule.ModuleOptions, GroupController.ModuleOptions);
 //----------------------------------------------------------------------------------------------
-RwGroupController.addGridSubMenu = function($control, $menu) {
+GroupController.addGridSubMenu = function($control, $menu) {
     // Import Security Tree...
     FwApplicationTree.clickEvents['{28C16B0D-70CD-461B-A78E-967135300B56}'] = function(event) {
         var $confirmation;
@@ -17,15 +17,15 @@ RwGroupController.addGridSubMenu = function($control, $menu) {
     };
 }
 //----------------------------------------------------------------------------------------------
-RwGroupController.getModuleScreen = function(viewModel, properties) {
+GroupController.getModuleScreen = function(viewModel, properties) {
     var screen, $browse;
 
     screen            = {};
-    screen.$view      = FwModule.getModuleControl('RwGroupController');
+    screen.$view      = FwModule.getModuleControl(this.Module + 'Controller');
     screen.viewModel  = viewModel;
     screen.properties = properties;
 
-    $browse = RwGroupController.openBrowse();
+    $browse = GroupController.openBrowse();
 
     screen.load = function () {
         FwModule.openModuleTab($browse, 'Groups', false, 'BROWSE', true);
@@ -39,7 +39,7 @@ RwGroupController.getModuleScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.openBrowse = function() {
+GroupController.openBrowse = function() {
     var $browse;
     $browse = jQuery(jQuery('#tmpl-modules-GroupBrowse').html());
     $browse = FwModule.openBrowse($browse);
@@ -47,7 +47,7 @@ RwGroupController.openBrowse = function() {
     return $browse;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.openForm = function(mode) {
+GroupController.openForm = function(mode) {
     var $form;
 
     $form = jQuery(jQuery('#tmpl-modules-GroupForm').html());
@@ -56,25 +56,25 @@ RwGroupController.openForm = function(mode) {
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.loadForm = function(uniqueids) {
+GroupController.loadForm = function(uniqueids) {
     var $form, $editgrouptree, $previewgrouptree;
     
-    $form = RwGroupController.openForm('EDIT');
+    $form = GroupController.openForm('EDIT');
 
     //$form.on('change', '[data-datafield="groups.security"]', function() {
     //    TwGroupController.renderGroupTreePreview($form);
     //});
 
     $form.find('div.fwformfield[data-datafield="groups.groupsid"] input').val(uniqueids.groupsid);
-    FwModule.loadForm(RwGroupController.Module, $form);
+    FwModule.loadForm(GroupController.Module, $form);
     $editgrouptree = $form.find('.editgrouptree');
     $previewgrouptree = $form.find('.previewgrouptree');
-    RwGroupController.loadGroupTree($editgrouptree, $previewgrouptree, $form, uniqueids.groupsid);
+    GroupController.loadGroupTree($editgrouptree, $previewgrouptree, $form, uniqueids.groupsid);
 
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.loadGroupTree = function($editgrouptree, $previewgrouptree, $form, groupsid) {
+GroupController.loadGroupTree = function($editgrouptree, $previewgrouptree, $form, groupsid) {
     var request;
     
     request = {};
@@ -85,8 +85,8 @@ RwGroupController.loadGroupTree = function($editgrouptree, $previewgrouptree, $f
             try {
                 if (typeof response.applicationtree === 'object') {
                     $previewgrouptree.data('applicationtree', response.applicationtree);
-                    RwGroupController.render($form, $editgrouptree, $previewgrouptree, response.applicationtree);
-                    RwGroupController.updateSecurityField($form);
+                    GroupController.render($form, $editgrouptree, $previewgrouptree, response.applicationtree);
+                    GroupController.updateSecurityField($form);
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
@@ -96,25 +96,25 @@ RwGroupController.loadGroupTree = function($editgrouptree, $previewgrouptree, $f
     );
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.render = function($form, $editgrouptree, $previewgrouptree, applicationtree) {
+GroupController.render = function($form, $editgrouptree, $previewgrouptree, applicationtree) {
     var $editgrouptree_children, $previewgrouptree_children
     
     $editgrouptree_children = jQuery('<ul class="grouptree"></ul>');
     $editgrouptree.empty()
         //.append('<div class="title">Edit Group Tree</div>')
         .append($editgrouptree_children);
-    RwGroupController.renderNode('edit', $form, $editgrouptree_children, applicationtree);
+    GroupController.renderNode('edit', $form, $editgrouptree_children, applicationtree);
 
     //TwGroupController.renderGroupTreePreview($form);
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.renderGroupTreePreview = function($form) {
+GroupController.renderGroupTreePreview = function($form) {
     var $previewgrouptree, $previewgrouptree_children, applicationtree;
     $previewgrouptree = $form.find('.previewgrouptree');
     $previewgrouptree_children = jQuery('<ul class="grouptree"></ul>');
     $previewgrouptree.empty().append('<div class="title">Preview Group Tree</div>', $previewgrouptree_children);
     applicationtree = $previewgrouptree.data('applicationtree');
-    RwGroupController.renderNode('preview', $form, $previewgrouptree_children, applicationtree);
+    GroupController.renderNode('preview', $form, $previewgrouptree_children, applicationtree);
     var $previewSubModules = jQuery('.previewgrouptree li[data-property-id="712A2E4B-4387-4D55-9B35-0C2DCBD9B284"]');
     if ($previewSubModules.find('> .childrencontainer > ul.children > li').length === 0) {
         $previewSubModules.remove();
@@ -125,7 +125,7 @@ RwGroupController.renderGroupTreePreview = function($form) {
     }
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.renderNode = function(mode, $form, $container, node) {
+GroupController.renderNode = function(mode, $form, $container, node) {
     var hidenewmenuoptionsbydefault, haschildren, $node, $content, $iconexpander, $icon, $iconvisible, $iconeditable,
         $caption, nodedescription, $childrencontainer, $children;
 
@@ -181,10 +181,10 @@ RwGroupController.renderNode = function(mode, $form, $container, node) {
                     FwConfirmation.yesNo('Alert', (visible ? 'Hide' : 'Show') + ' all the children of this node?', 
                         function() {
                             $li.find('li[data-property-visible]').attr('data-property-visible', visible ? 'F' : 'T');
-                            RwGroupController.updateSecurityField($form);
+                            GroupController.updateSecurityField($form);
                         });
                 } else {
-                    RwGroupController.updateSecurityField($form);
+                    GroupController.updateSecurityField($form);
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
@@ -203,7 +203,7 @@ RwGroupController.renderNode = function(mode, $form, $container, node) {
                 if (visible) {
                     editable = ($li.attr('data-property-editable') === 'T');
                     $li.attr('data-property-editable', (!editable) ? 'T' : 'F');
-                    RwGroupController.updateSecurityField($form);
+                    GroupController.updateSecurityField($form);
                 }
             } catch(ex) {
                 FwFunc.showError(ex);
@@ -265,19 +265,19 @@ RwGroupController.renderNode = function(mode, $form, $container, node) {
         $node.append($childrencontainer);
         for (var i = 0; i < node.children.length; i++) {
             if ((mode === 'edit') || (typeof node.children[i].properties.visible === 'undefined') || (node.children[i].properties.visible === 'T')) {
-                RwGroupController.renderNode(mode, $form, $children, node.children[i]);
+                GroupController.renderNode(mode, $form, $children, node.children[i]);
             }
         }
     }
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.getGroupTreeJson = function($form) {
+GroupController.getGroupTreeJson = function($form) {
     var $apptreenode = jQuery('.editgrouptree > ul.grouptree > li[data-property-nodetype="System"]');
-    var grouptree = RwGroupController.getGroupTreeJsonNode($form, null, $apptreenode);
+    var grouptree = GroupController.getGroupTreeJsonNode($form, null, $apptreenode);
     return grouptree;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.getGroupTreeJsonNode = function($form, parent, $node) {
+GroupController.getGroupTreeJsonNode = function($form, parent, $node) {
     var node, attribute, property, $children, $child, child, index;
     
     node = {
@@ -301,17 +301,17 @@ RwGroupController.getGroupTreeJsonNode = function($form, parent, $node) {
     $children = $node.find('> .childrencontainer > ul.children > li');
     for (index = 0; index < $children.length; index++) {
         $child = $children.eq(index);
-        child = RwGroupController.getGroupTreeJsonNode($form, node.children, $child);
+        child = GroupController.getGroupTreeJsonNode($form, node.children, $child);
         node.children.push(child);
     }
 
     return node;
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.updateSecurityField = function($form) {
+GroupController.updateSecurityField = function($form) {
     var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
     try {
-        apptreenode                 = RwGroupController.getGroupTreeJson();
+        apptreenode                 = GroupController.getGroupTreeJson();
         hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'groups.hidenewmenuoptionsbydefault'));
         securitynodes               = FwApplicationTree.getSecurityNodes(apptreenode, hidenewmenuoptionsbydefault);
         securityJson                = JSON.stringify(securitynodes);
@@ -324,15 +324,15 @@ RwGroupController.updateSecurityField = function($form) {
     }
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.saveForm = function($form, closetab, navigationpath) {
-    FwModule.saveForm(RwGroupController.Module, $form, closetab, navigationpath);
+GroupController.saveForm = function($form, closetab, navigationpath) {
+    FwModule.saveForm(GroupController.Module, $form, closetab, navigationpath);
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.deleteForm = function($form) {
-    FwModule.deleteForm(RwGroupController.Module, $form);
+GroupController.deleteForm = function($form) {
+    FwModule.deleteForm(GroupController.Module, $form);
 };
 //----------------------------------------------------------------------------------------------
-RwGroupController.loadAudit = function($form) {
+GroupController.loadAudit = function($form) {
     var uniqueid;
     uniqueid = $form.find('div.fwformfield[data-datafield="groups.groupsid"] input').val();
     FwModule.loadAudit($form, uniqueid);

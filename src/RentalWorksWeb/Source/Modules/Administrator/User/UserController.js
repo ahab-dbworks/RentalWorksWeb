@@ -1,17 +1,17 @@
 ﻿//----------------------------------------------------------------------------------------------
-var RwUserController = {
+var UserController = {
     Module: 'User'
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.getModuleScreen = function(viewModel, properties) {
+UserController.getModuleScreen = function(viewModel, properties) {
     var screen, $browse;
 
     screen            = {};
-    screen.$view      = FwModule.getModuleControl('RwUserController');
+    screen.$view      = FwModule.getModuleControl(this.Module + 'Controller');
     screen.viewModel  = viewModel;
     screen.properties = properties;
 
-    $browse = RwUserController.openBrowse();
+    $browse = UserController.openBrowse();
 
     screen.load = function () {
         FwModule.openModuleTab($browse, 'Users', false, 'BROWSE', true);
@@ -25,7 +25,7 @@ RwUserController.getModuleScreen = function(viewModel, properties) {
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.openBrowse = function() {
+UserController.openBrowse = function() {
     var $browse;
     $browse = jQuery(jQuery('#tmpl-modules-UserBrowse').html());
     $browse = FwModule.openBrowse($browse);
@@ -33,7 +33,7 @@ RwUserController.openBrowse = function() {
     return $browse;
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.openForm = function(mode) {
+UserController.openForm = function(mode) {
     var $form;
 
     $form = jQuery(jQuery('#tmpl-modules-UserForm').html());
@@ -41,7 +41,7 @@ RwUserController.openForm = function(mode) {
 
     $form
         .on('change', '.cbSecurityExpirePassword, .cbNetExpirePassword', function() {
-            RwUserController.setFormProperties($form);
+            UserController.setFormProperties($form);
         })
         .on('change', 'div[data-datafield="users.inactive"]', function() {
             var $this, $invaliddate, date;
@@ -81,27 +81,27 @@ RwUserController.openForm = function(mode) {
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.loadForm = function(uniqueids) {
+UserController.loadForm = function(uniqueids) {
     var $form;
     
-    $form = RwUserController.openForm('EDIT');
+    $form = UserController.openForm('EDIT');
     $form.find('div.fwformfield[data-datafield="users.usersid"] input').val(uniqueids.usersid);
-    FwModule.loadForm(RwUserController.Module, $form);
+    FwModule.loadForm(UserController.Module, $form);
 
     return $form;
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.saveForm = function($form, closetab, navigationpath) {
-    FwModule.saveForm(RwUserController.Module, $form, closetab, navigationpath);
+UserController.saveForm = function($form, closetab, navigationpath) {
+    FwModule.saveForm(UserController.Module, $form, closetab, navigationpath);
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.loadAudit = function($form) {
+UserController.loadAudit = function($form) {
     var uniqueid;
     uniqueid = $form.find('div.fwformfield[data-datafield="users.usersid"] input').val();
     FwModule.loadAudit($form, uniqueid);
 };
 //----------------------------------------------------------------------------------------------
-RwUserController.setFormProperties = function($form) {
+UserController.setFormProperties = function($form) {
     var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
 
     $cbSecurityExpirePassword = $form.find('.cbSecurityExpirePassword');
