@@ -143,7 +143,7 @@ namespace Fw.Json.Services
             
             filename    = Guid.NewGuid().ToString().Replace("-", string.Empty) + ".xlsx";
             path        = HttpContext.Current.Server.MapPath("~/App_Data/Temp/Downloads/" + filename);
-            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload.ashx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(saveas) + "&asattachment=true");
+            downloadurl = VirtualPathUtility.ToAbsolute("~/fwdownload/" + saveas + ".xlsx?filename=" + HttpUtility.UrlEncode(filename) + "&saveas=" + HttpUtility.UrlEncode(saveas) + "&asattachment=true");
             using (ExcelPackage package = new ExcelPackage(new FileInfo(path)))
             {
                 worksheet = package.Workbook.Worksheets.Add("Worksheet 1");

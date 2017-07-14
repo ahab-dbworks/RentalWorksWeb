@@ -10,6 +10,6 @@
 
 .fwmobilemodulecontrol .btn.menu {position:relative;}
 .fwmobilemodulecontrol .btn.menu i:hover {background-color:#1976d2;}
-.fwmobilemodulecontrol .btn.menu .menu-dropdown {display: none;position: absolute;padding: 1px;-moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);align-content: flex-start;flex-wrap: wrap;background-color:#fafafa;color:#212121;right:4px;top:4px;min-width:200px;border-radius: 1px;}
+.fwmobilemodulecontrol .btn.menu .menu-dropdown {display: none;position: absolute;padding: 1px;-moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);align-content: flex-start;flex-wrap: wrap;background-color:#fafafa;color:#212121;right:4px;top:0;min-width:200px;border-radius: 1px;}
 .fwmobilemodulecontrol .btn.menu.active .menu-dropdown {display:block;}
 .fwmobilemodulecontrol .btn.menu.active .menu-dropdown .menu-dropdown-btn {padding:10px;}
