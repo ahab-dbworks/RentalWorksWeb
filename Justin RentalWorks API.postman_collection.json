@@ -8,6 +8,126 @@
 	},
 	"item": [
 		{
+			"name": "Credit Status",
+			"description": "",
+			"item": [
+				{
+					"name": "CreditStatus: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/00000S5R",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CreditStatus\": \"NEW STATUS\"\n    }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"CreditStatusId\": \"00003AN1\",\n    \"CreditStatus\": \"NEW STATUS XXX \",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/00003AN1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Customer Type",
 			"description": "",
 			"item": [
@@ -291,7 +411,7 @@
 				{
 					"name": "GlAccount: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/glaccount/00001HZG",
+						"url": "http://localhost:57949/api/v1/glaccount/00001HZH",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -333,7 +453,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"GlAccountId\": \"00003A45\",\n    \"GlAccountNo\": \"5559\",\n    \"GlAccountDescription\": \"NEW ACCOUNT TESTXXX\",\n    \"GlAccountType\": \"INCOME\",\n    \"Inactive\": \"\"\n}"
+							"raw": "{\n    \"GlAccountId\": \"00001HZH\",\n    \"GlAccountNo\": \"1290\",\n    \"GlAccountDescription\": \"ALLOWANCE FOR UNCOLLECTABLE DEBTS\",\n    \"GlAccountType\": \"ASSET\",\n    \"Inactive\": \"\",\n    \"_Custom\": [\n        {\n            \"Name\": \"Routing\",\n            \"Value\": \"1234\"\n        },\n        {\n            \"Name\": \"Expense Sub Code\",\n            \"Value\": \"ABC\"\n        }\n    ]\n}"
 						},
 						"description": ""
 					},
