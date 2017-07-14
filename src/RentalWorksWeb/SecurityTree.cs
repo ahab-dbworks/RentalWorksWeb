@@ -60,9 +60,9 @@ namespace RentalWorksWeb
                                                 AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv2menuChargeProcessing.Id, "RwVendorInvoiceProcessingController", "module/vendorinvoiceprocessing", utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
-            AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "RwGroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
+            AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
             AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
-            AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "RwUserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
+            AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
 
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "RwUserSettingsController");

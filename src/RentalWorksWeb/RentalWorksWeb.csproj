@@ -60,8 +60,8 @@
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
+    <TypeScriptMapRoot>Source/TypeScript</TypeScriptMapRoot>
+    <TypeScriptSourceRoot>Source/TypeScript</TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Web Fast|AnyCPU' ">
     <FwUpdateSchema>false</FwUpdateSchema>
@@ -1026,12 +1026,12 @@
     <Content Include="Source\Grids\MasterItem\MasterItemBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupForm.htm" />
-    <Content Include="Source\Modules\Administrator\Group\RwGroupController.js" />
+    <Content Include="Source\Modules\Administrator\Group\GroupController.js" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\User\RwUserController.js" />
+    <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
@@ -1082,6 +1082,7 @@
     <Content Include="Source\Validations\BatchAR\BatchARBrowse.htm" />
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
     <Content Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoiceBrowse.htm" />
+    <Content Include="Source\Validations\CreditStatus\CreditStatusBrowse.htm" />
     <Content Include="Source\Validations\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Validations\Category\CategoryBrowse.htm" />
     <Content Include="Source\Validations\OrderUnit\OrderUnitBrowse.htm" />
@@ -1246,6 +1247,7 @@
     <Compile Include="Source\Validations\BatchInvoices\BatchInvoices.cs" />
     <Compile Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoice.cs" />
     <Compile Include="Source\Validations\BillingCycle\BillingCycle.cs" />
+    <Compile Include="Source\Validations\CreditStatus\CreditStatus.cs" />
     <Compile Include="Source\Validations\Category\Category.cs" />
     <Compile Include="Source\Validations\CompanyDepartment\CompanyDepartment.cs" />
     <Compile Include="Source\Validations\Country\Country.cs" />

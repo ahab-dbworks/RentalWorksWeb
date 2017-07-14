@@ -6,10 +6,20 @@
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
-        <div class="formpage">
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Status" data-datafield="CustomerStatus" data-noduplicate="true" style="float:left;width:12%;"></div>  
-          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:12%;"></div>  
-          <!--<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="" data-validationname="" style="float:left;width:25%;"></div>-->
+        <div style="display:flex;flex-wrap:wrap;min-width:320px;">
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Customer Status" data-datafield="CustomerStatus" data-noduplicate="true" style="flex:300px 0 0;width:300px;"></div>  
+          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex:100px 1 0;"></div>  
+        </div>
+        <div style="display:flex;flex-wrap:wrap;min-width:320px;">
+          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Status Type" data-datafield="StatusType" style="flex:200px 1 0;">
+            <div data-value="O" data-caption="Allowed"></div>
+            <div data-value="C" data-caption="Cannot Create Quotes/Orders/Deals"></div>
+            <div data-value="H" data-caption="Cannot Check-Out"></div>
+            <div data-value="I" data-caption="Inactive"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;min-width:320px;">
+          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Credit Status" data-datafield="CreditStatus" data-validationname="CreditStatus" style="flex:300px 0 0;width:300px;"></div>
         </div>
       </div>
     </div>

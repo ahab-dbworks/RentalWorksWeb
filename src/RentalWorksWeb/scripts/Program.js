@@ -43,9 +43,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/receiptprocessing/,       getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorinvoiceprocessing/, getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
     //Administrator
-  , { urlpattern: /^module\/group/,                   getScreen: function() { return RwGroupController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/group/,                   getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/integration/,             getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                    getScreen: function() { return RwUserController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                    getScreen: function() { return UserController.getModuleScreen({}, {}); } }
     //Exports
   , { urlpattern: /^module\/example/,                 getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];
