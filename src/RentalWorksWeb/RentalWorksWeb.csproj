@@ -1035,6 +1035,8 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
@@ -1220,6 +1222,7 @@
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
@@ -1299,6 +1302,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
@@ -1318,7 +1322,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54304</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

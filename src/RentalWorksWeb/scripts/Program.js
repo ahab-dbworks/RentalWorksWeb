@@ -34,6 +34,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorclass/,             getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/warehouse/,               getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
