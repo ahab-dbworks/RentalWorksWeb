@@ -38,9 +38,13 @@ namespace RentalWorksWeb
             var lv2menuCustomerMaintenance = AddLv2ModuleMenu("Customer Maintenance", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "CustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Customer Type", "{314EDC6F-478A-40E2-B17E-349886A85EA0}", lv2menuCustomerMaintenance.Id, "CustomerTypeController", "module/customertype", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Vendor Class", "{A54AB9C3-2249-4973-8B29-62ED75D3C9D3}", lv2menuCustomerMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv2menuCustomerMaintenance.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
+            // Vendor Maintenance
+            var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholer.png");
+            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
+
+            //Warehouse
+            AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
             //Reports 
             var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
