@@ -10,7 +10,7 @@ namespace RentalWorksWeb.Source.Modules
     public class VendorClassMenu : FwApplicationTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public VendorClassMenu() : base("{A54AB9C3-2249-4973-8B29-62ED75D3C9D3}") { }
+        public VendorClassMenu() : base("{8B2C9EE3-AE87-483F-A651-8BA633E6C439}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwApplicationTree tree)
         {
