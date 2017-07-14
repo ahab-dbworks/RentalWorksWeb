@@ -200,21 +200,6 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/checkinitemcancel", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CheckInItemCancel(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/checkinitemsendtorepair", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CheckInItemSendToRepair(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/checkinallqtyitems", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CheckInAllQtyItems(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/createcontract", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CreateContract(request, response, session); }
                 ),
@@ -232,16 +217,6 @@ namespace RentalWorksQuikScan.Source
                     roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestpath, string applicationPath) { return Regex.IsMatch(requestpath, GetRegexString("/order/createincontract", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CreateInContract(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getcheckinpendinglist", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetCheckInPendingList(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/getcheckinsessioninlist", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetCheckInSessionInList(request, response, session); }
                 ),
                 //new FwJsonRequestAction(
                 //    roles: new string[]{RwUserRoles.RentalWorksUser},

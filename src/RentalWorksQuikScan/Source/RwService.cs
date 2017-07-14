@@ -558,24 +558,6 @@ namespace RentalWorksQuikScan.Source
                                                                  , usersid:      session.security.webUser.usersid);
         }
         //---------------------------------------------------------------------------------------------
-        public static void GetCheckInPendingList(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "GetCheckInPendingList";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
-            response.getCheckInPendingList = RwAppData.GetCheckInPendingList(conn:       FwSqlConnection.RentalWorks
-                                                                           , contractid: request.contractId);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void GetCheckInSessionInList(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "GetCheckInSessionInList";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
-            response.getCheckInSessionInList = RwAppData.GetCheckInSessionInList(conn:       FwSqlConnection.RentalWorks
-                                                                               , contractid: request.contractId);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void CancelContract(dynamic request, dynamic response, dynamic session)
         {
             RwAppData.ActivityType activityType;
@@ -639,68 +621,6 @@ namespace RentalWorksQuikScan.Source
                     response.appimageids[i] = appimageid;
                 }
             }
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void CheckInAllQtyItems(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "CheckInAllQtyItems";
-            FwJsonDataTable dtPendingList;
-            int ordTrackedBy, ordSubByQuantity, ordOrderId, ordVendorId, ordMasterItemId, ordMasterId, ordParentId, ordDescription, ordQtyStillOut;
-            string trackedby, subbyquantity, orderid, vendorid, masteritemid, masterid, parentid, description;
-            decimal qtystillout;
-
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
-            session.user = RwAppData.GetUser(conn:    FwSqlConnection.RentalWorks
-                                           , usersId: session.security.webUser.usersid);
-            if (session.user.qsallowapplyallqtyitems != "T")
-            {
-                throw new Exception("You do not have permission to Apply All Quantity Items");
-            }
-            dtPendingList = RwAppData.GetCheckInPendingList(conn:       FwSqlConnection.RentalWorks
-                                                          , contractid: request.contractId);
-            ordTrackedBy     = dtPendingList.ColumnIndex["trackedby"];
-            ordSubByQuantity = dtPendingList.ColumnIndex["subbyquantity"];
-            ordOrderId       = dtPendingList.ColumnIndex["orderid"];
-            ordVendorId      = dtPendingList.ColumnIndex["vendorid"];
-            ordMasterItemId  = dtPendingList.ColumnIndex["masteritemid"];
-            ordMasterId      = dtPendingList.ColumnIndex["masterid"];
-            ordParentId      = dtPendingList.ColumnIndex["parentid"];
-            ordDescription   = dtPendingList.ColumnIndex["description"];
-            ordQtyStillOut   = dtPendingList.ColumnIndex["qtystillout"];
-            for(int i = 0; i < dtPendingList.Rows.Count; i++)
-            {
-                trackedby     = dtPendingList.Rows[i][ordTrackedBy].ToString();
-                subbyquantity = dtPendingList.Rows[i][ordSubByQuantity].ToString();
-                orderid       = dtPendingList.Rows[i][ordOrderId].ToString();
-                vendorid      = dtPendingList.Rows[i][ordVendorId].ToString();
-                masteritemid  = dtPendingList.Rows[i][ordMasterItemId].ToString();
-                masterid      = dtPendingList.Rows[i][ordMasterId].ToString();
-                parentid      = dtPendingList.Rows[i][ordParentId].ToString();
-                description   = dtPendingList.Rows[i][ordDescription].ToString();
-                qtystillout   = FwConvert.ToDecimal(dtPendingList.Rows[i][ordQtyStillOut]);
-                if ((trackedby.Equals("QUANTITY") || subbyquantity.Equals("True")) && (qtystillout > 0))
-                {
-                    RwAppData.CheckInQty(conn:         FwSqlConnection.RentalWorks
-                                       , contractId:   request.contractId
-                                       , orderId:      orderid
-                                       , usersId:      session.security.webUser.usersid
-                                       , vendorId:     vendorid
-                                       , consignorId:  string.Empty
-                                       , masterItemId: masteritemid
-                                       , masterId:     masterid
-                                       , parentId:     parentid
-                                       , description:  description
-                                       , orderTranId:  0
-                                       , internalChar: string.Empty
-                                       , aisle:        string.Empty
-                                       , shelf:        string.Empty
-                                       , qty:          qtystillout
-                                       , containeritemid:        string.Empty
-                                       , containeroutcontractid: string.Empty);
-                }
-            }
-            response.getCheckInPendingList = RwAppData.GetCheckInPendingList(conn:       FwSqlConnection.RentalWorks
-                                                                           , contractid: request.contractId);
         }
         //---------------------------------------------------------------------------------------------
         public static void StageAllQtyItems(dynamic request, dynamic response, dynamic session)
@@ -1096,67 +1016,6 @@ namespace RentalWorksQuikScan.Source
             {
                 response.rentalconditions = RwAppData.GetRentalConditions(conn: FwSqlConnection.RentalWorks);
             }
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void CheckInItemCancel(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "CheckInItemCancel";
-
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masteritemid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masterid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "vendorid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "consignorid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "description");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "ordertranid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "internalchar");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
-
-            if (request.trackedby == "QUANTITY")
-            {
-                RwAppData.CheckInItemUnassign(conn:         FwSqlConnection.RentalWorks,
-                                              contractid:   request.contractid,
-                                              orderid:      request.orderid,
-                                              vendorid:     request.vendorid,
-                                              consignorid:  request.consignorid,
-                                              masteritemid: request.masteritemid,
-                                              masterid:     request.masterid,
-                                              usersid:      session.security.webUser.usersid,
-                                              aisle:        request.aisle,
-                                              shelf:        request.shelf,
-                                              qty:          request.qty);
-            }
-
-            RwAppData.CheckInItemCancel(conn:         FwSqlConnection.RentalWorks,
-                                        contractid:   request.contractid,
-                                        masteritemid: request.masteritemid,
-                                        masterid:     request.masterid,
-                                        vendorid:     request.vendorid,
-                                        consignorid:  request.consignorid,
-                                        usersid:      session.security.webUser.usersid,
-                                        description:  request.description,
-                                        ordertranid:  FwConvert.ToInt32(request.ordertranid),
-                                        internalchar: request.internalchar,
-                                        qty:          request.qty);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void CheckInItemSendToRepair(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "CheckInItemSendToRepair";
-
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "masteritemid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "rentalitemid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "qty");
-            string repairid = RwAppData.CreateRepair(conn:         FwSqlConnection.RentalWorks,
-                                                     contractid:   request.contractid,
-                                                     orderid:      request.orderid,
-                                                     masteritemid: request.masteritemid,
-                                                     rentalitemid: request.rentalitemid,
-                                                     qty:          request.qty,
-                                                     usersid:      session.security.webUser.usersid);
-            response.repairno = FwSqlCommand.GetStringData(FwSqlConnection.RentalWorks, "repair", "repairid", repairid, "repairno");
         }
         //---------------------------------------------------------------------------------------------
         public static void TimeLogSearch(dynamic request, dynamic response, dynamic session)

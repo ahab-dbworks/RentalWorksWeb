@@ -1,14 +1,14 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, $menu, $findorder, $findsession, $finddeal;
+    var combinedViewModel, screen, $menu, $ordersearch, $sessionsearch, $dealsearch;
     combinedViewModel = jQuery.extend({
-          captionPageTitle:   RwLanguages.translate('Check-In Menu')
-        , captionCheckInMenu: RwLanguages.translate('Check-In Menu')
-        , captionSingleOrder: RwLanguages.translate('Order No')
-        , captionMultiOrder:  RwLanguages.translate('Bar Code No')
-        , captionSession:     RwLanguages.translate('Session No')
-        , captionDeal:        RwLanguages.translate('Deal No')
-        , captionQuikCheckIn: RwLanguages.translate('Quik Check-In')
+        captionPageTitle:   RwLanguages.translate('Check-In Menu'),
+        captionCheckInMenu: RwLanguages.translate('Check-In Menu'),
+        captionSingleOrder: RwLanguages.translate('Order No'),
+        captionMultiOrder:  RwLanguages.translate('Bar Code No'),
+        captionSession:     RwLanguages.translate('Session No'),
+        captionDeal:        RwLanguages.translate('Deal No'),
+        captionQuikCheckIn: RwLanguages.translate('Quik Check-In')
     }, viewModel);
     combinedViewModel.htmlPageBody  = Mustache.render(jQuery('#tmpl-checkInMenu').html(), combinedViewModel);
     screen = {};
@@ -21,74 +21,18 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     screen.getOrderInfo = function () {
         return screen.orderinfo;
     };
-    screen.ordertosession = false;
-    screen.setOrderToSession = function (ordertosession) {
-        screen.ordertosession = ordertosession;
-    };
-    screen.getOrderToSession = function () {
-        return screen.ordertosession;
-    };
 
-    $menu        = screen.$view.find('.fwmenu');
-    $findorder   = screen.$view.find('.cim-findorder');
-    $findsession = screen.$view.find('.cim-findsession');
-    $finddeal    = screen.$view.find('.cim-finddeal');
-
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function () {
-        if (screen.getOrderToSession()) {
-            screen.setOrderToSession(false);
-            $findorder.show();
-            $findsession.hide();
-            screen.$btnnewsession.hide();
-        } else {
-            screen.setOrderInfo({});
-            $menu.show();
-            $findorder.hide();
-            $findsession.hide();
-            $finddeal.hide();
-            screen.$btnback.hide();
-        }
-    });
-    screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', 'continue', false, function () {
-        var request, orderinfo;
-        orderinfo = screen.getOrderInfo();
-        request = {
-            orderid:      orderinfo.orderid,
-            dealid:       orderinfo.dealid,
-            departmentid: orderinfo.departmentid
-        };
-        RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
-            var props, checkInItemScreen;
-            props = {
-                moduleType:   RwConstants.moduleTypes.Order,
-                activityType: RwConstants.activityTypes.CheckIn,
-                checkInMode:  RwConstants.checkInModes.SingleOrder,
-                checkInType:  RwConstants.checkInType.Normal,
-                selectedorder: {
-                    orderid:      orderinfo.orderid,
-                    orderno:      orderinfo.orderno,
-                    orderdesc:    orderinfo.orderdesc,
-                    dealid:       orderinfo.dealid,
-                    departmentid: orderinfo.departmentid,
-                    contractid:   response.contractid,
-                    sessionno:    response.sessionno
-                }
-            };
-
-            checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-            application.pushScreen(checkInItemScreen);
-        });
-    });
+    $menu          = screen.$view.find('#cim-menu');
+    $ordersearch   = screen.$view.find('#cim-ordersearch');
+    $sessionsearch = screen.$view.find('#cim-sessionsearch');
+    $dealsearch    = screen.$view.find('#cim-dealsearch');
 
     $menu
-        .on('click', '#checkInMenuView-iconSingleOrder', function() {
+        .on('click', '#cim-singleorder', function() {
             $menu.hide();
-            $findorder.show();
-            $findorder.find('#ordersearch').fwmobilesearch('clearsearchbox');
-            $findorder.find('#ordersearch').fwmobilesearch('search');
-            screen.$btnback.show();
+            $ordersearch.showscreen();
         })
-        .on('click', '#checkInMenuView-iconMultiOrder', function() {
+        .on('click', '#cim-multiorder', function() {
             var props, checkInItemScreen;
             props = {
                 moduleType:   RwConstants.moduleTypes.Order,
@@ -100,31 +44,39 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
             application.pushScreen(checkInItemScreen);
         })
-        .on('click', '#checkInMenuView-iconSession', function() {
+        .on('click', '#cim-session', function() {
             $menu.hide();
-            $findsession.show();
-            $findsession.find('#sessionsearch').fwmobilesearch('clearsearchbox');
-            $findsession.find('#sessionsearch').fwmobilesearch('search');
-            screen.$btnback.show();
+            $sessionsearch.showscreen({});
         })
-        .on('click', '#checkInMenuView-iconDeal', function() {
+        .on('click', '#cim-deal', function() {
             $menu.hide();
-            $finddeal.show();
-            $finddeal.find('#dealsearch').fwmobilesearch('clearsearchbox');
-            $finddeal.find('#dealsearch').fwmobilesearch('search');
-            screen.$btnback.show();
+            $dealsearch.showscreen();
         })
     ;
 
-    $findorder.find('#ordersearch').fwmobilesearch({
+    $ordersearch.find('#ordersearchcontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        'chevron_left',
+                state:       0,
+                buttonclick: function () {
+                    $ordersearch.hide();
+                    $menu.show();
+                }
+            }
+        ]
+    });
+    $ordersearch.find('#ordersearch').fwmobilesearch({
         service:   'CheckIn',
         method:    'OrderSearch',
-        upperCase: true,
         searchModes: [
             { value: 'ORDERNO',     caption: 'Order No.' },
             { value: 'DESCRIPTION', caption: 'Description' },
             { value: 'DEAL',        caption: 'Deal' }
         ],
+        cacheItemTemplate: false,
         itemTemplate: function(model) {
             var html = [];
             html.push('<div class="item">');
@@ -240,12 +192,8 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 try {
                     if (response.searchresults.Rows.length > 0) {
                         screen.setOrderInfo(recorddata);
-                        screen.setOrderToSession(true);
-                        $findorder.hide();
-                        $findsession.show();
-                        screen.$btnnewsession.show();
-                        $findsession.find('#sessionsearch').fwmobilesearch('clearsearchbox');
-                        $findsession.find('#sessionsearch').fwmobilesearch('load', response.searchresults);
+                        $ordersearch.hide();
+                        $sessionsearch.showscreen(response.searchresults);
                     } else {
                         // since there are no suspended sessions, make a new contractid
                         var request = {
@@ -281,8 +229,49 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             });
         }
     });
+    $ordersearch.showscreen = function() {
+        $ordersearch.find('#ordersearch').fwmobilesearch('clearsearchbox');
+        $ordersearch.show();
+        $ordersearch.find('#ordersearch').fwmobilesearch('search');
+    };
 
-    $findsession.find('#sessionsearch').fwmobilesearch({
+    $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        'chevron_left',
+                state:       0,
+                buttonclick: function () {
+                    screen.setOrderInfo({});
+                    $sessionsearch.hide();
+                    $menu.show();
+                }
+            },
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        'chevron_left',
+                state:       1,
+                buttonclick: function () {
+                    screen.setOrderInfo({});
+                    $sessionsearch.hide();
+                    $ordersearch.show();
+                }
+            },
+            {
+                caption:     'New Session',
+                orientation: 'right',
+                icon:        'chevron_right',
+                state:       1,
+                buttonclick: function () {
+                    $ordersearch.hide();
+                    $menu.show();
+                }
+            }
+        ]
+    });
+    $sessionsearch.find('#sessionsearch').fwmobilesearch({
         service:   'CheckIn',
         method:    'SessionSearch',
         upperCase: true,
@@ -392,8 +381,34 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             application.pushScreen(checkInItemScreen);
         }
     });
+    $sessionsearch.showscreen = function(searchresults) {
+        $sessionsearch.find('#sessionsearch').fwmobilesearch('clearsearchbox');
+        $sessionsearch.show();
 
-    $finddeal.find('#dealsearch').fwmobilesearch({
+        if (jQuery.isEmptyObject(searchresults)) {
+           $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 0);
+            $sessionsearch.find('#sessionsearch').fwmobilesearch('search');
+        } else {
+           $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 1);
+            $sessionsearch.find('#sessionsearch').fwmobilesearch('load', searchresults);
+        }
+    };
+
+    $dealsearch.find('#dealsearchcontrol').fwmobilemodulecontrol({
+        buttons: [
+            {
+                caption:     'Back',
+                orientation: 'left',
+                icon:        'chevron_left',
+                state:       0,
+                buttonclick: function () {
+                    $dealsearch.hide();
+                    $menu.show();
+                }
+            }
+        ]
+    });
+    $dealsearch.find('#dealsearch').fwmobilesearch({
         service:   'CheckIn',
         method:    'DealSearch',
         upperCase: true,
@@ -438,6 +453,11 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             application.pushScreen(checkInItemScreen);
         }
     });
+    $dealsearch.showscreen = function() {
+        $dealsearch.find('#dealsearch').fwmobilesearch('clearsearchbox');
+        $dealsearch.show();
+        $dealsearch.find('#dealsearch').fwmobilesearch('search');
+    };
 
     screen.load = function() {
 

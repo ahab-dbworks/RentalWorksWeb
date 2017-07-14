@@ -1473,58 +1473,6 @@ namespace RentalWorksQuikScan.Source
         //    return result;
         //}
         //----------------------------------------------------------------------------------------------------
-        public static FwJsonDataTable GetCheckInPendingList(FwSqlConnection conn, string contractid)
-        {
-            FwJsonDataTable result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("orderid",            false);
-            qry.AddColumn("masterid",           false);
-            qry.AddColumn("parentid",           false);
-            qry.AddColumn("masteritemid",       false);
-            qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("somein",             false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("masterno",           false);
-            qry.AddColumn("description",        false);
-            qry.AddColumn("vendor",             false);
-            qry.AddColumn("vendorid",           false);
-            qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtyin",              false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("qtystillout",        false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
-            qry.AddColumn("trackedby",          false);
-            qry.AddColumn("rectype",            false);
-            qry.AddColumn("itemclass",          false);
-            qry.AddColumn("itemorder",          false);
-            qry.AddColumn("orderby",            false);
-            qry.AddColumn("optioncolor",        false);
-            qry.AddColumn("warehouseid",        false);
-            qry.AddColumn("whcode",             false);
-            qry.AddColumn("orderno",            false);
-            qry.AddColumn("isbarcode",          false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("contractid",         false);
-            qry.AddColumn("subbyquantity",      false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
-            qry.Add("select *,");
-            qry.Add("  ispackage = dbo.ispackage(itemclass)");
-            qry.Add("from dbo.funccheckinexception(@contractid, @rectype)");
-            qry.Add("where exceptionflg = 'T'");
-            qry.Add("  and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
-            qry.Add("order by orderno, itemorder, masterno");
-            qry.AddParameter("@contractid", contractid);
-            qry.AddParameter("@rectype", "R");
-            result = qry.QueryToFwJsonTable();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         public static bool HasCheckinFillContainerButton(FwSqlConnection conn, string contractid)
         {
             bool showButton;
@@ -1540,23 +1488,6 @@ namespace RentalWorksQuikScan.Source
             showButton = (qry.GetField("containercount").ToInt32() > 0);
 
             return showButton;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic GetCheckInSessionInList(FwSqlConnection conn, string contractid)
-        {
-            dynamic result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.Add("select *");
-            qry.Add("from   dbo.funccheckincontract(@contractid, @groupby)");
-            qry.Add("order by orderby");
-            qry.AddParameter("@contractid", contractid);
-            qry.AddParameter("@groupby", "DETAIL");
-
-            result = new ExpandoObject();
-            result = qry.QueryToDynamicList2();
-            return result;
         }
         //----------------------------------------------------------------------------------------------------
         public static bool OrdertranExists(FwSqlConnection conn, string contractId, RwAppData.ActivityType activityType)
