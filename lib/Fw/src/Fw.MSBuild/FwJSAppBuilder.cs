@@ -335,10 +335,25 @@ namespace Fw.MSBuildTasks
                                             }
                                             else
                                             {
-                                                string htmlTemplate = File.ReadAllText(fileInfo.FullName);
-                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\">");
-                                                sbModules.AppendLine(htmlTemplate);
-                                                sbModules.AppendLine("</script>");
+                                                if (Publish)
+                                                {
+                                                    string htmlTemplate = File.ReadAllText(fileInfo.FullName);
+                                                    sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\">");
+                                                    sbModules.AppendLine(htmlTemplate);
+                                                    sbModules.AppendLine("</script>");
+                                                }
+                                                else
+                                                {
+                                                    string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + ".htm";
+                                                    foreach (Field field in config.Fields)
+                                                    {
+                                                        if (urlHtml.Contains(field.Key))
+                                                        {
+                                                            urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                        }
+                                                    }
+                                                    sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                                }
                                             }
                                         }
                                         if (UpdateSchema)
@@ -348,16 +363,46 @@ namespace Fw.MSBuildTasks
                                         if (fileBrowseTemplate != null)
                                         {
                                             fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
-                                            sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
-                                            sbModules.AppendLine(fileBrowseTemplate);
-                                            sbModules.AppendLine("</script>");
+                                            if (Publish)
+                                            {
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
+                                                sbModules.AppendLine(fileBrowseTemplate);
+                                                sbModules.AppendLine("</script>");
+                                            }
+                                            else
+                                            {
+                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                                foreach (Field field in config.Fields)
+                                                {
+                                                    if (urlHtml.Contains(field.Key))
+                                                    {
+                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                    }
+                                                }
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                            }
                                         }
                                         if (fileFormTemplate != null)
                                         {
                                             fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
-                                            sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
-                                            sbModules.AppendLine(fileFormTemplate);
-                                            sbModules.AppendLine("</script>");
+                                            if (Publish)
+                                            {
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
+                                                sbModules.AppendLine(fileFormTemplate);
+                                                sbModules.AppendLine("</script>");
+                                            }
+                                            else
+                                            {
+                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Form.htm";
+                                                foreach (Field field in config.Fields)
+                                                {
+                                                    if (urlHtml.Contains(field.Key))
+                                                    {
+                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                    }
+                                                }
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                            }
                                         }
                                     }
                                 }
