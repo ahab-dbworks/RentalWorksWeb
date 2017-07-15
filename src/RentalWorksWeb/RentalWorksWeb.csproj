@@ -56,12 +56,15 @@
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile />
-    <TypeScriptOutDir>Source/TypeScript</TypeScriptOutDir>
+    <TypeScriptOutDir>
+    </TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot>Source/TypeScript</TypeScriptMapRoot>
-    <TypeScriptSourceRoot>Source/TypeScript</TypeScriptSourceRoot>
+    <TypeScriptMapRoot>
+    </TypeScriptMapRoot>
+    <TypeScriptSourceRoot>
+    </TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Web Fast|AnyCPU' ">
     <FwUpdateSchema>false</FwUpdateSchema>
@@ -83,6 +86,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir>Source/TypesScript</TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot>Source/TypesScript</TypeScriptMapRoot>
+    <TypeScriptSourceRoot>Source</TypeScriptSourceRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Web Fast|AnyCPU' ">
     <FwUpdateSchema>false</FwUpdateSchema>
