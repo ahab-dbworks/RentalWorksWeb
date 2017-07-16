@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,44 +13,44 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(WarehouseLogic));
+            return await DoBrowseAsync(browseRequest, typeof(WarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<WarehouseLogic>(pageno, pagesize, typeof(WarehouseLogic));
+            return await DoGetAsync<WarehouseLogic>(pageno, pagesize, typeof(WarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customertype/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<WarehouseLogic>(id, typeof(WarehouseLogic));
+            return await DoGetAsync<WarehouseLogic>(id, typeof(WarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype
         [HttpPost]
-        public IActionResult Post([FromBody]WarehouseLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]WarehouseLogic l)
         {
-            return doPost<WarehouseLogic>(l);
+            return await DoPostAsync<WarehouseLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customertype/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(WarehouseLogic));
+            return await DoDeleteAsync(id, typeof(WarehouseLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicate(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }

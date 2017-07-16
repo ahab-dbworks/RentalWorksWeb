@@ -48,9 +48,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }

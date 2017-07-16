@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,44 +13,44 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(BillingCycleLogic));
+            return await DoBrowseAsync(browseRequest, typeof(BillingCycleLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/billingcycle
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<BillingCycleLogic>(pageno, pagesize, typeof(BillingCycleLogic));
+            return await DoGetAsync<BillingCycleLogic>(pageno, pagesize, typeof(BillingCycleLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/billingcycle/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<BillingCycleLogic>(id, typeof(BillingCycleLogic));
+            return await DoGetAsync<BillingCycleLogic>(id, typeof(BillingCycleLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle
         [HttpPost]
-        public IActionResult Post([FromBody]BillingCycleLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]BillingCycleLogic l)
         {
-            return doPost<BillingCycleLogic>(l);
+            return await DoPostAsync<BillingCycleLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/billingcycle/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(BillingCycleLogic));
+            return await DoDeleteAsync(id, typeof(BillingCycleLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }

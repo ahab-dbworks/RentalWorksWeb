@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,44 +13,44 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/creditstatus/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(CreditStatusLogic));
+            return await DoBrowseAsync(browseRequest, typeof(CreditStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/creditstatus
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<CreditStatusLogic>(pageno, pagesize, typeof(CreditStatusLogic));
+            return await DoGetAsync<CreditStatusLogic>(pageno, pagesize, typeof(CreditStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/creditstatus/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<CreditStatusLogic>(id, typeof(CreditStatusLogic));
+            return await DoGetAsync<CreditStatusLogic>(id, typeof(CreditStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/creditstatus
         [HttpPost]
-        public IActionResult Post([FromBody]CreditStatusLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]CreditStatusLogic l)
         {
-            return doPost<CreditStatusLogic>(l);
+            return await DoPostAsync<CreditStatusLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/creditstatus/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(CreditStatusLogic));
+            return await DoDeleteAsync(id, typeof(CreditStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/creditstatus/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }
