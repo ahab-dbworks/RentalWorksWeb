@@ -1318,7 +1318,6 @@
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Modules\Home\" />
     <Folder Include="Source\Modules\Utilities\" />
-    <Folder Include="Source\TypeScript\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
