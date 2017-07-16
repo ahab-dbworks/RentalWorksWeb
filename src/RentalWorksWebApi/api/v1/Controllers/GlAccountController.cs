@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,37 +13,37 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(GlAccountLogic));
+            return await DoBrowseAsync(browseRequest, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<GlAccountLogic>(pageno, pagesize, typeof(GlAccountLogic));
+            return await DoGetAsync<GlAccountLogic>(pageno, pagesize, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/glaccount/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<GlAccountLogic>(id, typeof(GlAccountLogic));
+            return await DoGetAsync<GlAccountLogic>(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount
         [HttpPost]
-        public IActionResult Post([FromBody]GlAccountLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]GlAccountLogic l)
         {
-            return doPost<GlAccountLogic>(l);
+            return await DoPostAsync<GlAccountLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/glaccount/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(GlAccountLogic));
+            return await DoDeleteAsync(id, typeof(GlAccountLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/glaccount/validateduplicate

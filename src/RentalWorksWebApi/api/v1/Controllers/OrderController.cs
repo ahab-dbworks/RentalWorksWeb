@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,37 +13,37 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(OrderLogic));
+            return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/order
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<OrderLogic>(pageno, pagesize, typeof(OrderLogic));
+            return await DoGetAsync<OrderLogic>(pageno, pagesize, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/order/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<OrderLogic>(id, typeof(OrderLogic));
+            return await DoGetAsync<OrderLogic>(id, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/order
         [HttpPost]
-        public IActionResult Post([FromBody]OrderLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]OrderLogic l)
         {
-            return doPost<OrderLogic>(l);
+            return await DoPostAsync<OrderLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/order/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(OrderLogic));
+            return await DoDeleteAsync(id, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/validateduplicate

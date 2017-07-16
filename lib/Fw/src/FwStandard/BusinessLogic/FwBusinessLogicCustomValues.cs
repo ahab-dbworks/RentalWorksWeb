@@ -1,6 +1,7 @@
 ﻿using FwStandard.ConfigSection;
 using FwStandard.DataLayer;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FwStandard.BusinessLogic
 {
@@ -21,18 +22,18 @@ namespace FwStandard.BusinessLogic
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        public void Load(string[] primaryKeyValues)
+        public async Task LoadAsync(string[] primaryKeyValues)
         {
             FwCustomData customData = new FwCustomData(_moduleName, primaryKeyValues);
             customData.SetDbConfig(_dbConfig);
-            customData.Load();
+            await customData.LoadAsync();
             this.Clear();
             foreach (FwCustomValue value in customData.customValues) {
                 this.Add(new FwBusinessLogicCustomValue(value.FieldName, value.FieldValue));
             }
         }
         //------------------------------------------------------------------------------------
-        public void Save(string[] primaryKeyValues)
+        public async Task SaveAsync(string[] primaryKeyValues)
         {
             FwCustomData customData = new FwCustomData(_moduleName, primaryKeyValues);
             customData.SetDbConfig(_dbConfig);
@@ -40,7 +41,7 @@ namespace FwStandard.BusinessLogic
             {
                 customData.customValues.Add(new FwCustomValue(value.Name, value.Value));
             }
-            customData.Save();
+            await customData.SaveAsync();
         }
         //------------------------------------------------------------------------------------
     }

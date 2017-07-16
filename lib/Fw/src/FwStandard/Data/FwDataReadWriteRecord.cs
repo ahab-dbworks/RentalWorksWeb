@@ -1,5 +1,6 @@
 ﻿using FwStandard.SqlServer;
 using System;
+using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
@@ -8,7 +9,7 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
-        public virtual int Save()
+        public virtual async Task<int> SaveAsync()
         {
             int rowsAffected = 0;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -16,16 +17,19 @@ namespace FwStandard.DataLayer
                 if (NoPrimaryKeysHaveValues)
                 {
                     //insert
-                    SetPrimaryKeyIdsForInsert(conn);
-                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    rowsAffected = cmd.Insert(true, TableName, this, _dbConfig);
+                    await SetPrimaryKeyIdsForInsertAsync(conn);
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    {
+                        rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
+                    }
                 }
                 else if (AllPrimaryKeysHaveValues)
                 {
                     // update
-                    FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    rowsAffected = cmd.Update(true, TableName, this);
-
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    {
+                        rowsAffected = await cmd.UpdateAsync(true, TableName, this);
+                    }
                 }
                 else
                 {
@@ -35,16 +39,17 @@ namespace FwStandard.DataLayer
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Delete()
+        public virtual async Task<bool> DeleteAsync()
         {
-            bool success = false;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                int rowcount = cmd.Delete(true, TableName, this);
-                success = (rowcount > 0);
+                using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                {
+                    int rowcount = await cmd.DeleteAsync(true, TableName, this);
+                    bool success = (rowcount > 0);
+                    return success;
+                }
             }
-            return success;
         }
         //------------------------------------------------------------------------------------    }
     }

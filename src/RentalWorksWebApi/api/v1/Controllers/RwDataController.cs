@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -20,7 +21,7 @@ namespace RentalWorksWebApi.Controllers.v1
             return (FwBusinessLogic)Activator.CreateInstance(type);
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doBrowse(BrowseRequestDto browseRequest, Type type)
+        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequestDto browseRequest, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -30,7 +31,7 @@ namespace RentalWorksWebApi.Controllers.v1
             {
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
-                FwJsonDataTable dt = l.Browse(browseRequest);
+                FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
@@ -39,7 +40,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doGet<T>(int pageno, int pagesize, Type type)
+        protected virtual async Task<IActionResult> DoGetAsync<T>(int pageno, int pagesize, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +53,7 @@ namespace RentalWorksWebApi.Controllers.v1
                 request.pagesize = pagesize;
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
-                IEnumerable<T> records = l.Select<T>(request);
+                IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }
             catch (Exception ex)
@@ -61,7 +62,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doGet<T>(string id, Type type)
+        protected virtual async Task<IActionResult> DoGetAsync<T>(string id, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +73,7 @@ namespace RentalWorksWebApi.Controllers.v1
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
-                if (l.Load<T>(ids))
+                if (await l.LoadAsync<T>(ids))
                 {
                     return new OkObjectResult(l);
                 }
@@ -87,7 +88,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doPost<T>(FwBusinessLogic l)
+        protected virtual async Task<IActionResult> DoPostAsync<T>(FwBusinessLogic l)
         {
             if (!ModelState.IsValid)
             {
@@ -96,8 +97,8 @@ namespace RentalWorksWebApi.Controllers.v1
             try
             {
                 l.SetDbConfig(_appConfig.DatabaseSettings);
-                l.Save();
-                l.Load<T>();
+                await l.SaveAsync();
+                await l.LoadAsync<T>();
                 return new OkObjectResult(l);
             }
             catch (Exception ex)
@@ -106,7 +107,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doDelete(string id, Type type)
+        protected virtual async Task<IActionResult> DoDeleteAsync(string id, Type type)
         {
             try
             {
@@ -114,7 +115,7 @@ namespace RentalWorksWebApi.Controllers.v1
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 l.SetPrimaryKeys(ids);
-                bool success = l.Delete();
+                bool success = await l.DeleteAsync();
                 return new OkObjectResult(success);
             }
             catch (Exception ex)
@@ -123,9 +124,15 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual IActionResult doValidateDuplicate(ValidateDuplicateRequest request)
+        protected virtual async Task<IActionResult> DoValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
-            return new OkObjectResult(true);
+            IActionResult result = new OkObjectResult(true);
+            // mv 7/15/2017 this gets rid of the no async warning, should be replaced by an await against a db call
+            await Task.Run(() =>
+            {
+               
+            });
+            return result;
         }
         //------------------------------------------------------------------------------------
     }

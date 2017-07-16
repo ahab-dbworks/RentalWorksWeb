@@ -65,7 +65,7 @@ namespace RentalWorksWeb
             AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
 
             // Add Submodules
-            AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "RwUserSettingsController");
+            AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
 
             // Add Grids
             AddGrid("Audit History",                  "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");

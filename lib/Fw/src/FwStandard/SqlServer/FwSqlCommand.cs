@@ -12,6 +12,7 @@ using System.Dynamic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FwStandard.SqlServer
 {
@@ -674,25 +675,25 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------------
-        public int ExecuteNonQuery()
+        public async Task<int> ExecuteNonQueryAsync()
         {
-            return ExecuteNonQuery(true);
+            return await ExecuteNonQueryAsync(true);
         }
         //------------------------------------------------------------------------------------
-        public int ExecuteNonQuery(bool closeConnection)
+        public async Task<int> ExecuteNonQueryAsync(bool closeConnection)
         {
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteNonQuery()");
                 if (closeConnection)
                 {
-                    this.sqlConnection.Open();
+                    await this.sqlConnection.OpenAsync();
                 }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             catch (SqlException ex)
@@ -718,14 +719,14 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public int ExecuteInsertQuery(string tablename)
+        public async Task<int> ExecuteInsertQueryAsync(string tablename)
         {
             StringBuilder insertColumnsNames, insertParameterNames;
 
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
-                this.sqlConnection.Open();
+                await this.sqlConnection.OpenAsync();
                 insertColumnsNames = new StringBuilder();
                 insertParameterNames = new StringBuilder();
                 for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
@@ -744,7 +745,7 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             finally
@@ -756,7 +757,7 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public int ExecuteUpdateQuery(string tablename, string primarykeyname, string primarykeyvalue)
+        public async Task<int> ExecuteUpdateQueryAsync(string tablename, string primarykeyname, string primarykeyvalue)
         {
             StringBuilder updateColumnsNames, updateParameterNames;
 
@@ -767,7 +768,7 @@ namespace FwStandard.SqlServer
                 {
                     qryText = new StringBuilder();
                 }
-                this.sqlConnection.Open();
+                await this.sqlConnection.OpenAsync();
                 updateColumnsNames = new StringBuilder();
                 updateParameterNames = new StringBuilder();
                 qryText.Append("update ");
@@ -790,7 +791,7 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             finally
@@ -802,17 +803,17 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public void ExecuteReader()
+        public async Task ExecuteReaderAsync()
         {
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteReader()");
-                this.sqlConnection.Open();
+                await this.sqlConnection.OpenAsync();
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.reader = this.sqlCommand.ExecuteReader();
+                this.reader = await this.sqlCommand.ExecuteReaderAsync();
                 this.sqlLogEntry.Stop();
                 this.RowCount = this.reader.RecordsAffected;
             }
@@ -982,7 +983,7 @@ namespace FwStandard.SqlServer
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
-        public FwJsonDataTable QueryToFwJsonTable(bool includeAllColumns)
+        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns)
         {
             FwJsonDataTable dt;
 
@@ -995,12 +996,12 @@ namespace FwStandard.SqlServer
             dt = new FwJsonDataTable();
             dt.PageNo = 1;
             dt.PageSize = 20;
-            QueryToFwJsonTable(dt, this.qryText.ToString(), includeAllColumns);
+            await QueryToFwJsonTableAsync(dt, this.qryText.ToString(), includeAllColumns);
 
             return dt;
         }
         //------------------------------------------------------------------------------------
-        private FwJsonDataTable QueryToFwJsonTable(FwJsonDataTable dt, string qryText, bool includeAllColumns)
+        private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(FwJsonDataTable dt, string qryText, bool includeAllColumns)
         {
             List<string> readerColumns;
             List<object> row;
@@ -1013,8 +1014,8 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToFwJsonTable()");
                 this.sqlCommand.CommandText = qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
-                this.sqlCommand.Connection.Open();
-                using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
+                await this.sqlCommand.Connection.OpenAsync();
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
                     if (!includeAllColumns)
                     {
@@ -1278,214 +1279,12 @@ namespace FwStandard.SqlServer
             return dt;
         }
         //------------------------------------------------------------------------------------
-        //public FwJsonDataTable QueryToFwJsonTable(FwSqlSelect select, FwApplicationSchema.Browse browseSchema)
-        //{
-        //    FwJsonDataTable dt;
-        //    SqlDataReader reader;
-        //    List<string> readerColumns;
-        //    List<object> row;
-        //    int ordinal;
-        //    string fieldName, colname, dataType;
-        //    object value;
-        //    DataTable dtSchema;
-
-        //    try
-        //    {
-        //        FwFunc.WriteLog("Begin FwSqlCommand:QueryToFwJsonTable(select): " + sqlCommand.CommandText);
-        //        dt = new FwJsonDataTable();
-        //        dt.PageNo = select.PageNo;
-        //        dt.PageSize = select.PageSize;
-        //        select.SetQuery(this);
-        //        this.sqlCommand.CommandText = this.qryText.ToString();
-        //        FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
-        //        this.sqlCommand.Connection.Open();
-        //        reader = this.sqlCommand.ExecuteReader();
-        //        //dt.Columns = columns;
-        //        dtSchema = reader.GetSchemaTable();
-        //        for (int rowno = 0; rowno < dtSchema.Rows.Count; rowno++)
-        //        {
-        //            FwJsonDataTableColumn col;
-        //            colname = dtSchema.Rows[rowno][0].ToString();
-        //            for (int colno = 0; colno < columns.Count; colno++)
-        //            {
-        //                if (colname == columns[colno].DataField)
-        //                {
-        //                    col = columns[colno];
-        //                    if (string.IsNullOrEmpty(col.Name))
-        //                    {
-        //                        if (browseSchema.UniqueIds.ContainsKey(colname))
-        //                        {
-        //                            col.IsUniqueId = true;
-        //                            col.IsVisible = false;
-        //                        }
-        //                        if (browseSchema.Columns.ContainsKey(colname))
-        //                        {
-        //                            if (browseSchema.Columns[colname].ExportToExcel == false)
-        //                            {
-        //                                col.IsVisible = false;
-        //                            }
-        //                            col.Name = browseSchema.Columns[colname].Caption;
-        //                        }
-        //                        else
-        //                        {
-        //                            col.Name = colname;
-        //                        }
-        //                    }
-        //                    dataType = string.Empty; 
-        //                    if (browseSchema.UniqueIds.ContainsKey(colname))
-        //                    {
-        //                        dataType = browseSchema.UniqueIds[colname].DataType;
-        //                        col.IsVisible = false;
-        //                    }
-        //                    if (browseSchema.Columns.ContainsKey(colname))
-        //                    {
-        //                        dataType = browseSchema.Columns[colname].DataType;
-        //                    }
-        //                    if (colname == "inactive")
-        //                    {
-        //                        col.IsVisible = false;
-        //                    }
-        //                    switch(dataType)
-        //                    {
-        //                        case "key":
-        //                        case "appdocumentimage":
-        //                        case "olecolor":
-        //                        case "legend":
-        //                        case "rowbackgroundcolor":
-        //                        case "rowtextcolor":
-        //                            col.IsVisible = false;
-        //                            break;
-        //                    }
-        //                    dt.Columns.Add(col);
-        //                    break;
-        //                }
-        //            }
-        //        }
-        //        columns = dt.Columns;
-        //        readerColumns = null;
-        //        dt.Rows = new List<List<object>>();
-        //        for (int i = 0; i < columns.Count; i++)
-        //        {
-        //            dt.ColumnIndex[columns[i].DataField] = i;
-        //        }
-        //        while (reader.Read())
-        //        {                
-        //            if (readerColumns == null)
-        //            {
-        //                readerColumns = new List<string>();
-        //                for (int i = 0; i < reader.FieldCount; i++)
-        //                {
-        //                    fieldName = reader.GetName(i);
-        //                    readerColumns.Add(fieldName);
-        //                    if (fieldName == "totalrows")
-        //                    {
-        //                        ordinal = reader.GetOrdinal(fieldName);
-        //                        dt.TotalRows = reader.GetInt32(ordinal);
-        //                        dt.TotalPages = (int)Math.Ceiling((double)dt.TotalRows / (double)dt.PageSize);
-        //                    }
-        //                }
-        //            }
-        //            row = new List<object>();
-        //            for (int i = 0; i < columns.Count; i++)
-        //            {
-        //                if (readerColumns.Contains(dt.Columns[i].DataField))
-        //                {
-        //                    ordinal  = reader.GetOrdinal(dt.Columns[i].DataField);
-        //                    value    = string.Empty;
-        //                    dataType = string.Empty;
-        //                    if (dt.Columns[i].IsUniqueId)
-        //                    {
-        //                        dataType = browseSchema.UniqueIds[dt.Columns[i].DataField].DataType;
-        //                    }
-        //                    else
-        //                    {
-        //                        dataType = browseSchema.Columns[dt.Columns[i].DataField].DataType;
-        //                    }
-        //                    if (!reader.IsDBNull(ordinal))
-        //                    {
-        //                        switch(dataType)
-        //                        {
-        //                            case "key":
-        //                            case "validation":
-        //                                value = FwCryptography.AjaxEncrypt(new FwDatabaseField(reader.GetValue(ordinal)).ToString().Trim());
-        //                                break;
-        //                            case "text":
-        //                                value = new FwDatabaseField(reader.GetValue(ordinal)).ToString().Trim();
-        //                                break;
-        //                            case "utcdatetime":
-        //                            case "utcdate":
-        //                                //value = reader.GetDateTime(ordinal).ToString("yyyy-MM-dd HH:mm:ss UTC");   //MY 2015-10-15: This was causing IE and FireFox to put 'Invalid Date' in place of UTC DateTimes
-        //                                value = reader.GetDateTime(ordinal).ToString("yyyy-MM-ddTHH:mm:ssZ");        //MY 2015-10-15: This is the correct format that works across all browsers
-        //                                break;
-        //                            case "utctime":
-        //                                value = reader.GetValue(ordinal);
-        //                                if (value is System.String)
-        //                                {
-        //                                    //value = Convert.ToDateTime(value);
-        //                                    value = Convert.ToDateTime(value).ToString("yyyy-MM-ddTHH:mm:ssZ");
-        //                                }
-        //                                break;
-        //                            case "date":
-        //                                value = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateString();
-        //                                break;
-        //                            case "time":
-        //                                value = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortTimeString();
-        //                                break;
-        //                            case "datetime":
-        //                                value = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateTimeString();
-        //                                break;
-        //                            case "number":
-        //                                value = reader.GetDecimal(ordinal);
-        //                                break;
-        //                            case "bool":
-        //                                value = new FwDatabaseField(reader.GetString(ordinal)).ToBoolean();
-        //                                break;
-        //                            case "olecolor":
-        //                            case "rowbackgroundcolor":
-        //                            case "rowtextcolor":
-        //                                value = new FwDatabaseField(reader.GetInt32(ordinal)).ToHtmlColor();
-        //                                break;
-        //                            case "appdocumentimage":
-        //                                value = FwCryptography.AjaxEncrypt(reader.GetString(ordinal).TrimEnd());
-        //                                break;
-        //                            default:
-        //                                value = new FwDatabaseField(reader.GetValue(ordinal)).ToString().Trim();
-        //                                break;
-        //                        }
-        //                    }
-        //                    else 
-        //                    {
-        //                        switch (dataType) {
-        //                            case "rowbackgroundcolor":
-        //                                value = "#ffffff";
-        //                                break;
-        //                            case "rowtextcolor":
-        //                                value = "#000000";
-        //                                break;
-        //                        }
-        //                    }
-        //                    row.Add(value);
-        //                }
-        //            }
-        //            dt.Rows.Add(row);
-        //        }
-        //        reader.Close();
-        //    }
-        //    finally
-        //    {
-        //        this.sqlCommand.Connection.Close();
-        //        FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable(select)");
-        //    }
-
-        //    return dt;
-        //}
-        //------------------------------------------------------------------------------------
-        public void Execute()
+        public async Task ExecuteAsync()
         {
-            Execute(true);
+            await ExecuteAsync(true);
         }
         //------------------------------------------------------------------------------------
-        public void Execute(bool closeConnection)
+        public async Task ExecuteAsync(bool closeConnection)
         {
             try
             {
@@ -1493,7 +1292,7 @@ namespace FwStandard.SqlServer
                 this.RowCount = 0;
                 if (closeConnection)
                 {
-                    this.sqlConnection.Open();
+                    await this.sqlConnection.OpenAsync();
                 }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
@@ -1534,14 +1333,22 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------------
-        [System.Obsolete("Please use QueryToDynamicList2 instead, which adds support for column formatters.")]
-        public List<dynamic> QueryToDynamicList()
+        /// <summary>
+        /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
+        /// </summary>
+        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
+        /// <returns></returns>
+        public async Task<List<dynamic>> QueryToDynamicList2Async()
         {
-            return QueryToDynamicList(true);
+            return await QueryToDynamicList2Async(true);
         }
         //------------------------------------------------------------------------------------
-        [System.Obsolete("Please use QueryToDynamicList2 instead, which adds support for column formatters.")]
-        public List<dynamic> QueryToDynamicList(bool closeConnection)
+        /// <summary>
+        /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
+        /// </summary>
+        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
+        /// <returns></returns>
+        public async Task<List<dynamic>> QueryToDynamicList2Async(bool closeConnection)
         {
             List<dynamic> rows;
             dynamic rowObj;
@@ -1556,76 +1363,9 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
                 if (closeConnection)
                 {
-                    this.sqlCommand.Connection.Open();
+                    await this.sqlCommand.Connection.OpenAsync();
                 }
-                using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        rowObj = new ExpandoObject();
-                        row = (IDictionary<string, object>)rowObj;
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            fieldName = reader.GetName(i);
-                            row[fieldName] = reader.GetValue(i);
-                            if (row[fieldName] is String)
-                            {
-                                row[fieldName] = (row[fieldName] as String).TrimEnd();
-                            }
-                            else if (row[fieldName] is DateTime)
-                            {
-                                row[fieldName] = new FwDatabaseField(row[fieldName]).ToShortDateTimeString();
-                            }
-                        }
-                        rows.Add(row);
-                    }
-                }
-            }
-            finally
-            {
-                if (closeConnection)
-                {
-                    this.sqlCommand.Connection.Close();
-                }
-                //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
-            }
-
-            return rows;
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
-        /// </summary>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
-        /// <returns></returns>
-        public List<dynamic> QueryToDynamicList2()
-        {
-            return QueryToDynamicList2(true);
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
-        /// </summary>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
-        /// <returns></returns>
-        public List<dynamic> QueryToDynamicList2(bool closeConnection)
-        {
-            List<dynamic> rows;
-            dynamic rowObj;
-            IDictionary<string, object> row;
-            string fieldName;
-
-            try
-            {
-                //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
-                rows = new List<dynamic>();
-                this.sqlCommand.CommandText = this.qryText.ToString();
-                //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
-                if (closeConnection)
-                {
-                    this.sqlCommand.Connection.Open();
-                }
-                using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
 
 
@@ -1635,7 +1375,7 @@ namespace FwStandard.SqlServer
                         FwJsonDataTableColumn column = columns[colno];
                         indexedColumns[column.DataField] = column;
                     }
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         rowObj = new ExpandoObject();
                         row = (IDictionary<string, object>)rowObj;
@@ -1863,9 +1603,10 @@ namespace FwStandard.SqlServer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public List<T> QueryToTypedList<T>()
+        public async Task<List<T>> QueryToTypedListAsync<T>()
         {
-            string json = JsonConvert.SerializeObject(QueryToDynamicList2());
+            var objs = await QueryToDynamicList2Async();
+            string json = JsonConvert.SerializeObject(objs);
             List<T> results = JsonConvert.DeserializeObject<List<T>>(json);
             return results;
         }
@@ -1875,32 +1616,11 @@ namespace FwStandard.SqlServer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T QueryToTypedObject<T>()
+        public async Task<T> QueryToTypedObjectAsync<T>()
         {
-            string json = JsonConvert.SerializeObject(QueryToDynamicObject2());
+            var obj = await QueryToDynamicObject2Async();
+            string json = JsonConvert.SerializeObject(obj);
             T result = JsonConvert.DeserializeObject<T>(json);
-            return result;
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Render a query as a JavaScript object without using the column formatters
-        /// </summary>
-        /// <returns></returns>
-        [System.Obsolete("Please use QueryToDynamicObject2 instead, which adds support for column formatters.")]
-        public dynamic QueryToDynamicObject()
-        {
-            dynamic result;
-            List<dynamic> results;
-
-            results = QueryToDynamicList();
-            if (results.Count > 0)
-            {
-                result = results[0];
-            }
-            else
-            {
-                result = null;
-            }
             return result;
         }
         //------------------------------------------------------------------------------------
@@ -1908,12 +1628,12 @@ namespace FwStandard.SqlServer
         /// Render a query as a JavaScript object using the column formatters
         /// </summary>
         /// <returns></returns>
-        public dynamic QueryToDynamicObject2()
+        public async Task<dynamic> QueryToDynamicObject2Async()
         {
             dynamic result;
             List<dynamic> results;
 
-            results = QueryToDynamicList2();
+            results = await QueryToDynamicList2Async();
             if (results.Count > 0)
             {
                 result = results[0];
@@ -1933,7 +1653,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------------
-        public static FwDatabaseField GetData(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        public static async Task<FwDatabaseField> GetDataAsync(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwSqlCommand qry;
             FwDatabaseField result;
@@ -1943,36 +1663,36 @@ namespace FwStandard.SqlServer
             qry.Add("from " + tablename + " with (nolock)");
             qry.Add("where " + wherecolumn + " = @wherecolumnvalue");
             qry.AddParameter("@wherecolumnvalue", wherecolumnvalue);
-            qry.Execute();
+            await qry.ExecuteAsync();
             result = (qry.RowCount == 1) ? qry.GetField(selectcolumn) : null;
 
             return result;
         }
 
         //------------------------------------------------------------------------------------
-        public static string GetStringData(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        public static async Task<string> GetStringDataAsync(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwDatabaseField field;
             string result = string.Empty;
 
-            field = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            field = await FwSqlCommand.GetDataAsync(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
             result = (field != null) ? field.ToString().TrimEnd() : string.Empty;
 
             return result;
         }
         //------------------------------------------------------------------------------------
-        public static bool GetBoolData(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        public static async Task<bool> GetBoolDataAsync(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwDatabaseField field;
             bool result;
 
-            field = FwSqlCommand.GetData(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            field = await FwSqlCommand.GetDataAsync(conn, timeout, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
             result = (field != null) ? field.ToBoolean() : false;
 
             return result;
         }
         //------------------------------------------------------------------------------------
-        public static Dictionary<string, FwDatabaseField> GetRow(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, bool throwExceptionIfRowCountNot1)
+        public static async Task<Dictionary<string, FwDatabaseField>> GetRowAsync(FwSqlConnection conn, int timeout, string tablename, string wherecolumn, string wherecolumnvalue, bool throwExceptionIfRowCountNot1)
         {
             FwSqlCommand qry;
             Dictionary<string, FwDatabaseField> result;
@@ -1982,7 +1702,7 @@ namespace FwStandard.SqlServer
             qry.Add("from " + tablename + " with (nolock)");
             qry.Add("where " + wherecolumn + " = @wherecolumnvalue");
             qry.AddParameter("@wherecolumnvalue", wherecolumnvalue);
-            qry.Execute();
+            await qry.ExecuteAsync();
             result = qry.GetFwDatabaseFields();
 
             if (throwExceptionIfRowCountNot1 && qry.RowCount != 1)
@@ -1993,7 +1713,7 @@ namespace FwStandard.SqlServer
             return result;
         }
         //------------------------------------------------------------------------------------
-        public static int SetData(FwSqlConnection conn, int timeout, string table, string wherecolumn, string wherecolumnvalue, string updatecolumn, string updatecolumnvalue)
+        public static async Task<int> SetDataAsync(FwSqlConnection conn, int timeout, string table, string wherecolumn, string wherecolumnvalue, string updatecolumn, string updatecolumnvalue)
         {
             FwSqlCommand cmd;
 
@@ -2003,7 +1723,7 @@ namespace FwStandard.SqlServer
             cmd.Add("where " + wherecolumn + " = @wherecolumnvalue");
             cmd.AddParameter("@updatecolumnvalue", updatecolumnvalue);
             cmd.AddParameter("@wherecolumnvalue", wherecolumnvalue);
-            cmd.ExecuteNonQuery();
+            await cmd.ExecuteNonQueryAsync();
 
             return cmd.RowCount;
         }
@@ -2025,7 +1745,7 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public IEnumerable<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)
+        public async Task<IEnumerable<T>> SelectAsync<T>(bool openAndCloseConnection, int pageNo, int pageSize)
         {
             IEnumerable<T> results = null;
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
@@ -2035,7 +1755,7 @@ namespace FwStandard.SqlServer
             this.AddParameter("@fetchsize", pageSize);
             if (openAndCloseConnection)
             {
-                this.sqlCommand.Connection.Open();
+                await this.sqlCommand.Connection.OpenAsync();
             }
             // the commented code is if you use the "for json" in the sql query
             //this.sqlCommand.CommandText = this.qryText.ToString();
@@ -2071,16 +1791,16 @@ namespace FwStandard.SqlServer
             {
                 parameters.Add(p.ParameterName, p.Value);
             }
-            results = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
+            results = await this.sqlConnection.GetConnection().QueryAsync<T>(this.qryText.ToString(), parameters);
             return results;
         }
         //------------------------------------------------------------------------------------
-        public T SelectOne<T>(bool openAndCloseConnection)
+        public async Task<T> SelectOneAsync<T>(bool openAndCloseConnection)
         {
             IEnumerable<T> records = null;
             if (openAndCloseConnection)
             {
-                this.sqlCommand.Connection.Open();
+                await this.sqlCommand.Connection.OpenAsync();
             }
             // Uses Dapper to perform the conversion from query to object list
             var parameters = new DynamicParameters();
@@ -2088,7 +1808,7 @@ namespace FwStandard.SqlServer
             {
                 parameters.Add(p.ParameterName, p.Value);
             }
-            records = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
+            records = await this.sqlConnection.GetConnection().QueryAsync<T>(this.qryText.ToString(), parameters);
             T result = default(T);
             var results = records.AsList<T>();
             if (results.Count > 0)
@@ -2099,14 +1819,14 @@ namespace FwStandard.SqlServer
             return result;
         }
         //------------------------------------------------------------------------------------
-        public int Insert(bool openAndCloseConnection, string tablename, object businessObject, DatabaseConfig dbConfig)
+        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, DatabaseConfig dbConfig)
         {
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
-                    this.sqlConnection.Open();
+                    await this.sqlConnection.OpenAsync();
                 }
                 var insertColumnsNames = new StringBuilder();
                 var insertParameterNames = new StringBuilder();
@@ -2131,7 +1851,7 @@ namespace FwStandard.SqlServer
                             {
                                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                                 {
-                                    propertyValue = FwSqlData.GetNextId(conn, dbConfig);
+                                    propertyValue = FwSqlData.GetNextIdAsync(conn, dbConfig);
                                 }
                                 propertyInfo.SetValue(businessObject, propertyValue);
                             }
@@ -2165,7 +1885,7 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             finally
@@ -2180,14 +1900,14 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public int Update(bool openAndCloseConnection, string tablename, object businessObject)
+        public async Task<int> UpdateAsync(bool openAndCloseConnection, string tablename, object businessObject)
         {
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
-                    this.sqlConnection.Open();
+                    await this.sqlConnection.OpenAsync();
                 }
                 var setStatements = new StringBuilder();
                 var whereClause = new StringBuilder();
@@ -2266,7 +1986,7 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             finally
@@ -2281,14 +2001,14 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public int Delete(bool openAndCloseConnection, string tablename, object businessObject)
+        public async Task<int> DeleteAsync(bool openAndCloseConnection, string tablename, object businessObject)
         {
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
-                    this.sqlConnection.Open();
+                    await this.sqlConnection.OpenAsync();
                 }
                 var setStatements = new StringBuilder();
                 var whereClause = new StringBuilder();
@@ -2331,7 +2051,7 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                 this.sqlLogEntry.Stop();
             }
             finally

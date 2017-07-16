@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FwStandard.SqlServer
 {
@@ -25,9 +26,9 @@ namespace FwStandard.SqlServer
             return this.sqlConnection;
         }
         //---------------------------------------------------------------------------------------------
-        public void Open()
+        public async Task OpenAsync()
         {
-            this.sqlConnection.Open();
+            await this.sqlConnection.OpenAsync();
         }
         //---------------------------------------------------------------------------------------------
         public void Close()

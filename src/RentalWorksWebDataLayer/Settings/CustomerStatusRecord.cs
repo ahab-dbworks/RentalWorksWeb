@@ -1,6 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System;
+using FwStandard.Models;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebDataLayer.Settings
 {
@@ -25,6 +27,23 @@ namespace RentalWorksWebDataLayer.Settings
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
         public DateTime? DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
+        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(this._dbConfig.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this._dbConfig.QueryTimeout))
+                {
+                    qry.AddColumn("", "CustomerStatusId", FwDataTypes.Text, false);
+                    qry.AddColumn("", "CustomerStatus", FwDataTypes.Text, false);
+                    qry.AddColumn("", "StatusType", FwDataTypes.Text, false);
+                    qry.Add("select custstatusid as CustomerStatusId, custstatus as CustomerStatus, statustype as StatusType");
+                    qry.Add("from custstatus with (nolock)");
+                    var dt = await qry.QueryToFwJsonTableAsync(false);
+                    return dt;
+                }
+            }
+        }
         //------------------------------------------------------------------------------------
     }
 }

@@ -7,397 +7,197 @@ using System.Drawing;
 using System.Dynamic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FwStandard.SqlServer
 {
     public class FwSqlData
     {
         //-----------------------------------------------------------------------------
-        static public String Decrypt(FwSqlConnection conn, DatabaseConfig dbConfig, string data)
+        static public async Task<String> DecryptAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string data)
         {
-           string value = string.Empty;
-
-            FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select value = dbo.decrypt(@data)");
-            qry.AddParameter("@data", data);
-            qry.Execute();
-            value = qry.GetField("value").ToString().TrimEnd();
-
-            return value;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("select value = dbo.decrypt(@data)");
+                qry.AddParameter("@data", data);
+                await qry.ExecuteAsync();
+                string result = qry.GetField("value").ToString().TrimEnd();
+                return result;
+            }
         }
         //-----------------------------------------------------------------------------
-        static public String Encrypt(FwSqlConnection conn, DatabaseConfig dbConfig, string data)
+        static public async Task<String> EncryptAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string data)
         {
-            string value;
-            FwSqlCommand qry;
-            
-            value = string.Empty;
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select value = dbo.encrypt(@data)");
-            qry.AddParameter("@data", data);
-            qry.Execute();
-            value = qry.GetField("value").ToString().Trim();
-            
-            return value;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select value = dbo.encrypt(@data)");
+                qry.AddParameter("@data", data);
+                await qry.ExecuteAsync();
+                string value = qry.GetField("value").ToString().Trim();
+                return value;
+            }
         }
         //-----------------------------------------------------------------------------
-        //public static FwControl GetControl(FwSqlConnection conn, DatabaseConfig dbConfig)
-        //{
-        //    FwSqlCommand qry;
-        //    DataTable dt;
-        //    FwControl control;
-            
-        //    qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-        //    qry.Add("select top 1 *");
-        //    qry.Add("from control with(nolock)");
-        //    qry.Add("where controlid = 1");
-        //    dt = qry.QueryToTable();
-        //    control = null;
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        control = new FwControl();
-        //        control.ControlId   = dt.Rows[0]["controlid"].ToString().TrimEnd();
-        //        control.Company     = dt.Rows[0]["company"].ToString().TrimEnd();
-        //        control.System      = dt.Rows[0]["system"].ToString().TrimEnd();
-        //        control.ImagePath   = dt.Rows[0]["imagepath"].ToString().TrimEnd();
-        //        control.DateStamp   = dt.Rows[0]["datestamp"].ToString().TrimEnd();
-        //        control.LoadSettings(dt.Rows[0]["settings"].ToString().TrimEnd());
-        //    }
-            
-        //    return control;
-        //}
-        //-----------------------------------------------------------------------------
-        public static dynamic GetWebControl(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<dynamic> GetWebControlAsync(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            FwSqlCommand qry;
-            dynamic result;
-            
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 *");
-            qry.Add("from webcontrol with(nolock)");
-            qry.Add("where webcontrolid = 1");
-            result = qry.QueryToDynamicObject2();
-            
-            return result;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select top 1 *");
+                qry.Add("from webcontrol with(nolock)");
+                qry.Add("where webcontrolid = 1");
+                var result = await qry.QueryToDynamicObject2Async();
+                return result;
+            }
         }
         //-----------------------------------------------------------------------------
-        static public String GetClientCode(FwSqlConnection conn, DatabaseConfig dbConfig) 
+        static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, DatabaseConfig dbConfig) 
         {
-            string value;
-            FwSqlCommand qry;
-
-            value = string.Empty;
-            qry   = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select value = dbo.getclientcode()");
-            qry.Execute();
-            value = qry.GetField("value").ToString().TrimEnd().ToUpper();
-            
-            return value;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select value = dbo.getclientcode()");
+                await qry.ExecuteAsync();
+                string value = qry.GetField("value").ToString().TrimEnd().ToUpper();
+                return value;
+            }
         }
         //-----------------------------------------------------------------------------
-        static public String GetNextId(FwSqlConnection conn, DatabaseConfig dbConfig)
+        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            string msg, id;
-            FwSqlCommand sp;
-           
-            msg = string.Empty;
-            id  = string.Empty;
-            sp  = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout);
-            sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
-            sp.Execute();
-            id = sp.GetParameter("@id").ToString().TrimEnd();
-            
-            return id;
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
+            { 
+                sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@id").ToString().TrimEnd();
+                return result;
+            }
         }
         //-----------------------------------------------------------------------------
-        static public String GetNextId(FwSqlConnection conn, SqlTransaction transaction, DatabaseConfig dbConfig)
+        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, DatabaseConfig dbConfig)
         {
-            string msg, id;
-           
-            msg = string.Empty;
-            id  = string.Empty;
             using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
             {
                 sp.Transaction = transaction;
                 sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
-                sp.Execute(false);
-                id = sp.GetParameter("@id").ToString().TrimEnd();
+                await sp.ExecuteAsync(false);
+                string result = sp.GetParameter("@id").ToString().TrimEnd();
+                return result;
             }
-            
-            return id;
         }
         //-----------------------------------------------------------------------------
         public enum SQLVersions {NotLoaded, Unknown, SQL2000, SQL2005, SQL2008}
-        static SQLVersions GetSqlVersion(FwSqlConnection conn, DatabaseConfig dbConfig)
+        static async Task<SQLVersions> GetSqlVersionAsync(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            bool ismssql2000, ismssql2005, ismssql2008;
-            FwSqlCommand qry;
-            SQLVersions sqlVersion;
-            
-            ismssql2000 = false;
-            ismssql2005 = false;
-            ismssql2008 = false;
-            sqlVersion = SQLVersions.NotLoaded;
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select ismssql2000 = dbo.fw_funcismssql2000(),");
-            qry.Add("       ismssql2005 = dbo.fw_funcismssql2005(),");
-            qry.Add("       ismssql2008 = dbo.fw_funcismssql2008()");
-            qry.Execute();
-            ismssql2000 = qry.GetField("ismssql2000").ToBoolean();
-            ismssql2005 = qry.GetField("ismssql2005").ToBoolean();
-            ismssql2008 = qry.GetField("ismssql2008").ToBoolean();
-            if (ismssql2008)
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
-                sqlVersion = SQLVersions.SQL2008;
-            } else if (ismssql2005)
-            {
-                sqlVersion = SQLVersions.SQL2005;
-            } else if (ismssql2000)
-            {
-                sqlVersion = SQLVersions.SQL2000;
+                qry.Add("select ismssql2000 = dbo.fw_funcismssql2000(),");
+                qry.Add("       ismssql2005 = dbo.fw_funcismssql2005(),");
+                qry.Add("       ismssql2008 = dbo.fw_funcismssql2008()");
+                await qry.ExecuteAsync();
+                bool ismssql2000 = qry.GetField("ismssql2000").ToBoolean();
+                bool ismssql2005 = qry.GetField("ismssql2005").ToBoolean();
+                bool ismssql2008 = qry.GetField("ismssql2008").ToBoolean();
+                SQLVersions sqlVersion = SQLVersions.NotLoaded;
+                if (ismssql2008)
+                {
+                    sqlVersion = SQLVersions.SQL2008;
+                } else if (ismssql2005)
+                {
+                    sqlVersion = SQLVersions.SQL2005;
+                } else if (ismssql2000)
+                {
+                    sqlVersion = SQLVersions.SQL2000;
+                }
+                else
+                {
+                    sqlVersion = SQLVersions.Unknown;
+                }
+                return sqlVersion;
             }
-            else
-            {
-                sqlVersion = SQLVersions.Unknown;
-            }
-
-            return sqlVersion;
         }
         //----------------------------------------------------------------------------------------------------
-        public static string GetUsersId(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId)
+        public static async Task<string> GetUsersIdAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId)
         {
-            string usersId;
-            FwSqlCommand qry;
-            
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 usersid");
-            qry.Add("from webusers with(nolock)");
-            qry.Add("where webusersid = @webusersid");
-            qry.AddParameter("@webusersid", webUsersId);
-            qry.Execute();
-            usersId = qry.GetField("usersid").ToString().TrimEnd();
-            
-            return usersId;
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select top 1 usersid");
+                qry.Add("from webusers with(nolock)");
+                qry.Add("where webusersid = @webusersid");
+                qry.AddParameter("@webusersid", webUsersId);
+                await qry.ExecuteAsync();
+                string usersId = qry.GetField("usersid").ToString().TrimEnd();
+                return usersId;
+            }
         }
         //------------------------------------------------------------------------------
-        public static string GetWebUsersId(FwSqlConnection conn, DatabaseConfig dbConfig, string email)
+        public static async Task<string> GetWebUsersIdAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string email)
         {
-            string webUsersId;
-            FwSqlCommand qry;
-
-            webUsersId = string.Empty;
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 webusersid");
-            qry.Add("from webusersview with(nolock)");
-            qry.Add("where email = @email");
-            qry.AddParameter("@email", email);
-            qry.Execute();
-            webUsersId = qry.GetField("webusersid").ToString().TrimEnd();
-            
-            return webUsersId;
-        }
-        //-----------------------------------------------------------------------------
-        //public static dynamic GetWebUsersView(FwSqlConnection conn, DatabaseConfig dbConfig, string email)
-        //{
-        //    FwSqlCommand qry;
-        //    dynamic result;
-        //    DataTable dt;
-        //    object cellValue;
-        //    IDictionary<String, object> webUser;
-
-        //    result = null;
-        //    qry = new FwSqlCommand(conn);
-        //    qry.Add("select top 1 *");
-        //    qry.Add("from   webusersview with(nolock)");
-        //    qry.Add("where  email         = @email");
-        //    qry.Add("   or  userloginname = @email");
-        //    qry.AddParameter("@email", email);
-        //    dt = qry.QueryToTable();
-        //    if (dt.Rows.Count == 1)
-        //    {
-        //        result = new ExpandoObject();
-        //        webUser = result as IDictionary<String, object>;
-        //        for (int i = 0; i < dt.Columns.Count; i++)
-        //        {
-        //            cellValue = dt.Rows[0][i];
-        //            if (cellValue is string) {
-        //                cellValue = cellValue.ToString().TrimEnd();
-        //            } 
-        //            webUser[dt.Columns[i].ColumnName] = cellValue;
-        //        }
-        //    }
-
-        //    return result;
-        //}
-        //-----------------------------------------------------------------------------
-        //public static dynamic GetWebUsersView(FwSqlConnection conn, DatabaseConfig dbConfig, string webusersid)
-        //{
-        //    FwSqlCommand qry;
-        //    dynamic result;
-        //    DataTable dt;
-        //    object cellValue;
-        //    IDictionary<String, object> webUser;
-            
-        //    result = null;
-        //    qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-        //    qry.Add("select top 1 *");
-        //    qry.Add("from   webusersview with(nolock)");
-        //    qry.Add("where  webusersid = @webusersid");
-        //    qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
-        //    qry.AddParameter("@webusersid", webusersid);
-        //    dt = qry.QueryToTable();
-        //    if (dt.Rows.Count == 1)
-        //    {
-        //        result = new ExpandoObject();
-        //        webUser = result as IDictionary<String, object>;
-        //        for (int i = 0; i < dt.Columns.Count; i++)
-        //        {
-        //            cellValue = dt.Rows[0][i];
-        //            if (cellValue is string) {
-        //                cellValue = cellValue.ToString().TrimEnd();
-        //            } 
-        //            webUser[dt.Columns[i].ColumnName] = cellValue;
-        //        }
-        //    }
-
-        //    return result;
-        //}
-        //-----------------------------------------------------------------------------
-        //public static string InsertAppImage(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype, string extension, byte[] image)
-        //{
-        //    int width, height;
-        //    string appImageId;
-        //    FwSqlCommand sp;
-
-        //    width = 0;
-        //    height = 0;
-        //    sp = new FwSqlCommand(conn, "insertappimage", dbConfig.QueryTimeout);
-        //    sp.AddParameter("@uniqueid1",   uniqueid1);
-        //    sp.AddParameter("@uniqueid2",   uniqueid2);
-        //    sp.AddParameter("@uniqueid3",   uniqueid3);
-        //    sp.AddParameter("@description", description);
-        //    sp.AddParameter("@rectype",     rectype);
-        //    sp.AddParameter("@extension",   extension);
-        //    sp.AddParameter("@image",       FwGraphics.ConvertToJpg(image, ref width, ref height));
-        //    sp.AddParameter("@thumbnail",   FwGraphics.GetJpgThumbnail(image));
-        //    sp.AddParameter("@width",       width);
-        //    sp.AddParameter("@height",      height);
-        //    sp.AddParameter("@appimageid",  System.Data.SqlDbType.Char, System.Data.ParameterDirection.Output);
-        //    sp.Execute();
-        //    appImageId = sp.GetParameter("@appimageid").ToString().TrimEnd();
-
-        //    return appImageId;
-        //}
-        //-----------------------------------------------------------------------------
-        //public static string InsertAppImage(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype, string extension, string base64Image)
-        //{
-        //    byte[] image;
-        //    string appImageId;
-
-        //    image = Convert.FromBase64String(base64Image);
-        //    appImageId = FwSqlData.InsertAppImage(conn, dbConfig, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, image);
-
-        //    return appImageId;
-        //}
-        //-----------------------------------------------------------------------------
-        public static Bitmap GetAppImage(FwSqlConnection conn, DatabaseConfig dbConfig, string rowGuid)
-        {
-            FwSqlCommand qry;
-            Bitmap image;
-            
-            qry= new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select *");
-            qry.Add("from appimage with(nolock)");
-            qry.Add("where rowguid = @rowguid");
-            qry.AddParameter("@rowguid", rowGuid);
-            qry.Execute();
-            if (qry.RowCount > 0)
-            {
-                image = qry.GetField("image").ToBitmap();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select top 1 webusersid");
+                qry.Add("from webusersview with(nolock)");
+                qry.Add("where email = @email");
+                qry.AddParameter("@email", email);
+                await qry.ExecuteAsync();
+                string webUsersId = qry.GetField("webusersid").ToString().TrimEnd();
+                return webUsersId;
             }
-            else
-            {
-                image = null;
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<Bitmap> GetAppImageAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string rowGuid)
+        {
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select *");
+                qry.Add("from appimage with(nolock)");
+                qry.Add("where rowguid = @rowguid");
+                qry.AddParameter("@rowguid", rowGuid);
+                await qry.ExecuteAsync();
+                Bitmap image = null;
+                if (qry.RowCount > 0)
+                {
+                    image = qry.GetField("image").ToBitmap();
+                }
+                return image;
             }
-            return image;
         }
         //-----------------------------------------------------------------------------
-        public static string InsertSecurity(FwSqlConnection conn, DatabaseConfig dbConfig, string secDesc, string parentId, int itemType)
+        public static async Task<string> InsertSecurityAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string secDesc, string parentId, int itemType)
         {
-            string secId;
-            FwSqlCommand sp;
-
-            secId = string.Empty;
-            sp = new FwSqlCommand(conn, "insertsecurity", dbConfig.QueryTimeout);
-            sp.AddParameter("@secdesc",  secDesc);
-            sp.AddParameter("@parentid", parentId);
-            sp.AddParameter("@itemtype", itemType);
-            sp.AddParameter("@secid",    System.Data.SqlDbType.Char, System.Data.ParameterDirection.Output);
-            sp.Execute();
-            secId = sp.GetParameter("@secid").ToString().TrimEnd();
-
-            return secId;
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "insertsecurity", dbConfig.QueryTimeout))
+            { 
+                sp.AddParameter("@secdesc", secDesc);
+                sp.AddParameter("@parentid", parentId);
+                sp.AddParameter("@itemtype", itemType);
+                sp.AddParameter("@secid",    System.Data.SqlDbType.Char, System.Data.ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                string secId = sp.GetParameter("@secid").ToString().TrimEnd();
+                return secId;
+            }
         }
         //-----------------------------------------------------------------------------
-        public static bool IsMSSQL2000(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<bool> IsMSSQL2000Async(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            bool result;
-            result = (GetSqlVersion(conn, dbConfig) == SQLVersions.SQL2000);
+            SQLVersions version = await GetSqlVersionAsync(conn, dbConfig);
+            bool result = (version == SQLVersions.SQL2000);
             return result;
         }
         //-----------------------------------------------------------------------------
-        public static bool IsMSSQL2005(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<bool> IsMSSQL2005Async(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            bool result;
-            result = (GetSqlVersion(conn, dbConfig) == SQLVersions.SQL2005);
+            SQLVersions version = await GetSqlVersionAsync(conn, dbConfig);
+            bool result = (version == SQLVersions.SQL2005);
             return result;
         }
         //-----------------------------------------------------------------------------
-        public static bool IsMSSQL2008(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<bool> IsMSSQL2008Async(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
             bool result = false;
-            result = (GetSqlVersion(conn, dbConfig) == SQLVersions.SQL2008);
+            var version = await GetSqlVersionAsync(conn, dbConfig);
+            result = (version == SQLVersions.SQL2008);
             return result;
         }
         //-----------------------------------------------------------------------------
-        //public static bool LoginWebUsers(FwSecurity.FwLoginSSO loginSSO)
-        //{
-        //    FwSqlCommand sp;
-        //    loginSSO.WebAccess = false;
-        //    loginSSO.ErrNo = 0;
-        //    loginSSO.ErrMsg = string.Empty;
-        //    sp = new FwSqlCommand("loginwebusers");
-        //    sp.AddParameter("@email", loginSSO.Email);
-        //    sp.AddParameter("@sourceid1", loginSSO.SourceId1);
-        //    sp.AddParameter("@webaccess",  SqlDbType.VarChar, ParameterDirection.Output);
-        //    sp.AddParameter("@webusersid", SqlDbType.VarChar, ParameterDirection.Output);
-        //    sp.AddParameter("@errno",      SqlDbType.Int,     ParameterDirection.Output);
-        //    sp.AddParameter("@errmsg",     SqlDbType.VarChar, ParameterDirection.Output);
-        //    try
-        //    {
-        //        sp.Open();
-        //        loginSSO.WebAccess  = sp.GetParameterValue("@webaccess").ToString().TrimEnd().Equals("T");
-        //        loginSSO.ErrNo      = sp.GetParameterValue("@errno").ToInt32();
-        //        loginSSO.ErrMsg     = sp.GetParameterValue("@errmsg").ToInt32();
-        //        loginSSO.WebUsersId = sp.GetParameterValue("@webusersid").ToString().TrimEnd();
-        //        if (loginSSO.ErrNo != 0)
-        //        {
-        //            loginSSO.WebAccess = false;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        loginSSO.WebAccess = false;
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
-        //        sp.Close();
-        //    }
-        //    return loginSSO.WebAccess;
-        //}
-        //-----------------------------------------------------------------------------
-        public static void LockOutWebUser(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId) 
+        public static async Task LockOutWebUserAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId) 
         {
             FwSqlCommand qry;
             
@@ -409,11 +209,11 @@ namespace FwStandard.SqlServer
                 qry.Add("where  webusersid = @webusersid");
                 qry.AddParameter("@lockaccount", "T");
                 qry.AddParameter("@webusersid", webUsersId);
-                qry.Execute();
+                await qry.ExecuteAsync();
             }
         }
         //------------------------------------------------------------------------------
-        public static bool WebEmailRegistered(FwSqlConnection conn, DatabaseConfig dbConfig, string email)
+        public static async Task<bool> WebEmailRegisteredAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string email)
         {
             bool registered = false;
             FwSqlCommand sp;
@@ -423,200 +223,180 @@ namespace FwStandard.SqlServer
             sp = new FwSqlCommand(conn, "webemailregistered", dbConfig.QueryTimeout);
             sp.AddParameter("@email", email);
             sp.AddParameter("@registered", SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
+            await sp.ExecuteAsync();
             registered = (sp.GetParameter("@registered").ToString().Trim() == "T");
             
             return registered;
         }
         //------------------------------------------------------------------------------
-        public static string WebGetUsers(FwSqlConnection conn, DatabaseConfig dbConfig, string email, string password, ref int errNo, ref string errMsg)
+        public class WebGetUsersResult
         {
-            string webUsersId, webpassword, encryptedwebpassword;
-            FwSqlCommand sp;
-            //dynamic appoptions;
-            
-            webUsersId = "";
-            //appoptions = FwSqlData.GetApplicationOptions(conn);     //MY 6/26/2015: Why are we loading app options in WebGetUsers?
-            //webpassword =  ((FwValidate.IsPropertyDefined(appoptions, "mixedcase")) && (appoptions.mixedcase.enabled)) ? password : password.ToUpper();
-            //AG 02/11/2015 need to support mixcase on passwords
+            public int ErrorNo { get; set; } = 0;
+            public string ErrorMessage { get; set; } = string.Empty;
+            public string WebUsersId = string.Empty;
+        }
+        public static async Task<WebGetUsersResult> WebGetUsersAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string email, string password)
+        {
+            string webpassword, encryptedwebpassword;
             webpassword =  password.ToUpper();
-            encryptedwebpassword = FwSqlData.Encrypt(conn, dbConfig, webpassword);
-            sp = new FwSqlCommand(conn, "webgetusers2", dbConfig.QueryTimeout);
-            sp.AddParameter("@userlogin",         email);
-            sp.AddParameter("@userloginpassword", encryptedwebpassword);
-            sp.AddParameter("@webusersid",        SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@errno",             SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",            SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            webUsersId = sp.GetParameter("@webusersid").ToString().TrimEnd();
-            errNo      = sp.GetParameter("@errno").ToInt32();
-            errMsg     = sp.GetParameter("@errmsg").ToString().TrimEnd();
-
-            return webUsersId;
-        }
-        //------------------------------------------------------------------------------
-        public static string WebGetUserTmpPassword(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail, string webPassword)
-        {
-            string webUsersId;
-            FwSqlCommand sp;
-            
-            webUsersId = "";
-            webPassword = webPassword.ToUpper().Trim();
-            sp = new FwSqlCommand(conn, "webgetuserstmppassword", dbConfig.QueryTimeout);
-            sp.AddParameter("@usersemail",  usersEmail);
-            sp.AddParameter("@webpassword", webPassword);
-            sp.AddParameter("@webusersid",  SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            webUsersId = sp.GetParameter("@webusersid").ToString().TrimEnd();
-
-            return webUsersId;
-        }
-        //------------------------------------------------------------------------------
-        public static void WebRegisterUser(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail, ref int errNo, ref string errMsg)
-        {
-            FwSqlCommand sp;
-            
-            if (errNo == 0)
+            encryptedwebpassword = await FwSqlData.EncryptAsync(conn, dbConfig, webpassword);
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webgetusers2", dbConfig.QueryTimeout))
             {
-                sp = new FwSqlCommand(conn, "webregisteruser", dbConfig.QueryTimeout);
-                sp.AddParameter("@usersemail", SqlDbType.NVarChar, ParameterDirection.Input,  usersEmail);
+                sp.AddParameter("@userlogin", email);
+                sp.AddParameter("@userloginpassword", encryptedwebpassword);
+                sp.AddParameter("@webusersid",        SqlDbType.NVarChar, ParameterDirection.Output);
+                sp.AddParameter("@errno",             SqlDbType.Int,      ParameterDirection.Output);
+                sp.AddParameter("@errmsg",            SqlDbType.NVarChar, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                WebGetUsersResult result = new WebGetUsersResult();
+                result.WebUsersId   = sp.GetParameter("@webusersid").ToString().TrimEnd();
+                result.ErrorNo      = sp.GetParameter("@errno").ToInt32();
+                result.ErrorMessage = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                return result;
+            }
+        }
+        //------------------------------------------------------------------------------
+        public static async Task<string> WebGetUserTmpPasswordAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail, string webPassword)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webgetuserstmppassword", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@usersemail", usersEmail);
+                sp.AddParameter("@webpassword", webPassword.ToUpper().Trim());
+                sp.AddParameter("@webusersid",  SqlDbType.NVarChar, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@webusersid").ToString().TrimEnd();
+                return result;
+            }
+        }
+        //------------------------------------------------------------------------------
+        public static async Task<string> WebRegisterUserAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webregisteruser", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@usersemail", SqlDbType.NVarChar, ParameterDirection.Input, usersEmail);
                 sp.AddParameter("@errno",      SqlDbType.Int,      ParameterDirection.Output);
                 sp.AddParameter("@errmsg",     SqlDbType.NVarChar, ParameterDirection.Output);
-                sp.Execute();
-                errNo  = sp.GetParameter("@errno").ToInt32();
-                errMsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                return result;
             }
         }
         //------------------------------------------------------------------------------
-        public class WebUserResetPasswordResult
+        public static async Task<string> WebUserResetPassword(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail)
         {
-            public int ErrNo {get;set;}
-            public string ErrMsg {get;set;}
-
-            public WebUserResetPasswordResult()
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webuserresetpassword", dbConfig.QueryTimeout))
             {
-                ErrNo = 0;
-                ErrMsg = string.Empty;
+                sp.AddParameter("@usersemail", SqlDbType.NVarChar, ParameterDirection.Input, usersEmail);
+                sp.AddParameter("@errno",      SqlDbType.Int,      ParameterDirection.Output);
+                sp.AddParameter("@errmsg",     SqlDbType.NVarChar, ParameterDirection.Output);
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                return result;
             }
         }
-        public static WebUserResetPasswordResult WebUserResetPassword(FwSqlConnection conn, DatabaseConfig dbConfig, string usersEmail)
-        {
-            FwSqlCommand sp;
-            WebUserResetPasswordResult result;
-
-            result = new WebUserResetPasswordResult();
-            sp = new FwSqlCommand(conn, "webuserresetpassword", dbConfig.QueryTimeout);
-            sp.AddParameter("@usersemail", SqlDbType.NVarChar, ParameterDirection.Input, usersEmail);
-            sp.AddParameter("@errno",      SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",     SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result.ErrNo  = sp.GetParameter("@errno").ToInt32();
-            result.ErrMsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
-            
-            return result;
-        }
         //------------------------------------------------------------------------------
-        public static string WebUsersSetPassword(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId, string webPassword, string clearTmpPassword)
+        public static async Task<string> WebUsersSetPasswordAsync(FwSqlConnection conn, DatabaseConfig dbConfig, string webUsersId, string webPassword, string clearTmpPassword)
         {
-            int errNo;
-            string errMsg;
-            FwSqlCommand sp;
-            
-            errNo = 0;
-            errMsg = "";
             webPassword = webPassword.ToUpper().Trim();
-            webPassword = FwSqlData.Encrypt(conn, dbConfig, webPassword);
-            sp = new FwSqlCommand(conn, "webuserssetpassword", dbConfig.QueryTimeout);
-            sp.AddParameter("@webusersid",       SqlDbType.NVarChar, ParameterDirection.Input, webUsersId);
-            sp.AddParameter("@webpassword",      SqlDbType.NVarChar, ParameterDirection.Input, webPassword);
-            sp.AddParameter("@cleartmppassword", SqlDbType.NVarChar, ParameterDirection.Input, clearTmpPassword);
-            sp.AddParameter("@errno",            SqlDbType.Int,      ParameterDirection.Output, "");
-            sp.AddParameter("@errmsg",           SqlDbType.NVarChar, ParameterDirection.Output, "");
-            sp.Execute();
-            errNo  = sp.GetParameter("@errno").ToInt32();
-            errMsg = sp.GetParameter("@errmsg").ToString().TrimEnd();
-
-            return errMsg;
+            webPassword = await FwSqlData.EncryptAsync(conn, dbConfig, webPassword);
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webuserssetpassword", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Input, webUsersId);
+                sp.AddParameter("@webpassword",      SqlDbType.NVarChar, ParameterDirection.Input, webPassword);
+                sp.AddParameter("@cleartmppassword", SqlDbType.NVarChar, ParameterDirection.Input, clearTmpPassword);
+                sp.AddParameter("@errno",            SqlDbType.Int,      ParameterDirection.Output, "");
+                sp.AddParameter("@errmsg",           SqlDbType.NVarChar, ParameterDirection.Output, "");
+                await sp.ExecuteAsync();
+                string result = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                return result;
+            }
         }
         //------------------------------------------------------------------------------
-        public static bool WebValidatePassword(FwSqlConnection conn, DatabaseConfig dbConfig, string webPassword, ref int errNo, ref string errMsg)
+        public class WebValidatePasswordResult
         {
-            bool validPassword;
-            FwSqlCommand sp;
-            validPassword = false;
-            errNo = 0;
-            errMsg = string.Empty;
+            public int ErrorNo { get; set; } = 0;
+            public string ErrorMessage { get; set; } = string.Empty;
+            public bool IsValid { get; set; } = false;
+        }
+        //------------------------------------------------------------------------------
+        public static async Task<WebValidatePasswordResult> WebValidatePassword(FwSqlConnection conn, DatabaseConfig dbConfig, string webPassword)
+        {
+            WebValidatePasswordResult result = new WebValidatePasswordResult();
             webPassword = webPassword.ToUpper().Trim();
-            sp = new FwSqlCommand(conn, "webvalidatepassword", dbConfig.QueryTimeout);
-            sp.AddParameter("@webpassword",   SqlDbType.Char,    ParameterDirection.Input, webPassword);
-            sp.AddParameter("@validpassword", SqlDbType.Char,    ParameterDirection.Output);
-            sp.AddParameter("@errno",         SqlDbType.Int,     ParameterDirection.Output);
-            sp.AddParameter("@errmsg",        SqlDbType.VarChar, ParameterDirection.Output);
-            try
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "webvalidatepassword", dbConfig.QueryTimeout))
             {
-                sp.ExecuteReader();
-                validPassword = sp.GetParameter("@validpassword").ToBoolean();
-                errNo         = sp.GetParameter("@errno").ToInt32();
-                errMsg        = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                sp.AddParameter("@webpassword", SqlDbType.Char, ParameterDirection.Input, webPassword);
+                sp.AddParameter("@validpassword", SqlDbType.Char,    ParameterDirection.Output);
+                sp.AddParameter("@errno",         SqlDbType.Int,     ParameterDirection.Output);
+                sp.AddParameter("@errmsg",        SqlDbType.VarChar, ParameterDirection.Output);
+                try
+                {
+                    await sp.ExecuteReaderAsync();
+                    result.IsValid = sp.GetParameter("@validpassword").ToBoolean();
+                    result.ErrorNo   = sp.GetParameter("@errno").ToInt32();
+                    result.ErrorMessage  = sp.GetParameter("@errmsg").ToString().TrimEnd();
+                }
+                catch(Exception ex)
+                {
+                    result.ErrorNo = 1004;
+                    result.ErrorMessage = ex.Message;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+                return result;
             }
-            catch(Exception ex)
-            {
-                errNo = 1004;
-                errMsg = ex.Message;
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return validPassword;
         }
         //-----------------------------------------------------------------------------
-        public static void UpdateAppNote(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string note)
+        public static async Task UpdateAppNote(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string note)
         {
-            FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "updateappnote", dbConfig.QueryTimeout);
-            sp.AddParameter("uniqueid1", uniqueid1);
-            sp.AddParameter("uniqueid2", uniqueid2);
-            sp.AddParameter("uniqueid3", uniqueid3);
-            sp.AddParameter("note",      note);
-            sp.Execute();
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "updateappnote", dbConfig.QueryTimeout))
+            {
+                sp.AddParameter("uniqueid1", uniqueid1);
+                sp.AddParameter("uniqueid2", uniqueid2);
+                sp.AddParameter("uniqueid3", uniqueid3);
+                sp.AddParameter("note",      note);
+                await sp.ExecuteAsync();
+            }
         }
         //-----------------------------------------------------------------------------
-        public static dynamic GetApplicationOptions(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<dynamic> GetApplicationOptions(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
             dynamic result, option;
-            FwSqlCommand qry;
             List<string> encryptedOptions;
             string optionsStr, decryptedOption, description, key;
             bool enabled;
             int value;
             IDictionary<String, object> resultDic;
 
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 options");
-            qry.Add("from controlclient with(nolock)");
-            qry.Add("where controlid = '1'");
-            qry.Execute();
-            optionsStr = qry.GetField("options").ToString();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("select top 1 options");
+                qry.Add("from controlclient with(nolock)");
+                qry.Add("where controlid = '1'");
+                await qry.ExecuteAsync();
+                optionsStr = qry.GetField("options").ToString();
 
-            encryptedOptions = new List<string>();
-            encryptedOptions.AddRange(optionsStr.Trim().Split(new char[]{'~'}, StringSplitOptions.RemoveEmptyEntries));
-            result = new ExpandoObject();
-            resultDic = (IDictionary<String, object>)result;
-            for (int i = 0; i < encryptedOptions.Count; i++)
-            {                    
-                decryptedOption        = FwSqlData.Decrypt(conn, dbConfig, encryptedOptions[i]);
-                description            = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
-                key = description.Replace("-", "").Replace("_", "").ToLower();
-                enabled                = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
-                value                  = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));                    
-                option = new ExpandoObject();
-                option.description = description;
-                option.enabled     = enabled;
-                option.value       = value;
-                resultDic[key]     = option;
+                encryptedOptions = new List<string>();
+                encryptedOptions.AddRange(optionsStr.Trim().Split(new char[]{'~'}, StringSplitOptions.RemoveEmptyEntries));
+                result = new ExpandoObject();
+                resultDic = (IDictionary<String, object>)result;
+                for (int i = 0; i < encryptedOptions.Count; i++)
+                {                    
+                    decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    description            = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
+                    key = description.Replace("-", "").Replace("_", "").ToLower();
+                    enabled                = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
+                    value                  = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));                    
+                    option = new ExpandoObject();
+                    option.description = description;
+                    option.enabled     = enabled;
+                    option.value       = value;
+                    resultDic[key]     = option;
+                }
+                return result;
             }
-            return result;
         }
         //-----------------------------------------------------------------------------
         public class ApplicationOption
@@ -625,129 +405,84 @@ namespace FwStandard.SqlServer
             public bool Enabled { get;set; } = false;
             public  int Value { get;set; } = 0; 
         }
-        public static Dictionary<string, ApplicationOption> GetApplicationOptions2(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            FwSqlCommand qry;
             List<string> encryptedOptions;
             string optionsStr, decryptedOption, key;
             Dictionary<string, ApplicationOption> options;
-
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 options");
-            qry.Add("from controlclient with(nolock)");
-            qry.Add("where controlid = '1'");
-            qry.Execute();
-            optionsStr = qry.GetField("options").ToString();
-
-            encryptedOptions = new List<string>();
-            encryptedOptions.AddRange(optionsStr.Trim().Split(new char[]{'~'}, StringSplitOptions.RemoveEmptyEntries));
-            options = new Dictionary<string, ApplicationOption>();
-            for (int i = 0; i < encryptedOptions.Count; i++)
-            {                    
-                decryptedOption = FwSqlData.Decrypt(conn, dbConfig, encryptedOptions[i]);
-                ApplicationOption option = new ApplicationOption();
-                option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();;
-                option.Enabled     = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");;
-                option.Value       = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));;
-                key                = option.Description.Replace("-", "").Replace("_", "").ToLower();                
-                options[key]       = option;
-            }
-            return options;
-        }
-        //-----------------------------------------------------------------------------
-        //public class WebInsertAppDocumentResponse
-        //{
-        //    public string AppDocumentId = string.Empty;
-        //    public string AppImageId    = string.Empty;
-        //}
-        //public static WebInsertAppDocumentResponse WebInsertAppDocument(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid1, string uniqueid2, string description, string documenttypeid, string inputbyusersid, byte[] file, string extension)
-        //{
-        //    WebInsertAppDocumentResponse response = new WebInsertAppDocumentResponse();
-        //    int width = 0, height = 0;
-            
-        //    FwSqlCommand sp = new FwSqlCommand(conn, "dbo.webinsertappdocument");
-        //    sp.AddParameter("@uniqueid1",      uniqueid1);
-        //    sp.AddParameter("@uniqueid2",      uniqueid2);
-        //    sp.AddParameter("@description",    description);
-        //    sp.AddParameter("@documenttypeid", documenttypeid);
-        //    sp.AddParameter("@inputbyusersid", inputbyusersid);
-        //    switch (extension.ToUpper())
-        //    {
-        //        case "BMP":
-        //        case "GIF":
-        //        case "JPG":
-        //        case "JPEG":
-        //        case "PNG":
-        //        case "TIF":
-        //        case "TIFF":
-        //            sp.AddParameter("@image",     FwGraphics.ConvertToJpg(file, ref width, ref height));
-        //            sp.AddParameter("@thumbnail", FwGraphics.GetJpgThumbnail(file));
-        //            sp.AddParameter("@extension", "");
-        //            break;
-        //        case "PDF":
-        //            sp.AddParameter("@image",     file);
-        //            sp.AddParameter("@extension", extension.ToUpper());
-        //            break;
-        //    }
-        //    sp.AddParameter("@appdocumentid", SqlDbType.Char, ParameterDirection.Output, 8);
-        //    sp.AddParameter("@appimageid",    SqlDbType.Char, ParameterDirection.Output, 8);
-        //    sp.Execute();
-        //    response.AppDocumentId  = sp.GetParameter("@appdocumentid").ToString().TrimEnd();
-        //    response.AppImageId     = sp.GetParameter("@appimageid").ToString().TrimEnd();
-
-        //    return response;
-        //}
-        //-----------------------------------------------------------------------------
-        public static string GetDocumentTypeId(FwSqlConnection conn, DatabaseConfig dbConfig, string documenttype)
-        {
-            FwSqlCommand qry;
-            string documenttypeid = null;
-            
-            qry= new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 documenttypeid");
-            qry.Add("from documenttype with(nolock)");
-            qry.Add("where documenttype = @documenttype");
-            qry.AddParameter("@documenttype", documenttype);
-            qry.Execute();
-            if (qry.RowCount > 0)
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
-                documenttypeid = qry.GetField("documenttypeid").ToString().TrimEnd();
+                qry.Add("select top 1 options");
+                qry.Add("from controlclient with(nolock)");
+                qry.Add("where controlid = '1'");
+                await qry.ExecuteAsync();
+                optionsStr = qry.GetField("options").ToString();
+                encryptedOptions = new List<string>();
+                encryptedOptions.AddRange(optionsStr.Trim().Split(new char[] { '~' }, StringSplitOptions.RemoveEmptyEntries));
+                options = new Dictionary<string, ApplicationOption>();
+                for (int i = 0; i < encryptedOptions.Count; i++)
+                {
+                    decryptedOption = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
+                    ApplicationOption option = new ApplicationOption();
+                    option.Description = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper(); ;
+                    option.Enabled = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T"); ;
+                    option.Value = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3)); ;
+                    key = option.Description.Replace("-", "").Replace("_", "").ToLower();
+                    options[key] = option;
+                }
+                return options;
             }
-            return documenttypeid;
         }
         //-----------------------------------------------------------------------------
-        public static void InsertDocumentType(FwSqlConnection conn, DatabaseConfig dbConfig, string documenttypeid, string documenttype, string rowtype, bool floorplan, bool videos, bool panoramic, bool autoattachtoemail)
+        public static async Task<string> GetDocumentTypeId(FwSqlConnection conn, DatabaseConfig dbConfig, string documenttype)
         {
-            FwSqlCommand qry;
-            
-            qry= new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("insert into documenttype(documenttypeid, documenttype, floorplan, rowtype, videos, panoramic, autoattachtoemail)");
-            qry.Add("values(@documenttypeid, @documenttype, @floorplan, @rowtype, @videos, @panoramic, @autoattachtoemail)");
-            qry.AddParameter("@documenttypeid",    documenttypeid);
-            qry.AddParameter("@documenttype",      documenttype);
-            qry.AddParameter("@rowtype",           rowtype);
-            qry.AddParameter("@floorplan",         FwConvert.LogicalToCharacter(floorplan));
-            qry.AddParameter("@videos",            FwConvert.LogicalToCharacter(videos));
-            qry.AddParameter("@panoramic",         FwConvert.LogicalToCharacter(panoramic));
-            qry.AddParameter("@autoattachtoemail", FwConvert.LogicalToCharacter(autoattachtoemail));
-            qry.Execute();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("select top 1 documenttypeid");
+                qry.Add("from documenttype with(nolock)");
+                qry.Add("where documenttype = @documenttype");
+                qry.AddParameter("@documenttype", documenttype);
+                await qry.ExecuteAsync();
+                string documenttypeid = null;
+                if (qry.RowCount > 0)
+                {
+                    documenttypeid = qry.GetField("documenttypeid").ToString().TrimEnd();
+                }
+                return documenttypeid;
+            }
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task InsertDocumentType(FwSqlConnection conn, DatabaseConfig dbConfig, string documenttypeid, string documenttype, string rowtype, bool floorplan, bool videos, bool panoramic, bool autoattachtoemail)
+        {
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("insert into documenttype(documenttypeid, documenttype, floorplan, rowtype, videos, panoramic, autoattachtoemail)");
+                qry.Add("values(@documenttypeid, @documenttype, @floorplan, @rowtype, @videos, @panoramic, @autoattachtoemail)");
+                qry.AddParameter("@documenttypeid", documenttypeid);
+                qry.AddParameter("@documenttype", documenttype);
+                qry.AddParameter("@rowtype", rowtype);
+                qry.AddParameter("@floorplan", FwConvert.LogicalToCharacter(floorplan));
+                qry.AddParameter("@videos", FwConvert.LogicalToCharacter(videos));
+                qry.AddParameter("@panoramic", FwConvert.LogicalToCharacter(panoramic));
+                qry.AddParameter("@autoattachtoemail", FwConvert.LogicalToCharacter(autoattachtoemail));
+                await qry.ExecuteAsync();
+            }
         }
         //----------------------------------------------------------------------------------------------------
-        public static void InsertWebAudit(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid, string webusersid, string createdflag)
+        public static async Task InsertWebAudit(FwSqlConnection conn, DatabaseConfig dbConfig, string uniqueid, string webusersid, string createdflag)
         {
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("exec insertwebaudit @uniqueid, @webusersid, @createdflag");
-            qry.AddParameter("@uniqueid", uniqueid);
-            qry.AddParameter("@webusersid", webusersid);
-            qry.AddParameter("@createdflag", createdflag);
-            qry.Execute();
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("exec insertwebaudit @uniqueid, @webusersid, @createdflag");
+                qry.AddParameter("@uniqueid", uniqueid);
+                qry.AddParameter("@webusersid", webusersid);
+                qry.AddParameter("@createdflag", createdflag);
+                await qry.ExecuteAsync();
+            }
         }
         //-----------------------------------------------------------------------------
-        public static void SetCompanyContactStatus(FwSqlConnection conn, DatabaseConfig dbConfig, string compcontactid, bool active)
+        public static async Task SetCompanyContactStatus(FwSqlConnection conn, DatabaseConfig dbConfig, string compcontactid, bool active)
         {
-            FwSqlCommand qry;
             string inactive;
             object activedate=null, inactivedate;
 
@@ -761,99 +496,23 @@ namespace FwStandard.SqlServer
             {
                 inactivedate = FwConvert.ToUSShortDate(DateTime.Now);
             }
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("update compcontact");
-            qry.Add("set inactive     = @inactive,");
-            qry.Add("    inactivedate = @inactivedate");
-            if (active)
-            {
-                qry.Add(", activedate = @activedate");
-                qry.AddParameter("@activedate", activedate);
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("update compcontact");
+                qry.Add("set inactive     = @inactive,");
+                qry.Add("    inactivedate = @inactivedate");
+                if (active)
+                {
+                    qry.Add(", activedate = @activedate");
+                    qry.AddParameter("@activedate", activedate);
+                }
+                qry.Add("where compcontactid = @compcontactid");
+                qry.AddParameter("@inactive", inactive);
+                qry.AddParameter("@inactivedate", inactivedate);
+                qry.AddParameter("@compcontactid", compcontactid);
+                await qry.ExecuteAsync();
             }
-            qry.Add("where compcontactid = @compcontactid");
-            qry.AddParameter("@inactive", inactive);
-            qry.AddParameter("@inactivedate", inactivedate);
-            qry.AddParameter("@compcontactid", compcontactid);
-            qry.Execute();
         }
-        //-----------------------------------------------------------------------------
-        //public static List<dynamic> GetHolidayEvents(FwSqlConnection conn, DatabaseConfig dbConfig, FwDateTime fromDate, double days, string countryid, string resourceId)
-        //{
-        //    FwDateTime toDate;
-        //    FwSqlCommand qry;
-        //    DataTable dt;
-        //    List<dynamic> holidays;
-        //    dynamic holiday;
-            
-        //    holidays = new List<dynamic>();
-        //    toDate = new FwDateTime(fromDate.ToDateTime().AddDays(days));  
-        //    qry= new FwSqlCommand(conn, dbConfig.QueryTimeout);
-        //    qry.Add("select holidaydt, description");
-        //    qry.Add("from holiday with(nolock)");
-        //    qry.Add("where holidaydt >= @start");
-        //    qry.Add("  and holidaydt <= @end");
-        //    qry.AddParameter("@start", fromDate.GetSqlValue());
-        //    qry.AddParameter("@end",   toDate.GetSqlValue());
-        //    dt = qry.QueryToTable();
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        for (int i = 0; i < dt.Rows.Count; i++)
-        //        {
-        //            string id, text, start, end;
-        //            DateTime dtStart, dtEnd;
-                    
-        //            id       = Guid.NewGuid().ToString();
-        //            text     = (!string.IsNullOrEmpty(dt.Rows[i]["description"].ToString())) ? "Holiday" : dt.Rows[i]["description"].ToString();
-        //            dtStart  = new FwDatabaseField(dt.Rows[i]["holidaydt"]).ToDateTime();
-        //            start    = FwConvert.ToUtcIso8601DateTime(dtStart);
-        //            dtEnd    = dtStart.AddDays(1).AddSeconds(-1);
-        //            end      = FwConvert.ToUtcIso8601DateTime(dtEnd);
-
-        //            holiday = new ExpandoObject();
-        //            holiday.id       = id;
-        //            holiday.text     = text;
-        //            holiday.start    = start;
-        //            holiday.end      = end;
-        //            holiday.resource = resourceId;
-        //            holidays.Add(holiday);
-        //        }
-        //    }
-
-        //    //qry= new FwSqlCommand(conn);
-        //    //qry.Add("select holidaydate, holiday, observed, countryid, country, holidayid, inactive, custom");
-        //    //qry.Add("from getholidays(@startdate, @enddate, @holidayid, @countryid)");
-        //    //qry.Add("where inactive <> 'T'");;
-        //    //qry.AddParameter("@startdate", fromDate.GetSqlValue());
-        //    //qry.AddParameter("@enddate",   toDate.GetSqlValue());
-        //    //qry.AddParameter("@holidayid", "");
-        //    //qry.AddParameter("@countryid", countryid);
-        //    //dt = qry.QueryToTable();
-        //    //if (dt.Rows.Count > 0)
-        //    //{
-        //    //    for (int i = 0; i < dt.Rows.Count; i++)
-        //    //    {
-        //    //        string id, text, start, end;
-        //    //        DateTime dtStart, dtEnd;
-                    
-        //    //        id       = new Guid().ToString();
-        //    //        text     = (!string.IsNullOrEmpty(dt.Rows[i]["holiday"].ToString())) ? "Holiday" : dt.Rows[i]["description"].ToString();
-        //    //        dtStart  = new FwDatabaseField(dt.Rows[i]["holidaydate"]).ToDateTime();
-        //    //        start    = FwConvert.ToUtcIso8601DateTime(dtStart);
-        //    //        dtEnd    = dtStart.AddDays(1).AddSeconds(-1);
-        //    //        end      = FwConvert.ToUtcIso8601DateTime(dtEnd);
-
-        //    //        holiday = new ExpandoObject();
-        //    //        holiday.id       = id;
-        //    //        holiday.text     = text;
-        //    //        holiday.start    = start;
-        //    //        holiday.end      = end;
-        //    //        holiday.resource = resourceId;
-        //    //        holidays.Add(holiday);
-        //    //    }
-        //    //}
-
-        //    return holidays;
-        //}
         //-----------------------------------------------------------------------------
         public class GetEmailReportControlResponse
         {
@@ -865,324 +524,82 @@ namespace FwStandard.SqlServer
             public string pdfpath {get;set;}
             public int port {get;set;}
         }
-        public static GetEmailReportControlResponse GetEmailReportControl(FwSqlConnection conn, DatabaseConfig dbConfig)
+        public static async Task<GetEmailReportControlResponse> GetEmailReportControl(FwSqlConnection conn, DatabaseConfig dbConfig)
         {
-            FwSqlCommand qry;
-            GetEmailReportControlResponse result;
-            
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select top 1 *");
-            qry.Add("from emailreportcontrol");
-            qry.Execute();
-            result = new GetEmailReportControlResponse();
-            result.accountname     = qry.GetField("accountname").ToString().TrimEnd();
-            result.accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
-            result.authtype        = qry.GetField("authtype").ToString().TrimEnd();
-            result.deletedays      = qry.GetField("deletedays").ToInt32();
-            result.host            = qry.GetField("host").ToString().TrimEnd();
-            result.pdfpath         = qry.GetField("pdfpath").ToString().TrimEnd();
-            result.port            = qry.GetField("port").ToInt32();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        // filepath is just the fake filepath you get if you take the value attribute on input[type="file"], using it here to get the extension
-        //public static void UpdateAppDocumentImage(FwSqlConnection conn, DatabaseConfig dbConfig, string appdocumentid, string documenttypeid, string uniqueid1, string uniqueid2, 
-        //                                          int uniqueid1int, string filedataurl, string filepath, FwDateTime received, FwDateTime reviewed, 
-        //                                          FwDateTime expiration, string inputbyusersid, string contactid, string projectid, string description, 
-        //                                          bool uploadpending, bool insertNewVersion, string notes)
-        //{
-        //    FwDateTime datestamp, attachDateTime;
-        //    string appimageid, extension, base64file, parentappdocumentid;
-        //    int width, height, version;
-        //    byte[] fileBuffer, thumbnailBuffer=null;
-
-        //    //if (documenttypeid == string.Empty) throw new ArgumentException("Document Type is required.");
-        //    datestamp       = DateTime.UtcNow;
-        //    attachDateTime  = DateTime.Now;
-        //    parentappdocumentid = string.Empty;
-        //    version             = 1;
-        //    conn.Open();
-        //    using (SqlTransaction transaction = conn.GetConnection().BeginTransaction())
-        //    {
-        //        if (string.IsNullOrEmpty(appdocumentid) || (insertNewVersion))
-        //        {
-        //            if (insertNewVersion && !string.IsNullOrEmpty(appdocumentid))
-        //            {
-        //                using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-        //                {
-        //                    qry.Transaction = transaction;
-        //                    qry.Add("select top 1 parentappdocumentid, version");
-        //                    qry.Add("from appdocument with (nolock)");
-        //                    qry.Add("where appdocumentid = @appdocumentid");
-        //                    qry.AddParameter("@appdocumentid", appdocumentid);
-        //                    qry.Execute(false);
-        //                    if (qry.RowCount > 0)
-        //                    {
-        //                        parentappdocumentid = qry.GetField("parentappdocumentid").ToString().TrimEnd();
-        //                        if (string.IsNullOrEmpty(parentappdocumentid))
-        //                        {
-        //                            parentappdocumentid = appdocumentid;
-        //                        }
-        //                        version = qry.GetField("version").ToInt32() + 1;
-        //                        if (version == 1) version++;
-        //                    }
-        //                }
-        //            }
-        //            appdocumentid = FwSqlData.GetNextId(conn, transaction, dbConfig);
-        //            //if (string.IsNullOrEmpty(filedataurl)) throw new Exception("File is required.");
-        //            using (FwSqlCommand cmd = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-        //            {
-        //                cmd.Transaction = transaction;
-        //                cmd.Add("insert appdocument(");
-        //                cmd.Add("  appdocumentid");
-        //                if (documenttypeid != null) cmd.Add(", documenttypeid");
-        //                cmd.Add(", uniqueid1");
-        //                cmd.Add(", uniqueid2");
-        //                cmd.Add(", uniqueid1int");
-        //                cmd.Add(", attachdate");
-        //                cmd.Add(", attachtime");
-        //                if (received != null) cmd.Add(", received");
-        //                if (reviewed != null) cmd.Add(", reviewed");
-        //                if (expiration != null) cmd.Add(", expiration");
-        //                cmd.Add(", datestamp");
-        //                if (inputbyusersid != null) cmd.Add(", inputbyusersid");
-        //                if (contactid != null) cmd.Add(", contactid");
-        //                if (projectid != null) cmd.Add(", projectid");
-        //                if (description != null) cmd.Add(", description");
-        //                if (uploadpending) cmd.Add(", uploadpending");
-        //                if (notes != null) cmd.Add(", notes");
-        //                if (insertNewVersion) cmd.Add(", parentappdocumentid");
-        //                if (insertNewVersion) cmd.Add(", version");
-        //                cmd.Add(")");
-
-        //                cmd.Add("values(@appdocumentid");
-        //                cmd.Add(", @documenttypeid");
-        //                cmd.Add(", @uniqueid1");
-        //                cmd.Add(", @uniqueid2");
-        //                cmd.Add(", @uniqueid1int");
-        //                cmd.Add(", @attachdate");
-        //                cmd.Add(", @attachtime");
-        //                if (received != null) cmd.Add(", @received");
-        //                if (reviewed != null) cmd.Add(", @reviewed");
-        //                if (expiration != null) cmd.Add(", @expiration");
-        //                cmd.Add(", @datestamp");
-        //                if (inputbyusersid != null) cmd.Add(", @inputbyusersid");
-        //                if (contactid != null) cmd.Add(", @contactid");
-        //                if (projectid != null) cmd.Add(", @projectid");
-        //                if (description != null) cmd.Add(", @description");
-        //                if (uploadpending) cmd.Add(", @uploadpending");
-        //                if (notes != null) cmd.Add(", @notes");
-        //                if (insertNewVersion) cmd.Add(", @parentappdocumentid");
-        //                if (insertNewVersion) cmd.Add(", @version");
-        //                cmd.Add(")");
-
-        //                cmd.AddParameter("@appdocumentid", appdocumentid);
-        //                if (documenttypeid != null) cmd.AddParameter("@documenttypeid", documenttypeid);
-        //                cmd.AddParameter("@uniqueid1", uniqueid1);
-        //                cmd.AddParameter("@uniqueid2", uniqueid2);
-        //                cmd.AddParameter("@uniqueid1int", uniqueid1int);
-        //                cmd.AddParameter("@attachdate", attachDateTime.GetSqlDate());
-        //                cmd.AddParameter("@attachtime", attachDateTime.GetSqlTime());
-        //                if (received != null) cmd.AddParameter("@received", received.GetSqlDate());
-        //                if (reviewed != null) cmd.AddParameter("@reviewed", reviewed.GetSqlDate());
-        //                if (expiration != null) cmd.AddParameter("@expiration", expiration.GetSqlDate());
-        //                cmd.AddParameter("@datestamp", datestamp.GetSqlValue());
-        //                if (inputbyusersid != null) cmd.AddParameter("@inputbyusersid", inputbyusersid);
-        //                if (contactid != null) cmd.AddParameter("@contactid", contactid);
-        //                if (projectid != null) cmd.AddParameter("@projectid", projectid);
-        //                if (description != null) cmd.AddParameter("@description", description);
-        //                if (uploadpending) cmd.AddParameter("@uploadpending", "T");
-        //                if (notes != null) cmd.AddParameter("@notes", notes);
-        //                if (insertNewVersion) cmd.AddParameter("@parentappdocumentid", parentappdocumentid);
-        //                if (insertNewVersion) cmd.AddParameter("@version", version);
-        //                cmd.ExecuteNonQuery(false);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // update the attachdate/time on the appdocument
-        //            using (FwSqlCommand cmd = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-        //            {
-        //                cmd.Transaction = transaction;
-        //                cmd.Add("update appdocument");
-        //                cmd.Add("set attachdate = @attachdate");
-        //                cmd.Add("  , attachtime = @attachtime");
-        //                if (documenttypeid != null) cmd.Add("  , documenttypeid = @documenttypeid");
-        //                if (received != null) cmd.Add("  , received       = @received");
-        //                if (reviewed != null) cmd.Add("  , reviewed       = @reviewed");
-        //                if (expiration != null) cmd.Add("  , expiration     = @expiration");
-        //                if (description != null) cmd.Add("  , description    = @description");
-        //                if (uploadpending) cmd.Add("  , uploadpending  = @uploadpending");
-        //                if (notes != null) cmd.Add("  , notes          = @notes");
-        //                cmd.Add("where appdocumentid = @appdocumentid");
-        //                cmd.AddParameter("@appdocumentid", appdocumentid);
-        //                if (documenttypeid != null) cmd.AddParameter("@documenttypeid", documenttypeid);
-        //                cmd.AddParameter("@attachdate", attachDateTime.GetSqlDate());
-        //                cmd.AddParameter("@attachtime", attachDateTime.GetSqlTime());
-        //                if (received != null) cmd.AddParameter("@received", received.GetSqlDate());
-        //                if (reviewed != null) cmd.AddParameter("@reviewed", reviewed.GetSqlDate());
-        //                if (expiration != null) cmd.AddParameter("@expiration", expiration.GetSqlDate());
-        //                if (description != null) cmd.AddParameter("@description", description);
-        //                if (uploadpending) cmd.AddParameter("@uploadpending", "T");
-        //                if (notes != null) cmd.AddParameter("@notes", notes);
-        //                cmd.ExecuteNonQuery(false);
-        //            }
-        //        }
-
-        //        // if the user didn't update the file no need to mess with appimage
-        //        if ((filedataurl != null) && (filepath != null))
-        //        {
-        //            appimageid = FwSqlData.GetNextId(conn, transaction, dbConfig);
-        //            // convert filedataurl to binary file
-        //            width = 0;
-        //            height = 0;
-        //            extension = Path.GetExtension(filepath).ToLower();
-        //            if (extension.StartsWith("."))
-        //            {
-        //                extension = extension.Substring(1);
-        //            }
-        //            base64file = filedataurl.Substring(filedataurl.IndexOf(',') + 1);
-        //            fileBuffer = Convert.FromBase64String(base64file);
-        //            switch (extension)
-        //            {
-        //                case "jpg":
-        //                case "jpeg":
-        //                case "gif":
-        //                case "png":
-        //                case "tif":
-        //                case "tiff":
-        //                case "bmp":
-        //                    thumbnailBuffer = FwGraphics.GetJpgThumbnail(fileBuffer);
-        //                    using (MemoryStream ms = new MemoryStream(fileBuffer))
-        //                    {
-        //                        Image image = Image.FromStream(ms);
-        //                        width = image.Width;
-        //                        height = image.Height;
-        //                    }
-        //                    break;
-        //            }
-
-        //            // delete any existing appimages
-        //            using (FwSqlCommand cmd = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-        //            {
-        //                cmd.Transaction = transaction;
-        //                cmd.Add("delete appimage");
-        //                cmd.Add("where uniqueid1 = @uniqueid1");
-        //                cmd.AddParameter("@uniqueid1", appdocumentid);
-        //                cmd.ExecuteNonQuery(false);
-        //            }
-
-        //            // insert appimage
-        //            using (FwSqlCommand cmd = new FwSqlCommand(conn, dbConfig.QueryTimeout))
-        //            {
-        //                cmd.Transaction = transaction;
-        //                cmd.Add("insert into appimage(appimageid, uniqueid1, uniqueid2, uniqueid3, description, extension, rectype, height, width" + ((thumbnailBuffer != null) ? ", thumbnail" : "") + ", image, datestamp)");
-        //                cmd.Add("values(@appimageid, @uniqueid1, @uniqueid2, @uniqueid3, @description, @extension, @rectype, @height, @width" + ((thumbnailBuffer != null) ? ", @thumbnail" : "") + ", @image, @datestamp)");
-        //                cmd.AddParameter("@appimageid", appimageid);
-        //                cmd.AddParameter("@uniqueid1", appdocumentid);
-        //                cmd.AddParameter("@uniqueid2", string.Empty);
-        //                cmd.AddParameter("@uniqueid3", string.Empty);
-        //                cmd.AddParameter("@description", string.Empty);
-        //                cmd.AddParameter("@extension", extension);
-        //                cmd.AddParameter("@rectype", "F");
-        //                cmd.AddParameter("@height", height);
-        //                cmd.AddParameter("@width", width);
-        //                if (thumbnailBuffer != null)
-        //                {
-        //                    cmd.AddParameter("@thumbnail", thumbnailBuffer);
-        //                }
-        //                cmd.AddParameter("@image", fileBuffer);
-        //                cmd.AddParameter("@datestamp", datestamp.GetSqlDate());
-        //                cmd.ExecuteNonQuery(false);
-        //            }
-        //        }
-        //        transaction.Commit();
-        //    }
-        //}
-        //-----------------------------------------------------------------------------
-        public static void ToggleAppdocumentInactive(FwSqlConnection conn, DatabaseConfig dbConfig, string appdocumentid)
-        {
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.toggleappdocumentinactive", dbConfig.QueryTimeout);
-            sp.AddParameter("@appdocumentid", appdocumentid);
-            sp.Execute();
-        }
-        //-----------------------------------------------------------------------------
-        public static void ToggleAppNoteInactive(FwSqlConnection conn, DatabaseConfig dbConfig, string appnoteid)
-        {
-            FwSqlCommand sp;
-
-            sp = new FwSqlCommand(conn, "dbo.toggleappnoteinactive", dbConfig.QueryTimeout);
-            sp.AddParameter("@appnoteid", appnoteid);
-            sp.Execute();
-        }
-        //-----------------------------------------------------------------------------
-        //public static FwWebUserSettings GetWebUserSettings(FwSqlConnection conn, DatabaseConfig dbConfig, string webusersid)
-        //{
-        //    FwSqlCommand qry;
-        //    DataTable dt;
-        //    FwWebUserSettings control;
-            
-        //    qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-        //    qry.Add("select top 1 settings");
-        //    qry.Add("from webusers with(nolock)");
-        //    qry.Add("where webusersid = @webusersid");
-        //    qry.AddParameter("@webusersid", webusersid);
-        //    dt = qry.QueryToTable();
-        //    control = null;
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        control = new FwWebUserSettings();
-        //        control.LoadSettings(dt.Rows[0]["settings"].ToString().TrimEnd());
-        //    }
-            
-        //    return control;
-        //}
-        //-----------------------------------------------------------------------------
-        public static string CheckDatabaseVersion(FwSqlConnection conn, DatabaseConfig dbConfig, string requireddbversion, string requiredhotfixfilename)
-        {
-            FwSqlCommand qry;
-            string dbversion;
-            bool hasrequireddbversion, hasrequiredhotfix;
-            StringBuilder result;
-
-            result = new StringBuilder();
-            qry = new FwSqlCommand(conn, dbConfig.QueryTimeout);
-            qry.Add("select dbversion         = (select rtrim(dbversion)");
-            qry.Add("                            from control with (nolock)),");
-            qry.Add("       hasrequiredhotfix = case when exists (select *");
-            qry.Add("                                             from hotfix with (nolock)");
-            qry.Add("                                             where filename = @filename)");
-            qry.Add("                                then 'T'");
-            qry.Add("                                else 'F'");
-            qry.Add("                           end");
-            qry.AddParameter("@filename", requiredhotfixfilename);
-            qry.Execute();
-            dbversion            = qry.GetField("dbversion").ToString();
-            hasrequireddbversion = (dbversion == requireddbversion);
-            hasrequiredhotfix    = qry.GetField("hasrequiredhotfix").ToBoolean();
-            if (!hasrequireddbversion && !string.IsNullOrEmpty(requireddbversion))
-            {
-                result.Append("<div>Web application and database versions do not match!</div>");
-                result.Append("<table style=\"margin:10px 0 0 0;\">");
-                result.Append("<tr><td style=\"padding:2px 5px;\">Web Application:</td><td style=\"padding:2px 5px;\">");
-                result.Append(requireddbversion);
-                result.Append("</td></tr>");
-                result.Append("<tr><td style=\"padding:2px 5px;\">Database:</td>");
-                result.Append("<td style=\"padding:2px 5px;\">");
-                result.Append(dbversion);
-                result.Append("</td></tr>");
-                result.Append("</table>");
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select top 1 *");
+                qry.Add("from emailreportcontrol");
+                await qry.ExecuteAsync();
+                var result = new GetEmailReportControlResponse();
+                result.accountname     = qry.GetField("accountname").ToString().TrimEnd();
+                result.accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
+                result.authtype        = qry.GetField("authtype").ToString().TrimEnd();
+                result.deletedays      = qry.GetField("deletedays").ToInt32();
+                result.host            = qry.GetField("host").ToString().TrimEnd();
+                result.pdfpath         = qry.GetField("pdfpath").ToString().TrimEnd();
+                result.port            = qry.GetField("port").ToInt32();
+                return result;
             }
-            else if (!hasrequiredhotfix && !string.IsNullOrEmpty(requiredhotfixfilename))
-            {
-                result.Append("<div>Please update your database hotfixes!</div>");
-                result.Append("<div style=\"margin:10px 0 0 0;\">Missing Hotfix: " + requiredhotfixfilename + "</div>");
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task ToggleAppdocumentInactive(FwSqlConnection conn, DatabaseConfig dbConfig, string appdocumentid)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.toggleappdocumentinactive", dbConfig.QueryTimeout))
+            { 
+                sp.AddParameter("@appdocumentid", appdocumentid);
+                await sp.ExecuteAsync();
             }
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task ToggleAppNoteInactive(FwSqlConnection conn, DatabaseConfig dbConfig, string appnoteid)
+        {
+            using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.toggleappnoteinactive", dbConfig.QueryTimeout))
+            { 
+                sp.AddParameter("@appnoteid", appnoteid);
+                await sp.ExecuteAsync();
+            }
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<string> CheckDatabaseVersion(FwSqlConnection conn, DatabaseConfig dbConfig, string requireddbversion, string requiredhotfixfilename)
+        {
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            { 
+                qry.Add("select dbversion         = (select rtrim(dbversion)");
+                qry.Add("                            from control with (nolock)),");
+                qry.Add("       hasrequiredhotfix = case when exists (select *");
+                qry.Add("                                             from hotfix with (nolock)");
+                qry.Add("                                             where filename = @filename)");
+                qry.Add("                                then 'T'");
+                qry.Add("                                else 'F'");
+                qry.Add("                           end");
+                qry.AddParameter("@filename", requiredhotfixfilename);
+                await qry.ExecuteAsync();
+                string dbversion          = qry.GetField("dbversion").ToString();
+                bool hasrequireddbversion = (dbversion == requireddbversion);
+                bool hasrequiredhotfix    = qry.GetField("hasrequiredhotfix").ToBoolean();
+                StringBuilder result = new StringBuilder();
+                if (!hasrequireddbversion && !string.IsNullOrEmpty(requireddbversion))
+                {
+                    result.Append("<div>Web application and database versions do not match!</div>");
+                    result.Append("<table style=\"margin:10px 0 0 0;\">");
+                    result.Append("<tr><td style=\"padding:2px 5px;\">Web Application:</td><td style=\"padding:2px 5px;\">");
+                    result.Append(requireddbversion);
+                    result.Append("</td></tr>");
+                    result.Append("<tr><td style=\"padding:2px 5px;\">Database:</td>");
+                    result.Append("<td style=\"padding:2px 5px;\">");
+                    result.Append(dbversion);
+                    result.Append("</td></tr>");
+                    result.Append("</table>");
+                }
+                else if (!hasrequiredhotfix && !string.IsNullOrEmpty(requiredhotfixfilename))
+                {
+                    result.Append("<div>Please update your database hotfixes!</div>");
+                    result.Append("<div style=\"margin:10px 0 0 0;\">Missing Hotfix: " + requiredhotfixfilename + "</div>");
+                }
 
-            return result.ToString();
+                return result.ToString();
+            }
         }
         //-----------------------------------------------------------------------------
     }

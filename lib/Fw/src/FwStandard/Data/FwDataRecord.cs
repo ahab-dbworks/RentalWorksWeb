@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
@@ -29,32 +29,6 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        [JsonIgnore]
-        public virtual bool HasInsert
-        {
-            get
-            {
-                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().HasInsert;
-            }
-        }
-        //------------------------------------------------------------------------------------
-        [JsonIgnore]
-        public virtual bool HasUpdate
-        {
-            get
-            {
-                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().HasUpdate;
-            }
-        }
-        //------------------------------------------------------------------------------------
-        [JsonIgnore]
-        public virtual bool HasDelete
-        {
-            get
-            {
-                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().HasDelete;
-            }
-        }
         //------------------------------------------------------------------------------------
         public virtual void SetDbConfig(DatabaseConfig dbConfig)
         {
@@ -132,12 +106,12 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void SetPrimaryKeyIdsForInsert(FwSqlConnection conn)
+        protected virtual async Task SetPrimaryKeyIdsForInsertAsync(FwSqlConnection conn)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-                string id = FwSqlData.GetNextId(conn, _dbConfig);
+                string id = await FwSqlData.GetNextIdAsync(conn, _dbConfig);
                 if (primaryKeyProperty.GetValue(this) is string)
                 {
                     primaryKeyProperties[0].SetValue(this, id);
@@ -184,31 +158,31 @@ namespace FwStandard.DataLayer
              */
         }
         //------------------------------------------------------------------------------------
-        public virtual FwJsonDataTable Browse(BrowseRequestDto request)
+        public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 SetBaseSelectQuery(qry);
-                dt = qry.QueryToFwJsonTable(false);
+                dt = await qry.QueryToFwJsonTableAsync(false);
             }
             return dt;
         }
         //------------------------------------------------------------------------------------
-        public virtual IEnumerable<T> Select<T>(BrowseRequestDto request)
+        public virtual async Task<IEnumerable<T>> SelectAsync<T>(BrowseRequestDto request)
         {
             IEnumerable<T> results;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 SetBaseSelectQuery(qry);
-                results = qry.Select<T>(true, request.pageno, request.pagesize);
+                results = await qry.SelectAsync<T>(true, request.pageno, request.pagesize);
             }
             return results;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Load<T>(string[] primaryKeyValues)
+        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             int k = 0;
@@ -216,10 +190,10 @@ namespace FwStandard.DataLayer
             {
                 primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
             }
-            return Load<T>();
+            return await LoadAsync<T>();
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Load<T>()
+        public virtual async Task<bool> LoadAsync<T>()
         {
             bool loaded = false;
             if (AllPrimaryKeysHaveValues)
@@ -256,7 +230,7 @@ namespace FwStandard.DataLayer
                         qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
                         k++;
                     }
-                    var record = qry.SelectOne<T>(true);
+                    var record = await qry.SelectOneAsync<T>(true);
                     Mapper.Map(record, this);
                     loaded = (record != null);
 

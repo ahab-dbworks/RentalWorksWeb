@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace FwStandard.BusinessLogic
 {
@@ -40,42 +41,42 @@ namespace FwStandard.BusinessLogic
             _Custom.SetDbConfig(dbConfig);
         }
     //------------------------------------------------------------------------------------
-    public FwJsonDataTable Browse(BrowseRequestDto request)
+    public async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request)
         {
             FwJsonDataTable browse = null;
             if (dataLoader == null)
             {
                 if (dataRecords.Count > 0)
                 {
-                    browse = dataRecords[0].Browse(request);
+                    browse = await dataRecords[0].BrowseAsync(request);
                 }
             }
             else
             {
-                browse = dataLoader.Browse(request);
+                browse = await dataLoader.BrowseAsync(request);
             }
             return browse;
 
         }
         //------------------------------------------------------------------------------------
-        public virtual IEnumerable<T> Select<T>(BrowseRequestDto request)
+        public virtual async Task<IEnumerable<T>> SelectAsync<T>(BrowseRequestDto request)
         {
             IEnumerable<T> records = null;
             if (dataLoader == null)
             {
                 if (dataRecords.Count > 0)
                 {
-                    records = dataRecords[0].Select<T>(request);
+                    records = await dataRecords[0].SelectAsync<T>(request);
                 }
             }
             else
             {
-                records = dataLoader.Select<T>(request);
+                records = await dataLoader.SelectAsync<T>(request);
             }
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Load<T>(string[] primaryKeyValues) 
+        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues) 
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -84,7 +85,7 @@ namespace FwStandard.BusinessLogic
                 int r = 0;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    recLoaded = rec.Load<T>(primaryKeyValues);
+                    recLoaded = await rec.LoadAsync<T>(primaryKeyValues);
                     if (r == 0)
                     {
                         blLoaded = recLoaded;
@@ -94,20 +95,20 @@ namespace FwStandard.BusinessLogic
             }
             else
             {
-                blLoaded = dataLoader.Load<T>(primaryKeyValues);
+                blLoaded = await dataLoader.LoadAsync<T>(primaryKeyValues);
                 Mapper.Map(dataLoader, this);
             }
             if ((blLoaded) && (_Custom != null))
             {
-                _Custom.Load(primaryKeyValues);
+                await _Custom.LoadAsync(primaryKeyValues);
             }
 
             return blLoaded;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Load<T>()
+        public virtual async Task<bool> LoadAsync<T>()
         {
-            return Load<T>(GetPrimaryKeys());
+            return await LoadAsync<T>(GetPrimaryKeys());
         }
         //------------------------------------------------------------------------------------
         protected virtual List<PropertyInfo> GetPrimaryKeyProperties()
@@ -181,26 +182,26 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual int Save()
+        public virtual async Task<int> SaveAsync()
         {
             int rowsAffected = 0;
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {
-                rowsAffected = rowsAffected + rec.Save();
+                rowsAffected += await rec.SaveAsync();
             }
             if (_Custom != null)
             {
-                _Custom.Save(GetPrimaryKeys());
+                await _Custom.SaveAsync(GetPrimaryKeys());
             }
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Delete()
+        public virtual async Task<bool> DeleteAsync()
         {
             bool success = true;
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {
-                success = ((success) && rec.Delete());
+                success &= await rec.DeleteAsync();
             }
             return success;
         }

@@ -2,7 +2,7 @@
 using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
@@ -42,7 +42,7 @@ namespace FwStandard.DataLayer
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Load()
+        public virtual async Task<bool> LoadAsync()
         {
             bool loaded = false;
             if (_primaryKeyValues.Length > 0)
@@ -54,7 +54,7 @@ namespace FwStandard.DataLayer
                     FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                     qry.Add("select * from customfield where modulename = @modulename");
                     qry.AddParameter("@modulename", _moduleName);
-                    customFields = (List<FwCustomField>)qry.Select<FwCustomField>(true, 1, 10);
+                    customFields = (List<FwCustomField>) await qry.SelectAsync<FwCustomField>(true, 1, 10);
                 }
 
                 if (customFields.Count > 0)
@@ -103,7 +103,7 @@ namespace FwStandard.DataLayer
                             k++;
                         }
 
-                        FwJsonDataTable table = qry.QueryToFwJsonTable(true);
+                        FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                         colNo = 0; 
                         foreach (FwJsonDataTableColumn column in table.Columns) {
                             if (table.Rows.Count > 0)
@@ -126,7 +126,7 @@ namespace FwStandard.DataLayer
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool Save()
+        public virtual async Task<bool> SaveAsync()
         {
             bool loaded = false;
             if (_primaryKeyValues.Length > 0)
@@ -167,7 +167,7 @@ namespace FwStandard.DataLayer
                         qry.AddParameter("@keyvalue" + k.ToString(), "");
                         k++;
                     }
-                    qry.ExecuteNonQuery();
+                    await qry.ExecuteNonQueryAsync();
                 }
 
                 using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -175,7 +175,7 @@ namespace FwStandard.DataLayer
                     FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                     qry.Add("select * from customfield where modulename = @modulename");
                     qry.AddParameter("@modulename", _moduleName);
-                    customFields = (List<FwCustomField>)qry.Select<FwCustomField>(true, 1, 10);
+                    customFields = (List<FwCustomField>) await qry.SelectAsync<FwCustomField>(true, 1, 10);
                 }
 
                 if (customFields.Count > 0)
@@ -252,7 +252,7 @@ namespace FwStandard.DataLayer
                             colNo++;
                         }
 
-                        qry.ExecuteNonQuery(true);
+                        await qry.ExecuteNonQueryAsync(true);
                     }
                 }
             }
