@@ -28,7 +28,8 @@ namespace RentalWorksWebApi
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
-            Mapper.Initialize(cfg => {
+            Mapper.Initialize(cfg =>
+            {
                 cfg.AddProfile<FwSqlMapperProfile>();
                 cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
                 cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
@@ -38,6 +39,8 @@ namespace RentalWorksWebApi
                 cfg.CreateMap<CustomerTypeLogic, CustomerTypeRecord>();
                 cfg.CreateMap<CreditStatusLogic, CreditStatusRecord>();
                 cfg.CreateMap<WarehouseLogic, WarehouseRecord>();
+                cfg.CreateMap<BillingCycleLoader, BillingCycleLogic>();
+                cfg.CreateMap<BillingCycleLogic, BillingCycleLoader>();
             });
         }
 

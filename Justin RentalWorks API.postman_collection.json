@@ -8,6 +8,126 @@
 	},
 	"item": [
 		{
+			"name": "Billing Cycle",
+			"description": "",
+			"item": [
+				{
+					"name": "BillingCycle: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle/A0003IJU",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"BillingCycle\": \"WEEKLY100\",\n    \"BillingCycleType\": \"WEEKLY\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"BillingCycleId\": \"00003AN9\",\n    \"BillingCycle\": \"WEEKLY 200\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle/00003AN7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Credit Status",
 			"description": "",
 			"item": [
