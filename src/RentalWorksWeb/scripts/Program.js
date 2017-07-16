@@ -31,6 +31,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/customertype$/,           getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
   , { urlpattern: /^module\/glaccount$/,              getScreen: function() { return GlAccountController.getModuleScreen(); } }
   , { urlpattern: /^module\/billingcycle$/,           getScreen: function() { return BillingCycleController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymenttype$/,            getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
   , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }

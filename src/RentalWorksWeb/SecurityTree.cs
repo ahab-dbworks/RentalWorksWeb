@@ -42,11 +42,12 @@ namespace RentalWorksWeb
                                             AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "CustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Customer Type", "{314EDC6F-478A-40E2-B17E-349886A85EA0}", lv2menuCustomerMaintenance.Id, "CustomerTypeController", "module/customertype", settingsiconbaseurl + "placeholder.png");
 
-            // Vendor Maintenance
+            var lv2menuPaymentMaintenance = AddLv2ModuleMenu("Payment Maintenance", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholer.png");
             AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
 
-            //Warehouse
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
             //Reports 

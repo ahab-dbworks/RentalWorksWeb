@@ -1049,6 +1049,8 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleBrowse.htm" />
@@ -1240,6 +1242,7 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
@@ -1321,6 +1324,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
