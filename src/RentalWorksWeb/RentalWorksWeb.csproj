@@ -1057,6 +1057,8 @@
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
+    <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusForm.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
@@ -1246,6 +1248,7 @@
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
@@ -1328,6 +1331,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />

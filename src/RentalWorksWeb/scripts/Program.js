@@ -37,6 +37,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorclass/,             getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/warehouse/,               getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/creditstatus/,        getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/creditstatus/,        getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
