@@ -1067,7 +1067,6 @@
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeForm.htm" />
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountForm.htm" />
-    <Content Include="Source\Modules\Settings\UserSettings\RwUserSettingsController.js" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
     <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
     <Content Include="Source\Reports\Application\LandscapeHeader.htm" />
