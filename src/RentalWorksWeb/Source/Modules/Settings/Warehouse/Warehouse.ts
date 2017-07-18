@@ -1,4 +1,5 @@
-﻿declare var FwModule: any;
+﻿
+declare var FwModule: any;
 declare var FwBrowse: any;
 
 class Warehouse {
