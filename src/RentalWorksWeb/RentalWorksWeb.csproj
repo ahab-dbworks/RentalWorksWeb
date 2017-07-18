@@ -1245,7 +1245,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
