@@ -1,13 +1,13 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
 
-class CreditStatus {
+class CustomerCategory {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'CreditStatus';
-        this.apiurl = 'api/v1/creditstatus';
+        this.Module = 'CustomerCategory';
+        this.apiurl = 'api/v1/customercategory';
     }
 
     getModuleScreen() {
@@ -21,7 +21,7 @@ class CreditStatus {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Credit Status', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Customer Category', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class CreditStatus {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CreditStatus"] input').val(uniqueids.CreditStatus);
+        $form.find('div.fwformfield[data-datafield="CustomerCategoryId"] input').val(uniqueids.CustomerCategoryId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class CreditStatus {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="CreditStatusId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="CustomerCategoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,5 +76,5 @@ class CreditStatus {
     }
 }
 
-(<any>window).CreditStatusController = new CreditStatus();
+(<any>window).CustomerCategoryController = new CustomerCategory();
 
