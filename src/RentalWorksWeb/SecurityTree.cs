@@ -44,7 +44,8 @@ namespace RentalWorksWeb
                                             AddModule("Credit Status", "{A28D0CC9-B922-4259-BA4A-A5DE474ADFA4}", lv2menuCustomerMaintenance.Id, "CreditStatusController", "module/creditstatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentMaintenance = AddLv2ModuleMenu("Payment Maintenance", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                               AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Payment Terms", "{44FD799A-1572-4B34-9943-D94FFBEF89D4}", lv2menuPaymentMaintenance.Id, "PaymentTermsController", "module/paymentterms", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholer.png");
             AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");

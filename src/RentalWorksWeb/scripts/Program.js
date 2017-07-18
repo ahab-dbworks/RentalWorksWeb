@@ -32,13 +32,13 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/glaccount$/,              getScreen: function() { return GlAccountController.getModuleScreen(); } }
   , { urlpattern: /^module\/billingcycle$/,           getScreen: function() { return BillingCycleController.getModuleScreen(); } }
   , { urlpattern: /^module\/paymenttype$/,            getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymentterms$/,           getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
   , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorclass/,             getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/warehouse/,               getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/creditstatus/,        getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/creditstatus/,        getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/creditstatus/,        getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules

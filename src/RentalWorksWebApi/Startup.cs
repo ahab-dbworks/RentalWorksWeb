@@ -43,6 +43,7 @@ namespace RentalWorksWebApi
                 cfg.CreateMap<BillingCycleLogic, BillingCycleLoader>();
                 cfg.CreateMap<PaymentTypeLogic, PaymentTypeRecord>();
                 cfg.CreateMap<DealTypeLogic, DealTypeRecord>();
+                cfg.CreateMap<PaymentTermsLogic, PaymentTermsRecord>();
             });
         }
 

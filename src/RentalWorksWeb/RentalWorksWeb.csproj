@@ -1049,6 +1049,8 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
@@ -1244,11 +1246,12 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
@@ -1327,11 +1330,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
