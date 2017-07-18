@@ -1255,6 +1255,7 @@
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
@@ -1331,6 +1332,9 @@
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Modules\Home\" />
+    <Folder Include="Source\Modules\Settings\BillingCycle\" />
+    <Folder Include="Source\Modules\Settings\PaymentType\" />
+    <Folder Include="Source\Modules\Settings\Warehouse\" />
     <Folder Include="Source\Modules\Utilities\" />
   </ItemGroup>
   <ItemGroup>
