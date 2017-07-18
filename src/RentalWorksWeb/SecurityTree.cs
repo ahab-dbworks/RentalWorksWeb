@@ -44,6 +44,9 @@ namespace RentalWorksWeb
                                             AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerMaintenance.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png");
 
 
+            var lv2menuDealMaintenance = AddLv2ModuleMenu("Deal Maintenance", "{C78B1F90-46B2-4FA1-AC35-139A8B5473FD}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Deal Type", "{A021AE67-0F33-4C97-9149-4CD5560EE10A}", lv2menuDealMaintenance.Id, "DealTypeController", "module/dealtype", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuPaymentMaintenance = AddLv2ModuleMenu("Payment Maintenance", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Terms", "{44FD799A-1572-4B34-9943-D94FFBEF89D4}", lv2menuPaymentMaintenance.Id, "PaymentTermsController", "module/paymentterms", settingsiconbaseurl + "placeholder.png");

@@ -14,9 +14,6 @@ namespace RentalWorksWebDataLayer.Settings
         [FwSqlDataField(columnName: "dealtype", dataType: FwDataTypes.Text, length: 30)]
         public string DealType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "rowguid", dataType: FwDataTypes.Text)]
-        public Guid RowGuid { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "color", dataType: FwDataTypes.Decimal)]
         public decimal Color { get; set; }
         //------------------------------------------------------------------------------------

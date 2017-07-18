@@ -1051,6 +1051,8 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsForm.htm" />
+    <Content Include="Source\Modules\Settings\DealType\DealTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DealType\DealTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
@@ -1247,7 +1249,9 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
@@ -1333,6 +1337,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
