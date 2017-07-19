@@ -42,6 +42,8 @@
 /src/RentalWorksTest/bin/
 /src/RentalWorksTest/obj/
 
+/src/RentalWorksWebApi/appsettings.Development.json
+
 /lib/Fw/src/Fw.Json/obj/
 /lib/Fw/src/Fw.Json/bin/
 /lib/Fw/src/Fw.Json/scripts/_references.js
