@@ -1061,6 +1061,10 @@
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleBrowse.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleForm.htm" />
+    <Content Include="Source\Modules\Settings\DealClassification\DealClassificationBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DealClassification\DealClassificationForm.htm" />
+    <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusBrowse.htm" />
@@ -1259,11 +1263,13 @@
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
+    <Compile Include="Source\Modules\Settings\DealClassification\DealClassificationMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
+    <Compile Include="Source\Modules\Settings\ProductionType\ProductionTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
@@ -1346,9 +1352,11 @@
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DealClassification\DealClassification.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ProductionType\ProductionType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>
