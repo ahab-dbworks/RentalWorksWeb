@@ -45,6 +45,7 @@ namespace RentalWorksWebApi
                 cfg.CreateMap<CustomerCategoryLogic, CustomerCategoryRecord>();
                 cfg.CreateMap<DealTypeLogic, DealTypeRecord>();
                 cfg.CreateMap<PaymentTermsLogic, PaymentTermsRecord>();
+                cfg.CreateMap<OfficeLocationLogic, OfficeLocationRecord>();
             });
         }
 

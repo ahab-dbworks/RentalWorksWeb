@@ -15,7 +15,7 @@ namespace RentalWorksWebDataLayer.Settings
         public string ProductionType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "prodcode", dataType: FwDataTypes.Text, length: 10)]
-        public string ProductionCode { get; set; }
+        public string ProductionTypeCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
         public string Inactive { get; set; }

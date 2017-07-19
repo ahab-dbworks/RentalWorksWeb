@@ -15,7 +15,7 @@ namespace RentalWorksWebDataLayer.Settings
         public string CustomerCategoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "custcatdesc", dataType: FwDataTypes.Text, length: 20)]
-        public string CustomerCategoryDesc { get; set; }
+        public string CustomerCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
         public DateTime? DateStamp { get; set; }

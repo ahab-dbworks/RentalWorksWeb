@@ -41,6 +41,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/customercategory$/,       getScreen: function () { return CustomerCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/creditstatus$/,           getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/dealtype$/,               getScreen: function () { return DealTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/officelocation$/,         getScreen: function () { return OfficeLocationController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
