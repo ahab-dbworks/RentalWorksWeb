@@ -63,6 +63,7 @@ namespace JSAppBuilder
             catch (Exception ex)
             {
                 Console.Error.Write(ex.Message + ex.StackTrace);
+                Environment.ExitCode = -1;
             }
         }
     }

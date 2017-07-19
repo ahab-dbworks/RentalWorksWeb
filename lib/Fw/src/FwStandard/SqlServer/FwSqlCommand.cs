@@ -23,7 +23,7 @@ namespace FwStandard.SqlServer
         private FwSqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private StringBuilder qryText;
-        private SqlDataReader reader;
+        //private SqlDataReader reader;
         private bool eof;
         private List<FwJsonDataTableColumn> columns;
         private FwFields fields;
@@ -265,7 +265,6 @@ namespace FwStandard.SqlServer
             this.sqlCommand.CommandType = CommandType.Text;
             this.sqlCommand.CommandTimeout = timeout;
             this.qryText = new StringBuilder();
-            this.reader = null;
             this.eof = true;
             this.columns = new List<FwJsonDataTableColumn>();
             this.fields = new FwFields();
@@ -281,7 +280,6 @@ namespace FwStandard.SqlServer
             this.sqlCommand.CommandTimeout = timeout;
             this.qryText = new StringBuilder();
             this.qryText.Append(storedProcedureName);
-            this.reader = null;
             this.eof = true;
             this.columns = new List<FwJsonDataTableColumn>();
             this.fields = new FwFields();
@@ -813,9 +811,11 @@ namespace FwStandard.SqlServer
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
-                this.reader = await this.sqlCommand.ExecuteReaderAsync();
-                this.sqlLogEntry.Stop();
-                this.RowCount = this.reader.RecordsAffected;
+                using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
+                {
+                    this.sqlLogEntry.Stop();
+                    this.RowCount = reader.RecordsAffected;
+                }
             }
             finally
             {
@@ -858,23 +858,23 @@ namespace FwStandard.SqlServer
         //    FwFunc.WriteLog("End FwSqlCommand:Open()");
         //}        
         //------------------------------------------------------------------------------------
-        public bool Next()
+        public bool Next(SqlDataReader reader)
         {
             //this.RowCount++;
-            this.eof = (!this.reader.Read());
+            this.eof = (!reader.Read());
             if (!this.eof)
             {
-                this.SetFields();
+                this.SetFields(reader);
             }
 
             return !this.eof;
         }
         //------------------------------------------------------------------------------------
-        public void SetFields()
+        public void SetFields(SqlDataReader reader)
         {
-            for (int i = 0; i < this.reader.FieldCount; i++)
+            for (int i = 0; i < reader.FieldCount; i++)
             {
-                this.fields.SetField(this.reader.GetName(i), this.reader[i]);
+                this.fields.SetField(reader.GetName(i), reader[i]);
             }
         }
         //------------------------------------------------------------------------------------
@@ -1300,23 +1300,23 @@ namespace FwStandard.SqlServer
                 {
                     this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                     this.sqlLogEntry.Start();
-                    this.RowCount = this.sqlCommand.ExecuteNonQuery();
+                    this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
                     this.sqlLogEntry.Stop();
                 }
                 else
                 {
                     this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                     this.sqlLogEntry.Start();
-                    using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
+                    using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                     {
                         this.sqlLogEntry.Stop();
-                        this.eof = (!this.reader.HasRows);
+                        this.eof = (!reader.HasRows);
                         if (!eof)
                         {
                             this.RowCount++;
-                            this.Next();
+                            this.Next(reader);
                         }
-                        while (this.reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             this.RowCount++;
                         }
@@ -1851,7 +1851,7 @@ namespace FwStandard.SqlServer
                             {
                                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                                 {
-                                    propertyValue = FwSqlData.GetNextIdAsync(conn, dbConfig);
+                                    propertyValue = await FwSqlData.GetNextIdAsync(conn, dbConfig);
                                 }
                                 propertyInfo.SetValue(businessObject, propertyValue);
                             }

@@ -2205,7 +2205,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + moduleName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {
@@ -2242,7 +2251,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + moduleName + "Form.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlUniqueIds = xmlForm.SelectNodes("//div[@data-control='FwFormField' and @data-isuniqueid='true']"); //xpath query
             xmlColumns   = xmlForm.SelectNodes("//div[@data-control='FwFormField' and (not(@data-isuniqueid) or @data-isuniqueid!='true')]"); //xpath query
             foreach(XmlNode xmlUniqueId in xmlUniqueIds)
@@ -2361,7 +2379,16 @@ namespace Fw.MSBuildTasks
             string result;
             
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + gridName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {
@@ -2442,7 +2469,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + validationName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {
