@@ -37,10 +37,10 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorclass$/,            getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/warehouse/,               getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/warehouse$/,              getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/customercategory$/,       getScreen: function () { return CustomerCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/creditstatus/,            getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealtype/,                getScreen: function () { return DealTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/creditstatus$/,           getScreen: function () { return CreditStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealtype$/,               getScreen: function () { return DealTypeController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules

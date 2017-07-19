@@ -1249,18 +1249,19 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
@@ -1330,13 +1331,11 @@
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Modules\Home\" />
-    <Folder Include="Source\Modules\Settings\BillingCycle\" />
-    <Folder Include="Source\Modules\Settings\PaymentType\" />
-    <Folder Include="Source\Modules\Settings\Warehouse\" />
     <Folder Include="Source\Modules\Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
@@ -1346,6 +1345,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
