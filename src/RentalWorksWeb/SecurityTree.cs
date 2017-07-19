@@ -47,7 +47,6 @@ namespace RentalWorksWeb
                                              AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerMaintenance.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "CustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Customer Type"  , "{314EDC6F-478A-40E2-B17E-349886A85EA0}", lv2menuCustomerMaintenance.Id, "CustomerTypeController"  , "module/customertype"  , settingsiconbaseurl + "placeholder.png");
-                                             AddModule("Vendor Class"   , "{A54AB9C3-2249-4973-8B29-62ED75D3C9D3}", lv2menuCustomerMaintenance.Id, "VendorClassController"   , "module/vendorclass"   , settingsiconbaseurl + "placeholder.png");
                                             
 
 
