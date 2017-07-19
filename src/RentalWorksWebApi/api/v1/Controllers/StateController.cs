@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,44 +13,44 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/State/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(StateLogic));
+            return await DoBrowseAsync(browseRequest, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/State
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> Get(int pageno, int pagesize)
         {
-            return doGet<StateLogic>(pageno, pagesize, typeof(StateLogic));
+            return await DoGetAsync<StateLogic>(pageno, pagesize, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/State/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            return doGet<StateLogic>(id, typeof(StateLogic));
+            return await DoGetAsync<StateLogic>(id, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/State
         [HttpPost]
-        public IActionResult Post([FromBody]StateLogic l)
+        public async Task<IActionResult> Post([FromBody]StateLogic l)
         {
-            return doPost<StateLogic>(l);
+            return await DoPostAsync<StateLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/State/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            return doDelete(id, typeof(StateLogic));
+            return await DoDeleteAsync(id, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/State/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicate(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }

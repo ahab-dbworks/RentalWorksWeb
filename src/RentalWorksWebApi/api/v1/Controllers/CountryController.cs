@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebLogic.Settings;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Controllers.v1
 {
@@ -12,44 +13,44 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/Country/browse
         [HttpPost("browse")]
-        public IActionResult Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return doBrowse(browseRequest, typeof(CountryLogic));
+            return await DoBrowseAsync(browseRequest, typeof(CountryLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/Country
         [HttpGet]
-        public IActionResult Get(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
         {
-            return doGet<CountryLogic>(pageno, pagesize, typeof(CountryLogic));
+            return await DoGetAsync<CountryLogic>(pageno, pagesize, typeof(CountryLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/Country/A0000001
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public async Task<IActionResult> GetAsync(string id)
         {
-            return doGet<CountryLogic>(id, typeof(CountryLogic));
+            return await DoGetAsync<CountryLogic>(id, typeof(CountryLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/Country
         [HttpPost]
-        public IActionResult Post([FromBody]CountryLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]CountryLogic l)
         {
-            return doPost<CountryLogic>(l);
+            return await DoPostAsync<CountryLogic>(l);
         }
         //------------------------------------------------------------------------------------
         // DELETE api/v1/Country/A0000001
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
-            return doDelete(id, typeof(CountryLogic));
+            return await DoDeleteAsync(id, typeof(CountryLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/Country/validateduplicate
         [HttpPost("validateduplicate")]
-        public IActionResult ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
-            return doValidateDuplicate(request);
+            return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------
     }

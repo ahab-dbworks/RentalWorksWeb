@@ -1057,6 +1057,8 @@
     <Content Include="Source\Modules\Settings\DealType\DealTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\Country\CountryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Country\CountryForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatusForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleBrowse.htm" />
@@ -1071,6 +1073,8 @@
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\State\StateBrowse.htm" />
+    <Content Include="Source\Modules\Settings\State\StateForm.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerType\CustomerTypeBrowse.htm" />
@@ -1261,9 +1265,11 @@
     <Compile Include="Source\Modules\Settings\OfficeLocation\OfficeLocationMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Country\CountryMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealClassification\DealClassificationMenu.cs" />
+    <Compile Include="Source\Modules\Settings\State\StateMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
@@ -1350,9 +1356,11 @@
     <TypeScriptCompile Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Country\Country.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealClassification\DealClassification.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
