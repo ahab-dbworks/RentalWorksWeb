@@ -112,7 +112,7 @@ namespace RentalWorksWeb
             AddModule("Transfer Out",        "{E007E8AB-897E-4422-90CA-F6E545BFA425}", lv1menuHome.Id, "", "transferout",                     iconbaseurl + "transferout.png",          "",                 "",              "USER");
             AddModule("Transfer In",         "{57340E4F-D5CA-4EBF-A25D-6A1FE265A986}", lv1menuHome.Id, "", "order/transferin",                iconbaseurl + "transferin.png",           "",                 "",              "USER");
             AddModule("Repair",              "{B93B03F3-F281-4A4E-81C5-5F6A3CA6B7B5}", lv1menuHome.Id, "", "inventory/repairmenu",            iconbaseurl + "repair.png",               "",                 "",              "USER");
-            AddModule("Asset Disposition",    "{1573C03C-5ADA-407C-8B7E-D2158920D1CC}", lv1menuHome.Id, "", "inventory/assetdisposition",      iconbaseurl + "assetdisposition.001.png", "",                 "production",    "USER");
+            AddModule("Asset Disposition",   "{1573C03C-5ADA-407C-8B7E-D2158920D1CC}", lv1menuHome.Id, "", "inventory/assetdisposition",      iconbaseurl + "assetdisposition.001.png", "",                 "production",    "USER");
             AddModule("Package Truck",       "{2F83A5EC-5423-4520-9B3D-8845C7D5F1B6}", lv1menuHome.Id, "", "order/packagetruck",              iconbaseurl + "package-truck.001.png",    "",                 "packagetruck",  "USER");
             AddModule("QuikPick",            "{1C95FD02-4D0E-4C29-91B7-1166D7690831}", lv1menuHome.Id, "", "quote/quotemenu",                 iconbaseurl + "quikpick.png",             "",                 "",              "USER");
             AddModule("Time Log",            "{0B2BB33B-C463-45C4-9131-05A78CD217F4}", lv1menuHome.Id, "", "timelog",                         iconbaseurl + "timelog.png",              "",                 "crew",          "USER,CREW");
@@ -120,7 +120,7 @@ namespace RentalWorksWeb
             AddModule("Inventory Web Image", "{9E49037B-331B-47AC-88C9-C4DE5EABD4DD}", lv1menuHome.Id, "", "inventory/inventorywebimage",     iconbaseurl + "webimage.png",             "",                 "",              "USER");
             AddModule("Physical Inventory",  "{36A96F73-AAF1-465B-9A60-34F1160AEDAD}", lv1menuHome.Id, "", "utilities/physicalinventory",     iconbaseurl + "physicalinv.png",          "",                 "",              "USER");
             AddModule("Move To Aisle/Shelf", "{80B6DE16-DE6E-4D49-869F-DA14BCE3422E}", lv1menuHome.Id, "", "inventory/movebclocation",        iconbaseurl + "moveto.png",               "",                 "",              "USER");
-            AddModule("Assign Items",        "{0383B8A9-EB64-4C8A-B6F2-9E3528C093DB}", lv1menuHome.Id, "", "assignitems",                     iconbaseurl + "assignitems.001.png",      "",                 "rfid",          "USER");
+            AddModule("Assign Items",        "{0383B8A9-EB64-4C8A-B6F2-9E3528C093DB}", lv1menuHome.Id, "", "assignitems",                     iconbaseurl + "assignitems.001.png",      "",                 "",              "USER");
             AddModule("Barcode Label",       "{05B4FAF1-9329-43E9-9697-BE461E41D85F}", lv1menuHome.Id, "", "barcodelabel",                    iconbaseurl + "barcodelabel.001.png",     "",                 "",              "USER");
         }
         //---------------------------------------------------------------------------------------------

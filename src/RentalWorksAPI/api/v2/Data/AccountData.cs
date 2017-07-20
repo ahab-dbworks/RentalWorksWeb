@@ -62,6 +62,7 @@ namespace RentalWorksAPI.api.v2.Data
             response.fullname                = qryresult.fullname;
             response.firstname               = qryresult.firstname;
             response.lastname                = qryresult.lastname;
+            response.loginname               = qryresult.loginname;
             response.groupsid                = qryresult.groupsid;
             response.group                   = qryresult.groups;
             response.email                   = qryresult.email;

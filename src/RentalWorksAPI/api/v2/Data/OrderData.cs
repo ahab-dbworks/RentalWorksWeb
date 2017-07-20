@@ -22,8 +22,10 @@ namespace RentalWorksAPI.api.v2.Data
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select top 1 *");
             qry.Add("  from apirest_csrdeal");
-            qry.Add(" where csrid = @csrid");
-            qry.AddParameter("@csrid", csrid);
+            qry.Add(" where csrid      = @csrid");
+            qry.Add("   and locationid = @locationid");
+            qry.AddParameter("@csrid",    csrid);
+            qry.AddParameter("@location", locationid);
 
             qryresult = qry.QueryToDynamicObject2();
 
@@ -147,7 +149,7 @@ namespace RentalWorksAPI.api.v2.Data
                 order.orderedbycontact = qryresult[i].orderedbycontact;
                 order.createdbyuserid  = qryresult[i].createdbyusersid;
                 order.createdby        = qryresult[i].createdby;
-                //order.createddate      = qryresult[i].createddate;
+                order.createddate      = qryresult[i].createddate;
                 order.lastmodifieddate = qryresult[i].lastmodifieddate;
                 order.status           = qryresult[i].status;
                 order.pono             = qryresult[i].pono;

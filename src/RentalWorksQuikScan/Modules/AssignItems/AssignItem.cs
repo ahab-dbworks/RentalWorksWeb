@@ -53,7 +53,21 @@ namespace RentalWorksQuikScan.Modules
                         break;
                 }
             }
-            select.Add("order by master");
+            switch ((string)request.searchmode)
+            {
+                case "ICODE":
+                    select.Add("order by masterno");
+                    break;
+                case "DESCRIPTION":
+                    select.Add("order by master");
+                    break;
+                case "TRACKEDBY":
+                    select.Add("order by masterno");
+                    break;
+                case "PONO":
+                    select.Add("order by orderno, masterno");
+                    break;
+            }
             select.AddParameter("@warehouseid", userLocation.warehouseId);
 
             response.searchresults = qry.QueryToFwJsonTable(select, true);
