@@ -29,7 +29,7 @@ namespace RentalWorksWeb.Source.Modules
             // Form
             var nodeForm = tree.AddForm("{1F478C2C-C6F7-43E6-B84D-CD2C23C70263}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{C9B42BFF-DAA8-4359-96BB-AAC8FE4CDD08}", nodeForm.Id);
-            var nodeFormSubMenu = tree.AddSubMenu("{EFCAF0F5-4688-43A8-9701-33163C6FE270}", nodeFormMenuBar.Id);
+            // var nodeFormSubMenu = tree.AddSubMenu("{EFCAF0F5-4688-43A8-9701-33163C6FE270}", nodeFormMenuBar.Id);
             tree.AddSaveMenuBarButton("{9919AF08-6252-4898-B186-D32CE8BDB985}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
