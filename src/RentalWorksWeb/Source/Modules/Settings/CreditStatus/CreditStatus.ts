@@ -21,7 +21,7 @@ class CreditStatus {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Customer Category', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Credit Status', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

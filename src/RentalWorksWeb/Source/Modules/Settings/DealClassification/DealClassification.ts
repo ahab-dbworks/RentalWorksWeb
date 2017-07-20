@@ -21,7 +21,7 @@ class DealClassification {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'DealClassification', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Deal Classification', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
