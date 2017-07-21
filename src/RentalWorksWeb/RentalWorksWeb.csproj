@@ -1049,6 +1049,8 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Settings\DealStatus\DealStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DealStatus\DealStatusForm.htm" />
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationBrowse.htm" />
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsBrowse.htm" />
@@ -1067,6 +1069,8 @@
     <Content Include="Source\Modules\Settings\DealClassification\DealClassificationForm.htm" />
     <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\Department\DepartmentBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Department\DepartmentForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusBrowse.htm" />
@@ -1259,6 +1263,7 @@
     <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
@@ -1276,6 +1281,7 @@
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
     <Compile Include="Source\Modules\Settings\ProductionType\ProductionTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Department\DepartmentMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
@@ -1350,6 +1356,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DealStatus\DealStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
@@ -1361,10 +1368,12 @@
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealClassification\DealClassification.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProductionType\ProductionType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Department\Department.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>

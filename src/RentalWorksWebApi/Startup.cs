@@ -49,7 +49,10 @@ namespace RentalWorksWebApi
                 cfg.CreateMap<ProductionTypeLogic, ProductionTypeRecord>();
                 cfg.CreateMap<DealClassificationLogic, DealClassificationRecord>();
                 cfg.CreateMap<CountryLogic, CountryRecord>();
+                cfg.CreateMap<DepartmentLogic, DepartmentRecord>();
                 cfg.CreateMap<StateLogic, StateRecord>();
+                cfg.CreateMap<DealStatusLogic, DealStatusRecord>();
+
             });
         }
 
