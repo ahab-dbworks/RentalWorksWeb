@@ -8,9 +8,11 @@ namespace RentalWorksWebLogic.Settings
     {
         //------------------------------------------------------------------------------------
         CustomerStatusRecord customerStatus = new CustomerStatusRecord();
+        CustomerStatusLoader customerStatusLoader = new CustomerStatusLoader();
         public CustomerStatusLogic()
         {
             dataRecords.Add(customerStatus);
+            dataLoader = customerStatusLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -19,7 +21,8 @@ namespace RentalWorksWebLogic.Settings
         public string CustomerStatus { get { return customerStatus.CustomerStatus; } set { customerStatus.CustomerStatus = value; } }
         public string StatusType { get { return customerStatus.StatusType; } set { customerStatus.StatusType = value; } }
         public string CreditStatusId { get { return customerStatus.CreditStatusId; } set { customerStatus.CreditStatusId = value; } }
-        public string CreditStatus { get { return customerStatus.CreditStatus; } set { customerStatus.CreditStatus = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CreditStatus { get; set; }
         public string Inactive { get { return customerStatus.Inactive; } set { customerStatus.Inactive = value; } }
         public DateTime? DateStamp { get { return customerStatus.DateStamp; } set { customerStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------

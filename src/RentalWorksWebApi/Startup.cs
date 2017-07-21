@@ -31,7 +31,9 @@ namespace RentalWorksWebApi
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile<FwSqlMapperProfile>();
-                cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
+                //cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
+                cfg.CreateMap<CustomerStatusLogic, CustomerStatusLoader>();
+                cfg.CreateMap<CustomerStatusLoader, CustomerStatusLogic>();
                 cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
                 cfg.CreateMap<OrderLogic, OrderLoader>();
                 cfg.CreateMap<OrderLoader, OrderLogic>();
