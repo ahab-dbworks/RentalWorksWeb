@@ -6,78 +6,53 @@ using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
-    public class FwCustomField {
-        public string moduleName;
-        public string fieldName;
-        public string customTableName;
-        public string customFieldName;
-    }
 
-    public class FwCustomValue
-    {
-        public string FieldName;
-        public string FieldValue;
-        public FwCustomValue(string fieldName, string fieldValue)
-        {
-            this.FieldName = fieldName;
-            this.FieldValue = fieldValue;
-        }
-    }
-
-    public class FwCustomData 
+    public class FwCustomValues : List<FwCustomValue>
     {
         protected DatabaseConfig _dbConfig { get; set; }
-        protected string _moduleName { get; set; }
-        protected string[] _primaryKeyValues{ get; set; }
-        public List<FwCustomValue> customValues = new List<FwCustomValue>();
+        public FwCustomFields CustomFields = new FwCustomFields();
+
         //------------------------------------------------------------------------------------
-        public FwCustomData(string moduleName, string[] primaryKeyValues) 
-        {
-            this._moduleName = moduleName;
-            this._primaryKeyValues = primaryKeyValues;
-        }
+        public FwCustomValues() { }
         //------------------------------------------------------------------------------------
         public virtual void SetDbConfig(DatabaseConfig dbConfig)
         {
             _dbConfig = dbConfig;
+            CustomFields.SetDbConfig(dbConfig);
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync()
+        public virtual void LoadCustomFields(string moduleName)
+        {
+            CustomFields.Load(moduleName);
+        }
+        //------------------------------------------------------------------------------------
+        public virtual async Task<bool> LoadAsync(string[] primaryKeyValues)
         {
             bool loaded = false;
-            if (_primaryKeyValues.Length > 0)
+            Clear();
+            if (primaryKeyValues.Length > 0)
             {
-                List<FwCustomField> customFields = null;
-
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    qry.Add("select * from customfield where modulename = @modulename");
-                    qry.AddParameter("@modulename", _moduleName);
-                    customFields = (List<FwCustomField>) await qry.SelectAsync<FwCustomField>(true, 1, 10);
-                }
-
-                if (customFields.Count > 0)
+                if (CustomFields.Count > 0)
                 {
                     using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                     {
                         FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                         qry.Add("select ");
                         int colNo = 0;
-                        foreach (FwCustomField field in customFields)
+                        foreach (FwCustomField field in CustomFields)
                         {
                             if (colNo > 0)
                             {
                                 qry.Add(",");
                             }
-                            qry.Add("[" + field.fieldName + "] = " + field.customTableName + "." + field.customFieldName);
-                            qry.AddColumn(field.fieldName);
+                            qry.Add("[" + field.FieldName + "] = " + field.CustomTableName + "." + field.CustomFieldName);
+                            qry.AddColumn(field.FieldName);
                             colNo++;
                         }
                         qry.Add("from customvaluesstring ");// + field.customTableName);  (should not be hard-coded)
 
                         int k = 1;
-                        for (k = 1; k<=3; k++)
+                        for (k = 1; k <= 3; k++)
                         {
                             if (k == 1)
                             {
@@ -92,7 +67,7 @@ namespace FwStandard.DataLayer
                         }
 
                         k = 1;
-                        foreach (string key in _primaryKeyValues)
+                        foreach (string key in primaryKeyValues)
                         {
                             qry.AddParameter("@keyvalue" + k.ToString(), key);
                             k++;
@@ -104,15 +79,16 @@ namespace FwStandard.DataLayer
                         }
 
                         FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
-                        colNo = 0; 
-                        foreach (FwJsonDataTableColumn column in table.Columns) {
+                        colNo = 0;
+                        foreach (FwJsonDataTableColumn column in table.Columns)
+                        {
                             if (table.Rows.Count > 0)
                             {
-                                customValues.Add(new FwCustomValue(column.DataField, table.Rows[0][colNo].ToString()));
+                                Add(new FwCustomValue(column.DataField, table.Rows[0][colNo].ToString()));
                             }
                             else
                             {
-                                customValues.Add(new FwCustomValue(column.DataField, ""));
+                                Add(new FwCustomValue(column.DataField, ""));
                             }
                             colNo++;
                         }
@@ -126,14 +102,13 @@ namespace FwStandard.DataLayer
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> SaveAsync()
+        public virtual async Task<bool> SaveAsync(string[] primaryKeyValues)
         {
-            bool loaded = false;
-            if (_primaryKeyValues.Length > 0)
-            {
-                List<FwCustomField> customFields = null;
 
-                //jh EXTREMELY NON-OPTIMIZED.  need to change
+            bool saved = false;
+            if (primaryKeyValues.Length > 0)
+            {
+                //jh EXTREMELY NON-OPTIMIZED.  need to change to a single stored procedure where all custom vaules are passed back
 
                 using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                 {
@@ -157,7 +132,7 @@ namespace FwStandard.DataLayer
                     }
 
                     k = 1;
-                    foreach (string key in _primaryKeyValues)
+                    foreach (string key in primaryKeyValues)
                     {
                         qry.AddParameter("@keyvalue" + k.ToString(), key);
                         k++;
@@ -170,15 +145,7 @@ namespace FwStandard.DataLayer
                     await qry.ExecuteNonQueryAsync();
                 }
 
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    qry.Add("select * from customfield where modulename = @modulename");
-                    qry.AddParameter("@modulename", _moduleName);
-                    customFields = (List<FwCustomField>) await qry.SelectAsync<FwCustomField>(true, 1, 10);
-                }
-
-                if (customFields.Count > 0)
+                if (CustomFields.Count > 0)
                 {
                     using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                     {
@@ -192,10 +159,10 @@ namespace FwStandard.DataLayer
                         }
 
                         int colNo = 1;
-                        foreach (FwCustomField field in customFields)
+                        foreach (FwCustomField field in CustomFields)
                         {
-                            qry.Add(field.customFieldName);
-                            if (colNo < customFields.Count)
+                            qry.Add(field.CustomFieldName);
+                            if (colNo < CustomFields.Count)
                             {
                                 qry.Add(",");
                             }
@@ -211,10 +178,10 @@ namespace FwStandard.DataLayer
                         }
 
                         colNo = 1;
-                        foreach (FwCustomField field in customFields)
+                        foreach (FwCustomField field in CustomFields)
                         {
                             qry.Add("@value" + colNo.ToString().PadLeft(2, '0'));
-                            if (colNo < customFields.Count)
+                            if (colNo < CustomFields.Count)
                             {
                                 qry.Add(",");
                             }
@@ -224,7 +191,7 @@ namespace FwStandard.DataLayer
                         qry.Add(") ");
 
                         k = 1;
-                        foreach (string key in _primaryKeyValues)
+                        foreach (string key in primaryKeyValues)
                         {
                             qry.AddParameter("@keyvalue" + k.ToString().PadLeft(2, '0'), key);
                             k++;
@@ -237,12 +204,12 @@ namespace FwStandard.DataLayer
 
 
                         colNo = 1;
-                        foreach (FwCustomField field in customFields)
+                        foreach (FwCustomField field in CustomFields)
                         {
                             string value = "";
-                            foreach (FwCustomValue customValue in customValues)
+                            foreach (FwCustomValue customValue in this)
                             {
-                                if (customValue.FieldName.Equals(field.fieldName))
+                                if (customValue.FieldName.Equals(field.FieldName))
                                 {
                                     value = customValue.FieldValue;
                                 }
@@ -260,7 +227,7 @@ namespace FwStandard.DataLayer
             {
                 throw new Exception("Primary Key values are missing on " + GetType().ToString() + ".Save");
             }
-            return loaded;
+            return saved;
         }
         //------------------------------------------------------------------------------------
     }
