@@ -1795,6 +1795,26 @@ namespace FwStandard.SqlServer
             return results;
         }
         //------------------------------------------------------------------------------------
+
+        public IEnumerable<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)  //jh 07/21/2017 I need to call this synchronously.  Is there another way?
+        {
+            IEnumerable<T> results = null;
+            this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
+            this.AddParameter("@fetchsize", pageSize);
+            if (openAndCloseConnection)
+            {
+                this.sqlCommand.Connection.Open();
+            }
+            // Uses Dapper to perform the conversion from query to object list
+            var parameters = new DynamicParameters();
+            foreach (SqlParameter p in this.Parameters)
+            {
+                parameters.Add(p.ParameterName, p.Value);
+            }
+            results = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
+            return results;
+        }
+        //------------------------------------------------------------------------------------
         public async Task<T> SelectOneAsync<T>(bool openAndCloseConnection)
         {
             IEnumerable<T> records = null;
