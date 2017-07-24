@@ -63,3 +63,6 @@ div[data-controller="GroupController"] .grouptree li[data-haschildren="F"] {list
 div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .childrencontainer {display:none;}
 div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"] > .content > .iconvisible {display:none;}
 div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"] > .content > .iconeditable {display:none;}
+
+/* need to override the framework values here to make things responsive */
+.formpage {min-width:0;display:block;} 
