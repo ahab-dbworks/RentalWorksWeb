@@ -18,13 +18,13 @@ namespace RentalWorksWebDataLayer.Settings
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "orderdate", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? OrderDate { get; set; }
+        public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "dealid", dataType: FwDataTypes.Text, length: 8)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

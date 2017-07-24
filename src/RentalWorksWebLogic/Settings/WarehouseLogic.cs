@@ -17,8 +17,8 @@ namespace RentalWorksWebLogic.Settings
         public string WarehouseId { get { return warehouse.WarehouseId; } set { warehouse.WarehouseId = value; } }
         public string Warehouse { get { return warehouse.Warehouse; } set { warehouse.Warehouse = value; } }
         public string WarehouseCode { get { return warehouse.WarehouseCode; } set { warehouse.WarehouseCode = value; } }
-        public string Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }
-        public DateTime? DateStamp { get { return warehouse.DateStamp; } set { warehouse.DateStamp = value; } }
+        public bool Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }
+        public string DateStamp { get { return warehouse.DateStamp; } set { warehouse.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

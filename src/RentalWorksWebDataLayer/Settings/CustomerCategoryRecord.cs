@@ -18,10 +18,10 @@ namespace RentalWorksWebDataLayer.Settings
         public string CustomerCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Text)]
-        public string Inactive { get; set; }
+        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        public bool Inactive { get; set; }
 
     }
 }

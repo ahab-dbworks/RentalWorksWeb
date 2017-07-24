@@ -20,8 +20,8 @@ namespace RentalWorksWebLogic.Settings
         public decimal DefaultRentalDiscountPercent { get { return customerType.DefaultRentalDiscountPercent; } set { customerType.DefaultRentalDiscountPercent = value; } }
         public decimal DefaultSalesDiscountPercent { get { return customerType.DefaultSalesDiscountPercent; } set { customerType.DefaultSalesDiscountPercent = value; } }
         public decimal DefaultFacilitiesDiscountPercent { get { return customerType.DefaultFacilitiesDiscountPercent; } set { customerType.DefaultFacilitiesDiscountPercent = value; } }
-        public string Inactive { get { return customerType.Inactive; } set { customerType.Inactive = value; } }
-        public DateTime? DateStamp { get { return customerType.DateStamp; } set { customerType.DateStamp = value; } }
+        public bool Inactive { get { return customerType.Inactive; } set { customerType.Inactive = value; } }
+        public string DateStamp { get { return customerType.DateStamp; } set { customerType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

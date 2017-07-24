@@ -30,30 +30,32 @@ namespace RentalWorksWebApi
 
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfile<FwSqlMapperProfile>();
-                //cfg.CreateMap<CustomerStatusLogic, CustomerStatusRecord>();
-                cfg.CreateMap<CustomerStatusLogic, CustomerStatusLoader>();
-                cfg.CreateMap<CustomerStatusLoader, CustomerStatusLogic>();
-                cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
-                cfg.CreateMap<OrderLogic, OrderLoader>();
-                cfg.CreateMap<OrderLoader, OrderLogic>();
-                cfg.CreateMap<VendorClassLogic, VendorClassRecord>();
-                cfg.CreateMap<CustomerTypeLogic, CustomerTypeRecord>();
-                cfg.CreateMap<CreditStatusLogic, CreditStatusRecord>();
-                cfg.CreateMap<WarehouseLogic, WarehouseRecord>();
-                cfg.CreateMap<BillingCycleLoader, BillingCycleLogic>();
-                cfg.CreateMap<BillingCycleLogic, BillingCycleLoader>();
-                cfg.CreateMap<PaymentTypeLogic, PaymentTypeRecord>();
-                cfg.CreateMap<CustomerCategoryLogic, CustomerCategoryRecord>();
-                cfg.CreateMap<DealTypeLogic, DealTypeRecord>();
-                cfg.CreateMap<PaymentTermsLogic, PaymentTermsRecord>();
-                cfg.CreateMap<OfficeLocationLogic, OfficeLocationRecord>();
-                cfg.CreateMap<ProductionTypeLogic, ProductionTypeRecord>();
-                cfg.CreateMap<DealClassificationLogic, DealClassificationRecord>();
-                cfg.CreateMap<CountryLogic, CountryRecord>();
-                cfg.CreateMap<DepartmentLogic, DepartmentRecord>();
-                cfg.CreateMap<StateLogic, StateRecord>();
-                cfg.CreateMap<DealStatusLogic, DealStatusRecord>();
+                cfg.CreateMissingTypeMaps = true;
+                //cfg.AddProfile<FwSqlMapperProfile>();
+                //cfg.CreateMap<CustomerStatusLoader, CustomerStatusLoader>();
+                //cfg.CreateMap<CustomerStatusLogic, CustomerStatusLoader>();
+                //cfg.CreateMap<CustomerStatusLoader, CustomerStatusLogic>();
+                //cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
+                //cfg.CreateMap<OrderLogic, OrderLoader>();
+                //cfg.CreateMap<OrderLoader, OrderLogic>();
+                //cfg.CreateMap<VendorClassLogic, VendorClassRecord>();
+                //cfg.CreateMap<CustomerTypeLogic, CustomerTypeRecord>();
+                //cfg.CreateMap<CustomerTypeRecord, CustomerTypeRecord>();
+                //cfg.CreateMap<CreditStatusLogic, CreditStatusRecord>();
+                //cfg.CreateMap<WarehouseLogic, WarehouseRecord>();
+                //cfg.CreateMap<BillingCycleLoader, BillingCycleLogic>();
+                //cfg.CreateMap<BillingCycleLogic, BillingCycleLoader>();
+                //cfg.CreateMap<PaymentTypeLogic, PaymentTypeRecord>();
+                //cfg.CreateMap<CustomerCategoryLogic, CustomerCategoryRecord>();
+                //cfg.CreateMap<DealTypeLogic, DealTypeRecord>();
+                //cfg.CreateMap<PaymentTermsLogic, PaymentTermsRecord>();
+                //cfg.CreateMap<OfficeLocationLogic, OfficeLocationRecord>();
+                //cfg.CreateMap<ProductionTypeLogic, ProductionTypeRecord>();
+                //cfg.CreateMap<DealClassificationLogic, DealClassificationRecord>();
+                //cfg.CreateMap<CountryLogic, CountryRecord>();
+                //cfg.CreateMap<DepartmentLogic, DepartmentRecord>();
+                //cfg.CreateMap<StateLogic, StateRecord>();
+                //cfg.CreateMap<DealStatusLogic, DealStatusRecord>();
 
             });
         }

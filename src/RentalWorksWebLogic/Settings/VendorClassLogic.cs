@@ -16,8 +16,8 @@ namespace RentalWorksWebLogic.Settings
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string VendorClassId { get { return vendorClass.VendorClassId; } set { vendorClass.VendorClassId = value; } }
         public string VendorClass { get { return vendorClass.VendorClass; } set { vendorClass.VendorClass = value; } }
-        public string Inactive { get { return vendorClass.Inactive; } set { vendorClass.Inactive = value; } }
-        public DateTime? DateStamp { get { return vendorClass.DateStamp; } set { vendorClass.DateStamp = value; } }
+        public bool Inactive { get { return vendorClass.Inactive; } set { vendorClass.Inactive = value; } }
+        public string DateStamp { get { return vendorClass.DateStamp; } set { vendorClass.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

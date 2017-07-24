@@ -17,8 +17,8 @@ namespace RentalWorksWebLogic.Settings
         public string DealClassificationId { get { return dealClassification.DealClassificationId; } set { dealClassification.DealClassificationId = value; } }
         [FwBusinessLogicField(isTitle: true)]
         public string DealClassification { get { return dealClassification.DealClassification; } set { dealClassification.DealClassification = value; } }
-        public string Inactive { get { return dealClassification.Inactive; } set { dealClassification.Inactive = value; } }
-        public DateTime? DateStamp { get { return dealClassification.DateStamp; } set { dealClassification.DateStamp = value; } }
+        public bool Inactive { get { return dealClassification.Inactive; } set { dealClassification.Inactive = value; } }
+        public string DateStamp { get { return dealClassification.DateStamp; } set { dealClassification.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

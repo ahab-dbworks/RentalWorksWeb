@@ -15,13 +15,13 @@ namespace RentalWorksWebDataLayer.Settings
         public string CreditStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "orderallow", dataType: FwDataTypes.Boolean)]
-        public string CreateContractAllowed { get; set; }
+        public bool CreateContractAllowed { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
-        public string Inactive { get; set; }
+        public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

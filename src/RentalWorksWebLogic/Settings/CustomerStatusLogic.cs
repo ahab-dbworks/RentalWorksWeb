@@ -23,8 +23,8 @@ namespace RentalWorksWebLogic.Settings
         public string CreditStatusId { get { return customerStatus.CreditStatusId; } set { customerStatus.CreditStatusId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CreditStatus { get; set; }
-        public string Inactive { get { return customerStatus.Inactive; } set { customerStatus.Inactive = value; } }
-        public DateTime? DateStamp { get { return customerStatus.DateStamp; } set { customerStatus.DateStamp = value; } }
+        public bool Inactive { get { return customerStatus.Inactive; } set { customerStatus.Inactive = value; } }
+        public string DateStamp { get { return customerStatus.DateStamp; } set { customerStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

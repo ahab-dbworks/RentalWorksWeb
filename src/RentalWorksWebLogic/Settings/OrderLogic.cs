@@ -26,7 +26,7 @@ namespace RentalWorksWebLogic.Settings
         [FwBusinessLogicField(isTitle: true)]
         public string OrderDescription { get { return dealOrder.OrderDescription; } set { dealOrder.OrderDescription = value; } }
         //------------------------------------------------------------------------------------
-        public DateTime? OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
+        public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public string CustomerId { get; set; }
@@ -43,7 +43,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }
         //------------------------------------------------------------------------------------
-        public DateTime? DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
+        public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 }

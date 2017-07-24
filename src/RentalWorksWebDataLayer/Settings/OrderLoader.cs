@@ -18,7 +18,7 @@ namespace RentalWorksWebDataLayer.Settings
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "orderdate", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? OrderDate { get; set; }
+        public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "customerid", dataType: FwDataTypes.Text)]
         public string CustomerId { get; set; }
@@ -39,7 +39,7 @@ namespace RentalWorksWebDataLayer.Settings
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

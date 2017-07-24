@@ -17,13 +17,8 @@ namespace RentalWorksWebDataLayer.Settings
         [FwSqlDataField(columnName: "statecode", dataType: FwDataTypes.Text, length: 1)]
         public string StateCode { get; set; }
         //------------------------------------------------------------------------------------
-        
-        //------------------------------------------------------------------------------------
-        //[FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
-        //public string Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

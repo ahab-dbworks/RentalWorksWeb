@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using RentalWorksWebApi.api.v1.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -36,7 +37,11 @@ namespace RentalWorksWebApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
         //------------------------------------------------------------------------------------
@@ -58,7 +63,11 @@ namespace RentalWorksWebApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
         //------------------------------------------------------------------------------------
@@ -84,7 +93,11 @@ namespace RentalWorksWebApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
         //------------------------------------------------------------------------------------
@@ -103,7 +116,11 @@ namespace RentalWorksWebApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
         //------------------------------------------------------------------------------------
@@ -120,7 +137,11 @@ namespace RentalWorksWebApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + Environment.NewLine + ex.StackTrace);
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
         //------------------------------------------------------------------------------------

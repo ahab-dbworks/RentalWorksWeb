@@ -18,11 +18,11 @@ namespace RentalWorksWebLogic.Settings
         [FwBusinessLogicField(isTitle: true)]
         public string PaymentTerms { get { return paymentTerms.PaymentTerms; } set { paymentTerms.PaymentTerms = value; } }
         public string InvoiceMessage { get { return paymentTerms.InvoiceMessage; } set { paymentTerms.InvoiceMessage = value; } }
-        public Int16 DueInDays { get { return paymentTerms.DueInDays; } set { paymentTerms.DueInDays = value; } }
-        public string COD { get { return paymentTerms.COD; } set { paymentTerms.COD = value; } }
+        public int DueInDays { get { return paymentTerms.DueInDays; } set { paymentTerms.DueInDays = value; } }
+        public bool COD { get { return paymentTerms.COD; } set { paymentTerms.COD = value; } }
         public string PaymentTermsCode { get { return paymentTerms.PaymentTermsCode; } set { paymentTerms.PaymentTermsCode = value; } }
-        public string Inactive { get { return paymentTerms.Inactive; } set { paymentTerms.Inactive = value; } }
-        public DateTime? DateStamp { get { return paymentTerms.DateStamp; } set { paymentTerms.DateStamp = value; } }
+        public bool Inactive { get { return paymentTerms.Inactive; } set { paymentTerms.Inactive = value; } }
+        public string DateStamp { get { return paymentTerms.DateStamp; } set { paymentTerms.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

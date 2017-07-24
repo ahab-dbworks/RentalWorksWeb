@@ -33,10 +33,10 @@ namespace RentalWorksWebDataLayer.Settings
         public string TheatricalAutoCheckout { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
-        public string Inactive { get; set; }
+        public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

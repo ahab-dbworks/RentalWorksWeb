@@ -18,8 +18,8 @@ namespace RentalWorksWebLogic.Settings
         [FwBusinessLogicField(isTitle: true)]
         public string ProductionType { get { return productionType.ProductionType; } set { productionType.ProductionType = value; } }
         public string ProductionTypeCode { get { return productionType.ProductionTypeCode; } set { productionType.ProductionTypeCode = value; } }
-        public string Inactive { get { return productionType.Inactive; } set { productionType.Inactive = value; } }
-        public DateTime? DateStamp { get { return productionType.DateStamp; } set { productionType.DateStamp = value; } }
+        public bool Inactive { get { return productionType.Inactive; } set { productionType.Inactive = value; } }
+        public string DateStamp { get { return productionType.DateStamp; } set { productionType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

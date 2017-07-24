@@ -20,7 +20,7 @@ namespace RentalWorksWebLogic.Settings
         public string StateCode { get { return state.StateCode; } set { state.StateCode = value; } }
 
         //public string Inactive { get { return state.Inactive; } set { state.Inactive = value; } }
-        public DateTime? DateStamp { get { return state.DateStamp; } set { state.DateStamp = value; } }
+        public string DateStamp { get { return state.DateStamp; } set { state.DateStamp = value; } }
         //------------------------------------------------------------------------------------
 
 

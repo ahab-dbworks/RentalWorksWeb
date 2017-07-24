@@ -18,19 +18,19 @@ namespace RentalWorksWebDataLayer.Settings
         public string InvoiceMessage { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "days", dataType: FwDataTypes.Integer)]
-        public Int16 DueInDays { get; set; }
+        public int DueInDays { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "cod", dataType: FwDataTypes.Boolean)]
-        public string COD { get; set; }
+        public bool COD { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "paytermscode", dataType: FwDataTypes.Text, length: 10)]
         public string PaymentTermsCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
-        public string Inactive { get; set; }
+        public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

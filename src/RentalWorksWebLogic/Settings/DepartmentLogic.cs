@@ -18,8 +18,8 @@ namespace RentalWorksWebLogic.Settings
         public string Department { get { return department.Department; } set { department.Department = value; } }
         public string DepartmentCode { get { return department.DepartmentCode; } set { department.DepartmentCode = value; } }
         public string DivisionCode { get { return department.DivisionCode; } set { department.DivisionCode = value; } }
-        public string Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
-        public DateTime? DateStamp { get { return department.DateStamp; } set { department.DateStamp = value; } }
+        public bool Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
+        public string DateStamp { get { return department.DateStamp; } set { department.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

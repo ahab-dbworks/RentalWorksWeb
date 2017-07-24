@@ -15,8 +15,8 @@ namespace RentalWorksWebDataLayer.Settings
         [FwSqlDataField(columnName: "location", dataType: FwDataTypes.Text, length: 30)]
         public string Location { get; set; } = "";
         //------------------------------------------------------------------------------------        
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Text)]
-        public string Inactive { get; set; }
+        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        public bool Inactive { get; set; }
 
     }
 }

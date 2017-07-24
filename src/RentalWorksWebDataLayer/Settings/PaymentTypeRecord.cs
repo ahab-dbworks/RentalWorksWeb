@@ -21,13 +21,13 @@ namespace RentalWorksWebDataLayer.Settings
         public string PaymentTypeType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "accttran", dataType: FwDataTypes.Boolean)]
-        public string AccountingTransaction { get; set; }
+        public bool AccountingTransaction { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
-        public string Inactive { get; set; }
+        public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
-        public DateTime? DateStamp { get; set; }
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

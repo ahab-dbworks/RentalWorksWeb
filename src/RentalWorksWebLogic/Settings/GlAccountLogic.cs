@@ -19,8 +19,8 @@ namespace RentalWorksWebLogic.Settings
         public string GlAccountNo { get { return glAccount.GlAccountNo; } set { glAccount.GlAccountNo = value; } }
         public string GlAccountDescription { get { return glAccount.GlAccountDescription; } set { glAccount.GlAccountDescription = value; } }
         public string GlAccountType { get { return glAccount.GlAccountType; } set { glAccount.GlAccountType = value; } }
-        public string Inactive { get { return glAccount.Inactive; } set { glAccount.Inactive = value; } }
-        public DateTime? DateStamp { get { return glAccount.DateStamp; } set { glAccount.DateStamp = value; } }
+        public bool Inactive { get { return glAccount.Inactive; } set { glAccount.Inactive = value; } }
+        public string DateStamp { get { return glAccount.DateStamp; } set { glAccount.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 }

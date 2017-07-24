@@ -22,8 +22,8 @@ namespace RentalWorksWebLogic.Settings
         public string GlPrefix { get { return dealType.GlPrefix; } set { dealType.GlPrefix = value; } }
         public string GlSuffix { get { return dealType.GlSuffix; } set { dealType.GlSuffix = value; } }
         public string TheatricalProduction { get { return dealType.TheatricalProduction; } set { dealType.TheatricalProduction = value; } }
-        public string Inactive { get { return dealType.Inactive; } set { dealType.Inactive = value; } }
-        public DateTime? DateStamp { get { return dealType.DateStamp; } set { dealType.DateStamp = value; } }
+        public bool Inactive { get { return dealType.Inactive; } set { dealType.Inactive = value; } }
+        public string DateStamp { get { return dealType.DateStamp; } set { dealType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

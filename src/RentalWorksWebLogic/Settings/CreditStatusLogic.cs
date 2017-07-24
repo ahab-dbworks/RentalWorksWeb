@@ -17,9 +17,9 @@ namespace RentalWorksWebLogic.Settings
         public string CreditStatusId { get { return creditStatus.CreditStatusId; } set { creditStatus.CreditStatusId = value; } }
         [FwBusinessLogicField(isTitle: true)]
         public string CreditStatus { get { return creditStatus.CreditStatus; } set { creditStatus.CreditStatus = value; } }
-        public string CreateContractAllowed { get { return creditStatus.CreateContractAllowed; } set { creditStatus.CreateContractAllowed = value; } }
-        public string Inactive { get { return creditStatus.Inactive; } set { creditStatus.Inactive = value; } }
-        public DateTime? DateStamp { get { return creditStatus.DateStamp; } set { creditStatus.DateStamp = value; } }
+        public bool CreateContractAllowed { get { return creditStatus.CreateContractAllowed; } set { creditStatus.CreateContractAllowed = value; } }
+        public bool Inactive { get { return creditStatus.Inactive; } set { creditStatus.Inactive = value; } }
+        public string DateStamp { get { return creditStatus.DateStamp; } set { creditStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

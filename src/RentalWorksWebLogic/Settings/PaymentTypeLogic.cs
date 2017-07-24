@@ -19,9 +19,9 @@ namespace RentalWorksWebLogic.Settings
         public string PaymentType { get { return paymentType.PaymentType; } set { paymentType.PaymentType = value; } }
         public string ShortName { get { return paymentType.ShortName; } set { paymentType.ShortName = value; } }
         public string PaymentTypeType { get { return paymentType.PaymentTypeType; } set { paymentType.PaymentTypeType = value; } }
-        public string AccountingTransaction { get { return paymentType.AccountingTransaction; } set { paymentType.AccountingTransaction = value; } }
-        public string Inactive { get { return paymentType.Inactive; } set { paymentType.Inactive = value; } }
-        public DateTime? DateStamp { get { return paymentType.DateStamp; } set { paymentType.DateStamp = value; } }
+        public bool AccountingTransaction { get { return paymentType.AccountingTransaction; } set { paymentType.AccountingTransaction = value; } }
+        public bool Inactive { get { return paymentType.Inactive; } set { paymentType.Inactive = value; } }
+        public string DateStamp { get { return paymentType.DateStamp; } set { paymentType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 
