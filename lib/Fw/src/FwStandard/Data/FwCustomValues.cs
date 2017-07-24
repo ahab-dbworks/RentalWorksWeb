@@ -21,9 +21,9 @@ namespace FwStandard.DataLayer
             CustomFields.SetDbConfig(dbConfig);
         }
         //------------------------------------------------------------------------------------
-        public virtual void LoadCustomFields(string moduleName)
+        public virtual async Task LoadCustomFieldsAsync(string moduleName)
         {
-            CustomFields.Load(moduleName);
+            await CustomFields.LoadAsync(moduleName);
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> LoadAsync(string[] primaryKeyValues)

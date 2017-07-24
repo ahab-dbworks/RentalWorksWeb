@@ -2,6 +2,8 @@
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 //using System.Threading.Tasks;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
@@ -16,8 +18,7 @@ namespace FwStandard.DataLayer
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        //protected virtual async void LoadAsync()
-        public virtual void Load(string moduleName)
+        public virtual async Task LoadAsync(string moduleName)
         {
             Clear();
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -25,8 +26,8 @@ namespace FwStandard.DataLayer
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add("select * from customfield where modulename = @modulename");
                 qry.AddParameter("@modulename", moduleName);
-                //this.AddRange((List<FwCustomField>)await qry.SelectAsync<FwCustomField>(true, 1, 10));
-                AddRange((List<FwCustomField>)qry.Select<FwCustomField>(true, 1, 10));
+                var customFields = (List<FwCustomField>)await qry.SelectAsync<FwCustomField>(true);
+                AddRange(customFields);
             }
         }
         //------------------------------------------------------------------------------------

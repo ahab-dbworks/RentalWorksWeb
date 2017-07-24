@@ -98,8 +98,8 @@ namespace Fw.MSBuildTasks
                         {
                             if (!this.Publish)
                             {
-                                BuildFwReferencesJsFile(solutionDir);
-                                BuildAppReferencesJsFile(config);
+                                //BuildFwReferencesJsFile(solutionDir);
+                                //BuildAppReferencesJsFile(config);
                             }
 
                             for (int targetfileno = 0; targetfileno < config.Targets[i].Files.Count; targetfileno++)

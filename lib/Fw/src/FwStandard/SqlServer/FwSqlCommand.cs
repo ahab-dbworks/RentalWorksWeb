@@ -1,6 +1,7 @@
-using Dapper;
+//using Dapper;
 using FwStandard.BusinessLogic;
 using FwStandard.ConfigSection;
+using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
@@ -1081,6 +1082,7 @@ namespace FwStandard.SqlServer
                                 }
                                 else
                                 {
+                                    data = FormatReaderData(dt.Columns[i].DataType, ordinal, reader);
                                     switch (dt.Columns[i].DataType)
                                     {
                                         case FwDataTypes.Text:
@@ -1278,6 +1280,189 @@ namespace FwStandard.SqlServer
 
             return dt;
         }
+
+        object FormatReaderData(FwDataTypes dataType, int columnIndex, SqlDataReader reader)
+        {
+            object data = string.Empty;
+            switch (dataType)
+            {
+                case FwDataTypes.Text:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetValue(columnIndex).ToString().Trim();
+                    }
+                    else
+                    {
+                        data = string.Empty;
+                    }
+                    break;
+                case FwDataTypes.Date:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = new FwDatabaseField(reader.GetDateTime(columnIndex)).ToShortDateString();
+                    }
+                    else
+                    {
+                        data = "";
+                    }
+                    break;
+                case FwDataTypes.Time:
+                    if (!reader.IsDBNull(columnIndex) && !string.IsNullOrWhiteSpace(reader.GetValue(columnIndex).ToString()))
+                    {
+                        data = FwConvert.ToShortTime12(reader.GetValue(columnIndex).ToString());
+                    }
+                    else
+                    {
+                        data = "";
+                    }
+                    break;
+                case FwDataTypes.DateTime:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = new FwDatabaseField(reader.GetDateTime(columnIndex)).ToShortDateTimeString();
+                    }
+                    else
+                    {
+                        data = "";
+                    }
+                    break;
+                case FwDataTypes.DateTimeOffset:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        //data = new FwDatabaseField(reader.GetDateTimeOffset(ordinal)).ToShortDateTimeString();
+                        data = (reader.GetDateTimeOffset(columnIndex)).LocalDateTime;
+                    }
+                    else
+                    {
+                        data = "";
+                    }
+                    break;
+                case FwDataTypes.Decimal:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = reader.GetDecimal(columnIndex);
+                    }
+                    else
+                    {
+                        data = 0.0m;
+                    }
+                    break;
+                case FwDataTypes.Boolean:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToBoolean(reader.GetString(columnIndex).TrimEnd());
+                    }
+                    else
+                    {
+                        data = false;
+                    }
+                    break;
+                case FwDataTypes.CurrencyString:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToCurrencyString(reader.GetDecimal(columnIndex));
+                    }
+                    else
+                    {
+                        data = FwConvert.ToCurrencyString(0.0m);
+                    }
+                    break;
+                case FwDataTypes.CurrencyStringNoDollarSign:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSign(reader.GetDecimal(columnIndex));
+                    }
+                    else
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSign(0.0m);
+                    }
+                    break;
+                case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(reader.GetDecimal(columnIndex));
+                    }
+                    else
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(0.0m);
+                    }
+                    break;
+                case FwDataTypes.PhoneUS:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToPhoneUS(reader.GetString(columnIndex));
+                    }
+                    else
+                    {
+                        data = String.Empty;
+                    }
+                    break;
+                case FwDataTypes.ZipcodeUS:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToZipcodeUS(reader.GetString(columnIndex));
+                    }
+                    else
+                    {
+                        data = String.Empty;
+                    }
+                    break;
+                case FwDataTypes.Percentage:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSign(FwConvert.ToDecimal(reader.GetValue(columnIndex))) + "%";
+                    }
+                    else
+                    {
+                        data = FwConvert.ToCurrencyStringNoDollarSign(0.0m) + "%";
+                    }
+                    break;
+                case FwDataTypes.OleToHtmlColor:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.OleToHex(reader.GetInt32(columnIndex));
+                    }
+                    else
+                    {
+                        data = FwConvert.OleToHex(0);
+                    }
+                    break;
+                case FwDataTypes.Integer:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = FwConvert.ToInt32(reader.GetValue(columnIndex));
+                    }
+                    else
+                    {
+                        data = 0;
+                    }
+                    break;
+                case FwDataTypes.JpgDataUrl:
+                    data = string.Empty;
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        byte[] buffer = reader.GetSqlBytes(columnIndex).Value;
+                        bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
+                        if (!isnull)
+                        {
+                            string base64data = Convert.ToBase64String(buffer);
+                            data = "data:image/jpg;base64," + base64data;
+                        }
+                    }
+                    break;
+                case FwDataTypes.UTCDateTime:
+                    if (!reader.IsDBNull(columnIndex))
+                    {
+                        data = new FwDatabaseField(reader.GetDateTime(columnIndex)).ToUniversalIso8601DateTimeString();
+                    }
+                    else
+                    {
+                        data = "";
+                    }
+                    break;
+            }
+            return data;
+        }
         //------------------------------------------------------------------------------------
         public async Task ExecuteAsync()
         {
@@ -1412,172 +1597,7 @@ namespace FwStandard.SqlServer
                                 }
                                 else
                                 {
-                                    switch (column.DataType)
-                                    {
-                                        case FwDataTypes.Text:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = reader.GetValue(ordinal).ToString().Trim();
-                                            }
-                                            else
-                                            {
-                                                data = string.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.Date:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.Time:
-                                            if (!reader.IsDBNull(ordinal) && !string.IsNullOrWhiteSpace(reader.GetValue(ordinal).ToString()))
-                                            {
-                                                data = FwConvert.ToShortTime12(reader.GetValue(ordinal).ToString());
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.DateTime:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateTimeString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.Decimal:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = reader.GetDecimal(ordinal);
-                                            }
-                                            else
-                                            {
-                                                data = 0.0m;
-                                            }
-                                            break;
-                                        case FwDataTypes.Boolean:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToBoolean(reader.GetString(ordinal).TrimEnd());
-                                            }
-                                            else
-                                            {
-                                                data = false;
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyString:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyString(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyString(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyStringNoDollarSign:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.PhoneUS:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToPhoneUS(reader.GetString(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = String.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.ZipcodeUS:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToZipcodeUS(reader.GetString(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = String.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.Percentage:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(FwConvert.ToDecimal(reader.GetValue(ordinal))) + "%";
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(0.0m) + "%";
-                                            }
-                                            break;
-                                        case FwDataTypes.OleToHtmlColor:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.OleToHex(reader.GetInt32(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.OleToHex(0);
-                                            }
-                                            break;
-                                        case FwDataTypes.Integer:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToInt32(reader.GetValue(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = 0;
-                                            }
-                                            break;
-                                        case FwDataTypes.JpgDataUrl:
-                                            data = string.Empty;
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                byte[] buffer = reader.GetSqlBytes(ordinal).Value;
-                                                bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
-                                                if (!isnull)
-                                                {
-                                                    string base64data = Convert.ToBase64String(buffer);
-                                                    data = "data:image/jpg;base64," + base64data;
-                                                }
-                                            }
-                                            break;
-                                        case FwDataTypes.UTCDateTime:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToUniversalIso8601DateTimeString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                    }
+                                    data = FormatReaderData(column.DataType, ordinal, reader);
                                 }
                             }
                             row[fieldName] = data;
@@ -1745,9 +1765,9 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public async Task<IEnumerable<T>> SelectAsync<T>(bool openAndCloseConnection, int pageNo, int pageSize)
+        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, bool enablePaging = false, int pageNo = 1, int pageSize = 10, int top = 0)
         {
-            IEnumerable<T> results = null;
+            List<T> results = new List<T>();
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
             //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
             //this.Add("for json path");
@@ -1757,86 +1777,46 @@ namespace FwStandard.SqlServer
             {
                 await this.sqlCommand.Connection.OpenAsync();
             }
-            // the commented code is if you use the "for json" in the sql query
-            //this.sqlCommand.CommandText = this.qryText.ToString();
-            //if (!this.sqlCommand.CommandText.Contains("order by"))
-            //{
-            //    throw new Exception("order by expression is required with paged queries.");
-            //}
-            //using (SqlDataReader reader = this.sqlCommand.ExecuteReader())
-            //{
-            //    StringBuilder jsonResult = new StringBuilder();
-            //    if (!reader.HasRows)
-            //    {
-            //        jsonResult.Append("[]");
-            //    }
-            //    else
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            jsonResult.Append(reader.GetValue(0).ToString());
-            //        }
 
-            //    }
-            //    results = JsonConvert.DeserializeObject<List<T>>(jsonResult.ToString());
-            //    if (openAndCloseConnection)
-            //    {
-            //        this.sqlCommand.Connection.Close();
-            //    }
-            //    return results;
-            //}
-            // Uses Dapper to perform the conversion from query to object list
-            var parameters = new DynamicParameters();
-            foreach (SqlParameter p in this.Parameters)
+            PropertyInfo[] propertyInfos = typeof(T).GetProperties();
+            Dictionary<string, PropertyInfo> sqlDataFieldPropertyInfos = new Dictionary<string, PropertyInfo>();
+            Dictionary<string, FwSqlDataFieldAttribute> sqlDataFieldAttributes = new Dictionary<string, FwSqlDataFieldAttribute>();
+            Dictionary<string, int> columnIndex = new Dictionary<string, int>();
+            foreach (PropertyInfo propertyInfo in propertyInfos)
             {
-                parameters.Add(p.ParameterName, p.Value);
+                FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                if (sqlDataFieldAttribute != null)
+                {
+                    sqlDataFieldPropertyInfos[propertyInfo.Name] = propertyInfo;
+                    sqlDataFieldAttributes[propertyInfo.Name] = sqlDataFieldAttribute;
+                }
             }
-            results = await this.sqlConnection.GetConnection().QueryAsync<T>(this.qryText.ToString(), parameters);
-            return results;
-        }
-        //------------------------------------------------------------------------------------
+            this.sqlCommand.CommandText = this.qryText.ToString();
+            using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
+            {
+                for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
+                {
+                    columnIndex[reader.GetName(fieldno)] = fieldno;
+                }
+                while (await reader.ReadAsync())
+                {
+                    T obj = Activator.CreateInstance<T>();
+                    foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
+                    {
+                        FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[attribute.Key]));
+                        object data = FormatReaderData(attribute.Value.DataType, columnIndex[attribute.Key], reader);
+                        sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
+                    }
+                    results.Add(obj);
+                }
+            }
 
-        public IEnumerable<T> Select<T>(bool openAndCloseConnection, int pageNo, int pageSize)  //jh 07/21/2017 I need to call this synchronously.  Is there another way?
-        {
-            IEnumerable<T> results = null;
-            this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
-            this.AddParameter("@fetchsize", pageSize);
             if (openAndCloseConnection)
             {
-                this.sqlCommand.Connection.Open();
-            }
-            // Uses Dapper to perform the conversion from query to object list
-            var parameters = new DynamicParameters();
-            foreach (SqlParameter p in this.Parameters)
-            {
-                parameters.Add(p.ParameterName, p.Value);
-            }
-            results = this.sqlConnection.GetConnection().Query<T>(this.qryText.ToString(), parameters);
-            return results;
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<T> SelectOneAsync<T>(bool openAndCloseConnection)
-        {
-            IEnumerable<T> records = null;
-            if (openAndCloseConnection)
-            {
-                await this.sqlCommand.Connection.OpenAsync();
-            }
-            // Uses Dapper to perform the conversion from query to object list
-            var parameters = new DynamicParameters();
-            foreach (SqlParameter p in this.Parameters)
-            {
-                parameters.Add(p.ParameterName, p.Value);
-            }
-            records = await this.sqlConnection.GetConnection().QueryAsync<T>(this.qryText.ToString(), parameters);
-            T result = default(T);
-            var results = records.AsList<T>();
-            if (results.Count > 0)
-            {
-                result = results[0];    
+                this.sqlCommand.Connection.Close();
             }
             
-            return result;
+            return results;
         }
         //------------------------------------------------------------------------------------
         public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, DatabaseConfig dbConfig)
@@ -1955,14 +1935,14 @@ namespace FwStandard.SqlServer
                                 {
                                     whereClause.Append("and ");
                                 }
-                                whereClause.Append(sqlColumnName);
+                                whereClause.Append("[" + sqlColumnName + "]");
                                 whereClause.Append(" = @");
                                 whereClause.AppendLine(sqlColumnName);
 
                                 this.AddParameter("@" + sqlColumnName, propertyValue);
                             }
-
-                            else if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
+                            // generate the set statements for the update query
+                            else if (propertyValue != null || sqlColumnName.ToLower() == "datestamp")
                             {
                                 if (i > 0)
                                 {
@@ -1974,13 +1954,83 @@ namespace FwStandard.SqlServer
                                 setStatements.AppendLine(sqlColumnName);
                                 if (sqlColumnName == "datestamp")
                                 {
-                                    propertyValue = DateTime.UtcNow;
+                                    propertyValue = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
                                     businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
                                     this.AddParameter("@" + sqlColumnName, propertyValue);
                                 }
                                 else
                                 {
-                                    this.AddParameter("@" + sqlColumnName, propertyValue);
+                                    // format the data and set the qry parameter value
+                                    object data;
+                                    // the typeof propertyValue is going to be a suitable JSON type for the SqlDataField DataType
+                                    switch (sqlDataFieldAttribute.DataType)
+                                    {
+                                        case FwDataTypes.Text:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.Date:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.Time:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.DateTime:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.DateTimeOffset:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.Decimal:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.Boolean:
+                                            if (propertyValue.GetType() != typeof(bool)) throw new Exception("Expected bool");
+                                            data = ((bool)propertyValue) ? "T" : string.Empty;
+                                            break;
+                                        case FwDataTypes.CurrencyString:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.CurrencyStringNoDollarSign:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.PhoneUS:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.ZipcodeUS:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        case FwDataTypes.Percentage:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.OleToHtmlColor:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = FwConvert.HexToOle((string)propertyValue);
+                                            break;
+                                        case FwDataTypes.Integer:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.JpgDataUrl:
+                                            data = propertyValue;
+                                            break;
+                                        case FwDataTypes.UTCDateTime:
+                                            if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                                            data = ((string)propertyValue).Trim();
+                                            break;
+                                        default:
+                                            data = propertyValue;
+                                            break;
+                                    }
+                                    this.AddParameter("@" + sqlColumnName, data);
                                 }
                                 i++;
                             }

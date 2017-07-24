@@ -41,7 +41,7 @@ namespace FwStandard.BusinessLogic
         {
             FwJsonDataTable browse = null;
 
-            _Custom.LoadCustomFields(GetType().Name.Replace("Logic", ""));
+            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
             if (dataLoader == null)
             {
@@ -60,7 +60,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<IEnumerable<T>> SelectAsync<T>(BrowseRequestDto request)
         {
-            _Custom.LoadCustomFields(GetType().Name.Replace("Logic", ""));
+            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
             IEnumerable<T> records = null;
             if (dataLoader == null)
@@ -82,24 +82,28 @@ namespace FwStandard.BusinessLogic
             bool blLoaded = false;
             bool recLoaded = false;
 
-            _Custom.LoadCustomFields(GetType().Name.Replace("Logic", ""));
+            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
             if (dataLoader == null)
             {
-                int r = 0;
-                foreach (FwDataReadWriteRecord rec in dataRecords)
+                for (int i = 0; i < dataRecords.Count; i++)
                 {
-                    recLoaded = await rec.LoadAsync<T>(primaryKeyValues, _Custom.CustomFields);
-                    if (r == 0)
+                    FwDataReadWriteRecord rec = dataRecords[i];
+                    rec = await rec.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
+                    dataRecords[i] = rec;
+                    Mapper.Map(rec, this);
+                    recLoaded = (rec != null);
+                    if (i == 0)
                     {
                         blLoaded = recLoaded;
                     }
-                    r++;
+                    i++;
                 }
             }
             else
             {
-                blLoaded = await dataLoader.LoadAsync<T>(primaryKeyValues, _Custom.CustomFields);
+                dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
+                blLoaded = (dataLoader != null);
                 Mapper.Map(dataLoader, this);
             }
             if (blLoaded) 
@@ -193,7 +197,7 @@ namespace FwStandard.BusinessLogic
             {
                 rowsAffected += await rec.SaveAsync();
             }
-            _Custom.LoadCustomFields(GetType().Name.Replace("Logic", ""));
+            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
             await _Custom.SaveAsync(GetPrimaryKeys());
             return rowsAffected;
         }

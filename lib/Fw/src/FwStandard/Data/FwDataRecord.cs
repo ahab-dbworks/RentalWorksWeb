@@ -228,12 +228,12 @@ namespace FwStandard.DataLayer
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 SetBaseSelectQuery(qry, customFields);
-                results = await qry.SelectAsync<T>(true, request.pageno, request.pagesize);
+                results = await qry.SelectAsync<T>(true, enablePaging:true, pageNo:request.pageno, pageSize:request.pagesize);
             }
             return results;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues, FwCustomFields customFields = null)
+        public virtual async Task<dynamic> GetAsync<T>(string[] primaryKeyValues, FwCustomFields customFields = null)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             int k = 0;
@@ -241,12 +241,11 @@ namespace FwStandard.DataLayer
             {
                 primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
             }
-            return await LoadAsync<T>();
+            return await GetAsync<T>();
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(FwCustomFields customFields = null)
+        public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
         {
-            bool loaded = false;
             if (AllPrimaryKeysHaveValues)
             {
                 using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -281,16 +280,22 @@ namespace FwStandard.DataLayer
                         qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
                         k++;
                     }
-                    var record = await qry.SelectOneAsync<T>(true);
-                    Mapper.Map(record, this);
-                    loaded = (record != null);
+                    MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                    dynamic result = generic.Invoke(qry, new object[] { true, Type.Missing, Type.Missing, Type.Missing, 1 });
+                    dynamic records = await result;
+                    dynamic record = null;
+                    if (records.Count > 0)
+                    {
+                        record = records[0];
+                    }
+                    return record;
                 }
             }
             else
             {
                 throw new Exception("One or more Primary Key values are missing on " + GetType().ToString() + ".Load");
             }
-            return loaded;
         }
         //------------------------------------------------------------------------------------
     }
