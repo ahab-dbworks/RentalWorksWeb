@@ -241,7 +241,7 @@ namespace FwStandard.DataLayer
             {
                 primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
             }
-            return await GetAsync<T>();
+            return await GetAsync<T>(customFields);
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(FwCustomFields customFields = null)
