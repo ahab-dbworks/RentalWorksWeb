@@ -17,6 +17,10 @@ using System.Text;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Threading.Tasks;
+using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace RentalWorksWebApi
 {
@@ -125,6 +129,8 @@ namespace RentalWorksWebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "RentalWorksWeb API", Version = "v1" });
+                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "RentalWorksWebApi.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 
@@ -173,6 +179,10 @@ namespace RentalWorksWebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentalWorksWeb API v1");
+            });
+            app.Run(context => {
+                context.Response.Redirect("swagger");
+                return Task.CompletedTask;
             });
         }
     }

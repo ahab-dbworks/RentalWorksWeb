@@ -1,6 +1,7 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using RentalWorksWebApi.api.v1.Models;
 using RentalWorksWebLogic.Settings;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace RentalWorksWebApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class CustomerStatusController : RwDataController
     {
         public CustomerStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
@@ -22,9 +24,16 @@ namespace RentalWorksWebApi.Controllers.v1
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
+        /// <summary>
+        /// Retrieves a list of records
+        /// </summary>
+        /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
+        /// <response code="200">Successfully retrieves records.</response>
+        /// <response code="500">Error in the webapi or database.</response>
         [HttpGet]
         [Produces(typeof(List<CustomerStatusLogic>))]
         [SwaggerResponse(200, Type = typeof(List<CustomerStatusLogic>))]
+        [SwaggerResponse(500, Type = typeof(ApiException))]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize)
         {
             return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, typeof(CustomerStatusLogic));
