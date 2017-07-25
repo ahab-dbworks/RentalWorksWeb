@@ -70,9 +70,9 @@
 
 /src/RentalWorksWebApi/bin/
 /src/RentalWorksWebApi/obj/
+/src/RentalWorksWebApi/Properties/PublishProfiles/
 /src/RentalWorksWebApi/RentalWorksWebApi.csproj.user
 /src/RentalWorksWebApi/appsettings.Development.json
-/src/RentalWorksWebApi/Properties/PublishProfiles/CustomProfile.pubxml.user
 
 /src/RentalWorksWebDataLayer/obj/
 /src/RentalWorksWebDataLayer/bin/
