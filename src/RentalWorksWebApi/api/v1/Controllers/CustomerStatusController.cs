@@ -43,7 +43,7 @@ namespace RentalWorksWebApi.Controllers.v1
         [HttpGet("{id}")]
         [Produces(typeof(CustomerStatusLogic))]
         [SwaggerResponse(200, Type = typeof(CustomerStatusLogic))]
-        public async Task<IActionResult> GetAsync([FromQuery]string id)
+        public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
             return await DoGetAsync<CustomerStatusLogic>(id, typeof(CustomerStatusLogic));
         }
@@ -57,7 +57,7 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromQuery]string id)
+        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(CustomerStatusLogic));
         }
