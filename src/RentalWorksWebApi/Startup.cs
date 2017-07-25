@@ -14,6 +14,9 @@ using RentalWorksWebDataLayer.Settings;
 using RentalWorksWebLogic.Settings;
 using System;
 using System.Text;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace RentalWorksWebApi
 {
@@ -118,6 +121,11 @@ namespace RentalWorksWebApi
             //    options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
             //    options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             //});
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "RentalWorksWeb API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -161,6 +169,11 @@ namespace RentalWorksWebApi
             //});
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentalWorksWeb API v1");
+            });
         }
     }
 }
