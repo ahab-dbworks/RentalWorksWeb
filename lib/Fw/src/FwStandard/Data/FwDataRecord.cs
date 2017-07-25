@@ -221,16 +221,23 @@ namespace FwStandard.DataLayer
             return dt;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<IEnumerable<T>> SelectAsync<T>(BrowseRequestDto request, FwCustomFields customFields = null)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequestDto request, FwCustomFields customFields = null)
         {
-            IEnumerable<T> results;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 SetBaseSelectQuery(qry, customFields);
-                results = await qry.SelectAsync<T>(true, enablePaging:true, pageNo:request.pageno, pageSize:request.pagesize);
+                MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                bool openAndCloseConnection = true;
+                bool enablePaging = true;
+                int pageNo = request.pageno;
+                int pageSize = request.pagesize;
+                int top = 0;
+                dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top });
+                dynamic records = await result;
+                return records;
             }
-            return results;
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(string[] primaryKeyValues, FwCustomFields customFields = null)
@@ -282,7 +289,12 @@ namespace FwStandard.DataLayer
                     }
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    dynamic result = generic.Invoke(qry, new object[] { true, Type.Missing, Type.Missing, Type.Missing, 1 });
+                    object openAndCloseConnection = true;
+                    bool enablePaging = false;
+                    object pageNo = 0;
+                    int pageSize = 0;
+                    int top = 1;
+                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top });
                     dynamic records = await result;
                     dynamic record = null;
                     if (records.Count > 0)

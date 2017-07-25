@@ -58,21 +58,35 @@ namespace FwStandard.BusinessLogic
 
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<IEnumerable<T>> SelectAsync<T>(BrowseRequestDto request)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequestDto request)
         {
             await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
-            IEnumerable<T> records = null;
+            List<T> records = null;
             if (dataLoader == null)
             {
                 if (dataRecords.Count > 0)
                 {
-                    records = await dataRecords[0].SelectAsync<T>(request, _Custom.CustomFields);
+                    MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
+                    BrowseRequestDto browseRequest = request;
+                    FwCustomFields customFields = _Custom.CustomFields;
+                    dynamic result = generic.Invoke(dataRecords[0], new object[] { browseRequest, customFields });
+                    dynamic dataRecordsResults = await result;
+                    records = new List<T>(dataRecordsResults.Count);
+                    Mapper.Map(dataRecordsResults, records);
                 }
             }
             else
             {
-                records = await dataLoader.SelectAsync<T>(request, _Custom.CustomFields);
+                MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
+                MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
+                BrowseRequestDto browseRequest = request;
+                FwCustomFields customFields = _Custom.CustomFields;
+                dynamic result = generic.Invoke(dataLoader, new object[] { browseRequest, customFields });
+                dynamic dataLoaderResults = await result;
+                records = new List<T>(dataLoaderResults.Count);
+                Mapper.Map(dataLoaderResults, records);
             }
             return records;
         }

@@ -1771,8 +1771,8 @@ namespace FwStandard.SqlServer
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
             //this.Add("offset @offsetrows rows fetch next @fetchsize rows only");
             //this.Add("for json path");
-            this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
-            this.AddParameter("@fetchsize", pageSize);
+            //this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
+            //this.AddParameter("@fetchsize", pageSize);
             if (openAndCloseConnection)
             {
                 await this.sqlCommand.Connection.OpenAsync();
