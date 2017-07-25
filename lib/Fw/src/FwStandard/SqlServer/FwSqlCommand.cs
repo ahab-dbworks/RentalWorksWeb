@@ -1869,7 +1869,7 @@ namespace FwStandard.SqlServer
                             insertParameterNames.Append("@" + propertyInfo.Name);
                             if (propertyInfo.Name.ToLower() == "datestamp")
                             {
-                                propertyValue = DateTime.UtcNow;
+                                propertyValue = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
                                 businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
                                 this.AddParameter("@" + propertyInfo.Name, propertyValue);
                             }
