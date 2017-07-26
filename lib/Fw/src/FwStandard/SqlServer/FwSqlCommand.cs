@@ -1245,17 +1245,6 @@ namespace FwStandard.SqlServer
                         var value = reader.GetValue(columnIndex);
                         int intValue = Convert.ToInt32(value);
                         data = FwConvert.OleToHex(intValue);
-                        Type columnType = reader.GetValue(columnIndex).GetType();
-                        if (columnType == typeof(int))
-                        {
-                            data = FwConvert.OleToHex(reader.GetInt32(columnIndex));
-                        }
-                        else if (columnType == typeof(decimal))
-                        {
-                            decimal decValue = reader.GetDecimal(columnIndex);
-                            int intValue = Convert.ToInt32(decValue);
-                            data = FwConvert.OleToHex(intValue);
-                        }
                     }
                     else
                     {
