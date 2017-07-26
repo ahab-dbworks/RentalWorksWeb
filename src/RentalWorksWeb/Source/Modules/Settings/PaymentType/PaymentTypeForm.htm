@@ -8,12 +8,29 @@
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Payment Type">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payment Type" data-datafield="PaymentType" data-noduplicate="true" style="float:left;width:12%;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Short Name" data-datafield="ShortName" data-noduplicate="true" style="float:left;width:12%;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="PaymentTypeType" data-noduplicate="true" style="float:left;width:12%;"></div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:12%;"></div>
-            </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payment Type" data-datafield="PaymentType" data-noduplicate="true" style="float:left;width:200px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Short Name" data-datafield="ShortName" data-noduplicate="true" style="float:left;width:80px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Type" data-datafield="PaymentTypeType" data-noduplicate="false" style="float:left;width:300px;">
+                        <div data-caption="CASH" data-value="CASH"></div>
+                        <div data-caption="CHECK" data-value="CHECK"></div>
+                        <div data-caption="CREDIT CARD" data-value="CREDIT CARD"></div>
+                        <div data-caption="DEBIT CARD" data-value="DEBIT CARD"></div>
+                        <div data-caption="DEPLETING DEPOSIT" data-value="DEPLETING DEPOSIT"></div>
+                        <div data-caption="CREDIT MEMO" data-value="CREDIT MEMO"></div>
+                        <div data-caption="WIRE TRANSFER" data-value="WIRE TRANSFER"></div>
+                        <div data-caption="CHARGE" data-value="CHARGE"></div>
+                        <div data-caption="WRITE OFF" data-value="WRITE OFF"></div>
+                        <div data-caption="NSF ADJUSTMENT" data-value="NSF ADJUSTMENT"></div>
+                        <div data-caption="OVERPAYMENT" data-value="OVERPAYMENT"></div>
+                        <div data-caption="REFUND CHECK" data-value="REFUND CHECK"></div>
+                    </div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:12%;"></div>
+              </div>
           </div>
         </div>
       </div>
