@@ -1765,7 +1765,7 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, bool enablePaging = false, int pageNo = 1, int pageSize = 10, int top = 0)
+        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, bool enablePaging = false, int pageNo = 1, int pageSize = 10, int top = 0, FwCustomFields customFields = null) where T: FwDataRecord
         {
             List<T> results = new List<T>();
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());
@@ -1801,12 +1801,37 @@ namespace FwStandard.SqlServer
                 while (await reader.ReadAsync())
                 {
                     T obj = Activator.CreateInstance<T>();
+                    FwCustomValues customValues = null;
+
                     foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
                     {
                         FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[attribute.Key]));
                         object data = FormatReaderData(attribute.Value.DataType, columnIndex[attribute.Key], reader);
                         sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
                     }
+
+                    if (customFields.Count > 0)
+                    {
+                        bool hasValue = false;
+                        customValues = new FwCustomValues();
+                        foreach (FwCustomField customField in customFields)
+                        {
+                            FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
+                            object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
+                            string str = data.ToString();
+                            if (!str.Equals(string.Empty))
+                            {
+                                customValues.AddCustomValue(customField.FieldName, str);
+                                hasValue = true;
+                            }
+                        }
+                        if (!hasValue)
+                        {
+                            customValues = null;
+                        }
+                    }
+                    obj._Custom = customValues;
+
                     results.Add(obj);
                 }
             }

@@ -20,7 +20,7 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         protected FwDataRecord dataLoader = null;
 
-        public FwCustomValues _Custom = new FwCustomValues();
+        public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
@@ -120,10 +120,10 @@ namespace FwStandard.BusinessLogic
                 blLoaded = (dataLoader != null);
                 Mapper.Map(dataLoader, this);
             }
-            if (blLoaded) 
-            {
-                await _Custom.LoadAsync(primaryKeyValues);
-            }
+            //if (blLoaded) 
+            //{
+            //    await _Custom.LoadAsync(primaryKeyValues);
+            //}
 
             return blLoaded;
         }

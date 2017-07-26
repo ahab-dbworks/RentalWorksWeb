@@ -18,6 +18,8 @@ namespace FwStandard.DataLayer
     public class FwDataRecord : FwBaseRecord
     {
         protected DatabaseConfig _dbConfig { get; set; }
+        public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
+
         //------------------------------------------------------------------------------------
         public FwDataRecord() : base() { }
         //------------------------------------------------------------------------------------
@@ -234,7 +236,7 @@ namespace FwStandard.DataLayer
                 int pageNo = request.pageno;
                 int pageSize = request.pagesize;
                 int top = 0;
-                dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top });
+                dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top, customFields });
                 dynamic records = await result;
                 return records;
             }
@@ -294,7 +296,7 @@ namespace FwStandard.DataLayer
                     object pageNo = 0;
                     int pageSize = 0;
                     int top = 1;
-                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top });
+                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top, customFields });
                     dynamic records = await result;
                     dynamic record = null;
                     if (records.Count > 0)
