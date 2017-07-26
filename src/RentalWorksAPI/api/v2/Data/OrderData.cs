@@ -300,6 +300,7 @@ namespace RentalWorksAPI.api.v2.Data
             {
                 qry.Add("select *");
                 qry.Add("from apirest_orderstatus(@orderid)");
+                qry.Add("order by itemorder");
                 qry.AddParameter("@orderid", orderid);
                 qryresult = qry.QueryToDynamicList2();
 
