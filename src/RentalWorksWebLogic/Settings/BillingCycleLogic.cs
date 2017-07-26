@@ -17,7 +17,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string BillingCycleId { get { return billPeriod.BillPeriodId; } set { billPeriod.BillPeriodId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string BillingCycle { get { return billPeriod.BillPeriod; } set { billPeriod.BillPeriod = value; } }
         public string BillingCycleType { get { return billPeriod.PeriodType; } set { billPeriod.PeriodType = value; } }
         public string NextBillingCycleId { get { return billPeriod.NextBillPeriodId; } set { billPeriod.NextBillPeriodId = value; } }

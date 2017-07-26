@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string DealTypeId { get { return dealType.DealTypeId; } set { dealType.DealTypeId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string DealType { get { return dealType.DealType; } set { dealType.DealType = value; } }
         public decimal Color { get { return dealType.Color;  } set { dealType.Color = value; } }
         public string WhiteText { get { return dealType.WhiteText; } set { dealType.WhiteText = value; } }

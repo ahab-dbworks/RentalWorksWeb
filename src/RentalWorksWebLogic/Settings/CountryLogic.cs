@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string CountryId { get { return country.CountryId; } set { country.CountryId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string Country { get { return country.Country; } set { country.Country = value; } }
         public string CountryCode { get { return country.CountryCode; } set { country.CountryCode = value; } }
         public string IsUSA { get { return country.IsUSA; } set { country.IsUSA = value; } }

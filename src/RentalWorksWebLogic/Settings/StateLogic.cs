@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string StateId { get { return state.StateId; } set { state.StateId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string State { get { return state.State; } set { state.State = value; } }
         public string StateCode { get { return state.StateCode; } set { state.StateCode = value; } }
 

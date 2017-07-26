@@ -20,10 +20,10 @@ namespace RentalWorksWebLogic.Settings
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string OrderDescription { get { return dealOrder.OrderDescription; } set { dealOrder.OrderDescription = value; } }
         //------------------------------------------------------------------------------------
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }

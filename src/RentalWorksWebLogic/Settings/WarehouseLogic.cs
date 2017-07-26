@@ -15,6 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string WarehouseId { get { return warehouse.WarehouseId; } set { warehouse.WarehouseId = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string Warehouse { get { return warehouse.Warehouse; } set { warehouse.Warehouse = value; } }
         public string WarehouseCode { get { return warehouse.WarehouseCode; } set { warehouse.WarehouseCode = value; } }
         public bool Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }

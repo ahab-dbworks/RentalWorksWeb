@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string PaymentTermsId { get { return paymentTerms.PaymentTermsId; } set { paymentTerms.PaymentTermsId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string PaymentTerms { get { return paymentTerms.PaymentTerms; } set { paymentTerms.PaymentTerms = value; } }
         public string InvoiceMessage { get { return paymentTerms.InvoiceMessage; } set { paymentTerms.InvoiceMessage = value; } }
         public int DueInDays { get { return paymentTerms.DueInDays; } set { paymentTerms.DueInDays = value; } }

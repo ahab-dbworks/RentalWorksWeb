@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string PaymentTypeId { get { return paymentType.PaymentTypeId; } set { paymentType.PaymentTypeId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string PaymentType { get { return paymentType.PaymentType; } set { paymentType.PaymentType = value; } }
         public string ShortName { get { return paymentType.ShortName; } set { paymentType.ShortName = value; } }
         public string PaymentTypeType { get { return paymentType.PaymentTypeType; } set { paymentType.PaymentTypeType = value; } }

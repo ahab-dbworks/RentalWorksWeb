@@ -15,7 +15,7 @@ namespace RentalWorksWebLogic.Settings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string CreditStatusId { get { return creditStatus.CreditStatusId; } set { creditStatus.CreditStatusId = value; } }
-        [FwBusinessLogicField(isTitle: true)]
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string CreditStatus { get { return creditStatus.CreditStatus; } set { creditStatus.CreditStatus = value; } }
         public bool CreateContractAllowed { get { return creditStatus.CreateContractAllowed; } set { creditStatus.CreateContractAllowed = value; } }
         public bool Inactive { get { return creditStatus.Inactive; } set { creditStatus.Inactive = value; } }
