@@ -33,6 +33,8 @@ namespace RentalWorksWebApi.Controllers.v1
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
+                dt.TotalPages = 1;
+                dt.TotalRows = dt.Rows.Count;
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
