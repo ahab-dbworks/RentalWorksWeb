@@ -1077,189 +1077,11 @@ namespace FwStandard.SqlServer
                                 data = string.Empty;
                                 if (dt.Columns[i].IsUniqueId)
                                 {
-                                    //data = FwCryptography.AjaxEncrypt(reader.GetValue(ordinal).ToString().Trim());
                                     data = reader.GetValue(ordinal).ToString().Trim();
                                 }
                                 else
                                 {
                                     data = FormatReaderData(dt.Columns[i].DataType, ordinal, reader);
-                                    switch (dt.Columns[i].DataType)
-                                    {
-                                        case FwDataTypes.Text:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = reader.GetValue(ordinal).ToString().Trim();
-                                            }
-                                            else
-                                            {
-                                                data = string.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.Date:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.Time:
-                                            if (!reader.IsDBNull(ordinal) && !string.IsNullOrWhiteSpace(reader.GetValue(ordinal).ToString()))
-                                            {
-                                                data = FwConvert.ToShortTime12(reader.GetValue(ordinal).ToString());
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.DateTime:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToShortDateTimeString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.DateTimeOffset:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                //data = new FwDatabaseField(reader.GetDateTimeOffset(ordinal)).ToShortDateTimeString();
-                                                data = (reader.GetDateTimeOffset(ordinal)).LocalDateTime;
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                        case FwDataTypes.Decimal:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = reader.GetDecimal(ordinal);
-                                            }
-                                            else
-                                            {
-                                                data = 0.0m;
-                                            }
-                                            break;
-                                        case FwDataTypes.Boolean:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToBoolean(reader.GetString(ordinal).TrimEnd());
-                                            }
-                                            else
-                                            {
-                                                data = false;
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyString:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyString(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyString(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyStringNoDollarSign:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(reader.GetDecimal(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(0.0m);
-                                            }
-                                            break;
-                                        case FwDataTypes.PhoneUS:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToPhoneUS(reader.GetString(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = String.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.ZipcodeUS:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToZipcodeUS(reader.GetString(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = String.Empty;
-                                            }
-                                            break;
-                                        case FwDataTypes.Percentage:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(FwConvert.ToDecimal(reader.GetValue(ordinal))) + "%";
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.ToCurrencyStringNoDollarSign(0.0m) + "%";
-                                            }
-                                            break;
-                                        case FwDataTypes.OleToHtmlColor:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.OleToHex(reader.GetInt32(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = FwConvert.OleToHex(0);
-                                            }
-                                            break;
-                                        case FwDataTypes.Integer:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = FwConvert.ToInt32(reader.GetValue(ordinal));
-                                            }
-                                            else
-                                            {
-                                                data = 0;
-                                            }
-                                            break;
-                                        case FwDataTypes.JpgDataUrl:
-                                            data = string.Empty;
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                byte[] buffer = reader.GetSqlBytes(ordinal).Value;
-                                                bool isnull = (buffer.Length == 0) || ((buffer.Length == 1) && (buffer[0] == 255));
-                                                if (!isnull)
-                                                {
-                                                    string base64data = Convert.ToBase64String(buffer);
-                                                    data = "data:image/jpg;base64," + base64data;
-                                                }
-                                            }
-                                            break;
-                                        case FwDataTypes.UTCDateTime:
-                                            if (!reader.IsDBNull(ordinal))
-                                            {
-                                                data = new FwDatabaseField(reader.GetDateTime(ordinal)).ToUniversalIso8601DateTimeString();
-                                            }
-                                            else
-                                            {
-                                                data = "";
-                                            }
-                                            break;
-                                    }
                                 }
                                 row.Add(data);
                             }
@@ -1420,7 +1242,20 @@ namespace FwStandard.SqlServer
                 case FwDataTypes.OleToHtmlColor:
                     if (!reader.IsDBNull(columnIndex))
                     {
-                        data = FwConvert.OleToHex(reader.GetInt32(columnIndex));
+                        var value = reader.GetValue(columnIndex);
+                        int intValue = Convert.ToInt32(value);
+                        data = FwConvert.OleToHex(intValue);
+                        Type columnType = reader.GetValue(columnIndex).GetType();
+                        if (columnType == typeof(int))
+                        {
+                            data = FwConvert.OleToHex(reader.GetInt32(columnIndex));
+                        }
+                        else if (columnType == typeof(decimal))
+                        {
+                            decimal decValue = reader.GetDecimal(columnIndex);
+                            int intValue = Convert.ToInt32(decValue);
+                            data = FwConvert.OleToHex(intValue);
+                        }
                     }
                     else
                     {
