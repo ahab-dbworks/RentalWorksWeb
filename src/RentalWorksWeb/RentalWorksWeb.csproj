@@ -1049,14 +1049,59 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
+      <DependentUpon>BillingCycle.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Country\Country.js">
+      <DependentUpon>Country.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
+      <DependentUpon>CreditStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.js">
+      <DependentUpon>CustomerCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.css">
+      <DependentUpon>CustomerStatus.scss</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.js">
+      <DependentUpon>CustomerStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerType\CustomerType.js">
+      <DependentUpon>CustomerType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DealClassification\DealClassification.js">
+      <DependentUpon>DealClassification.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DealStatus\DealStatus.js">
+      <DependentUpon>DealStatus.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\DealStatus\DealStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\DealStatus\DealStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\DealType\DealType.js">
+      <DependentUpon>DealType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Department\Department.js">
+      <DependentUpon>Department.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\GlAccount\GlAccount.js">
+      <DependentUpon>GlAccount.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.js">
+      <DependentUpon>OfficeLocation.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationBrowse.htm" />
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationForm.htm" />
+    <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.js">
+      <DependentUpon>PaymentTerms.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTermsForm.htm" />
     <Content Include="Source\Modules\Settings\DealType\DealTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\DealType\DealTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\PaymentType\PaymentType.js">
+      <DependentUpon>PaymentType.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\PaymentType\PaymentTypeForm.htm" />
     <Content Include="Source\Modules\Settings\Country\CountryBrowse.htm" />
