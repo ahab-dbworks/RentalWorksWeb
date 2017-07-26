@@ -51,52 +51,54 @@ namespace Fw.Json.Utilities
         }
         //---------------------------------------------------------------------------------------------
         public static string AjaxEncrypt(string data)
-        {            
-            string result = string.Empty;
-            if (!string.IsNullOrEmpty(data))
-            {
-                string hashcode = (data).GetHashCode().ToString("X"); 
-                string dataWithHashCode = hashcode + "," + data;
-                byte[] buffer = System.Text.Encoding.ASCII.GetBytes(dataWithHashCode);
-                //buffer = FwCompression.Compress(buffer);
-                for (int i = 0; i < keys.Count; i++)
-                {
-                    buffer = XorCrypt(buffer, keys[i]);
-                }
-                string encodedEncryptedDataWithHashCode = AjaxEncode(buffer);
-                result = encodedEncryptedDataWithHashCode;
-            }
-            return result;
+        {
+            //string result = string.Empty;
+            //if (!string.IsNullOrEmpty(data))
+            //{
+            //    string hashcode = (data).GetHashCode().ToString("X"); 
+            //    string dataWithHashCode = hashcode + "," + data;
+            //    byte[] buffer = System.Text.Encoding.ASCII.GetBytes(dataWithHashCode);
+            //    //buffer = FwCompression.Compress(buffer);
+            //    for (int i = 0; i < keys.Count; i++)
+            //    {
+            //        buffer = XorCrypt(buffer, keys[i]);
+            //    }
+            //    string encodedEncryptedDataWithHashCode = AjaxEncode(buffer);
+            //    result = encodedEncryptedDataWithHashCode;
+            //}
+            //return result;
+            return data;
         }       
         //---------------------------------------------------------------------------------------------
         public static string AjaxDecrypt(string encodedEncryptedDataWithHashCode)
         {
-            string data = string.Empty;
-            if (!string.IsNullOrEmpty(encodedEncryptedDataWithHashCode))
-            {
-                try
-                {
-                    byte[] buffer = AjaxDecode(encodedEncryptedDataWithHashCode);                    
-                    for (int i = keys.Count - 1; i >= 0; i--)
-                    {
-                        buffer = XorCrypt(buffer, keys[i]);
-                    }
-                    //buffer = FwCompression.Decompress(buffer);
-                    string dataWithHashCode = System.Text.Encoding.ASCII.GetString(buffer);
-                    int commaIndex = dataWithHashCode.IndexOf(',');
-                    int hashcode = Convert.ToInt32(dataWithHashCode.Substring(0, commaIndex), 16);
-                    data = dataWithHashCode.Substring(commaIndex + 1);
-                    if (hashcode != (data).GetHashCode())
-                    {
-                        throw new FwDataDecryptionException();
-                    }          
-                }
-                catch
-                {
-                    throw new FwDataDecryptionException();
-                }
-            }
-            return data;
+            //string data = string.Empty;
+            //if (!string.IsNullOrEmpty(encodedEncryptedDataWithHashCode))
+            //{
+            //    try
+            //    {
+            //        byte[] buffer = AjaxDecode(encodedEncryptedDataWithHashCode);                    
+            //        for (int i = keys.Count - 1; i >= 0; i--)
+            //        {
+            //            buffer = XorCrypt(buffer, keys[i]);
+            //        }
+            //        //buffer = FwCompression.Decompress(buffer);
+            //        string dataWithHashCode = System.Text.Encoding.ASCII.GetString(buffer);
+            //        int commaIndex = dataWithHashCode.IndexOf(',');
+            //        int hashcode = Convert.ToInt32(dataWithHashCode.Substring(0, commaIndex), 16);
+            //        data = dataWithHashCode.Substring(commaIndex + 1);
+            //        if (hashcode != (data).GetHashCode())
+            //        {
+            //            throw new FwDataDecryptionException();
+            //        }          
+            //    }
+            //    catch
+            //    {
+            //        throw new FwDataDecryptionException();
+            //    }
+            //}
+            //return data;
+            return encodedEncryptedDataWithHashCode;
         }
         //---------------------------------------------------------------------------------------------        
         public static string AjaxEncode(byte[] data)
