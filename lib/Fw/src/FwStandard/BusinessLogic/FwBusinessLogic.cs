@@ -226,9 +226,9 @@ namespace FwStandard.BusinessLogic
             return success;
         }
         //------------------------------------------------------------------------------------
-        protected virtual List<PropertyInfo> GetTitleProperties()
+        protected virtual List<PropertyInfo> GetRecordTitleProperties()
         {
-            List<PropertyInfo> titleProperties = new List<PropertyInfo>();
+            List<PropertyInfo> recordTitleProperties = new List<PropertyInfo>();
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
@@ -239,24 +239,24 @@ namespace FwStandard.BusinessLogic
                         if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
                         {
                             FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
-                            if (businessLogicFieldAttribute.IsTitle)
+                            if (businessLogicFieldAttribute.IsRecordTitle)
                             {
-                                titleProperties.Add(property);
+                                recordTitleProperties.Add(property);
                             }
                         }
                     }
                 }
             }
-            return titleProperties;
+            return recordTitleProperties;
         }
         //------------------------------------------------------------------------------------
-        public virtual string Caption
+        public virtual string RecordTitle
         {
             get
             {
-                List<PropertyInfo> titles = GetTitleProperties();
+                List<PropertyInfo> recordTitles = GetRecordTitleProperties();
                 string title = "";
-                foreach (PropertyInfo property in titles)
+                foreach (PropertyInfo property in recordTitles)
                 {
                     object propertyValue = property.GetValue(this);
                     if (propertyValue != null)
@@ -271,7 +271,7 @@ namespace FwStandard.BusinessLogic
                         }
                         else
                         {
-                            throw new Exception("Property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic._Title]");
+                            throw new Exception("Property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.RecordTitle]");
                         }
                     }
                 }
