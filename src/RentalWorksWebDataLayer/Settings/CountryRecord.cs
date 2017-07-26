@@ -18,7 +18,7 @@ namespace RentalWorksWebDataLayer.Settings
         public string CountryCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "isusa", dataType: FwDataTypes.Boolean)]
-        public string IsUSA { get; set; }
+        public bool IsUSA { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "Metric", dataType: FwDataTypes.Boolean)]
         public bool Metric { get; set; }
