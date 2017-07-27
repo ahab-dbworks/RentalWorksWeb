@@ -9,7 +9,7 @@ class UserSettings {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl('RwUserSettingsController');
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
