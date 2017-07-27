@@ -43,10 +43,10 @@
             // 
             // btnSelectPath
             // 
-            this.btnSelectPath.Location = new System.Drawing.Point(626, 18);
-            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelectPath.Location = new System.Drawing.Point(835, 22);
+            this.btnSelectPath.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnSelectPath.Name = "btnSelectPath";
-            this.btnSelectPath.Size = new System.Drawing.Size(39, 31);
+            this.btnSelectPath.Size = new System.Drawing.Size(52, 39);
             this.btnSelectPath.TabIndex = 1;
             this.btnSelectPath.Text = "...";
             this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -54,10 +54,10 @@
             // 
             // btnRelease
             // 
-            this.btnRelease.Location = new System.Drawing.Point(426, 94);
-            this.btnRelease.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnRelease.Location = new System.Drawing.Point(568, 118);
+            this.btnRelease.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnRelease.Name = "btnRelease";
-            this.btnRelease.Size = new System.Drawing.Size(148, 35);
+            this.btnRelease.Size = new System.Drawing.Size(197, 44);
             this.btnRelease.TabIndex = 2;
             this.btnRelease.Text = "Build Release";
             this.btnRelease.UseVisualStyleBackColor = true;
@@ -65,10 +65,10 @@
             // 
             // btnDeserialize
             // 
-            this.btnDeserialize.Location = new System.Drawing.Point(584, 94);
-            this.btnDeserialize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDeserialize.Location = new System.Drawing.Point(779, 118);
+            this.btnDeserialize.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnDeserialize.Name = "btnDeserialize";
-            this.btnDeserialize.Size = new System.Drawing.Size(122, 35);
+            this.btnDeserialize.Size = new System.Drawing.Size(163, 44);
             this.btnDeserialize.TabIndex = 3;
             this.btnDeserialize.Text = "Deserialize";
             this.btnDeserialize.UseVisualStyleBackColor = true;
@@ -76,10 +76,10 @@
             // 
             // btnDebug
             // 
-            this.btnDebug.Location = new System.Drawing.Point(268, 94);
-            this.btnDebug.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDebug.Location = new System.Drawing.Point(357, 118);
+            this.btnDebug.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.btnDebug.Name = "btnDebug";
-            this.btnDebug.Size = new System.Drawing.Size(148, 35);
+            this.btnDebug.Size = new System.Drawing.Size(197, 44);
             this.btnDebug.TabIndex = 4;
             this.btnDebug.Text = "Build Debug";
             this.btnDebug.UseVisualStyleBackColor = true;
@@ -89,34 +89,31 @@
             // 
             this.txtPath.FormattingEnabled = true;
             this.txtPath.Items.AddRange(new object[] {
-            "C:\\project\\RentalWorks\\RentalWorksWeb\\RentalWorksWeb\\JSAppBuilder.config",
-            "C:\\project\\RentalWorks\\RentalWorksWeb\\RentalWorksQuikScan\\JSAppBuilder.config",
-            "C:\\project2\\RentalWorksWeb\\src\\RentalWorksWeb\\JSAppBuilder.config",
-            "C:\\project2\\RentalWorksWeb\\src\\RentalWorksQuikScan\\JSAppBuilder.config",
-            "C:\\project\\GateWorks\\GateWorksWeb\\GateWorksWeb\\JSAppBuilder.config",
-            "C:\\project\\GateWorks\\GateWorksWeb\\GateWorksMobile\\JSAppBuilder.config",
-            "C:\\project\\TransWorks\\TransWorksWeb\\TransWorksMobile\\JSAppBuilder.config",
-            "C:\\project\\TransWorks\\TransWorksWeb\\TransWorksWeb\\JSAppBuilder.config",
+            "C:\\gitprojects\\RentalWorksWeb\\src\\RentalWorksWeb\\JSAppBuilder.config",
+            "C:\\gitprojects\\RentalWorksWeb\\src\\\\RentalWorksQuikScan\\JSAppBuilder.config",
+            "C:\\gitprojects\\GateWorksWeb\\src\\GateWorksWeb\\JSAppBuilder.config",
+            "C:\\gitprojects\\GateWorksWeb\\src\\GateWorksMobile\\JSAppBuilder.config",
+            "C:\\gitprojects\\TransWorksWeb\\src\\TransWorksWeb\\JSAppBuilder.config",
             "C:\\project\\DBWorks\\web\\support.dbworks.com\\JSAppBuilder.config"});
-            this.txtPath.Location = new System.Drawing.Point(18, 20);
-            this.txtPath.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtPath.Location = new System.Drawing.Point(24, 25);
+            this.txtPath.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(596, 28);
+            this.txtPath.Size = new System.Drawing.Size(793, 33);
             this.txtPath.TabIndex = 5;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(716, 148);
+            this.ClientSize = new System.Drawing.Size(955, 185);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.btnDebug);
             this.Controls.Add(this.btnDeserialize);
             this.Controls.Add(this.btnRelease);
             this.Controls.Add(this.btnSelectPath);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "JSAppBuilder";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
