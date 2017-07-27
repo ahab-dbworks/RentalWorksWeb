@@ -9,6 +9,15 @@
     <DocumentationFile>bin\Debug\netcoreapp1.1\RentalWorksWebApi.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp1.1\RentalWorksWebApi.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -26,6 +35,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appsettings.Development.json" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -33,5 +43,11 @@
     <ProjectReference Include="..\RentalWorksWebDataLayer\RentalWorksWebDataLayer.csproj" />
     <ProjectReference Include="..\RentalWorksWebLogic\RentalWorksWebLogic.csproj" />
   </ItemGroup>
+  <!--copies the Xml documentation file-->
+  <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(FinalDocFile)" RelativePath="@(FinalDocFile->'%(Filename)%(Extension)')" />
+    </ItemGroup>
+  </Target>
 
 </Project>
