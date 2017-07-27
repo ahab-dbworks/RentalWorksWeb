@@ -1061,9 +1061,7 @@
     <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.js">
       <DependentUpon>CustomerCategory.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.css">
-      <DependentUpon>CustomerStatus.scss</DependentUpon>
-    </Content>
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.css" />
     <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.js">
       <DependentUpon>CustomerStatus.ts</DependentUpon>
     </Content>
@@ -1112,10 +1110,25 @@
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleForm.htm" />
     <Content Include="Source\Modules\Settings\DealClassification\DealClassificationBrowse.htm" />
     <Content Include="Source\Modules\Settings\DealClassification\DealClassificationForm.htm" />
+    <Content Include="Source\Modules\Settings\ProductionType\ProductionType.js">
+      <DependentUpon>ProductionType.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeForm.htm" />
     <Content Include="Source\Modules\Settings\Department\DepartmentBrowse.htm" />
     <Content Include="Source\Modules\Settings\Department\DepartmentForm.htm" />
+    <Content Include="Source\Modules\Settings\State\State.js">
+      <DependentUpon>State.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\UserSettings\UserSettings.js">
+      <DependentUpon>UserSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClass.js">
+      <DependentUpon>VendorClass.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
+      <DependentUpon>Warehouse.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatusBrowse.htm" />
@@ -1380,6 +1393,63 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="FwApplicationSchema.config" />
+    <Content Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.js.map">
+      <DependentUpon>CustomerStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.js.map">
+      <DependentUpon>CustomerCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js.map">
+      <DependentUpon>CreditStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Country\Country.js.map">
+      <DependentUpon>Country.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js.map">
+      <DependentUpon>BillingCycle.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\CustomerType\CustomerType.js.map">
+      <DependentUpon>CustomerType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DealClassification\DealClassification.js.map">
+      <DependentUpon>DealClassification.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DealStatus\DealStatus.js.map">
+      <DependentUpon>DealStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DealType\DealType.js.map">
+      <DependentUpon>DealType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Department\Department.js.map">
+      <DependentUpon>Department.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\GlAccount\GlAccount.js.map">
+      <DependentUpon>GlAccount.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.js.map">
+      <DependentUpon>OfficeLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.js.map">
+      <DependentUpon>PaymentTerms.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PaymentType\PaymentType.js.map">
+      <DependentUpon>PaymentType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ProductionType\ProductionType.js.map">
+      <DependentUpon>ProductionType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\State\State.js.map">
+      <DependentUpon>State.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\UserSettings\UserSettings.js.map">
+      <DependentUpon>UserSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClass.js.map">
+      <DependentUpon>VendorClass.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js.map">
+      <DependentUpon>Warehouse.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
