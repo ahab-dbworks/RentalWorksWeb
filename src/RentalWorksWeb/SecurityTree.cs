@@ -72,18 +72,18 @@ namespace RentalWorksWeb
 
 
             //Reports 
-            var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
-                                            AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
+            //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
+            //                                AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
 
             // Add Utilities 
-            var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing",       "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id,                                                                                 utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
-                                                AddModule("Process Deal Invoices",   "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",        "module/chargeprocessing",        utilitiesiconbaseurl + "placeholder.png", "", "", "");
-                                                AddModule("Process Receipts",        "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv2menuChargeProcessing.Id, "RwReceiptProcessingController",       "module/receiptprocessing",       utilitiesiconbaseurl + "placeholder.png", "", "", "");
-                                                AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv2menuChargeProcessing.Id, "RwVendorInvoiceProcessingController", "module/vendorinvoiceprocessing", utilitiesiconbaseurl + "placeholder.png", "", "", "");
+            //var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing",       "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id,                                                                                 utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
+            //                                    AddModule("Process Deal Invoices",   "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",        "module/chargeprocessing",        utilitiesiconbaseurl + "placeholder.png", "", "", "");
+            //                                    AddModule("Process Receipts",        "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv2menuChargeProcessing.Id, "RwReceiptProcessingController",       "module/receiptprocessing",       utilitiesiconbaseurl + "placeholder.png", "", "", "");
+            //                                    AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv2menuChargeProcessing.Id, "RwVendorInvoiceProcessingController", "module/vendorinvoiceprocessing", utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
             AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
-            AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
+            //AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
             AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
 
             // Add Submodules

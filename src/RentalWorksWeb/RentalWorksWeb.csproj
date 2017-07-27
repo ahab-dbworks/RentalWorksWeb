@@ -1305,7 +1305,6 @@
     <Compile Include="Source\Modules\Administrator\Group\GroupMenu.cs" />
     <Compile Include="Source\Modules\Administrator\Group\Group.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
-    <Compile Include="Source\Modules\Administrator\Integration\IntegrationMenu.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
