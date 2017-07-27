@@ -178,10 +178,10 @@ namespace RentalWorksWebApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentalWorksWeb API v1");
+                c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/v1/swagger.json", "RentalWorksWeb API v1");
             });
             app.Run(context => {
-                context.Response.Redirect("swagger");
+                context.Response.Redirect(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger");
                 return Task.CompletedTask;
             });
         }
