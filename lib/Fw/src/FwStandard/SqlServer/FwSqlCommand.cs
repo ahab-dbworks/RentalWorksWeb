@@ -1625,7 +1625,6 @@ namespace FwStandard.SqlServer
                 while (await reader.ReadAsync())
                 {
                     T obj = Activator.CreateInstance<T>();
-                    FwCustomValues customValues = null;
 
                     foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
                     {
@@ -1634,27 +1633,19 @@ namespace FwStandard.SqlServer
                         sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
                     }
 
-                    if (customFields.Count > 0)
+                    if ((customFields != null) && (customFields.Count > 0))
                     {
-                        bool hasValue = false;
+                        FwCustomValues customValues = null;
                         customValues = new FwCustomValues();
                         foreach (FwCustomField customField in customFields)
                         {
                             FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
                             object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
                             string str = data.ToString();
-                            if (!str.Equals(string.Empty))
-                            {
-                                customValues.AddCustomValue(customField.FieldName, str);
-                                hasValue = true;
-                            }
+                            customValues.AddCustomValue(customField.FieldName, str);
                         }
-                        if (!hasValue)
-                        {
-                            customValues = null;
-                        }
+                        obj._Custom = customValues;
                     }
-                    obj._Custom = customValues;
 
                     results.Add(obj);
                 }
