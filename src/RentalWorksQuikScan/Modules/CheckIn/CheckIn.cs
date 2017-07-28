@@ -470,7 +470,7 @@ namespace RentalWorksQuikScan.Modules
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select *");
-            qry.Add("from   dbo.funcscannedtag3(@sessionid, @orderid, @usersid, @portal, @batchid, @rfidmode)");
+            qry.Add("from   dbo.funcscannedtag(@sessionid, @orderid, @usersid, @portal, @batchid, @rfidmode)");
             if (string.IsNullOrEmpty(batchid))
             {
                 qry.Add(" where status = 'EXCEPTION'");
