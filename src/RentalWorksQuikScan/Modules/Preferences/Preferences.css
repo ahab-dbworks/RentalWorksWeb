@@ -1,1 +1,4 @@
-﻿
+﻿#preferencesView .tslsettings .title,
+#preferencesView .lineaprosettings .title {margin:0 0 20px 0;text-align:center;font-size:1.2em;}
+#preferencesView .rfidpower .caption {font-size:12px;}
+#preferencesView #slider {margin:48px 32px 32px 32px;}

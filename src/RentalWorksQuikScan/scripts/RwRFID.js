@@ -1,5 +1,6 @@
 ﻿var RwRFID = {
-    isConnected: false
+    isConnected: false,
+    isPerformingSoftwareSinglePress: false
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.init = function() {
@@ -13,8 +14,9 @@ RwRFID.init = function() {
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.registerEvents = function(callbackfunction) {
+    var me = this;
     if (RwRFID.isConnected) {
-        if (typeof window.TslReader != 'undefined') {
+        if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
                 callbackfunction(epcs);
                 if (jQuery('.tagCountPopup').length) {
@@ -29,6 +31,16 @@ RwRFID.registerEvents = function(callbackfunction) {
                     $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
                     $confirmation.addClass('tagCountPopup');
                     $confirmation.find('.tagCount').html(count);
+                    if (me.isPerformingSoftwareSinglePress) {
+                        var $btnstop = FwConfirmation.addButton($confirmation, 'Stop', true);
+                        $btnstop.on('click', function () {
+                            try {
+                                me.tslAbort();
+                            } catch (ex) {
+                                FwFunc.show(ex);
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -92,6 +104,20 @@ RwRFID.setTslRfidPowerLevel = function () {
                 jQuery('.tslpanel').show();
             })
         ;
+    }
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.tslSwitchSinglePress = function (duration) {
+    if (typeof window.TslReader === 'object' && typeof window.TslReader.switchSinglePress === 'function') {
+        this.isPerformingSoftwareSinglePress = true;
+        window.TslReader.switchSinglePress(duration);
+    }
+};
+//----------------------------------------------------------------------------------------------
+RwRFID.tslAbort = function () {
+    if (typeof window.TslReader === 'object' && typeof window.TslReader.abort === 'function') {
+        this.isPerformingSoftwareSinglePress = false;
+        window.TslReader.abort(function success(args) { });
     }
 };
 //----------------------------------------------------------------------------------------------

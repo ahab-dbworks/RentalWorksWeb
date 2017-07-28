@@ -41,6 +41,37 @@ RwAccountController.getPreferencesScreen = function(viewModel, properties) {
             localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
         }
         FwFormField.setValue(screen.$view, '#preferencesView-scanMode', localStorage.getItem('barcodeScanMode'));
+
+        if (typeof window.TslReader === 'object' && typeof window.TslReader.getPowerLevel === 'function') {
+            window.TslReader.getPowerLevel(
+                function success(args) {
+                    var outputPower = args[1];
+                    var minPower = args[2];
+                    var maxPower = args[3];
+                    var rfidPowerLevelSlider = document.getElementById('slider');
+                    noUiSlider.create(rfidPowerLevelSlider, {
+                        start: [outputPower],
+                        range: {
+                            'min': [minPower],
+                            'max': [maxPower]
+                        },
+                        tooltips: [wNumb({ decimals: 0 })]
+                    });
+                    rfidPowerLevelSlider.noUiSlider.on('change', function () {
+                        var rfidPowerLevel = parseFloat(rfidPowerLevelSlider.noUiSlider.get());
+                        if (typeof window.TslReader === 'object') {
+                            window.TslReader.setPowerLevel(rfidPowerLevel);
+                        }
+                    });
+                    jQuery('.tslsettings').show();
+                })
+            ;
+        }
+
+        if (typeof window.DTDevices === 'object' && typeof window.DTDevices.barcodeSetScanMode === 'function') {
+            jQuery('.lineaprosettings').show();
+            ;
+        }
     };
 
     return screen;

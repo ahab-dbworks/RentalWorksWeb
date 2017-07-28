@@ -199,6 +199,30 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                         buttonclick: function() {
                             $pending.applyallqtyitems();
                         }
+                    },
+                    {
+                        id: 'startrfid',
+                        caption: 'Start RFID',
+                        buttonclick: function () {
+                            try {
+                                RwRFID.tslSwitchSinglePress();
+                            }
+                            catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }
+                    },
+                    {
+                        id: 'stoprfid',
+                        caption: 'Stop RFID',
+                        buttonclick: function () {
+                            try {
+                                RwRFID.tslAbort();
+                            }
+                            catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }
                     }
                 ]
             },
@@ -241,6 +265,10 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $barcodescanwindow.show();
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#rfidexceptions');
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
+        if (!(typeof window.TslReader === 'object' && typeof window.TslReader.switchSinglePress === 'function')) {
+            $checkincontrol.fwmobilemodulecontrol('hideButton', '#startrfid')
+                           .fwmobilemodulecontrol('hideButton', '#stoprfid');
+        }
         screen.properties.currentview = 'PENDING';
         request = {
             contractId: screen.getContractId()

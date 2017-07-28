@@ -2,6 +2,7 @@
 using Fw.Json.Services.Common;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
+using Fw.Json.ValueTypes;
 using RentalWorksQuikScan.Source;
 using System.Collections.Generic;
 using System.Data;
@@ -144,7 +145,7 @@ namespace RentalWorksQuikScan.Modules
             }
         }
         //---------------------------------------------------------------------------------------------
-        private static dynamic UpdateAssignableItemAsset(string rentalitemid, string masterid, string barcode, string mfgserial, string rfid, string mfgdate)
+        private static dynamic UpdateAssignableItemAsset(string rentalitemid, string masterid, string barcode, string mfgserial, string rfid, FwDateTime mfgdate)
         {
             dynamic result = new ExpandoObject();
             FwSqlCommand sp;
@@ -155,7 +156,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@barcode",      barcode.ToUpper());
             sp.AddParameter("@mfgserial",    mfgserial.ToUpper());
             sp.AddParameter("@rfid",         rfid);
-            sp.AddParameter("@mfgdate",      mfgdate);
+            sp.AddParameter("@mfgdate",      mfgdate.GetSqlDate());
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
