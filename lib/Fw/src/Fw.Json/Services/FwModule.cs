@@ -51,10 +51,17 @@ namespace Fw.Json.Services
             {
                 case ComponentTypes.Module:
                     browseSchema = FwApplicationSchema.Current.Modules[name].Browse;
-                    this.browse  = new FwBrowse(browseSchema);
+                    // don't create a FwBrowse instance when there is no Browse.htm file
+                    if (browseSchema != null)
+                    {
+                        this.browse  = new FwBrowse(browseSchema);
+                    }
                     formSchema   = FwApplicationSchema.Current.Modules[name].Form;
-                    this.form    = new FwForm(applicationServicesNamespace, applicationServicesTypePrefix, webServiceAssembly, formSchema);
-                    this.form.OnLoadCalculatedFields += form_OnLoadCalculatedFields;
+                    if (formSchema != null)
+                    {
+                        this.form    = new FwForm(applicationServicesNamespace, applicationServicesTypePrefix, webServiceAssembly, formSchema);
+                        this.form.OnLoadCalculatedFields += form_OnLoadCalculatedFields;
+                    }
                     break;
                 case ComponentTypes.Grid:
                     browseSchema = FwApplicationSchema.Current.Grids[name].Browse;

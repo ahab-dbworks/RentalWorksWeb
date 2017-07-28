@@ -91,8 +91,9 @@ namespace Fw.Json.HttpHandlers
             }
             finally
             {
-                context.ApplicationInstance.CompleteRequest();
-                context.Response.End();
+                // mv 2017-07-28 these were throwing thread was aborted exceptions in the debugger don't think they are needed
+                //context.ApplicationInstance.CompleteRequest();
+                //context.Response.End();
             }
         }
         //------------------------------------------------------------------------------------
