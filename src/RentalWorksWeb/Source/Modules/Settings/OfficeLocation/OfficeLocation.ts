@@ -55,7 +55,7 @@ class OfficeLocation {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="LocationCode"] input').val(uniqueids.LocationCode);
+        $form.find('div.fwformfield[data-datafield="LocationId"] input').val(uniqueids.LocationId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class OfficeLocation {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="LocationCode"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="LocationId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 

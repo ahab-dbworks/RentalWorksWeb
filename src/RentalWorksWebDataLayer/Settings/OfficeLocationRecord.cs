@@ -9,6 +9,9 @@ namespace RentalWorksWebDataLayer.Settings
     [FwSqlTable("location")]
     public class OfficeLocationRecord : RwDataReadWriteRecord
     {
+        [FwSqlDataField(columnName: "locationid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        public string LocationId { get; set; } = "";
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(columnName: "loccode", dataType: FwDataTypes.Text, length: 4)]
         public string LocationCode { get; set; }
         //------------------------------------------------------------------------------------

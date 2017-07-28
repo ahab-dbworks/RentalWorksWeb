@@ -13,6 +13,8 @@ namespace RentalWorksWebLogic.Settings
             dataRecords.Add(location);
         }
         //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string LocationId { get { return location.LocationId; } set { location.LocationId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Location { get { return location.Location; } set { location.Location = value; } }
         public string LocationCode { get { return location.LocationCode; } set { location.LocationCode = value; } }
