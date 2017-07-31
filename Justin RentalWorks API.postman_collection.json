@@ -573,7 +573,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"GlAccountId\": \"00001HZH\",\n    \"GlAccountNo\": \"1290\",\n    \"GlAccountDescription\": \"ALLOWANCE FOR UNCOLLECTABLE DEBTS\",\n    \"GlAccountType\": \"ASSET\",\n    \"Inactive\": \"\",\n    \"_Custom\": [\n        {\n            \"Name\": \"Routing\",\n            \"Value\": \"1234\"\n        },\n        {\n            \"Name\": \"Expense Sub Code\",\n            \"Value\": \"ABC\"\n        }\n    ]\n}"
+							"raw": "{\n    \"GlAccountId\": \"00001HZH\",\n    \"GlAccountNo\": \"1290\",\n    \"GlAccountDescription\": \"ALLOWANCE FOR UNCOLLECTABLE DEBTS\",\n    \"GlAccountType\": \"ASSET\",\n    \"Inactive\": false,\n    \"_Custom\": [\n        {\n            \"FieldName\": \"AccountPrefix\",\n            \"FieldValue\": \"PRE-\"\n        },\n        {\n            \"FieldName\": \"Routing\",\n            \"FieldValue\": \"123\"\n        },\n        {\n            \"FieldName\": \"Expense Sub Code\",\n            \"FieldValue\": \"ABC\"\n        },\n        {\n            \"FieldName\": \"Balance\",\n            \"FieldValue\": \"99.25\"\n        },\n        {\n            \"FieldName\": \"Export Code\",\n            \"FieldValue\": \"4\"\n        },\n        {\n            \"FieldName\": \"Setup Date\",\n            \"FieldValue\": \"05/11/1978\"\n        }\n    ]\n}"
 						},
 						"description": ""
 					},
