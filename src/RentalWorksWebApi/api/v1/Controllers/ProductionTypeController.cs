@@ -11,44 +11,44 @@ namespace RentalWorksWebApi.Controllers.v1
     {
         public ProductionTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/browse
+        // POST api/v1/productiontype/browse
         [HttpPost("browse")]
         public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ProductionTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus
+        // GET api/v1/productiontype
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<ProductionTypeLogic>(pageno, pagesize, typeof(ProductionTypeLogic));
+            return await DoGetAsync<ProductionTypeLogic>(pageno, pagesize, sort, typeof(ProductionTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/customerstatus/A0000001
+        // GET api/v1/productiontype/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(string id)
+        public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
             return await DoGetAsync<ProductionTypeLogic>(id, typeof(ProductionTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus
+        // POST api/v1/productiontype
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]ProductionTypeLogic l)
         {
             return await DoPostAsync<ProductionTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/customerstatus/A0000001
+        // DELETE api/v1/productiontype/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(ProductionTypeLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/customerstatus/validateduplicate
+        // POST api/v1/productiontype/validateduplicate
         [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);
         }

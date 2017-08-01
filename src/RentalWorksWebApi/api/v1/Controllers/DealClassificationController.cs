@@ -20,14 +20,14 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, typeof(DealClassificationLogic));
+            return await DoGetAsync<DealClassificationLogic>(pageno, pagesize, sort, typeof(DealClassificationLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(string id)
+        public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
             return await DoGetAsync<DealClassificationLogic>(id, typeof(DealClassificationLogic));
         }
@@ -41,14 +41,14 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // DELETE api/v1/customerstatus/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(DealClassificationLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/validateduplicate
         [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);
         }

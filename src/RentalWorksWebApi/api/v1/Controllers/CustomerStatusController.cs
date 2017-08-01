@@ -16,16 +16,22 @@ namespace RentalWorksWebApi.Controllers.v1
         public CustomerStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
-        [HttpPost("browse")]
-        [ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        /// <summary>
+        /// Retrieves a list of records
+        /// </summary>
+        /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
+        /// <response code="200">Successfully retrieves records.</response>
+        /// <response code="500">Error in the webapi or database.</response>
+        [HttpGet("browse")]
+        //[ApiExplorerSettings(IgnoreApi=true)]
+        public async Task<IActionResult> Browse([FromQuery]BrowseRequestDto browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus
         /// <summary>
-        /// Retrieves a list of records
+        /// REST: Retrieves a list of records
         /// </summary>
         /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
         /// <response code="200">Successfully retrieves records.</response>
@@ -34,9 +40,9 @@ namespace RentalWorksWebApi.Controllers.v1
         [Produces(typeof(List<CustomerStatusLogic>))]
         [SwaggerResponse(200, Type = typeof(List<CustomerStatusLogic>))]
         [SwaggerResponse(500, Type = typeof(ApiException))]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize)
+        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, typeof(CustomerStatusLogic));
+            return await DoGetAsync<CustomerStatusLogic>(pageno, pagesize, sort, typeof(CustomerStatusLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customerstatus/A0000001
@@ -64,7 +70,7 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/validateduplicate
         [HttpPost("validateduplicate")]
-        [ApiExplorerSettings(IgnoreApi=true)]
+        //[ApiExplorerSettings(IgnoreApi=true)]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);

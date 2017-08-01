@@ -20,14 +20,14 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/State
         [HttpGet]
-        public async Task<IActionResult> Get(int pageno, int pagesize)
+        public async Task<IActionResult> Get([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<StateLogic>(pageno, pagesize, typeof(StateLogic));
+            return await DoGetAsync<StateLogic>(pageno, pagesize, sort, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/State/A0000001
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromRoute]string id)
         {
             return await DoGetAsync<StateLogic>(id, typeof(StateLogic));
         }
@@ -41,14 +41,14 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // DELETE api/v1/State/A0000001
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(StateLogic));
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/State/validateduplicate
         [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicate(ValidateDuplicateRequest request)
+        public async Task<IActionResult> ValidateDuplicate([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);
         }

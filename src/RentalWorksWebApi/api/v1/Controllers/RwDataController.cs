@@ -33,8 +33,8 @@ namespace RentalWorksWebApi.Controllers.v1
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
-                dt.TotalPages = 1;
-                dt.TotalRows = dt.Rows.Count;
+                //dt.TotalPages = 1;
+                //dt.TotalRows = dt.Rows.Count;
                 return new OkObjectResult(dt);
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace RentalWorksWebApi.Controllers.v1
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoGetAsync<T>(int pageno, int pagesize, Type type)
+        protected virtual async Task<IActionResult> DoGetAsync<T>(int pageno, int pagesize, string sort, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -58,6 +58,7 @@ namespace RentalWorksWebApi.Controllers.v1
                 BrowseRequestDto request = new BrowseRequestDto();
                 request.pageno = pageno;
                 request.pagesize = pagesize;
+                request.orderby = sort;
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
