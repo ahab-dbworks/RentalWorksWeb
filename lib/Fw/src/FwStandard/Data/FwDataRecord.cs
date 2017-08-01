@@ -10,8 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Reflection.Emit;
 using System.Threading;
-
-
+using System.Text;
 
 namespace FwStandard.DataLayer
 {
@@ -121,17 +120,19 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void SetBaseSelectQuery(FwSqlCommand qry, FwCustomFields customFields = null)
+        protected virtual void SetBaseSelectQuery(FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             qry.Add("select");
             PropertyInfo[] properties = this.GetType().GetTypeInfo().GetProperties();
             int colNo = 0;
+            Dictionary<string, string> columns = new Dictionary<string, string>();
             foreach (PropertyInfo property in properties)
             {
                 if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
                 {
                     FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
                     string sqlColumnName = property.Name;
+                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
                     if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                     {
                         sqlColumnName = sqlDataFieldAttribute.ColumnName;
@@ -154,6 +155,7 @@ namespace FwStandard.DataLayer
                 int customFieldIndex = 1;
                 foreach (FwCustomField customField in customFields)
                 {
+                    columns[customField.FieldName] = customField.FieldName;
                     bool customTableInQuery = false;
                     string customTableAlias = "";
                     foreach (FwCustomTable customTable in customTables)
@@ -209,6 +211,123 @@ namespace FwStandard.DataLayer
                     qry.Add(" ) ");
                 }
             }
+
+            if (request != null)
+            {
+                if (request.searchfields.Length > 0)
+                {
+                    qry.Add("where");
+                    for (int i = 0; i < request.searchfields.Length; i++)
+                    {
+                        if (!columns.ContainsKey(request.searchfields[i]))
+                        {
+                            throw new Exception("Searching is not supported on " + request.searchfields[i]);
+                        }
+                        if (request.searchfieldoperators[i] == "like")
+                        {
+                            string conditionConjunction = string.Empty;
+                            if (i > 0)
+                            {
+                                conditionConjunction = "  and ";
+                            }
+                            string parameterName = "@" + columns[request.searchfields[i]];
+                            string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") like " + parameterName;
+                            qry.Add(searchcondition);
+                            qry.AddParameter(parameterName, "%" + request.searchfieldvalues[i] + "%");
+                        }
+                    }
+                }
+                
+                if (request.orderby.Trim().Length > 0)
+                {
+                    // validate the user supplied order by expression to prevent SQL Injection attacks
+                    List<string> tokens = new List<string>(request.orderby.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries));
+                    foreach(string token in tokens)
+                    {
+                        if (!columns.ContainsKey(token) && token != "asc" && token != "desc")
+                        {
+                            throw new Exception("Order by expession is not permitted.");
+                        }
+                    }
+                    if (request.orderby.Trim().Length == 0)
+                    {
+                        throw new Exception("At least one column must have a sort order.");
+                    }
+
+                    // need to convert the columns from the model names to sql names
+                    StringBuilder orderbyBuilder = new StringBuilder();
+                    string orderby = request.orderby.Trim();
+                    StringBuilder tokenBuilder = new StringBuilder();
+                    for (int index = 0; index < orderby.Length; index++)
+                    {
+                        char currentChar = orderby[index];
+
+                        switch (currentChar)
+                        {
+                            case ' ':
+                            case ',':
+                                string token = tokenBuilder.ToString();
+                                tokenBuilder = new StringBuilder();
+                                switch (token)
+                                {
+                                    case "asc":
+                                    case "desc":
+                                        orderbyBuilder.Append(token);
+                                        orderbyBuilder.Append(currentChar);
+                                        break;
+                                    default:
+                                        if (columns.ContainsKey(token))
+                                        {
+                                            // rownumber over paging needs to use column alias name if it has one
+                                            if (request.pagesize > 0) 
+                                            {
+                                                orderbyBuilder.Append(token);
+                                                orderbyBuilder.Append(currentChar);
+                                            }
+                                            else
+                                            {
+                                                string sqlColumnName = columns[token];
+                                                orderbyBuilder.Append(sqlColumnName);
+                                                orderbyBuilder.Append(currentChar);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Invalid token " + token + " in order by.");
+                                        }
+                                        break;
+                                }
+                                break;
+                            default:
+                                tokenBuilder.Append(currentChar);
+                                break;
+                        }
+                    }
+                    // add the token in the buffer if one exists
+                    if (tokenBuilder.Length > 0)
+                    {
+                        string token = tokenBuilder.ToString();
+                        if (columns.ContainsKey(token) || token == "asc" || token == "desc")
+                        {
+                            // rownumber over paging needs to use column alias name if it has one
+                            if (request.pagesize > 0)
+                            {
+                                orderbyBuilder.Append(token);
+                            }
+                            else
+                            {
+                                string sqlColumnName = columns[token];
+                                orderbyBuilder.Append(sqlColumnName);
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid token " + token + " in order by.");
+                        }
+                    }
+                    qry.Add("order by " + orderbyBuilder.ToString());
+                }
+            }
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request, FwCustomFields customFields = null)
@@ -217,8 +336,8 @@ namespace FwStandard.DataLayer
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                SetBaseSelectQuery(qry, customFields);
-                dt = await qry.QueryToFwJsonTableAsync(false);
+                SetBaseSelectQuery(qry, customFields: customFields, request: request);
+                dt = await qry.QueryToFwJsonTableAsync(includeAllColumns: false, pageNo: request.pageno, pageSize: request.pagesize);
             }
             return dt;
         }
@@ -227,18 +346,16 @@ namespace FwStandard.DataLayer
         {
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                SetBaseSelectQuery(qry, customFields);
-                MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                MethodInfo generic = method.MakeGenericMethod(this.GetType());
                 bool openAndCloseConnection = true;
-                bool enablePaging = true;
-                int pageNo = request.pageno;
-                int pageSize = request.pagesize;
-                int top = 0;
-                dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, enablePaging, pageNo, pageSize, top, customFields });
-                dynamic records = await result;
-                return records;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                {
+                    SetBaseSelectQuery(qry, customFields: customFields, request: request);
+                    MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                    dynamic records = await result;
+                    return records;
+                }
             }
         }
         //------------------------------------------------------------------------------------

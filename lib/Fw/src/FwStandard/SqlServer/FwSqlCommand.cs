@@ -984,20 +984,23 @@ namespace FwStandard.SqlServer
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns)
+        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns = true, int pageNo = 0, int pageSize = 0, int top = 0)
         {
             FwJsonDataTable dt;
 
             FwSqlSelect select = new FwSqlSelect();
-            select.PageNo = 1;
-            select.PageSize = 20;
+            select.EnablePaging = (pageNo != 0) && (pageSize != 0);
+            select.PageNo = pageNo;
+            select.PageSize = pageSize;
+            select.Top = top;
             select.Add(this.qryText.ToString());
             select.Parse();
             select.SetQuery(this);
             dt = new FwJsonDataTable();
-            dt.PageNo = 1;
-            dt.PageSize = 20;
+            dt.PageNo = pageNo;
+            dt.PageSize = pageSize;
             await QueryToFwJsonTableAsync(dt, this.qryText.ToString(), includeAllColumns);
+            dt.TotalRows = dt.Rows.Count;
 
             return dt;
         }
@@ -1589,7 +1592,7 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, bool enablePaging = false, int pageNo = 1, int pageSize = 10, int top = 0, FwCustomFields customFields = null) where T: FwDataRecord
+        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T: FwDataRecord
         {
             List<T> results = new List<T>();
             //this.Add("order by " + orderByColumn + " " + orderByDirection.ToString());

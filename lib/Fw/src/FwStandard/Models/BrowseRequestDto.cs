@@ -6,17 +6,17 @@ namespace FwStandard.Models
 {
     public class BrowseRequestDto
     {
-        public enum OrderByDirections { asc, desc }
-        public Dictionary<string, object> miscfields { get; set; }
-        public string module { get; set; }
-        public Dictionary<string, object> options { get; set; }
-        public string orderby { get; set; }
-        public OrderByDirections orderbydirection { get; set; }
-        public int pageno { get; set; }
-        public int pagesize { get; set; }
-        public string[] searchfieldoperators { get; set; }
-        public string[] searchfields { get; set; }
-        public string[] searchfieldvalues { get; set; }
+        //public enum OrderByDirections { asc, desc }
+        public Dictionary<string, object> miscfields { get; set; } = new Dictionary<string, object>();
+        public string module { get; set; } = string.Empty;
+        public Dictionary<string, object> options { get; set; } = new Dictionary<string, object>();
+        public string orderby { get; set; } = string.Empty;
+        public string orderbydirection { get; set; } = string.Empty;
+        public int pageno { get; set; } = 0;
+        public int pagesize { get; set; } = 0;
+        public string[] searchfieldoperators { get; set; } = new string[0];
+        public string[] searchfields { get; set; } = new string[0];
+        public string[] searchfieldvalues { get; set; } = new string[0];
 
         public BrowseRequestDto()
         {
