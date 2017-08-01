@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/contactevent
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<ContactEventLogic>(pageno, pagesize, typeof(ContactEventLogic));
+            return await DoGetAsync<ContactEventLogic>(pageno, pagesize, sort, typeof(ContactEventLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/contactevent/A0000001

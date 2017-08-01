@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/eventcategory
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<EventCategoryLogic>(pageno, pagesize, typeof(EventCategoryLogic));
+            return await DoGetAsync<EventCategoryLogic>(pageno, pagesize, sort, typeof(EventCategoryLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/eventcategory/A0000001

@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/region
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<RegionLogic>(pageno, pagesize, typeof(RegionLogic));
+            return await DoGetAsync<RegionLogic>(pageno, pagesize, sort, typeof(RegionLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/region/A0000001

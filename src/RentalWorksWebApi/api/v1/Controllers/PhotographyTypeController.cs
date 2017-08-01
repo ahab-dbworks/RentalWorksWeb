@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/photographytype
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<PhotographyTypeLogic>(pageno, pagesize, typeof(PhotographyTypeLogic));
+            return await DoGetAsync<PhotographyTypeLogic>(pageno, pagesize, sort, typeof(PhotographyTypeLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/photographytype/A0000001

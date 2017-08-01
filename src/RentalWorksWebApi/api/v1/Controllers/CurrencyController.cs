@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/currency
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<CurrencyLogic>(pageno, pagesize, typeof(CurrencyLogic));
+            return await DoGetAsync<CurrencyLogic>(pageno, pagesize, sort, typeof(CurrencyLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/currency/A0000001

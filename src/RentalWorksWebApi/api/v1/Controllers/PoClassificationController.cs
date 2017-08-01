@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, typeof(PoClassificationLogic));
+            return await DoGetAsync<PoClassificationLogic>(pageno, pagesize, sort, typeof(PoClassificationLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/poclassification/A0000001

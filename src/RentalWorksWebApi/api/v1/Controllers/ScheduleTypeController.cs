@@ -20,9 +20,9 @@ namespace RentalWorksWebApi.Controllers.v1
         //------------------------------------------------------------------------------------
         // GET api/v1/scheduletype
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int pageno, int pagesize)
+        public async Task<IActionResult> GetAsync(int pageno, int pagesize, string sort)
         {
-            return await DoGetAsync<ScheduleTypeLogic>(pageno, pagesize, typeof(ScheduleTypeLogic));
+            return await DoGetAsync<ScheduleTypeLogic>(pageno, pagesize, sort, typeof(ScheduleTypeLogic));
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/scheduletype/A0000001
