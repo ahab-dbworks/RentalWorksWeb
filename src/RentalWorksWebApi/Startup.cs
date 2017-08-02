@@ -10,8 +10,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using RentalWorksWebApi.Options;
-using RentalWorksWebDataLayer.Settings;
-using RentalWorksWebLogic.Settings;
 using System;
 using System.Text;
 using Swashbuckle.AspNetCore.SwaggerGen;

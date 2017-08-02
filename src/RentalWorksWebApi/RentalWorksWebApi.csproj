@@ -43,8 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
-    <ProjectReference Include="..\RentalWorksWebDataLayer\RentalWorksWebDataLayer.csproj" />
-    <ProjectReference Include="..\RentalWorksWebLogic\RentalWorksWebLogic.csproj" />
   </ItemGroup>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">

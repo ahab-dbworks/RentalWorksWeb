@@ -409,10 +409,6 @@ namespace FwStandard.DataLayer
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
                     object openAndCloseConnection = true;
-                    bool enablePaging = false;
-                    object pageNo = 0;
-                    int pageSize = 0;
-                    int top = 1;
                     dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
                     dynamic records = await result;
                     dynamic record = null;
