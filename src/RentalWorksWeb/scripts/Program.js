@@ -7,71 +7,11 @@ function Program() { FwApplication.call(this);
     
     me = this;
     FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
-    //me.audioMode = '';
-    //me.audioSuccessArray = [1200, 300];
-    //me.audioErrorArray   = [800, 200, 600, 200];
-    //if (typeof window.Audio !== 'undefined') {
-    //    try {
-    //        me.audioMode = 'html5';
-    //        me.audioSuccess = new Audio('audio/success.wav');
-    //        me.audioSuccess.load();
-    //        me.audioError = new Audio('audio/error1.wav');
-    //        me.audioError.load();
-    //    } catch (error) {
-
-    //    }
-    //}
-    //jQuery('body')
-    //    .on('touchstart', '.fwmenu-item', 
-    //        function() {
-    //            jQuery(this).addClass('active');
-    //        }
-    //    )
-    //    .on('touchstart', '.button.default', 
-    //        function() {
-    //            jQuery(this).addClass('active');
-    //        }
-    //    )
-    //    .on('touchend', '.fwmenu-item', 
-    //        function() {
-    //            jQuery(this).removeClass('active');
-    //        }
-    //    )
-    //    .on('touchend', '.button.default', 
-    //        function() {
-    //            jQuery(this).removeClass('active');
-    //        }
-    //    )
-    //;
 }
 //---------------------------------------------------------------------------------
 Program.prototype.getApplicationOptions = function() {
     return JSON.parse(sessionStorage.getItem('applicationOptions'));
 };
-//---------------------------------------------------------------------------------
-//Program.prototype.playStatus = function (isSuccessful) {
-//    var me;
-//    me = this;
-//    if (isSuccessful) {
-//        switch(me.audioMode) {
-//            case 'LineaBrowser':  LineaBrowser.playSound(100, me.audioSuccessArray); break;
-//            case 'ScannerDevice': LineaScanner.playSound(me.audioSuccessArray); break;
-//            case 'html5':
-//                me.audioSuccess.currentTime = 0;
-//                me.audioSuccess.play(); 
-//                break;
-//        }
-//    } else {
-//        switch(me.audioMode) {
-//            case 'LineaBrowser':  LineaBrowser.playSound(100, me.audioErrorArray); break;
-//            case 'ScannerDevice': LineaScanner.playSound(me.audioErrorArray); break;
-//            case 'html5':
-//                me.audioError.currentTime = 0;
-//                me.audioError.play(); 
-//                break;
-//        }
-//    }
-//};
 //---------------------------------------------------------------------------------
 Program.prototype.modules = [
     //Home Modules
@@ -87,9 +27,27 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/serialitems$/,            getScreen: function() { return RwSerialItemsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/repairorder$/,            getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
     //Settings Modules
+  , { urlpattern: /^module\/country$/,                getScreen: function() { return CountryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/state$/,                  getScreen: function() { return StateController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customerstatus$/,         getScreen: function() { return CustomerStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customertype$/,           getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
+  , { urlpattern: /^module\/glaccount$/,              getScreen: function() { return GlAccountController.getModuleScreen(); } }
+  , { urlpattern: /^module\/billingcycle$/,           getScreen: function() { return BillingCycleController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymenttype$/,            getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymentterms$/,           getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
   , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/usersettings/,            getScreen: function() { return RwUserSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorclass$/,            getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/warehouse$/,              getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customercategory$/,       getScreen: function() { return CustomerCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/creditstatus$/,           getScreen: function() { return CreditStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealtype$/,               getScreen: function() { return DealTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealstatus$/,             getScreen: function() { return DealStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/department$/,             getScreen: function() { return DepartmentController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/productiontype$/,         getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/officelocation$/,         getScreen: function () { return OfficeLocationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealclassification$/,     getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules
@@ -97,9 +55,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/receiptprocessing/,       getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorinvoiceprocessing/, getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
     //Administrator
-  , { urlpattern: /^module\/group/,                   getScreen: function() { return RwGroupController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/group/,                   getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/integration/,             getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                    getScreen: function() { return RwUserController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                    getScreen: function() { return UserController.getModuleScreen({}, {}); } }
     //Exports
   , { urlpattern: /^module\/example/,                 getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];
@@ -156,7 +114,6 @@ Program.prototype.routes = [
       , getScreen: function() {
             sessionStorage.clear();
             location.reload(false);
-            //program.navigate('default');
             return null;
         }
     }
@@ -165,7 +122,6 @@ Program.prototype.routes = [
 Program.prototype.navigateHashChange = function(path) {
     var me, screen, match;
     me = this;
-    //sessionStorage.setItem('activePath', path);
     path = path.toLowerCase();
     
     for (var i = 0; i < program.routes.length; i++) {
@@ -184,7 +140,6 @@ Program.prototype.navigateHashChange = function(path) {
 Program.prototype.navigate = function(path) {
     var me, screen;
     me = this;
-    //sessionStorage.setItem('activePath', path);
     path = path.toLowerCase();
     if (window.location.hash.replace('#/','') !== path) {
         window.location.hash = '/' + path;
@@ -244,22 +199,8 @@ Program.prototype.loadDefaultPage = function() {
     }
 };
 //---------------------------------------------------------------------------------
-jQuery(function() {
-    //jQuery('#index-loading')
-    //    .hide()
-    //    .on('click', function() {
-    //        jQuery('#index-loadingInner').stop().show();
-    //        if (confirm(SuLanguages.translate('Cancel Request') + '?') ) {
-    //            if (SuAppData.jqXHR) {
-    //                SuAppData.jqXHR.abort();
-    //            }
-    //            jQuery('#index-loading').hide();
-    //        }
-    //    })
-    //;
-    //jQuery('#index-loadingInner')
-    //    .hide()
-    //;
+jQuery(function () {
+    FwAppData.useWebApi = true;
     program = new Program();
     program.load();
     program.loadDefaultPage();

@@ -98,8 +98,8 @@ namespace Fw.MSBuildTasks
                         {
                             if (!this.Publish)
                             {
-                                BuildFwReferencesJsFile(solutionDir);
-                                BuildAppReferencesJsFile(config);
+                                //BuildFwReferencesJsFile(solutionDir);
+                                //BuildAppReferencesJsFile(config);
                             }
 
                             for (int targetfileno = 0; targetfileno < config.Targets[i].Files.Count; targetfileno++)
@@ -319,26 +319,40 @@ namespace Fw.MSBuildTasks
                                     {
                                         DirectoryInfo moduleDirectoryInfo = new DirectoryInfo(pathModule);
                                         nameModule = moduleDirectoryInfo.Name;
+                                        fileBrowseTemplate = null;
+                                        fileFormTemplate = null;
                                         FileInfo[] fileInfos = moduleDirectoryInfo.GetFiles("*.htm");
                                         foreach (FileInfo fileInfo in fileInfos)
                                         {
-                                            if (fileInfo.Name.EndsWith("Browse.htm") || fileInfo.Name.EndsWith("Browse.html"))
+                                            if (fileInfo.Name.EndsWith("Browse.htm") /*|| fileInfo.Name.EndsWith("Browse.html")*/)
                                             {
-                                                pathBrowseTemplate = Path.Combine(pathModule, nameModule + "Browse.htm");
-                                                if (File.Exists(pathBrowseTemplate)) fileBrowseTemplate = File.ReadAllText(pathBrowseTemplate);
-                                                
+                                                fileBrowseTemplate = File.ReadAllText(fileInfo.FullName);
                                             }
-                                            else if (fileInfo.Name.EndsWith("Form.htm") || fileInfo.Name.EndsWith("Form.html"))
+                                            else if (fileInfo.Name.EndsWith("Form.htm") /*|| fileInfo.Name.EndsWith("Form.html")*/)
                                             {
-                                                pathFormTemplate   = Path.Combine(pathModule, nameModule + "Form.htm");
-                                                if (File.Exists(pathFormTemplate))   fileFormTemplate   = File.ReadAllText(pathFormTemplate);
+                                                fileFormTemplate   = File.ReadAllText(fileInfo.FullName);
                                             }
                                             else
                                             {
-                                                string htmlTemplate = File.ReadAllText(fileInfo.FullName);
-                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\">");
-                                                sbModules.AppendLine(htmlTemplate);
-                                                sbModules.AppendLine("</script>");
+                                                if (Publish)
+                                                {
+                                                    string htmlTemplate = File.ReadAllText(fileInfo.FullName);
+                                                    sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\">");
+                                                    sbModules.AppendLine(htmlTemplate);
+                                                    sbModules.AppendLine("</script>");
+                                                }
+                                                else
+                                                {
+                                                    string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + ".htm";
+                                                    foreach (Field field in config.Fields)
+                                                    {
+                                                        if (urlHtml.Contains(field.Key))
+                                                        {
+                                                            urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                        }
+                                                    }
+                                                    sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                                }
                                             }
                                         }
                                         if (UpdateSchema)
@@ -348,16 +362,46 @@ namespace Fw.MSBuildTasks
                                         if (fileBrowseTemplate != null)
                                         {
                                             fileBrowseTemplate = GetAddSchemaDataToModuleBrowseTemplate(fileBrowseTemplate, schema, nameModule);
-                                            sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
-                                            sbModules.AppendLine(fileBrowseTemplate);
-                                            sbModules.AppendLine("</script>");
+                                            if (Publish)
+                                            {
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\">");
+                                                sbModules.AppendLine(fileBrowseTemplate);
+                                                sbModules.AppendLine("</script>");
+                                            }
+                                            else
+                                            {
+                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                                foreach (Field field in config.Fields)
+                                                {
+                                                    if (urlHtml.Contains(field.Key))
+                                                    {
+                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                    }
+                                                }
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                            }
                                         }
                                         if (fileFormTemplate != null)
                                         {
                                             fileFormTemplate   = GetAddSchemaDataToModuleFormTemplate(fileFormTemplate, schema, nameModule);
-                                            sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
-                                            sbModules.AppendLine(fileFormTemplate);
-                                            sbModules.AppendLine("</script>");
+                                            if (Publish)
+                                            {
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\">");
+                                                sbModules.AppendLine(fileFormTemplate);
+                                                sbModules.AppendLine("</script>");
+                                            }
+                                            else
+                                            {
+                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Form.htm";
+                                                foreach (Field field in config.Fields)
+                                                {
+                                                    if (urlHtml.Contains(field.Key))
+                                                    {
+                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                                    }
+                                                }
+                                                sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                            }
                                         }
                                     }
                                 }
@@ -1552,7 +1596,7 @@ namespace Fw.MSBuildTasks
                 {
                     if ((formfieldNode.Attributes["data-datafield"] != null) && (!string.IsNullOrEmpty(formfieldNode.Attributes["data-datafield"].Value)))
                     {
-                        string datafield, tableName, caption, columnName, validationName, validationDisplayField, dataType, tabCaption;
+                        string datafield, tableName=string.Empty, caption, columnName=string.Empty, validationName, validationDisplayField, dataType, tabCaption;
                         string[] datafieldFragments;
                         int saveOrder;
                         bool required, isIdentity, readOnly, noDuplicate, exportToExcel;
@@ -1564,8 +1608,16 @@ namespace Fw.MSBuildTasks
                         required               = true;
                         isIdentity             = false;
                         datafieldFragments     = datafield.Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries);
-                        tableName              = datafieldFragments[0];
-                        columnName             = datafieldFragments[1];
+                        if (datafieldFragments.Length == 2)
+                        {
+                            tableName              = datafieldFragments[0];
+                            columnName             = datafieldFragments[1];
+                        }
+                        else if (datafieldFragments.Length == 1)
+                        {
+                            tableName              = string.Empty;
+                            columnName             = datafieldFragments[0];
+                        }
                         saveOrder              = (formfieldNode.Attributes["data-saveorder"] != null) ? Convert.ToInt32(formfieldNode.Attributes["data-saveorder"].Value) : 0;
                         validationName         = (formfieldNode.Attributes["data-validationname"] != null) ? formfieldNode.Attributes["data-validationname"].Value : string.Empty;
                         validationDisplayField = (formfieldNode.Attributes["data-validationdisplayfield"] != null) ? formfieldNode.Attributes["data-validationdisplayfield"].Value : string.Empty;
@@ -1586,7 +1638,7 @@ namespace Fw.MSBuildTasks
                 {
                     if ((formfieldNode.Attributes["data-datafield"] != null) && (!string.IsNullOrEmpty(formfieldNode.Attributes["data-datafield"].Value)))
                     {
-                        string datafield, tableName, columnName, caption, validationName, validationDisplayField, dataType, tabCaption;
+                        string datafield, tableName=string.Empty, columnName=string.Empty, caption, validationName, validationDisplayField, dataType, tabCaption;
                         string[] datafieldFragments;
                         int saveOrder;
                         bool required, isIdentity, readOnly, noDuplicate, exportToExcel;
@@ -1595,8 +1647,16 @@ namespace Fw.MSBuildTasks
                         caption                = (formfieldNode.Attributes["data-caption"]   != null) ? formfieldNode.Attributes["data-caption"].Value   : datafield;
                         dataType               = (formfieldNode.Attributes["data-type"]      != null) ? formfieldNode.Attributes["data-type"].Value      : string.Empty;
                         datafieldFragments     = datafield.Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries);
-                        tableName              = datafieldFragments[0];
-                        columnName             = datafieldFragments[1];
+                        if (datafieldFragments.Length == 2)
+                        {
+                            tableName              = datafieldFragments[0];
+                            columnName             = datafieldFragments[1];
+                        }
+                        else if (datafieldFragments.Length == 1)
+                        {
+                            tableName              = string.Empty;
+                            columnName             = datafieldFragments[0];
+                        }
                         readOnly               = (formfieldNode.Attributes["data-readonly"] != null) ? formfieldNode.Attributes["data-readonly"].Value.Equals("true") : false;
                         required               = (formfieldNode.Attributes["data-required"] != null) ? formfieldNode.Attributes["data-required"].Value.ToLower().Equals("true") : false;
                         isIdentity             = false;
@@ -2160,7 +2220,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + moduleName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {
@@ -2197,7 +2266,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + moduleName + "Form.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlUniqueIds = xmlForm.SelectNodes("//div[@data-control='FwFormField' and @data-isuniqueid='true']"); //xpath query
             xmlColumns   = xmlForm.SelectNodes("//div[@data-control='FwFormField' and (not(@data-isuniqueid) or @data-isuniqueid!='true')]"); //xpath query
             foreach(XmlNode xmlUniqueId in xmlUniqueIds)
@@ -2316,7 +2394,16 @@ namespace Fw.MSBuildTasks
             string result;
             
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + gridName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {
@@ -2397,7 +2484,16 @@ namespace Fw.MSBuildTasks
             string result;
 
             xmlForm = new XmlDocument();
-            xmlForm.LoadXml(formTemplate);
+            try
+            {
+                xmlForm.LoadXml(formTemplate);
+            }
+            catch(Exception ex)
+            {
+                Console.Error.WriteLine("***The file " + validationName + "Browse.htm is not valid XML.***");
+                Console.Error.WriteLine(ex.Message);
+                //Console.Error.WriteLine(ex.StackTrace);
+            }
             xmlBrowses = xmlForm.SelectNodes("//div[@data-control='FwBrowse']"); //xpath query
             foreach(XmlNode xmlBrowse in xmlBrowses)
             {

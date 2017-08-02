@@ -614,7 +614,6 @@
     <None Include="Content\scripts\Sortable-1.1.1\meteor\runtests.sh" />
     <None Include="Content\scripts\Sortable-1.1.1\package.json" />
     <None Include="Content\scripts\Sortable-1.1.1\README.md" />
-    <None Include="scripts\_references.js" />
     <None Include="Web References\com.elementexpress.certtransaction\express.wsdl" />
     <None Include="Web References\com.elementexpress.certtransaction\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>

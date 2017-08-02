@@ -663,7 +663,7 @@ if (typeof DayPilot.Global === 'undefined') {
 
         sheet.add = function(selector, rules, index) {
             if (typeof index === 'undefined') {
-                index = style.sheet.rules.length;
+                index = 0;
             }
             if (oldStyle) {
                 this.rules.push(selector + "{" + rules + "\u007d");

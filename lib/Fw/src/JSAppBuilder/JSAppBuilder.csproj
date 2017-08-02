@@ -65,11 +65,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild" Condition="$(FwPublish)=='true'">
     <MakeDir Directories="$(FwSolutionDir)\build\JSAppBuilder" Condition="!Exists('$(FwSolutionDir)\build\JSAppBuilder')" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MsBuild.dll&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MSBuild.dll.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll.config&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\Fw.MSBuild.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.pdb&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.exe&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.exe.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe.config&quot;" />
-    <Exec Command="copy /y &quot;$(ProjectDir)bin\Debug\JSAppBuilder.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.pdb&quot;" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Release\Fw.MsBuild.dll&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll&quot;" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Release\Fw.MSBuild.dll.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.dll.config&quot;" />
+    <!--<Exec Command="copy /y &quot;$(ProjectDir)bin\Release\Fw.MSBuild.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\Fw.MSBuild.pdb&quot;" />-->
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Release\JSAppBuilder.exe&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe&quot;" />
+    <Exec Command="copy /y &quot;$(ProjectDir)bin\Release\JSAppBuilder.exe.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe.config&quot;" />
+    <!--<Exec Command="copy /y &quot;$(ProjectDir)bin\Release\JSAppBuilder.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.pdb&quot;" />-->
   </Target>
 </Project>

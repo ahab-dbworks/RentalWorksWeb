@@ -424,6 +424,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="appapi\v1\Controllers\" />
+    <Folder Include="appapi\v1\Models\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

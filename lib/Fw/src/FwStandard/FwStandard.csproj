@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SqlServer\FwCryptography.cs" />
+    <Compile Remove="SqlServer\FwDatabases.cs" />
+    <Compile Remove="SqlServer\FwSqlColumn.cs" />
+    <Compile Remove="SqlServer\FwSqlColumnSchema.cs" />
+    <Compile Remove="SqlServer\FwSqlTable.cs" />
+    <Compile Remove="SqlServer\FwSqlTableRow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="Dapper" Version="1.50.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.3.1" />
+  </ItemGroup>
+
+</Project>

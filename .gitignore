@@ -33,6 +33,8 @@
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
 /src/RentalWorksWeb/scripts/_references.js
+/src/RentalWorksWeb/Source/Modules/Settings/**/*.js
+/src/RentalWorksWeb/Source/Modules/Settings/**/*.js.map
 /src/RentalWorksWeb/theme/fwcursors/*
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
@@ -60,5 +62,22 @@
 /lib/Fw/src/ReplaceInFile/obj/
 /lib/Fw/src/ReplaceInFile/ReplaceInFile.csproj.user
 
+/lib/Fw/src/FwStandard/bin/
+/lib/Fw/src/FwStandard/obj/
+/lib/Fw/src/FwStandard/FwStandard.csproj.user
+
+/src/RentalWorksWebLogic/bin/
+/src/RentalWorksWebLogic/obj/
+/src/RentalWorksWebLogic/RentalWorksWebLogic.csproj.user
+
+/src/RentalWorksWebApi/bin/
+/src/RentalWorksWebApi/obj/
+/src/RentalWorksWebApi/Properties/PublishProfiles/
+/src/RentalWorksWebApi/RentalWorksWebApi.csproj.user
+/src/RentalWorksWebApi/appsettings.Development.json
+
+/src/RentalWorksWebDataLayer/obj/
+/src/RentalWorksWebDataLayer/bin/
+/src/RentalWorksWebDataLayer/RentalWorksWebDataLayer.csproj.user
 
 /TestResult.xml

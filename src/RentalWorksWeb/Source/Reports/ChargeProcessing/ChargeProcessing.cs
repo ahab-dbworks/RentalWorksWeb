@@ -410,52 +410,6 @@ namespace RentalWorksWeb.Source.Reports
             return rowtemplate;
         }
         //---------------------------------------------------------------------------------------------
-        protected string getExcelBodyDetailRowTemplate()
-        {
-            StringBuilder html;
-            string rowtemplate;
-
-            html = new StringBuilder();
-            html.AppendLine("      <ss:Row ss:StyleID=\"{{rowtype}}\">");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{customer}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{deal}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{invoiceno}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{invoicedate}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{orderno}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{pono}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{invoicedesc}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{billingstart}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{billingend}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{invoicetotal}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{nocharge}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("      </ss:Row>");
-            rowtemplate = html.ToString();
-
-            return rowtemplate;
-        }
-        //---------------------------------------------------------------------------------------------
         protected string getBodyTotalRowTemplate()
         { 
             StringBuilder html;
@@ -467,28 +421,6 @@ namespace RentalWorksWeb.Source.Reports
             html.AppendLine("  <td><div data-datafield=\"invoicetotal\" class=\"alignright\">{{invoicetotal}}</div></td>");
             html.AppendLine("  <td><div data-datafield=\"nocharge\"></div></td>");
             html.AppendLine("</tr>");
-            rowtemplate = html.ToString();
-
-            return rowtemplate;
-        }
-        //---------------------------------------------------------------------------------------------
-        protected string getExcelBodyTotalRowTemplate()
-        {
-            StringBuilder html;
-            string rowtemplate;
-
-            html = new StringBuilder();
-            html.AppendLine("      <ss:Row ss:StyleID=\"{{rowtype}}\">");
-            html.AppendLine("        <ss:Cell ss:MergeAcross=\"9\">");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">Total:</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\">{{invoicetotal}}</ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("        <ss:Cell>");
-            html.AppendLine("          <ss:Data ss:Type=\"String\"></ss:Data>");
-            html.AppendLine("        </ss:Cell>");
-            html.AppendLine("      </ss:Row>");
             rowtemplate = html.ToString();
 
             return rowtemplate;
