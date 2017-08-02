@@ -22,9 +22,9 @@ namespace RentalWorksWebApi.Controllers.v1
         /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
         /// <response code="200">Successfully retrieves records.</response>
         /// <response code="500">Error in the webapi or database.</response>
-        [HttpGet("browse")]
+        [HttpPost("browse")]
         //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> Browse([FromQuery]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerStatusLogic));
         }
