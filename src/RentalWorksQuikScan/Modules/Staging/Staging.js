@@ -166,6 +166,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             jQuery('#staging-rfid').hide();
             jQuery('#staging-pendingList').show();
             jQuery('#staging-scan').attr('data-mode', 'PENDING');
+            RwRFID.unregisterEvents();
             request = {
                 orderid: screen.getOrderId(),
                 contractid: ''
@@ -186,6 +187,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             jQuery('#staging-scan').hide();
             jQuery('#staging-rfid').show();
             jQuery('#staging-scan').attr('data-mode', 'RFID');
+            RwRFID.registerEvents(screen.rfidscan);
             request = {
                 rfidmode: 'STAGING',
                 sessionid: screen.getOrderId(),
@@ -1633,6 +1635,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         return jQuery(html.join(''));
     };
     screen.rfidscan = function(epcs) {
+        var request;
         if (epcs !== '') {
             screen.$view.find('.rfid-rfidstatus').show();
             screen.$view.find('.rfid-items').empty();
@@ -1642,13 +1645,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             screen.$view.find('.rfid-rfidbuttons .btnpending').hide();
             screen.$view.find('.rfid-rfidbuttons .btnexception').hide();
             screen.$view.find('.rfid-rfidbuttons .btnstaging').hide();
-            requestStageItem = {
+            request = {
                 rfidmode:  'STAGING',
                 sessionid: screen.getOrderId(),
                 portal:    device.uuid,
                 tags:      epcs
             };
-            RwServices.order.rfidScan(requestStageItem, function(response) {
+            RwServices.callMethod("Staging", "RFIDScan", request, function(response) {
                 var $item;
 
                 for (var i = 0; i < response.processed.length; i++) {
@@ -2672,6 +2675,17 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
+            });
+        }
+
+        if (typeof window.TslReader !== 'undefined') {
+            window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen', function() {
+                RwRFID.isConnected = true;
+                screen.toggleRfid();
+            });
+            window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getStagingScreen', function() {
+                RwRFID.isConnected = false;
+                screen.toggleRfid();
             });
         }
 

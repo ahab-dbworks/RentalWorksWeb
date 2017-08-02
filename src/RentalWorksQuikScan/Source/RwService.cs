@@ -752,65 +752,6 @@ namespace RentalWorksQuikScan.Source
                                                       webusersid: session.security.webUser.webusersid);
         }
         //---------------------------------------------------------------------------------------------
-        public static void RFIDScan(dynamic request, dynamic response, dynamic session)
-        {
-            string batchid;
-            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
-
-            batchid = RwAppData.LogRFIDTags(conn:      FwSqlConnection.RentalWorks,
-                                            portal:    request.portal,
-                                            sessionid: request.sessionid,
-                                            tags:      request.tags,
-                                            usersid:   session.security.webUser.usersid);
-
-            RwAppData.ProcessScannedTags(conn:      FwSqlConnection.RentalWorks,
-                                         portal:    request.portal,
-                                         sessionid: request.sessionid,
-                                         batchid:   batchid,
-                                         usersid:   session.security.webUser.usersid,
-                                         rfidmode:  request.rfidmode);
-
-            response.processed = RwAppData.ScannedTag(conn:      FwSqlConnection.RentalWorks,
-                                                      sessionid: request.sessionid,
-                                                      usersid:   session.security.webUser.usersid,
-                                                      portal:    request.portal,
-                                                      batchid:   batchid);
-
-
-            response.exceptions = RwAppData.GetRFIDExceptions(conn:      FwSqlConnection.RentalWorks,
-                                                                sessionid: request.sessionid,
-                                                                portal:    request.portal,
-                                                                usersid:   session.security.webUser.usersid);
-
-            if (request.rfidmode == "STAGING")
-            {
-
-                response.pending = RwAppData.CheckoutExceptionRFID(conn:        FwSqlConnection.RentalWorks,
-                                                                   orderid:     request.sessionid,
-                                                                   warehouseid: userLocation.warehouseId);
-            }
-            else if (request.rfidmode == "CHECKIN")
-            {
-                response.pending = RwAppData.CheckInExceptionRFID(conn:      FwSqlConnection.RentalWorks,
-                                                                  sessionid: request.sessionid);
-
-                if ((request.aisle != "") && (request.shelf != ""))
-                {
-                    foreach (var processeditem in response.processed)
-                    {
-                        if (processeditem.barcode != "")
-                        {
-                            RwAppData.WebMoveBCLocation(conn:    FwSqlConnection.RentalWorks,
-                                                        usersId: session.security.webUser.usersid,
-                                                        barcode: processeditem.barcode,
-                                                        aisle:   request.aisle,
-                                                        shelf:   request.shelf);
-                        }
-                    }
-                }
-            }
-        }
-        //---------------------------------------------------------------------------------------------
         public static void LoadRFIDPending(dynamic request, dynamic response, dynamic session)
         {
             if (request.rfidmode == "STAGING")

@@ -61,7 +61,6 @@ RwServices.order.getorderitemstosub                    = function(request, doneC
 RwServices.order.getordercompletestosub                = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/getordercompletestosub',                request, doneCallback);};
 RwServices.order.substituteatstaging                   = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/substituteatstaging',                   request, doneCallback);};
 RwServices.order.getRFIDStatus                         = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/getrfidstatus',                         request, doneCallback);};
-RwServices.order.rfidScan                              = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/rfidscan',                              request, doneCallback);};
 RwServices.order.loadRFIDPending                       = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/loadrfidpending',                       request, doneCallback);};
 RwServices.order.loadRFIDExceptions                    = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/loadrfidexceptions',                    request, doneCallback);};
 RwServices.order.rfidClearSession                      = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/rfidclearsession',                      request, doneCallback);};

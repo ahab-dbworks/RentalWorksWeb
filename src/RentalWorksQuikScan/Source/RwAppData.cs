@@ -2228,23 +2228,6 @@ namespace RentalWorksQuikScan.Source
             sp.Execute();
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic ScannedTag(FwSqlConnection conn, string sessionid, string usersid, string portal, string batchid)
-        {
-            dynamic result;
-            FwSqlCommand qry;
-
-            qry = new FwSqlCommand(conn);
-            qry.Add("select *");
-            qry.Add("from   dbo.funcscannedtag(@sessionid, @usersid, @portal, @batchid)");
-            qry.AddParameter("@sessionid", sessionid);
-            qry.AddParameter("@usersid",   usersid);
-            qry.AddParameter("@portal",    portal);
-            qry.AddParameter("@batchid",   batchid);
-            result = qry.QueryToDynamicList2();
-
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         public static dynamic GetRFIDExceptions(FwSqlConnection conn, string sessionid, string portal, string usersid)
         {
             dynamic result;

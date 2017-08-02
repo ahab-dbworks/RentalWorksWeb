@@ -533,5 +533,66 @@ namespace RentalWorksQuikScan.Modules
              }
         }
         //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public static void RFIDScan(dynamic request, dynamic response, dynamic session)
+        {
+            string batchid;
+            dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks, session.security.webUser.usersid);
+
+            batchid = RwAppData.LogRFIDTags(conn:      FwSqlConnection.RentalWorks,
+                                            portal:    request.portal,
+                                            sessionid: request.sessionid,
+                                            tags:      request.tags,
+                                            usersid:   session.security.webUser.usersid);
+
+            RwAppData.ProcessScannedTags(conn:      FwSqlConnection.RentalWorks,
+                                         portal:    request.portal,
+                                         sessionid: request.sessionid,
+                                         batchid:   batchid,
+                                         usersid:   session.security.webUser.usersid,
+                                         rfidmode:  request.rfidmode);
+
+            response.processed = GetTags(sessionid: request.sessionid,
+                                         usersid:   session.security.webUser.usersid,
+                                         portal:    request.portal,
+                                         batchid:   batchid);
+
+            response.exceptions = RwAppData.GetRFIDExceptions(conn:      FwSqlConnection.RentalWorks,
+                                                                sessionid: request.sessionid,
+                                                                portal:    request.portal,
+                                                                usersid:   session.security.webUser.usersid);
+
+            response.pending = RwAppData.CheckoutExceptionRFID(conn:        FwSqlConnection.RentalWorks,
+                                                                orderid:     request.sessionid,
+                                                                warehouseid: userLocation.warehouseId);
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static dynamic GetTags(string sessionid, string usersid, string portal, string batchid)
+        {
+            dynamic result;
+            FwSqlCommand qry;
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("select *");
+            qry.Add("from   dbo.funcscannedtag(@sessionid, @orderid, @usersid, @portal, @batchid, @rfidmode)");
+            if (string.IsNullOrEmpty(batchid))
+            {
+                qry.Add(" where status = 'EXCEPTION'");
+            }
+            else //MY 2017/08/02: Excludes exceptions because staging loads them seperately. Change when RFID is improved in staging.
+            {
+                qry.Add("where status <> 'EXCEPTION'");
+            }
+            qry.AddParameter("@sessionid", sessionid);
+            qry.AddParameter("@orderid",   "");
+            qry.AddParameter("@usersid",   usersid);
+            qry.AddParameter("@portal",    portal);
+            qry.AddParameter("@batchid",   batchid);
+            qry.AddParameter("@rfidmode",  "STAGING");
+            result = qry.QueryToDynamicList2();
+
+            return result;
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }

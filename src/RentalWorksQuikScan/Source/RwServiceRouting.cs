@@ -285,11 +285,6 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/rfidscan", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.RFIDScan(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/loadrfidpending", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.LoadRFIDPending(request, response, session); }
                 ),
