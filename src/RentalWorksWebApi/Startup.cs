@@ -21,13 +21,17 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace RentalWorksWebApi
 {
     public class Startup
     {
+        public static IHostingEnvironment HostingEnvironment { get; private set; }
         public Startup(IHostingEnvironment env)
         {
+            HostingEnvironment = env;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -38,32 +42,6 @@ namespace RentalWorksWebApi
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMissingTypeMaps = true;
-                //cfg.AddProfile<FwSqlMapperProfile>();
-                //cfg.CreateMap<CustomerStatusLoader, CustomerStatusLoader>();
-                //cfg.CreateMap<CustomerStatusLogic, CustomerStatusLoader>();
-                //cfg.CreateMap<CustomerStatusLoader, CustomerStatusLogic>();
-                //cfg.CreateMap<GlAccountLogic, GlAccountRecord>();
-                //cfg.CreateMap<OrderLogic, OrderLoader>();
-                //cfg.CreateMap<OrderLoader, OrderLogic>();
-                //cfg.CreateMap<VendorClassLogic, VendorClassRecord>();
-                //cfg.CreateMap<CustomerTypeLogic, CustomerTypeRecord>();
-                //cfg.CreateMap<CustomerTypeRecord, CustomerTypeRecord>();
-                //cfg.CreateMap<CreditStatusLogic, CreditStatusRecord>();
-                //cfg.CreateMap<WarehouseLogic, WarehouseRecord>();
-                //cfg.CreateMap<BillingCycleLoader, BillingCycleLogic>();
-                //cfg.CreateMap<BillingCycleLogic, BillingCycleLoader>();
-                //cfg.CreateMap<PaymentTypeLogic, PaymentTypeRecord>();
-                //cfg.CreateMap<CustomerCategoryLogic, CustomerCategoryRecord>();
-                //cfg.CreateMap<DealTypeLogic, DealTypeRecord>();
-                //cfg.CreateMap<PaymentTermsLogic, PaymentTermsRecord>();
-                //cfg.CreateMap<OfficeLocationLogic, OfficeLocationRecord>();
-                //cfg.CreateMap<ProductionTypeLogic, ProductionTypeRecord>();
-                //cfg.CreateMap<DealClassificationLogic, DealClassificationRecord>();
-                //cfg.CreateMap<CountryLogic, CountryRecord>();
-                //cfg.CreateMap<DepartmentLogic, DepartmentRecord>();
-                //cfg.CreateMap<StateLogic, StateRecord>();
-                //cfg.CreateMap<DealStatusLogic, DealStatusRecord>();
-
             });
         }
 
@@ -75,25 +53,11 @@ namespace RentalWorksWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // uncomment to configure IIS integration
-            //services.Configure<IISOptions>(options => {
-            //    options.
-            //});
-
-            services.AddCors();
-
-            // Get ApplicationConfig section from appsettings.json
-            // Adds services required for using options.
-            // Register the IConfiguration instance which MyOptions binds against.
             ApplicationConfig appConfig = Configuration.GetSection("ApplicationConfig").Get<ApplicationConfig>();
-            services.AddOptions();
-            services.Configure<ApplicationConfig>(Configuration.GetSection("ApplicationConfig"));
-
-            // Add framework services.
-
-            // Make authentication compulsory across the board (i.e. shut
-            // down EVERYTHING unless explicitly opened up).
             services
+                .AddCors()
+                .AddOptions()
+                .Configure<ApplicationConfig>(Configuration.GetSection("ApplicationConfig"))
                 .AddMvc(//config =>
                 //{
                     //var policy = new AuthorizationPolicyBuilder()
@@ -108,6 +72,15 @@ namespace RentalWorksWebApi
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 })
             ;
+
+            //require HTTPS in production configuration
+            //if (HostingEnvironment.IsProduction())
+            //{
+            //    services.Configure<MvcOptions>(options =>
+            //    {
+            //        options.Filters.Add(new RequireHttpsAttribute());
+            //    });
+            //}
 
             // Use policy auth.
             //services.AddAuthorization(options =>
@@ -139,6 +112,14 @@ namespace RentalWorksWebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            //redirect to HTTPS in production configuration
+            //if (HostingEnvironment.IsProduction())
+            //{
+            //    var options = new RewriteOptions()
+            //        .AddRedirectToHttps();
+            //    app.UseRewriter(options);
+            //}
 
             ApplicationLogging.LoggerFactory = loggerFactory;
 
