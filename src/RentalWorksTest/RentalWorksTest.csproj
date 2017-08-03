@@ -82,7 +82,6 @@
     <Compile Include="QuikScan\Modules\Staging\StagingTestFixture.cs" />
     <Compile Include="RentalWorksAPI\FuncApi.cs" />
     <Compile Include="RentalWorksAPI\WebServiceException.cs" />
-    <Compile Include="RentalWorksAPI\XInventoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
