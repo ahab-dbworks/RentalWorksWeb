@@ -129,6 +129,9 @@ namespace RentalWorksWebApi
                .AllowAnyMethod()
                .AllowCredentials());
 
+            //app.UseDefaultFiles(); // Call first before app.UseStaticFiles()
+            app.UseStaticFiles(); // For the wwwroot folder
+
             // Use Jwt to authenticate requests
             //var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             //app.UseJwtBearerAuthentication(new JwtBearerOptions
