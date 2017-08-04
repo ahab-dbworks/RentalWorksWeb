@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\index.html" />
+    <Content Include="wwwroot\SettingsPage.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\Reports\" />
