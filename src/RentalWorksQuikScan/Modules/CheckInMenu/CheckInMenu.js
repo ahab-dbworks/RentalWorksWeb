@@ -265,8 +265,34 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 icon:        'chevron_right',
                 state:       1,
                 buttonclick: function () {
-                    $ordersearch.hide();
-                    $menu.show();
+                    var request, orderinfo;
+                    orderinfo = screen.getOrderInfo();
+                    request = {
+                        orderid:      orderinfo.orderid,
+                        dealid:       orderinfo.dealid,
+                        departmentid: orderinfo.departmentid
+                    };
+                    RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
+                        var props, checkInItemScreen;
+                        props = {
+                            moduleType:   RwConstants.moduleTypes.Order,
+                            activityType: RwConstants.activityTypes.CheckIn,
+                            checkInMode:  RwConstants.checkInModes.SingleOrder,
+                            checkInType:  RwConstants.checkInType.Normal,
+                            selectedorder: {
+                                orderid:      orderinfo.orderid,
+                                orderno:      orderinfo.orderno,
+                                orderdesc:    orderinfo.orderdesc,
+                                dealid:       orderinfo.dealid,
+                                departmentid: orderinfo.departmentid,
+                                contractid:   response.contractid,
+                                sessionno:    response.sessionno
+                            }
+                        };
+
+                        checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
+                        application.pushScreen(checkInItemScreen);
+                    });
                 }
             }
         ]

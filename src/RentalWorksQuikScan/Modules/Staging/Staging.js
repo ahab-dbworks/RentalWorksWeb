@@ -2698,6 +2698,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
+        if (typeof window.DTDevices !== 'undefined') {
+            window.DTDevices.unregisterListener('barcodeData', 'barcodeData_staging');
+        }
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getStagingScreen');
