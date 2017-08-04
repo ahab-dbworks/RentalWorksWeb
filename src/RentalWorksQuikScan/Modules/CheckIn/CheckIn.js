@@ -1306,11 +1306,11 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                     application.updateScreen(checkInItemScreen);
                                     requestCheckInItem2 = responseCheckInItem.request;
-                                    requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractId;
+                                    requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractid;
                                     RwServices.callMethod("CheckIn", "CheckInItem", responseCheckInItem.request, function(responseCheckInItem2) {
                                         properties.responseCheckInItem = responseCheckInItem2;
-                                        screen.toggleReconcileButton(responseCheckInItem2.enablereconcile);
-                                        screen.checkInItemCallback(responseCheckInItem2);
+                                        checkInItemScreen.toggleReconcileButton(responseCheckInItem2.enablereconcile);
+                                        checkInItemScreen.checkInItemCallback(responseCheckInItem2);
                                     });
                                 } else {
                                     throw 'Not implemented for moduleType: ' + properties.moduleType;
@@ -1362,11 +1362,11 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                             checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
                                             application.updateScreen(checkInItemScreen);
                                             requestCheckInItem2 = responseCheckInItem.request;
-                                            requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractId;
+                                            requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractid;
                                             RwServices.callMethod("CheckIn", "CheckInItem", responseCheckInItem.request, function(responseCheckInItem2) {
                                                 properties.responseCheckInItem = responseCheckInItem2;
-                                                screen.toggleReconcileButton(responseCheckInItem2.enablereconcile);
-                                                screen.checkInItemCallback(responseCheckInItem2);
+                                                checkInItemScreen.toggleReconcileButton(responseCheckInItem2.enablereconcile);
+                                                checkInItemScreen.checkInItemCallback(responseCheckInItem2);
                                             });
                                         } else {
                                             throw 'Not implemented for moduleType: ' + properties.moduleType;
