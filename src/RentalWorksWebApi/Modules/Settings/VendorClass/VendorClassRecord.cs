@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.VendorClass
     public class VendorClassRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "vendorclassid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string VendorClassId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "vendorclass", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "vendorclass", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string VendorClass { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

@@ -27,7 +27,7 @@ namespace FwStandard.DataLayer
         {
             get
             {
-                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().TableName;
+                return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
             }
         }
         //------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ namespace FwStandard.DataLayer
                     {
                         prefix = ",";
                     }
-                    qry.AddColumn("", property.Name, sqlDataFieldAttribute.DataType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                    qry.AddColumn("", property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
                     qry.Add("  " + prefix + "t.[" + sqlColumnName + "] as " + property.Name);
                     colNo++;
                 }

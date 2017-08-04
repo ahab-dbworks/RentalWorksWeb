@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.ScheduleType
     public class ScheduleTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "scheduletypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "scheduletypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ScheduleTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "scheduletype", dataType: FwDataTypes.Text, length: 12)]
+        [FwSqlDataField(column: "scheduletype", modeltype: FwDataTypes.Text, maxlength: 12)]
         public string ScheduleType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

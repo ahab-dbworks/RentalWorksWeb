@@ -8,22 +8,22 @@ namespace RentalWorksWebApi.Modules.Settings.Department
     public class DepartmentRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "departmentid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DepartmentId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "department", dataType: FwDataTypes.Text, length: 30)]
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string Department { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "deptcode", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "deptcode", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string DepartmentCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "divisioncode", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "divisioncode", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string DivisionCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

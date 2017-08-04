@@ -2,43 +2,43 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Order
+namespace RentalWorksWebApi.Modules.Home.Order
 {
-    [FwSqlTable("orderview", hasInsert: false, hasUpdate: false, hasDelete: false)]
+    [FwSqlTable("orderview")]
     public class OrderLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderid",dataType: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "orderid",modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderno", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderdesc", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderdate", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.UTCDateTime)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "customerid", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "customer", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealid", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "deal", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "maxcumulativediscount", dataType: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
         public decimal MaximumCumulativeDiscount { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "poapprovalstatusid", dataType: FwDataTypes.Text)]
+        [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text)]
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

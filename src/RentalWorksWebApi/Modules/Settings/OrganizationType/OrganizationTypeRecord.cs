@@ -8,19 +8,19 @@ namespace RentalWorksWebApi.Modules.Settings.OrganizationType
     public class OrganizationTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "organizationtypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string OrganizationTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "organizationtype", dataType: FwDataTypes.Text, length: 40)]
+        [FwSqlDataField(column: "organizationtype", modeltype: FwDataTypes.Text, maxlength: 40)]
         public string OrganizationType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "code", dataType: FwDataTypes.Text, length: 5)]
+        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 5)]
         public string OrganizationTypeCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactiveflg", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

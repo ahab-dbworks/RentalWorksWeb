@@ -8,19 +8,19 @@ namespace RentalWorksWebApi.Modules.Settings.PoClassification
     public class PoClassificationRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "poclassificationid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PoClassificationId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "poclassification", dataType: FwDataTypes.Text, length: 40)]
+        [FwSqlDataField(column: "poclassification", modeltype: FwDataTypes.Text, maxlength: 40)]
         public string PoClassification { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "excludefromroa", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean)]
         public bool ExcludeFromRoa { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactiveflg", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

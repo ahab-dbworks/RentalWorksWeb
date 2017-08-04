@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.Currency
     public class CurrencyRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "currencyid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CurrencyId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "currency", dataType: FwDataTypes.Text, length: 50)]
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string Currency { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "code", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

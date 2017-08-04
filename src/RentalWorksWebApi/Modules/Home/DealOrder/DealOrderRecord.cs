@@ -2,28 +2,28 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.DealOrder
+namespace RentalWorksWebApi.Modules.Home.DealOrder
 {
     [FwSqlTable("dealorder")]
     public class DealOrderRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string OrderId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderno", dataType: FwDataTypes.Text, length: 16)]
+        [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text, maxlength: 16)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderdesc", dataType: FwDataTypes.Text, length: 50)]
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "orderdate", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.UTCDateTime)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealid", dataType: FwDataTypes.Text, length: 8)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

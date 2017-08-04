@@ -8,19 +8,19 @@ namespace RentalWorksWebApi.Modules.Settings.ProductionType
     public class ProductionTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "prodtypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "prodtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ProductionTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "prodtype", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "prodtype", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string ProductionType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "prodcode", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "prodcode", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string ProductionTypeCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

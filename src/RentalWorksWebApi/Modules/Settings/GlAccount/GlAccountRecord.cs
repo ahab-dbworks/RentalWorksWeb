@@ -8,22 +8,22 @@ namespace RentalWorksWebApi.Modules.Settings.GlAccount
     public class GlAccountRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "glaccountid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "glaccountid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string GlAccountId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "glno", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "glno", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string GlAccountNo { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "glacctdesc", dataType: FwDataTypes.Text, length: 35)]
+        [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text, maxlength: 35)]
         public string GlAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "gltype", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "gltype", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string GlAccountType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

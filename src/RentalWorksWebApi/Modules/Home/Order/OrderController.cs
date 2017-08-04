@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.Order
+namespace RentalWorksWebApi.Modules.Home.Order
 {
     [Route("api/v1/[controller]")]
     public class OrderController : RwDataController

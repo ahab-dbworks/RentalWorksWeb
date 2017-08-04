@@ -8,25 +8,25 @@ namespace RentalWorksWebApi.Modules.Settings.ContactTitle
     public class ContactTitleRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "contacttitleid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ContactTitleId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "contacttitle", dataType: FwDataTypes.Text, length: 50)]
+        [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string ContactTitle { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "titletype", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "titletype", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string TitleType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "accountspayableflg", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "accountspayableflg", modeltype: FwDataTypes.Boolean)]
         public bool AccountsPayable { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "accountsreceivableflg", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "accountsreceivableflg", modeltype: FwDataTypes.Boolean)]
         public bool AccountsReceivable { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

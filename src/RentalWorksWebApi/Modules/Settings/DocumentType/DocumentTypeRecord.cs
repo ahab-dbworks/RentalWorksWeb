@@ -8,28 +8,28 @@ namespace RentalWorksWebApi.Modules.Settings.DocumentType
     public class DocumentTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "documenttypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "documenttypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DocumentTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "documenttype", dataType: FwDataTypes.Text, length: 30)]
+        [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string DocumentType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "floorplan", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "floorplan", modeltype: FwDataTypes.Boolean)]
         public bool Floorplan { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "videos", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "videos", modeltype: FwDataTypes.Boolean)]
         public bool Videos { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "panoramic", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "panoramic", modeltype: FwDataTypes.Boolean)]
         public bool Panoramic { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "autoattachtoemail", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "autoattachtoemail", modeltype: FwDataTypes.Boolean)]
         public bool AutomaticallyAttachToEmail { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

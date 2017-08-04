@@ -8,19 +8,19 @@ namespace RentalWorksWebApi.Modules.Settings.Warehouse
     public class WarehouseRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "warehouseid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string WarehouseId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "warehouse", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "whcode", dataType: FwDataTypes.Text, length: 8)]
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

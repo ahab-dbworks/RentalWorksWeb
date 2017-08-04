@@ -18,12 +18,14 @@ namespace RentalWorksWeb
         //---------------------------------------------------------------------------------------------
         private void BuildRentalWorksWebTree()
         {
+            string fileiconbaseurl          = "theme/images/icons/file/";
             string settingsiconbaseurl      = "theme/images/icons/settings/";
             string reportsiconbaseurl       = "theme/images/icons/reports/";
             string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
             var application = AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            var lv1menuRentalWorks   = AddLv1ModuleMenu("RentalWorks",     "{91D2F0CF-2063-4EC8-B38D-454297E136A8}", application.Id);
             var lv1menuSettings      = AddLv1ModuleMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
             var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
@@ -31,6 +33,9 @@ namespace RentalWorksWeb
             var lv1menuSubModules    = AddLv1SubModulesMenu("Sub-Modules", "{B8E34B04-EB99-4068-AD9E-BDC32D02967A}", application.Id);
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
 
+            //RentalWorks
+            AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
+            
             //Settings 
             var lv2menuAccountingMaintenance = AddLv2ModuleMenu("Accounting Maintenance", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingMaintenance.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png");

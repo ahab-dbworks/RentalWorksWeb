@@ -21,6 +21,7 @@
     <Content Remove="appsettings.Development.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Modules\Reports\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>

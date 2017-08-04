@@ -1052,6 +1052,12 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Home\Contact\Contact.js">
+      <DependentUpon>Contact.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
+    <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -1323,6 +1329,8 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
+    <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
+    <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
@@ -1453,6 +1461,9 @@
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js.map">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Home\Contact\Contact.js.map">
+      <DependentUpon>Contact.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1468,7 +1479,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="Source\Modules\Home\" />
     <Folder Include="Source\Modules\Utilities\" />
   </ItemGroup>
   <ItemGroup>

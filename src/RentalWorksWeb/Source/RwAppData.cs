@@ -308,5 +308,23 @@ namespace RentalWorksWeb.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetContactName(string contactid)
+        {
+            FwSqlCommand qry;
+            dynamic result;
+
+            result = new ExpandoObject();
+            qry = new FwSqlCommand(FwSqlConnection.TransWorks);
+            qry.Add("select fname, lname");
+            qry.Add("from contact with (nolock)");
+            qry.Add("where contactid = @contactid");
+            qry.AddParameter("@contactid", contactid);
+            qry.Execute();
+            result.firstname = qry.GetField("fname").ToString();
+            result.lastname  = qry.GetField("lname").ToString();
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

@@ -8,25 +8,25 @@ namespace RentalWorksWebApi.Data.Settings
     public class PaymentTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "paytypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PaymentTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "paytype", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "short", dataType: FwDataTypes.Text, length: 11)]
+        [FwSqlDataField(column: "short", modeltype: FwDataTypes.Text, maxlength: 11)]
         public string ShortName { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "pmttype", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "pmttype", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string PaymentTypeType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "accttran", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "accttran", modeltype: FwDataTypes.Boolean)]
         public bool AccountingTransaction { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

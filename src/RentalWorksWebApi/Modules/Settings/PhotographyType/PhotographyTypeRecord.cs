@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.PhotographyType
     public class PhotographyTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "photographytypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "photographytypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PhotographyTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "photographytype", dataType: FwDataTypes.Text, length: 50)]
+        [FwSqlDataField(column: "photographytype", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string PhotographyType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

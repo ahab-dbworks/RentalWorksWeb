@@ -8,34 +8,34 @@ namespace RentalWorksWebApi.Modules.Settings.DealType
     public class DealTypeRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealtypeid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DealTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealtype", dataType: FwDataTypes.Text, length: 30)]
+        [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string DealType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "color", dataType: FwDataTypes.OleToHtmlColor)]
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "whitetext", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean)]
         public bool WhiteText { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "glprefix", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "glprefix", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string GlPrefix { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "glsuffix", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "glsuffix", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string GlSuffix { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "theatricalproduction", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "theatricalproduction", modeltype: FwDataTypes.Boolean)]
         public bool TheatricalProduction { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "theatricalautocheckout", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "theatricalautocheckout", modeltype: FwDataTypes.Boolean)]
         public bool TheatricalAutoCheckout { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

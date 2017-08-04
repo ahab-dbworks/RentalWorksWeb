@@ -8,25 +8,25 @@ namespace RentalWorksWebApi.Modules.Settings.BillPeriod
     public class BillPeriodRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "billperiodid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string BillPeriodId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "billperiod", dataType: FwDataTypes.Text, length: 12)]
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text, maxlength: 12)]
         public string BillPeriod { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "periodtype", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string PeriodType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "nextbillperiodid", dataType: FwDataTypes.Text, length: 8)]
+        [FwSqlDataField(column: "nextbillperiodid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string NextBillPeriodId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "proratemonthly", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "proratemonthly", modeltype: FwDataTypes.Boolean)]
         public bool ProrateMonthly { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

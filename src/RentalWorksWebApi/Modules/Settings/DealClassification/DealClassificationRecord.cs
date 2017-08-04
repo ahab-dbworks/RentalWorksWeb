@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.DealClassification
     public class DealClassificationRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealclassificationid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "dealclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DealClassificationId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "dealclassification", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "dealclassification", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string DealClassification { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

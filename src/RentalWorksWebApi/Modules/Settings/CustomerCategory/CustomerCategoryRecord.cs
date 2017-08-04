@@ -8,16 +8,16 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerCategory
     public class CustomerCategoryRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "custcatid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "custcatid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CustomerCategoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "custcatdesc", dataType: FwDataTypes.Text, length: 20)]
+        [FwSqlDataField(column: "custcatdesc", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string CustomerCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
 
     }

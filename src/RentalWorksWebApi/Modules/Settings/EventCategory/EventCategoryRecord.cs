@@ -8,19 +8,19 @@ namespace RentalWorksWebApi.Modules.Settings.EventCategory
     public class EventCategoryRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "eventcategoryid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "eventcategoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string EventCategoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "eventcategory", dataType: FwDataTypes.Text, length: 50)]
+        [FwSqlDataField(column: "eventcategory", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string EventCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "eventcategorycode", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "eventcategorycode", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string EventCategoryCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

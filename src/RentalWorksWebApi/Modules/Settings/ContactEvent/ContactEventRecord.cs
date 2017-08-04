@@ -8,25 +8,25 @@ namespace RentalWorksWebApi.Modules.Settings.ContactEvent
     public class ContactEventRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "contacteventid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "contacteventid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ContactEventId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "contactevent", dataType: FwDataTypes.Text, length: 15)]
+        [FwSqlDataField(column: "contactevent", modeltype: FwDataTypes.Text, maxlength: 15)]
         public string ContactEvent { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "color", dataType: FwDataTypes.OleToHtmlColor)]
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "textcolor", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
         public bool WhiteText { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "recurring", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "recurring", modeltype: FwDataTypes.Boolean)]
         public bool Recurring { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }

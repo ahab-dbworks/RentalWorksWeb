@@ -1632,7 +1632,7 @@ namespace FwStandard.SqlServer
                     foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
                     {
                         FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[attribute.Key]));
-                        object data = FormatReaderData(attribute.Value.DataType, columnIndex[attribute.Key], reader);
+                        object data = FormatReaderData(attribute.Value.ModelType, columnIndex[attribute.Key], reader);
                         sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
                     }
 
@@ -1806,7 +1806,7 @@ namespace FwStandard.SqlServer
                                     // format the data and set the qry parameter value
                                     object data;
                                     // the typeof propertyValue is going to be a suitable JSON type for the SqlDataField DataType
-                                    switch (sqlDataFieldAttribute.DataType)
+                                    switch (sqlDataFieldAttribute.ModelType)
                                     {
                                         case FwDataTypes.Text:
                                             if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");

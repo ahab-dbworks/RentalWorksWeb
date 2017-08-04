@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.DealOrder;
-using RentalWorksWebApi.Modules.Settings.DealOrderDetail;
+using RentalWorksWebApi.Modules.Home.DealOrder;
+using RentalWorksWebApi.Modules.Home.DealOrderDetail;
 
-namespace RentalWorksWebApi.Modules.Settings.Order
+namespace RentalWorksWebApi.Modules.Home.Order
 {
     public class OrderLogic : RwBusinessLogic
     {

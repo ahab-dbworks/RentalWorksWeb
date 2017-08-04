@@ -8,28 +8,28 @@ namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
     public class PaymentTermsRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "paytermsid", dataType: FwDataTypes.Text, length: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PaymentTermsId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "payterms", dataType: FwDataTypes.Text, length: 12)]
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text, maxlength: 12)]
         public string PaymentTerms { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "invmessage", dataType: FwDataTypes.Text, length: 60)]
+        [FwSqlDataField(column: "invmessage", modeltype: FwDataTypes.Text, maxlength: 60)]
         public string InvoiceMessage { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "days", dataType: FwDataTypes.Integer)]
+        [FwSqlDataField(column: "days", modeltype: FwDataTypes.Integer)]
         public int DueInDays { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "cod", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "cod", modeltype: FwDataTypes.Boolean)]
         public bool COD { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "paytermscode", dataType: FwDataTypes.Text, length: 10)]
+        [FwSqlDataField(column: "paytermscode", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string PaymentTermsCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "inactive", dataType: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(columnName: "datestamp", dataType: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
     }
