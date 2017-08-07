@@ -63,18 +63,32 @@ namespace RentalWorksWeb
                                          AddModule("Deal Status", "{543F8F83-20AB-4001-8283-1E73A9D795DF}", lv2menuDealMaintenance.Id, "DealStatusController", "module/dealstatus", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Production Type", "{993EBF0C-EDF0-47A2-8507-51492502088B}", lv2menuDealMaintenance.Id, "ProductionTypeController", "module/productiontype", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuEventMaintenance = AddLv2ModuleMenu("Event Maintenance", "{AC96C86F-C229-4E35-8978-859BDAC5865B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Event Category", "{3912b3cc-b35f-434d-aeeb-c45fed537e29}", lv2menuEventMaintenance.Id, "EventCategoryController", "module/eventcategory", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Personnel Type", "{46339c9c-c663-4041-aeb4-a7f85783996f}", lv2menuEventMaintenance.Id, "PersonnelTypeController", "module/personneltype", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Photography Type", "{66bff7f0-8bca-4d32-bd94-6b5f13623bec}", lv2menuEventMaintenance.Id, "PhotographyTypeController", "module/photographytype", settingsiconbaseurl + "placeholder.png");
+                    
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentMaintenance = AddLv2ModuleMenu("Payment Maintenance", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Terms", "{44FD799A-1572-4B34-9943-D94FFBEF89D4}", lv2menuPaymentMaintenance.Id, "PaymentTermsController", "module/paymentterms", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuPOMaintenance = AddLv2ModuleMenu("PO Maintenance", "{55EDE544-A603-467D-AFA2-EC9C2A650810}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOMaintenance.Id, "PoClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
+                                           AddModule("Organization Type", "{fe3a764c-ab55-4ce5-8d7f-bfc86f174c11}", lv2menuVendorMaintenance.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuDocumentMaintenance = AddLv2ModuleMenu("Document Maintenance", "{CE6E0F99-8A5E-4359-B1A1-ECBDCCC43659}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                             AddModule("Document Type", "{358fbe63-83a7-4ab4-973b-1a5520573674}", lv2menuDocumentMaintenance.Id, "DocumentTypeController", "module/documenttype", settingsiconbaseurl + "placeholder.png");
 
+            
 
             //Reports 
             //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");

@@ -1091,6 +1091,10 @@
     <Content Include="Source\Modules\Settings\Department\Department.js">
       <DependentUpon>Department.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\DocumentType\DocumentTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DocumentType\DocumentTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\EventCategory\EventCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\EventCategory\EventCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\GlAccount\GlAccount.js">
       <DependentUpon>GlAccount.ts</DependentUpon>
     </Content>
@@ -1099,6 +1103,8 @@
     </Content>
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationBrowse.htm" />
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocationForm.htm" />
+    <Content Include="Source\Modules\Settings\OrganizationType\OrganizationTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrganizationType\OrganizationTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.js">
       <DependentUpon>PaymentTerms.ts</DependentUpon>
     </Content>
@@ -1119,6 +1125,12 @@
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleForm.htm" />
     <Content Include="Source\Modules\Settings\DealClassification\DealClassificationBrowse.htm" />
     <Content Include="Source\Modules\Settings\DealClassification\DealClassificationForm.htm" />
+    <Content Include="Source\Modules\Settings\PersonnelType\PersonnelTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PersonnelType\PersonnelTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\PhotographyType\PhotographyTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PhotographyType\PhotographyTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\POClassification\POClassificationBrowse.htm" />
+    <Content Include="Source\Modules\Settings\POClassification\POClassificationForm.htm" />
     <Content Include="Source\Modules\Settings\ProductionType\ProductionType.js">
       <DependentUpon>ProductionType.ts</DependentUpon>
     </Content>
@@ -1335,13 +1347,19 @@
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\DocumentType\DocumentTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\EventCategory\EventCategoryMenu.cs" />
     <Compile Include="Source\Modules\Settings\OfficeLocation\OfficeLocationMenu.cs" />
+    <Compile Include="Source\Modules\Settings\OrganizationType\OrganizationTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\Country\CountryMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealClassification\DealClassificationMenu.cs" />
+    <Compile Include="Source\Modules\Settings\PersonnelType\PersonnelTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\PhotographyType\PhotographyTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\POClassification\POClassificationMenu.cs" />
     <Compile Include="Source\Modules\Settings\State\StateMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
@@ -1487,13 +1505,19 @@
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DocumentType\DocumentType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\EventCategory\EventCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrganizationType\OrganizationType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentType\PaymentType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Country\Country.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerStatus\CustomerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealClassification\DealClassification.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PersonnelType\PersonnelType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PhotographyType\PhotographyType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\POClassification\POClassification.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
