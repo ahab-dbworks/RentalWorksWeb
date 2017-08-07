@@ -54,9 +54,12 @@ namespace RentalWorksWebApi.Controllers
             try
             {
                 BrowseRequestDto request = new BrowseRequestDto();
-                request.pageno = pageno;
-                request.pagesize = pagesize;
-                request.orderby = sort;
+                request.pageno = 0;
+                request.pagesize = 0;
+                request.orderby = string.Empty;
+                //request.pageno = pageno;
+                //request.pagesize = pagesize;
+                //request.orderby = sort;
                 FwBusinessLogic l = CreateBusinessLogic(type);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
