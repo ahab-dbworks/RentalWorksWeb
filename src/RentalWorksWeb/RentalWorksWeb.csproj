@@ -1077,6 +1077,11 @@
     <Content Include="Source\Modules\Settings\CustomerType\CustomerType.js">
       <DependentUpon>CustomerType.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\Region\DealClassification.js">
+      <DependentUpon>Region.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Region\RegionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Region\RegionForm.htm" />
     <Content Include="Source\Modules\Settings\DealClassification\DealClassification.js">
       <DependentUpon>DealClassification.ts</DependentUpon>
     </Content>
@@ -1343,6 +1348,7 @@
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Region\RegionMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
@@ -1482,6 +1488,9 @@
     <Content Include="Source\Modules\Home\Contact\Contact.js.map">
       <DependentUpon>Contact.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\Region\DealClassification.js.map">
+      <DependentUpon>Region.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1501,6 +1510,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealStatus\DealStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
