@@ -1,0 +1,27 @@
+﻿using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using RentalWorksWebApi.Data;
+
+namespace RentalWorksWebApi.Modules.Settings.RetiredReason
+{
+    [FwSqlTable("retiredreason")]
+    public class RetiredReasonRecord : RwDataReadWriteRecord
+    {
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
+        public string RetiredReasonId { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text, maxlength: 20)]
+        public string RetiredReason { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "reasontype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        public string ReasonType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool Inactive { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
+    }
+}
