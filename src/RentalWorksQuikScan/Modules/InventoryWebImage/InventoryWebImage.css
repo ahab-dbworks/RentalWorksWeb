@@ -15,10 +15,12 @@
 #inventoryWebImage .fwmobilecontrol-value:-ms-input-placeholder {text-transform: none;}
 
 #inventoryWebImage .iwi-item {display:none;}
-#inventoryWebImage .iwi-item .iwi-item-title {background-color: #546e7a;padding: 5px;text-align: center;}
-#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-description {font-size: 18px;}
-#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-icode .caption {display: inline-block;margin-right:6px;}
-#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-icode .value {display: inline-block;}
+#inventoryWebImage .iwi-item .iwi-item-title {}
+#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-description {font-size: 18px;background-color: #546e7a;padding: 5px;text-align: center;}
+#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-details {background-color: #37474f;padding:5px 10px;font-size: 12px;display:flex;}
+#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-detail {flex:1;}
+#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-detail .caption {display: inline-block;width: 70px;}
+#inventoryWebImage .iwi-item .iwi-item-title .iwi-item-detail .value {display: inline-block;}
 #inventoryWebImage .iwi-item .iwi-item-images {text-align: center;background-color: #212121;}
 #inventoryWebImage .iwi-item .iwi-item-images img {height:100px;}
 #inventoryWebImage .iwi-item .iwi-item-images img:not(:first-child) {margin-left:1px;}

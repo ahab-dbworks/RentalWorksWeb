@@ -23,68 +23,64 @@ namespace RentalWorksQuikScan.Modules
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             hasImages = FwValidate.IsPropertyDefined(request, "images");
 
-            uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
-            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
-            {
-                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
-                imagedescription = "APPDOCUMENT_IMAGE";
-            }
-
             if (hasImages && (request.images.Length > 0))
             {
                 images = (string[])request.images;
                 for (int i = 0; i < images.Length; i++)
                 {
                     image = Convert.FromBase64String(images[i]);
-                    appimageid = FwSqlData.InsertAppImage(conn:        FwSqlConnection.RentalWorks,
-                                                          uniqueid1:   uniqueid1,
-                                                          uniqueid2:   string.Empty,
-                                                          uniqueid3:   string.Empty,
-                                                          description: imagedescription,
-                                                          rectype:     string.Empty,
-                                                          extension:   "JPG",
-                                                          image:       image);
+                    if (request.mode == "icode")
+                    {
+                        uniqueid1 = request.item.masterId;
+                        if ((request.item.itemclass == "W") || (request.item.itemclass == "S"))
+                        {
+                            uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
+                            imagedescription = "APPDOCUMENT_IMAGE";
+                        }
+                        appimageid = FwSqlData.InsertAppImage(conn:        FwSqlConnection.RentalWorks,
+                                                              uniqueid1:   uniqueid1,
+                                                              uniqueid2:   string.Empty,
+                                                              uniqueid3:   string.Empty,
+                                                              description: imagedescription,
+                                                              rectype:     string.Empty,
+                                                              extension:   "JPG",
+                                                              image:       image);
+                    }
+                    else if (request.mode == "barcode")
+                    {
+                        FwSqlData.InsertAppImage(conn:        FwSqlConnection.RentalWorks,
+                                                 uniqueid1:   request.item.rentalitemid,
+                                                 uniqueid2:   string.Empty,
+                                                 uniqueid3:   string.Empty,
+                                                 description: imagedescription,
+                                                 rectype:     string.Empty,
+                                                 extension:   "JPG",
+                                                 image:       Convert.FromBase64String(images[0]));
+                    }
                 }
             }
 
-            response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
-                                                       uniqueid1:   uniqueid1,
-                                                       uniqueid2:   string.Empty,
-                                                       uniqueid3:   string.Empty,
-                                                       description: imagedescription,
-                                                       rectype:     string.Empty);
+            response.images       = new ExpandoObject();
+            response.images.icode = LoadICodeImages(request.item);
+            if (!request.item.isICode) { response.images.barcode = LoadBarcodeImages(request.item); }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
         public static void GetInventoryItem(dynamic request, dynamic response, dynamic session)
         {
-            //const string METHOD_NAME = "GetInventoryItem";
-            string uniqueid1;
-            string imagedescription = string.Empty;
-
-            response.webGetItemStatus = RwAppData.WebGetItemStatus(conn:    FwSqlConnection.RentalWorks,
-                                                                   usersId: session.security.webUser.usersid,
-                                                                   barcode: request.barcode);
-            if (response.webGetItemStatus.status == 401)
+            response.item = RwAppData.WebGetItemStatus(conn:    FwSqlConnection.RentalWorks,
+                                                       usersId: session.security.webUser.usersid,
+                                                       barcode: request.code);
+            if (response.item.status == 401)
             {
-                response.webGetItemStatus.status       = 0;
-                response.webGetItemStatus.genericError = string.Empty;
-                response.webGetItemStatus.msg          = string.Empty;
+                response.item.status       = 0;
+                response.item.genericError = string.Empty;
+                response.item.msg          = string.Empty;
             }
 
-            uniqueid1 = (!response.webGetItemStatus.isICode) ? response.webGetItemStatus.rentalitemid : response.webGetItemStatus.masterId;
-            if ((response.webGetItemStatus.isICode) && ((response.webGetItemStatus.itemclass == "W") || (response.webGetItemStatus.itemclass == "S")))
-            {
-                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, response.webGetItemStatus.masterId);
-                imagedescription = "APPDOCUMENT_IMAGE";
-            }
-
-            response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
-                                                       uniqueid1:   uniqueid1,
-                                                       uniqueid2:   string.Empty,
-                                                       uniqueid3:   string.Empty,
-                                                       description: imagedescription,
-                                                       rectype:     string.Empty);
+            response.item.images       = new ExpandoObject();
+            response.item.images.icode = LoadICodeImages(response.item);
+            if (!response.item.isICode) { response.item.images.barcode = LoadBarcodeImages(response.item); }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -92,7 +88,6 @@ namespace RentalWorksQuikScan.Modules
         {
             const string METHOD_NAME = "DeleteAppImage";
             FwSqlCommand qry;
-            string uniqueid1, imagedescription = string.Empty;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "appimageid");
@@ -103,19 +98,9 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@appimageid", FwCryptography.AjaxDecrypt(request.appimageid));
             qry.Execute();
 
-            uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
-            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
-            {
-                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
-                imagedescription = "APPDOCUMENT_IMAGE";
-            }
-
-            response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
-                                                       uniqueid1:   uniqueid1,
-                                                       uniqueid2:   string.Empty,
-                                                       uniqueid3:   string.Empty,
-                                                       description: imagedescription,
-                                                       rectype:     string.Empty);
+            response.images       = new ExpandoObject();
+            response.images.icode = LoadICodeImages(request.item);
+            if (!request.item.isICode) { response.images.barcode = LoadBarcodeImages(request.item); }
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -123,16 +108,15 @@ namespace RentalWorksQuikScan.Modules
         {
             const string METHOD_NAME = "MakePrimaryAppImage";
             FwSqlCommand sp;
-            string uniqueid1, imagedescription = string.Empty;
+            string uniqueid1;
 
             FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "appimageid");
 
-            uniqueid1 = (!request.item.isICode) ? request.item.rentalitemid : request.item.masterId;
-            if ((request.item.isICode) && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
+            uniqueid1 = (request.mode == "icode") ? request.item.masterId : request.item.rentalitemid;
+            if ((request.mode == "icode") && ((request.item.itemclass == "W") || (request.item.itemclass == "S")))
             {
                 uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, request.item.masterId);
-                imagedescription = "APPDOCUMENT_IMAGE";
             }
 
             sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "dbo.moveappimage");
@@ -145,21 +129,52 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@toindex",     "0");
             sp.Execute();
 
-            response.appImages = GetAppImageThumbnails(conn:        FwSqlConnection.RentalWorks,
-                                                       uniqueid1:   uniqueid1,
-                                                       uniqueid2:   string.Empty,
-                                                       uniqueid3:   string.Empty,
-                                                       description: imagedescription,
-                                                       rectype:     string.Empty);
+            response.images       = new ExpandoObject();
+            response.images.icode = LoadICodeImages(request.item);
+            if (!request.item.isICode) { response.images.barcode = LoadBarcodeImages(request.item); }
         }
         //----------------------------------------------------------------------------------------------------
-        private static dynamic GetAppImageThumbnails(FwSqlConnection conn, string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
+        private static dynamic LoadICodeImages(dynamic item)
+        {
+            string uniqueid1, imagedescription = string.Empty;
+            dynamic response = new ExpandoObject();
+
+            uniqueid1 = item.masterId;
+            if ((item.itemclass == "W") || (item.itemclass == "S"))
+            {
+                uniqueid1 = RwAppData.GetLastSetImageId(FwSqlConnection.RentalWorks, item.masterId);
+                imagedescription = "APPDOCUMENT_IMAGE";
+            }
+
+            response = GetAppImageThumbnails(uniqueid1:   uniqueid1,
+                                             uniqueid2:   string.Empty,
+                                             uniqueid3:   string.Empty,
+                                             description: imagedescription,
+                                             rectype:     string.Empty);
+
+            return response;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic LoadBarcodeImages(dynamic item)
+        {
+            dynamic response = new ExpandoObject();
+
+            response = GetAppImageThumbnails(uniqueid1:   item.rentalitemid,
+                                             uniqueid2:   string.Empty,
+                                             uniqueid3:   string.Empty,
+                                             description: "",
+                                             rectype:     string.Empty);
+
+            return response;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic GetAppImageThumbnails(string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
         {
             dynamic result;
             FwSqlCommand qry;
             DataTable dt;
 
-            qry = new FwSqlCommand(conn);
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.Add("select appimageid, thumbnail");
             qry.Add("from appimage with (nolock)");
             qry.Add("where uniqueid1   = @uniqueid1");

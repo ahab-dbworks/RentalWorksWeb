@@ -1,6 +1,6 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwInventoryController.getInventoryWebImageScreen = function(viewModel, properties) {
-    var combinedViewModel, screen, pageTitle, $item, $status;
+    var combinedViewModel, screen, pageTitle, $item, $status, $images;
     combinedViewModel = jQuery.extend({
         captionPageTitle:   RwLanguages.translate('Inventory Web Image')
       , captionICodeDesc:   RwLanguages.translate('I-Code')
@@ -13,71 +13,82 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel);
 
     $item   = screen.$view.find('.iwi-item');
+    $images = screen.$view.find('.iwi-item-images');
     $status = screen.$view.find('.iwi-status');
 
-    screen.$view.find('#scancontrol').fwmobilemodulecontrol({
-        buttons: [
-            { 
-                caption:     'Take Picture',
-                orientation: 'right',
-                icon:        'photo_camera',
-                state:       1,
-                buttonclick: function () {
-                    try {
-                        navigator.camera.getPicture(
-                            //success
-                            function(imageData) {
-                                var img, request, $images, i;
-                                try {
-                                    if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                        window.screen.lockOrientation('portrait-primary');
-                                    };
-                                    request = {
-                                        barcode:   properties.barcode,
-                                        item:      properties.webGetItemStatus,
-                                        images:    [imageData]
-                                    };
-                                    RwServices.callMethod("InventoryWebImage", "AddInventoryWebImage", request, function(response) {
+    properties.item = null;
+    properties.mode = 'icode';
+
+    if (typeof navigator.camera !== 'undefined') {
+        screen.$view.find('#scancontrol').fwmobilemodulecontrol({
+            buttons: [
+                { 
+                    caption:     'Take Picture',
+                    orientation: 'right',
+                    icon:        'photo_camera',
+                    state:       0,
+                    buttonclick: function () {
+                        if (properties.item != null) {
+                            try {
+                                navigator.camera.getPicture(
+                                    //success
+                                    function(imageData) {
+                                        var img, request, $images, i;
                                         try {
-                                            $item.refreshimages(response.appImages);
-                                            application.playStatus(true);
+                                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
+                                                window.screen.lockOrientation('portrait-primary');
+                                            };
+                                            request = {
+                                                item:      properties.item,
+                                                mode:      properties.mode,
+                                                images:    [imageData]
+                                            };
+                                            RwServices.callMethod("InventoryWebImage", "AddInventoryWebImage", request, function(response) {
+                                                try {
+                                                    properties.item.images = response.images;
+                                                    $item.refreshimages(response.images);
+                                                    application.playStatus(true);
+                                                } catch(ex) {
+                                                    FwFunc.showError(ex);
+                                                }
+                                            });
                                         } catch(ex) {
                                             FwFunc.showError(ex);
                                         }
-                                    });
-                                } catch(ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            }
-                            //error
-                            , function(message) {
-                                try {
-                                    if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
-                                        window.screen.lockOrientation('portrait-primary');
                                     }
-                                    //FwFunc.showError('Failed because: ' + message);
-                                } catch(ex) {
-                                    FwFunc.showError(ex);
-                                }
+                                    //error
+                                    , function(message) {
+                                        try {
+                                            if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
+                                                window.screen.lockOrientation('portrait-primary');
+                                            }
+                                            //FwFunc.showError('Failed because: ' + message);
+                                        } catch(ex) {
+                                            FwFunc.showError(ex);
+                                        }
+                                    }
+                                    , { 
+                                        destinationType:    Camera.DestinationType.DATA_URL
+                                      , sourceType:         Camera.PictureSourceType.CAMERA
+                                      , allowEdit :         false
+                                      , correctOrientation: true
+                                      , encodingType:       Camera.EncodingType.JPEG
+                                      , quality:            applicationConfig.photoQuality
+                                      , targetWidth:        applicationConfig.photoWidth
+                                      , targetHeight:       applicationConfig.photoHeight 
+                                    }
+                                );
+                            } catch(ex) {
+                                FwFunc.showError(ex);
                             }
-                            , { 
-                                destinationType:    Camera.DestinationType.DATA_URL
-                              , sourceType:         Camera.PictureSourceType.CAMERA
-                              , allowEdit :         false
-                              , correctOrientation: true
-                              , encodingType:       Camera.EncodingType.JPEG
-                              , quality:            applicationConfig.photoQuality
-                              , targetWidth:        applicationConfig.photoWidth
-                              , targetHeight:       applicationConfig.photoHeight 
-                            }
-                        );
-                    } catch(ex) {
-                        FwFunc.showError(ex);
+                        } else {
+                            FwNotification.renderNotification('ERROR', 'An item must be selected to perform this action.');
+                        }
                     }
                 }
-            }
-        ]
-    });
+            ]
+        });
+    }
 
     screen.$view
         .on('change', '.fwmobilecontrol-value', function() {
@@ -85,28 +96,19 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
             try {
                 $this = jQuery(this);
                 if ($this.val() !== '') {
+                    screen.reset();
                     request = {
-                        barcode:  RwAppData.stripBarcode($this.val().toUpperCase())
+                        code:  RwAppData.stripBarcode($this.val().toUpperCase())
                     };
                     RwServices.callMethod("InventoryWebImage", "GetInventoryItem", request, function(response) {
                         try {
-                            if (response.webGetItemStatus.status == 0) {
-                                screen.$view.find('.fwmobilecontrol-value').val('');
-                                $status.hide().empty();
-                                if (typeof navigator.camera !== 'undefined') screen.$view.find('#scancontrol').fwmobilemodulecontrol('changeState', 1);
-                                properties.barcode          = request.barcode;
-                                properties.webGetItemStatus = response.webGetItemStatus;
+                            if (response.item.status == 0) {
+                                $this.val('');
+                                $item.showscreen(response.item);
 
-                                $item.show();
-                                $item.find('.iwi-item-description').html(response.webGetItemStatus.description);
-                                $item.find('.iwi-item-icode .value').html(response.webGetItemStatus.masterNo);
-                                $item.refreshimages(response.appImages);
-
-                                application.playStatus(response.webGetItemStatus.status === 0);
+                                application.playStatus(response.item.status === 0);
                             } else {
-                                $item.hide();
-                                $status.show().html(response.webGetItemStatus.genericError + '<br />' + response.webGetItemStatus.msg);
-                                screen.$view.find('#scancontrol').fwmobilemodulecontrol('changeState', 0);
+                                $status.show().html(response.item.genericError + '<br />' + response.item.msg);
                             }
                         } catch(ex) {
                             FwFunc.showError(ex);
@@ -118,7 +120,65 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
             }
         })
     ;
+    screen.reset = function() {
+        $item.hide();
+        $item.find('#iwi-item-images-modeselector').show();
+        $status.hide().empty();
+        properties.item = null;
+    };
 
+    $item.find('#iwi-item-images-modeselector').fwmobilemoduletabs({
+        tabs: [
+            {
+                id:          'icodetab',
+                caption:     'I-Code',
+                buttonclick: function () {
+                    properties.mode = 'icode';
+                    $item.refreshimages(properties.item.images);
+                }
+            },
+            {
+                id:          'barcodetab',
+                caption:     'Barcode',
+                buttonclick: function () {
+                    properties.mode = 'barcode';
+                    $item.refreshimages(properties.item.images);
+                }
+            }
+        ]
+    });
+    $item.showscreen = function(item) {
+        properties.item = item;
+
+        $item.find('.iwi-item-description').html(item.description);
+        $item.find('.icode .value').html(item.masterNo);
+        $item.find('.barcode').toggle(item.barcode != '');
+        $item.find('.barcode .value').html(item.barcode);
+
+        if (item.isICode) {
+            properties.mode = 'icode';
+            $item.find('#iwi-item-images-modeselector').hide();
+        }
+        if (properties.mode = 'icode') {
+            $item.find('#icodetab').click();
+        } else {
+            $item.find('#barcodetab').click();
+        }
+
+        $item.show();
+    };
+    $item.refreshimages = function(images) {
+        var imagestoload;
+        $item.find('.iwi-item-images').empty();
+        imagestoload = (properties.mode == 'icode') ? images.icode : images.barcode;
+        if (imagestoload.length > 0) {
+            for(i = 0; i < imagestoload.length; i++) {
+                $item.find('.iwi-item-images').append(jQuery('<img>').attr('src', 'data:image/jpeg;base64,' + imagestoload[i].thumbnail).attr('data-appimageid', imagestoload[i].appimageid));
+            }
+        } else {
+            $item.find('.iwi-item-images').append(jQuery('<div class="nopicturesfound">0 pictures found.</div>'));
+        }
+    };
     $item
         .on('click', '.iwi-item-images img', function() {
             var $img, request, $contextmenu;
@@ -138,13 +198,13 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                 });
                 FwContextMenu.addMenuItem($contextmenu, 'Delete Image', function () {
                     request = {
-                        barcode:    properties.barcode,
-                        item:       properties.webGetItemStatus,
+                        item:       properties.item,
                         appimageid: $img.attr('data-appimageid')
                     };
                     RwServices.callMethod("InventoryWebImage", "DeleteAppImage", request, function(response) {
                         try {
-                            $item.refreshimages(response.appImages);
+                            properties.item.images = response.images;
+                            $item.refreshimages(response.images);
                             application.playStatus(true);
                         } catch(ex) {
                             FwFunc.showError(ex);
@@ -153,13 +213,14 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                 });
                 FwContextMenu.addMenuItem($contextmenu, 'Make Primary Image', function() {
                     request = {
-                        barcode:    properties.barcode,
-                        item:       properties.webGetItemStatus,
+                        item:       properties.item,
+                        mode:       properties.mode,
                         appimageid: $img.attr('data-appimageid')
                     };
                     RwServices.callMethod("InventoryWebImage", "MakePrimaryAppImage", request, function(response) {
                         try {
-                            $item.refreshimages(response.appImages);
+                            properties.item.images = response.images;
+                            $item.refreshimages(response.images);
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
@@ -170,16 +231,6 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
             }
         })
     ;
-    $item.refreshimages = function(images) {
-        $item.find('.iwi-item-images').empty();
-        if (images.length > 0) {
-            for(i = 0; i < images.length; i++) {
-                $item.find('.iwi-item-images').append(jQuery('<img>').attr('src', 'data:image/jpeg;base64,' + images[i].thumbnail).attr('data-appimageid', images[i].appimageid));
-            }
-        } else {
-            $item.find('.iwi-item-images').append(jQuery('<div class="nopicturesfound">0 pictures found.</div>'));
-        }
-    };
 
     screen.load = function() {
         application.setScanTarget('.fwmobilecontrol-value');
