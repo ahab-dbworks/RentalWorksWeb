@@ -128,6 +128,126 @@
 			]
 		},
 		{
+			"name": "Blackout Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Blackout Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Blackout Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"BlackoutStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"BlackoutStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Blackout Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus/A0001F1B",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Blackout Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"BlackoutStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Blackout Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"BlackoutStatusId\": \"00003AQT\",\n    \"BlackoutStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Blackout  Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/blackoutstatus/00003AQT",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Credit Status",
 			"description": "",
 			"item": [
@@ -193,7 +313,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CreditStatus\": \"NEW STATUSX\"\n    }"
+							"raw": "{\n    \"CreditStatus\": \"NEW STATUSX\"\n}"
 						},
 						"description": ""
 					},
@@ -248,13 +368,13 @@
 			]
 		},
 		{
-			"name": "Customer Type",
+			"name": "Contact Event",
 			"description": "",
 			"item": [
 				{
-					"name": "CustomerType: Get Many",
+					"name": "Contact Event: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype",
+						"url": "http://localhost:57949/api/v1/contactevent",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -263,9 +383,9 @@
 					"response": []
 				},
 				{
-					"name": "CustomerType: Browse",
+					"name": "Contact Event: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype/browse",
+						"url": "http://localhost:57949/api/v1/contactevent/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -289,9 +409,9 @@
 					"response": []
 				},
 				{
-					"name": "CustomerType: Get One",
+					"name": "Contact Event: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype/0000014M",
+						"url": "http://localhost:57949/api/v1/contactevent/B0002TA4",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -300,9 +420,9 @@
 					"response": []
 				},
 				{
-					"name": "CustomerType: Insert",
+					"name": "Contact Event: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype",
+						"url": "http://localhost:57949/api/v1/contactevent",
 						"method": "POST",
 						"header": [
 							{
@@ -313,16 +433,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CustomerType\": \"CUSTOMER TYPE ABC\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
+							"raw": "{\n    \"ContactEvent\": \"CONTACT EVENT 3\",\n    \"Color\": 255,\n    \"WhiteText\": true\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "CustomerType: Update",
+					"name": "Contact Event: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype",
+						"url": "http://localhost:57949/api/v1/contactevent",
 						"method": "POST",
 						"header": [
 							{
@@ -339,16 +459,496 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"CustomerTypeId\": \"00003A6F\",\n    \"CustomerType\": \"CUSTOMER TYPE XYZ\",\n    \"DefaultRentalDiscountPercent\": 1.9\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"ContactEventId\": \"00003AOT\",\n    \"ContactEvent\": \"CONTACT EVENT 5\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "CustomerType: Delete",
+					"name": "Contact Event: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customertype/00003A6F",
+						"url": "http://localhost:57949/api/v1/contactevent/00003AOT",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contact Title",
+			"description": "",
+			"item": [
+				{
+					"name": "Contact Title: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Title: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Title: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle/000000XU",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Title: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ContactTitle\": \"SENIOR EXECUTIVE\",\n    \"TitleType\": \"\",\n    \"AccountsPayable\": true,\n    \"AccountsReceivable\": false\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Title: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"ContactTitleId\": \"00003AOV\",\n    \"ContactTitle\": \"SENIOR EXECUTIVE X\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Contact Title: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/contacttitle/00003AOX",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Crew Schedule Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Crew Schedule Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Schedule Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CrewScheduleStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"ScheduleStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Schedule Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus/000012YH",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Schedule Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ScheduleStatus\": \"ABC\",\n    \"StatusAction\": \"OTHER\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Schedule Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"ScheduleStatusId\": \"00003AQB\",\n    \"ScheduleStatus\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Schedule Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewschedulestatus/00003AQB",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Crew Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Crew Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CrewStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"CrewStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew  Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus/B0002TO2",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CrewStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"CrewStatusId\": \"00003AQL\",\n    \"CrewStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Crew  Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/crewstatus/00003AQL",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Currency",
+			"description": "",
+			"item": [
+				{
+					"name": "Currency: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Currency: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Currency: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency/00000120",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Currency: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Currency\": \"RUPEE\",\n    \"CurrencyCode\": \"RP\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Currency: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CurrencyId\": \"00003AP1\",\n    \"Currency\": \"RUPEEX\",\n    \"CurrencyCode\": \"RPX\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Currency: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/currency/00003AP1",
 						"method": "DELETE",
 						"header": [
 							{
@@ -488,6 +1088,726 @@
 			]
 		},
 		{
+			"name": "Customer Type",
+			"description": "",
+			"item": [
+				{
+					"name": "CustomerType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/0000014M",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CustomerType\": \"CUSTOMER TYPE ABC\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"CustomerTypeId\": \"00003A6F\",\n    \"CustomerType\": \"CUSTOMER TYPE XYZ\",\n    \"DefaultRentalDiscountPercent\": 1.9\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CustomerType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customertype/00003A6F",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Discount Reason",
+			"description": "",
+			"item": [
+				{
+					"name": "Discount Reason: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Discount Reason: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"DiscountReason\",\n    \t\"options\": {},\n    \t\"orderby\": \"DiscountReason\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Discount Reason: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason/00003AQ1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Discount Reason: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DiscountReason\": \"JUST BECAUSE\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Discount Reason: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"DiscountReasonId\": \"00003AQ1\",\n    \"DiscountReason\": \"ABC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Discount Reason: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discountreason/00003AQ1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DocumentType",
+			"description": "",
+			"item": [
+				{
+					"name": "DocumentType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype/D0001433",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DocumentType\": \"ABC\",\n    \"Floorplan\": true,\n    \"Videos\": false\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DocumentTypeId\": \"00003AP5\",\n    \"DocumentType\": \"ABCDEF\",\n    \"Floorplan\": true,\n    \"Videos\": false\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/documenttype/00003AP5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event Category",
+			"description": "",
+			"item": [
+				{
+					"name": "EventCategory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "EventCategory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "EventCategory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory/A0003Z5N",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "EventCategory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"EventCategory\": \"EVENT CATEGORY 9\",\n    \"EventCategoryCode\": \"EC9\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "EventCategory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"EventCategoryId\": \"00003AP7\",\n    \"EventCategory\": \"EVENT CATEGORY 999\",\n    \"EventCategoryCode\": \"EC999\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "EventCategory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/eventcategory/00003AP7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Facility Schedule Status",
+			"description": "",
+			"item": [
+				{
+					"name": "FacilitySchedule Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "FacilitySchedule Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"FacilityScheduleStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"ScheduleStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "FacilitySchedule Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus/000012YE",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "FacilitySchedule Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ScheduleStatus\": \"ABC\",\n    \"StatusAction\": \"OTHER\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "FacilitySchedule Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"ScheduleStatusId\": \"00003AQH\",\n    \"ScheduleStatus\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "FacilitySchedule Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityschedulestatus/00003AQH",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Facility Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Facility Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"FacilityStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"FacilityStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus/B0002TEI",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"FacilityStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"FacilityStatusId\": \"00003AQP\",\n    \"FacilityStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilitystatus/00003AQP",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "GlAccount",
 			"description": "",
 			"item": [
@@ -602,6 +1922,246 @@
 			]
 		},
 		{
+			"name": "Inventory Adjustment Reason",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Adjustment Reason: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Adjustment Reason: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"InventoryAdjustmentReason\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryAdjustmentReason\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Adjustment Reason: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason/000001AF",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Adjustment Reason: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryAdjustmentReason\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Adjustment Reason: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryAdjustmentReasonId\": \"00003APR\",\n    \"InventoryAdjustmentReason\": \"ABCDEF\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Adjustment Reason: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason/00003APR",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MailList",
+			"description": "",
+			"item": [
+				{
+					"name": "MailList: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mail List: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mail List: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist/B0002TA9",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mail List: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"MailList\": \"MAIL LIST 4\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mail List: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"MailListId\": \"00003AOZ\",\n    \"MailList\": \"MAIL LIST 55\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Mail List: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/maillist/00003AOZ",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Order",
 			"description": "",
 			"item": [
@@ -688,6 +2248,126 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n   \"orderId\": \"000011KO\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organization Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Organization Type: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Type: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Type: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype/00000S1X",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Type: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrganizationType\": \"JUSTIN\",\n    \"OrganizationTypeCode\": \"JH\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Type: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrganizationTypeId\": \"00003APD\",\n    \"OrganizationType\": \"JUSTINX\",\n    \"OrganizationTypeCode\": \"JHX\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Organization Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/organizationtype/00003APD",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
@@ -917,6 +2597,1548 @@
 					"name": "Payment Type: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/paymenttype/00003AN7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Personnel Type",
+			"description": "",
+			"item": [
+				{
+					"name": "PersonnelType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PersonnelType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PersonnelType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype/A0004BUP",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PersonnelType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PersonnelType\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PersonnelType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PersonnelTypeId\": \"00003AP9\",\n    \"PersonnelType\": \"DEF\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PersonnelType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/personneltype/00003AP9",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Photography Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Photography Type: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Photography Type: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Photography Type: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype/A0004D6C",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Photography Type: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PhotographyType\": \"PHOTO TYPE 5\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Photography Type: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PhotographyTypeId\": \"00003APB\",\n    \"PhotographyType\": \"PHOTO TYPE 6\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Photography Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/photographytype/00003APB",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PO Classification",
+			"description": "",
+			"item": [
+				{
+					"name": "PO Classification: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Classification: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"GlAccount\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Classification: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification/B0002TPY",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Classification: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoClassification\": \"PO CLASS3\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Classification: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoClassificationId\": \"00003APF\",\n    \"PoClassification\": \"PO CLASS-30\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Classification: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poclassification/00003APF",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PO Importance",
+			"description": "",
+			"item": [
+				{
+					"name": "PO Importance: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Importance: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"PoImportance\",\n    \t\"options\": {},\n    \t\"orderby\": \"PoImportance\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Importance: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance/00001EQS",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Importance: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoImportance\": \"SUPER HIGH\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Importance: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoImportanceId\": \"00003AQ7\",\n    \"PoImportance\": \"SUPER XX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Importance: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poimportance/00003AQ7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Region",
+			"description": "",
+			"item": [
+				{
+					"name": "Region: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Region: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"GlAccount\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Region: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region/A0005JB7",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Region: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Region\": \"OUTER\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Region: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RegionId\": \"00003APH\",\n    \"Region\": \"OUTERxx\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Region: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/region/00003APH",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rental Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Rental Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"RentalStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"RentalStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus/00000QXI",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RentalStatus\": \"XX\",\n    \"StatusType\": \"YY\"\n    }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"RentalStatusId\": \"00003APT\",\n    \"RentalStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalstatus/00003APT",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Repair Item Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Repair Item Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Item Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"RepairItemStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"RepairItemStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Item Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus/00000RW5",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Item Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RepairItemStatus\": \"ABC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Item Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"RepairItemStatusId\": \"00003AQ9\",\n    \"RepairItemStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Item Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairitemstatus/00003AQ9",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retired Reason",
+			"description": "",
+			"item": [
+				{
+					"name": "Retired Reason: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retired Reason: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"RetiredReason\",\n    \t\"options\": {},\n    \t\"orderby\": \"RetiredReason\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retired Reason: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason/000001TZ",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retired Reason: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RetiredReason\": \"ABC\",\n    \"ReasonType\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retired Reason: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RetiredReasonId\": \"00003APV\",\n    \"RetiredReason\": \"XXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Retired Reason: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/retiredreason/00003APV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ScheduleType",
+			"description": "",
+			"item": [
+				{
+					"name": "ScheduleType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ScheduleType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ScheduleType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype/0000016L",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ScheduleType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ScheduleType\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ScheduleType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ScheduleTypeId\": \"00003AP3\",\n    \"ScheduleType\": \"DEF\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ScheduleType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/scheduletype/00003AP3",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unretired Reason",
+			"description": "",
+			"item": [
+				{
+					"name": "Unretired Reason: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unretired Reason: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"UnretiredReason\",\n    \t\"options\": {},\n    \t\"orderby\": \"UnretiredReason\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unretired Reason: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason/00002UK0",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unretired Reason: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UnretiredReason\": \"ABC\",\n    \"ReasonType\": \"OTHER\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unretired Reason: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UnretiredReasonId\": \"00003APZ\",\n    \"UnretiredReason\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Unretired Reason: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/unretiredreason/00003APZ",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Status",
+			"description": "",
+			"item": [
+				{
+					"name": "User Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User  Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"UserStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"UserStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus/00001ES3",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UserStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"UserStatusId\": \"00003AQR\",\n    \"UserStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userstatus/00003AQR",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehicle Schedule Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Vehicle Schedule Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VehicleSchedule Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"VehicleScheduleStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"ScheduleStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VehicleSchedule Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus/A00013R1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VehicleSchedule Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ScheduleStatus\": \"ABC\",\n    \"StatusAction\": \"TENATIVE\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VehicleSchedule Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"ScheduleStatusId\": \"00003AQD\",\n    \"ScheduleStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VehicleSchedule Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehicleschedulestatus/00003AQD",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehicle Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Vehicle Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"VehicleStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"VehicleStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus/B0002TW6",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VehicleStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"VehicleStatusId\": \"00003AQN\",\n    \"VehicleStatus\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclestatus/00003AQN",
 						"method": "DELETE",
 						"header": [
 							{
