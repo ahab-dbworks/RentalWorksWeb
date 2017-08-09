@@ -1061,12 +1061,18 @@
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\ContactEvent\ContactEventBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ContactEvent\ContactEventForm.htm" />
+    <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
     <Content Include="Source\Modules\Settings\Country\Country.js">
       <DependentUpon>Country.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
       <DependentUpon>CreditStatus.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\Currency\CurrencyBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Currency\CurrencyForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.js">
       <DependentUpon>CustomerCategory.ts</DependentUpon>
     </Content>
@@ -1113,6 +1119,8 @@
     <Content Include="Source\Modules\Settings\GlAccount\GlAccount.js">
       <DependentUpon>GlAccount.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\MailList\MailListBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MailList\MailListForm.htm" />
     <Content Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.js">
       <DependentUpon>OfficeLocation.ts</DependentUpon>
     </Content>
@@ -1153,6 +1161,8 @@
     <Content Include="Source\Modules\Settings\ProductionType\ProductionTypeForm.htm" />
     <Content Include="Source\Modules\Settings\Department\DepartmentBrowse.htm" />
     <Content Include="Source\Modules\Settings\Department\DepartmentForm.htm" />
+    <Content Include="Source\Modules\Settings\ScheduleType\ScheduleTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ScheduleType\ScheduleTypeForm.htm" />
     <Content Include="Source\Modules\Settings\State\State.js">
       <DependentUpon>State.ts</DependentUpon>
     </Content>
@@ -1364,12 +1374,16 @@
     <Compile Include="Source\Modules\Settings\RentalStatus\RentalStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonMenu.cs" />
     <Compile Include="Source\Modules\Settings\Region\RegionMenu.cs" />
+    <Compile Include="Source\Modules\Settings\ContactEvent\ContactEventMenu.cs" />
+    <Compile Include="Source\Modules\Settings\ContactTitle\ContactTitleMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Currency\CurrencyMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
     <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\DocumentType\DocumentTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\EventCategory\EventCategoryMenu.cs" />
+    <Compile Include="Source\Modules\Settings\MailList\MailListMenu.cs" />
     <Compile Include="Source\Modules\Settings\OfficeLocation\OfficeLocationMenu.cs" />
     <Compile Include="Source\Modules\Settings\OrganizationType\OrganizationTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
@@ -1381,6 +1395,7 @@
     <Compile Include="Source\Modules\Settings\PersonnelType\PersonnelTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\PhotographyType\PhotographyTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\POClassification\POClassificationMenu.cs" />
+    <Compile Include="Source\Modules\Settings\ScheduleType\ScheduleTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\State\StateMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
@@ -1531,12 +1546,16 @@
     <TypeScriptCompile Include="Source\Modules\Settings\RentalStatus\RentalStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ContactEvent\ContactEvent.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ContactTitle\ContactTitle.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Currency\Currency.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealStatus\DealStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealType\DealType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CreditStatus\CreditStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DocumentType\DocumentType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\EventCategory\EventCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MailList\MailList.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OfficeLocation\OfficeLocation.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrganizationType\OrganizationType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PaymentTerms\PaymentTerms.ts" />
@@ -1548,6 +1567,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\PersonnelType\PersonnelType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PhotographyType\PhotographyType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POClassification\POClassification.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ScheduleType\ScheduleType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />

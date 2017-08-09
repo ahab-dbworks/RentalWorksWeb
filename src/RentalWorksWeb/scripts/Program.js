@@ -59,20 +59,24 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/rentalstatus$/,               getScreen: function() { return RentalStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/retiredreason$/,              getScreen: function() { return RetiredReasonController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/unretiredreason$/,            getScreen: function() { return UnretiredReasonController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/discountreason$/,             getScreen: function() { return DiscountReasonController.getModuleScreen({}, {}); } }
-  
-    //Reports
-  , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
-    //Utilities Modules
-  , { urlpattern: /^module\/chargeprocessing/,        getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/receiptprocessing/,       getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorinvoiceprocessing/, getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
-    //Administrator
-  , { urlpattern: /^module\/group/,                   getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/integration/,             getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                    getScreen: function() { return UserController.getModuleScreen({}, {}); } }
-    //Exports
-  , { urlpattern: /^module\/example/,                 getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/discountreason$/,             getScreen: function() { return DiscountReasonController.getModuleScreen({}, {}); } } 
+  , { urlpattern: /^module\/contactevent$/,               getScreen: function () { return ContactEventController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/contacttitle$/,               getScreen: function () { return ContactTitleController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/maillist$/,                   getScreen: function () { return MailListController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/currency$/,                   getScreen: function () { return CurrencyController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/scheduletype$/,               getScreen: function () { return ScheduleTypeController.getModuleScreen({}, {}); } }
+    //Reports                                             
+  , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
+    //Utilities Modules                                   
+  , { urlpattern: /^module\/chargeprocessing/,            getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/receiptprocessing/,           getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorinvoiceprocessing/,     getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
+    //Administrator                                       
+  , { urlpattern: /^module\/group/,                       getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/integration/,                 getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                        getScreen: function() { return UserController.getModuleScreen({}, {}); } }
+    //Exports                                             
+  , { urlpattern: /^module\/example/,                     getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];
 //---------------------------------------------------------------------------------
 Program.prototype.routes = [

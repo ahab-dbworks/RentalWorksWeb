@@ -62,6 +62,7 @@ namespace RentalWorksWeb
                                          AddModule("Deal Type", "{A021AE67-0F33-4C97-9149-4CD5560EE10A}", lv2menuDealMaintenance.Id, "DealTypeController", "module/dealtype", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Deal Status", "{543F8F83-20AB-4001-8283-1E73A9D795DF}", lv2menuDealMaintenance.Id, "DealStatusController", "module/dealstatus", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Production Type", "{993EBF0C-EDF0-47A2-8507-51492502088B}", lv2menuDealMaintenance.Id, "ProductionTypeController", "module/productiontype", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Schedule Type", "{8646d7bb-9676-4fdd-b9ea-db98045390f4}", lv2menuDealMaintenance.Id, "ScheduleTypeController", "module/scheduletype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuEventMaintenance = AddLv2ModuleMenu("Event Maintenance", "{AC96C86F-C229-4E35-8978-859BDAC5865B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                           AddModule("Event Category", "{3912b3cc-b35f-434d-aeeb-c45fed537e29}", lv2menuEventMaintenance.Id, "EventCategoryController", "module/eventcategory", settingsiconbaseurl + "placeholder.png");
@@ -92,10 +93,18 @@ namespace RentalWorksWeb
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
                                            AddModule("Organization Type", "{fe3a764c-ab55-4ce5-8d7f-bfc86f174c11}", lv2menuVendorMaintenance.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuContactMaintenance = AddLv2ModuleMenu("Contact Maintenance", "{3FFAC65E-83B5-45DC-87DC-8383C5BD228C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+										   AddModule("Contact Event", "{25ad258e-db9d-4e94-a500-0382e7a2024a}", lv2menuContactMaintenance.Id, "ContactEventController", "module/contactevent", settingsiconbaseurl + "placeholder.png");
+										   AddModule("Contact Title", "{1b9183b2-add9-416d-a5e1-59fe68104e4a}", lv2menuContactMaintenance.Id, "ContactTitleController", "module/contacttitle", settingsiconbaseurl + "placeholder.png");
+										   AddModule("Mail List", "{255ceb68-fb87-4248-ab99-37c18a192300}", lv2menuContactMaintenance.Id, "MailListController", "module/maillist", settingsiconbaseurl + "placeholder.png");
+
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuDocumentMaintenance = AddLv2ModuleMenu("Document Maintenance", "{CE6E0F99-8A5E-4359-B1A1-ECBDCCC43659}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                              AddModule("Document Type", "{358fbe63-83a7-4ab4-973b-1a5520573674}", lv2menuDocumentMaintenance.Id, "DocumentTypeController", "module/documenttype", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
+
 
             
 
