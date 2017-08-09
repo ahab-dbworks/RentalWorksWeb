@@ -1077,6 +1077,16 @@
     <Content Include="Source\Modules\Settings\CustomerType\CustomerType.js">
       <DependentUpon>CustomerType.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\RetiredReason\RetiredReasonBrowse.htm" />
+    <Content Include="Source\Modules\Settings\RetiredReason\RetiredReasonForm.htm" />
+    <Content Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonBrowse.htm" />
+    <Content Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonForm.htm" />
+    <Content Include="Source\Modules\Settings\DiscountReason\DiscountReasonBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DiscountReason\DiscountReasonForm.htm" />
+    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonBrowse.htm" />
+    <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonForm.htm" />
     <Content Include="Source\Modules\Settings\Region\DealClassification.js">
       <DependentUpon>Region.ts</DependentUpon>
     </Content>
@@ -1348,6 +1358,11 @@
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
+    <Compile Include="Source\Modules\Settings\RetiredReason\RetiredReasonMenu.cs" />
+    <Compile Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonMenu.cs" />
+    <Compile Include="Source\Modules\Settings\DiscountReason\DiscountReasonMenu.cs" />
+    <Compile Include="Source\Modules\Settings\RentalStatus\RentalStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonMenu.cs" />
     <Compile Include="Source\Modules\Settings\Region\RegionMenu.cs" />
     <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
@@ -1510,6 +1525,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\RetiredReason\RetiredReason.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\UnretiredReason\UnretiredReason.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DiscountReason\DiscountReason.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\RentalStatus\RentalStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DealStatus\DealStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />

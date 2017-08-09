@@ -20,41 +20,46 @@ Program.prototype.modules = [
   //, { urlpattern: /^module\/customer$/,               getScreen: function() { return RwCustomerController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/deal$/,                   getScreen: function() { return RwDealController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
-    { urlpattern: /^module\/contact$/,                getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
+    { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/rentalinventory$/,        getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/salesinventory$/,         getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/barcodeditems$/,          getScreen: function() { return RwBarCodedItemsController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/serialitems$/,            getScreen: function() { return RwSerialItemsController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/repairorder$/,            getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
     //Settings Modules
-  , { urlpattern: /^module\/country$/,                getScreen: function() { return CountryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/state$/,                  getScreen: function() { return StateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customerstatus$/,         getScreen: function() { return CustomerStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customertype$/,           getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
-  , { urlpattern: /^module\/glaccount$/,              getScreen: function() { return GlAccountController.getModuleScreen(); } }
-  , { urlpattern: /^module\/billingcycle$/,           getScreen: function() { return BillingCycleController.getModuleScreen(); } }
-  , { urlpattern: /^module\/paymenttype$/,            getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
-  , { urlpattern: /^module\/paymentterms$/,           getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
-  , { urlpattern: /^module\/customersettings/,        getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/ordertype$/,              getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/usersettings/,            getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorclass$/,            getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/warehouse$/,              getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customercategory$/,       getScreen: function() { return CustomerCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/creditstatus$/,           getScreen: function() { return CreditStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealtype$/,               getScreen: function() { return DealTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealstatus$/,             getScreen: function() { return DealStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/department$/,             getScreen: function() { return DepartmentController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/productiontype$/,         getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/officelocation$/,         getScreen: function () { return OfficeLocationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealclassification$/,     getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/documenttype$/,           getScreen: function() { return DocumentTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/eventcategory$/,          getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/personneltype$/,          getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/photographytype$/,        getScreen: function() { return PhotographyTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/organizationtype$/,       getScreen: function() { return OrganizationTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poclassification$/,       getScreen: function() { return POClassificationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/region$/,                 getScreen: function() { return RegionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/country$/,                    getScreen: function() { return CountryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/state$/,                      getScreen: function() { return StateController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customerstatus$/,             getScreen: function() { return CustomerStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customertype$/,               getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
+  , { urlpattern: /^module\/glaccount$/,                  getScreen: function() { return GlAccountController.getModuleScreen(); } }
+  , { urlpattern: /^module\/billingcycle$/,               getScreen: function() { return BillingCycleController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymenttype$/,                getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
+  , { urlpattern: /^module\/paymentterms$/,               getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
+  , { urlpattern: /^module\/customersettings/,            getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/ordertype$/,                  getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/usersettings/,                getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorclass$/,                getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/warehouse$/,                  getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customercategory$/,           getScreen: function() { return CustomerCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/creditstatus$/,               getScreen: function() { return CreditStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealtype$/,                   getScreen: function() { return DealTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealstatus$/,                 getScreen: function() { return DealStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/department$/,                 getScreen: function() { return DepartmentController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/productiontype$/,             getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/officelocation$/,             getScreen: function () { return OfficeLocationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/documenttype$/,               getScreen: function() { return DocumentTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/personneltype$/,              getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/photographytype$/,            getScreen: function() { return PhotographyTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/organizationtype$/,           getScreen: function() { return OrganizationTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/poclassification$/,           getScreen: function() { return POClassificationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/region$/,                     getScreen: function() { return RegionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/inventoryadjustmentreason$/,  getScreen: function() { return InventoryAdjustmentReasonController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/rentalstatus$/,               getScreen: function() { return RentalStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/retiredreason$/,              getScreen: function() { return RetiredReasonController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/unretiredreason$/,            getScreen: function() { return UnretiredReasonController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/discountreason$/,             getScreen: function() { return DiscountReasonController.getModuleScreen({}, {}); } }
   
     //Reports
   , { urlpattern: /^module\/dealoutstanding/,         getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }

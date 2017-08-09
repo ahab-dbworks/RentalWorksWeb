@@ -67,8 +67,17 @@ namespace RentalWorksWeb
                                           AddModule("Event Category", "{3912b3cc-b35f-434d-aeeb-c45fed537e29}", lv2menuEventMaintenance.Id, "EventCategoryController", "module/eventcategory", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Personnel Type", "{46339c9c-c663-4041-aeb4-a7f85783996f}", lv2menuEventMaintenance.Id, "PersonnelTypeController", "module/personneltype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Photography Type", "{66bff7f0-8bca-4d32-bd94-6b5f13623bec}", lv2menuEventMaintenance.Id, "PhotographyTypeController", "module/photographytype", settingsiconbaseurl + "placeholder.png");
-                    
+
+            var lv2menuInventoryMaintenance = AddLv2ModuleMenu("Inventory Maintenance", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Adjustment Reason", "{B3156707-4D41-481C-A66E-8951E5233CDA}", lv2menuInventoryMaintenance.Id, "InventoryAdjustmentReasonController", "module/inventoryadjustmentreason", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Rental Status", "{E8E24D94-A07D-4388-9F2F-58FE028F24BB}", lv2menuInventoryMaintenance.Id, "RentalStatusController", "module/rentalstatus", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Retired Reason", "{1DE1DD87-47FD-4079-B7D8-B5DE61FCB280}", lv2menuInventoryMaintenance.Id, "RetiredReasonController", "module/retiredreason", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Unretired Reason", "{C8E7F77B-52BC-435C-9971-331CF99284A0}", lv2menuInventoryMaintenance.Id, "UnretiredReasonController", "module/unretiredreason", settingsiconbaseurl + "placeholder.png");
+
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuOrderMaintenance = AddLv2ModuleMenu("Order Maintenance", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Discount Reason", "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderMaintenance.Id, "DiscountReasonController", "module/discountreason", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentMaintenance = AddLv2ModuleMenu("Payment Maintenance", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Terms", "{44FD799A-1572-4B34-9943-D94FFBEF89D4}", lv2menuPaymentMaintenance.Id, "PaymentTermsController", "module/paymentterms", settingsiconbaseurl + "placeholder.png");
