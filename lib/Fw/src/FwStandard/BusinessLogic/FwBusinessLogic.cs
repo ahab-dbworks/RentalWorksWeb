@@ -204,8 +204,13 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
+        public virtual void BeforeSave() { }
+        //------------------------------------------------------------------------------------
+        public virtual void AfterSave() { }
+        //------------------------------------------------------------------------------------
         public virtual async Task<int> SaveAsync()
         {
+            BeforeSave();
             int rowsAffected = 0;
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {
@@ -213,6 +218,7 @@ namespace FwStandard.BusinessLogic
             }
             await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
             await _Custom.SaveAsync(GetPrimaryKeys());
+            AfterSave();
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
