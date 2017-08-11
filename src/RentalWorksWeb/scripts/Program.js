@@ -56,6 +56,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/poclassification$/,           getScreen: function() { return POClassificationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/region$/,                     getScreen: function() { return RegionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventoryadjustmentreason$/,  getScreen: function() { return InventoryAdjustmentReasonController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/inventoryattribute$/,         getScreen: function() { return InventoryAttributeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/rentalstatus$/,               getScreen: function() { return RentalStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/retiredreason$/,              getScreen: function() { return RetiredReasonController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/unretiredreason$/,            getScreen: function() { return UnretiredReasonController.getModuleScreen({}, {}); } }

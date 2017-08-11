@@ -79,6 +79,7 @@ namespace RentalWorksWeb
 
             var lv2menuInventoryMaintenance = AddLv2ModuleMenu("Inventory Maintenance", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Adjustment Reason", "{B3156707-4D41-481C-A66E-8951E5233CDA}", lv2menuInventoryMaintenance.Id, "InventoryAdjustmentReasonController", "module/inventoryadjustmentreason", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Attribute", "{2777dd37-daca-47ff-aa44-29677b302745}", lv2menuInventoryMaintenance.Id, "InventoryAttributeController", "module/inventoryattribute", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Rental Status", "{E8E24D94-A07D-4388-9F2F-58FE028F24BB}", lv2menuInventoryMaintenance.Id, "RentalStatusController", "module/rentalstatus", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Retired Reason", "{1DE1DD87-47FD-4079-B7D8-B5DE61FCB280}", lv2menuInventoryMaintenance.Id, "RetiredReasonController", "module/retiredreason", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Unretired Reason", "{C8E7F77B-52BC-435C-9971-331CF99284A0}", lv2menuInventoryMaintenance.Id, "UnretiredReasonController", "module/unretiredreason", settingsiconbaseurl + "placeholder.png");
