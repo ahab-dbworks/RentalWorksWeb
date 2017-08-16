@@ -786,7 +786,8 @@ namespace RentalWorksWeb.Integration
                     {
                         taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
                     }
-                    else if (invoice.taxcountry == "C")
+                    //else if (invoice.taxcountry == "C")
+                    else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
                     {
                         taxCodeRefValue = TxnTaxCodeRefValue;
                     }
@@ -810,7 +811,8 @@ namespace RentalWorksWeb.Integration
                 Invoices.Add(_invoice);
 
                 //jh 06/22/2017 CAS-20810-L6T5
-                if (invoice.taxcountry == "C") // if Canada
+                //if (invoice.taxcountry == "C") // if Canada
+                if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
                 {
                     decimal taxAmount = _invoice.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
                     if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
@@ -925,7 +927,8 @@ namespace RentalWorksWeb.Integration
                     {
                         taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
                     }
-                    else if (invoice.taxcountry == "C")
+                    //else if (invoice.taxcountry == "C")
+                    else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
                     {
                         taxCodeRefValue = TxnTaxCodeRefValue;
                     }
@@ -950,7 +953,8 @@ namespace RentalWorksWeb.Integration
                 CreditMemos.Add(creditmemo);
 
                 //jh 07/05/2017 CAS-20810-L6T5
-                if (invoice.taxcountry == "C") // if Canada
+                //if (invoice.taxcountry == "C") // if Canada
+                if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
                 {
                     decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
                     if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
