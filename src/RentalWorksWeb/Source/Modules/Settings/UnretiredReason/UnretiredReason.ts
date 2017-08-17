@@ -21,7 +21,7 @@ getModuleScreen() {
     $browse = this.openBrowse();
 
     screen.load = function () {
-        FwModule.openModuleTab($browse, 'UnretiredReason', false, 'BROWSE', true);
+        FwModule.openModuleTab($browse, 'Unretired Reason', false, 'BROWSE', true);
         FwBrowse.databind($browse);
         FwBrowse.screenload($browse);
     };

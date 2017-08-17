@@ -21,7 +21,7 @@ getModuleScreen() {
     $browse = this.openBrowse();
 
     screen.load = function () {
-        FwModule.openModuleTab($browse, 'RentalStatus', false, 'BROWSE', true);
+        FwModule.openModuleTab($browse, 'Rental Status', false, 'BROWSE', true);
         FwBrowse.databind($browse);
         FwBrowse.screenload($browse);
     };

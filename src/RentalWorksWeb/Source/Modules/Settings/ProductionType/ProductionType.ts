@@ -21,7 +21,7 @@ class ProductionType {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'ProductionType', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Production Type', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

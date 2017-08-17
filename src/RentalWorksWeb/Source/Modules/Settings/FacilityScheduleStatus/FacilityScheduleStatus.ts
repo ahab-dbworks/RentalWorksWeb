@@ -21,7 +21,7 @@ getModuleScreen() {
     $browse = this.openBrowse();
 
     screen.load = function () {
-        FwModule.openModuleTab($browse, 'FacilityScheduleStatus', false, 'BROWSE', true);
+        FwModule.openModuleTab($browse, 'Facility Schedule Status', false, 'BROWSE', true);
         FwBrowse.databind($browse);
         FwBrowse.screenload($browse);
     };
