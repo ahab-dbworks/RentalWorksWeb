@@ -77,12 +77,20 @@ namespace RentalWorksWeb
                                           AddModule("Personnel Type", "{46339c9c-c663-4041-aeb4-a7f85783996f}", lv2menuEventMaintenance.Id, "PersonnelTypeController", "module/personneltype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Photography Type", "{66bff7f0-8bca-4d32-bd94-6b5f13623bec}", lv2menuEventMaintenance.Id, "PhotographyTypeController", "module/photographytype", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuFacilitiesMaintenance = AddLv2ModuleMenu("Facilities Maintenance", "{CEDB17C6-BD90-4469-B104-B9492A5C4E96}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesMaintenance.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuInventoryMaintenance = AddLv2ModuleMenu("Inventory Maintenance", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Adjustment Reason", "{B3156707-4D41-481C-A66E-8951E5233CDA}", lv2menuInventoryMaintenance.Id, "InventoryAdjustmentReasonController", "module/inventoryadjustmentreason", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Attribute", "{2777dd37-daca-47ff-aa44-29677b302745}", lv2menuInventoryMaintenance.Id, "InventoryAttributeController", "module/inventoryattribute", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Rental Status", "{E8E24D94-A07D-4388-9F2F-58FE028F24BB}", lv2menuInventoryMaintenance.Id, "RentalStatusController", "module/rentalstatus", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Retired Reason", "{1DE1DD87-47FD-4079-B7D8-B5DE61FCB280}", lv2menuInventoryMaintenance.Id, "RetiredReasonController", "module/retiredreason", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Unit of Measure", "{EE9F1081-BD9F-4004-A0CA-3813E2360642}", lv2menuInventoryMaintenance.Id, "UnitController", "module/unit", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Unretired Reason", "{C8E7F77B-52BC-435C-9971-331CF99284A0}", lv2menuInventoryMaintenance.Id, "UnretiredReasonController", "module/unretiredreason", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuLaborMaintenance = AddLv2ModuleMenu("Labor Maintenance", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Crew Schedule Status", "{E4E11656-0783-4327-A374-161BCFDF0F24}", lv2menuLaborMaintenance.Id, "CrewScheduleStatusController", "module/crewschedulestatus", settingsiconbaseurl + "placeholder.png");
+            
 
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 
@@ -95,8 +103,13 @@ namespace RentalWorksWeb
 
             var lv2menuPOMaintenance = AddLv2ModuleMenu("PO Maintenance", "{55EDE544-A603-467D-AFA2-EC9C2A650810}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOMaintenance.Id, "PoClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOMaintenance.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuVehicleMaintenance = AddLv2ModuleMenu("Vehicle Maintenance", "{6081E168-E3BF-439E-82B0-34AF3680C444}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Schedule Status", "{A001473B-1FB4-4E85-8093-37A92057CD93}", lv2menuVehicleMaintenance.Id, "VehicleScheduleStatusController", "module/vehicleschedulestatus", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Color", "{F7A34B70-509A-422F-BFD1-5F30BE2C8186}", lv2menuVehicleMaintenance.Id, "VehicleColorController", "module/vehiclecolor", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");

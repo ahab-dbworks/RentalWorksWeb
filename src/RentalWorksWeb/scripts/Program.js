@@ -46,7 +46,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/dealstatus$/,                 getScreen: function() { return DealStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/department$/,                 getScreen: function() { return DepartmentController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/productiontype$/,             getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/officelocation$/,             getScreen: function () { return OfficeLocationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/officelocation$/,             getScreen: function() { return OfficeLocationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/documenttype$/,               getScreen: function() { return DocumentTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
@@ -61,11 +61,17 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/retiredreason$/,              getScreen: function() { return RetiredReasonController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/unretiredreason$/,            getScreen: function() { return UnretiredReasonController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/discountreason$/,             getScreen: function() { return DiscountReasonController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/contactevent$/,               getScreen: function () { return ContactEventController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/contacttitle$/,               getScreen: function () { return ContactTitleController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/maillist$/,                   getScreen: function () { return MailListController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/currency$/,                   getScreen: function () { return CurrencyController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/scheduletype$/,               getScreen: function () { return ScheduleTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/contactevent$/,               getScreen: function() { return ContactEventController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/contacttitle$/,               getScreen: function() { return ContactTitleController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/maillist$/,                   getScreen: function() { return MailListController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/currency$/,                   getScreen: function() { return CurrencyController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/scheduletype$/,               getScreen: function() { return ScheduleTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/poimportance$/,               getScreen: function() { return POImportanceController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/crewschedulestatus$/,         getScreen: function() { return CrewScheduleStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehicleschedulestatus$/,      getScreen: function() { return VehicleScheduleStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehiclecolor$/,               getScreen: function() { return VehicleColorController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/facilityschedulestatus$/,     getScreen: function() { return FacilityScheduleStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/unit$/,                       getScreen: function() { return UnitController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

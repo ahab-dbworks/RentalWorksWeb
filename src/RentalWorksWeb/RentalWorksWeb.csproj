@@ -1071,6 +1071,14 @@
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
       <DependentUpon>CreditStatus.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\Unit\UnitBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Unit\UnitForm.htm" />
+    <Content Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorForm.htm" />
+    <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusForm.htm" />
     <Content Include="Source\Modules\Settings\Currency\CurrencyBrowse.htm" />
     <Content Include="Source\Modules\Settings\Currency\CurrencyForm.htm" />
     <Content Include="Source\Modules\Settings\CustomerCategory\CustomerCategory.js">
@@ -1085,6 +1093,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeForm.htm" />
+    <Content Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\POImportance\POImportanceBrowse.htm" />
+    <Content Include="Source\Modules\Settings\POImportance\POImportanceForm.htm" />
     <Content Include="Source\Modules\Settings\RetiredReason\RetiredReasonBrowse.htm" />
     <Content Include="Source\Modules\Settings\RetiredReason\RetiredReasonForm.htm" />
     <Content Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonBrowse.htm" />
@@ -1370,7 +1382,13 @@
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
+    <Compile Include="Source\Modules\Settings\Unit\UnitMenu.cs" />
+    <Compile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VehicleColor\VehicleColorMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\POImportance\POImportanceMenu.cs" />
     <Compile Include="Source\Modules\Settings\RetiredReason\RetiredReasonMenu.cs" />
     <Compile Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonMenu.cs" />
     <Compile Include="Source\Modules\Settings\DiscountReason\DiscountReasonMenu.cs" />
@@ -1543,7 +1561,13 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Unit\Unit.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleColor\VehicleColor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\POImportance\POImportance.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RetiredReason\RetiredReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UnretiredReason\UnretiredReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountReason\DiscountReason.ts" />
