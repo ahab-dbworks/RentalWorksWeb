@@ -1928,6 +1928,126 @@
 			]
 		},
 		{
+			"name": "Generator Fuel Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Generator Fuel Type: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Fuel Type: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Generator Fuel Type\",\n    \t\"options\": {},\n    \t\"orderby\": \"GeneratorFuelType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Fuel Type: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype/B0002TH1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Fuel Type: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"GeneratorFuelType\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator  Fuel Type: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"GeneratorFuelTypeId\": \"00003ASQ\",\n    \"GeneratorFuelType\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Fuel Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatorfueltype/00003ASQ",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "GlAccount",
 			"description": "",
 			"item": [
@@ -2383,6 +2503,126 @@
 					"name": "Inventory Attribute Value: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/inventoryattributevalue/00003AQZ",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "License Class",
+			"description": "",
+			"item": [
+				{
+					"name": "License Class: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "License Class: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"License Class\",\n    \t\"options\": {},\n    \t\"orderby\": \"LicenseClass\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "License Class: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass/B0002TTY",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "License Class: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"LicenseClass\": \"C\",\n    \"Description\": \"C-Class\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "License Class: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"LicenseClassId\": \"00003ASI\",\n    \"LicenseClass\": \"X\",\n    \"Description\": \"X-Class\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "License Class: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/licenseclass/00003ASI",
 						"method": "DELETE",
 						"header": [
 							{
@@ -4758,6 +4998,126 @@
 			]
 		},
 		{
+			"name": "Vehicle Fuel Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Vehicle Fuel Type: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Fuel Type: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Vehicle Fuel Type\",\n    \t\"options\": {},\n    \t\"orderby\": \"VehicleFuelType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Fuel Type: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype/B0002TUR",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Fuel Type: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VehicleFuelType\": \"ABC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Fuel Type: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VehicleFuelTypeId\": \"00003ASM\",\n    \"VehicleFuelType\": \"ABCDEF\",\n    \"RowType\": \"XX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle Fuel Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vehiclefueltype/00003ASM",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Vehicle Schedule Status",
 			"description": "",
 			"item": [
@@ -5219,6 +5579,246 @@
 					"name": "Wardrobe Care: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/wardrobecare/00003AR7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wardrobe Gender",
+			"description": "",
+			"item": [
+				{
+					"name": "Wardrobe Gender: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Gender: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Wardrobe Gender\",\n    \t\"options\": {},\n    \t\"orderby\": \"WardrobeGender\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Gender: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender/A000H6D7",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Gender: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WardrobeGender\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Gender: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"WardrobeGenderId\": \"A000H6D7\",\n    \"WardrobeGender\": \"FEMALE\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Gender: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobegender/00003ASU",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wardrobe Label",
+			"description": "",
+			"item": [
+				{
+					"name": "Wardrobe Label: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Label: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Wardrobe Label\",\n    \t\"options\": {},\n    \t\"orderby\": \"WardrobeLabel\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Label: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel/A000H6CW",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Label: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WardrobeLabel\": \"QUIKSILVER\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Label: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"WardrobeLabelId\": \"00003ASW\",\n    \"WardrobeLabel\": \"ABC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Label: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobelabel/00003ASW",
 						"method": "DELETE",
 						"header": [
 							{
