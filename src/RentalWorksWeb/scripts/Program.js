@@ -71,7 +71,12 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehicleschedulestatus$/,      getScreen: function() { return VehicleScheduleStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclecolor$/,               getScreen: function() { return VehicleColorController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/facilityschedulestatus$/,     getScreen: function() { return FacilityScheduleStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/unit$/,                       getScreen: function() { return UnitController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/unit$/,                       getScreen: function () { return UnitController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/userstatus$/,                 getScreen: function () { return UserStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/crewstatus/,                  getScreen: function () { return CrewStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehiclestatus$/,              getScreen: function () { return VehicleStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/facilitystatus$/,             getScreen: function () { return FacilityStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/blackoutstatus$/,             getScreen: function () { return BlackoutStatusController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

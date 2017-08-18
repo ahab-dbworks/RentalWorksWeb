@@ -18,6 +18,7 @@
     <TargetFrameworkProfile />
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
@@ -1061,6 +1062,8 @@
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatusForm.htm" />
     <Content Include="Source\Modules\Settings\ContactEvent\ContactEventBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactEvent\ContactEventForm.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
@@ -1071,10 +1074,16 @@
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
       <DependentUpon>CreditStatus.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\CrewStatus\CrewStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CrewStatus\CrewStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\FacilityStatus\FacilityStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\FacilityStatus\FacilityStatusForm.htm" />
     <Content Include="Source\Modules\Settings\Unit\UnitBrowse.htm" />
     <Content Include="Source\Modules\Settings\Unit\UnitForm.htm" />
     <Content Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\UserStatus\UserStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\UserStatus\UserStatusForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusBrowse.htm" />
@@ -1183,6 +1192,8 @@
     <Content Include="Source\Modules\Settings\UserSettings\UserSettings.js">
       <DependentUpon>UserSettings.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\VehicleStatus\VehicleStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleStatus\VehicleStatusForm.htm" />
     <Content Include="Source\Modules\Settings\VendorClass\VendorClass.js">
       <DependentUpon>VendorClass.ts</DependentUpon>
     </Content>
@@ -1382,8 +1393,12 @@
     <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
+    <Compile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CrewStatus\CrewStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\FacilityStatus\FacilityStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\Unit\UnitMenu.cs" />
     <Compile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\UserStatus\UserStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VehicleColor\VehicleColorMenu.cs" />
     <Compile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeMenu.cs" />
@@ -1418,6 +1433,7 @@
     <Compile Include="Source\Modules\Settings\POClassification\POClassificationMenu.cs" />
     <Compile Include="Source\Modules\Settings\ScheduleType\ScheduleTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\State\StateMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VehicleStatus\VehicleStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
     <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
@@ -1561,8 +1577,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CrewStatus\CrewStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FacilityStatus\FacilityStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Unit\Unit.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\UserStatus\UserStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleColor\VehicleColor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.ts" />
@@ -1598,6 +1618,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\ScheduleType\ScheduleType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleStatus\VehicleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CustomerType\CustomerType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />

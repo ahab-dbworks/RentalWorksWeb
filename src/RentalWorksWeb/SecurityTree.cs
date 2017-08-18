@@ -79,6 +79,7 @@ namespace RentalWorksWeb
 
             var lv2menuFacilitiesMaintenance = AddLv2ModuleMenu("Facilities Maintenance", "{CEDB17C6-BD90-4469-B104-B9492A5C4E96}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesMaintenance.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
+                                                AddModule("Facility Status", "{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}", lv2menuFacilitiesMaintenance.Id, "FacilityStatusController", "module/facilitystatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuInventoryMaintenance = AddLv2ModuleMenu("Inventory Maintenance", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Adjustment Reason", "{B3156707-4D41-481C-A66E-8951E5233CDA}", lv2menuInventoryMaintenance.Id, "InventoryAdjustmentReasonController", "module/inventoryadjustmentreason", settingsiconbaseurl + "placeholder.png");
@@ -110,6 +111,7 @@ namespace RentalWorksWeb
             var lv2menuVehicleMaintenance = AddLv2ModuleMenu("Vehicle Maintenance", "{6081E168-E3BF-439E-82B0-34AF3680C444}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Schedule Status", "{A001473B-1FB4-4E85-8093-37A92057CD93}", lv2menuVehicleMaintenance.Id, "VehicleScheduleStatusController", "module/vehicleschedulestatus", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Color", "{F7A34B70-509A-422F-BFD1-5F30BE2C8186}", lv2menuVehicleMaintenance.Id, "VehicleColorController", "module/vehiclecolor", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Status", "{FB12061D-E6AF-4C09-95A0-8647930C289A}", lv2menuVehicleMaintenance.Id, "VehicleStatusController", "module/vehiclestatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
@@ -117,7 +119,17 @@ namespace RentalWorksWeb
 
 
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
-            
+
+            var lv2menuHolidayMaintenance = AddLv2ModuleMenu("Holiday Maintenance", "{8A1C54ED-01B6-4EF5-AEBD-5E3F9F2563E0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Blackout Status", "{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}", lv2menuHolidayMaintenance.Id, "BlackoutStatusController", "module/blackoutstatus", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuUserMaintenance = AddLv2ModuleMenu("User Maintenance", "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("User Status", "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserMaintenance.Id, "UserStatusController", "module/userstatus", settingsiconbaseurl + "placeholder.png");
+
+
+            var lv2menuCrewMaintenance = AddLv2ModuleMenu("Crew Maintenance", "{D2453E27-FB2D-4B75-81CD-6966AD652ECE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Crew Status", "{73A6D9E3-E3BE-4B7A-BB3B-0AFE571C944E}", lv2menuCrewMaintenance.Id, "CrewStatusController", "module/crewstatus", settingsiconbaseurl + "placeholder.png");
+
 
             //Reports 
             //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
