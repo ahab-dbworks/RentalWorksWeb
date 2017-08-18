@@ -6,10 +6,10 @@ using Fw.Json.ValueTypes;
 
 namespace RentalWorksWeb.Source.Modules
 {
-    public class Blackout StatusMenu : FwApplicationTreeBranch
+    public class BlackoutStatusMenu : FwApplicationTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public Blackout StatusMenu() : base("{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}") { }
+        public BlackoutStatusMenu() : base("{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwApplicationTree tree)
         {

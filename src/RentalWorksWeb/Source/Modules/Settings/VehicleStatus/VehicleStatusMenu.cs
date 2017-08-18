@@ -6,10 +6,10 @@ using Fw.Json.ValueTypes;
 
 namespace RentalWorksWeb.Source.Modules
 {
-    public class Vehicle StatusMenu : FwApplicationTreeBranch
+    public class VehicleStatusMenu : FwApplicationTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public Vehicle StatusMenu() : base("{FB12061D-E6AF-4C09-95A0-8647930C289A}") { }
+        public VehicleStatusMenu() : base("{FB12061D-E6AF-4C09-95A0-8647930C289A}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwApplicationTree tree)
         {

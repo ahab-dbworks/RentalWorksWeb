@@ -6,10 +6,10 @@ using Fw.Json.ValueTypes;
 
 namespace RentalWorksWeb.Source.Modules
 {
-    public class Facility StatusMenu : FwApplicationTreeBranch
+    public class FacilityStatusMenu : FwApplicationTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public Facility StatusMenu() : base("{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}") { }
+        public FacilityStatusMenu() : base("{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwApplicationTree tree)
         {
