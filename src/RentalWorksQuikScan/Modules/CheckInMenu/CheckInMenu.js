@@ -486,7 +486,19 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
+        application.setScanTarget('');
+        if (typeof window.DTDevices !== 'undefined') {
+            window.DTDevices.registerListener('barcodeData', 'barcodeData_checkinmenu', function (barcode, barcodeType) {
+                $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
+                $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
+            });
+        }
+    };
 
+    screen.unload = function() {
+        if (typeof window.DTDevices !== 'undefined') {
+            window.DTDevices.unregisterListener('barcodeData', 'barcodeData_checkinmenu');
+        }
     };
 
     return screen;

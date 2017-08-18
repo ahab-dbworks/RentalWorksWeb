@@ -107,6 +107,8 @@ namespace RentalWorksAPI.api.v2.Data
             dynamic qryresult  = new ExpandoObject();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.AddColumn("orderdate",        false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("pickdate",         false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("estrentfrom",      false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("estrentto",        false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("createddate",      false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
