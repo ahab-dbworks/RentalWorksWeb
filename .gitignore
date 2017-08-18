@@ -5,6 +5,7 @@
 /lib/Fw/src/Fw.Json/obj/
 /lib/Fw/src/Fw.Json/bin/
 /lib/Fw/src/Fw.Json/scripts/_references.js
+/lib/Fw/src/Fw.Json/Fw.Json.csproj.user
 /lib/Fw/src/Fw.MSBuild/bin/
 /lib/Fw/src/Fw.MSBuild/obj/
 /lib/Fw/src/Fw.MSBuild/Fw.MSBuild.csproj.user
@@ -70,3 +71,5 @@
 /src/RentalWorksWebApi/appsettings.Development.json
 
 /TestResult.xml
+
+
