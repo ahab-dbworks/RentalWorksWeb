@@ -7,7 +7,7 @@ class GlAccount {
 
     constructor() {
         this.Module = 'GlAccount';
-        this.apiurl = 'api/v1/glaccount';   
+        this.apiurl = 'api/v1/glaccount';
     }
 
     getModuleScreen() {
@@ -29,7 +29,7 @@ class GlAccount {
             FwBrowse.screenunload($browse);
         };
 
-        return screen;   
+        return screen;
     }
 
     openBrowse() {

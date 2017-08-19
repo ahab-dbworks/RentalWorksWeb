@@ -7,7 +7,7 @@ class State {
 
     constructor() {
         this.Module = 'State';
-        this.apiurl = 'api/v1/State';   
+        this.apiurl = 'api/v1/State';
     }
 
     getModuleScreen() {
@@ -29,7 +29,7 @@ class State {
             FwBrowse.screenunload($browse);
         };
 
-        return screen;   
+        return screen;
     }
 
     openBrowse() {

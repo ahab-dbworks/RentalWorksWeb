@@ -7,7 +7,7 @@ class Country {
 
     constructor() {
         this.Module = 'Country';
-        this.apiurl = 'api/v1/Country';   
+        this.apiurl = 'api/v1/Country';
     }
 
     getModuleScreen() {
@@ -29,7 +29,7 @@ class Country {
             FwBrowse.screenunload($browse);
         };
 
-        return screen;   
+        return screen;
     }
 
     openBrowse() {

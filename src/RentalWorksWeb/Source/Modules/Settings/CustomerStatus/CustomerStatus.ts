@@ -7,7 +7,7 @@ class CustomerStatus {
 
     constructor() {
         this.Module = 'CustomerStatus';
-        this.apiurl = 'api/v1/customerstatus';   
+        this.apiurl = 'api/v1/customerstatus';
     }
 
     getModuleScreen() {
@@ -29,7 +29,7 @@ class CustomerStatus {
             FwBrowse.screenunload($browse);
         };
 
-        return screen;   
+        return screen;
     }
 
     openBrowse() {
