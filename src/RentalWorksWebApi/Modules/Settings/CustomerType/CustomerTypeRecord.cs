@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerType
         [FwSqlDataField(column: "custtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CustomerTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "defaultrentaldiscountpct", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
@@ -28,6 +28,36 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerType
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
+        protected override bool Validate(ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                if (DefaultRentalDiscountPercent > 100)
+                {
+                    validateMsg = "Rental Discount Percent cannot be greater than 100.";
+                    isValid = false;
+                }
+            }
+            if (isValid)
+            {
+                if (DefaultSalesDiscountPercent > 100)
+                {
+                    validateMsg = "Sales Discount Percent cannot be greater than 100.";
+                    isValid = false;
+                }
+            }
+            if (isValid)
+            {
+                if (DefaultFacilitiesDiscountPercent > 100)
+                {
+                    validateMsg = "Sales Facilities Percent cannot be greater than 100.";
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
         //------------------------------------------------------------------------------------
     }
 }

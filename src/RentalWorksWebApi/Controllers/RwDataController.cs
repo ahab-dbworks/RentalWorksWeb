@@ -114,22 +114,29 @@ namespace RentalWorksWebApi.Controllers
             try
             {
                 l.SetDbConfig(_appConfig.DatabaseSettings);
-                if (l.AllPrimaryKeysHaveValues)
+                string validateMsg = string.Empty;
+                if (l.ValidateBusinessLogic(ref validateMsg))
                 {
-                    //update
-                    await l.SaveAsync();
-                    await l.LoadAsync<T>();
-                    return new OkObjectResult(l);
+                    if (l.AllPrimaryKeysHaveValues)
+                    {
+                        //update
+                        await l.SaveAsync();
+                        await l.LoadAsync<T>();
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        //insert
+                        await l.SaveAsync();
+                        await l.LoadAsync<T>();
+                        //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
+                        return new OkObjectResult(l);
+                    }
                 }
                 else
                 {
-                    //insert
-                    await l.SaveAsync();
-                    await l.LoadAsync<T>();
-                    //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
-                    return new OkObjectResult(l);
+                    throw new Exception(validateMsg);
                 }
-                
             }
             catch (Exception ex)
             {
