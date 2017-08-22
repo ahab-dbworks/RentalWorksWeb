@@ -1,13 +1,13 @@
-declare var FwModule: any;
+﻿declare var FwModule: any;
 declare var FwBrowse: any;
 
-class POClassification {
+class CoverLetter {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'POClassification';
-        this.apiurl = 'api/v1/poclassification';
+        this.Module = 'CoverLetter';
+        this.apiurl = 'api/v1/coverletter';
     }
 
     getModuleScreen() {
@@ -21,7 +21,7 @@ class POClassification {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'PO Classification', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Cover Letter', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class POClassification {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="PoClassificationId"] input').val(uniqueids.PoClassificationId);
+        $form.find('div.fwformfield[data-datafield="CoverLetterId"] input').val(uniqueids.CoverLetterId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class POClassification {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="PoClassificationId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="CoverLetterId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,5 @@ class POClassification {
     }
 }
 
-(<any>window).POClassificationController = new POClassification();
+(<any>window).CoverLetterController = new CoverLetter();
+

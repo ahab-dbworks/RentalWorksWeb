@@ -77,6 +77,13 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehiclestatus$/,              getScreen: function () { return VehicleStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/facilitystatus$/,             getScreen: function () { return FacilityStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/blackoutstatus$/,             getScreen: function () { return BlackoutStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/coverletter$/,                getScreen: function() { return CoverLetterController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/termsconditions$/,            getScreen: function() { return TermsConditionsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobecare$/,               getScreen: function() { return WardrobeCareController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobecolor$/,              getScreen: function() { return WardrobeColorController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobegender$/,             getScreen: function() { return WardrobeGenderController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobelabel$/,              getScreen: function() { return WardrobeLabelController.getModuleScreen({}, {}); } }
+
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

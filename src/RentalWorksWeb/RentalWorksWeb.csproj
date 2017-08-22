@@ -1017,6 +1017,10 @@
     <Content Include="Application.dev.config" />
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
@@ -1080,6 +1084,16 @@
     <Content Include="Source\Modules\Settings\Country\Country.js">
       <DependentUpon>Country.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
+      <DependentUpon>CoverLetter.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
+      <DependentUpon>TermsConditions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsForm.htm" />
+    <Content Include="Source\Modules\Settings\CoverLetter\CoverLetterBrowse.htm" />
+    <Content Include="Source\Modules\Settings\CoverLetter\CoverLetterForm.htm" />
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
       <DependentUpon>CreditStatus.ts</DependentUpon>
     </Content>
@@ -1478,6 +1492,8 @@
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
     <Compile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\TermsConditions\TermsConditionsMenu.cs" />
+    <Compile Include="Source\Modules\Settings\CoverLetter\CoverLetterMenu.cs" />
     <Compile Include="Source\Modules\Settings\CrewStatus\CrewStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\FacilityStatus\FacilityStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\Unit\UnitMenu.cs" />
@@ -1726,6 +1742,12 @@
     <Content Include="Source\Modules\Settings\VehicleStatus\VehicleStatus.js.map">
       <DependentUpon>VehicleStatus.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js.map">
+      <DependentUpon>CoverLetter.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js.map">
+      <DependentUpon>TermsConditions.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1746,6 +1768,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\CoverLetter\CoverLetter.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewStatus\CrewStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityStatus\FacilityStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Unit\Unit.ts" />
