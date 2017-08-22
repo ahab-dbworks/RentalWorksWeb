@@ -9,6 +9,28 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
+        protected virtual bool Validate(ref string validateMsg)
+        {
+            //override this method on a derived class to implement custom validation logic
+            bool isValid = true;
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        public virtual bool ValidateDataRecord(ref string validateMsg)
+        {
+            bool isValid = true;
+            validateMsg = "";
+            if (isValid)
+            {
+                isValid = AllRequiredFieldsHaveValues(ref validateMsg);
+            }
+            if (isValid)
+            {
+                isValid = Validate(ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<int> SaveAsync()
         {
             int rowsAffected = 0;

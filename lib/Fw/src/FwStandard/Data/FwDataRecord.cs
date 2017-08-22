@@ -107,6 +107,48 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        public virtual bool AllRequiredFieldsHaveValues(ref string validateMsg)
+        {
+            bool hasValues = true;
+
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                {
+                    foreach (Attribute attribute in property.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                        {
+                            FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                            if (dataFieldAttribute.Required)
+                            {
+
+                                object propertyValue = property.GetValue(this);
+                                if (propertyValue != null)
+                                {
+                                    if (propertyValue is string)
+                                    {
+                                        hasValues = ((propertyValue as string).Length > 0);
+                                        if (!hasValues)
+                                        {
+                                            validateMsg = property.Name + " cannot be blank.";
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllRequiredFieldsHaveValues]");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return hasValues;
+        }
+        //------------------------------------------------------------------------------------
         protected virtual async Task SetPrimaryKeyIdsForInsertAsync(FwSqlConnection conn)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();

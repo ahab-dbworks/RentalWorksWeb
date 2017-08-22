@@ -204,6 +204,35 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
+        protected virtual bool Validate(ref string validateMsg)
+        {
+            //override this method on a derived class to implement custom validation logic
+            bool isValid = true;
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        public virtual bool ValidateBusinessLogic(ref string validateMsg)
+        {
+            bool isValid = true;
+            validateMsg = "";
+            if (isValid)
+            {
+                foreach (FwDataReadWriteRecord rec in dataRecords)
+                {
+                    isValid = rec.ValidateDataRecord(ref validateMsg);
+                    if (!isValid)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (isValid)
+            {
+                isValid = Validate(ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public virtual void BeforeSave() { }
         //------------------------------------------------------------------------------------
         public virtual void AfterSave() { }
