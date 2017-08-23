@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeGender
         [FwSqlDataField(column: "genderid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string WardrobeGenderId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string WardrobeGender { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string WarehouseId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text, maxlength: 8)]
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

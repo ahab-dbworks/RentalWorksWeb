@@ -10,7 +10,7 @@ namespace RentalWorksWebApi.Data.Settings
         [FwSqlDataField(column: "listid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string MailListId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "list", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "list", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string MailList { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

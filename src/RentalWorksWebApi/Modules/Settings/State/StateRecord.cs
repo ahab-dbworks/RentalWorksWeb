@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.State
         [FwSqlDataField(column: "stateid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string StateId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text, maxlength: 12)]
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string State { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "statecode", modeltype: FwDataTypes.Text, maxlength: 1)]
+        [FwSqlDataField(column: "statecode", modeltype: FwDataTypes.Text, maxlength: 2, required: true)]
         public string StateCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]

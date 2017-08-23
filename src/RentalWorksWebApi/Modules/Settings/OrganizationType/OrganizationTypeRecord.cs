@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.OrganizationType
         [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string OrganizationTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "organizationtype", modeltype: FwDataTypes.Text, maxlength: 40)]
+        [FwSqlDataField(column: "organizationtype", modeltype: FwDataTypes.Text, maxlength: 40, required: true)]
         public string OrganizationType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 5)]
+        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 5, required: true)]
         public string OrganizationTypeCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean)]

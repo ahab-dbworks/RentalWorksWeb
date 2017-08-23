@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.ContactTitle
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ContactTitleId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text, maxlength: 50)]
+        [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text, maxlength: 50, required: true)]
         public string ContactTitle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "titletype", modeltype: FwDataTypes.Text, maxlength: 20)]

@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.PhotographyType
         [FwSqlDataField(column: "photographytypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PhotographyTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "photographytype", modeltype: FwDataTypes.Text, maxlength: 50)]
+        [FwSqlDataField(column: "photographytype", modeltype: FwDataTypes.Text, maxlength: 50, required: true)]
         public string PhotographyType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.RetiredReason
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string RetiredReasonId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string RetiredReason { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "reasontype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "reasontype", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string ReasonType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

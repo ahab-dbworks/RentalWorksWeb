@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.FuelType
         [FwSqlDataField(column: "fueltypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string FuelTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "fueltype", modeltype: FwDataTypes.Text, maxlength: 15)]
+        [FwSqlDataField(column: "fueltype", modeltype: FwDataTypes.Text, maxlength: 15, required: true)]
         public string FuelType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

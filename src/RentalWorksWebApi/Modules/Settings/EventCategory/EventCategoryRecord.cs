@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.EventCategory
         [FwSqlDataField(column: "eventcategoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string EventCategoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "eventcategory", modeltype: FwDataTypes.Text, maxlength: 50)]
+        [FwSqlDataField(column: "eventcategory", modeltype: FwDataTypes.Text, maxlength: 50, required: true)]
         public string EventCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "eventcategorycode", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "eventcategorycode", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string EventCategoryCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

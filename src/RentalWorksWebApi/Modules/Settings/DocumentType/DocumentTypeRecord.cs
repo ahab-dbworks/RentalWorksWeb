@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.DocumentType
         [FwSqlDataField(column: "documenttypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DocumentTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text, maxlength: 30)]
+        [FwSqlDataField(column: "documenttype", modeltype: FwDataTypes.Text, maxlength: 30, required: true)]
         public string DocumentType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "floorplan", modeltype: FwDataTypes.Boolean)]

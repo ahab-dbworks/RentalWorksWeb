@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryAttributeValue
         [FwSqlDataField(column: "attributevalueid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string InventoryAttributeValueId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "attributevalue", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "attributevalue", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string InventoryAttributeValue { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
         public string InventoryAttributeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]

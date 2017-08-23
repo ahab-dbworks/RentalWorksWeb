@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryAttribute
         [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string InventoryAttributeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "attribute", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "attribute", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string InventoryAttribute { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, maxlength: 8)]

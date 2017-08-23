@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.CreditStatus
         [FwSqlDataField(column: "creditstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CreditStatusId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "creditstatus", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "creditstatus", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string CreditStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderallow", modeltype: FwDataTypes.Boolean)]

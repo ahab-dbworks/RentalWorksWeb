@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.LicenseClass
         [FwSqlDataField(column: "licclassid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string LicenseClassId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "licclass", modeltype: FwDataTypes.Text, maxlength: 3)]
+        [FwSqlDataField(column: "licclass", modeltype: FwDataTypes.Text, maxlength: 3, required: true)]
         public string LicenseClass { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text, maxlength: 25)]
+        [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text, maxlength: 25, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "regulated", modeltype: FwDataTypes.Boolean)]

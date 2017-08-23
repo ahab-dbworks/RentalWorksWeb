@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountReason
         [FwSqlDataField(column: "invoicediscountreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DiscountReasonId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "invoicediscountreason", modeltype: FwDataTypes.Text, maxlength: 255)]
+        [FwSqlDataField(column: "invoicediscountreason", modeltype: FwDataTypes.Text, maxlength: 255, required: true)]
         public string DiscountReason { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

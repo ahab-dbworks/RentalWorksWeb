@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoClassification
         [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PoClassificationId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "poclassification", modeltype: FwDataTypes.Text, maxlength: 40)]
+        [FwSqlDataField(column: "poclassification", modeltype: FwDataTypes.Text, maxlength: 40, required: true)]
         public string PoClassification { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean)]

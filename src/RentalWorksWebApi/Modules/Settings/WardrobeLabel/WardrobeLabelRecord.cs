@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeLabel
         [FwSqlDataField(column: "labelid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string WardrobeLabelId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string WardrobeLabel { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

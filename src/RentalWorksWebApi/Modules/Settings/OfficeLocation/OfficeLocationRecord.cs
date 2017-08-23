@@ -10,10 +10,10 @@ namespace RentalWorksWebApi.Modules.Settings.OfficeLocation
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string LocationId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "loccode", modeltype: FwDataTypes.Text, maxlength: 4)]
+        [FwSqlDataField(column: "loccode", modeltype: FwDataTypes.Text, maxlength: 4, required: true)]
         public string LocationCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, maxlength: 30)]
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, maxlength: 30, required: true)]
         public string Location { get; set; } = "";
         //------------------------------------------------------------------------------------        
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

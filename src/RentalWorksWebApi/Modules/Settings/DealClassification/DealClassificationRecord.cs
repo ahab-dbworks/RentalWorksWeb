@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.DealClassification
         [FwSqlDataField(column: "dealclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string DealClassificationId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "dealclassification", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "dealclassification", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string DealClassification { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

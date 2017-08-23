@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.ProductionType
         [FwSqlDataField(column: "prodtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ProductionTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "prodtype", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "prodtype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string ProductionType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "prodcode", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "prodcode", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string ProductionTypeCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

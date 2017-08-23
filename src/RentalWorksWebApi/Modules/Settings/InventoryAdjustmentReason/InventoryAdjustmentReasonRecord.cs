@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryAdjustmentReason
         [FwSqlDataField(column: "invadjid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string InventoryAdjustmentReasonId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "adjreason", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "adjreason", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string InventoryAdjustmentReason { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.VendorClass
         [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string VendorClassId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorclass", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "vendorclass", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string VendorClass { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

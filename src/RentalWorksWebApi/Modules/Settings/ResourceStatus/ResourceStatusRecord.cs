@@ -11,13 +11,13 @@ namespace RentalWorksWebApi.Modules.Settings.ResourceStatus
         [FwSqlDataField(column: "resourcestatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ResourceStatusId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "resourcestatus", modeltype: FwDataTypes.Text, maxlength: 30)]
+        [FwSqlDataField(column: "resourcestatus", modeltype: FwDataTypes.Text, maxlength: 30, required: true)]
         public string ResourceStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "assignable", modeltype: FwDataTypes.Boolean)]
         public bool AvailableToSchedule { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 1)]
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 1, required: true)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]

@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeCare
         [FwSqlDataField(column: "wardrobecareid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string WardrobeCareId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "wardrobecare", modeltype: FwDataTypes.Text, maxlength: 255)]
+        [FwSqlDataField(column: "wardrobecare", modeltype: FwDataTypes.Text, maxlength: 255, required: true)]
         public string WardrobeCare { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

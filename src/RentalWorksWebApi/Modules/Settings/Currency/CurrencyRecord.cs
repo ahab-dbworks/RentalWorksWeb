@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.Currency
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CurrencyId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text, maxlength: 50)]
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text, maxlength: 50, required: true)]
         public string Currency { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]

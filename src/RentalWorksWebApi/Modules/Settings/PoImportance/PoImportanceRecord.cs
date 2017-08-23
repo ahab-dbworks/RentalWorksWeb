@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoImportance
         [FwSqlDataField(column: "poimportanceid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PoImportanceId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "poimportance", modeltype: FwDataTypes.Text, maxlength: 40)]
+        [FwSqlDataField(column: "poimportance", modeltype: FwDataTypes.Text, maxlength: 40, required: true)]
         public string PoImportance { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean)]

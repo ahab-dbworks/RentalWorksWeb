@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.ContactEvent
         [FwSqlDataField(column: "contacteventid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string ContactEventId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "contactevent", modeltype: FwDataTypes.Text, maxlength: 15)]
+        [FwSqlDataField(column: "contactevent", modeltype: FwDataTypes.Text, maxlength: 15, required: true)]
         public string ContactEvent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]

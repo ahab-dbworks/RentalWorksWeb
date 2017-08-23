@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleRating
         [FwSqlDataField(column: "vehicleratingid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string VehicleRatingId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vehiclerating", modeltype: FwDataTypes.Text, maxlength: 15)]
+        [FwSqlDataField(column: "vehiclerating", modeltype: FwDataTypes.Text, maxlength: 15, required: true)]
         public string VehicleRating { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

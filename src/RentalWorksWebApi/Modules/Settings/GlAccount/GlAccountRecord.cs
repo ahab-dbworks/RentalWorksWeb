@@ -11,13 +11,13 @@ namespace RentalWorksWebApi.Modules.Settings.GlAccount
         [FwSqlDataField(column: "glaccountid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string GlAccountId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "glno", modeltype: FwDataTypes.Text, maxlength: 20)]
+        [FwSqlDataField(column: "glno", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string GlAccountNo { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text, maxlength: 35)]
+        [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text, maxlength: 35, required: true)]
         public string GlAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "gltype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "gltype", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string GlAccountType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]

@@ -11,10 +11,10 @@ namespace RentalWorksWebApi.Modules.Settings.BillPeriod
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string BillPeriodId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text, maxlength: 12)]
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text, maxlength: 12, required: true)]
         public string BillPeriod { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string PeriodType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nextbillperiodid", modeltype: FwDataTypes.Text, maxlength: 8)]

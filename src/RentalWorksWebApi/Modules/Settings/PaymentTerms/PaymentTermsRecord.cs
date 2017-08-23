@@ -11,7 +11,7 @@ namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string PaymentTermsId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text, maxlength: 12)]
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text, maxlength: 12, required: true)]
         public string PaymentTerms { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invmessage", modeltype: FwDataTypes.Text, maxlength: 60)]

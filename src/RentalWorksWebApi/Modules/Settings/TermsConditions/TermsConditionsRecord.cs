@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.TermsConditions
         [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string TermsConditionsId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 40)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, maxlength: 40, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "filename", modeltype: FwDataTypes.Text, maxlength: 100)]
