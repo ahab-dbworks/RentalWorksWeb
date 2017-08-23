@@ -2662,20 +2662,18 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     screen.load = function() {
         screen.toggleRfid();
         application.setScanTarget('');
-        if (typeof window.DTDevices !== 'undefined') {
-            window.DTDevices.registerListener('barcodeData', 'barcodeData_staging', function (barcode, barcodeType) {
-                try {
-                    if (screen.getCurrentPage().name === 'search') {
-                        screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
-                        screen.$view.find('.search .searchbox').val(barcode).change();
-                    }
-                    if (screen.getCurrentPage().name === 'staging') {
-                        screen.$view.find('#scanBarcodeView-txtBarcodeData').val(barcode).change();
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
+        application.onScanBarcode = function (barcode, barcodeType) {
+            try {
+                if (screen.getCurrentPage().name === 'search') {
+                    screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
+                    screen.$view.find('.search .searchbox').val(barcode).change();
                 }
-            });
+                if (screen.getCurrentPage().name === 'staging') {
+                    screen.$view.find('#scanBarcodeView-txtBarcodeData').val(barcode).change();
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         }
 
         if (typeof window.TslReader !== 'undefined') {
@@ -2698,9 +2696,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
-        if (typeof window.DTDevices !== 'undefined') {
-            window.DTDevices.unregisterListener('barcodeData', 'barcodeData_staging');
-        }
+        application.onScanBarcode = null;
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getStagingScreen');

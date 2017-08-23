@@ -487,18 +487,18 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
 
     screen.load = function() {
         application.setScanTarget('');
-        if (typeof window.DTDevices !== 'undefined') {
-            window.DTDevices.registerListener('barcodeData', 'barcodeData_checkinmenu', function (barcode, barcodeType) {
+        application.onScanBarcode = function (barcode, barcodeType) {
+            try {
                 $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
                 $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
-            });
-        }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
     };
 
     screen.unload = function() {
-        if (typeof window.DTDevices !== 'undefined') {
-            window.DTDevices.unregisterListener('barcodeData', 'barcodeData_checkinmenu');
-        }
+        application.onScanBarcode = null;
     };
 
     return screen;

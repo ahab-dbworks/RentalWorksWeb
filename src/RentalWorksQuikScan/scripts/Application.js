@@ -416,15 +416,20 @@ jQuery(function() {
     
     application.setScanTarget('#scanBarcodeView-txtBarcodeData');
     application.onBarcodeData = function(barcode, barcodeType) {
-        if ((typeof application.activeTextBox === 'undefined') || (jQuery(sessionStorage.getItem('scanTarget')).length === 0)) {
-            // do nothing
+        if (typeof application.onScanBarcode === 'function') {
+            application.onScanBarcode(barcode, barcodeType);
         } else {
-            if (jQuery(sessionStorage.getItem('scanTarget')).hasClass('fwformfield')) {
-                FwFormField.setValue(jQuery('html'), sessionStorage.getItem('scanTarget'), barcode, '', true);
+            if ((typeof application.activeTextBox === 'undefined') || (jQuery(sessionStorage.getItem('scanTarget')).length === 0)) {
+                // do nothing
             } else {
-                jQuery(sessionStorage.getItem('scanTarget')).val(barcode).change();
+                if (jQuery(sessionStorage.getItem('scanTarget')).hasClass('fwformfield')) {
+                    FwFormField.setValue(jQuery('html'), sessionStorage.getItem('scanTarget'), barcode, '', true);
+                } else {
+                    jQuery(sessionStorage.getItem('scanTarget')).val(barcode).change();
+                }
             }
         }
+        
     };
     setTimeout(function() {
         application.loadApplication();
