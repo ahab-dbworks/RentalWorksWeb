@@ -1295,6 +1295,14 @@
     <Content Include="Source\Modules\Settings\VendorClass\VendorClass.js">
       <DependentUpon>VendorClass.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\WardrobeCare\WardrobeCareBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeCare\WardrobeCareForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeColor\WardrobeColorBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeColor\WardrobeColorForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeGender\WardrobeGenderBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeGender\WardrobeGenderForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
@@ -1541,6 +1549,10 @@
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
     <Compile Include="Source\Modules\Settings\ProductionType\ProductionTypeMenu.cs" />
     <Compile Include="Source\Modules\Settings\Department\DepartmentMenu.cs" />
+    <Compile Include="Source\Modules\Settings\WardrobeCare\WardrobeCareMenu.cs" />
+    <Compile Include="Source\Modules\Settings\WardrobeColor\WardrobeColorMenu.cs" />
+    <Compile Include="Source\Modules\Settings\WardrobeGender\WardrobeGenderMenu.cs" />
+    <Compile Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelMenu.cs" />
     <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
@@ -1816,6 +1828,10 @@
     <TypeScriptCompile Include="Source\Modules\Settings\GlAccount\GlAccount.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProductionType\ProductionType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Department\Department.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCare\WardrobeCare.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeColor\WardrobeColor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeGender\WardrobeGender.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabel.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>
