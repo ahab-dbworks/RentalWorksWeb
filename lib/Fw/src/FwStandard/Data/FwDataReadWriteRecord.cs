@@ -22,7 +22,7 @@ namespace FwStandard.DataLayer
             validateMsg = "";
             if (isValid)
             {
-                isValid = AllRequiredFieldsHaveValues(ref validateMsg);
+                isValid = AllFieldsValid(ref validateMsg);
             }
             if (isValid)
             {

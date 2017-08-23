@@ -107,46 +107,64 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual bool AllRequiredFieldsHaveValues(ref string validateMsg)
+        public virtual bool AllFieldsValid(ref string validateMsg)
         {
-            bool hasValues = true;
+            bool valid = true;
 
             PropertyInfo[] properties = this.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                if ((valid) && (property.IsDefined(typeof(FwSqlDataFieldAttribute))))
                 {
                     foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                        if ((valid) && (attribute.GetType() == typeof(FwSqlDataFieldAttribute)))
                         {
                             FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                            if (dataFieldAttribute.Required)
+                            object propertyValue = property.GetValue(this);
+                            if ((valid) && (dataFieldAttribute.Required))
                             {
-
-                                object propertyValue = property.GetValue(this);
                                 if (propertyValue != null)
                                 {
                                     if (propertyValue is string)
                                     {
-                                        hasValues = ((propertyValue as string).Length > 0);
-                                        if (!hasValues)
+                                        valid = ((propertyValue as string).Length > 0);
+                                        if (!valid)
                                         {
                                             validateMsg = property.Name + " cannot be blank.";
-                                            break;
                                         }
                                     }
                                     else
                                     {
-                                        throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllRequiredFieldsHaveValues]");
+                                        throw new Exception("A test for \"Required\" of property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllFieldsValid]");
                                     }
                                 }
                             }
+
+                            if ((valid) && (dataFieldAttribute.MaxLength > 0))
+                            {
+                                if (propertyValue != null)
+                                {
+                                    if (propertyValue is string)
+                                    {
+                                        valid = ((propertyValue as string).Length <= dataFieldAttribute.MaxLength);
+                                        if (!valid)
+                                        {
+                                            validateMsg = property.Name + " cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("A test for \"MaxLength\" property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllFieldsValid]");
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
             }
-            return hasValues;
+            return valid;
         }
         //------------------------------------------------------------------------------------
         protected virtual async Task SetPrimaryKeyIdsForInsertAsync(FwSqlConnection conn)
