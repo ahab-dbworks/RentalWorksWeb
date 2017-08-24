@@ -1125,6 +1125,14 @@
     </Content>
     <Content Include="Source\Modules\Settings\FacilityStatus\FacilityStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityStatus\FacilityStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorRating\GeneratorRatingBrowse.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorRating\GeneratorRatingForm.htm" />
+    <Content Include="Source\Modules\Settings\LicenseClass\LicenseClassBrowse.htm" />
+    <Content Include="Source\Modules\Settings\LicenseClass\LicenseClassForm.htm" />
+    <Content Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatusForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.js">
       <DependentUpon>InventoryAdjustmentReason.ts</DependentUpon>
     </Content>
@@ -1181,6 +1189,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleColor\VehicleColorForm.htm" />
+    <Content Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\VehicleRating\VehicleRatingBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleRating\VehicleRatingForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.js">
       <DependentUpon>VehicleScheduleStatus.ts</DependentUpon>
     </Content>
@@ -1504,10 +1516,16 @@
     <Compile Include="Source\Modules\Settings\CoverLetter\CoverLetterMenu.cs" />
     <Compile Include="Source\Modules\Settings\CrewStatus\CrewStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\FacilityStatus\FacilityStatusMenu.cs" />
+    <Compile Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\GeneratorRating\GeneratorRatingMenu.cs" />
+    <Compile Include="Source\Modules\Settings\LicenseClass\LicenseClassMenu.cs" />
+    <Compile Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\Unit\UnitMenu.cs" />
     <Compile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserStatus\UserStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\VehicleColor\VehicleColorMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeMenu.cs" />
+    <Compile Include="Source\Modules\Settings\VehicleRating\VehicleRatingMenu.cs" />
     <Compile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusMenu.cs" />
     <Compile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeMenu.cs" />
     <Compile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusMenu.cs" />
@@ -1784,10 +1802,16 @@
     <TypeScriptCompile Include="Source\Modules\Settings\CoverLetter\CoverLetter.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewStatus\CrewStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityStatus\FacilityStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\GeneratorRating\GeneratorRating.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\LicenseClass\LicenseClass.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Unit\Unit.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserStatus\UserStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleColor\VehicleColor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleRating\VehicleRating.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatus.ts" />

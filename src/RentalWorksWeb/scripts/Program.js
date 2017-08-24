@@ -84,6 +84,13 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/wardrobegender$/,             getScreen: function() { return WardrobeGenderController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobelabel$/,              getScreen: function() { return WardrobeLabelController.getModuleScreen({}, {}); } }
 
+
+  , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/generatorfueltype$/,          getScreen: function () { return GeneratorFuelTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/generatorrating$/,            getScreen: function () { return GeneratorRatingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehiclefueltype$/,            getScreen: function () { return VehicleFuelTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehiclerating$/,              getScreen: function () { return VehicleRatingController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   
