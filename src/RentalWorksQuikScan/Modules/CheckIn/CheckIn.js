@@ -232,26 +232,30 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 icon:        '',
                 state:       0,
                 buttonclick: function () {
-                    var request = {
-                        contractid: screen.getContractId()
-                    };
-                    RwServices.callMethod('CheckIn', 'GetShowCreateContract', request, function (response) {
-                        try {
-                            if (response.showcreatecontract) {
-                                properties.contract = {
-                                    contractType:        'IN',
-                                    contractId:          screen.getContractId(),
-                                    orderId:             screen.getOrderId(),
-                                    responsiblePersonId: ''
-                                };
-                                application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
-                            } else {
-                                FwFunc.showMessage("There is no activity on this Check-In Session!");
+                    if (screen.getContractId() != '') {
+                        var request = {
+                            contractid: screen.getContractId()
+                        };
+                        RwServices.callMethod('CheckIn', 'GetShowCreateContract', request, function (response) {
+                            try {
+                                if (response.showcreatecontract) {
+                                    properties.contract = {
+                                        contractType:        'IN',
+                                        contractId:          screen.getContractId(),
+                                        orderId:             screen.getOrderId(),
+                                        responsiblePersonId: ''
+                                    };
+                                    application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                                } else {
+                                    FwFunc.showMessage("There is no activity on this Check-In Session!");
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
                             }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
+                        });
+                    } else {
+                        FwFunc.showMessage("There is no activity on this Check-In Session!");
+                    }
                 }
             }
         ]
@@ -270,12 +274,14 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                            .fwmobilemodulecontrol('hideButton', '#stoprfid');
         }
         screen.properties.currentview = 'PENDING';
-        request = {
-            contractId: screen.getContractId()
-        };
-        RwServices.callMethod('CheckIn', 'LoadPendingList', request, function (response) {
-            $pending.loadpendinglist(response.pendingitems);
-        });
+        if (screen.getContractId() != '') {
+            request = {
+                contractId: screen.getContractId()
+            };
+            RwServices.callMethod('CheckIn', 'LoadPendingList', request, function (response) {
+                $pending.loadpendinglist(response.pendingitems);
+            });
+        }
     };
     $pending.loadpendinglist = function(pendingitems) {
         var li, isAlternate, subbyqty, isTrackedByQty, isTrackedBySerial, lineitemcount=0, totalitems=0, showapplyallqtyitems=false;
@@ -625,12 +631,14 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#rfidexceptions');
         $checkincontrol.fwmobilemodulecontrol('hideButton', '#applyallqtyitems');
         screen.properties.currentview = 'SESSIONIN';
-        request = {
-            contractid:  screen.getContractId()
-        };
-        RwServices.callMethod("CheckIn", "LoadSessionInList", request, function(response) {
-            $sessionin.loadsessionlist(response.items);
-        });
+        if (screen.getContractId() != '') {
+            request = {
+                contractid:  screen.getContractId()
+            };
+            RwServices.callMethod("CheckIn", "LoadSessionInList", request, function(response) {
+                $sessionin.loadsessionlist(response.items);
+            });
+        }
     };
     $sessionin.loadsessionlist = function(items) {
         var sessionedinitems, li, isHeaderRow, cssClass, lineitemcount=0, totalitems=0, extraitems;
