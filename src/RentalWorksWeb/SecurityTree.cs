@@ -126,7 +126,7 @@ namespace RentalWorksWeb
                                             AddModule("Vehicle Schedule Status", "{A001473B-1FB4-4E85-8093-37A92057CD93}", lv2menuVehicleMaintenance.Id, "VehicleScheduleStatusController", "module/vehicleschedulestatus", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Color", "{F7A34B70-509A-422F-BFD1-5F30BE2C8186}", lv2menuVehicleMaintenance.Id, "VehicleColorController", "module/vehiclecolor", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Status", "{FB12061D-E6AF-4C09-95A0-8647930C289A}", lv2menuVehicleMaintenance.Id, "VehicleStatusController", "module/vehiclestatus", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Vehicle Fule Type", "{D9140FB3-084D-4615-8E7A-95731670E682}", lv2menuVehicleMaintenance.Id, "VehicleFuelTypeController", "module/vehiclefueltype", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Fuel Type", "{D9140FB3-084D-4615-8E7A-95731670E682}", lv2menuVehicleMaintenance.Id, "VehicleFuelTypeController", "module/vehiclefueltype", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Rating", "{09913CDB-68FB-4F18-BBAA-DCA8A8F926E5}", lv2menuVehicleMaintenance.Id, "VehicleRatingController", "module/vehiclerating", settingsiconbaseurl + "placeholder.png");
                                             AddModule("License Class", "{422F777F-B57F-43DF-8485-F12F3F7BF662}", lv2menuVehicleMaintenance.Id, "LicenseClassController", "module/licenseclass", settingsiconbaseurl + "placeholder.png");
 
@@ -142,7 +142,7 @@ namespace RentalWorksWeb
 
 
             var lv2menuGeneratorMaintenance = AddLv2ModuleMenu("Generator Maintenance", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Generator Fule Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorMaintenance.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorMaintenance.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Generator Rating", "{140E6997-1BA9-49B7-AA79-CD5EF6444C72}", lv2menuGeneratorMaintenance.Id, "GeneratorRatingController", "module/generatorrating", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
