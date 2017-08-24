@@ -20,10 +20,10 @@ namespace RentalWorksWeb.Source.Modules
             var nodeBrowseSubMenu = tree.AddSubMenu("{C2B2DD41-6C07-43CD-AFE7-0556B4E07D7E}", nodeBrowseMenuBar.Id);
             var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{F091D315-F1A7-4778-9827-EDBAF021540D}", nodeBrowseSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{A3C3B0B3-D8A2-4C4F-B5ED-F207980351D1}", nodeBrowseExport.Id);
-            tree.AddNewMenuBarButton("{84052DD3-70B6-448C-9272-F335FE4C93B1}", nodeBrowseMenuBar.Id);
+            //tree.AddNewMenuBarButton("{84052DD3-70B6-448C-9272-F335FE4C93B1}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{2DAD6592-2332-4D5D-A364-5AEE62796015}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{3B73F851-F8C3-4787-9BB9-F7E0B74A53C4}", nodeBrowseMenuBar.Id);
-            tree.AddDeleteMenuBarButton("{6BEAB3AB-BA07-4A9D-9AD6-17970749CEDB}", nodeBrowseMenuBar.Id);
+            //tree.AddDeleteMenuBarButton("{6BEAB3AB-BA07-4A9D-9AD6-17970749CEDB}", nodeBrowseMenuBar.Id);
 
 
             // Form
