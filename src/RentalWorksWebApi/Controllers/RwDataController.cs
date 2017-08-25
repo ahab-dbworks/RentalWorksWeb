@@ -152,42 +152,78 @@ namespace RentalWorksWebApi.Controllers
 
         protected virtual async Task<IActionResult> DoSaveFormAsync<T>(SaveFormRequest request, Type type)
         {
-            FwBusinessLogic logic = (FwBusinessLogic)Activator.CreateInstance(type);
-
-            //populate the fields from the request
-            IDictionary<string, dynamic> fields = request.fields;
-            foreach(var field in fields)
+            try
             {
-                var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == field.Key);
-                if (propertyInfo != null)
+                if (!ModelState.IsValid)
                 {
-                    propertyInfo.SetValue(logic, field.Value.value);
+                    return BadRequest(ModelState);
                 }
-            }
+                FwBusinessLogic logic = (FwBusinessLogic)Activator.CreateInstance(type);
 
-            //populate the uniqueids from the request
-            IDictionary<string, dynamic> ids = request.ids;
-            foreach(var id in ids)
-            {
-                var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == id.Key);
-                if (propertyInfo != null)
+                //populate the parent formfields from the request
+                IDictionary<string, dynamic> miscfields = request.miscfields;
+                foreach (var miscfield in miscfields)
                 {
-                    propertyInfo.SetValue(logic, id.Value.value);
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == miscfield.Key);
+                    if (propertyInfo != null)
+                    {
+                        propertyInfo.SetValue(logic, miscfield.Value.value);
+                    }
                 }
-            }
+
+                //populate the uniqueids from the request
+                //this section may not be needed mv 2017-08-25
+                IDictionary<string, dynamic> ids = request.ids;
+                foreach(var id in ids)
+                {
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == id.Key);
+                    if (propertyInfo != null)
+                    {
+                        propertyInfo.SetValue(logic, id.Value.value);
+                    }
+                }
             
-            //populate the parent formfields from the request
-            IDictionary<string, dynamic> miscfields = request.miscfields;
-            foreach(var miscfield in miscfields)
-            {
-                var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == miscfield.Key);
-                if (propertyInfo != null)
+                //populate the fields from the request
+                IDictionary<string, dynamic> fields = request.fields;
+                foreach(var field in fields)
                 {
-                    propertyInfo.SetValue(logic, miscfield.Value.value);
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == field.Key);
+                    if (propertyInfo != null)
+                    {
+                        propertyInfo.SetValue(logic, field.Value.value);
+                    }
+                }
+
+                logic.SetDbConfig(_appConfig.DatabaseSettings);
+                string validateMsg = string.Empty;
+                if (logic.ValidateBusinessLogic(ref validateMsg))
+                {
+                    if (logic.AllPrimaryKeysHaveValues)
+                    {
+                        //update
+                        await logic.SaveAsync();
+                        return new OkObjectResult(logic);
+                    }
+                    else
+                    {
+                        //insert
+                        await logic.SaveAsync();
+                        return new OkObjectResult(logic);
+                    }
+                }
+                else
+                {
+                    throw new Exception(validateMsg);
                 }
             }
-
-            return await DoPostAsync<T>(logic);
+            catch (Exception ex)
+            {
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------
         protected virtual async Task<IActionResult> DoDeleteAsync(string id, Type type)
