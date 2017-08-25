@@ -53,6 +53,23 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         public string PaymentTerms { get; set; }
         public string WebAddress { get { return vendor.WebAddress; } set { vendor.WebAddress = value; } }
         public string Email { get { return vendor.Email; } set { vendor.Email = value; } }
+        public string ActiveDate { get { return vendor.ActiveDate; } set { vendor.ActiveDate = value; } }
+        public string InactiveDate { get { return vendor.InactiveDate; } set { vendor.InactiveDate = value; } }
+        public bool SubRent { get { return vendor.SubRent; } set { vendor.SubRent = value; } }
+        public bool SubSales { get { return vendor.SubSales; } set { vendor.SubSales = value; } }
+        public bool SubMisc { get { return vendor.SubMisc; } set { vendor.SubMisc = value; } }
+        public bool SubLabor { get { return vendor.SubLabor; } set { vendor.SubLabor = value; } }
+        public bool SubVehicle { get { return vendor.SubVehicle; } set { vendor.SubVehicle = value; } }
+        public bool Repair { get { return vendor.Repair; } set { vendor.Repair = value; } }
+        public bool RentalInventory { get { return vendor.RentalInventory; } set { vendor.RentalInventory = value; } }
+        public bool SalesPartsInventory { get { return vendor.SalesPartsInventory; } set { vendor.SalesPartsInventory = value; } }
+        public bool Manufacturer { get { return vendor.Manufacturer; } set { vendor.Manufacturer = value; } }
+        public bool Freight { get { return vendor.Freight; } set { vendor.Freight = value; } }
+        public bool Insurance { get { return vendor.Insurance; } set { vendor.Insurance = value; } }
+        public bool Consignment { get { return vendor.Consignment; } set { vendor.Consignment = value; } }
+        public decimal DefaultSubRentDaysInWeek { get { return vendor.DefaultSubRentDaysInWeek; } set { vendor.DefaultSubRentDaysInWeek = value; } }
+        public decimal DefaultSubRentDiscountPercent { get { return vendor.DefaultSubRentDiscountPercent; } set { vendor.DefaultSubRentDiscountPercent = value; } }
+        public decimal DefaultSubSaleDiscountPercent { get { return vendor.DefaultSubSaleDiscountPercent; } set { vendor.DefaultSubSaleDiscountPercent = value; } }
         public bool Inactive { get { return vendor.Inactive; } set { vendor.Inactive = value; } }
         public string DateStamp { get { return vendor.DateStamp; } set { vendor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
