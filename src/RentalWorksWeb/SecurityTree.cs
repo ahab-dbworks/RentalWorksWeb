@@ -83,6 +83,10 @@ namespace RentalWorksWeb
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesMaintenance.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Status", "{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}", lv2menuFacilitiesMaintenance.Id, "FacilityStatusController", "module/facilitystatus", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuGeneratorMaintenance = AddLv2ModuleMenu("Generator Maintenance", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorMaintenance.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Generator Rating", "{140E6997-1BA9-49B7-AA79-CD5EF6444C72}", lv2menuGeneratorMaintenance.Id, "GeneratorRatingController", "module/generatorrating", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuHolidayMaintenance = AddLv2ModuleMenu("Holiday Maintenance", "{8A1C54ED-01B6-4EF5-AEBD-5E3F9F2563E0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Blackout Status", "{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}", lv2menuHolidayMaintenance.Id, "BlackoutStatusController", "module/blackoutstatus", settingsiconbaseurl + "placeholder.png");
 
@@ -118,6 +122,7 @@ namespace RentalWorksWeb
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOMaintenance.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
+            AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuUserMaintenance = AddLv2ModuleMenu("User Maintenance", "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("User Status", "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserMaintenance.Id, "UserStatusController", "module/userstatus", settingsiconbaseurl + "placeholder.png");
@@ -138,14 +143,6 @@ namespace RentalWorksWeb
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
 
-
-
-
-            var lv2menuGeneratorMaintenance = AddLv2ModuleMenu("Generator Maintenance", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorMaintenance.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Generator Rating", "{140E6997-1BA9-49B7-AA79-CD5EF6444C72}", lv2menuGeneratorMaintenance.Id, "GeneratorRatingController", "module/generatorrating", settingsiconbaseurl + "placeholder.png");
-
-            AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
             //Reports 
             //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");
             //                                AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
