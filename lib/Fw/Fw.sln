@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		update_all.ps1 = update_all.ps1
 		update_Fw_GateWorksWeb.ps1 = update_Fw_GateWorksWeb.ps1
-		update_Fw_RentalWorks_2015_001.ps1 = update_Fw_RentalWorks_2015_001.ps1
+		update_Fw_MediaWorksWeb.ps1 = update_Fw_MediaWorksWeb.ps1
 		update_Fw_RentalWorksWeb.ps1 = update_Fw_RentalWorksWeb.ps1
 		update_Fw_TransWorksWeb.ps1 = update_Fw_TransWorksWeb.ps1
 	EndProjectSection

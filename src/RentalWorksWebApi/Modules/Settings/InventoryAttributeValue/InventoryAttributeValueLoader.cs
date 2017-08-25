@@ -1,4 +1,7 @@
-﻿using FwStandard.SqlServer;
+﻿using System.Threading.Tasks;
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
@@ -35,5 +38,14 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryAttributeValue
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            select.AddWhere("attributeid = @attributeid");
+            select.AddParameter("@attributeid", request.miscfields.InventoryAttributeId.value);
+        }
+        //------------------------------------------------------------------------------------
+
     }
 }

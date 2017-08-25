@@ -172,7 +172,8 @@ namespace RentalWorksWeb
             AddGrid("Contact Email History",          "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
             AddGrid("Contact Note",                   "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
             AddGrid("Contact Personal Event",         "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
-            AddGrid("Document Version ",              "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
+            AddGrid("Document Version",               "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
+            AddGrid("Inventory Attribute Value",      "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             AddGrid("Master Item",                    "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",           "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             AddGrid("Order Contract Note",            "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
@@ -184,29 +185,22 @@ namespace RentalWorksWeb
             AddGrid("Quik Entry Items",               "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
             AddGrid("Quik Entry Sub Category",        "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
 
+            // Use reflection to build the Fw project's security tree branches
             Type[] fwTypes  = typeof(FwApplicationTree).Assembly.GetTypes();
-            Type[] appTypes = typeof(SecurityTree).Assembly.GetTypes();
-            foreach (Type type in fwTypes)
+            List<Type> fwSecurityTreeBranchTypes = fwTypes.Where(t => t.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch))).ToList();
+            foreach(Type fwSecurityTreeBranchType in fwSecurityTreeBranchTypes)
             {
-                bool isInModulesFolder, isFwApplicationTreeBranch;
-                isInModulesFolder         = type.FullName.StartsWith("Fw.Json.Content.Source.Modules");
-                isFwApplicationTreeBranch = type.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch));
-                if (isInModulesFolder && isFwApplicationTreeBranch)
-                {
-                    FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(type);
-                    branch.BuildBranch(this);
-                }
+                FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(fwSecurityTreeBranchType);
+                branch.BuildBranch(this);
             }
-            foreach (Type type in appTypes)
+
+            // Use reflection to build the RentalWorksWeb project's security tree branches
+            Type[] appTypes = typeof(SecurityTree).Assembly.GetTypes();
+            List<Type> appSecurityTreeBranchTypes = appTypes.Where(t => t.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch))).ToList();
+            foreach(Type appSecurityTreeBranchType in appSecurityTreeBranchTypes)
             {
-                bool isInModulesFolder, isFwApplicationTreeBranch;
-                isInModulesFolder         = type.FullName.StartsWith("RentalWorksWeb.Source.Modules");
-                isFwApplicationTreeBranch = type.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch));
-                if (isInModulesFolder && isFwApplicationTreeBranch)
-                {
-                    FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(type);
-                    branch.BuildBranch(this);
-                }
+                FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(appSecurityTreeBranchType);
+                branch.BuildBranch(this);
             }
         }
         //---------------------------------------------------------------------------------------------

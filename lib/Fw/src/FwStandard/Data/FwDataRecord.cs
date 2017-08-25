@@ -180,9 +180,9 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void SetBaseSelectQuery(FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected virtual void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
-            qry.Add("select");
+            select.Add("select");
             PropertyInfo[] properties = this.GetType().GetTypeInfo().GetProperties();
             int colNo = 0;
             Dictionary<string, string> columns = new Dictionary<string, string>();
@@ -203,7 +203,7 @@ namespace FwStandard.DataLayer
                         prefix = ",";
                     }
                     qry.AddColumn("", property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    qry.Add("  " + prefix + "t.[" + sqlColumnName + "] as " + property.Name);
+                    select.Add(prefix + " " + "t.[" + sqlColumnName + "] as " + property.Name);
                     colNo++;
                 }
             }
@@ -235,13 +235,13 @@ namespace FwStandard.DataLayer
                     }
 
                     qry.AddColumn("", customField.FieldName, FwDataTypes.Text, true, false, false);
-                    qry.Add(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
+                    select.Add(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
 
                     customFieldIndex++;
                 }
             }
 
-            qry.Add(" from " + TableName + " t with (nolock)");
+            select.Add(" from " + TableName + " t with (nolock)");
 
             if ((customFields != null) && (customFields.Count > 0))
             {
@@ -249,8 +249,8 @@ namespace FwStandard.DataLayer
 
                 foreach (FwCustomTable customTable in customTables)
                 {
-                    qry.Add(" left outer join " + customTable.TableName + " " + customTable.Alias + " with (nolock) on ");
-                    qry.Add(" ( ");
+                    select.Add(" left outer join " + customTable.TableName + " " + customTable.Alias + " with (nolock) on ");
+                    select.Add(" ( ");
 
                     int k = 1;
                     foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
@@ -262,13 +262,13 @@ namespace FwStandard.DataLayer
                             sqlColumnName = sqlDataFieldAttribute.ColumnName;
                         }
                         string customUniqueIdField = "uniqueid" + k.ToString().PadLeft(2, '0');
-                        qry.Add("t." + sqlColumnName + " = " + customTable.Alias + "." + customUniqueIdField);
+                        select.Add("t." + sqlColumnName + " = " + customTable.Alias + "." + customUniqueIdField);
                         if (k < primaryKeyProperties.Count) {
-                            qry.Add(" and ");
+                            select.Add(" and ");
                         }
                         k++;
                     }
-                    qry.Add(" ) ");
+                    select.Add(" ) ");
                 }
             }
 
@@ -276,7 +276,7 @@ namespace FwStandard.DataLayer
             {
                 if (request.searchfields.Length > 0)
                 {
-                    qry.Add("where");
+                    select.Add("where");
                     for (int i = 0; i < request.searchfields.Length; i++)
                     {
                         if (!columns.ContainsKey(request.searchfields[i]))
@@ -292,8 +292,8 @@ namespace FwStandard.DataLayer
                             }
                             string parameterName = "@" + columns[request.searchfields[i]];
                             string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") like " + parameterName;
-                            qry.Add(searchcondition);
-                            qry.AddParameter(parameterName, "%" + request.searchfieldvalues[i] + "%");
+                            select.Add(searchcondition);
+                            select.AddParameter(parameterName, "%" + request.searchfieldvalues[i] + "%");
                         }
                     }
                 }
@@ -385,7 +385,7 @@ namespace FwStandard.DataLayer
                             throw new Exception("Invalid token " + token + " in order by.");
                         }
                     }
-                    qry.Add("order by " + orderbyBuilder.ToString());
+                    select.Add("order by " + orderbyBuilder.ToString());
                 }
             }
         }
@@ -395,9 +395,14 @@ namespace FwStandard.DataLayer
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                SetBaseSelectQuery(qry, customFields: customFields, request: request);
-                dt = await qry.QueryToFwJsonTableAsync(includeAllColumns: false, pageNo: request.pageno, pageSize: request.pagesize);
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                {
+                    SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
+                    select.SetQuery(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(includeAllColumns: false, pageNo: request.pageno, pageSize: request.pagesize);
+                }
             }
             return dt;
         }
@@ -407,9 +412,11 @@ namespace FwStandard.DataLayer
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 bool openAndCloseConnection = true;
+                FwSqlSelect select = new FwSqlSelect();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                 {
-                    SetBaseSelectQuery(qry, customFields: customFields, request: request);
+                    SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
+                    select.SetQuery(qry);
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
                     dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
@@ -436,47 +443,51 @@ namespace FwStandard.DataLayer
             {
                 using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                    SetBaseSelectQuery(qry, customFields);
-                    List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
-                    int k = 0;
-                    foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+                    FwSqlSelect select = new FwSqlSelect();
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                     {
-                        if (k == 0)
+                        SetBaseSelectQuery(select, qry, customFields);
+                        select.SetQuery(qry);
+                        List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
+                        int k = 0;
+                        foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                         {
-                            qry.Add("where ");
+                            if (k == 0)
+                            {
+                                qry.Add("where ");
+                            }
+                            else
+                            {
+                                qry.Add("and ");
+                            }
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            string sqlColumnName = primaryKeyProperty.Name;
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                            {
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            }
+                            qry.Add(sqlColumnName);
+                            qry.Add(" = @keyvalue" + k.ToString());
+                            k++;
                         }
-                        else
+                        k = 0;
+                        foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                         {
-                            qry.Add("and ");
+                            qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
+                            k++;
                         }
-                        FwSqlDataFieldAttribute sqlDataFieldAttribute = primaryKeyProperty.GetCustomAttribute<FwSqlDataFieldAttribute>();
-                        string sqlColumnName = primaryKeyProperty.Name;
-                        if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                        MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
+                        MethodInfo generic = method.MakeGenericMethod(this.GetType());
+                        object openAndCloseConnection = true;
+                        dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                        dynamic records = await result;
+                        dynamic record = null;
+                        if (records.Count > 0)
                         {
-                            sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            record = records[0];
                         }
-                        qry.Add(sqlColumnName);
-                        qry.Add(" = @keyvalue" + k.ToString());
-                        k++;
+                        return record;
                     }
-                    k = 0;
-                    foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
-                    {
-                        qry.AddParameter("@keyvalue" + k.ToString(), primaryKeyProperty.GetValue(this));
-                        k++;
-                    }
-                    MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
-                    MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    object openAndCloseConnection = true;
-                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
-                    dynamic records = await result;
-                    dynamic record = null;
-                    if (records.Count > 0)
-                    {
-                        record = records[0];
-                    }
-                    return record;
                 }
             }
             else

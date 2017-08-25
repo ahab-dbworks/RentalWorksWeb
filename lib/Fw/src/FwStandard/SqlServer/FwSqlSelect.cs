@@ -11,38 +11,22 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         private enum Clauses { None, Unknown, Union, Select, From, Where, GroupBy, Having, OrderBy }
 
-        public StringBuilder OriginalSQL {get;set;}
-        public List<FwSqlSelectStatement> SelectStatements {get;set;}
-        public List<string> OrderBy {get;set;}
-        public Dictionary<string, SqlParameter> Parameters {get;set;}
-        public int Top {get;set;}
-        public bool EnablePaging {get;set;}
-        public int PageNo {get;set;}
-        public int PageSize {get;set;}
-        //public FwDatabases DatabaseConnection {get;set;}
+        public StringBuilder OriginalSQL {get;set;} = new StringBuilder();
+        public List<FwSqlSelectStatement> SelectStatements {get;set;} = new List<FwSqlSelectStatement>();
+        public List<string> OrderBy {get;set;} = new List<string>();
+        public Dictionary<string, SqlParameter> Parameters {get;set;} = new Dictionary<string, SqlParameter>();
+        public int Top {get;set;} = 0;
+        public bool EnablePaging {get;set;} = false;
+        public int PageNo {get;set;} = 0;
+        public int PageSize {get;set;} = 10;
         public FwSqlConnection SqlConnection;
         public FwSqlCommand SqlCommand;
 
-        private bool parsed;
-        //private Dictionary<string,string> tags;
+        private bool parsed = false;
         //---------------------------------------------------------------------------------------------
         public FwSqlSelect()
         {
-            Clear();
-        }
-        //---------------------------------------------------------------------------------------------
-        public void Clear()
-        {
-            this.OriginalSQL      = new StringBuilder();
-            this.SelectStatements = new List<FwSqlSelectStatement>();
-            this.OrderBy          = new List<string>();
-            this.Parameters       = new Dictionary<string, SqlParameter>();
-            this.Top              = 0;
-            this.EnablePaging     = false;
-            this.PageNo           = 0;
-            this.PageSize         = 10;
-            this.parsed           = false;
-            //this.tags             = new Dictionary<string,string>();
+            
         }
         //---------------------------------------------------------------------------------------------
         public void Parse()
@@ -242,7 +226,7 @@ namespace FwStandard.SqlServer
                 this.Parse();
             }
             sb = new StringBuilder();
-            AddParameter("@fwtop", Top);
+
             if (EnablePaging)
             {
                 rowNoStart = ((PageNo - 1) * PageSize) + 1;
@@ -273,7 +257,8 @@ namespace FwStandard.SqlServer
                     string line = selectStatement.Select[i];
                     if ((i == 0) && (!EnablePaging) && (Top > 0))
                     {
-                        line = line.Insert("select ".Length, "top (@fwtop) ");
+                        //line = line.Insert("select ".Length, "top (@fwtop) ");
+                        //AddParameter("@fwtop", Top);
                         line = line.Insert("select ".Length, "top " + Top.ToString() + " ");
                     }
                     sb.AppendLine(line);

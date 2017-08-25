@@ -1026,6 +1026,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js">
+      <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Grids\OrderContractNote\OrderContractNoteBrowse.htm" />
     <Content Include="Source\Grids\OrderContractNote\RwOrderContractNoteGridController.js" />
     <Content Include="Source\Grids\OrderActivityDates\OrderActivityDatesBrowse.htm" />
@@ -1062,6 +1066,7 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
@@ -1492,6 +1497,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityTree.cs" />
     <Compile Include="Source\AccountService.cs" />
+    <Compile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridMenu.cs" />
     <Compile Include="Source\Grids\Contact\ContactMenu.cs" />
     <Compile Include="Source\Grids\MasterItem\MasterItemMenu.cs" />
     <Compile Include="Source\Grids\OrderActivityDates\OrderActivityDatesMenu.cs" />
@@ -1777,6 +1783,9 @@
     </Content>
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js.map">
       <DependentUpon>TermsConditions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js.map">
+      <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

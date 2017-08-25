@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Dynamic;
 
 namespace FwStandard.Models
 {
     public class BrowseRequestDto
     {
-        //public enum OrderByDirections { asc, desc }
-        public Dictionary<string, object> miscfields { get; set; } = new Dictionary<string, object>();
+        public dynamic miscfields { get; set; } = new ExpandoObject();
         public string module { get; set; } = string.Empty;
-        public Dictionary<string, object> options { get; set; } = new Dictionary<string, object>();
+        public dynamic options { get; set; } = new ExpandoObject();
         public string orderby { get; set; } = string.Empty;
         public string orderbydirection { get; set; } = string.Empty;
         public int pageno { get; set; } = 0;

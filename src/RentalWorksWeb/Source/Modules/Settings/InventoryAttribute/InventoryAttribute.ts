@@ -71,8 +71,28 @@ class InventoryAttribute {
         FwModule.loadAudit($form, uniqueid);
     }
 
-    afterLoad($form: any) {
+    renderGrids($form: any) {
+        var $inventoryAttributeValueGrid: any;
+        var $inventoryAttributeValueGridControl: any;
 
+        // load AttributeValue Grid
+        $inventoryAttributeValueGrid        = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
+        $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
+        $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
+        $inventoryAttributeValueGridControl.data('ondatabind', function(request) {
+            request.uniqueids = {
+                InventoryAttributeId: $form.find('div.fwformfield[data-datafield="InventoryAttributeId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryAttributeValueGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
+    }
+
+    afterLoad($form: any) {
+        var $inventoryAttributeValueGrid: any;
+
+        $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
+        FwBrowse.search($inventoryAttributeValueGrid);
     }
 }
 
