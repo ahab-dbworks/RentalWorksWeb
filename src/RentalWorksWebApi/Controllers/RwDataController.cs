@@ -123,14 +123,14 @@ namespace RentalWorksWebApi.Controllers
                     {
                         //update
                         await l.SaveAsync();
-                        //await l.LoadAsync<T>();
+                        await l.LoadAsync<T>();
                         return new OkObjectResult(l);
                     }
                     else
                     {
                         //insert
                         await l.SaveAsync();
-                        //await l.LoadAsync<T>();
+                        await l.LoadAsync<T>();
                         //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
                         return new OkObjectResult(l);
                     }
