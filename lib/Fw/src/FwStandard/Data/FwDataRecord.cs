@@ -433,6 +433,7 @@ namespace FwStandard.DataLayer
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
                 primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
+                k++;
             }
             return await GetAsync<T>(customFields);
         }
