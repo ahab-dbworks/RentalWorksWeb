@@ -15,8 +15,10 @@ namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string CompanyId { get { return dealLocation.CompanyId; } set { dealLocation.CompanyId = value; } }
+        public string Id { get { return dealLocation.Id; } set { dealLocation.Id = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InternalChar { get { return dealLocation.InternalChar; } set { dealLocation.InternalChar = value; } }
+        public string CompanyId { get { return dealLocation.CompanyId; } set { dealLocation.CompanyId = value; } }
         public string LocationId { get { return dealLocation.LocationId; } set { dealLocation.LocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string Location { get; set; }

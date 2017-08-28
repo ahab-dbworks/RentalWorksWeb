@@ -62,27 +62,6 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
         public string ZipCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitadd1", modeltype: FwDataTypes.Text)]
-        public string RemitAddress1 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitadd2", modeltype: FwDataTypes.Text)]
-        public string RemitAddress2 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitcity", modeltype: FwDataTypes.Text)]
-        public string RemitCity { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitstate", modeltype: FwDataTypes.Text)]
-        public string RemitState { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitcountryid", modeltype: FwDataTypes.Text)]
-        public string RemitCountryId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitcountry", modeltype: FwDataTypes.Text)]
-        public string RemitCountry { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "remitzip", modeltype: FwDataTypes.Text)]
-        public string RemitZipCode { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------
@@ -94,12 +73,6 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phoneother", modeltype: FwDataTypes.Text)]
         public string OtherPhone { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
-        public string PaymentTermsId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
-        public string PaymentTerms { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "internet", modeltype: FwDataTypes.Text)]
         public string WebAddress { get; set; }
@@ -157,6 +130,84 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ssdiscountrate", modeltype: FwDataTypes.Decimal)]
         public decimal DefaultSubSaleDiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string DefaultRate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
+        public string BillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
+        public string BillingCycle { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
+        public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customernumber", modeltype: FwDataTypes.Text)]
+        public string AccountNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text)]
+        public string DefaultPoClassificationId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "poclassification", modeltype: FwDataTypes.Text)]
+        public string DefaultPoClassification { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text)]
+        public string OrganizationTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text)]
+        public string OrganizationType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
+        public string DefaultCurrency { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitadd1", modeltype: FwDataTypes.Text)]
+        public string RemitAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitadd2", modeltype: FwDataTypes.Text)]
+        public string RemitAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitcity", modeltype: FwDataTypes.Text)]
+        public string RemitCity { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitstate", modeltype: FwDataTypes.Text)]
+        public string RemitState { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitcountryid", modeltype: FwDataTypes.Text)]
+        public string RemitCountryId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitcountry", modeltype: FwDataTypes.Text)]
+        public string RemitCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitzip", modeltype: FwDataTypes.Text)]
+        public string RemitZipCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remitpayeeno", modeltype: FwDataTypes.Text)]
+        public string RemitPayeeNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "externalid", modeltype: FwDataTypes.Text)]
+        public string ExternalId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "adjustcontractdate", modeltype: FwDataTypes.Boolean)]
+        public bool AutomaticallyAdjustContractDates { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "trackingnolink", modeltype: FwDataTypes.Text)]
+        public string ShippingTrackingLink { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "outdeliverytype", modeltype: FwDataTypes.Text)]
+        public string DefaultOutgoingDeliveryType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "indeliverytype", modeltype: FwDataTypes.Text)]
+        public string DefaultIncomingDeliveryType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }

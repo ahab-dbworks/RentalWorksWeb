@@ -36,21 +36,10 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwBusinessLogicField(isReadOnly: true)]
         public string Country { get; set; }
         public string ZipCode { get { return vendor.ZipCode; } set { vendor.ZipCode = value; } }
-        public string RemitAddress1 { get { return vendor.RemitAddress1; } set { vendor.RemitAddress1 = value; } }
-        public string RemitAddress2 { get { return vendor.RemitAddress2; } set { vendor.RemitAddress2 = value; } }
-        public string RemitCity { get { return vendor.RemitCity; } set { vendor.RemitCity = value; } }
-        public string RemitState { get { return vendor.RemitState; } set { vendor.RemitState = value; } }
-        public string RemitCountryId { get { return vendor.RemitCountryId; } set { vendor.RemitCountryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string RemitCountry { get; set; }
-        public string RemitZipCode { get { return vendor.RemitZipCode; } set { vendor.RemitZipCode = value; } }
         public string Phone { get { return vendor.Phone; } set { vendor.Phone = value; } }
         public string Fax { get { return vendor.Fax; } set { vendor.Fax = value; } }
         public string Phone800 { get { return vendor.Phone800; } set { vendor.Phone800 = value; } }
         public string OtherPhone { get { return vendor.OtherPhone; } set { vendor.OtherPhone = value; } }
-        public string PaymentTermsId { get { return vendor.PaymentTermsId; } set { vendor.PaymentTermsId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string PaymentTerms { get; set; }
         public string WebAddress { get { return vendor.WebAddress; } set { vendor.WebAddress = value; } }
         public string Email { get { return vendor.Email; } set { vendor.Email = value; } }
         public string ActiveDate { get { return vendor.ActiveDate; } set { vendor.ActiveDate = value; } }
@@ -70,6 +59,39 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         public decimal DefaultSubRentDaysInWeek { get { return vendor.DefaultSubRentDaysInWeek; } set { vendor.DefaultSubRentDaysInWeek = value; } }
         public decimal DefaultSubRentDiscountPercent { get { return vendor.DefaultSubRentDiscountPercent; } set { vendor.DefaultSubRentDiscountPercent = value; } }
         public decimal DefaultSubSaleDiscountPercent { get { return vendor.DefaultSubSaleDiscountPercent; } set { vendor.DefaultSubSaleDiscountPercent = value; } }
+        public string DefaultRate { get { return vendor.DefaultRate; } set { vendor.DefaultRate = value; } }
+        public string BillingCycleId { get { return vendor.BillingCycleId; } set { vendor.BillingCycleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillingCycle { get; set; }
+        public string PaymentTermsId { get { return vendor.PaymentTermsId; } set { vendor.PaymentTermsId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PaymentTerms { get; set; }
+        public string AccountNumber { get { return vendor.AccountNumber; } set { vendor.AccountNumber = value; } }
+        public string DefaultPoClassificationId { get { return vendor.DefaultPoClassificationId; } set { vendor.DefaultPoClassificationId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultPoClassification { get; set; }
+        public string OrganizationTypeId { get { return vendor.OrganizationTypeId; } set { vendor.OrganizationTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OrganizationType { get; set; }
+        public string DefaultCurrencyId{ get { return vendor.DefaultCurrencyId; } set { vendor.DefaultCurrencyId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultCurrencyCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultCurrency { get; set; }
+        public string RemitAddress1 { get { return vendor.RemitAddress1; } set { vendor.RemitAddress1 = value; } }
+        public string RemitAddress2 { get { return vendor.RemitAddress2; } set { vendor.RemitAddress2 = value; } }
+        public string RemitCity { get { return vendor.RemitCity; } set { vendor.RemitCity = value; } }
+        public string RemitState { get { return vendor.RemitState; } set { vendor.RemitState = value; } }
+        public string RemitCountryId { get { return vendor.RemitCountryId; } set { vendor.RemitCountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RemitCountry { get; set; }
+        public string RemitZipCode { get { return vendor.RemitZipCode; } set { vendor.RemitZipCode = value; } }
+        public string RemitPayeeNo { get { return vendor.RemitPayeeNo; } set { vendor.RemitPayeeNo = value; } }
+        public string ExternalId { get { return vendor.ExternalId; } set { vendor.ExternalId = value; } }
+        public bool AutomaticallyAdjustContractDates { get { return vendor.AutomaticallyAdjustContractDates; } set { vendor.AutomaticallyAdjustContractDates = value; } }
+        public string ShippingTrackingLink { get { return vendor.ShippingTrackingLink; } set { vendor.ShippingTrackingLink = value; } }
+        public string DefaultOutgoingDeliveryType { get { return vendor.DefaultOutgoingDeliveryType; } set { vendor.DefaultOutgoingDeliveryType = value; } }
+        public string DefaultIncomingDeliveryType { get { return vendor.DefaultIncomingDeliveryType; } set { vendor.DefaultIncomingDeliveryType = value; } }
         public bool Inactive { get { return vendor.Inactive; } set { vendor.Inactive = value; } }
         public string DateStamp { get { return vendor.DateStamp; } set { vendor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
