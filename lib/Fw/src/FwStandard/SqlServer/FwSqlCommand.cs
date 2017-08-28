@@ -1683,14 +1683,16 @@ namespace FwStandard.SqlServer
                         object propertyValue = propertyInfo.GetValue(businessObject);
                         bool hasFwSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
                         string sqlColumnName = propertyInfo.Name;
+                        bool isIdentity = false;
                         if (hasFwSqlDataFieldAttribute)
                         {
                             FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            isIdentity = sqlDataFieldAttribute.Identity;
                             if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
                             {
                                 sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-                            if (sqlDataFieldAttribute.IsPrimaryKey)
+                            if ((sqlDataFieldAttribute.IsPrimaryKey) && (!sqlDataFieldAttribute.IsPrimaryKeyOptional) && (!isIdentity))
                             {
                                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                                 {
@@ -1699,28 +1701,31 @@ namespace FwStandard.SqlServer
                                 propertyInfo.SetValue(businessObject, propertyValue);
                             }
                         }
-                        if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
+                        if (!isIdentity)
                         {
-                            if (i > 0)
+                            if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
                             {
-                                insertColumnsNames.Append(",");
-                                insertParameterNames.Append(",");
+                                if (i > 0)
+                                {
+                                    insertColumnsNames.Append(",");
+                                    insertParameterNames.Append(",");
+                                }
+                                insertColumnsNames.Append("[");
+                                insertColumnsNames.Append(sqlColumnName);
+                                insertColumnsNames.Append("]");
+                                insertParameterNames.Append("@" + propertyInfo.Name);
+                                if (propertyInfo.Name.ToLower() == "datestamp")
+                                {
+                                    propertyValue = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
+                                    businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
+                                    this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                                }
+                                else
+                                {
+                                    this.AddParameter("@" + propertyInfo.Name, propertyValue);
+                                }
+                                i++;
                             }
-                            insertColumnsNames.Append("[");
-                            insertColumnsNames.Append(sqlColumnName);
-                            insertColumnsNames.Append("]");
-                            insertParameterNames.Append("@" + propertyInfo.Name);
-                            if (propertyInfo.Name.ToLower() == "datestamp")
-                            {
-                                propertyValue = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
-                                businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
-                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
-                            }
-                            else
-                            {
-                                this.AddParameter("@" + propertyInfo.Name, propertyValue);
-                            }
-                            i++;
                         }
                     }
                 }

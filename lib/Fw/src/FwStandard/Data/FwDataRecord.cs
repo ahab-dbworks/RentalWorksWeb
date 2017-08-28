@@ -69,14 +69,24 @@ namespace FwStandard.DataLayer
                 bool hasPrimaryKeysSet = true;
                 foreach (PropertyInfo property in primaryKeys)
                 {
-                    object propertyValue = property.GetValue(this);
-                    if (propertyValue is string)
+                    foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        hasPrimaryKeysSet &= (propertyValue as string).Length > 0;
-                    }
-                    else
-                    {
-                        throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllPrimaryKeysHaveValues]");
+                        if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                        {
+                            FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                            if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity))
+                            {
+                                object propertyValue = property.GetValue(this);
+                                if (propertyValue is string)
+                                {
+                                    hasPrimaryKeysSet &= (propertyValue as string).Length > 0;
+                                }
+                                else
+                                {
+                                    throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllPrimaryKeysHaveValues]");
+                                }
+                            }
+                        }
                     }
                 }
                 return hasPrimaryKeysSet;
@@ -172,10 +182,21 @@ namespace FwStandard.DataLayer
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-                string id = await FwSqlData.GetNextIdAsync(conn, _dbConfig);
-                if (primaryKeyProperty.GetValue(this) is string)
+
+                foreach (Attribute attribute in primaryKeyProperty.GetCustomAttributes())
                 {
-                    primaryKeyProperties[0].SetValue(this, id);
+                    if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                    {
+                        FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity))
+                        {
+                            string id = await FwSqlData.GetNextIdAsync(conn, _dbConfig);
+                            if (primaryKeyProperty.GetValue(this) is string)
+                            {
+                                primaryKeyProperties[0].SetValue(this, id);
+                            }
+                        }
+                    }
                 }
             }
         }
