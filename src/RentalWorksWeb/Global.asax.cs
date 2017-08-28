@@ -2,8 +2,12 @@
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
+using FwStandard.Options;
+using FwStandard.Security;
 using RentalWorksWeb.Source;
+using RentalWorksWebLibrary;
 using System;
+using System.Threading.Tasks;
 
 namespace RentalWorksWeb
 {
@@ -20,8 +24,9 @@ namespace RentalWorksWeb
             FwApplicationSchema.Load(pathFwApplicationSchema);
             FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
             FwReport.AddLicense();
-            FwApplicationTree.CurrentApplicationId = "{0A5F2584-D239-480F-8312-7C2B552A30BA}";
-            FwApplicationTree.Tree = new SecurityTree();
+            SqlServerOptions sqlOptions = new SqlServerOptions();
+            sqlOptions.ConnectionString = FwSqlConnection.RentalWorks.ConnectionString;
+            FwSecurityTree.Tree = new SecurityTree(sqlOptions, "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
             FwFunc.WriteLog("End Application Start");
         }
 

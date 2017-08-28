@@ -2,7 +2,10 @@
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
+using FwStandard.Options;
+using FwStandard.Security;
 using RentalWorksQuikScan.Source;
+using RentalWorksWebLibrary;
 using System;
 
 namespace RentalWorksQuikScan
@@ -20,8 +23,9 @@ namespace RentalWorksQuikScan
             FwApplicationSchema.Load(pathFwApplicationSchema);
             FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
             FwReport.AddLicense();
-            FwApplicationTree.CurrentApplicationId = "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}";
-            FwApplicationTree.Tree = new RentalWorksWeb.SecurityTree();
+            SqlServerOptions sqlServerOptions = new SqlServerOptions();
+            sqlServerOptions.ConnectionString = FwSqlConnection.AppConnection.ConnectionString;
+            FwSecurityTree.Tree = new SecurityTree(sqlServerOptions, "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}");
             FwFunc.WriteLog("End Application Start");
         }
 

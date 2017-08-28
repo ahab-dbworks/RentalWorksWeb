@@ -1,7 +1,9 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
-using Fw.Json.ValueTypes;
+using FwStandard.Security;
+using System;
+using System.Threading.Tasks;
 
 namespace RentalWorksWeb.Source.Modules
 {
@@ -30,21 +32,21 @@ namespace RentalWorksWeb.Source.Modules
             switch((string)request.method)
             {
                 case "getapplicationtree":
-                    getApplicationTree();
+                    GetApplicationTree();
                     break;
             }
         }
         //---------------------------------------------------------------------------------------------
-        protected void getApplicationTree()
+        protected void GetApplicationTree()
         {
             const string METHOD_NAME = "FwGroup.getApplicationTree";
-            FwApplicationTreeNode groupTree;
+            FwSecurityTreeNode groupTree;
             string groupsid;
 
             FwValidate.TestPropertyDefined(METHOD_NAME, request, "groupsid");
-            groupsid            = FwCryptography.AjaxDecrypt(request.groupsid);
-            groupTree = FwApplicationTree.Tree.GetGroupsTree(groupsid, false);
-
+            groupsid = FwCryptography.AjaxDecrypt(request.groupsid);
+            groupTree = Task.Run<FwSecurityTreeNode>(async () => await FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, false)).Result;
+            
             response.applicationtree = groupTree;
         }
         //---------------------------------------------------------------------------------------------

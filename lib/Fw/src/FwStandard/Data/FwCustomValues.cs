@@ -1,4 +1,4 @@
-﻿using FwStandard.ConfigSection;
+﻿using FwStandard.Options;
 using FwStandard.SqlServer;
 using System;
 using System.Collections.Generic;
@@ -10,13 +10,13 @@ namespace FwStandard.DataLayer
 
     public class FwCustomValues : List<FwCustomValue>
     {
-        protected DatabaseConfig _dbConfig { get; set; }
+        protected SqlServerOptions _dbConfig { get; set; }
         public FwCustomFields CustomFields = new FwCustomFields();
 
         //------------------------------------------------------------------------------------
         public FwCustomValues() { }
         //------------------------------------------------------------------------------------
-        public virtual void SetDbConfig(DatabaseConfig dbConfig)
+        public virtual void SetDbConfig(SqlServerOptions dbConfig)
         {
             _dbConfig = dbConfig;
             CustomFields.SetDbConfig(dbConfig);

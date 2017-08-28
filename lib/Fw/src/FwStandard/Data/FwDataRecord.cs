@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FwStandard.ConfigSection;
+using FwStandard.Options;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
@@ -16,7 +16,7 @@ namespace FwStandard.DataLayer
 {
     public class FwDataRecord : FwBaseRecord
     {
-        protected DatabaseConfig _dbConfig { get; set; }
+        protected SqlServerOptions _dbConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
 
         //------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual void SetDbConfig(DatabaseConfig dbConfig)
+        public virtual void SetDbConfig(SqlServerOptions dbConfig)
         {
             _dbConfig = dbConfig;
         }

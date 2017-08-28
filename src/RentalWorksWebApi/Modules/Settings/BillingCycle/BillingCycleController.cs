@@ -1,4 +1,5 @@
 ﻿using FwStandard.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
@@ -16,6 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/browse
         [HttpPost("browse")]
+        [Authorize(Policy = "{652BA08D-4136-42FC-84C5-FE89898E3517}")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BillingCycleLogic));
@@ -30,6 +32,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         [Produces(typeof(List<BillingCycleLogic>))]
         [SwaggerResponse(200, Type = typeof(List<BillingCycleLogic>))]
         [SwaggerResponse(500, Type = typeof(ApiException))]
+        [Authorize(Policy = "{6960FFCC-430A-4760-88C6-0F07FCFCF851}")]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<BillingCycleLogic>(pageno, pagesize, sort, typeof(BillingCycleLogic));
@@ -44,6 +47,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         [Produces(typeof(BillingCycleLogic))]
         [SwaggerResponse(200, Type = typeof(BillingCycleLogic))]
         [SwaggerResponse(500, Type = typeof(ApiException))]
+        [Authorize(Policy = "{EC1DF66E-F686-4BF4-A61C-19CAF8FA3EE7}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
             return await DoGetAsync<BillingCycleLogic>(id, typeof(BillingCycleLogic));
@@ -51,6 +55,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle
         [HttpPost]
+        [Authorize(Policy = "{D1D60908-B2F3-46E3-9ED3-DD9312DA4323}")]
         public async Task<IActionResult> PostAsync([FromBody]BillingCycleLogic l)
         {
             return await DoPostAsync<BillingCycleLogic>(l);
@@ -58,6 +63,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         //------------------------------------------------------------------------------------
         // DELETE api/v1/billingcycle/A0000001
         [HttpDelete("{id}")]
+        [Authorize(Policy = "{DECE507D-7730-4759-959C-8BB54CDBAFC4}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync(id, typeof(BillingCycleLogic));
@@ -65,6 +71,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/validateduplicate
         [HttpPost("validateduplicate")]
+        [Authorize(Policy = "{76A5F7AC-2489-4A50-9120-2376BAB3D75A}")]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);

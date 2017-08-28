@@ -1,9 +1,5 @@
-﻿using FwStandard.Models;
-using FwStandard.SqlServer;
+﻿using FwStandard.SqlServer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer

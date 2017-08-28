@@ -18,6 +18,9 @@
     <TargetFrameworkProfile />
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
@@ -33,7 +36,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RentalWorksWeb</RootNamespace>
     <AssemblyName>RentalWorksWeb</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -125,9 +128,13 @@
       <HintPath>..\..\lib\Fw\lib\EPPlus\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Fw\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlClient, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.SqlClient.4.4.0\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -135,16 +142,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
@@ -1017,10 +1022,6 @@
     <Content Include="Application.dev.config" />
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
-    <None Include="compilerconfig.json" />
-    <None Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </None>
     <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
@@ -1495,89 +1496,13 @@
     </Compile>
     <Compile Include="Integration\QBOIntegration\QBOIntegrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityTree.cs" />
     <Compile Include="Source\AccountService.cs" />
-    <Compile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridMenu.cs" />
-    <Compile Include="Source\Grids\Contact\ContactMenu.cs" />
-    <Compile Include="Source\Grids\MasterItem\MasterItemMenu.cs" />
-    <Compile Include="Source\Grids\OrderActivityDates\OrderActivityDatesMenu.cs" />
-    <Compile Include="Source\Grids\OrderContractNote\OrderContractNoteMenu.cs" />
-    <Compile Include="Source\Grids\OrderDates\OrderDatesMenu.cs" />
-    <Compile Include="Source\Grids\OrderNote\OrderNoteMenu.cs" />
-    <Compile Include="Source\Grids\QuikEntryAccessoriesOptions\QuikEntryAccessoriesOptionsMenu.cs" />
-    <Compile Include="Source\Grids\QuikEntryCategory\QuikEntryCategoryMenu.cs" />
-    <Compile Include="Source\Grids\QuikEntryDepartment\QuikEntryDepartmentMenu.cs" />
-    <Compile Include="Source\Grids\QuikEntryItems\QuikEntryItemsMenu.cs" />
-    <Compile Include="Source\Grids\QuikEntrySubCategory\QuikEntrySubCategoryMenu.cs" />
     <Compile Include="Source\Grids\AuditHistory.cs" />
-    <Compile Include="Source\Modules\Administrator\Group\GroupMenu.cs" />
     <Compile Include="Source\Modules\Administrator\Group\Group.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
-    <Compile Include="Source\Modules\Administrator\User\UserMenu.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
-    <Compile Include="Source\Modules\Home\Contact\ContactMenu.cs" />
-    <Compile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\TermsConditions\TermsConditionsMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CoverLetter\CoverLetterMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CrewStatus\CrewStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\FacilityStatus\FacilityStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\GeneratorRating\GeneratorRatingMenu.cs" />
-    <Compile Include="Source\Modules\Settings\LicenseClass\LicenseClassMenu.cs" />
-    <Compile Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Unit\UnitMenu.cs" />
-    <Compile Include="Source\Modules\Settings\FacilityScheduleStatus\FacilityScheduleStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\UserStatus\UserStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VehicleColor\VehicleColorMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VehicleRating\VehicleRatingMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\POImportance\POImportanceMenu.cs" />
-    <Compile Include="Source\Modules\Settings\RetiredReason\RetiredReasonMenu.cs" />
-    <Compile Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonMenu.cs" />
-    <Compile Include="Source\Modules\Settings\DiscountReason\DiscountReasonMenu.cs" />
-    <Compile Include="Source\Modules\Settings\RentalStatus\RentalStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Region\RegionMenu.cs" />
-    <Compile Include="Source\Modules\Settings\ContactEvent\ContactEventMenu.cs" />
-    <Compile Include="Source\Modules\Settings\ContactTitle\ContactTitleMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Currency\CurrencyMenu.cs" />
-    <Compile Include="Source\Modules\Settings\DealStatus\DealStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\BillingCycle\BillingCycleMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CreditStatus\CreditStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\DealType\DealTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\DocumentType\DocumentTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\EventCategory\EventCategoryMenu.cs" />
-    <Compile Include="Source\Modules\Settings\MailList\MailListMenu.cs" />
-    <Compile Include="Source\Modules\Settings\OfficeLocation\OfficeLocationMenu.cs" />
-    <Compile Include="Source\Modules\Settings\OrganizationType\OrganizationTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\PaymentTerms\PaymentTermsMenu.cs" />
-    <Compile Include="Source\Modules\Settings\PaymentType\PaymentTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Country\CountryMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CustomerStatus\CustomerStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CustomerCategory\CustomerCategoryMenu.cs" />
-    <Compile Include="Source\Modules\Settings\DealClassification\DealClassificationMenu.cs" />
-    <Compile Include="Source\Modules\Settings\PersonnelType\PersonnelTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\PhotographyType\PhotographyTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\POClassification\POClassificationMenu.cs" />
-    <Compile Include="Source\Modules\Settings\ScheduleType\ScheduleTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\State\StateMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VehicleStatus\VehicleStatusMenu.cs" />
-    <Compile Include="Source\Modules\Settings\VendorClass\VendorClassMenu.cs" />
-    <Compile Include="Source\Modules\Settings\CustomerType\CustomerTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\GlAccount\GlAccountMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
-    <Compile Include="Source\Modules\Settings\UserSettings\UserSettingsMenu.cs" />
-    <Compile Include="Source\Modules\Settings\ProductionType\ProductionTypeMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Department\DepartmentMenu.cs" />
-    <Compile Include="Source\Modules\Settings\WardrobeCare\WardrobeCareMenu.cs" />
-    <Compile Include="Source\Modules\Settings\WardrobeColor\WardrobeColorMenu.cs" />
-    <Compile Include="Source\Modules\Settings\WardrobeGender\WardrobeGenderMenu.cs" />
-    <Compile Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelMenu.cs" />
-    <Compile Include="Source\Modules\Settings\Warehouse\WarehouseMenu.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
@@ -1799,6 +1724,14 @@
       <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
       <Name>Fw.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
+      <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
+      <Name>FwStandard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj">
+      <Project>{28ff8708-3b6c-4933-b35a-be80c879060f}</Project>
+      <Name>RentalWorksWebLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
@@ -1961,5 +1894,12 @@
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+  </Target>
+  <Import Project="..\..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets'))" />
   </Target>
 </Project>

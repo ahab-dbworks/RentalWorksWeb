@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
@@ -25,6 +25,8 @@
     <IISExpressUseClassicPipelineMode />
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
@@ -39,7 +41,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RentalWorksQuikScan</RootNamespace>
     <AssemblyName>RentalWorksQuikScan</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,6 +54,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug QuikScan Fast|AnyCPU' ">
     <FwUpdateSchema>false</FwUpdateSchema>
@@ -63,6 +66,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <FwUpdateSchema>true</FwUpdateSchema>
@@ -73,6 +77,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release QuikScan Fast|AnyCPU' ">
     <FwUpdateSchema>false</FwUpdateSchema>
@@ -83,6 +88,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -90,21 +96,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Fw\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
@@ -422,9 +427,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\RentalWorksWeb\SecurityTree.cs">
-      <Link>SecurityTree.cs</Link>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -481,6 +483,14 @@
     <ProjectReference Include="..\..\lib\Fw\src\Fw.Json\Fw.Json.csproj">
       <Project>{3be1823f-3f08-4ca5-94bc-9c7efd2fc64f}</Project>
       <Name>Fw.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
+      <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
+      <Name>FwStandard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj">
+      <Project>{28ff8708-3b6c-4933-b35a-be80c879060f}</Project>
+      <Name>RentalWorksWebLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

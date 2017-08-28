@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FwStandard.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Text;
 
 namespace FwStandard.SqlServer
@@ -530,24 +530,16 @@ namespace FwStandard.SqlServer
             return str;
         }
         //---------------------------------------------------------------------------------------------
-        public static string OleToHex(int olevalue)
+        public static string OleColorToHtmlColor(int oleColor)
         {
-            string hexcolor;
-
-            Color mycolor = ColorTranslator.FromOle(olevalue);
-            hexcolor      = "#" + mycolor.R.ToString("X2") + mycolor.G.ToString("X2") + mycolor.B.ToString("X2");
-
-            return hexcolor;
+            string htmlColor = FwColorTranslator.OleColorToHtmlColor(oleColor);
+            return htmlColor;
         }
         //---------------------------------------------------------------------------------------------
-        public static int HexToOle(string hexvalue)
+        public static int HtmlColorToOleColor(string htmlColor)
         {
-            int olecolor;
-
-            Color myColor = ColorTranslator.FromHtml(hexvalue);
-            olecolor      = ColorTranslator.ToOle(myColor);
-
-            return olecolor;
+            int oleColor = FwColorTranslator.HtmlColorToOleColor(htmlColor);
+            return oleColor;
         }
         //---------------------------------------------------------------------------------------------
         public static string ToCurrencyString(decimal amount) // $1,000,000.34

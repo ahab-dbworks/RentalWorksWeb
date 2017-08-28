@@ -15,6 +15,14 @@ namespace Fw.Json.SqlServer
         private string databaseUser = string.Empty;
         private string databasePassword = string.Empty;
         private FwApplicationConfig_DatabaseConnection dbConnection;
+        public string ConnectionString
+        {
+            get
+            {
+                return sqlConnection.ConnectionString;
+            }
+
+        }
         //---------------------------------------------------------------------------------------------
         public static FwSqlConnection RentalWorks   { get { return new FwSqlConnection(FwDatabases.RentalWorks);   } }
         public static FwSqlConnection RentalWorksDW { get { return new FwSqlConnection(FwDatabases.RentalWorksDW); } }

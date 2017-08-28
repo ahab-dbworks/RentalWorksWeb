@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FwStandard.BusinessLogic.Attributes;
-using FwStandard.ConfigSection;
+using FwStandard.Options;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -24,7 +24,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
-        public void SetDbConfig(DatabaseConfig dbConfig)
+        public void SetDbConfig(SqlServerOptions dbConfig)
         {
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {

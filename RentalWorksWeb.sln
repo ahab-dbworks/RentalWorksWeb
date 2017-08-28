@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWeb", "src\RentalWorksWeb\RentalWorksWeb.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 EndProject
@@ -24,13 +24,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "lib\Fw\src\Fw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebApi", "src\RentalWorksWebApi\RentalWorksWebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebLibrary", "src\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug API|Any CPU = Debug API|Any CPU
 		Debug MiddleTier|Any CPU = Debug MiddleTier|Any CPU
 		Debug QuikScan Fast|Any CPU = Debug QuikScan Fast|Any CPU
 		Debug RentalWorksTest|Any CPU = Debug RentalWorksTest|Any CPU
-		Debug Web Fast|Any CPU = Debug Web Fast|Any CPU
+		Debug Web|Any CPU = Debug Web|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release API|Any CPU = Release API|Any CPU
 		Release MiddleTier|Any CPU = Release MiddleTier|Any CPU
@@ -43,8 +45,8 @@ Global
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,8 +63,8 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -80,7 +82,7 @@ Global
 		{81982370-068F-4922-9F56-8807515D2291}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{81982370-068F-4922-9F56-8807515D2291}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{81982370-068F-4922-9F56-8807515D2291}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81982370-068F-4922-9F56-8807515D2291}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,7 +97,7 @@ Global
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug QuikScan Fast|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug QuikScan Fast|Any CPU.Build.0 = Debug QuikScan Fast|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7576C47B-B75E-4491-AF97-5FCFEF52484E}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -112,8 +114,8 @@ Global
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -134,8 +136,8 @@ Global
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
-		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF70FE28-DA24-40EC-AA7E-613803411E12}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -156,8 +158,8 @@ Global
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
-		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release API|Any CPU.ActiveCfg = Release|Any CPU
@@ -170,8 +172,33 @@ Global
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8015A604-E732-481C-AB96-065C9E7E20B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug API|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release API|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release API|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28FF8708-3B6C-4933-B35A-BE80C879060F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E145E0E5-999D-45BB-A556-3EA0D6972F03}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 //using Dapper;
 using FwStandard.BusinessLogic;
-using FwStandard.ConfigSection;
+using FwStandard.Options;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer.Attributes;
@@ -1247,11 +1247,11 @@ namespace FwStandard.SqlServer
                     {
                         var value = reader.GetValue(columnIndex);
                         int intValue = Convert.ToInt32(value);
-                        data = FwConvert.OleToHex(intValue);
+                        data = FwConvert.OleColorToHtmlColor(intValue);
                     }
                     else
                     {
-                        data = FwConvert.OleToHex(0);
+                        data = FwConvert.OleColorToHtmlColor(0);
                     }
                     break;
                 case FwDataTypes.Integer:
@@ -1662,7 +1662,7 @@ namespace FwStandard.SqlServer
             return results;
         }
         //------------------------------------------------------------------------------------
-        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, DatabaseConfig dbConfig)
+        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, SqlServerOptions dbConfig)
         {
             try
             {
@@ -1862,7 +1862,7 @@ namespace FwStandard.SqlServer
                                             break;
                                         case FwDataTypes.OleToHtmlColor:
                                             if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                            data = FwConvert.HexToOle((string)propertyValue);
+                                            data = FwConvert.HtmlColorToOleColor((string)propertyValue);
                                             break;
                                         case FwDataTypes.Integer:
                                             data = propertyValue;

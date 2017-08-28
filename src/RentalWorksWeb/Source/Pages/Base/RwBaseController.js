@@ -64,7 +64,7 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
 
     screen.$view
         .on('click', '.btnLogin', function(e) {
-            var request, $email, $password, exception, $loginWindow;
+            var $email, $password, exception, $loginWindow;
             try {
                 $loginWindow = screen.$view.find('.login-container');
                 $email       = screen.$view.find('#email');
@@ -77,11 +77,29 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                     $password.parent().addClass('error');
                 } else {
                     sessionStorage.clear();
-                    request = {
+
+
+                    // get a token to connect to RentalWorksWebApi
+                    var requiresAuthToken = false;
+                    var method = "POST";
+                    var url = "api/v1/jwt";
+                    var apiRequest = {
+                        UserName: $email.val(),
+                        Password: $password.val()
+                    };
+                    var timeoutSeconds = null;
+                    var onError = null;
+                    var $elementToBlock = $loginWindow;
+                    FwAppData.apiMethod(requiresAuthToken, method, url, apiRequest, timeoutSeconds, function onSuccess(response) {
+                        sessionStorage.setItem('apiToken', response.access_token);
+                    }, onError, $elementToBlock);
+
+                    // get a token to connect to RentalWorksWeb
+                    var request = {
                         email:    $email.val(),
                         password: $password.val()
                     };
-                    FwServices.account.getAuthToken(request, $loginWindow, function(response) {
+                    FwServices.account.getAuthToken(request, $loginWindow, function (response) {
                         try {
                             if (typeof response.exception !== 'undefined') {
                                 if (applicationConfig.debugMode) {
@@ -102,7 +120,7 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                                     sessionStorage.setItem('serverVersion',      response.serverVersion);
                                     sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
                                     sessionStorage.setItem('userType',           response.webUser.usertype);
-                                    sessionStorage.setItem('applicationtree',    JSON.stringify(response.applicationtree));
+                                    sessionStorage.setItem('applicationtree',    JSON.stringify(response.applicationtree.Result));
                                     sessionStorage.setItem('siteName',           response.site.name);
                                     sessionStorage.setItem('clientCode',         response.clientcode);
                                     sessionStorage.setItem('location',           JSON.stringify(response.webUser.location));

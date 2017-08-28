@@ -12,141 +12,141 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string ContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "companyid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8, precision: 0, scale: 0)]
-        public string companyid { get; set; }
+        public string CompanyId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8, precision: 0, scale: 0)]
-        public string compcontactid { get; set; }
+        public string CompanyContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string company { get; set; }
+        public string Company { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salutation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, precision: 0, scale: 0)]
-        public string salutation { get; set; }
+        public string Salutation { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "namefml", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 65, precision: 0, scale: 0)]
-        public string namefml { get; set; }
+        public string NameFirstMiddleLast { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "person", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 65, precision: 0, scale: 0)]
-        public string person { get; set; }
+        public string Person { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "lname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30, precision: 0, scale: 0)]
-        public string lname { get; set; }
+        public string LastName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "fname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30, precision: 0, scale: 0)]
-        public string fname { get; set; }
+        public string FirstName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30, precision: 0, scale: 0)]
-        public string add1 { get; set; }
+        public string Address1 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "mi", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public string mi { get; set; }
+        public string MiddleInitial { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30, precision: 0, scale: 0)]
-        public string add2 { get; set; }
+        public string Address2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30, precision: 0, scale: 0)]
-        public string city { get; set; }
+        public string City { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, precision: 0, scale: 0)]
-        public string zip { get; set; }
+        public string Zipcode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string state { get; set; }
+        public string State { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string countryid { get; set; }
+        public string CountryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string country { get; set; }
+        public string Country { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "info", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string info { get; set; }
+        public string Info { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "website", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100, precision: 0, scale: 0)]
-        public string website { get; set; }
+        public string Website { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string email { get; set; }
+        public string Email { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string phone { get; set; }
+        public string Phone { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "cellular", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string cellular { get; set; }
+        public string MobilePhone { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "officephone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
-        public string officephone { get; set; }
+        public string OfficePhone { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ext", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6, precision: 0, scale: 0)]
-        public string ext { get; set; }
+        public string Extension { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pager", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
-        public string pager { get; set; }
+        public string Pager { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pagerpin", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string pagerpin { get; set; }
+        public string PagerPin { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string fax { get; set; }
+        public string Fax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "faxext", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6, precision: 0, scale: 0)]
-        public string faxext { get; set; }
+        public string FaxeExtension { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "directphone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
-        public string directphone { get; set; }
+        public string DirectPhone { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "directext", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6, precision: 0, scale: 0)]
-        public string directext { get; set; }
+        public string DirectExtension { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "activedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
-        public string activedate { get; set; }
+        public string ActiveDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
-        public string inactivedate { get; set; }
+        public string InactiveDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string inactive { get; set; }
+        public string Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "primaryflag", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 1, precision: 0, scale: 0)]
-        public string primaryflag { get; set; }
+        public string PrimaryFlag { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "authorized", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 1, precision: 0, scale: 0)]
-        public string authorized { get; set; }
+        public string Authorized { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string contacttitleid { get; set; }
+        public string ContactTitleId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, precision: 0, scale: 0)]
-        public string contacttitle { get; set; }
+        public string ContactTitle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public string webaccess { get; set; }
+        public string WebAccess { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webstatus", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
-        public string webstatus { get; set; }
+        public string WebStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contactrecordtype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string contactrecordtype { get; set; }
+        public string ContactRecordType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
-        public string inputdate { get; set; }
+        public string InputDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
-        public string moddate { get; set; }
+        public string ModifiedDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
-        public string barcode { get; set; }
+        public string Barcode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ID", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
         public string ID { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rwnetenabled", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string rwnetenabled { get; set; }
+        public string RwNetEnabled { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rwnetquoterequest", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string rwnetquoterequest { get; set; }
+        public string RwNetQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rwnetwebreports", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
-        public string rwnetwebreports { get; set; }
+        public string RwNetWebReports { get; set; }
     }
 }

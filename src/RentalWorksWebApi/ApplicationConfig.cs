@@ -1,4 +1,4 @@
-﻿using FwStandard.ConfigSection;
+﻿using FwStandard.Options;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,6 @@ namespace RentalWorksWebApi
 {
     public class ApplicationConfig
     {
-        public DatabaseConfig DatabaseSettings { get; set; }
+        public SqlServerOptions DatabaseSettings { get; set; }
     }
 }

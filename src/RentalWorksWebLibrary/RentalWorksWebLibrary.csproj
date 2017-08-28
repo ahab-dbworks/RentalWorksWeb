@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Security\FwGroupSecurityNode.cs" />
+    <Compile Remove="Security\FwSecurityTreeBranch.cs" />
+    <Compile Remove="Security\FwSecurityTreeNode.cs" />
+    <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
+    <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Home\CustomerMenu.cs" />
+    <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Home\QuoteMenu.cs" />
+    <Compile Remove="Security\Tree\RentalWorksWeb\IntegrationMenu.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Security\Tree\RentalWorksQuikScan\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,27 +1,35 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FwStandard.Models;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using RentalWorksWebApi;
+using RentalWorksWebApi.Data;
 using RentalWorksWebApi.Models;
 using RentalWorksWebApi.Options;
+using RentalWorksWebApi.Security;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace RentalWOrksApi.Controllers
+namespace RentalWorksApi.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/jwt")]
     public class JwtController : Controller
     {
+        private readonly ApplicationConfig _appConfig;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger _logger;
         private readonly JsonSerializerSettings _serializerSettings;
 
-        public JwtController(IOptions<JwtIssuerOptions> jwtOptions, ILoggerFactory loggerFactory)
+        public JwtController(IOptions<ApplicationConfig> appConfig, IOptions<JwtIssuerOptions> jwtOptions, ILoggerFactory loggerFactory)
         {
+            _appConfig = appConfig.Value;
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
 
@@ -35,22 +43,25 @@ namespace RentalWOrksApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromBody] ApplicationUser applicationUser)
+        public async Task<IActionResult> Post([FromBody]ApplicationUser user)
         {
-            var identity = await GetClaimsIdentity(applicationUser);
+            var identity = await UserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
             if (identity == null)
             {
-                _logger.LogInformation($"Invalid username ({applicationUser.UserName}) or password ({applicationUser.Password})");
+                _logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})");
                 return BadRequest("Invalid credentials");
             }
 
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, applicationUser.UserName),
+            var jwtClaims = new[]
+                {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                identity.FindFirst("DisneyCharacter")
             };
+            List<Claim> claims = new List<Claim>();
+            claims.AddRange(jwtClaims);
+            claims.AddRange(identity.Claims);
+            
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
@@ -103,27 +114,6 @@ namespace RentalWOrksApi.Controllers
         /// You'd want to retrieve claims through your claims provider
         /// in whatever way suits you, the below is purely for demo purposes!
         /// </summary>
-        private static Task<ClaimsIdentity> GetClaimsIdentity(ApplicationUser user)
-        {
-            if (user.UserName == "MickeyMouse" &&
-                user.Password == "MickeyMouseIsBoss123")
-            {
-                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
-                  new[]
-                  {
-                    new Claim("DisneyCharacter", "IAmMickey")
-                  }));
-            }
-
-            if (user.UserName == "NotMickeyMouse" &&
-                user.Password == "NotMickeyMouseIsBoss123")
-            {
-                return Task.FromResult(new ClaimsIdentity(new GenericIdentity(user.UserName, "Token"),
-                  new Claim[] { }));
-            }
-
-            // Credentials are invalid, or account doesn't exist
-            return Task.FromResult<ClaimsIdentity>(null);
-        }
+        
     }
 }

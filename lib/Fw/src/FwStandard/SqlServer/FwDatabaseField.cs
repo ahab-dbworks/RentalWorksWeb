@@ -1,5 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using FwStandard.Utilities;
+using System;
 using System.Globalization;
 using System.IO;
 
@@ -203,18 +203,18 @@ namespace FwStandard.SqlServer
             return isTrue;
         }
         //--------------------------------------------------------------------------------
-        public Bitmap ToBitmap()
-        {
-            byte[] buffer = fieldValue as byte[];
-            MemoryStream stream = null;
-            Bitmap image = null;
-            if (buffer != null)
-            {
-                stream = new MemoryStream(buffer);
-                image = new Bitmap(stream);
-            }
-            return image;
-        }
+        //public Bitmap ToBitmap()
+        //{
+        //    byte[] buffer = fieldValue as byte[];
+        //    MemoryStream stream = null;
+        //    Bitmap image = null;
+        //    if (buffer != null)
+        //    {
+        //        stream = new MemoryStream(buffer);
+        //        image = new Bitmap(stream);
+        //    }
+        //    return image;
+        //}
         //--------------------------------------------------------------------------------
         public byte ToByte()
         {
@@ -314,7 +314,7 @@ namespace FwStandard.SqlServer
         //--------------------------------------------------------------------------------
         public string ToHtmlColor()
         {
-            return ColorTranslator.ToHtml(ColorTranslator.FromOle(FwConvert.ToInt32(fieldValue)));
+            return FwColorTranslator.OleColorToHtmlColor(FwConvert.ToInt32(fieldValue));
         }
         //--------------------------------------------------------------------------------
         public string ToBase64String()

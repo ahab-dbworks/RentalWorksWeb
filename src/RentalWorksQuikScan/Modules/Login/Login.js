@@ -82,7 +82,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                             sessionStorage.setItem('iscrew', response.webUser.iscrew);
                             sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
                             sessionStorage.setItem('stagingSuspendedSessionsEnabled', response.stagingSuspendedSessionsEnabled);
-                            sessionStorage.setItem('applicationtree', JSON.stringify(response.applicationtree));
+                            sessionStorage.setItem('applicationtree', JSON.stringify(response.applicationtree.Result));
                             var barcodeskipprefixes = '';
                             if (typeof response.barcodeskipprefixes === 'object') {
                                 for (var i = 0; i < response.barcodeskipprefixes.Rows.length; i++) {

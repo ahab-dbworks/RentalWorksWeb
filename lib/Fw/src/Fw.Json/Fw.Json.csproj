@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,9 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Fw.Json</RootNamespace>
     <AssemblyName>Fw.Json</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,9 +67,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JsonFx\JsonFx.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -255,18 +256,6 @@
     </Content>
     <Content Include="..\..\lib\JsonFX\JsonFx.xml">
       <Link>JsonFx.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.dll">
-      <Link>Newtonsoft.Json.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.pdb">
-      <Link>Newtonsoft.Json.pdb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\Newtonsoft.Json\Newtonsoft.Json.xml">
-      <Link>Newtonsoft.Json.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\scripts\FwControls\FwAppImage.js" />
@@ -579,6 +568,7 @@
     <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
     <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <None Include="Content\theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
+    <None Include="packages.config" />
     <None Include="Service References\ElementExpress\Fw.Json.ElementExpress.Response.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -628,6 +618,7 @@
     <Folder Include="Content\Source\Modules\Settings\" />
     <Folder Include="Content\Source\Reports\" />
     <Folder Include="Content\Source\SubModules\" />
+    <Folder Include="Security\" />
     <Folder Include="Services\Modules\" />
     <Folder Include="Services\Reports\" />
   </ItemGroup>
@@ -664,7 +655,20 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ElementExpress\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FwStandard\FwStandard.csproj">
+      <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
+      <Name>FwStandard</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

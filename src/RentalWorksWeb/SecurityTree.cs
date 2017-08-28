@@ -1,30 +1,31 @@
+using FwStandard.ConfigSection;
+using FwStandard.Security;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Fw.Json.ValueTypes;
+using System.Reflection;
 
-namespace RentalWorksWeb
+
+namespace RentalWorksWebLibrary
 {
-    public class SecurityTree : FwApplicationTree
+    public class SecurityTree : FwSecurityTree
     {
         //---------------------------------------------------------------------------------------------
-        public SecurityTree() : base()
+        public SecurityTree(DatabaseConfig dbConfig) : base(dbConfig)
         {
-            AddSystem("RentalWorks", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
-            BuildRentalWorksWebTree();
-            BuildRentalWorksQuikScanTree();
+            var system = AddSystem("RentalWorks", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            BuildRentalWorksWebTree(system);
+            BuildRentalWorksWebApiTree(system);
+            BuildRentalWorksQuikScanTree(system);
         }
         //---------------------------------------------------------------------------------------------
-        private void BuildRentalWorksWebTree()
+        private void BuildRentalWorksWebTree(FwSecurityTreeNode system)
         {
             string fileiconbaseurl          = "theme/images/icons/file/";
             string settingsiconbaseurl      = "theme/images/icons/settings/";
-            string reportsiconbaseurl       = "theme/images/icons/reports/";
-            string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
+            //string reportsiconbaseurl       = "theme/images/icons/reports/";
+            //string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
-            var application = AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            var application = AddApplication("RentalWorks Web", "{0A5F2584-D239-480F-8312-7C2B552A30BA}", system.Id);
             var lv1menuRentalWorks   = AddLv1ModuleMenu("RentalWorks",     "{91D2F0CF-2063-4EC8-B38D-454297E136A8}", application.Id);
             var lv1menuSettings      = AddLv1ModuleMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
             var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
@@ -182,29 +183,57 @@ namespace RentalWorksWeb
             AddGrid("Quik Entry Items",               "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
             AddGrid("Quik Entry Sub Category",        "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
 
-            // Use reflection to build the Fw project's security tree branches
-            Type[] fwTypes  = typeof(FwApplicationTree).Assembly.GetTypes();
-            List<Type> fwSecurityTreeBranchTypes = fwTypes.Where(t => t.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch))).ToList();
-            foreach(Type fwSecurityTreeBranchType in fwSecurityTreeBranchTypes)
+            //Type[] fwTypes  = typeof(FwSecurityTree).GetTypeInfo().Assembly.GetTypes();
+            //foreach (Type type in fwTypes)
+            //{
+            //    bool isInModulesFolder, isFwSecurityTreeBranch;
+            //    isInModulesFolder         = type.FullName.StartsWith("Fw.Json.Content.Source.Modules");
+            //    isFwSecurityTreeBranch = type.GetTypeInfo().IsSubclassOf(typeof(FwStandard.Security.FwSecurityTreeBranch));
+            //    if (isInModulesFolder && isFwSecurityTreeBranch)
+            //    {
+            //        FwSecurityTreeBranch branch = (FwSecurityTreeBranch)Activator.CreateInstance(type);
+            //        branch.BuildBranch(this);
+            //    }
+            //}
+
+            // load module branches from the app 
+            Type[] appTypes = typeof(SecurityTree).GetTypeInfo().Assembly.GetTypes();
+            foreach (Type type in appTypes)
             {
-                FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(fwSecurityTreeBranchType);
-                branch.BuildBranch(this);
+                bool isInModulesFolder, isFwSecurityTreeBranch;
+                isInModulesFolder         = type.FullName.StartsWith("RentalWorksWeb.Source.Modules");
+                isFwSecurityTreeBranch = type.GetTypeInfo().IsSubclassOf(typeof(FwStandard.Security.FwSecurityTreeBranch));
+                if (isInModulesFolder && isFwSecurityTreeBranch)
+                {
+                    FwSecurityTreeBranch branch = (FwSecurityTreeBranch)Activator.CreateInstance(type);
+                    branch.BuildBranch(this);
+                }
             }
 
-            // Use reflection to build the RentalWorksWeb project's security tree branches
-            Type[] appTypes = typeof(SecurityTree).Assembly.GetTypes();
-            List<Type> appSecurityTreeBranchTypes = appTypes.Where(t => t.IsSubclassOf(typeof(Fw.Json.ValueTypes.FwApplicationTreeBranch))).ToList();
-            foreach(Type appSecurityTreeBranchType in appSecurityTreeBranchTypes)
-            {
-                FwApplicationTreeBranch branch = (FwApplicationTreeBranch)Activator.CreateInstance(appSecurityTreeBranchType);
-                branch.BuildBranch(this);
-            }
+        }
+
+        //---------------------------------------------------------------------------------------------
+        private void BuildRentalWorksWebApiTree(FwSecurityTreeNode system)
+        {
+            string fileiconbaseurl = "theme/images/icons/file/";
+            //string settingsiconbaseurl = "theme/images/icons/settings/";
+            //string reportsiconbaseurl = "theme/images/icons/reports/";
+            //string utilitiesiconbaseurl = "theme/images/icons/utilities/";
+            //string administratoriconbaseurl = "theme/images/icons/administrator/";
+
+            var application = AddApplication("RentalWorks Web Api", "{94FBE349-104E-420C-81E9-1636EBAE2836}", system.Id);
+            //var lv1menuRentalWorks = AddLv1ModuleMenu("RentalWorks", "{5C625039-8CFB-4F55-BAEA-41040E835002}", application.Id);
+            //var lv1menuSettings = AddLv1ModuleMenu("Settings", "{44088C85-538D-4879-BDC2-B75AB2C566C5}", application.Id);
+
+            //RentalWorks
+            AddModule("View Settings", "{88064843-75C9-4E20-AEBB-C48FDA4899B1}", application.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
+            AddModule("Manage Settings", "{B3BDC87B-7A0A-4954-AD38-C0A4BB1B6D4E}", application.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
         }
         //---------------------------------------------------------------------------------------------
-        private void BuildRentalWorksQuikScanTree()
+        private void BuildRentalWorksQuikScanTree(FwSecurityTreeNode system)
         {
             var iconbaseurl = "theme/images/icons/128/";
-            AddApplication("RentalWorks QuikScan", "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            AddApplication("RentalWorks QuikScan", "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}", system.Id);
             var lv1menuHome   = AddLv1ModuleMenu("Home", "{512418CD-7977-4B7A-B773-F7FC0A05397C}", "{8D0A5ECF-72D2-4428-BDC8-7E3CC56EDD3A}");
             //AddModule("RFID Staging",        "{3C8C0600-38F1-4CB8-B10A-D0BBE368B16B}", lv1menuHome.Id, "", "rfidstaging",                     iconbaseurl + "rfidstaging.001.png",      "RFID<br>Staging",  "rfid",          "USER");
             //AddModule("RFID Check-In",       "{3D75B8A9-E828-4915-91D6-E8810F74655B}", lv1menuHome.Id, "", "rfidcheckin",                     iconbaseurl + "rfidstaging.001.png",      "RFID<br>Check-In", "rfid",          "USER");

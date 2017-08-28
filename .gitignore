@@ -2,6 +2,8 @@
 /build/
 /packages/
 
+/lib/Fw/packages/
+/lib/Fw/.vs/
 /lib/Fw/src/Fw.Json/obj/
 /lib/Fw/src/Fw.Json/bin/
 /lib/Fw/src/Fw.Json/scripts/_references.js
@@ -70,6 +72,7 @@
 /src/RentalWorksWebApi/RentalWorksWebApi.csproj.user
 /src/RentalWorksWebApi/appsettings.Development.json
 
+/src/RentalWorksWebLibrary/obj/
+/src/RentalWorksWebLibrary/bin/
+
 /TestResult.xml
-
-

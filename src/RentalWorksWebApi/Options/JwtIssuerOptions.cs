@@ -6,6 +6,7 @@ namespace RentalWorksWebApi.Options
 {
   public class JwtIssuerOptions
   {
+    public string Authority { get; set; }
     /// <summary>
     /// "iss" (Issuer) Claim
     /// </summary>

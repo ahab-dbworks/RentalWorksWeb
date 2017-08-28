@@ -10,6 +10,7 @@ using System.Dynamic;
 using Fw.Json.ValueTypes;
 using System.Web;
 using Fw.Json.SqlServer.Entities;
+using FwStandard.Security;
 
 namespace Fw.Json.Services
 {
@@ -84,7 +85,8 @@ namespace Fw.Json.Services
                     
                 groupsid                            = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.groupsid : string.Empty;
                 tokenData.webUser.groupsid          = groupsid;
-                response.applicationtree            = FwApplicationTree.Tree.GetGroupsTree(groupsid, true);
+                //response.applicationtree            = FwApplicationTree.Tree.GetGroupsTree(groupsid, true);
+                response.applicationtree            = FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, true);
                     
                 webadministrator                    = (FwValidate.IsPropertyDefined(webUsersView, "webadministrator")) ? webUsersView.webadministrator : string.Empty;
                 tokenData.webUser.webadministrator  = webadministrator;
