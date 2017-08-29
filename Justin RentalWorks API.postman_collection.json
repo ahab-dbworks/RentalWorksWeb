@@ -2,11 +2,55 @@
 	"variables": [],
 	"info": {
 		"name": "RentalWorks API",
-		"_postman_id": "57d9016a-024c-0f9d-a523-494c0378fdbd",
+		"_postman_id": "5781e696-b716-e1bc-225e-5a7102530def",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "GetJwtToken: http://localhost:57949/api/v1/jwt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var tokenResponse = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable('jwttoken', 'Bearer ' + tokenResponse.access_token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:57949/api/v1/jwt",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImEiLCJuYmYiOjE0OTY5MDE2MzAsImV4cCI6MTQ5NjkwMjgzMCwiaWF0IjoxNDk2OTAxNjMwfQ.ekWSe8mURwqOgaFvpyDm7RXQSmCYK6_3bz9PeIkgMY8",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\"UserName\": \"MIKE.USER\",\n\t\"Password\": \"MIKE306\"\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Billing Cycle",
 			"description": "",
@@ -16,7 +60,18 @@
 					"request": {
 						"url": "http://localhost:57949/api/v1/billingcycle",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -28,7 +83,10 @@
 						"url": "http://localhost:57949/api/v1/billingcycle/A0003IJU",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -137,7 +195,10 @@
 						"url": "http://localhost:57949/api/v1/blackoutstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -174,7 +235,10 @@
 						"url": "http://localhost:57949/api/v1/blackoutstatus/A0001F1B",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -257,7 +321,10 @@
 						"url": "http://localhost:57949/api/v1/contactevent",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -294,7 +361,10 @@
 						"url": "http://localhost:57949/api/v1/contactevent/B0002TA4",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -377,7 +447,10 @@
 						"url": "http://localhost:57949/api/v1/contacttitle",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -414,7 +487,10 @@
 						"url": "http://localhost:57949/api/v1/contacttitle/000000XU",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -497,7 +573,10 @@
 						"url": "http://localhost:57949/api/v1/coverletter",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -534,7 +613,10 @@
 						"url": "http://localhost:57949/api/v1/coverletter/000014RL",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -617,7 +699,10 @@
 						"url": "http://localhost:57949/api/v1/creditstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -654,7 +739,10 @@
 						"url": "http://localhost:57949/api/v1/creditstatus/00000S5R",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -737,7 +825,10 @@
 						"url": "http://localhost:57949/api/v1/companytaxoption",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -774,7 +865,10 @@
 						"url": "http://localhost:57949/api/v1/companytaxoption/405~",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -857,7 +951,10 @@
 						"url": "http://localhost:57949/api/v1/crewschedulestatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -894,7 +991,10 @@
 						"url": "http://localhost:57949/api/v1/crewschedulestatus/000012YH",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -977,7 +1077,10 @@
 						"url": "http://localhost:57949/api/v1/crewstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1014,7 +1117,10 @@
 						"url": "http://localhost:57949/api/v1/crewstatus/B0002TO2",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1097,7 +1203,10 @@
 						"url": "http://localhost:57949/api/v1/currency",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1134,7 +1243,10 @@
 						"url": "http://localhost:57949/api/v1/currency/00000120",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1217,7 +1329,10 @@
 						"url": "http://localhost:57949/api/v1/customer",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1254,7 +1369,10 @@
 						"url": "http://localhost:57949/api/v1/customer/00001YHG",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1337,7 +1455,10 @@
 						"url": "http://localhost:57949/api/v1/customerstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1374,7 +1495,10 @@
 						"url": "http://localhost:57949/api/v1/customerstatus/0000013X",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1457,7 +1581,10 @@
 						"url": "http://localhost:57949/api/v1/customertype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1494,7 +1621,10 @@
 						"url": "http://localhost:57949/api/v1/customertype/0000014M",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1577,7 +1707,10 @@
 						"url": "http://localhost:57949/api/v1/discountreason",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1614,7 +1747,10 @@
 						"url": "http://localhost:57949/api/v1/discountreason/00003AQ1",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1697,7 +1833,10 @@
 						"url": "http://localhost:57949/api/v1/documenttype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1734,7 +1873,10 @@
 						"url": "http://localhost:57949/api/v1/documenttype/D0001433",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1817,7 +1959,10 @@
 						"url": "http://localhost:57949/api/v1/eventcategory",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1854,7 +1999,10 @@
 						"url": "http://localhost:57949/api/v1/eventcategory/A0003Z5N",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1937,7 +2085,10 @@
 						"url": "http://localhost:57949/api/v1/facilityschedulestatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -1974,7 +2125,10 @@
 						"url": "http://localhost:57949/api/v1/facilityschedulestatus/000012YE",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2057,7 +2211,10 @@
 						"url": "http://localhost:57949/api/v1/facilitystatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2094,7 +2251,10 @@
 						"url": "http://localhost:57949/api/v1/facilitystatus/B0002TEI",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2177,7 +2337,10 @@
 						"url": "http://localhost:57949/api/v1/generatorfueltype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2214,7 +2377,10 @@
 						"url": "http://localhost:57949/api/v1/generatorfueltype/B0002TH1",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2297,7 +2463,10 @@
 						"url": "http://localhost:57949/api/v1/generatorrating",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2334,7 +2503,10 @@
 						"url": "http://localhost:57949/api/v1/generatorrating/B0002THR",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2417,7 +2589,10 @@
 						"url": "http://localhost:57949/api/v1/glaccount",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2454,7 +2629,10 @@
 						"url": "http://localhost:57949/api/v1/glaccount/00001HZH",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2531,7 +2709,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2568,7 +2749,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryadjustmentreason/000001AF",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2651,7 +2835,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryattribute",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2688,7 +2875,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryattribute/A0004NP3",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2771,7 +2961,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2808,7 +3001,10 @@
 						"url": "http://localhost:57949/api/v1/inventoryattributevalue/00003AQX",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2891,7 +3087,10 @@
 						"url": "http://localhost:57949/api/v1/licenseclass",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -2928,7 +3127,10 @@
 						"url": "http://localhost:57949/api/v1/licenseclass/B0002TTY",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3011,7 +3213,10 @@
 						"url": "http://localhost:57949/api/v1/maillist",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3048,7 +3253,10 @@
 						"url": "http://localhost:57949/api/v1/maillist/B0002TA9",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3131,7 +3339,10 @@
 						"url": "http://localhost:57949/api/v1/order",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3168,7 +3379,10 @@
 						"url": "http://localhost:57949/api/v1/order/000026P1",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3225,7 +3439,10 @@
 						"url": "http://localhost:57949/api/v1/organizationtype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3262,7 +3479,10 @@
 						"url": "http://localhost:57949/api/v1/organizationtype/00000S1X",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3345,7 +3565,10 @@
 						"url": "http://localhost:57949/api/v1/paymentterms",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3356,7 +3579,10 @@
 						"url": "http://localhost:57949/api/v1/paymentterms/000001K9",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3465,7 +3691,10 @@
 						"url": "http://localhost:57949/api/v1/paymenttype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3476,7 +3705,10 @@
 						"url": "http://localhost:57949/api/v1/paymenttype/000001KK",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3585,7 +3817,10 @@
 						"url": "http://localhost:57949/api/v1/personneltype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3622,7 +3857,10 @@
 						"url": "http://localhost:57949/api/v1/personneltype/A0004BUP",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3705,7 +3943,10 @@
 						"url": "http://localhost:57949/api/v1/photographytype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3742,7 +3983,10 @@
 						"url": "http://localhost:57949/api/v1/photographytype/A0004D6C",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3825,7 +4069,10 @@
 						"url": "http://localhost:57949/api/v1/poclassification",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3862,7 +4109,10 @@
 						"url": "http://localhost:57949/api/v1/poclassification/B0002TPY",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3939,7 +4189,10 @@
 						"url": "http://localhost:57949/api/v1/poimportance",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -3976,7 +4229,10 @@
 						"url": "http://localhost:57949/api/v1/poimportance/00001EQS",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4053,7 +4309,10 @@
 						"url": "http://localhost:57949/api/v1/region",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4090,7 +4349,10 @@
 						"url": "http://localhost:57949/api/v1/region/A0005JB7",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4167,7 +4429,10 @@
 						"url": "http://localhost:57949/api/v1/rentalstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4204,7 +4469,10 @@
 						"url": "http://localhost:57949/api/v1/rentalstatus/00000QXI",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4287,7 +4555,10 @@
 						"url": "http://localhost:57949/api/v1/repairitemstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4324,7 +4595,10 @@
 						"url": "http://localhost:57949/api/v1/repairitemstatus/00000RW5",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4407,7 +4681,10 @@
 						"url": "http://localhost:57949/api/v1/retiredreason",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4444,7 +4721,10 @@
 						"url": "http://localhost:57949/api/v1/retiredreason/000001TZ",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4527,7 +4807,10 @@
 						"url": "http://localhost:57949/api/v1/scheduletype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4564,7 +4847,10 @@
 						"url": "http://localhost:57949/api/v1/scheduletype/0000016L",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4647,7 +4933,10 @@
 						"url": "http://localhost:57949/api/v1/termsconditions",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4684,7 +4973,10 @@
 						"url": "http://localhost:57949/api/v1/termsconditions/00000W0R",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4767,7 +5059,10 @@
 						"url": "http://localhost:57949/api/v1/unit",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4804,7 +5099,10 @@
 						"url": "http://localhost:57949/api/v1/unit/A0000NB0",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4887,7 +5185,10 @@
 						"url": "http://localhost:57949/api/v1/unretiredreason",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -4924,7 +5225,10 @@
 						"url": "http://localhost:57949/api/v1/unretiredreason/00002UK0",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5007,7 +5311,10 @@
 						"url": "http://localhost:57949/api/v1/userstatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5044,7 +5351,10 @@
 						"url": "http://localhost:57949/api/v1/userstatus/00001ES3",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5127,7 +5437,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclecolor",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5164,7 +5477,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclecolor/B000102P",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5247,7 +5563,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobecolor",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5284,7 +5603,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobecolor/B0002TL2",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5367,7 +5689,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclefueltype",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5404,7 +5729,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclefueltype/B0002TUR",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5487,7 +5815,10 @@
 						"url": "http://localhost:57949/api/v1/vehicleschedulestatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5524,7 +5855,10 @@
 						"url": "http://localhost:57949/api/v1/vehicleschedulestatus/A00013R1",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5607,7 +5941,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclestatus",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5644,7 +5981,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclestatus/B0002TW6",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5727,7 +6067,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclerating",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5764,7 +6107,10 @@
 						"url": "http://localhost:57949/api/v1/vehiclerating/00003C7K",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5847,7 +6193,10 @@
 						"url": "http://localhost:57949/api/v1/vendorclass",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5884,7 +6233,10 @@
 						"url": "http://localhost:57949/api/v1/vendorclass/B0002TWG",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -5967,7 +6319,10 @@
 						"url": "http://localhost:57949/api/v1/vendor",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6004,7 +6359,10 @@
 						"url": "http://localhost:57949/api/v1/vendor/000015IT",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6087,7 +6445,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobecare",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6124,7 +6485,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobecare/A000H6CM",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6207,7 +6571,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobegender",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6244,7 +6611,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobegender/A000H6D7",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6327,7 +6697,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobelabel",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -6364,7 +6737,10 @@
 						"url": "http://localhost:57949/api/v1/wardrobelabel/A000H6CW",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
