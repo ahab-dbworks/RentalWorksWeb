@@ -18,6 +18,7 @@ namespace FwStandard.Security
                     qry.Add("select top 1 webusersid, usersid, contactid, groupsid");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where (upper(userloginname) = upper(@username) and upper(userpassword) = dbo.encrypt(upper(@password)))");
+                    qry.Add("  or (upper(email) = upper(@username) and upper(webpassword) = dbo.encrypt(upper(@password)))");
                     qry.AddParameter("@username", username);
                     qry.AddParameter("@password", password);
                     await qry.ExecuteAsync(true);
