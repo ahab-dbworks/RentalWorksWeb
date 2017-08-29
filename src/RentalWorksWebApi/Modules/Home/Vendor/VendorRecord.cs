@@ -7,6 +7,18 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
     [FwSqlTable("vendor")]
     public class VendorRecord : RwDataReadWriteRecord
     {
+
+
+/*
+TODO:
+        customerid      char(08)
+        moddate         smalldatetime
+        modby           char(20)
+        inputdate       smalldatetime
+        inputby         char(20)
+        vendorfml       varchar(100)
+*/
+
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string VendorId { get; set; } = "";
