@@ -11,12 +11,8 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
 
 /*
 TODO:
-        customerid      char(08)
-        moddate         smalldatetime
         modby           char(20)
-        inputdate       smalldatetime
         inputby         char(20)
-        vendorfml       varchar(100)
 */
 
         //------------------------------------------------------------------------------------
@@ -49,6 +45,9 @@ TODO:
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "lname", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string LastName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorfml", modeltype: FwDataTypes.Text, maxlength: 100)]
+        public string VendorDisplayName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string Address1 { get; set; }
@@ -193,6 +192,15 @@ TODO:
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "indeliverytype", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DefaultIncomingDeliveryType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string CustomerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
+        public string InputDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date)]
+        public string LastModifiedDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }

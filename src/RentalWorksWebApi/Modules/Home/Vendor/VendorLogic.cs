@@ -22,12 +22,13 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         public string OfficeLocationId { get { return vendor.OfficeLocationId; } set { vendor.OfficeLocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OfficeLocation { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
         public string Vendor { get { return vendor.Vendor; } set { vendor.Vendor = value; } }
         public string Salutation { get { return vendor.Salutation; } set { vendor.Salutation = value; } }
         public string FirstName { get { return vendor.FirstName; } set { vendor.FirstName = value; } }
         public string MiddleInitial { get { return vendor.MiddleInitial; } set { vendor.MiddleInitial = value; } }
         public string LastName { get { return vendor.LastName; } set { vendor.LastName = value; } }
+        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
+        public string VendorDisplayName { get; set; }
         public string Address1 { get { return vendor.Address1; } set { vendor.Address1 = value; } }
         public string Address2 { get { return vendor.Address2; } set { vendor.Address2 = value; } }
         public string City { get { return vendor.City; } set { vendor.City = value; } }
@@ -92,6 +93,11 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         public string ShippingTrackingLink { get { return vendor.ShippingTrackingLink; } set { vendor.ShippingTrackingLink = value; } }
         public string DefaultOutgoingDeliveryType { get { return vendor.DefaultOutgoingDeliveryType; } set { vendor.DefaultOutgoingDeliveryType = value; } }
         public string DefaultIncomingDeliveryType { get { return vendor.DefaultIncomingDeliveryType; } set { vendor.DefaultIncomingDeliveryType = value; } }
+        public string CustomerId { get { return vendor.CustomerId; } set { vendor.CustomerId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Customer { get; set; }
+        public string InputDate { get { return vendor.InputDate; } set { vendor.InputDate = value; } }
+        public string LastModifiedDate { get { return vendor.LastModifiedDate; } set { vendor.LastModifiedDate = value; } }
         public bool Inactive { get { return vendor.Inactive; } set { vendor.Inactive = value; } }
         public string DateStamp { get { return vendor.DateStamp; } set { vendor.DateStamp = value; } }
         //------------------------------------------------------------------------------------

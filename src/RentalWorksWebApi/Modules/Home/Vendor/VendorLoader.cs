@@ -41,6 +41,9 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwSqlDataField(column: "lname", modeltype: FwDataTypes.Text)]
         public string LastName { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorfml", modeltype: FwDataTypes.Text)]
+        public string VendorDisplayName { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
         public string Address1 { get; set; }
         //------------------------------------------------------------------------------------
@@ -208,6 +211,18 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "indeliverytype", modeltype: FwDataTypes.Text)]
         public string DefaultIncomingDeliveryType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        public string CustomerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        public string Customer { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
+        public string InputDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date)]
+        public string LastModifiedDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
