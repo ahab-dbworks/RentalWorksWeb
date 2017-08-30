@@ -618,7 +618,6 @@
     <Folder Include="Content\Source\Modules\Settings\" />
     <Folder Include="Content\Source\Reports\" />
     <Folder Include="Content\Source\SubModules\" />
-    <Folder Include="Security\" />
     <Folder Include="Services\Modules\" />
     <Folder Include="Services\Reports\" />
   </ItemGroup>
