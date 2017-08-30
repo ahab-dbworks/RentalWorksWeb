@@ -122,9 +122,26 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         public bool DisableSubSale { get { return customer.DisableSubSale; } set { customer.DisableSubSale = value; } }
         public bool DisableSubLabor { get { return customer.DisableSubLabor; } set { customer.DisableSubLabor = value; } }
         public bool DisableSubMisc { get { return customer.DisableSubMisc; } set { customer.DisableSubMisc = value; } }
-
-
-
+        public bool SplitRentalCustomer { get { return customer.SplitRentalCustomer; } set { customer.SplitRentalCustomer = value; } }
+        public bool SplitRentalTaxCustomer { get { return customer.SplitRentalTaxCustomer; } set { customer.SplitRentalTaxCustomer = value; } }
+        public int OwnedEquipmentSplitRentalPerecent { get { return customer.OwnedEquipmentSplitRentalPerecent; } set { customer.OwnedEquipmentSplitRentalPerecent = value; } }
+        public int SubRentalEquipmentSplitRentalPerecent { get { return customer.SubRentalEquipmentSplitRentalPerecent; } set { customer.SubRentalEquipmentSplitRentalPerecent = value; } }
+        public bool RebateRentalCustomer { get { return customer.RebateRentalCustomer; } set { customer.RebateRentalCustomer = value; } }
+        public int OwnedEquipmentRebateRentalPerecent { get { return customer.OwnedEquipmentRebateRentalPerecent; } set { customer.OwnedEquipmentRebateRentalPerecent = value; } }
+        public int SubRentalEquipmentRebateRentalPerecent { get { return customer.SubRentalEquipmentRebateRentalPerecent; } set { customer.SubRentalEquipmentRebateRentalPerecent = value; } }
+        public string SplitRentalLogoFileName { get { return customer.SplitRentalLogoFileName; } set { customer.SplitRentalLogoFileName = value; } }
+        public int SplitRentalLogoWidth { get { return customer.SplitRentalLogoWidth; } set { customer.SplitRentalLogoWidth = value; } }
+        public int SplitRentalLogoHeight { get { return customer.SplitRentalLogoHeight; } set { customer.SplitRentalLogoHeight = value; } }
+        public string ShippingAddressType { get { return customer.ShippingAddressType; } set { customer.ShippingAddressType = value; } }
+        public string ShipAttention { get { return customer.ShipAttention; } set { customer.ShipAttention = value; } }
+        public string ShipAddress1 { get { return customer.ShipAddress1; } set { customer.ShipAddress1 = value; } }
+        public string ShipAddress2 { get { return customer.ShipAddress2; } set { customer.ShipAddress2 = value; } }
+        public string ShipCity { get { return customer.ShipCity; } set { customer.ShipCity = value; } }
+        public string ShipState { get { return customer.ShipState; } set { customer.ShipState = value; } }
+        public string ShipCountryId { get { return customer.ShipCountryId; } set { customer.ShipCountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ShipCountry { get; set; }
+        public string ShipZipCode { get { return customer.ShipZipCode; } set { customer.ShipZipCode = value; } }
         public bool Inactive { get { return customer.Inactive; } set { customer.Inactive = value; } }
         public string DateStamp { get { return customer.DateStamp; } set { customer.DateStamp = value; } }
         //------------------------------------------------------------------------------------

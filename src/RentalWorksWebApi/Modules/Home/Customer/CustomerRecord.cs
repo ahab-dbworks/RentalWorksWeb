@@ -13,29 +13,10 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
 TODO:
         availablecredit
         balance
-
         inputby
         inputdate
         natlaccount
-        ownedrebaterate
-        ownedsplitrate
-        rebaterentalflg
-        shipadd
-        shipadd1
-        shipadd2
-        shipatt
-        shipcity
-        shipcountryid
-        shipstate
-        shipzip
-        splitrentalflg
-        splitrentallogofilename
-        splitrentallogoheight
-        splitrentallogowidth
-        splitrentaltaxflg
         univcustno
-        vendorrebaterate
-        vendorsplitrate
         */
 
         //------------------------------------------------------------------------------------
@@ -279,23 +260,60 @@ TODO:
         [FwSqlDataField(column: "disablesubmisc", modeltype: FwDataTypes.Boolean)]
         public bool DisableSubMisc { get; set; }
         //------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        [FwSqlDataField(column: "splitrentalflg", modeltype: FwDataTypes.Boolean)]
+        public bool SplitRentalCustomer { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "splitrentaltaxflg", modeltype: FwDataTypes.Boolean)]
+        public bool SplitRentalTaxCustomer { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ownedsplitrate", modeltype: FwDataTypes.Integer)]
+        public int OwnedEquipmentSplitRentalPerecent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorsplitrate", modeltype: FwDataTypes.Integer)]
+        public int SubRentalEquipmentSplitRentalPerecent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rebaterentalflg", modeltype: FwDataTypes.Boolean)]
+        public bool RebateRentalCustomer { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ownedrebaterate", modeltype: FwDataTypes.Integer)]
+        public int OwnedEquipmentRebateRentalPerecent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer)]
+        public int SubRentalEquipmentRebateRentalPerecent { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "splitrentallogofilename", modeltype: FwDataTypes.Text, maxlength: 100)]
+        public string SplitRentalLogoFileName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "splitrentallogowidth", modeltype: FwDataTypes.Integer)]
+        public int SplitRentalLogoWidth { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "splitrentallogoheight", modeltype: FwDataTypes.Integer)]
+        public int SplitRentalLogoHeight { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipadd", modeltype: FwDataTypes.Text, maxlength: 20)]
+        public string ShippingAddressType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipatt", modeltype: FwDataTypes.Text, maxlength: 50)]
+        public string ShipAttention { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipadd1", modeltype: FwDataTypes.Text, maxlength: 50)]
+        public string ShipAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipadd2", modeltype: FwDataTypes.Text, maxlength: 50)]
+        public string ShipAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipcity", modeltype: FwDataTypes.Text, maxlength: 30)]
+        public string ShipCity { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipstate", modeltype: FwDataTypes.Text, maxlength: 20)]
+        public string ShipState { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipcountryid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string ShipCountryId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "shipzip", modeltype: FwDataTypes.Text, maxlength: 10)]
+        public string ShipZipCode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
