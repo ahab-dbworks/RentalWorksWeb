@@ -1,4 +1,5 @@
-﻿using FwStandard.SqlServer;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
@@ -29,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerType
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        protected override bool Validate(ref string validateMsg)
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
             if (isValid)
