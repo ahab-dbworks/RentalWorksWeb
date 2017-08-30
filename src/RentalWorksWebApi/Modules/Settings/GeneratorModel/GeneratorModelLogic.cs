@@ -20,6 +20,10 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
         [FwBusinessLogicField(isRecordTitle: true)]
         public string GeneratorModel { get { return vehicleModel.VehicleModel; } set { vehicleModel.VehicleModel = value; } }
         public string GeneratorMakeId { get { return vehicleModel.VehicleMakeId; } set { vehicleModel.VehicleMakeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string GeneratorMake { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RowType { get; set; }
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

@@ -5,23 +5,23 @@ using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
+namespace RentalWorksWebApi.Modules.Settings.VehicleModel
 {
-    [FwSqlTable("generatormodelview")]
-    public class GeneratorModelLoader : RwDataLoadRecord
+    [FwSqlTable("vehiclemodelview")]
+    public class VehicleModelLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemodelid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string GeneratorModelId { get; set; } = "";
+        public string VehicleModelId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemodel", modeltype: FwDataTypes.Text, required: true)]
-        public string GeneratorModel { get; set; }
+        public string VehicleModel { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemakeid", modeltype: FwDataTypes.Text, required: true)]
-        public string GeneratorMakeId { get; set; }
+        public string VehicleMakeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemake", modeltype: FwDataTypes.Text)]
-        public string GeneratorMake { get; set; }
+        public string VehicleMake { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
@@ -34,11 +34,11 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
             base.SetBaseSelectQuery(select, qry, customFields, request);
             if ((request != null) && (request.miscfields != null))
             {
-                if (((IDictionary<string, object>)request.miscfields).ContainsKey("GeneratorMakeId"))
+                if (((IDictionary<string, object>)request.miscfields).ContainsKey("VehicleMakeId"))
                 {
                     select.Parse();
                     select.AddWhere("vehiclemakeid = @vehiclemakeid");
-                    select.AddParameter("@vehiclemakeid", request.miscfields.GeneratorMakeId.value);
+                    select.AddParameter("@vehiclemakeid", request.miscfields.VehicleMakeId.value);
                 }
             }
         }
