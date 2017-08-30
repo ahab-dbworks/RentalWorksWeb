@@ -116,29 +116,33 @@ namespace RentalWorksWebApi.Controllers
             try
             {
                 l.SetDbConfig(_appConfig.DatabaseSettings);
+
+                bool isValid = true;
                 string validateMsg = string.Empty;
-                if (l.ValidateBusinessLogic(ref validateMsg))
+                if (l.AllPrimaryKeysHaveValues)
                 {
-                    if (l.AllPrimaryKeysHaveValues)
-                    {
-                        //update
-                        await l.SaveAsync();
-                        await l.LoadAsync<T>();
-                        return new OkObjectResult(l);
-                    }
-                    else
-                    {
-                        //insert
-                        await l.SaveAsync();
-                        await l.LoadAsync<T>();
-                        //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
-                        return new OkObjectResult(l);
-                    }
+                    //update
+                    isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
+                }
+                else
+                {
+                    //insert
+                    isValid = l.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
+                }
+
+                if (isValid)
+                {
+                    await l.SaveAsync();
+                    await l.LoadAsync<T>();
+                    //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
+                    return new OkObjectResult(l);
                 }
                 else
                 {
                     throw new Exception(validateMsg);
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -174,7 +178,7 @@ namespace RentalWorksWebApi.Controllers
                 //populate the uniqueids from the request
                 //this section may not be needed mv 2017-08-25
                 IDictionary<string, dynamic> ids = request.ids;
-                foreach(var id in ids)
+                foreach (var id in ids)
                 {
                     var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == id.Key);
                     if (propertyInfo != null)
@@ -182,10 +186,10 @@ namespace RentalWorksWebApi.Controllers
                         propertyInfo.SetValue(logic, id.Value.value);
                     }
                 }
-            
+
                 //populate the fields from the request
                 IDictionary<string, dynamic> fields = request.fields;
-                foreach(var field in fields)
+                foreach (var field in fields)
                 {
                     var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == field.Key);
                     if (propertyInfo != null)
@@ -195,25 +199,27 @@ namespace RentalWorksWebApi.Controllers
                 }
 
                 logic.SetDbConfig(_appConfig.DatabaseSettings);
+                bool isValid = true;
                 string validateMsg = string.Empty;
-                if (logic.ValidateBusinessLogic(ref validateMsg))
+
+                if (logic.AllPrimaryKeysHaveValues)
                 {
-                    if (logic.AllPrimaryKeysHaveValues)
-                    {
-                        //update
-                        await logic.SaveAsync();
-                        return new OkObjectResult(logic);
-                    }
-                    else
-                    {
-                        //insert
-                        await logic.SaveAsync();
-                        return new OkObjectResult(logic);
-                    }
+                    //update
+                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smUpdate, ref validateMsg);
                 }
                 else
                 {
-                    throw new Exception(validateMsg);
+                    //insert
+                    isValid = logic.ValidateBusinessLogic(TDataRecordSaveMode.smInsert, ref validateMsg);
+                }
+                if (isValid)
+                {
+                    await logic.SaveAsync();
+                    return new OkObjectResult(logic);
+                }
+                else
+                {
+                        throw new Exception(validateMsg);
                 }
             }
             catch (Exception ex)
