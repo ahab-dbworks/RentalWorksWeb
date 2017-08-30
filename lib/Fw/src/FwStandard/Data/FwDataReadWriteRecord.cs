@@ -1,4 +1,5 @@
-﻿using FwStandard.SqlServer;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
 using System;
 using System.Threading.Tasks;
 
@@ -9,24 +10,24 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
-        protected virtual bool Validate(ref string validateMsg)
+        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
             bool isValid = true;
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateDataRecord(ref string validateMsg)
+        public virtual bool ValidateDataRecord(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
             validateMsg = "";
             if (isValid)
             {
-                isValid = AllFieldsValid(ref validateMsg);
+                isValid = AllFieldsValid(saveMode, ref validateMsg);
             }
             if (isValid)
             {
-                isValid = Validate(ref validateMsg);
+                isValid = Validate(saveMode, ref validateMsg);
             }
             return isValid;
         }

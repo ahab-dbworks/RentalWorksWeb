@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Text;
+using FwStandard.BusinessLogic;
 
 namespace FwStandard.DataLayer
 {
@@ -117,7 +118,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual bool AllFieldsValid(ref string validateMsg)
+        public virtual bool AllFieldsValid(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool valid = true;
 
@@ -134,7 +135,15 @@ namespace FwStandard.DataLayer
                             object propertyValue = property.GetValue(this);
                             if ((valid) && (dataFieldAttribute.Required))
                             {
-                                if (propertyValue != null)
+                                if ((valid) && (saveMode == TDataRecordSaveMode.smInsert))
+                                {
+                                    if (propertyValue == null)
+                                    {
+                                        valid = false;
+                                        validateMsg = property.Name + " is required.";
+                                    }
+                                }
+                                if ((valid) && (propertyValue != null))
                                 {
                                     if (propertyValue is string)
                                     {

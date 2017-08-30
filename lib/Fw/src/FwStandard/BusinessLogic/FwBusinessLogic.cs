@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace FwStandard.BusinessLogic
 {
+    public enum TDataRecordSaveMode { smInsert, smUpdate };
+
     public class FwBusinessLogic
     {
         [JsonIgnore]
@@ -204,14 +206,14 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool Validate(ref string validateMsg)
+        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
             bool isValid = true;
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual bool ValidateBusinessLogic(ref string validateMsg)
+        public virtual bool ValidateBusinessLogic(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
             validateMsg = "";
@@ -219,7 +221,7 @@ namespace FwStandard.BusinessLogic
             {
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    isValid = rec.ValidateDataRecord(ref validateMsg);
+                    isValid = rec.ValidateDataRecord(saveMode, ref validateMsg);
                     if (!isValid)
                     {
                         break;
@@ -228,7 +230,7 @@ namespace FwStandard.BusinessLogic
             }
             if (isValid)
             {
-                isValid = Validate(ref validateMsg);
+                isValid = Validate(saveMode, ref validateMsg);
             }
             return isValid;
         }
