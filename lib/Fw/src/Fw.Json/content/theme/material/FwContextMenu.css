@@ -1,0 +1,19 @@
+html.theme-material .fwcontextmenu {position:fixed;top:0;left:0;width:100%;height:100%;}
+html.theme-material.no-flexbox .fwcontextmenu {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}
+html.theme-material.flexbox .fwcontextmenu {display:flex;justify-content:center;align-items:center;}
+html.theme-material .fwcontextmenubox {border-radius:4px;min-width:300px;max-width:600px;-webkit-animation:fwcontextmenu-pop-in 0.1s;-moz-animation:fwcontextmenu-pop-in 0.1s;-ms-animation:fwcontextmenu-pop-in 0.1s;}
+@-webkit-keyframes fwcontextmenu-pop-in { 0% { opacity: 0; -webkit-transform: scale(0.5); } 100% { opacity: 1; -webkit-transform: scale(1); } }
+@-moz-keyframes    fwcontextmenu-pop-in { 0% { opacity: 0; -moz-transform: scale(0.5); }    100% { opacity: 1; -moz-transform: scale(1); } }
+@keyframes         fwcontextmenu-pop-in { 0% { opacity: 0; transform: scale(0.5); }         100% { opacity: 1; transform: scale(1); } }
+
+html.theme-material.no-flexbox .fwcontextmenubox {position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
+html.theme-material .fwcontextmenuitem {-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-o-user-select: none;user-select: none;cursor:pointer;}
+
+/*#region Default Theme*/
+html.theme-material .fwcontextmenutitle {background-color:rgb(104,33,122);color:#ffffff;padding:.25em 0;text-align:center;border-radius:.25em .25em 0 0;font-size:.8em;}
+html.theme-material .fwcontextmenubox {border:1px solid #e0e0e0;background-color:#ffffff;border-radius:.5em;overflow:hidden;}
+html.theme-material .fwcontextmenuitem {padding:1em 0;text-align:center;color:rgb(48,106,255);font-size:1em;}
+html.theme-material .fwcontextmenucancel .fwcontextmenuitem {font-weight:bold;border-top:1px solid #e0e0e0;}
+html.theme-material .fwcontextmenuitem:hover {background-color:rgb(48,106,255);color:#ffffff;}
+html.theme-material .fwcontextmenuitem:not(:first-child) {border-top:1px solid #e0e0e0;}
+/*#endregion Default Theme*/
