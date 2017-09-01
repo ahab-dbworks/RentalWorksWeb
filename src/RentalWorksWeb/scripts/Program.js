@@ -21,6 +21,7 @@ Program.prototype.modules = [
   //, { urlpattern: /^module\/deal$/,                   getScreen: function() { return RwDealController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
     { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customer$/,                 getScreen: function() { return CustomerController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/rentalinventory$/,        getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/salesinventory$/,         getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/barcodeditems$/,          getScreen: function() { return RwBarCodedItemsController.getModuleScreen({}, {}); } }
@@ -88,6 +89,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/generatorfueltype$/,          getScreen: function () { return GeneratorFuelTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/generatormake$/,              getScreen: function () { return GeneratorMakeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/generatorrating$/,            getScreen: function () { return GeneratorRatingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclefueltype$/,            getScreen: function () { return VehicleFuelTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclerating$/,              getScreen: function () { return VehicleRatingController.getModuleScreen({}, {}); } }

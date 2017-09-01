@@ -45,7 +45,9 @@ namespace RentalWorksWebLibrary
 
             //RentalWorks
             AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
-            
+
+            AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", fileiconbaseurl + "contact.png");
+
             //Settings 
             var lv2menuAccountingMaintenance = AddLv2ModuleMenu("Accounting Maintenance", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingMaintenance.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png");
@@ -95,6 +97,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuGeneratorMaintenance = AddLv2ModuleMenu("Generator Maintenance", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorMaintenance.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Generator Make", "{D7C38A54-A198-4304-8EC2-CE8038D3BE9C}", lv2menuGeneratorMaintenance.Id, "GeneratorMakeController", "module/generatormake", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Rating", "{140E6997-1BA9-49B7-AA79-CD5EF6444C72}", lv2menuGeneratorMaintenance.Id, "GeneratorRatingController", "module/generatorrating", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuHolidayMaintenance = AddLv2ModuleMenu("Holiday Maintenance", "{8A1C54ED-01B6-4EF5-AEBD-5E3F9F2563E0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
@@ -180,6 +183,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Contact Note",                   "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
             AddGrid("Contact Personal Event",         "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
             AddGrid("Document Version",               "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
+            AddGrid("Generator Make Model",           "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
             AddGrid("Inventory Attribute Value",      "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             AddGrid("Master Item",                    "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",           "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");

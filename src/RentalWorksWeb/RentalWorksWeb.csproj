@@ -1027,6 +1027,8 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
+    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js">
       <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
@@ -1067,8 +1069,12 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
+    <Content Include="Source\Modules\Home\Customer\Customer.js" />
+    <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
+    <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -1093,6 +1099,9 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.js" />
+    <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMakeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMakeForm.htm" />
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
       <DependentUpon>TermsConditions.ts</DependentUpon>
     </Content>
@@ -1712,6 +1721,9 @@
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js.map">
       <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Home\Customer\Customer.js.map" />
+    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js.map" />
+    <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1739,7 +1751,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CoverLetter\CoverLetter.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewStatus\CrewStatus.ts" />

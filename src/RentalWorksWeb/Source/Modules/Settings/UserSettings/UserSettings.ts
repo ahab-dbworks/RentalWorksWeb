@@ -51,6 +51,7 @@ class UserSettings {
         $applicationtheme = $form.find('.applicationtheme');
         FwFormField.loadItems($applicationtheme, [
             { value: 'theme-default', text: 'Default' },
+            { value: 'theme-material', text: 'Material' },
             { value: 'theme-classic', text: 'Classic' }
         ]);
 
