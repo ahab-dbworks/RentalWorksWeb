@@ -809,14 +809,15 @@ namespace RentalWorksQuikScan.Modules
             qry.AddColumn("subbyquantity",      false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.Add("select *,");
-            qry.Add("  ispackage = dbo.ispackage(itemclass)");
-            qry.Add("from dbo.funccheckinexception2(@contractid, @rectype, @showall)");
-            qry.Add("where exceptionflg = 'T'");
-            qry.Add("  and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
+            qry.Add("       ispackage = dbo.ispackage(itemclass)");
+            qry.Add("  from dbo.funccheckinexception3(@contractid, @rectype, @containeritemid, @showall)");
+            qry.Add(" where exceptionflg = 'T'");
+            qry.Add("   and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
             qry.Add("order by orderno, itemorder, masterno");
-            qry.AddParameter("@contractid", contractid);
-            qry.AddParameter("@rectype",    "R");
-            qry.AddParameter("@showall",    showall);
+            qry.AddParameter("@contractid",      contractid);
+            qry.AddParameter("@rectype",         "R");
+            qry.AddParameter("@containeritemid", "");
+            qry.AddParameter("@showall",         showall);
             result = qry.QueryToDynamicList2();
 
             return result;

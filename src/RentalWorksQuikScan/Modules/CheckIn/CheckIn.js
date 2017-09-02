@@ -1410,7 +1410,9 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         //    screen.$view.find('#checkIn-btnPendingList').click();
         //}
         valTxtQty = (isScannedICode) ? '1' : String(responseCheckInItem.webCheckInItem.stillOut);
-        screen.$popupQty.find('#checkIn-qty-txtQty').val(valTxtQty);
+        screen.$popupQty.find('.fwformfield[data-datafield="qty"] .fwformfield-value').val(valTxtQty);
+        screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-minvalue', 1);
+        screen.$popupQty.find('.fwformfield[data-datafield="qty"]').attr('data-maxvalue', valTxtQty);
         screen.$popupQty.find('#checkIn-popupQty-genericMsg').html(responseCheckInItem.webCheckInItem.genericMsg);
         screen.$popupQty.find('#checkIn-popupQty-msg').html(responseCheckInItem.webCheckInItem.msg);
         screen.$popupQty.find('#checkIn-popupQty-masterNo').html(responseCheckInItem.webCheckInItem.masterNo);
@@ -1599,13 +1601,12 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         FwPopup.showPopup(screen.$popupQty);
         screen.$popupQty
             .on('click', '#checkIn-qty-btnCheckIn', function() {
-                var $txtQty, requestChangeQty, remaining, $this;
+                var requestChangeQty, remaining, $this;
                 try {
                     $this = jQuery(this);
                     $this.prop('disabled', true);
-                    $txtQty = jQuery('#checkIn-qty-txtQty');
                     requestChangeQty = jQuery.extend({}, properties.responseCheckInItem.request);
-                    requestChangeQty.qty = parseInt($txtQty.val());
+                    requestChangeQty.qty = parseInt(FwFormField.getValue2(screen.$popupQty.find('.fwformfield[data-datafield="qty"]')));
                     remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
                     if (isNaN(requestChangeQty.qty) || requestChangeQty.qty <= 0 || (screen.$popupQty.find('.row2').is(':visible') && requestChangeQty.qty > remaining)) {
                         throw 'Invalid qty.';
@@ -1666,25 +1667,6 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                     });
                 } catch(ex) {
                     FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#checkIn-qty-btnSubtract', function() {
-                var quantity;
-                quantity = Number(jQuery('#checkIn-qty-txtQty').val()) - 1;
-                if (quantity > 0) {
-                    jQuery('#checkIn-qty-txtQty').val(quantity);
-                }
-            })
-            .on('click', '#checkIn-qty-btnAdd', function() {
-                var quantity, remaining;
-                quantity = Number(jQuery('#checkIn-qty-txtQty').val()) + 1;
-                if (screen.$popupQty.find('.row2').is(':visible')) {
-                    remaining = Number(jQuery('#checkIn-popupQty-stillOut').html());
-                    if (quantity <= remaining) {
-                        jQuery('#checkIn-qty-txtQty').val(quantity);
-                    }
-                } else {
-                    jQuery('#checkIn-qty-txtQty').val(quantity);
                 }
             })
         ;

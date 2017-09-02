@@ -113,6 +113,17 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
         ]
     });
     $neworder
+        .on('change', 'div[data-datafield="selecttype"] .fwformfield-value', function() {
+            var $this, $deal;
+
+            $this = jQuery(this);
+            $deal = $neworder.find('div[data-datafield="deal"]');
+            if ($this.val() == 'Q') {
+                $deal.attr('data-required', false);
+            } else {
+                $deal.attr('data-required', true);
+            }
+        })
         .on('change', 'div[data-datafield="startdate"] input', function() {
             var $this, $enddate;
 

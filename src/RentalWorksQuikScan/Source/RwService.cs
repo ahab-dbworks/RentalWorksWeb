@@ -1022,7 +1022,7 @@ namespace RentalWorksQuikScan.Source
                     response.status = RwAppData.InsertUserTime(conn:        FwSqlConnection.RentalWorks,
                                                                usersid:     session.security.webUser.usersid,
                                                                workdate:    request.date,
-                                                               orderid:     request.timelogdata.selectedrecord.orderid,
+                                                               orderid:     (FwValidate.IsPropertyDefined(request.timelogdata.selectedrecord, "orderid") ? request.timelogdata.selectedrecord.orderid : ""),
                                                                description: request.description,
                                                                workhours:   request.hours);
                 }
