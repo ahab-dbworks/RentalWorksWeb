@@ -245,7 +245,6 @@ Program.prototype.loadDefaultPage = function() {
 };
 //---------------------------------------------------------------------------------
 jQuery(function () {
-    FwAppData.useWebApi = true;
     program = new Program();
     program.load();
     program.loadDefaultPage();
