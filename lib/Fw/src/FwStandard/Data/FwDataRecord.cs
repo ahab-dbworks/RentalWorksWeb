@@ -479,11 +479,15 @@ namespace FwStandard.DataLayer
                     {
                         SetBaseSelectQuery(select, qry, customFields);
                         select.SetQuery(qry);
+
+                        
+
                         List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
                         int k = 0;
                         foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
                         {
-                            if (k == 0)
+                            //if (k == 0)
+                            if ((k == 0) && (select.SelectStatements[0].Where.Count == 0))
                             {
                                 qry.Add("where ");
                             }
