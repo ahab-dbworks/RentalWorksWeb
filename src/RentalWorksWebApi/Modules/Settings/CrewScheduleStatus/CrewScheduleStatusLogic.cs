@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Settings.ScheduleStatus;
 
@@ -20,6 +21,7 @@ namespace RentalWorksWebApi.Modules.Settings.CrewScheduleStatus
         [FwBusinessLogicField(isRecordTitle: true)]
         public string ScheduleStatus { get { return scheduleStatus.ScheduleStatus; } set { scheduleStatus.ScheduleStatus = value; } }
         public string StatusAction { get { return scheduleStatus.StatusAction; } set { scheduleStatus.StatusAction = value; } }
+        [JsonIgnore]
         public string RecType { get { return scheduleStatus.RecType; } set { scheduleStatus.RecType = value; } }
         public string Color { get { return scheduleStatus.Color; } set { scheduleStatus.Color = value; } }
         public bool WhiteText { get { return scheduleStatus.WhiteText; } set { scheduleStatus.WhiteText = value; } }

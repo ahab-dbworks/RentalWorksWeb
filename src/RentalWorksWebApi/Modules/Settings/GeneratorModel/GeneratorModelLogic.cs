@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Settings.VehicleModel;
 
@@ -22,7 +23,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
         public string GeneratorMakeId { get { return vehicleModel.VehicleMakeId; } set { vehicleModel.VehicleMakeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string GeneratorMake { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
+        [JsonIgnore]
         public string RowType { get; set; }
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
         //------------------------------------------------------------------------------------

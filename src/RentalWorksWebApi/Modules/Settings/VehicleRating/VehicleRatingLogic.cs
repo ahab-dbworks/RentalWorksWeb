@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.VehicleRating
@@ -18,6 +19,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleRating
         public string VehicleRatingId { get { return vehicleRating.VehicleRatingId; } set { vehicleRating.VehicleRatingId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string VehicleRating { get { return vehicleRating.VehicleRating; } set { vehicleRating.VehicleRating = value; } }
+        [JsonIgnore]
         public string RowType { get { return vehicleRating.RowType; } set { vehicleRating.RowType = value; } }
         public bool Inactive { get { return vehicleRating.Inactive; } set { vehicleRating.Inactive = value; } }
         public string DateStamp { get { return vehicleRating.DateStamp; } set { vehicleRating.DateStamp = value; } }

@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
@@ -16,6 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
         public string GeneratorWattsId { get { return generatorWatts.GeneratorWattsId; } set { generatorWatts.GeneratorWattsId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string GeneratorWatts { get { return generatorWatts.GeneratorWatts; } set { generatorWatts.GeneratorWatts = value; } }
+        [JsonIgnore]
         public string RowType { get { return generatorWatts.RowType; } set { generatorWatts.RowType = value; } }
         public bool Inactive { get { return generatorWatts.Inactive; } set { generatorWatts.Inactive = value; } }
         public string DateStamp { get { return generatorWatts.DateStamp; } set { generatorWatts.DateStamp = value; } }

@@ -1,5 +1,6 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Data;
 
 namespace RentalWorksWebApi.Modules.Settings.ScheduleStatus

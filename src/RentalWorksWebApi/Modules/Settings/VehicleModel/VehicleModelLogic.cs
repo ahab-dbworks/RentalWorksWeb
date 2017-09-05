@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.VehicleModel
@@ -22,6 +23,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleModel
         [FwBusinessLogicField(isReadOnly: true)]
         public string VehicleMake { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        [JsonIgnore]
         public string RowType { get; set; }
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
         //------------------------------------------------------------------------------------
