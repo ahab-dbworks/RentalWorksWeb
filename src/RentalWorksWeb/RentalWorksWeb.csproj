@@ -1029,6 +1029,10 @@
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js" />
+    <Content Include="Source\Grids\Grid\CompanyTaxGridBrowse.htm" />
+    <Content Include="Source\Grids\Grid\InventoryAttributeValueGridController.js">
+      <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js">
       <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
@@ -1070,11 +1074,14 @@
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\Grid\CompanyTaxGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\Customer.js" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
+    <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
+    <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -1511,6 +1518,7 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
+    <Compile Include="Source\Modules\Home\Vendor\VendorMenu.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
@@ -1724,6 +1732,9 @@
     <Content Include="Source\Modules\Home\Customer\Customer.js.map" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js.map" />
     <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.js.map" />
+    <Content Include="Source\Grids\Grid\InventoryAttributeValueGridController.js.map">
+      <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1752,6 +1763,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />
