@@ -22,6 +22,7 @@ Program.prototype.modules = [
   //, { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
   { urlpattern: /^module\/contact$/,                      getScreen: function () { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendor$/,                     getScreen: function () { return VendorController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/customer$/,                 getScreen: function() { return CustomerController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/rentalinventory$/,        getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
   //, { urlpattern: /^module\/salesinventory$/,         getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }

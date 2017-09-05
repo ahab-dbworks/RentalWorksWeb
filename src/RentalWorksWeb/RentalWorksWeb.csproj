@@ -1028,9 +1028,14 @@
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
-    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js" />
-    <Content Include="Source\Grids\Grid\CompanyTaxGridBrowse.htm" />
-    <Content Include="Source\Grids\Grid\InventoryAttributeValueGridController.js">
+    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js">
+      <DependentUpon>GeneratorMakeModelGridController.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js.map">
+      <DependentUpon>GeneratorMakeModelGridController.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridBrowse.htm" />
+    <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.js">
       <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
@@ -1074,7 +1079,7 @@
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\Grid\CompanyTaxGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\Customer.js">
@@ -1769,7 +1774,6 @@
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js.map">
       <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js.map" />
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js.map">
       <DependentUpon>GeneratorFuelType.ts</DependentUpon>
     </Content>
@@ -1799,6 +1803,9 @@
     </Content>
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabel.js.map">
       <DependentUpon>WardrobeLabel.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.js.map">
+      <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
