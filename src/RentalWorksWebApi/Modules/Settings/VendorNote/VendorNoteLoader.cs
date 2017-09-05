@@ -38,5 +38,13 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string Datestamp { get; set; }
         //------------------------------------------------------------------------------------
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            select.AddWhere("vendor = @vendorid");
+            select.AddParameter("@vendorid", request.miscfields.VendorId.value);
+        }
+        //------------------------------------------------------------------------------------
     }
 }
