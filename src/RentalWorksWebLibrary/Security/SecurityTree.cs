@@ -151,6 +151,7 @@ namespace RentalWorksWebLibrary
                                             AddModule("Vehicle Fuel Type", "{D9140FB3-084D-4615-8E7A-95731670E682}", lv2menuVehicleMaintenance.Id, "VehicleFuelTypeController", "module/vehiclefueltype", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Rating", "{09913CDB-68FB-4F18-BBAA-DCA8A8F926E5}", lv2menuVehicleMaintenance.Id, "VehicleRatingController", "module/vehiclerating", settingsiconbaseurl + "placeholder.png");
                                             AddModule("License Class", "{422F777F-B57F-43DF-8485-F12F3F7BF662}", lv2menuVehicleMaintenance.Id, "LicenseClassController", "module/licenseclass", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Make", "{299DECA3-B427-49ED-B6AC-2E11F6AA1C4D}", lv2menuVehicleMaintenance.Id, "VehicleMakeController", "module/vehiclemake", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuVendorMaintenance = AddLv2ModuleMenu("Vendor Maintenance", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorMaintenance.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");

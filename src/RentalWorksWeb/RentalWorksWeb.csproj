@@ -1027,6 +1027,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridBrowse.htm" />
+    <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js">
+      <DependentUpon>VehicleMakeModelGridController.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.js">
       <DependentUpon>GeneratorMakeModelGridController.ts</DependentUpon>
@@ -1078,6 +1082,7 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
@@ -1127,6 +1132,11 @@
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js">
       <DependentUpon>GeneratorFuelType.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\VehicleMake\GeneratorMake.js">
+      <DependentUpon>VehicleMake.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VehicleMake\VehicleMakeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleMake\VehicleMakeForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.js">
       <DependentUpon>GeneratorMake.ts</DependentUpon>
     </Content>
@@ -1819,6 +1829,12 @@
       <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js.map" />
+    <Content Include="Source\Modules\Settings\VehicleMake\GeneratorMake.js.map">
+      <DependentUpon>VehicleMake.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js.map">
+      <DependentUpon>VehicleMakeModelGridController.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1850,6 +1866,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PropCondition\PropCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleMake\VehicleMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryType\InventoryType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />

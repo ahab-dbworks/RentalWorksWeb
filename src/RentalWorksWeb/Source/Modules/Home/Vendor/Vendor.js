@@ -49,7 +49,7 @@ var Vendor = (function () {
         $companyTaxGrid.empty().append($companyTaxControl);
         $companyTaxControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="CompanyId"] input').val()
+                CompanyId: $form.find('div.fwformfield[data-datafield="VendorId"] input').val()
             };
         });
         FwBrowse.init($companyTaxControl);
