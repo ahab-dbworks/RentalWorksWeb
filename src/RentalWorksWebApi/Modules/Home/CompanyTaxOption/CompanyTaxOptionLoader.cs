@@ -71,14 +71,14 @@ namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            if ((request != null) && (request.miscfields != null))
+            if ((request != null) && (request.uniqueids != null))
             {
-                if (((IDictionary<string, object>)request.miscfields).ContainsKey("CompanyId"))
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("CompanyId"))
                 {
-
                     select.Parse();
                     select.AddWhere("companyid = @companyid");
-                    select.AddParameter("@companyid", request.miscfields.CompanyId.value);
+                    select.AddParameter("@companyid", uniqueIds["CompanyId"].ToString());
                 }
             }
         }
