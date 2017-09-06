@@ -58,25 +58,20 @@ declare var FwBrowse: any;
             }        
         }
 
-        renderGrids = function ($form: any) {
+        renderGrids($form: any) {
+            var $companyTaxGrid, $companyTaxControl: any;
 
-            var $comapnyTaxGrid, $companyTaxGridControl;
-            
-            $comapnyTaxGrid = $form.find('div[data-grid="PersonalEvent"]');
-            $companyTaxGridControl = jQuery(jQuery('#tmpl-grids-ContactPersonalEventBrowse').html());
-            $comapnyTaxGrid.empty().append($companyTaxGridControl);
-            $companyTaxGridControl.data('ondatabind', function (request) {
-                request.module = 'ContactPersonalEvent';
+            // load AttributeValue Grid
+            $companyTaxGrid = $form.find('div[data-grid="CompanyTaxGrid"]');
+            $companyTaxControl = jQuery(jQuery('#tmpl-grids-CompanyTaxGridBrowse').html());
+            $companyTaxGrid.empty().append($companyTaxControl);
+            $companyTaxControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    contactid: $form.find('div.fwformfield[data-datafield="contact.contactid"] input').val()
-                };
-                FwServices.grid.method(request, 'ContactPersonalEvent', 'Browse', $companyTaxGridControl, function (response) {
-                    FwBrowse.databindcallback($companyTaxGridControl, response.browse);
-                });
+                    CompanyId: $form.find('div.fwformfield[data-datafield="CompanyId"] input').val()
+                }
             });
-            FwBrowse.init($companyTaxGridControl);
-            FwBrowse.renderRuntimeHtml($companyTaxGridControl);
-
+            FwBrowse.init($companyTaxControl);
+            FwBrowse.renderRuntimeHtml($companyTaxControl);
         }
 
         openBrowse() {
@@ -120,7 +115,10 @@ declare var FwBrowse: any;
         }
 
         afterLoad($form: any) {
+            var $companyTaxGrid: any;
 
+            $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
+            FwBrowse.search($companyTaxGrid);
         }
 
     }

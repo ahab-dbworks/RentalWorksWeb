@@ -36,11 +36,11 @@
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Federal ID No" data-datafield="FederalIdNumber" style="float:left;width:125px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocation"
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocation"
                                              style="float:left;width:225px;" data-required="true"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Class" data-datafield="DefaultPoClassificationId" style="float:left;width:225px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Rental Customer" data-datafield="RecordTitle"
-                                             style="float:left;width:300px"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Class" data-datafield="DefaultPoClassificationId" data-displayfield="DefaultPoClassification" data-validationname="DefaultPoClassification" style="float:left;width:225px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Rental Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="Customer"
+                                             style="float:left;width:300px"></div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="ZipCode" style="float:left;width:100px;"></div>
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="Country" style="float:left;width:175px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="CountryId" data-displayfield="Country" data-validationname="Country" style="float:left;width:175px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -151,14 +151,14 @@
                                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing">
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                         <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Default Rate" data-datafield="DefaultRate" style="float:left;width:125px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Rental Billing Cylce" data-datafield="BillingCycle"
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Rental Billing Cylce" data-datafield="BillingCycleId" data-displayfield="BillingCycle" data-validationname="BillingCycle"
                                              style="float:left;width:225px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTerms" style="float:left;width:225px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Terms" data-datafield="PaymentTermsId" data-displayfield="PaymentTerms" data-validationname="PaymentTerms" style="float:left;width:225px;"></div>h
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Account Number" data-datafield="AccountNumber" style="float:left;width:125px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default PO Class" data-datafield="DefaultPoClassification" style="float:left;width:225px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Organization Type" data-datafield="OrganizationType" style="float:left;width:225px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default PO Class" data-datafield="DefaultPoClassificationId" data-displayfield="DefaultPoClassification" data-validationname="DefaultPoClassification" style="float:left;width:225px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Organization Type" data-datafield="OrganizationTypeId" data-displayfield="OrganizationType" data-validationname="OrganizationType" style="float:left;width:225px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Currency" style="padding-left:1px;">
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Currency" data-datafield="DefaultCurrencyCode" style="float:left;width:100px;"></div>
-                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DefaultCurrency" style="float:left;width:200px;"></div>
+                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DefaultCurrencyId" data-displayfield="DefaultCurrency" data-validationname="DefaultCurrency" style="float:left;width:200px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="RemitZipCode" style="float:left;width:100px;"></div>
                                     </div>
                                     <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="RemitCountry" style="float:left;width:175px;"></div>
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="CountryId" data-displayfield="Country" data-validationname="Country" style="float:left;width:175px;"></div>
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Payee No" data-datafield="RemitPayeeNo" style="float:left;width:175px;"></div>
                                     </div>
                                 </div>
@@ -207,11 +207,7 @@
                 <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
                     <div class="formpage">
                         <div class="formrow" style="width:50%;">
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location Tax Options">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwGrid" data-grid="ContactCompany" data-securitycaption="Contact Company"></div>
-                                </div>
-                            </div>
+                            <div data-control="FwGrid" data-grid="CompanyTaxGrid" data-securitycaption="Company Tax Grid" style="min-width:240px;max-width:400px;"></div>
                         </div>
                         <div class="formrow" style="width:30%;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">

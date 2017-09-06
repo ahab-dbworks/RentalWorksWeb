@@ -1,22 +1,5 @@
 var Vendor = (function () {
     function Vendor() {
-        this.renderGrids = function ($form) {
-            var $comapnyTaxGrid, $companyTaxGridControl;
-            $comapnyTaxGrid = $form.find('div[data-grid="PersonalEvent"]');
-            $companyTaxGridControl = jQuery(jQuery('#tmpl-grids-ContactPersonalEventBrowse').html());
-            $comapnyTaxGrid.empty().append($companyTaxGridControl);
-            $companyTaxGridControl.data('ondatabind', function (request) {
-                request.module = 'ContactPersonalEvent';
-                request.uniqueids = {
-                    contactid: $form.find('div.fwformfield[data-datafield="contact.contactid"] input').val()
-                };
-                FwServices.grid.method(request, 'ContactPersonalEvent', 'Browse', $companyTaxGridControl, function (response) {
-                    FwBrowse.databindcallback($companyTaxGridControl, response.browse);
-                });
-            });
-            FwBrowse.init($companyTaxGridControl);
-            FwBrowse.renderRuntimeHtml($companyTaxGridControl);
-        };
         this.Module = 'Vendor';
         this.apiurl = 'api/v1/vendor';
     }
@@ -58,6 +41,20 @@ var Vendor = (function () {
                 throw Error(type + ' is not a known type.');
         }
     };
+    Vendor.prototype.renderGrids = function ($form) {
+        var $companyTaxGrid, $companyTaxControl;
+        // load AttributeValue Grid
+        $companyTaxGrid = $form.find('div[data-grid="CompanyTaxGrid"]');
+        $companyTaxControl = jQuery(jQuery('#tmpl-grids-CompanyTaxGridBrowse').html());
+        $companyTaxGrid.empty().append($companyTaxControl);
+        $companyTaxControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="CompanyId"] input').val()
+            };
+        });
+        FwBrowse.init($companyTaxControl);
+        FwBrowse.renderRuntimeHtml($companyTaxControl);
+    };
     Vendor.prototype.openBrowse = function () {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
@@ -87,6 +84,9 @@ var Vendor = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Vendor.prototype.afterLoad = function ($form) {
+        var $companyTaxGrid;
+        $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
+        FwBrowse.search($companyTaxGrid);
     };
     return Vendor;
 }());
