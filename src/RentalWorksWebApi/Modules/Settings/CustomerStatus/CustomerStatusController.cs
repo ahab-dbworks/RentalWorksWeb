@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerStatus
         /// Retrieves a list of records
         /// </summary>
         /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
-        /// <response code="200">Successfully retrieves records.</response>
+        /// <response code="200">Successfully retrieved records.</response>
         /// <response code="500">Error in the webapi or database.</response>
         [HttpPost("browse")]
         [Authorize(Policy = "{33F721F5-0D91-464C-AFA7-FA46622CE3C0}")]
@@ -36,9 +36,9 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerStatus
         /// REST: Retrieves a list of records
         /// </summary>
         /// <remarks>Use the pageno and pagesize query string parameters to limit the result set and improve performance.</remarks>
-        /// <response code="200">Successfully retrieves records.</response>
-        /// <response code="401">Unauthorized - User is not authenticated.</response>
-        /// <response code="403">Forbidden - User is authenticated by does not have permission to access to this resource.</response>
+        /// <response code="200">Successfully retrieved records.</response>
+        /// <response code="401">Unauthorized - A valid JWT Bearer Token must be provided in the header.</response>
+        /// <response code="403">Forbidden - User is authenticated but does not have permission to access this resource.</response>
         /// <response code="500">Error in the webapi or database.</response>
         [HttpGet]
         [Authorize(Policy = "{D1CECF78-CC21-4B3C-8F16-11D31B996032}")]
