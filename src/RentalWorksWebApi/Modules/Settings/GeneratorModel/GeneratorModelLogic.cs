@@ -25,6 +25,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
         public string GeneratorMake { get; set; }
         [JsonIgnore]
         public string RowType { get; set; }
+        public bool Inactive { get; set; }
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
