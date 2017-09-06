@@ -24,6 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryType
         public bool Sets { get { return inventoryType.Sets; } set { inventoryType.Sets = value; } }
         public bool Props { get { return inventoryType.Props; } set { inventoryType.Props = value; } }
         public bool Wardrobe { get { return inventoryType.Wardrobe; } set { inventoryType.Wardrobe = value; } }
+        public bool Vehicle { get { return inventoryType.Vehicle; } set { inventoryType.Vehicle = value; } }
         public int LowAvailabilityPercent { get { return inventoryType.LowAvailabilityPercent; } set { inventoryType.LowAvailabilityPercent = value; } }
         public int BarCodePrintQty { get { return inventoryType.BarCodePrintQty; } set { inventoryType.BarCodePrintQty = value; } }
         public bool BarCodePrintUseDesigner { get { return inventoryType.BarCodePrintUseDesigner; } set { inventoryType.BarCodePrintUseDesigner = value; } }
