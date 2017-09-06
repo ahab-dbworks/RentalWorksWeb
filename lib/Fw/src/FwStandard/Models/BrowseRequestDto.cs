@@ -14,6 +14,7 @@ namespace FwStandard.Models
         public string[] searchfieldoperators { get; set; } = new string[0];
         public string[] searchfields { get; set; } = new string[0];
         public string[] searchfieldvalues { get; set; } = new string[0];
+        public dynamic uniqueids { get; set; } = new ExpandoObject();
 
         public BrowseRequestDto()
         {
