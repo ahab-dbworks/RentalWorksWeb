@@ -25,6 +25,28 @@ namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
         public string TaxOptionId { get { return dealLocation.TaxOptionId; } set { dealLocation.TaxOptionId = value; } }
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string TaxOption { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxCountry { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxRule { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal RentalTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal RentalTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool RentalExempt { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal SalesTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal SalesTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool SalesExempt { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal LaborTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal LaborTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool LaborExempt { get; set; }
         public string DateStamp { get { return dealLocation.DateStamp; } set { dealLocation.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
