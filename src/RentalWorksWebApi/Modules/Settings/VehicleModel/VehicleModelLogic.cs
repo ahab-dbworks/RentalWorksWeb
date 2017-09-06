@@ -25,6 +25,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleModel
         [FwBusinessLogicField(isReadOnly: true)]
         [JsonIgnore]
         public string RowType { get; set; }
+        public bool Inactive { get; set; }
         public string DateStamp { get { return vehicleModel.DateStamp; } set { vehicleModel.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
