@@ -52,6 +52,13 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleModel
         {
             return await DoValidateDuplicateAsync(request);
         }
-    //------------------------------------------------------------------------------------
-}
+        //------------------------------------------------------------------------------------
+        // POST api/v1/vehiclemodel/saveform 
+        [HttpPost("saveform")]
+        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
+        {
+            return await DoSaveFormAsync<VehicleModelLogic>(request, typeof(VehicleModelLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+    }
 }
