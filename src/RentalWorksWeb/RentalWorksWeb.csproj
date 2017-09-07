@@ -1121,6 +1121,14 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\MiscType\MiscType.js" />
+    <Content Include="Source\Modules\Settings\MiscType\MiscTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MiscType\MiscTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\LaborType\LaborType.js" />
+    <Content Include="Source\Modules\Settings\LaborType\LaborTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\LaborType\LaborTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js">
       <DependentUpon>PropCondition.ts</DependentUpon>
     </Content>
@@ -1841,6 +1849,8 @@
     <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js.map">
       <DependentUpon>VehicleMakeModelGridController.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\LaborType\LaborType.js.map" />
+    <Content Include="Source\Modules\Settings\MiscType\MiscType.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1871,6 +1881,9 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\LaborType\LaborType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PropCondition\PropCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorWatts\GeneratorWatts.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleMake\VehicleMake.ts" />

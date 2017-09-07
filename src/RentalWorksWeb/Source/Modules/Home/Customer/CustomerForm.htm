@@ -56,13 +56,12 @@
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="Customer" data-noduplicate="true" style="float:left;width:350px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="CustomerNumber" data-noduplicate="true" style="float:left;width:150px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocation"
-                       style="float:left;width:225px;" data-required="true"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocation" style="float:left;width:225px;" data-required="true"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Managing Department" data-datafield="Department" style="float:left;width:225px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="CustomerType" data-required="true" style="float:left;width:225px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Classification" data-datafield="Classification" style="float:left;width:225px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Managing Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="Department" style="float:left;width:225px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Type" data-datafield="CustomerTypeId" data-displayfield="CustomerType" data-validationname="CustomerType" data-required="true" style="float:left;width:225px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Classification" data-datafield="ClassificationId" data-displayfield="Classification" data-validationname="Classification" style="float:left;width:225px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Parent Customer" data-datafield="ParentCustomer" style="float:left;width:350px;"></div>
@@ -74,7 +73,7 @@
               <!-- Status section -->
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Status" data-datafield="CustomerStatus" data-required="true" style="width:175px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Status" data-datafield="CustomerStatusId" data-displayfield="CustomerStatus" data-validationname="CustomerStatus" data-required="true" style="width:175px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusAsOf" data-enabled="false" style="float:left;width:100px;"></div>
