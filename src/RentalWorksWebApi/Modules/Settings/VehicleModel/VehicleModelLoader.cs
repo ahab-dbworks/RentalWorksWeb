@@ -26,9 +26,6 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleModel
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

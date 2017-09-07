@@ -20,9 +20,6 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleModel
         [FwSqlDataField(column: "vehiclemakeid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
         public string VehicleMakeId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
