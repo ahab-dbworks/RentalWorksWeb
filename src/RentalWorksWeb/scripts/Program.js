@@ -98,6 +98,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/generatorrating$/,            getScreen: function () { return GeneratorRatingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclefueltype$/,            getScreen: function () { return VehicleFuelTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclerating$/,              getScreen: function () { return VehicleRatingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobeperiod$/,             getScreen: function () { return WardrobePeriodController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobepattern$/,            getScreen: function () { return WardrobePatternController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

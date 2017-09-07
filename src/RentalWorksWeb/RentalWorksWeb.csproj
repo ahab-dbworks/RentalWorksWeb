@@ -1405,6 +1405,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
@@ -1930,6 +1934,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeColor\WardrobeColor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeGender\WardrobeGender.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabel.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>
