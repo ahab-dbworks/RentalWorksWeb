@@ -21,7 +21,7 @@ getModuleScreen() {
     $browse = this.openBrowse();
 
     screen.load = function () {
-        FwModule.openModuleTab($browse, 'VehicleFuelType', false, 'BROWSE', true);
+        FwModule.openModuleTab($browse, 'Vehicle Fuel Type', false, 'BROWSE', true);
         FwBrowse.databind($browse);
         FwBrowse.screenload($browse);
     };

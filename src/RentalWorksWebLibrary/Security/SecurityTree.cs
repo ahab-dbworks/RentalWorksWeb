@@ -203,6 +203,8 @@ namespace RentalWorksWebLibrary
             AddGrid("Quik Entry Department",          "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
             AddGrid("Quik Entry Items",               "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
             AddGrid("Quik Entry Sub Category",        "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
+            AddGrid("Company Tax",                    "{0679DED3-7CDF-468D-8513-7271024403A6}", lv1menuGrids.Id, "CompanyTaxGridController");
+            AddGrid("Vehicle Make Model",             "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
         }
 
         //---------------------------------------------------------------------------------------------
