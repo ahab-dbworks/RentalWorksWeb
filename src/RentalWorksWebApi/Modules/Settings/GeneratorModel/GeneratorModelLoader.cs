@@ -29,9 +29,6 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
-        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
