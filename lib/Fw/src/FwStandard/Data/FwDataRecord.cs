@@ -313,17 +313,29 @@ namespace FwStandard.DataLayer
                         {
                             throw new Exception("Searching is not supported on " + request.searchfields[i]);
                         }
+                        string conditionConjunction = string.Empty;
+                        if (i > 0)
+                        {
+                            conditionConjunction = "  and ";
+                        }
+                        string parameterName = "@" + columns[request.searchfields[i]];
                         if (request.searchfieldoperators[i] == "like")
                         {
-                            string conditionConjunction = string.Empty;
-                            if (i > 0)
-                            {
-                                conditionConjunction = "  and ";
-                            }
-                            string parameterName = "@" + columns[request.searchfields[i]];
+                            // the upper function here will cause it to not use the index, this is not ideal
                             string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") like " + parameterName;
                             select.Add(searchcondition);
-                            select.AddParameter(parameterName, "%" + request.searchfieldvalues[i] + "%");
+                            select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
+                        }
+                        else if (request.searchfieldoperators[i] == "=" || request.searchfieldoperators[i] == "<>")
+                        {
+                            // the upper function here will cause it to not use the index, this is not ideal
+                            string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") " + request.searchfieldoperators[i] + " " + parameterName;
+                            select.Add(searchcondition);
+                            select.AddParameter(parameterName, request.searchfieldvalues[i].ToUpper());
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid searchfieldoperator: " + request.searchfieldoperators[i]);
                         }
                     }
                 }

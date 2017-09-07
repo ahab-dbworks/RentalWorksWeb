@@ -481,10 +481,25 @@ namespace Fw.MSBuildTasks
                                     {
                                         schema.Grids[nameModule] = GetGridSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
                                     }
-                                    fileBrowseTemplate = GetAddSchemaDataToGridTemplate(fileBrowseTemplate, schema, nameModule);
-                                    sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\">");
-                                    sbModules.AppendLine(fileBrowseTemplate);
-                                    sbModules.AppendLine("</script>");
+                                    if (Publish)
+                                    {
+                                        fileBrowseTemplate = GetAddSchemaDataToGridTemplate(fileBrowseTemplate, schema, nameModule);
+                                        sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\">");
+                                        sbModules.AppendLine(fileBrowseTemplate);
+                                        sbModules.AppendLine("</script>");
+                                    }
+                                    else
+                                    {
+                                        string urlHtml = "{{AppUri}}/Source/Grids/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                        foreach (Field field in config.Fields)
+                                        {
+                                            if (urlHtml.Contains(field.Key))
+                                            {
+                                                urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                            }
+                                        }
+                                        sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                    }
                                 }
                             }
                             for (int targetfileno = 0; targetfileno < config.Targets[i].Files.Count; targetfileno++)
@@ -530,10 +545,25 @@ namespace Fw.MSBuildTasks
                                     {
                                         schema.Validations[nameModule] = GetValidationSchema(nameModule, fileBrowseTemplate, databaseConnections[config.DatabaseConnection]);
                                     }
-                                    fileBrowseTemplate = GetAddSchemaDataToValidationBrowseTemplate(fileBrowseTemplate, schema, nameModule);
-                                    sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\">");
-                                    sbModules.AppendLine(fileBrowseTemplate);
-                                    sbModules.AppendLine("</script>");
+                                    if (Publish)
+                                    {
+                                        fileBrowseTemplate = GetAddSchemaDataToValidationBrowseTemplate(fileBrowseTemplate, schema, nameModule);
+                                        sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\">");
+                                        sbModules.AppendLine(fileBrowseTemplate);
+                                        sbModules.AppendLine("</script>");
+                                    }
+                                    else
+                                    {
+                                        string urlHtml = "{{AppUri}}/Source/Validations/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                        foreach (Field field in config.Fields)
+                                        {
+                                            if (urlHtml.Contains(field.Key))
+                                            {
+                                                urlHtml = urlHtml.Replace(field.Key, field.Value);
+                                            }
+                                        }
+                                        sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
+                                    }
                                 }
                             }
                             for (int targetfileno = 0; targetfileno < config.Targets[i].Files.Count; targetfileno++)
@@ -1971,7 +2001,7 @@ namespace Fw.MSBuildTasks
                     foreach(XmlNode fieldNode in scrollerFieldNodes)
                     {
                         string caption, datafield, dataType, tableName, columnName, validationName, validationDisplayField, tabCaption;
-                        int saveOrder;
+                        int saveOrder = 1;
                         string[] datafieldFragments;
                         bool required, isIdentity, readOnly, noDuplicate, exportToExcel;
 
@@ -1983,26 +2013,39 @@ namespace Fw.MSBuildTasks
                         //{
                         //    throw new Exception("A field is missing attribute data-isuniqueid in " + componentType + ": " + componentName + ".");
                         //}
-                        if ((fieldNode.Attributes["data-isuniqueid"] != null) && 
-                            (fieldNode.Attributes["data-isuniqueid"].Value.ToLower() == "true") && 
-                            (fieldNode.Attributes["data-formsaveorder"] == null))
-                        {
-                            throw new Exception("A uniqueid field is missing attribute data-formsaveorder in " + componentType + ": " + componentName + ".");
-                        }
                         datafield    = fieldNode.Attributes["data-formdatafield"].Value;
                         caption      = (fieldNode.Attributes["data-caption"] != null) ? fieldNode.Attributes["data-caption"].Value : datafield;
                         if (!string.IsNullOrEmpty(datafield))
                         {
                             datafieldFragments = datafield.Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries);
-                            if (datafieldFragments.Length != 2)
+                            if (datafieldFragments.Length == 1)
+                            {
+                                //throw new Exception("Invalid datafield: '" + datafield + "' in " + componentType + ": " + componentName + ".");
+                                tableName = componentName;
+                                columnName = datafieldFragments[0];
+                            }
+                            else if (datafieldFragments.Length == 2)
+                            {
+                                tableName  = datafieldFragments[0];
+                                columnName = datafieldFragments[1];
+                            }
+                            else
                             {
                                 throw new Exception("Invalid datafield: '" + datafield + "' in " + componentType + ": " + componentName + ".");
                             }
-                            tableName              = datafieldFragments[0];
-                            columnName             = datafieldFragments[1];
                             dataType               = (fieldNode.Attributes["data-formdatatype"] != null) ? fieldNode.Attributes["data-formdatatype"].Value : string.Empty;
                             isUniqueId             = (fieldNode.Attributes["data-isuniqueid"] != null) ? fieldNode.Attributes["data-isuniqueid"].Value.Equals("true") : false;
-                            saveOrder              = Convert.ToInt32(fieldNode.Attributes["data-formsaveorder"].Value);
+                            //if ((fieldNode.Attributes["data-isuniqueid"] != null) && 
+                            //    (fieldNode.Attributes["data-isuniqueid"].Value.ToLower() == "true") && 
+                            //    (fieldNode.Attributes["data-formsaveorder"] == null))
+                            //{
+                            //    //throw new Exception("A uniqueid field is missing attribute data-formsaveorder in " + componentType + ": " + componentName + ".");
+                            //    saveOrder = 1;
+                            //}
+                            if (fieldNode.Attributes["data-formsaveorder"] != null)
+                            {
+                                saveOrder = Convert.ToInt32(fieldNode.Attributes["data-formsaveorder"].Value);
+                            }
                             isIdentity             = false;
                             readOnly               = (fieldNode.Attributes["data-formreadonly"]           != null) ? fieldNode.Attributes["data-formreadonly"].Value.Equals("true") : false;
                             required               = (fieldNode.Attributes["data-formrequired"]           != null) ? fieldNode.Attributes["data-formrequired"].Value.Equals("true") : false;
