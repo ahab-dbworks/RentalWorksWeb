@@ -1116,7 +1116,12 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js" />
+    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js">
+      <DependentUpon>PropCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js.map">
+      <DependentUpon>PropCondition.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\PropCondition\PropConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\PropCondition\PropConditionForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js">
@@ -1814,7 +1819,6 @@
       <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js.map" />
-    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
