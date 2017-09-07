@@ -1132,6 +1132,8 @@
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js">
       <DependentUpon>GeneratorFuelType.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWattsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWattsForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleMake\GeneratorMake.js">
       <DependentUpon>VehicleMake.ts</DependentUpon>
     </Content>
@@ -1866,6 +1868,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PropCondition\PropCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\GeneratorWatts\GeneratorWatts.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleMake\VehicleMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryType\InventoryType.ts" />

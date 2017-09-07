@@ -89,6 +89,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehiclemake$/,                getScreen: function () { return VehicleMakeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventorytype$/,              getScreen: function() { return InventoryTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } } 
+  , { urlpattern: /^module\/generatorwatts$/,             getScreen: function () { return GeneratorWattsController.getModuleScreen({}, {}); } }
 
   , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }
