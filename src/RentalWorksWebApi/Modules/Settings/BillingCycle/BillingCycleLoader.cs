@@ -20,6 +20,9 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         [FwSqlDataField(column: "nextbillingcycleid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string NextBillingCycleId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "nextbillingcycle", modeltype: FwDataTypes.Text, maxlength: 12)]
+        public string NextBillingCycle { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "proratemonthly", modeltype: FwDataTypes.Boolean)]
         public bool ProrateMonthly { get; set; }
         //------------------------------------------------------------------------------------
