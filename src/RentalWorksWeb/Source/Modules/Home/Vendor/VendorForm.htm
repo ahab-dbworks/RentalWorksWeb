@@ -6,6 +6,7 @@
                 <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
                 <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
                 <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
+                <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
                 <div data-type="tabpage" id="vendortabpage" class="tabpage" data-tabid="vendortab">
@@ -21,16 +22,13 @@
                                             <div data-value="Person" data-caption="Person"></div>
                                         </div>
                                         <div id="company_panel" class="type_panels">
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="VendorDisplayName" data-noduplicate="true" style="float:left;width:350px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Name" data-datafield="VendorDisplayName" data-noduplicate="true" style="float:left;width:400px;"></div>
                                         </div>
                                         <div id="person_panel" class="type_panels" style="display: none;">
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(Salutation)" data-datafield="Salutation" data-noduplicate="true" style="float:left;width:150px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(First Name)" data-datafield="FirstName" data-noduplicate="true"
-                                                 style="float:left;width:250px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="MiddleInitial" data-noduplicate="true"
-                                                 style="float:left;width:30px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(Last Name)" data-datafield="LastName" data-noduplicate="true"
-                                                 style="float:left;width:250px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(Salutation)" data-datafield="Salutation" data-noduplicate="true" data-required="false" style="float:left;width:150px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(First Name)" data-datafield="FirstName" data-noduplicate="true" data-required="false" style="float:left;width:200px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="MiddleInitial" data-noduplicate="true" data-required="false" style="float:left;width:30px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="(Last Name)" data-datafield="LastName" data-noduplicate="true" data-required="false" style="float:left;width:200px;"></div>
                                         </div>
                                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor No" data-datafield="VendorNumber" data-noduplicate="true"
                                              style="float:left;width:150px;"></div>
@@ -254,6 +252,27 @@
                                             <div data-value="PICKUP" data-caption="Vendor Pick Up"></div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
+                    <div class="formpage">
+                        <div class="formrow" style="width:75%;">                            
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
+                                <div data-control="FwGrid" data-grid="VendorContacts" data-securitycaption="Vendor Contacts"></div>
+                            </div>
+                        </div>
+                        <div class="formrow" style="width:45%;">                            
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Updated">
+                                <div class="formrow">
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Opened" data-datafield="vendor.openeddate" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.openedby" data-enabled="false" style="float:left;width:350px;"></div>
+                                </div>
+                                <div class="formrow">
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Modified Last" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifiedby" data-enabled="false" style="float:left;width:350px;"></div>
                                 </div>
                             </div>
                         </div>

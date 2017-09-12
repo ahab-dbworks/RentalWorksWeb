@@ -26,6 +26,7 @@ var Vendor = (function () {
         var $parent = jQuery(document);
         $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
             _this.togglePanels(jQuery(e.currentTarget).val());
+            _this.toggleRequiredFields();
         });
     };
     Vendor.prototype.togglePanels = function (type) {
@@ -40,6 +41,16 @@ var Vendor = (function () {
             default:
                 throw Error(type + ' is not a known type.');
         }
+    };
+    Vendor.prototype.toggleRequiredFields = function () {
+        var $person = jQuery('#person_panel'), isRequired = null;
+        $person.is(':hidden') ? isRequired = 'false' : isRequired = 'true';
+        $person.each(function (i, e) {
+            var $field = jQuery(e).find('.fwformfield');
+            if ($person.is(':hidden'))
+                $field.removeClass('error');
+            $field.attr('data-required', isRequired);
+        });
     };
     Vendor.prototype.renderGrids = function ($form) {
         var $companyTaxGrid, $companyTaxControl;

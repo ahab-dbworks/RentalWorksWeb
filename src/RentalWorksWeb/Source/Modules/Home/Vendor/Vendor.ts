@@ -39,9 +39,10 @@ declare var FwBrowse: any;
             var $parent = jQuery(document);
             
             $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
-                this.togglePanels(jQuery(e.currentTarget).val())                
+                this.togglePanels(jQuery(e.currentTarget).val());
+                this.toggleRequiredFields();
             });
-
+            
         }
 
         togglePanels(type: string): void {
@@ -56,6 +57,18 @@ declare var FwBrowse: any;
                 default:
                     throw Error(type + ' is not a known type.');
             }        
+        }
+
+        toggleRequiredFields(): void {
+            var $person = jQuery('#person_panel'), isRequired = null;
+
+            $person.is(':hidden') ? isRequired = 'false' : isRequired = 'true';
+
+            $person.each((i, e) => {
+                var $field = jQuery(e).find('.fwformfield');
+                if ($person.is(':hidden')) $field.removeClass('error');
+                $field.attr('data-required', isRequired);                
+            });            
         }
 
         renderGrids($form: any) {
