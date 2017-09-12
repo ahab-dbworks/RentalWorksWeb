@@ -1472,8 +1472,11 @@
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
     <Content Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoiceBrowse.htm" />
     <Content Include="Source\Validations\CreditStatus\CreditStatusBrowse.htm" />
+    <Content Include="Source\Validations\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Validations\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Validations\Category\CategoryBrowse.htm" />
+    <Content Include="Source\Validations\CustomerType\CustomerTypeBrowse.htm" />
+    <Content Include="Source\Validations\Department\DepartmentBrowse.htm" />
     <Content Include="Source\Validations\OrderUnit\OrderUnitBrowse.htm" />
     <Content Include="Source\Validations\Group\GroupBrowse.htm" />
     <Content Include="Source\Validations\ICode\ICodeBrowse.htm" />
@@ -1622,7 +1625,10 @@
     <Compile Include="Source\Validations\Country\Country.cs" />
     <Compile Include="Source\Validations\CoverLetter\CoverLetter.cs" />
     <Compile Include="Source\Validations\Currency\Currency.cs" />
+    <Compile Include="Source\Validations\CustomerStatus\CustomerStatus.cs" />
     <Compile Include="Source\Validations\Customer\Customer.cs" />
+    <Compile Include="Source\Validations\CustomerType\CustomerType.cs" />
+    <Compile Include="Source\Validations\Department\Department.cs" />
     <Compile Include="Source\Validations\OrderUnit\OrderUnit.cs" />
     <Compile Include="Source\Validations\Deal\Deal.cs" />
     <Compile Include="Source\Validations\Event\Event.cs" />
