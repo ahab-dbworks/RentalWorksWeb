@@ -168,7 +168,7 @@ namespace RentalWorksWebApi.Controllers
                 IDictionary<string, dynamic> miscfields = request.miscfields;
                 foreach (var miscfield in miscfields)
                 {
-                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == miscfield.Key);
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().DefaultIfEmpty(null).FirstOrDefault(p => p.Name == miscfield.Key);
                     if (propertyInfo != null)
                     {
                         propertyInfo.SetValue(logic, miscfield.Value.value);
@@ -180,7 +180,7 @@ namespace RentalWorksWebApi.Controllers
                 IDictionary<string, dynamic> ids = request.ids;
                 foreach (var id in ids)
                 {
-                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == id.Key);
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().DefaultIfEmpty(null).FirstOrDefault(p => p.Name == id.Key);
                     if (propertyInfo != null)
                     {
                         propertyInfo.SetValue(logic, id.Value.value);
@@ -191,7 +191,7 @@ namespace RentalWorksWebApi.Controllers
                 IDictionary<string, dynamic> fields = request.fields;
                 foreach (var field in fields)
                 {
-                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().First(p => p.Name == field.Key);
+                    var propertyInfo = logic.GetType().GetTypeInfo().GetProperties().DefaultIfEmpty(null).FirstOrDefault(p => p.Name == field.Key);
                     if (propertyInfo != null)
                     {
                         propertyInfo.SetValue(logic, field.Value.value);
