@@ -3,15 +3,13 @@ using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
 {
-    public class InventoryCategoryLogic : RwBusinessLogic
+    public abstract class InventoryCategoryLogic : RwBusinessLogic
     {
         //------------------------------------------------------------------------------------
-        InventoryCategoryRecord inventoryCategory = new InventoryCategoryRecord();
-        InventoryCategoryLoader inventoryCategoryLoader = new InventoryCategoryLoader();
+        protected InventoryCategoryRecord inventoryCategory = new InventoryCategoryRecord();
         public InventoryCategoryLogic()
         {
             dataRecords.Add(inventoryCategory);
-            dataLoader = inventoryCategoryLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -22,17 +20,6 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }
         public bool WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
         public bool CatalogCategory { get { return inventoryCategory.CatalogCategory; } set { inventoryCategory.CatalogCategory = value; } }
-        public bool SubsRequireQc { get { return inventoryCategory.SubsRequireQc; } set { inventoryCategory.SubsRequireQc = value; } }
-        public bool AllCategoryItemsAreSubstitutes { get { return inventoryCategory.AllCategoryItemsAreSubstitutes; } set { inventoryCategory.AllCategoryItemsAreSubstitutes = value; } }
-        public bool BarCodePrintUseDesigner { get { return inventoryCategory.BarCodePrintUseDesigner; } set { inventoryCategory.BarCodePrintUseDesigner = value; } }
-        public string BarCodeType { get { return inventoryCategory.BarCodeType; } set { inventoryCategory.BarCodeType = value; } }
-        public bool DiscountCategoryItems100PercentByDefault { get { return inventoryCategory.DiscountCategoryItems100PercentByDefault; } set { inventoryCategory.DiscountCategoryItems100PercentByDefault = value; } }
-        public bool ExcludeCategoryItemsFromInvoicing { get { return inventoryCategory.ExcludeCategoryItemsFromInvoicing; } set { inventoryCategory.ExcludeCategoryItemsFromInvoicing = value; } }
-        public bool ScheduleItems { get { return inventoryCategory.ScheduleItems; } set { inventoryCategory.ScheduleItems = value; } }
-        public bool HasMaintenance { get { return inventoryCategory.HasMaintenance; } set { inventoryCategory.HasMaintenance = value; } }
-        public string PreventiveMaintenanceCycle { get { return inventoryCategory.PreventiveMaintenanceCycle; } set { inventoryCategory.PreventiveMaintenanceCycle = value; } }
-        public int PreventiveMaintenanceCyclePeriod { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
-        public int DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
         public bool OverrideProfitAndLossCategory { get { return inventoryCategory.OverrideProfitAndLossCategory; } set { inventoryCategory.OverrideProfitAndLossCategory = value; } }
         public string ProfitAndLossCategoryId { get { return inventoryCategory.ProfitAndLossCategoryId; } set { inventoryCategory.ProfitAndLossCategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]

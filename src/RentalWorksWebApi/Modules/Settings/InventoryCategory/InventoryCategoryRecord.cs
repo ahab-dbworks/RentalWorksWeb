@@ -28,7 +28,7 @@ inventoryappreportdesignerid
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text, maxlength: 25, required: true)]
         public string InventoryCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 3, required: true)]
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 3)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventory", modeltype: FwDataTypes.Boolean)]
@@ -46,7 +46,7 @@ inventoryappreportdesignerid
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
         public bool BarCodePrintUseDesigner { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text, maxlength: 1, required: true)]
+        [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text, maxlength: 1)]
         public string BarCodeType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "autodiscount100", modeltype: FwDataTypes.Boolean)]

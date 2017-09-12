@@ -4,49 +4,49 @@ using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
+namespace RentalWorksWebApi.Modules.Settings.MiscCategory
 {
     [Route("api/v1/[controller]")]
-    public class InventoryCategoryController : RwDataController
+    public class MiscCategoryController : RwDataController
     {
-        public InventoryCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public MiscCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventorycategory/browse
+        // POST api/v1/misccategory/browse
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(InventoryCategoryLogic));
+            return await DoBrowseAsync(browseRequest, typeof(MiscCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/inventorycategory
+        // GET api/v1/misccategory
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<InventoryCategoryLogic>(pageno, pagesize, sort, typeof(InventoryCategoryLogic));
+            return await DoGetAsync<MiscCategoryLogic>(pageno, pagesize, sort, typeof(MiscCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/inventorycategory/A0000001
+        // GET api/v1/misccategory/A0000001
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
-            return await DoGetAsync<InventoryCategoryLogic>(id, typeof(InventoryCategoryLogic));
+            return await DoGetAsync<MiscCategoryLogic>(id, typeof(MiscCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventorycategory
+        // POST api/v1/misccategory
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]InventoryCategoryLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]MiscCategoryLogic l)
         {
-            return await DoPostAsync<InventoryCategoryLogic>(l);
+            return await DoPostAsync<MiscCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/inventorycategory/A0000001
+        // DELETE api/v1/misccategory/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(InventoryCategoryLogic));
+            return await DoDeleteAsync(id, typeof(MiscCategoryLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventorycategory/validateduplicate
+        // POST api/v1/misccategory/validateduplicate
         [HttpPost("validateduplicate")]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {

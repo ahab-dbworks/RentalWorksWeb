@@ -1,13 +1,11 @@
-﻿using FwStandard.DataLayer;
-using FwStandard.Models;
-using FwStandard.SqlServer;
+﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
 namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
 {
     [FwSqlTable("categoryview")]
-    public class InventoryCategoryLoader: RwDataLoadRecord
+    public abstract class InventoryCategoryLoader: RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
