@@ -4,6 +4,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
+using System.Collections.Generic;
 
 namespace RentalWorksWebApi.Modules.Settings.VendorNote
 {
@@ -41,9 +42,16 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            select.AddWhere("vendor = @vendorid");
-            select.AddParameter("@vendorid", request.miscfields.VendorId.value);
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("VendorId"))
+                {
+                    select.Parse();
+                    select.AddWhere("vendor = @vendorid");
+                    select.AddParameter("@vendorid", uniqueIds["VendorId"].ToString());
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
