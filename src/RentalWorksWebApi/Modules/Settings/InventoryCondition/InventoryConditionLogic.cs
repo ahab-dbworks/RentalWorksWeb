@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.InventoryCondition
@@ -20,8 +21,11 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCondition
         public string InventoryCondition { get { return inventoryCondition.InventoryCondition; } set { inventoryCondition.InventoryCondition = value; } }
         public bool Rental { get { return inventoryCondition.Rental; } set { inventoryCondition.Rental = value; } }
         public bool Sales { get { return inventoryCondition.Sales; } set { inventoryCondition.Sales = value; } }
+        [JsonIgnore]
         public bool Sets { get { return inventoryCondition.Sets; } set { inventoryCondition.Sets = value; } }
+        [JsonIgnore]
         public bool Props { get { return inventoryCondition.Props; } set { inventoryCondition.Props = value; } }
+        [JsonIgnore]
         public bool Wardrobe { get { return inventoryCondition.Wardrobe; } set { inventoryCondition.Wardrobe = value; } }
         public bool Inactive { get { return inventoryCondition.Inactive; } set { inventoryCondition.Inactive = value; } }
         public string DateStamp { get { return inventoryCondition.DateStamp; } set { inventoryCondition.DateStamp = value; } }
