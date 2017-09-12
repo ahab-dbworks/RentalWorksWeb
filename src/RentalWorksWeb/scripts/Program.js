@@ -93,6 +93,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/facilitytype$/,               getScreen: function() { return FacilityTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/labortype$/,                  getScreen: function() { return LaborTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misctype$/,                   getScreen: function() { return MiscTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobecondition$/,          getScreen: function() { return WardrobeConditionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/inventorycondition$/,         getScreen: function() { return InventoryConditionController.getModuleScreen({}, {}); } }
 
   , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }

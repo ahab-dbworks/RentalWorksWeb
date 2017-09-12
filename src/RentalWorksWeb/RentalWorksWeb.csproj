@@ -1123,20 +1123,21 @@
     </Content>
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js" />
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionForm.htm" />
     <Content Include="Source\Modules\Settings\MiscType\MiscType.js" />
     <Content Include="Source\Modules\Settings\MiscType\MiscTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\MiscType\MiscTypeForm.htm" />
     <Content Include="Source\Modules\Settings\LaborType\LaborType.js" />
     <Content Include="Source\Modules\Settings\LaborType\LaborTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\LaborType\LaborTypeForm.htm" />
-    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js">
-      <DependentUpon>PropCondition.ts</DependentUpon>
-    </Content>
-    <Content Include="Source\Modules\Settings\PropCondition\PropCondition.js.map">
-      <DependentUpon>PropCondition.ts</DependentUpon>
-    </Content>
-    <Content Include="Source\Modules\Settings\PropCondition\PropConditionBrowse.htm" />
-    <Content Include="Source\Modules\Settings\PropCondition\PropConditionForm.htm" />
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsConditionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsConditionForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js">
       <DependentUpon>GeneratorFuelType.ts</DependentUpon>
     </Content>
@@ -1851,6 +1852,9 @@
     </Content>
     <Content Include="Source\Modules\Settings\LaborType\LaborType.js.map" />
     <Content Include="Source\Modules\Settings\MiscType\MiscType.js.map" />
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js.map" />
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js.map" />
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1882,9 +1886,11 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborType\LaborType.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\PropCondition\PropCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PropsCondition\PropsCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorWatts\GeneratorWatts.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleMake\VehicleMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
