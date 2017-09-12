@@ -7510,6 +7510,162 @@
 			]
 		},
 		{
+			"name": "SubCategory",
+			"description": "",
+			"item": [
+				{
+					"name": "SubCategory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/subcategory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SubCategory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/subcategory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SubCategory\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SubCategory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/subcategory/00000XCE",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SubCategory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/subcategory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SubCategory\": \"ABC\",\n        \"InventoryCategoryId\": \"00000X0N\",\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SubCategory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/subcategory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SubCategoryId\": \"00003EAD\",\n    \"SubCategory\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SubCategory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalcategory/00003EA4",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Sales Category",
 			"description": "",
 			"item": [
