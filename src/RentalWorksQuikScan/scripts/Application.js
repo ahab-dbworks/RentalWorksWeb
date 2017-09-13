@@ -214,22 +214,6 @@ Application.prototype.navigate = function(path) {
                 case 'order/transferin':
                     screen = RwOrderController.getTransferInMenuScreen({}, {});
                     break;
-                case 'order/transferin/singleorder':
-                    screen = RwSelectTransferOrder.getSelectTransferOrderScreen({}, {
-                        moduleType: RwConstants.moduleTypes.Transfer,
-                        activityType: RwConstants.activityTypes.CheckIn,
-                        checkInMode: RwConstants.checkInModes.SingleOrder,
-                        checkInType: RwConstants.checkInType.Normal
-                    });
-                    break;
-                case 'order/transferin/session':
-                    screen = RwSelectSession.getSelectSessionScreen({}, {
-                        moduleType: RwConstants.moduleTypes.Transfer,
-                        activityType: RwConstants.activityTypes.CheckIn,
-                        checkInMode: RwConstants.checkInModes.Session,
-                        checkInType: RwConstants.checkInType.Normal
-                    });
-                    break;
                 case 'inventory/movebclocation':
                     screen = RwInventoryController.getMoveBCLocationScreen({}, {});
                     break;

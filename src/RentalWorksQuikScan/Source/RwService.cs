@@ -183,16 +183,6 @@ namespace RentalWorksQuikScan.Source
             FwSqlData.InsertAppImage(conn, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, base64image);
         }
         //---------------------------------------------------------------------------------------------
-        public static void SelectDeal(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "SelectDeal";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "dealNo");
-            response.webSelectDeal = RwAppData.WebSelectDeal(conn:    FwSqlConnection.RentalWorks
-                                                           , usersId: session.security.webUser.usersid
-                                                           , dealNo:  request.dealNo);
-        }
-        //---------------------------------------------------------------------------------------------
         public static void CreateNewInContractAndSuspend(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "CreateNewInContractAndSuspend";    

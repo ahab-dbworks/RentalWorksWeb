@@ -146,7 +146,13 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 icon:        'arrow_back',
                 state:       0,
                 buttonclick: function () {
-                    application.navigate('order/checkinmenu');
+                    if (properties.moduleType == 'Order') {
+                        application.navigate('order/checkinmenu');
+                    } else if (properties.moduleType == 'Transfer') {
+                        application.navigate('order/transferin');
+                    } else {
+                        application.navigate('home/home');
+                    }
                 }
             },
             {
@@ -1598,6 +1604,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         screen.$popupQty.find('#checkIn-popupQty-fields').hide();
         screen.$popupQty.find('#checkIn-popupQty-qtyPanel').hide();
         screen.$popupQty.find('#checkIn-newOrder').hide();
+        FwControl.renderRuntimeControls(screen.$popupQty.find('.fwcontrol'));
         FwPopup.showPopup(screen.$popupQty);
         screen.$popupQty
             .on('click', '#checkIn-qty-btnCheckIn', function() {

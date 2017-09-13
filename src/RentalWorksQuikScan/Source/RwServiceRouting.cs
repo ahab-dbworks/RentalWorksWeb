@@ -225,11 +225,6 @@ namespace RentalWorksQuikScan.Source
                 //),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/selectdeal", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.SelectDeal(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/order/selectsession", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.SelectSession(request, response, session); }
                 ),

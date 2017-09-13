@@ -36,6 +36,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
                                 select.Add("from dbo.funcorderstaging(@warehouseid) o");
                                 select.Add("where o.orderno = o.orderno");
@@ -53,6 +54,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
                                 select.Add("from dbo.funcorderstaging(@warehouseid) o");
                                 select.Add("where o.orderno = o.orderno");
@@ -70,6 +72,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("estrentfrom", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("estrentto", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
+                                qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
                                 select.Add("from dbo.funcorderstaging(@warehouseid) o");
                                 select.Add("where o.orderno = o.orderno");

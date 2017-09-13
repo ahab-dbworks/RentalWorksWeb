@@ -48,7 +48,6 @@ RwServices.order.getStagingPendingItems                = function(request, doneC
 RwServices.order.getStagingStagedItems                 = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/getstagingstageditems',                 request, doneCallback);};
 RwServices.order.phyCountItem                          = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/phycountitem',                      request, doneCallback);};
 RwServices.order.repairItem                            = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/repairitem',                        request, doneCallback);};
-RwServices.order.selectDeal                            = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/selectdeal',                            request, doneCallback);};
 RwServices.order.selectOrder                           = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/selectorder',                           request, doneCallback);};
 RwServices.order.selectSession                         = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/order/selectsession',                         request, doneCallback);};
 RwServices.order.selectPhyInv                          = function(request, doneCallback) {RwAppData.jsonPost(true,  'services.ashx?path=/inventory/selectphyinv',                      request, doneCallback);};

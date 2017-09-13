@@ -65,17 +65,40 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                     $ordersearch.hide();
                     $menu.show();
                 }
+            },
+            {
+                id:          'itemlist_menu',
+                type:        'menu',
+                orientation: 'right',
+                icon:        'more_vert',
+                state:       0,
+                menuoptions: [
+                    {
+                        id:      'showalllocation',
+                        caption: 'Show All Locations',
+                        buttonclick: function() {
+                            screen.toggleShowAllLocation();
+                            $ordersearch.find('#ordersearch').fwmobilesearch('search');
+                        }
+                    }
+                ]
             }
         ]
     });
     $ordersearch.find('#ordersearch').fwmobilesearch({
-        service:   'CheckIn',
+        service:   'CheckInMenu',
         method:    'OrderSearch',
         searchModes: [
             { value: 'ORDERNO',     caption: 'Order No.' },
             { value: 'DESCRIPTION', caption: 'Description' },
             { value: 'DEAL',        caption: 'Deal' }
         ],
+        getRequest: function() {
+            var request = {
+                showalllocation: screen.showalllocation
+            };
+            return request;
+        },
         cacheItemTemplate: false,
         itemTemplate: function(model) {
             var html = [];
@@ -183,12 +206,13 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata) {
             var request = {
-                orderid:     recorddata.orderid,
-                pageno:      0,
-                pagesize:    0,
-                searchvalue: ''
+                orderid:         recorddata.orderid,
+                pageno:          0,
+                pagesize:        0,
+                searchvalue:     '',
+                showalllocation: screen.showalllocation
             };
-            RwServices.callMethod('CheckIn', 'SessionSearch', request, function (response) {
+            RwServices.callMethod('CheckInMenu', 'SessionSearch', request, function (response) {
                 try {
                     if (response.searchresults.Rows.length > 0) {
                         screen.setOrderInfo(recorddata);
@@ -201,7 +225,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                             dealid:       recorddata.dealid,
                             departmentid: recorddata.departmentid
                         };
-                        RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
+                        RwServices.callMethod('CheckInMenu', 'CreateSuspendedSession', request, function (response) {
                             var props, checkInItemScreen;
                             props = {
                                 moduleType:   RwConstants.moduleTypes.Order,
@@ -260,6 +284,23 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 }
             },
             {
+                id:          'itemlist_menu',
+                type:        'menu',
+                orientation: 'right',
+                icon:        'more_vert',
+                state:       0,
+                menuoptions: [
+                    {
+                        id:      'showalllocation',
+                        caption: 'Show All Locations',
+                        buttonclick: function() {
+                            screen.toggleShowAllLocation();
+                            $sessionsearch.find('#sessionsearch').fwmobilesearch('search');
+                        }
+                    }
+                ]
+            },
+            {
                 caption:     'New Session',
                 orientation: 'right',
                 icon:        'chevron_right',
@@ -272,7 +313,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                         dealid:       orderinfo.dealid,
                         departmentid: orderinfo.departmentid
                     };
-                    RwServices.callMethod('CheckIn', 'CreateSuspendedSession', request, function (response) {
+                    RwServices.callMethod('CheckInMenu', 'CreateSuspendedSession', request, function (response) {
                         var props, checkInItemScreen;
                         props = {
                             moduleType:   RwConstants.moduleTypes.Order,
@@ -298,7 +339,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         ]
     });
     $sessionsearch.find('#sessionsearch').fwmobilesearch({
-        service:   'CheckIn',
+        service:   'CheckInMenu',
         method:    'SessionSearch',
         upperCase: true,
         searchModes: [
@@ -312,8 +353,9 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         ],
         getRequest: function() {
             var request = {
-                orderid:    (typeof screen.getOrderInfo().orderid == 'undefined') ? '' : screen.getOrderInfo().orderid,
-                moduletype: RwConstants.moduleTypes.Order
+                orderid:         (typeof screen.getOrderInfo().orderid == 'undefined') ? '' : screen.getOrderInfo().orderid,
+                moduletype:      RwConstants.moduleTypes.Order,
+                showalllocation: screen.showalllocation
             };
             return request;
         },
@@ -412,10 +454,10 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         $sessionsearch.show();
 
         if (jQuery.isEmptyObject(searchresults)) {
-           $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 0);
+            $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 0);
             $sessionsearch.find('#sessionsearch').fwmobilesearch('search');
         } else {
-           $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 1);
+            $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('changeState', 1);
             $sessionsearch.find('#sessionsearch').fwmobilesearch('load', searchresults);
         }
     };
@@ -431,17 +473,40 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                     $dealsearch.hide();
                     $menu.show();
                 }
+            },
+            {
+                id:          'itemlist_menu',
+                type:        'menu',
+                orientation: 'right',
+                icon:        'more_vert',
+                state:       0,
+                menuoptions: [
+                    {
+                        id:      'showalllocation',
+                        caption: 'Show All Locations',
+                        buttonclick: function() {
+                            screen.toggleShowAllLocation();
+                            $dealsearch.find('#dealsearch').fwmobilesearch('search');
+                        }
+                    }
+                ]
             }
         ]
     });
     $dealsearch.find('#dealsearch').fwmobilesearch({
-        service:   'CheckIn',
+        service:   'CheckInMenu',
         method:    'DealSearch',
         upperCase: true,
         searchModes: [
             { value: 'DEALNO', caption: 'Deal No.' },
             { value: 'NAME',   caption: 'Name' }
         ],
+        getRequest: function() {
+            var request = {
+                showalllocation: screen.showalllocation
+            };
+            return request;
+        },
         itemTemplate: function() {
             var html = [];
 
@@ -485,7 +550,40 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         $dealsearch.find('#dealsearch').fwmobilesearch('search');
     };
 
+    screen.toggleShowAllLocation = function(value) { //value = true/false
+        screen.showalllocation = (typeof value != 'undefined') ? value : !screen.showalllocation;
+        if (screen.showalllocation) {
+            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+        } else {
+            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+        }
+    };
+
+    screen.enableShowAllLocations = function(enable) {
+        if (typeof enable == 'undefined') {
+            RwServices.callMethod("CheckInMenu", "EnableShowAllLocations", {}, function(response) {
+                screen.enableShowAllLocations(response.enable);
+            });
+        } else {
+            if (enable) {
+                $ordersearch.find('#ordersearchcontrol').fwmobilemodulecontrol('showButton', '#showalllocation');
+                $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('showButton', '#showalllocation');
+                $dealsearch.find('#dealsearchcontrol').fwmobilemodulecontrol('showButton', '#showalllocation');
+            } else {
+                $ordersearch.find('#ordersearchcontrol').fwmobilemodulecontrol('hideButton', '#showalllocation');
+                $sessionsearch.find('#sessionsearchcontrol').fwmobilemodulecontrol('hideButton', '#showalllocation');
+                $dealsearch.find('#dealsearchcontrol').fwmobilemodulecontrol('hideButton', '#showalllocation');
+            }
+        }
+    };
+
     screen.load = function() {
+        screen.enableShowAllLocations();
+        screen.toggleShowAllLocation(false);
         application.setScanTarget('');
         application.onScanBarcode = function (barcode, barcodeType) {
             try {

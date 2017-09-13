@@ -1,1 +1,13 @@
-﻿
+﻿#transferInMenu #tim-ordersearch {display:none;}
+#transferInMenu #tim-sessionsearch {display:none;}
+
+#transferInMenu .fwmobilesearch .item {padding:.3em;}
+#transferInMenu .fwmobilesearch .item {border-bottom: 1px solid rgba(80,80,80,1);}
+#transferInMenu .fwmobilesearch .item:last-child {border-bottom: 0;}
+#transferInMenu .fwmobilesearch .row1 {color: #00aaff;text-decoration: underline;font-size: .75em;font-weight: bold;}
+#transferInMenu .fwmobilesearch .row2 {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;}
+#transferInMenu .fwmobilesearch .col1 {flex: 1 1 0;}
+#transferInMenu .fwmobilesearch .col2 {flex: 1 1 0;}
+#transferInMenu .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;}
+#transferInMenu .fwmobilesearch .caption {flex: 0 0 9em;font-size:.625em;color: #aaaaaa;}
+#transferInMenu .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}

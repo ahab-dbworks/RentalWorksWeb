@@ -225,18 +225,12 @@
     <Content Include="Modules\RepairMenu\RepairMenu.js" />
     <Content Include="Modules\RepairOrder\RepairOrder.css" />
     <Content Include="Modules\RepairOrder\RepairOrder.js" />
-    <Content Include="Modules\SelectDeal\SelectDeal.css" />
-    <Content Include="Modules\SelectDeal\SelectDeal.js" />
     <Content Include="Modules\SelectOrder\SelectOrder.css" />
     <Content Include="Modules\SelectOrder\SelectOrder.js" />
     <Content Include="Modules\SelectPhyInv\SelectPhyInv.css" />
     <Content Include="Modules\SelectPhyInv\SelectPhyInv.js" />
     <Content Include="Modules\SelectPO\SelectPO.css" />
     <Content Include="Modules\SelectPO\SelectPO.js" />
-    <Content Include="Modules\SelectSession\SelectSession.css" />
-    <Content Include="Modules\SelectSession\SelectSession.js" />
-    <Content Include="Modules\SelectTransferOrder\SelectTransferOrder.css" />
-    <Content Include="Modules\SelectTransferOrder\SelectTransferOrder.js" />
     <Content Include="Modules\Staging\Staging.css" />
     <Content Include="Modules\Staging\Staging.js" />
     <Content Include="Modules\Support\Support.css" />
@@ -419,8 +413,6 @@
     <Content Include="Modules\Staging\Staging.html" />
     <Content Include="Modules\SelectPhyInv\SelectPhyInv.html" />
     <Content Include="Modules\SelectPO\SelectPO.html" />
-    <Content Include="Modules\SelectSession\SelectSession.html" />
-    <Content Include="Modules\SelectDeal\SelectDeal.html" />
     <Content Include="scripts\controllers\RwPartialController.js" />
     <Content Include="scripts\controllers\RwAccountController.js" />
     <Content Include="Modules\Home\Home.html" />
@@ -429,7 +421,6 @@
     <Content Include="views\Partial\ScanBarcode.htm" />
     <Content Include="Modules\SelectOrder\SelectOrder.html" />
     <Content Include="version.txt" />
-    <Content Include="Modules\SelectTransferOrder\SelectTransferOrder.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -445,9 +436,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Modules\BarcodeLabel\BarcodeLabel.cs" />
+    <Compile Include="Modules\CheckInMenu\CheckInMenu.cs" />
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />
+    <Compile Include="Modules\TransferInMenu\TransferInMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\AssetDisposition\AssetDisposition.cs" />
     <Compile Include="Modules\AssetSetLocation\AssetSetLocation.cs" />
