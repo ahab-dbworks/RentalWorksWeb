@@ -1027,6 +1027,7 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js">
       <DependentUpon>VehicleMakeModelGridController.ts</DependentUpon>
@@ -1082,6 +1083,7 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
@@ -1471,6 +1473,8 @@
     <Content Include="Source\Validations\BatchAR\BatchARBrowse.htm" />
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
     <Content Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoiceBrowse.htm" />
+    <Content Include="Source\Validations\GlAccount\GlAccountBrowse.htm" />
+    <Content Include="Source\Validations\NextBillingCycle\NextBillingCycleBrowse.htm" />
     <Content Include="Source\Validations\CreditStatus\CreditStatusBrowse.htm" />
     <Content Include="Source\Validations\CustomerStatus\CustomerStatusBrowse.htm" />
     <Content Include="Source\Validations\Customer\CustomerBrowse.htm" />
@@ -1618,6 +1622,8 @@
     <Compile Include="Source\Validations\BatchAR\BatchAR.cs" />
     <Compile Include="Source\Validations\BatchInvoices\BatchInvoices.cs" />
     <Compile Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoice.cs" />
+    <Compile Include="Source\Validations\GlAccount\GlAccount.cs" />
+    <Compile Include="Source\Validations\NextBillingCycle\NextBillingCycle.cs" />
     <Compile Include="Source\Validations\BillingCycle\BillingCycle.cs" />
     <Compile Include="Source\Validations\CreditStatus\CreditStatus.cs" />
     <Compile Include="Source\Validations\Category\Category.cs" />

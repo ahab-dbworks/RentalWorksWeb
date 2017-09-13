@@ -8,8 +8,14 @@
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Attribute">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Inventory Attribute" data-datafield="InventoryAttribute" data-noduplicate="true" style="float:left;width:300px;"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryType" data-placeholder="ALL" data-noduplicate="false" style="float:left;width:300px;">
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Inventory Attribute" data-datafield="InventoryAttribute" data-noduplicate="true" style="float:left;width:300px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+            </div>
           </div>
           <div data-control="FwGrid" data-grid="InventoryAttributeValueGrid" data-securitycaption="Inventory Attribute Value" style="min-width:240px;max-width:400px;"></div>
         </div>

@@ -71,10 +71,28 @@ class BillingCycle {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $billingCycleEventsGrid: any;
+        var $billingCycleEventsGridControl: any;
 
+        // load AttributeValue Grid
+        $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
+        $billingCycleEventsGridControl = jQuery(jQuery('#tmpl-grids-BillingCycleEventsGridBrowse').html());
+        $billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
+        $billingCycleEventsGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                BillingCycleId: $form.find('div.fwformfield[data-datafield="BillingCycleId"] input').val()
+            };
+        });
+        FwBrowse.init($billingCycleEventsGridControl);
+        FwBrowse.renderRuntimeHtml($billingCycleEventsGridControl);
+    }
 
     afterLoad($form: any) {
+        var $billingCycleEventsGrid: any;
 
+        $billingCycleEventsGrid = $form.find('[data-name="BillingCycleEventsGrid"]');
+        FwBrowse.search($billingCycleEventsGrid);
     }
 }
 
