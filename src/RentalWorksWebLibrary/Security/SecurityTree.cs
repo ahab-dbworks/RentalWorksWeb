@@ -143,6 +143,7 @@ namespace RentalWorksWebLibrary
                                             AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentMaintenance.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPOMaintenance = AddLv2ModuleMenu("PO Maintenance", "{55EDE544-A603-467D-AFA2-EC9C2A650810}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Approver Role", "{992314B6-A24F-468C-A8B6-5EAC8F14BE16}", lv2menuPOMaintenance.Id, "POApproverRoleController", "module/poapproverrole", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOMaintenance.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOMaintenance.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
 

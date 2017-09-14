@@ -1130,6 +1130,8 @@
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
+    <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleBrowse.htm" />
+    <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleForm.htm" />
     <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
@@ -1906,6 +1908,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\POApproverRole\POApproverRole.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborType\LaborType.ts" />

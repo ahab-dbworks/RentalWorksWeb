@@ -96,7 +96,6 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobecondition$/,          getScreen: function() { return WardrobeConditionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventorycondition$/,         getScreen: function() { return InventoryConditionController.getModuleScreen({}, {}); } }
-
   , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/generatorfueltype$/,          getScreen: function () { return GeneratorFuelTypeController.getModuleScreen({}, {}); } }
@@ -106,6 +105,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehiclerating$/,              getScreen: function () { return VehicleRatingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobeperiod$/,             getScreen: function () { return WardrobePeriodController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobepattern$/,            getScreen: function () { return WardrobePatternController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/poapproverrole$/,             getScreen: function() { return POApproverRoleController.getModuleScreen({}, {}); } }
+
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   
