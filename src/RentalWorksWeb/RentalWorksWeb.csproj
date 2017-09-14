@@ -1027,6 +1027,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\VendorNoteGrid\VendorNoteGridBrowse.htm" />
+    <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js">
+      <DependentUpon>VendorNoteGridController.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js">
@@ -1083,6 +1087,7 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\VendorNoteGrid\VendorNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
@@ -1867,6 +1872,9 @@
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js.map" />
     <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js.map" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js.map" />
+    <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js.map">
+      <DependentUpon>VendorNoteGridController.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

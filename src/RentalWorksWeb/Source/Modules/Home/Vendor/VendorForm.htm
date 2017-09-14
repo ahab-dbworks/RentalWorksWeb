@@ -38,8 +38,7 @@
                                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocation"
                                              style="float:left;width:225px;" data-required="true"></div>
                                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Class" data-datafield="DefaultPoClassificationId" data-displayfield="DefaultPoClassification" data-validationname="DefaultPoClassification" style="float:left;width:225px;"></div>
-                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield vendorclass" data-caption="Rental Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="Customer"
-                                             style="float:left;width:300px"></div>                                        
+                                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield customer" data-caption="Rental Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="Customer" style="float:left;width:300px"></div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -206,15 +205,15 @@
                 <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
                     <div class="formpage">
                         <div class="formrow" style="width:50%;">
-                            <div data-control="FwGrid" data-grid="CompanyTaxGrid" data-securitycaption="Company Tax Grid" style="min-width:240px;max-width:400px;"></div>
+                            <div id="companytaxgrid" data-control="FwGrid" data-grid="CompanyTaxGrid" data-securitycaption="Company Tax Grid" style="min-width:240px;max-width:400px;"></div>
                         </div>
                         <div class="formrow" style="width:30%;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-datafield="vendor.taxoption" data-enabled="false" style="width:200px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Rental %" data-datafield="vendor.rentaltaxrate" data-enabled="false" style="float:left;width:100px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sales %" data-datafield="vendor.salestaxrate" data-enabled="false" style="float:left;width:100px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Labor %" data-datafield="vendor.labortaxrate" data-enabled="false" style="float:left;width:100px;"></div>
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" id="" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-enabled="false" style="width:200px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield RentalTaxRate1" data-caption="Rental %" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield SalesTaxRate1" data-caption="Sales %" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield LaborTaxRate1" data-caption="Labor %" data-enabled="false" style="float:left;width:100px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -260,19 +259,19 @@
                 <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                     <div class="formpage">
                         <div class="formrow" style="width:75%;">                            
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
-                                <div data-control="FwGrid" data-grid="VendorContacts" data-securitycaption="Vendor Contacts"></div>
+                            <div class="formrow" style="width:50%;">
+                                <div data-control="FwGrid" id="vendornotegrid" data-grid="VendorNoteGrid" data-securitycaption="Note Grid" style="min-width:240px;max-width:400px;"></div>
                             </div>
                         </div>
                         <div class="formrow" style="width:45%;">                            
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Updated">
                                 <div class="formrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Opened" data-datafield="vendor.openeddate" data-enabled="false" style="float:left;width:100px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.openedby" data-enabled="false" style="float:left;width:350px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield NoteDate" data-caption="Opened" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield NotesBy" data-caption="By" data-enabled="false" style="float:left;width:350px;"></div>
                                 </div>
                                 <div class="formrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Modified Last" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:100px;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifiedby" data-enabled="false" style="float:left;width:350px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield Datestamp" data-caption="Modified Last" data-enabled="false" style="float:left;width:100px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield NotesBy" data-caption="By" data-enabled="false" style="float:left;width:350px;"></div>
                                 </div>
                             </div>
                         </div>

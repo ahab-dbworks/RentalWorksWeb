@@ -42,7 +42,14 @@ declare var FwBrowse: any;
                 this.togglePanels(jQuery(e.currentTarget).val());
                 this.toggleRequiredFields();
             });
-            
+
+            $parent.on('click', '#companytaxgrid .selected', (e) => {
+                this.updateExternalInputsWithGridValues(e.currentTarget);
+            });
+
+            $parent.on('click', '#vendornotegrid .selected', (e) => {
+                this.updateExternalInputsWithGridValues(e.currentTarget);
+            });
         }
 
         togglePanels(type: string): void {
@@ -71,10 +78,25 @@ declare var FwBrowse: any;
             });            
         }
 
-        renderGrids($form: any) {
-            var $companyTaxGrid, $companyTaxControl: any;
+        updateExternalInputsWithGridValues(target: Element): void {
+            var $row = jQuery(target);
+            $row.find('.column > .field').each((i, e) => {
+                var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+                console.log(id);
+                console.log(value);
+                if (value == undefined || null) {
+                    jQuery('.' + id).find(':input').val(0);
+                } else {
+                    jQuery('.' + id).find(':input').val(value);
+                }
+                
+            });
+        }
 
-            // load AttributeValue Grid
+        renderGrids($form: any) {
+            var $companyTaxGrid, $companyTaxControl, $vendorNoteGrid, $vendorNoteControl;
+
+            // load companytax Grid
             $companyTaxGrid = $form.find('div[data-grid="CompanyTaxGrid"]');
             $companyTaxControl = jQuery(jQuery('#tmpl-grids-CompanyTaxGridBrowse').html());
             $companyTaxGrid.empty().append($companyTaxControl);
@@ -85,6 +107,19 @@ declare var FwBrowse: any;
             });
             FwBrowse.init($companyTaxControl);
             FwBrowse.renderRuntimeHtml($companyTaxControl);
+
+            // load vendornote Grid
+            $vendorNoteGrid = $form.find('div[data-grid="VendorNoteGrid"]');
+            $vendorNoteControl = jQuery(jQuery('#tmpl-grids-VendorNoteGridBrowse').html());
+            $vendorNoteGrid.empty().append($vendorNoteControl);
+            $vendorNoteControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    VendorNoteId: $form.find('div.fwformfield[data-datafield="VendorId"] input').val()
+                }
+            });
+            FwBrowse.init($vendorNoteControl);
+            FwBrowse.renderRuntimeHtml($vendorNoteControl);
+
         }
 
         openBrowse() {
@@ -128,10 +163,14 @@ declare var FwBrowse: any;
         }
 
         afterLoad($form: any) {
-            var $companyTaxGrid: any;
+            var $companyTaxGrid, $vendorNoteGrid;
 
             $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
             FwBrowse.search($companyTaxGrid);
+
+            $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
+            FwBrowse.search($vendorNoteGrid);
+
         }
 
     }
