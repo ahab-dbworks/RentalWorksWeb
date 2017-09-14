@@ -685,7 +685,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -694,4 +693,25 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <!-- Resolves assembly conflict bugs introduced with .NET Standard 2.0 -->
+  <Target Name="RemoveNetFxForceConflicts" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'netfx.force.conflicts'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Data.Common'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Diagnostics.StackTrace'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Diagnostics.Tracing'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Globalization.Extensions'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.IO.Compression'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Net.Http'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Net.Sockets'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Runtime.InteropServices.RuntimeInformation'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Runtime.Serialization.Primitives'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Runtime.Serialization.Xml'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Security.Cryptography.Algorithms'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Security.SecureString'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Threading.Overlapped'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.ValueTuple'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'System.Xml.XPath.XDocument'" />
+    </ItemGroup>
+  </Target>
 </Project>
