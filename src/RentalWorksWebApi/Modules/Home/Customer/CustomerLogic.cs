@@ -20,7 +20,6 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         public string OfficeLocationId { get { return customer.OfficeLocationId; } set { customer.OfficeLocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OfficeLocation { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
         public string DepartmentId { get { return customer.DepartmentId; } set { customer.DepartmentId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
@@ -30,6 +29,7 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         public string CustomerCategoryId { get { return customer.CustomerCategoryId; } set { customer.CustomerCategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CustomerCategory { get; set; }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string Customer { get { return customer.Customer; } set { customer.Customer = value; } }
         public string Address1 { get { return customer.Address1; } set { customer.Address1 = value; } }
         public string Address2 { get { return customer.Address2; } set { customer.Address2 = value; } }
