@@ -240,7 +240,6 @@
     <Content Include="scripts\ModuleList.js" />
     <Content Include="scripts\Rw.js" />
     <Content Include="scripts\RwRFID.js" />
-    <Content Include="scripts\_references.js" />
     <Content Include="Source\Validations\SetNo\SetNoBrowse.htm" />
     <Content Include="Source\Validations\PrimaryVendor\PrimaryVendorBrowse.htm" />
     <Content Include="Source\Validations\RepairOrderDesc\RepairOrderDescBrowse.htm" />

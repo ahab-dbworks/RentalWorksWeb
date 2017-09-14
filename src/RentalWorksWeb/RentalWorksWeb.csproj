@@ -1022,7 +1022,6 @@
     <Content Include="Application.dev.config" />
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
-    <None Include="scripts\_references.js" />
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
