@@ -2,6 +2,7 @@
 var RwBaseController = {};
 //----------------------------------------------------------------------------------------------
 RwBaseController.getDefaultScreen = function(viewModel, properties) {
+    jQuery('html').removeClass('theme-classic').removeClass('theme-default').addClass('theme-material');
     var combinedViewModel, screen, $footerView;
     combinedViewModel = jQuery.extend({
         captionProgramTitle: 'RentalWorks'
@@ -92,56 +93,58 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                     var $elementToBlock = $loginWindow;
                     FwAppData.apiMethod(requiresAuthToken, method, url, apiRequest, timeoutSeconds, function onSuccess(response) {
                         sessionStorage.setItem('apiToken', response.access_token);
-                    }, onError, $elementToBlock);
 
-                    // get a token to connect to RentalWorksWeb
-                    var request = {
-                        email:    $email.val(),
-                        password: $password.val()
-                    };
-                    FwServices.account.getAuthToken(request, $loginWindow, function (response) {
-                        try {
-                            if (typeof response.exception !== 'undefined') {
-                                if (applicationConfig.debugMode) {
-                                    //throw new Error(response.exception + response.stacktrace);
-                                    $loginWindow.find('.errormessage').html('').html(response.exception + response.stacktrace).show();
-                                } else {
-                                    //throw new Error(response.exception);
-                                    $loginWindow.find('.errormessage').html('').html(response.exception).show();
-                                }
-                            } else {
-                                if ((response.errNo === 0) && (typeof response.authToken !== 'undefined')) {
-                                    localStorage.setItem('email',                request.email);
-                                    sessionStorage.setItem('authToken',          response.authToken);
-                                    sessionStorage.setItem('fullname',           response.webUser.fullname);
-                                    sessionStorage.setItem('browsedefaultrows',  response.webUser.browsedefaultrows);
-                                    sessionStorage.setItem('applicationtheme',   response.webUser.applicationtheme);
-                                    sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
-                                    sessionStorage.setItem('serverVersion',      response.serverVersion);
-                                    sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
-                                    sessionStorage.setItem('userType',           response.webUser.usertype);
-                                    sessionStorage.setItem('applicationtree',    JSON.stringify(response.applicationtree.Result));
-                                    sessionStorage.setItem('siteName',           response.site.name);
-                                    sessionStorage.setItem('clientCode',         response.clientcode);
-                                    sessionStorage.setItem('location',           JSON.stringify(response.webUser.location));
-                                    program.navigate('home');
-                                } else if (response.errNo !== 0) {
-                                    //throw new Error(response.errMsg);
-                                    $loginWindow.find('.errormessage').html('').html(response.errMsg).show();
-                                } else if (typeof response.authToken === 'undefined') {
+                        // get a token to connect to RentalWorksWeb
+                        var request = {
+                            email:    $email.val(),
+                            password: $password.val()
+                        };
+                        FwServices.account.getAuthToken(request, $loginWindow, function (response) {
+                            try {
+                                if (typeof response.exception !== 'undefined') {
                                     if (applicationConfig.debugMode) {
-                                        //throw new Error('FwServices.account.getAuthToken: response.authToken is undefined.');
-                                        $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: response.authToken is undefined.').show();
+                                        //throw new Error(response.exception + response.stacktrace);
+                                        $loginWindow.find('.errormessage').html('').html(response.exception + response.stacktrace).show();
                                     } else {
                                         //throw new Error(response.exception);
-                                        $loginWindow.find('.errormessage').html('').html('There is an issue with the authorization token.').show();
+                                        $loginWindow.find('.errormessage').html('').html(response.exception).show();
+                                    }
+                                } else {
+                                    if ((response.errNo === 0) && (typeof response.authToken !== 'undefined')) {
+                                        localStorage.setItem('email',                request.email);
+                                        sessionStorage.setItem('authToken',          response.authToken);
+                                        sessionStorage.setItem('fullname',           response.webUser.fullname);
+                                        sessionStorage.setItem('browsedefaultrows',  response.webUser.browsedefaultrows);
+                                        sessionStorage.setItem('applicationtheme',   response.webUser.applicationtheme);
+                                        sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
+                                        sessionStorage.setItem('serverVersion',      response.serverVersion);
+                                        sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
+                                        sessionStorage.setItem('userType',           response.webUser.usertype);
+                                        sessionStorage.setItem('applicationtree',    JSON.stringify(response.applicationtree.Result));
+                                        sessionStorage.setItem('siteName',           response.site.name);
+                                        sessionStorage.setItem('clientCode',         response.clientcode);
+                                        sessionStorage.setItem('location',           JSON.stringify(response.webUser.location));
+                                        jQuery('html').removeClass('theme-material');
+                                        program.navigate('home');
+                                    } else if (response.errNo !== 0) {
+                                        //throw new Error(response.errMsg);
+                                        $loginWindow.find('.errormessage').html('').html(response.errMsg).show();
+                                    } else if (typeof response.authToken === 'undefined') {
+                                        if (applicationConfig.debugMode) {
+                                            //throw new Error('FwServices.account.getAuthToken: response.authToken is undefined.');
+                                            $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: response.authToken is undefined.').show();
+                                        } else {
+                                            //throw new Error(response.exception);
+                                            $loginWindow.find('.errormessage').html('').html('There is an issue with the authorization token.').show();
+                                        }
                                     }
                                 }
+                            } catch(ex) {
+                                FwFunc.showError(ex);
                             }
-                        } catch(ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
+                        });
+
+                    }, onError, $elementToBlock);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);

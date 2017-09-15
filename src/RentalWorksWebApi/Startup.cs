@@ -21,6 +21,8 @@ using System;
 using RentalWorksWebLibrary;
 using FwStandard.Options;
 using FwStandard.Security;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace RentalWorksWebApi
 {
@@ -187,7 +189,8 @@ namespace RentalWorksWebApi
                .AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod()
-               .AllowCredentials());
+               .AllowCredentials()
+               .SetPreflightMaxAge(TimeSpan.FromDays(7))); // this line keeps the browser from pre-flighting every request
 
             //app.UseDefaultFiles(); // Call first before app.UseStaticFiles()
             app.UseStaticFiles(); // For the wwwroot folder

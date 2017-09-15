@@ -83,8 +83,8 @@ namespace RentalWorksWeb.Source.Reports
         {
             FwSqlSelect select;
             FwSqlCommand qry;
-            FwJsonDataTable dtDetails, dtTotals;
-            List<object> totalsRow;
+            FwJsonDataTable dtDetails/*, dtTotals*/;
+            //List<object> totalsRow;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             qry.AddColumn("orderdate",       false, FwJsonDataTableColumn.DataTypes.Date);
