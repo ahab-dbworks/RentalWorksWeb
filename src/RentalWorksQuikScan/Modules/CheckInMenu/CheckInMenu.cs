@@ -173,7 +173,7 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void EnableShowAllLocations(dynamic request, dynamic response, dynamic session)
         {
-            const string METHOD_NAME = "ToggleShowAllLocations";
+            //const string METHOD_NAME = "ToggleShowAllLocations";
             bool result;
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
