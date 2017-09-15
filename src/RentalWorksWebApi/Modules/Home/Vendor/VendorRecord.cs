@@ -67,6 +67,9 @@ TODO:
         [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string ZipCode { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string VendorClassId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------

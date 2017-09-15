@@ -65,6 +65,12 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
         public string ZipCode { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text)]
+        public string VendorClassId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorclass", modeltype: FwDataTypes.Text)]
+        public string VendorClass { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
         public string Phone { get; set; }
         //------------------------------------------------------------------------------------

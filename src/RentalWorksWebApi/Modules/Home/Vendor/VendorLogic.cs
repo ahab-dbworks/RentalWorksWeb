@@ -37,6 +37,9 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwBusinessLogicField(isReadOnly: true)]
         public string Country { get; set; }
         public string ZipCode { get { return vendor.ZipCode; } set { vendor.ZipCode = value; } }
+        public string VendorClassId { get { return vendor.VendorClassId; } set { vendor.VendorClassId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string VendorClass { get; set; }
         public string Phone { get { return vendor.Phone; } set { vendor.Phone = value; } }
         public string Fax { get { return vendor.Fax; } set { vendor.Fax = value; } }
         public string Phone800 { get { return vendor.Phone800; } set { vendor.Phone800 = value; } }
