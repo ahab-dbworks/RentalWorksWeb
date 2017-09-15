@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
+    <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
+    <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebLIbrary</FwApplicationDirectory>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
+    <ProjectReference Include="$(AppSolutionDir)\lib\Fw\src\FwStandard\FwStandard.csproj" />
   </ItemGroup>
+
+  <Target Name="AfterClean"> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/> 
+  </Target> 
 
 </Project>

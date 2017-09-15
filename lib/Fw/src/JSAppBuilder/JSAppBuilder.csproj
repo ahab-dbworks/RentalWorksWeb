@@ -73,4 +73,8 @@
     <Exec Command="copy /y &quot;$(ProjectDir)bin\Release\JSAppBuilder.exe.config&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.exe.config&quot;" />
     <!--<Exec Command="copy /y &quot;$(ProjectDir)bin\Release\JSAppBuilder.pdb&quot; &quot;$(FwSolutionDir)\build\JSAppBuilder\JSAppBuilder.pdb&quot;" />-->
   </Target>
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/>
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/>
+  </Target>
 </Project>
