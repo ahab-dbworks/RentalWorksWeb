@@ -52,11 +52,11 @@ namespace RentalWorksWebLibrary
 
             //Settings 
             var lv2menuAccountingMaintenance = AddLv2ModuleMenu("Accounting Maintenance", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                               AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingMaintenance.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingMaintenance.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png", "","", "", "#838b83");
 
             var lv2menuAddressMaintenance = AddLv2ModuleMenu("Address Maintenance", "{2ABD806F-D059-4CCC-87C0-C4AE01B46EBC}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Country"        , "{D6E787E6-502B-4D36-B0A6-FA691E6D10CF}", lv2menuAddressMaintenance.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("State/Province" , "{B70B4B88-51EB-4635-971B-1F676243B810}", lv2menuAddressMaintenance.Id, "StateController"  , "module/state"  , settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Country"        , "{D6E787E6-502B-4D36-B0A6-FA691E6D10CF}", lv2menuAddressMaintenance.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png", "", "", "", "#eed5b7");
+                                            AddModule("State/Province" , "{B70B4B88-51EB-4635-971B-1F676243B810}", lv2menuAddressMaintenance.Id, "StateController"  , "module/state"  , settingsiconbaseurl + "placeholder.png", "", "", "", "#eed5b7");
 
             var lv2menuBillingMaintenance = AddLv2ModuleMenu("Billing Maintenance", "{E302CBDC-BA33-4100-8DCF-C2BC174002E9}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Billing Cycle", "{5736D549-CEA7-4FCF-86DA-0BCD4C87FA04}", lv2menuBillingMaintenance.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png");
@@ -64,17 +64,17 @@ namespace RentalWorksWebLibrary
             AddModule("Company Department", "{A6CC5F50-F9DE-4158-B627-6FDC1044C22A}", lv1menuSettings.Id, "DepartmentController", "module/department", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuContactMaintenance = AddLv2ModuleMenu("Contact Maintenance", "{3FFAC65E-83B5-45DC-87DC-8383C5BD228C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Contact Event", "{25ad258e-db9d-4e94-a500-0382e7a2024a}", lv2menuContactMaintenance.Id, "ContactEventController", "module/contactevent", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Contact Title", "{1b9183b2-add9-416d-a5e1-59fe68104e4a}", lv2menuContactMaintenance.Id, "ContactTitleController", "module/contacttitle", settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Mail List", "{255ceb68-fb87-4248-ab99-37c18a192300}", lv2menuContactMaintenance.Id, "MailListController", "module/maillist", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Contact Event", "{25ad258e-db9d-4e94-a500-0382e7a2024a}", lv2menuContactMaintenance.Id, "ContactEventController", "module/contactevent", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
+                                            AddModule("Contact Title", "{1b9183b2-add9-416d-a5e1-59fe68104e4a}", lv2menuContactMaintenance.Id, "ContactTitleController", "module/contacttitle", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
+                                            AddModule("Mail List", "{255ceb68-fb87-4248-ab99-37c18a192300}", lv2menuContactMaintenance.Id, "MailListController", "module/maillist", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
 
             AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuCustomerMaintenance = AddLv2ModuleMenu("Customer Maintenance", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                             AddModule("Credit Status", "{A28D0CC9-B922-4259-BA4A-A5DE474ADFA4}", lv2menuCustomerMaintenance.Id, "CreditStatusController", "module/creditstatus", settingsiconbaseurl + "placeholder.png");
-                                             AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerMaintenance.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png");
-                                             AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "CustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png");
-                                             AddModule("Customer Type"  , "{314EDC6F-478A-40E2-B17E-349886A85EA0}", lv2menuCustomerMaintenance.Id, "CustomerTypeController"  , "module/customertype"  , settingsiconbaseurl + "placeholder.png");
+                                             AddModule("Credit Status", "{A28D0CC9-B922-4259-BA4A-A5DE474ADFA4}", lv2menuCustomerMaintenance.Id, "CreditStatusController", "module/creditstatus", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
+                                             AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerMaintenance.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
+                                             AddModule("Customer Status", "{B689A0AA-9FCC-450B-AF0F-AD85483531FA}", lv2menuCustomerMaintenance.Id, "CustomerStatusController", "module/customerstatus", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
+                                             AddModule("Customer Type"  , "{314EDC6F-478A-40E2-B17E-349886A85EA0}", lv2menuCustomerMaintenance.Id, "CustomerTypeController"  , "module/customertype"  , settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
 
             var lv2menuDealMaintenance = AddLv2ModuleMenu("Deal Maintenance", "{C78B1F90-46B2-4FA1-AC35-139A8B5473FD}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("Deal Classification", "{D1035FCC-D92B-4A3A-B985-C7E02CBE3DFD}", lv2menuDealMaintenance.Id, "DealClassificationController", "module/dealclassification", settingsiconbaseurl + "placeholder.png");
@@ -186,6 +186,7 @@ namespace RentalWorksWebLibrary
             AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
             //AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
             AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
+            AddModule("Settings Page", "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsPageController", "module/settingspage", administratoriconbaseurl + "placeholder.png");
 
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");

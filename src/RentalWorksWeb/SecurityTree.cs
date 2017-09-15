@@ -36,7 +36,9 @@ namespace RentalWorksWebLibrary
 
             //RentalWorks
             AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
+
             
+
             //Settings 
             var lv2menuAccountingMaintenance = AddLv2ModuleMenu("Accounting Maintenance", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingMaintenance.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png");
@@ -158,7 +160,7 @@ namespace RentalWorksWebLibrary
             AddModule("Group",       "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",       "module/group",       administratoriconbaseurl + "group.png",                                    "USER");
             //AddModule("Integration", "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration", administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
             AddModule("User",        "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",        "module/user",        administratoriconbaseurl + "user.png",                                     "USER");
-
+            AddModule("Settings Page", "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsPageController", "module/settingspage", administratoriconbaseurl + "placeholder.png");
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
 

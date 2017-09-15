@@ -1106,6 +1106,9 @@
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
+    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
+    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
+    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -1312,6 +1315,7 @@
     <Content Include="Source\Modules\Settings\CustomerType\CustomerType.js">
       <DependentUpon>CustomerType.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\DealStatus\DealStatusSettings.htm" />
     <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeForm.htm" />
     <Content Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusBrowse.htm" />
@@ -1805,6 +1809,7 @@
     <Content Include="Source\Modules\Settings\Region\Region.js.map">
       <DependentUpon>Region.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js.map" />
     <Content Include="Source\Modules\Settings\RentalStatus\RentalStatus.js.map">
       <DependentUpon>RentalStatus.ts</DependentUpon>
     </Content>
@@ -1955,6 +1960,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountReason\DiscountReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RentalStatus\RentalStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactEvent\ContactEvent.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactTitle\ContactTitle.ts" />

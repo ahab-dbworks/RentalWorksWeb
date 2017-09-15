@@ -319,6 +319,7 @@
     <Content Include="Content\scripts\FwControls\FwNotification.js" />
     <Content Include="Content\scripts\FwControls\FwMultiSelectValidation.js" />
     <Content Include="Content\scripts\FwControls\FwFileMenu.js" />
+    <Content Include="Content\scripts\FwControls\FwSettings.js" />
     <Content Include="Content\scripts\FwEPS\FwEPS.js" />
     <Content Include="Content\scripts\FwSecurity.js" />
     <Content Include="Content\scripts\FwServices.js" />

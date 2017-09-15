@@ -185,7 +185,7 @@ namespace FwStandard.Security
             return node;
         }
         //---------------------------------------------------------------------------------------------
-        public FwSecurityTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype)
+        public FwSecurityTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype, string color = "")
         {
             FwSecurityTreeNode node = null;
 
@@ -207,6 +207,7 @@ namespace FwStandard.Security
             node.Properties["iconurl"] = iconurl;
             node.Properties["htmlcaption"] = htmlcaption;
             node.Properties["usertype"] = usertype;
+            node.Properties["color"] = color;
             if (!hasAppOptions)
             {
                 Nodes.Remove(id);

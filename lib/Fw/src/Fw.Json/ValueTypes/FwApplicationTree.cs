@@ -173,7 +173,7 @@ namespace Fw.Json.ValueTypes
             return node;
         }
         //---------------------------------------------------------------------------------------------
-        public FwApplicationTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype)
+        public FwApplicationTreeNode AddModule(string caption, string id, string parentid, string controller, string modulenav, string iconurl, string htmlcaption, string appoptions, string usertype, string color)
         {
             FwApplicationTreeNode node = null;
 
@@ -195,6 +195,8 @@ namespace Fw.Json.ValueTypes
             node.Properties["iconurl"] = iconurl;
             node.Properties["htmlcaption"] = htmlcaption;
             node.Properties["usertype"] = usertype;
+            node.Properties["color"] = color;
+
             if (!hasAppOptions)
             {
                 Nodes.Remove(id);
