@@ -126,17 +126,25 @@ declare var FwBrowse: any;
             var $browse;
 
             $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
-            $browse = FwModule.openBrowse($browse);
+            $browse = FwModule.openBrowse($browse);            
+
             FwBrowse.init($browse);
 
             return $browse;
         }
 
         openForm(mode: string) {
-            var $form;
+            var $form, $defaultrate;
 
             $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
             $form = FwModule.openForm($form, mode);
+
+            $defaultrate = $form.find('.defaultrate');
+            FwFormField.loadItems($defaultrate, [
+                  { value: 'DAILY', text: 'Daily Rate' }
+                , { value: 'WEEKLY', text: 'Weekly Rate' }
+                , { value: 'MONTHLY', text: 'Monthly Rate' }
+            ]);
 
             return $form;
         }

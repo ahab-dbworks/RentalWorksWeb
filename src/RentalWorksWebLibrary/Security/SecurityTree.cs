@@ -129,9 +129,11 @@ namespace RentalWorksWebLibrary
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborMaintenance.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Crew Schedule Status", "{E4E11656-0783-4327-A374-161BCFDF0F24}", lv2menuLaborMaintenance.Id, "CrewScheduleStatusController", "module/crewschedulestatus", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Crew Status", "{73A6D9E3-E3BE-4B7A-BB3B-0AFE571C944E}", lv2menuLaborMaintenance.Id, "CrewStatusController", "module/crewstatus", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Labor Category", "{2A5190B9-B0E8-4B93-897B-C91FC4807FA6}", lv2menuLaborMaintenance.Id, "LaborCategoryController", "module/laborcategory", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuMiscMaintenance = AddLv2ModuleMenu("Misc Maintenance", "{2ED700C1-2D45-4307-9F92-41281185BD15}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Type", "{EAFEE5C7-84BB-419E-905A-3AE86E18DFAB}", lv2menuMiscMaintenance.Id, "MiscTypeController", "module/misctype", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Misc Category", "{D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF}", lv2menuMiscMaintenance.Id, "MiscCategoryController", "module/misccategory", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 

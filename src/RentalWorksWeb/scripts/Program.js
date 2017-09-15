@@ -107,6 +107,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/wardrobepattern$/,            getScreen: function () { return WardrobePatternController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/poapproverrole$/,             getScreen: function() { return POApproverRoleController.getModuleScreen({}, {}); } }
 
+  , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

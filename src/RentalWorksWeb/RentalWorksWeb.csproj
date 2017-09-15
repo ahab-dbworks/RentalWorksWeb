@@ -1135,6 +1135,10 @@
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
     <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleBrowse.htm" />
     <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleForm.htm" />
+    <Content Include="Source\Modules\Settings\LaborCategory\LaborCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\LaborCategory\LaborCategoryForm.htm" />
+    <Content Include="Source\Modules\Settings\MiscCategory\MiscCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MiscCategory\MiscCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
@@ -1479,6 +1483,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\OrganizationType\OrganizationTypeBrowse.htm" />
     <Content Include="Source\Validations\BatchAR\BatchARBrowse.htm" />
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
     <Content Include="Source\Validations\BatchVendorInvoice\BatchVendorInvoiceBrowse.htm" />
@@ -1501,6 +1506,8 @@
     <Content Include="Source\Validations\ShipVia\ShipViaBrowse.htm" />
     <Content Include="Source\Validations\UserWarehouse\UserWarehouseBrowse.htm" />
     <Content Include="Source\Validations\UserOfficeLocation\UserOfficeLocationBrowse.htm" />
+    <Content Include="Source\Validations\POClassification\POClassificationBrowse.htm" />
+    <Content Include="Source\Validations\VendorClass\VendorClassBrowse.htm" />
     <Content Include="Source\Validations\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Validations\AttributeValue\AttributeValueBrowse.htm" />
     <Content Include="Source\Validations\Attribute\AttributeBrowse.htm" />
@@ -1626,6 +1633,7 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\OrganizationType\OrganizationType.cs" />
     <Compile Include="Source\Validations\AttributeValue\AttributeValue.cs" />
     <Compile Include="Source\Validations\Attribute\Attribute.cs" />
     <Compile Include="Source\Validations\BatchAR\BatchAR.cs" />
@@ -1663,6 +1671,8 @@
     <Compile Include="Source\Validations\UserOfficeLocation\UserOfficeLocation.cs" />
     <Compile Include="Source\Validations\UserWarehouse\UserWarehouse.cs" />
     <Compile Include="Source\Validations\User\User.cs" />
+    <Compile Include="Source\Validations\POClassification\POClassification.cs" />
+    <Compile Include="Source\Validations\VendorClass\VendorClass.cs" />
     <Compile Include="Source\Validations\Vendor\Vendor.cs" />
     <Compile Include="Source\Validations\Warehouse\Warehouse.cs" />
   </ItemGroup>
@@ -1911,6 +1921,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MiscCategory\MiscCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POApproverRole\POApproverRole.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
@@ -2086,8 +2098,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets'))" />
   </Target>
-  <Target Name="AfterClean"> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/> 
-  </Target> 
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
+  </Target>
 </Project>

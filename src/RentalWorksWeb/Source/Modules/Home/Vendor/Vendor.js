@@ -105,9 +105,15 @@ var Vendor = (function () {
         return $browse;
     };
     Vendor.prototype.openForm = function (mode) {
-        var $form;
+        var $form, $defaultrate;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $defaultrate = $form.find('.defaultrate');
+        FwFormField.loadItems($defaultrate, [
+            { value: 'DAILY', text: 'Daily Rate' },
+            { value: 'WEEKLY', text: 'Weekly Rate' },
+            { value: 'MONTHLY', text: 'Monthly Rate' }
+        ]);
         return $form;
     };
     Vendor.prototype.loadForm = function (uniqueids) {
