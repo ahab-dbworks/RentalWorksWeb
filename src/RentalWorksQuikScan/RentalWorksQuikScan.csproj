@@ -255,9 +255,6 @@
     <Content Include="Source\Validations\SetCharactersByICode\SetCharactersByICodeBrowse.htm" />
     <Content Include="Source\Validations\RepairOrderNo\RepairOrderNoBrowse.htm" />
     <Content Include="Source\Validations\ContainerDescription\ContainerDescriptionBrowse.htm" />
-    <Content Include="theme\fwcursors\pen.001.cur" />
-    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.svg" />
-    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.svg" />
     <Content Include="theme\images\icons\128\assetdisposition.001.png" />
     <Content Include="theme\images\icons\128\assetsetlocation.001.png" />
     <Content Include="theme\images\icons\128\barcode.png" />
@@ -385,14 +382,6 @@
     </None>
     <None Include="packages.config" />
     <None Include="scripts\Application.js" />
-    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.eot" />
-    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.ttf" />
-    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.woff" />
-    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.woff2" />
-    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.eot" />
-    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
-    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
-    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <None Include="theme\style.css" />
     <Content Include="scripts\RwAppData.js" />
     <Content Include="scripts\RwConstants.js" />
@@ -490,6 +479,8 @@
   <ItemGroup>
     <Folder Include="temp\" />
     <Folder Include="theme\fonts\" />
+    <Folder Include="theme\fwcursors\" />
+    <Folder Include="theme\fwfonts\" />
     <Folder Include="theme\fwimages\" />
   </ItemGroup>
   <ItemGroup>
@@ -547,9 +538,12 @@
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
+    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" />
+    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" />
+    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -589,10 +583,10 @@
     <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" />
   </Target>
-  <Target Name="AfterClean"> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/> 
-  </Target> 
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
+  </Target>
   <Target Name="RemoveNetFxForceConflicts" AfterTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'netfx.force.conflicts'" />

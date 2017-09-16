@@ -1529,24 +1529,61 @@
     <Content Include="Source\Validations\RateType\RateTypeBrowse.htm" />
     <Content Include="Source\Validations\Deal\DealBrowse.htm" />
     <Content Include="Source\Validations\OrderType\OrderTypeBrowse.htm" />
+    <Content Include="theme\fwcursors\pen.001.cur" />
+    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.svg" />
+    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.svg" />
+    <Content Include="theme\fwimages\icons\128\add.001.png" />
     <Content Include="theme\fwimages\icons\128\arrow-east.png" />
     <Content Include="theme\fwimages\icons\128\arrow-north.png" />
     <Content Include="theme\fwimages\icons\128\arrow-south.png" />
     <Content Include="theme\fwimages\icons\128\arrow-west.png" />
+    <Content Include="theme\fwimages\icons\128\back.001.png" />
     <Content Include="theme\fwimages\icons\128\browsesearch.001.png" />
+    <Content Include="theme\fwimages\icons\128\cancel.001.png" />
     <Content Include="theme\fwimages\icons\128\close.001.png" />
+    <Content Include="theme\fwimages\icons\128\continue.001.png" />
     <Content Include="theme\fwimages\icons\128\datepicker.png" />
     <Content Include="theme\fwimages\icons\128\downarrow.png" />
+    <Content Include="theme\fwimages\icons\128\dropdownarrow.001.png" />
     <Content Include="theme\fwimages\icons\128\ellipsisbutton.002.png" />
+    <Content Include="theme\fwimages\icons\128\filter_dark.png" />
+    <Content Include="theme\fwimages\icons\128\home.001.png" />
     <Content Include="theme\fwimages\icons\128\loading.001.gif" />
+    <Content Include="theme\fwimages\icons\128\logoff.001.png" />
+    <Content Include="theme\fwimages\icons\128\menu.001.png" />
     <Content Include="theme\fwimages\icons\128\menuhome.001.png" />
+    <Content Include="theme\fwimages\icons\128\notification.001.png" />
     <Content Include="theme\fwimages\icons\128\orderbydirection_asc2.001.png" />
     <Content Include="theme\fwimages\icons\128\orderbydirection_desc2.001.png" />
+    <Content Include="theme\fwimages\icons\128\pager_first.001.png" />
+    <Content Include="theme\fwimages\icons\128\pager_last.001.png" />
+    <Content Include="theme\fwimages\icons\128\pager_next.001.png" />
+    <Content Include="theme\fwimages\icons\128\pager_prev.001.png" />
+    <Content Include="theme\fwimages\icons\128\preferences.001.png" />
+    <Content Include="theme\fwimages\icons\128\print.001.png" />
+    <Content Include="theme\fwimages\icons\128\refresh.001.png" />
     <Content Include="theme\fwimages\icons\128\refresh.002.png" />
+    <Content Include="theme\fwimages\icons\128\save.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-editable-false.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-editable-true.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-tab.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-visible-false.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-visible-false.002.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-visible-true.001.png" />
+    <Content Include="theme\fwimages\icons\128\securitytree-visible-true.002.png" />
+    <Content Include="theme\fwimages\icons\128\sortasc_dark.png" />
+    <Content Include="theme\fwimages\icons\128\sortdesc_dark.png" />
+    <Content Include="theme\fwimages\icons\128\sortoff_dark.png" />
     <Content Include="theme\fwimages\icons\128\timepicker.png" />
+    <Content Include="theme\fwimages\icons\128\usersettings.001.png" />
+    <Content Include="theme\fwimages\icons\128\verticalellipsis-white.001.png" />
     <Content Include="theme\fwimages\icons\128\verticalellipsis.001.png" />
     <Content Include="theme\fwimages\icons\16\apptree-visible-no.001.png" />
     <Content Include="theme\fwimages\icons\16\apptree-visible-yes.001.png" />
+    <Content Include="theme\fwimages\icons\16\browser_first.001.png" />
+    <Content Include="theme\fwimages\icons\16\browser_last.001.png" />
+    <Content Include="theme\fwimages\icons\16\browser_next.001.png" />
+    <Content Include="theme\fwimages\icons\16\browser_previous.001.png" />
     <Content Include="theme\fwimages\icons\16\browsesearch.001.png" />
     <Content Include="theme\fwimages\icons\16\datepicker.001.png" />
     <Content Include="theme\fwimages\icons\16\document-new.png" />
@@ -1563,6 +1600,8 @@
     <Content Include="theme\fwimages\icons\16\pager_next_disabled.001.png" />
     <Content Include="theme\fwimages\icons\16\pager_previous.001.png" />
     <Content Include="theme\fwimages\icons\16\pager_previous_disabled.001.png" />
+    <Content Include="theme\fwimages\icons\16\refresh.001.png" />
+    <Content Include="theme\fwimages\icons\16\usersettings.001.png" />
     <Content Include="theme\fwimages\icons\32\notification_error.001.png" />
     <Content Include="theme\fwimages\icons\32\notification_info.001.png" />
     <Content Include="theme\fwimages\icons\32\notification_success.001.png" />
@@ -1581,10 +1620,7 @@
     <Content Include="theme\fwimages\icons\9x5\SortOff.001.png" />
     <Content Include="theme\fwimages\icons\arrow_down.001.png" />
     <Content Include="theme\fwimages\icons\ellipsisbutton.001.png" />
-    <Content Include="theme\fwimages\icons\notification.001.png" />
     <Content Include="theme\fwimages\icons\transparent_spacer.png" />
-    <Content Include="theme\fwimages\textures\light_main.001.jpg" />
-    <Content Include="theme\fwimages\textures\light_secondary.001.jpg" />
     <Content Include="theme\fwimages\textures\pattern-es41.png" />
     <Content Include="theme\fwimages\textures\seamlesstexture6_1200.jpg" />
     <Content Include="theme\images\icons\administrator\group.png" />
@@ -1894,6 +1930,14 @@
     <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js.map">
       <DependentUpon>VendorNoteGridController.ts</DependentUpon>
     </Content>
+    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.eot" />
+    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.ttf" />
+    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.woff" />
+    <Content Include="theme\fwfonts\bgothm\bgothm.002-webfont.woff2" />
+    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.eot" />
+    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
+    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
+    <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2041,11 +2085,11 @@
     </Version>
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
