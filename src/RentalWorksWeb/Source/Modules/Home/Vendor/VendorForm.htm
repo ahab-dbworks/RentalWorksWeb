@@ -125,8 +125,8 @@
 
                                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Sub-Rental" style="padding-left:1px;">
                                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DefaultSubRentDaysInWeek" style="float:left;width:75px;"></div>
-                                            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Discount %" data-datafield="DefaultSubRentDiscountPercent" style="float:left;width:100px;"></div>
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DefaultSubRentDaysInWeek" data-required="true" style="float:left;width:75px;"></div>
+                                            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Discount %" data-datafield="DefaultSubRentDiscountPercent" data-required="true" style="float:left;width:100px;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
 
                                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Sub-Sales">
                                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Discount %" data-datafield="DefaultSubSaleDiscountPercent" style="float:left;width:100px;"></div>
+                                            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Discount %" data-datafield="DefaultSubSaleDiscountPercent" data-required="true" style="float:left;width:100px;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +212,7 @@
                         <div class="formrow" style="width:30%;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" id="" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Tax Option" data-enabled="false" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="Customer" style="width:200px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield TaxOption" data-caption="Tax Option" data-enabled="false" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="Customer" style="width:200px;"></div>
                                     <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield RentalTaxRate1" data-datafield="OrganizationTypeId" data-displayfield="OrganizationType" data-caption="Rental %" data-enabled="false" style="float:left;width:100px;"></div>
                                     <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-datafield="OrganizationTypeId" data-displayfield="OrganizationType" data-caption="Sales %" data-enabled="false" style="float:left;width:100px;"></div>
                                     <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield LaborTaxRate1" data-datafield="OrganizationTypeId" data-displayfield="OrganizationType" data-caption="Labor %" data-enabled="false" style="float:left;width:100px;"></div>

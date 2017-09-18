@@ -35,6 +35,7 @@ declare var FwBrowse: any;
         }
 
         setupEvents(): void {
+            
             this.toggleRequiredFields(jQuery('.tabpages'));
         }
 
@@ -62,7 +63,7 @@ declare var FwBrowse: any;
 
             return $target.closest('.tabpage');
 
-        }
+        }        
 
         togglePanels($tab: JQuery, type: string): void {
             $tab.find('.type_panels').hide();
@@ -79,14 +80,21 @@ declare var FwBrowse: any;
         }
 
         toggleRequiredFields($tab: JQuery): void {
-            var $person = $tab.find('#person_panel'), isRequired = null;
+            var $person = $tab.find('#person_panel'), $company = $tab.find('#company_panel'), personRequired = null, companyRequired = null;
 
-            $person.is(':hidden') ? isRequired = 'false' : isRequired = 'true';
+            $person.is(':hidden') ? personRequired = 'false' : personRequired = 'true';
+            $company.is(':hidden') ? companyRequired = 'false' : companyRequired = 'true';
 
             $person.each((i, e) => {
                 var $field = jQuery(e).find('.fwformfield');
                 if ($person.is(':hidden')) $field.removeClass('error');
-                $field.attr('data-required', isRequired);                
+                $field.attr('data-required', personRequired);                
+            });            
+
+            $company.each((i, e) => {
+                var $field = jQuery(e).find('.fwformfield');
+                if ($company.is(':hidden')) $field.removeClass('error');
+                $field.attr('data-required', companyRequired);
             });            
         }
 
@@ -94,8 +102,7 @@ declare var FwBrowse: any;
             var $row = jQuery(target);
             $row.find('.column > .field').each((i, e) => {
                 var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-                console.log(id);
-                console.log(value);
+                
                 if (value == undefined || null) {
                     jQuery('.' + id).find(':input').val(0);
                 } else {
