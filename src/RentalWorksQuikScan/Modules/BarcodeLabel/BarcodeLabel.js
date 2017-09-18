@@ -52,8 +52,14 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
 
     screen.$btnselectnone = FwMobileMasterController.addFormControl(screen, 'None', 'right', 'clear', false, function () {
         try {
-            var $records = screen.pages.barcodesearch.getElement().find('.record');
-            $records.attr('data-selected', 'false');
+            var $records;
+            if (screen.getCurrentPage().name === 'barcodesearch') {
+                $records = screen.pages.barcodesearch.getElement().find('.record');
+                $records.attr('data-selected', 'false');
+            } else if (screen.getCurrentPage().name === 'icodesearch') {
+                $records = screen.pages.icodesearch.getElement().find('.record');
+                $records.attr('data-selected', 'false');
+            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -61,8 +67,14 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
 
     screen.$btnselectall = FwMobileMasterController.addFormControl(screen, 'All', 'right', 'playlist_add_check', false, function () {
         try {
-            var $records = screen.pages.barcodesearch.getElement().find('.record');
-            $records.attr('data-selected', 'true');
+            var $records;
+            if (screen.getCurrentPage().name === 'barcodesearch') {
+                $records = screen.pages.barcodesearch.getElement().find('.record');
+                $records.attr('data-selected', 'true');
+            } else if (screen.getCurrentPage().name === 'icodesearch') {
+                $records = screen.pages.icodesearch.getElement().find('.record');
+                $records.attr('data-selected', 'true');
+            }
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -101,7 +113,10 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
             getElement: function () {
                 return screen.$view.find('.page-menu');
             },
-            init: function() {
+            init: function () {
+                if (typeof window.runningInCordova !== 'undefined' && window.runningInCordova === true) {
+                    this.getElement().find('.miManageBarcodeLabels').hide();
+                }
                 screen.$view.find('.miBarcodeLabel').on('click', function () {
                     try {
                         screen.pages.barcodesearch.forward();
@@ -264,7 +279,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.$btnselectnone.show();
                 screen.$btnselectall.show();
                 screen.$btnprint.show();
-                FwMobileMasterController.setTitle('Print Barcode Label');
+                FwMobileMasterController.setTitle('Print I-Code Label');
                 //screen.$view.find('.page-search').addClass('page-slidein').show();
                 screen.$searchicodes.fwmobilesearch('search');
             },
@@ -362,7 +377,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.$btnback.show();
                 FwMobileMasterController.setTitle('Manage Barcode Labels...');
                 screen.$searchbarcodelabel.fwmobilesearch('search');
-                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', 'new', true, function () {
+                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', 'add', true, function () {
                     try {
                         screen.pages.uploadbarcodelabel.forward('NEW');
                     } catch (ex) {
@@ -616,7 +631,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         case 'cordovaBT':
                             {
                                 if (typeof window.ZebraLinkOS !== 'undefined') {
-
+                                    if (typeof window.DwCordovaFunc.printBluetooth === 'undefined') {
+                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
+                                    }
                                     window.ZebraLinkOS.printBluetooth(labeldata,
                                         function success() { },
                                         function error(responseArgs) {
@@ -629,6 +646,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                     );
                                 }
                                 else if (typeof window.DwCordovaFunc !== 'undefined') {
+                                    if (typeof window.DwCordovaFunc.printBluetoothSocket === 'undefined') {
+                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
+                                    }
                                     window.DwCordovaFunc.printBluetoothSocket(labeldata,
                                         function success() { },
                                         function error(responseArgs) {
@@ -647,6 +667,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                 // enable ZPL mode for Zebra printers
                                 if (port === 9100 || port === 6101) {
                                     labeldata = labeldata + "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n";
+                                }
+                                if (typeof window.DwCordovaFunc.printNetworkSocket === 'undefined') {
+                                    throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
                                 }
                                 window.DwCordovaFunc.printNetworkSocket(labeldata, host, port,
                                     function success() { },
