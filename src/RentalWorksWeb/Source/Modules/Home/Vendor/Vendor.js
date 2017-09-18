@@ -21,12 +21,16 @@ var Vendor = (function () {
         };
         return screen;
     };
+    Vendor.prototype.setupEvents = function () {
+        this.toggleRequiredFields(jQuery('.tabpages'));
+    };
     Vendor.prototype.events = function () {
         var _this = this;
         var $parent = jQuery(document);
         $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
-            _this.togglePanels(jQuery(e.currentTarget).val());
-            _this.toggleRequiredFields();
+            var $tab = _this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
+            _this.togglePanels($tab, value);
+            _this.toggleRequiredFields($tab);
         });
         $parent.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
@@ -35,21 +39,24 @@ var Vendor = (function () {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
     };
-    Vendor.prototype.togglePanels = function (type) {
-        jQuery('.type_panels').hide();
+    Vendor.prototype.getTab = function ($target) {
+        return $target.closest('.tabpage');
+    };
+    Vendor.prototype.togglePanels = function ($tab, type) {
+        $tab.find('.type_panels').hide();
         switch (type) {
             case 'Company':
-                jQuery('#company_panel').show();
+                $tab.find('#company_panel').show();
                 break;
             case 'Person':
-                jQuery('#person_panel').show();
+                $tab.find('#person_panel').show();
                 break;
             default:
                 throw Error(type + ' is not a known type.');
         }
     };
-    Vendor.prototype.toggleRequiredFields = function () {
-        var $person = jQuery('#person_panel'), isRequired = null;
+    Vendor.prototype.toggleRequiredFields = function ($tab) {
+        var $person = $tab.find('#person_panel'), isRequired = null;
         $person.is(':hidden') ? isRequired = 'false' : isRequired = 'true';
         $person.each(function (i, e) {
             var $field = jQuery(e).find('.fwformfield');
@@ -137,6 +144,7 @@ var Vendor = (function () {
         FwBrowse.search($companyTaxGrid);
         $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
         FwBrowse.search($vendorNoteGrid);
+        this.setupEvents();
     };
     return Vendor;
 }());

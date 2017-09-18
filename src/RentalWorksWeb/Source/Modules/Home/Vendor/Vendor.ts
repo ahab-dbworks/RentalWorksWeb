@@ -18,7 +18,7 @@ declare var FwBrowse: any;
             screen.viewModel = {};
             screen.properties = {};
 
-            $browse = this.openBrowse();
+            $browse = this.openBrowse();            
 
             this.events();
 
@@ -29,9 +29,13 @@ declare var FwBrowse: any;
             };
             screen.unload = function () {
                 FwBrowse.screenunload($browse);
-            };
+            };            
 
             return screen;
+        }
+
+        setupEvents(): void {
+            this.toggleRequiredFields(jQuery('.tabpages'));
         }
 
         events(): void {
@@ -39,8 +43,10 @@ declare var FwBrowse: any;
             var $parent = jQuery(document);
             
             $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
-                this.togglePanels(jQuery(e.currentTarget).val());
-                this.toggleRequiredFields();
+                var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
+                
+                this.togglePanels($tab, value);
+                this.toggleRequiredFields($tab);
             });
 
             $parent.on('click', '#companytaxgrid .selected', (e) => {
@@ -52,22 +58,28 @@ declare var FwBrowse: any;
             });
         }
 
-        togglePanels(type: string): void {
-            jQuery('.type_panels').hide();
+        getTab($target: JQuery): JQuery {            
+
+            return $target.closest('.tabpage');
+
+        }
+
+        togglePanels($tab: JQuery, type: string): void {
+            $tab.find('.type_panels').hide();
             switch (type) {
                 case 'Company':
-                    jQuery('#company_panel').show();
+                    $tab.find('#company_panel').show();
                     break;
                 case 'Person':
-                    jQuery('#person_panel').show();
+                    $tab.find('#person_panel').show();
                     break;
                 default:
                     throw Error(type + ' is not a known type.');
             }        
         }
 
-        toggleRequiredFields(): void {
-            var $person = jQuery('#person_panel'), isRequired = null;
+        toggleRequiredFields($tab: JQuery): void {
+            var $person = $tab.find('#person_panel'), isRequired = null;
 
             $person.is(':hidden') ? isRequired = 'false' : isRequired = 'true';
 
@@ -178,6 +190,8 @@ declare var FwBrowse: any;
 
             $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
+
+            this.setupEvents();
 
         }
 

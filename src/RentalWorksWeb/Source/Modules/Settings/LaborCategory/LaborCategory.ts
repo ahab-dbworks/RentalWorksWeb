@@ -55,7 +55,7 @@ declare var FwBrowse: any;
             var $form;
 
             $form = this.openForm('EDIT');
-            $form.find('div.fwformfield[data-datafield="LaborCategoryId"] input').val(uniqueids.LaborCategoryId);
+            $form.find('div.fwformfield[data-datafield="LaborCategoryId"] input').val(uniqueids.InventoryCategoryId);
             FwModule.loadForm(this.Module, $form);
 
                 return $form;
