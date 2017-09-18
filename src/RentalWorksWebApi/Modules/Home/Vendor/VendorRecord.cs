@@ -31,7 +31,7 @@ TODO:
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text, maxlength: 100, required: true)]
+        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text, maxlength: 100)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salutation", modeltype: FwDataTypes.Text, maxlength: 10)]
