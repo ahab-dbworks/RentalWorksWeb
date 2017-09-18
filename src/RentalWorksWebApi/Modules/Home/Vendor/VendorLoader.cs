@@ -167,7 +167,7 @@ namespace RentalWorksWebApi.Modules.Settings.Vendor
         [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text)]
         public string OrganizationTypeId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "organizationtype", modeltype: FwDataTypes.Text)]
         public string OrganizationType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
