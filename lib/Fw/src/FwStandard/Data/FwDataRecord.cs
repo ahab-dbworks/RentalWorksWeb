@@ -164,7 +164,11 @@ namespace FwStandard.DataLayer
                             {
                                 if (propertyValue != null)
                                 {
-                                    if (propertyValue is string)
+                                    if (propertyValue is bool)
+                                    {
+                                        valid = true;
+                                    }
+                                    else if (propertyValue is string)
                                     {
                                         valid = ((propertyValue as string).Length <= dataFieldAttribute.MaxLength);
                                         if (!valid)
