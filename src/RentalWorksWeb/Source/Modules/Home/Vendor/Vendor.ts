@@ -158,6 +158,10 @@ declare var FwBrowse: any;
             $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
             $form = FwModule.openForm($form, mode);
 
+            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
+            FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
+            FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
+
             $defaultrate = $form.find('.defaultrate');
             FwFormField.loadItems($defaultrate, [
                   { value: 'DAILY', text: 'Daily Rate' }
