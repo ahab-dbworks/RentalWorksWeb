@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.Customer
+namespace RentalWorksWebApi.Modules.Home.Customer
 {
     public class CustomerLogic : RwBusinessLogic
     {
@@ -78,6 +78,10 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         public bool CreditApplicationOnFile { get { return customer.CreditApplicationOnFile; } set { customer.CreditApplicationOnFile = value; } }
         public bool CreditUnlimited { get { return customer.CreditUnlimited; } set { customer.CreditUnlimited = value; } }
         public int CreditLimit { get { return customer.CreditLimit; } set { customer.CreditLimit = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int CreditBalance { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int CreditAvailable { get; set; }
         public bool CreditResponsiblePartyOnFile { get { return customer.CreditResponsiblePartyOnFile; } set { customer.CreditResponsiblePartyOnFile = value; } }
         public string CreditResponsibleParty { get { return customer.CreditResponsibleParty; } set { customer.CreditResponsibleParty = value; } }
         public bool TradeReferencesVerified { get { return customer.TradeReferencesVerified; } set { customer.TradeReferencesVerified = value; } }
@@ -88,6 +92,7 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         public string CreditCardType { get; set; }
         public int CreditCardLimit { get { return customer.CreditCardLimit; } set { customer.CreditCardLimit = value; } }
         public string CreditCardNo { get { return customer.CreditCardNo; } set { customer.CreditCardNo = value; } }
+        public string CreditCardCode { get { return customer.CreditCardCode; } set { customer.CreditCardCode = value; } }
         public int CreditCardExpirationMonth { get { return customer.CreditCardExpirationMonth; } set { customer.CreditCardExpirationMonth = value; } }
         public int CreditCardExpirationYear { get { return customer.CreditCardExpirationYear; } set { customer.CreditCardExpirationYear = value; } }
         public string CreditCardName { get { return customer.CreditCardName; } set { customer.CreditCardName = value; } }
@@ -102,6 +107,24 @@ namespace RentalWorksWebApi.Modules.Settings.Customer
         [FwBusinessLogicField(isReadOnly: true)]
         public string InsuranceCompany { get; set; }
         public string InsuranceAgent { get { return customer.InsuranceAgent; } set { customer.InsuranceAgent = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyAddress1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyAddress2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyState { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyZipCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCountryId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCountry { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyPhone { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyFax { get; set; }
         public bool VehicleInsuranceCertficationOnFile { get { return customer.VehicleInsuranceCertficationOnFile; } set { customer.VehicleInsuranceCertficationOnFile = value; } }
         public bool Taxable { get { return customer.Taxable; } set { customer.Taxable = value; } }
         public string TaxStateOfIncorporation { get { return customer.TaxStateOfIncorporation; } set { customer.TaxStateOfIncorporation = value; } }

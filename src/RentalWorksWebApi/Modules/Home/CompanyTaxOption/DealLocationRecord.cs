@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
+namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
 {
     [FwSqlTable("deallocation")]
     public class DealLocationRecord : RwDataReadWriteRecord

@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.VendorNote
+namespace RentalWorksWebApi.Modules.Home.VendorNote
 {
     public class VendorNoteLogic : RwBusinessLogic
     {

@@ -57,7 +57,7 @@
     </ItemGroup>
   </Target>
   <Target Name="AfterClean"> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" /> 
   </Target> 
 </Project>

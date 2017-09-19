@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.Vendor
+namespace RentalWorksWebApi.Modules.Home.Vendor
 {
     [Route("api/v1/[controller]")]
     public class VendorController : RwDataController

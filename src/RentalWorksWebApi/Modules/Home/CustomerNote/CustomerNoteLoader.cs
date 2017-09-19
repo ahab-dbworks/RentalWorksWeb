@@ -1,0 +1,58 @@
+﻿using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using RentalWorksWebApi.Data;
+using System.Collections.Generic;
+
+namespace RentalWorksWebApi.Modules.Home.CustomerNote
+{
+    [FwSqlTable("customernoteview")]
+    public class CustomerNoteLoader : RwDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "custnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string CustomerNoteId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        public string CustomerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
+        public string NoteDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notesbyid", modeltype: FwDataTypes.Text)]
+        public string NotesById { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
+        public string NotesBy { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notedesc", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notify", modeltype: FwDataTypes.Boolean)]
+        public bool Notify { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------
+
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("CustomerId"))
+                {
+                    select.Parse();
+                    select.AddWhere("customerid = @customerid");
+                    select.AddParameter("@customerid", uniqueIds["CustomerId"].ToString());
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+    }
+}

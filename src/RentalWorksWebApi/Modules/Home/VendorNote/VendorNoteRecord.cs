@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.VendorNote
+namespace RentalWorksWebApi.Modules.Home.VendorNote
 {
     [FwSqlTable("vendnote")]
     public class VendorNoteRecord : RwDataReadWriteRecord

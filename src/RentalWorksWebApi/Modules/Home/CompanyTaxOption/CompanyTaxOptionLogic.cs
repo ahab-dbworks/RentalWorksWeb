@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
+namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
 {
     public class CompanyTaxOptionLogic : RwBusinessLogic
     {

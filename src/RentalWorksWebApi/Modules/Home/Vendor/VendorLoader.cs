@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Vendor
+namespace RentalWorksWebApi.Modules.Home.Vendor
 {
     [FwSqlTable("vendorview")]
     public class VendorLoader: RwDataLoadRecord

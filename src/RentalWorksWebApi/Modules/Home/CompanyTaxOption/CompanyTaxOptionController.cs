@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CompanyTaxOption
+namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
 {
     [Route("api/v1/[controller]")]
     public class CompanyTaxOptionController : RwDataController

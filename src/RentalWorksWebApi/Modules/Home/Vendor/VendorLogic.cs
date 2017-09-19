@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.Vendor
+namespace RentalWorksWebApi.Modules.Home.Vendor
 {
     public class VendorLogic : RwBusinessLogic
     {

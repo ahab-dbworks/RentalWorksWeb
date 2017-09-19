@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Customer
+namespace RentalWorksWebApi.Modules.Home.Customer
 {
     [FwSqlTable("customer")]
     public class CustomerRecord : RwDataReadWriteRecord
@@ -163,6 +163,9 @@ TODO:
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditcardno", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string CreditCardNo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "creditcardcode", modeltype: FwDataTypes.Text, maxlength: 5)]
+        public string CreditCardCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "crcexpmonth", modeltype: FwDataTypes.Integer)]
         public int CreditCardExpirationMonth { get; set; }
