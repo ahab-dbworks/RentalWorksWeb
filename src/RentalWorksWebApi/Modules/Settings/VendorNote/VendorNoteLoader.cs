@@ -12,13 +12,13 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
     public class VendorNoteLoader : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "vendnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string VendorNoteId { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string VendNoteId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
         public string NoteDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "notestbyid", modeltype: FwDataTypes.Text)]
@@ -48,7 +48,7 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
                 if (uniqueIds.ContainsKey("VendorId"))
                 {
                     select.Parse();
-                    select.AddWhere("vendor = @vendorid");
+                    select.AddWhere("vendorid = @vendorid");
                     select.AddParameter("@vendorid", uniqueIds["VendorId"].ToString());
                 }
             }

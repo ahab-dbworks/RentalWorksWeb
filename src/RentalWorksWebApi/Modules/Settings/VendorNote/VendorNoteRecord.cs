@@ -8,13 +8,13 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
     public class VendorNoteRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "vendnoteid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        public string VendorNoteId { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string VendorId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "vendnoteid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string VendorNoteId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string NoteDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "notestbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

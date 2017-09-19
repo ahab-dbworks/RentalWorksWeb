@@ -13,8 +13,9 @@ namespace RentalWorksWebApi.Modules.Settings.VendorNote
             dataRecords.Add(vendorNoteRecord);
             dataLoader = vendorNoteLoader;
         }
-        public string VendorId { get { return vendorNoteRecord.VendorId; } set { vendorNoteRecord.VendorId = value; } }
+        [FwBusinessLogicField(isPrimaryKey: true)]
         public string VendorNoteId { get { return vendorNoteRecord.VendorNoteId; } set { vendorNoteRecord.VendorNoteId = value; } }
+        public string VendorId { get { return vendorNoteRecord.VendorId; } set { vendorNoteRecord.VendorId = value; } }
         public string NoteDate { get { return vendorNoteRecord.NoteDate; } set { vendorNoteRecord.NoteDate = value; } }
         public string Description { get { return vendorNoteRecord.Description; } set { vendorNoteRecord.Description = value; } }
         public string Notes { get { return vendorNoteRecord.Notes; } set { vendorNoteRecord.Notes = value; } }

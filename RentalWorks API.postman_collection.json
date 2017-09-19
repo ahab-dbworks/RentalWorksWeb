@@ -11663,7 +11663,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Vendor\": \"ABC VENDOR\",\n    \"Address1\": \"1234 main street\"\n}"
+							"raw": "{\n    \"Vendor\": \"ABC VENDOR\",\n    \"Address1\": \"1234 main street\",\n    \"VendorNameType\": \"COMPANY\",\n    \"VendorNumber\": \"AAA\",\n    \"OfficeLocationId\": \"ABC\"\n}"
 						},
 						"description": ""
 					},
@@ -11698,6 +11698,162 @@
 					"name": "Vendor: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/vendor/00003C9N",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendor Note",
+			"description": "",
+			"item": [
+				{
+					"name": "Vendor Note: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Note: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"NoteDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"VendorId\": \"000015IT\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Note: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote/000015IT~000015JZ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Note: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VendorId\": \"000015IT\",\n    \"Notes\": \"test new note\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Note: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"VendorNoteId\": \"00003EL3\",\n\"Notes\":\"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Note: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendornote/00003EL3",
 						"method": "DELETE",
 						"header": [
 							{
