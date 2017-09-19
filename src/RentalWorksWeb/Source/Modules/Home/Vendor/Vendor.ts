@@ -133,7 +133,7 @@ declare var FwBrowse: any;
             $vendorNoteGrid.empty().append($vendorNoteControl);
             $vendorNoteControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    VendorNoteId: $form.find('div.fwformfield[data-datafield="VendorId"] input').val()
+                    VendorId: $form.find('div.fwformfield[data-datafield="VendorId"] input').val()
                 }
             });
             FwBrowse.init($vendorNoteControl);
@@ -158,9 +158,11 @@ declare var FwBrowse: any;
             $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
             $form = FwModule.openForm($form, mode);
 
-            FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
-            FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
-            FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
+            if (mode == 'NEW') {
+                FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
+                FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
+                FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
+            }            
 
             $defaultrate = $form.find('.defaultrate');
             FwFormField.loadItems($defaultrate, [
