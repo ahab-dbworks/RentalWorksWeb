@@ -142,6 +142,9 @@ namespace RentalWorksWebLibrary
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOSettings.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOSettings.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");
+
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
             AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
 
@@ -171,6 +174,7 @@ namespace RentalWorksWebLibrary
                                              AddModule("Wardrobe Label", "{9C1B5157-C983-44EE-817F-171B4448401A}", lv2menuWardrobeSettings.Id, "WardrobeLabelController", "module/wardrobelabel", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Pattern", "{2BE7072A-5588-4205-8DCD-0FFE6F0C48F7}", lv2menuWardrobeSettings.Id, "WardrobePatternController", "module/wardrobepattern", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Period", "{BF51623D-ABA6-471A-BC00-4729067C64CF}", lv2menuWardrobeSettings.Id, "WardrobePeriodController", "module/wardrobeperiod", settingsiconbaseurl + "placeholder.png");
+                                             AddModule("Wardrobe Source", "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id, "WardrobeSourceController", "module/wardrobesource", settingsiconbaseurl + "placeholder.png");
 
 
 

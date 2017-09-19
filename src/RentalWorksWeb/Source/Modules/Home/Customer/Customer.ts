@@ -48,6 +48,16 @@ class Customer {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.quote-order [data-type="checkbox"]'))
+            } else {
+                FwFormField.disable($form.find('.quote-order [data-type="checkbox"]'))
+            }
+        });
+
+        
         return $form;
     }
 

@@ -1133,6 +1133,7 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\FormDesign\FormDesignBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
@@ -1433,6 +1434,8 @@
     </Content>
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSourceBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSourceForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodBrowse.htm" />
@@ -1968,6 +1971,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FormDesign\FormDesign.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
@@ -2040,6 +2044,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeColor\WardrobeColor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeGender\WardrobeGender.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabel.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeSource\WardrobeSource.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />

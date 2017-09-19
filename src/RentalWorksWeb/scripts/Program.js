@@ -106,6 +106,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/wardrobeperiod$/,             getScreen: function () { return WardrobePeriodController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobepattern$/,            getScreen: function () { return WardrobePatternController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/poapproverrole$/,             getScreen: function() { return POApproverRoleController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobesource$/,             getScreen: function() { return WardrobeSourceController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/formdesign$/,                 getScreen: function() { return FormDesignController.getModuleScreen({}, {}); } }
 
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
