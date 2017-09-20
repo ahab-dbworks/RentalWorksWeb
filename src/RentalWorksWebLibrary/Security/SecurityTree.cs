@@ -162,6 +162,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuVendorSettings = AddLv2ModuleMenu("Vendor Settings", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Organization Type", "{fe3a764c-ab55-4ce5-8d7f-bfc86f174c11}", lv2menuVendorSettings.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");
+                                           AddModule("Vendor Catalog", "{BDA5E2DC-0FD2-4227-B80F-8414F3F912B8}", lv2menuVendorSettings.Id, "VendorCatalogController", "module/vendorcatalog", settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorSettings.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
 
 

@@ -1157,6 +1157,8 @@
     <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
+    <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js" />
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionForm.htm" />
@@ -1997,6 +1999,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscCategory\MiscCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POApproverRole\POApproverRole.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VendorCatalog\VendorCatalog.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborType\LaborType.ts" />
