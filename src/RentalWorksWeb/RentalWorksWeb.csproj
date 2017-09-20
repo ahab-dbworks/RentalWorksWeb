@@ -1029,6 +1029,9 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridBrowse.htm" />
+    <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridBrowse.htm" />
+    <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.js" />
     <Content Include="Source\Grids\VendorNoteGrid\VendorNoteGridBrowse.htm" />
     <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js">
       <DependentUpon>VendorNoteGridController.ts</DependentUpon>
@@ -1089,6 +1092,8 @@
     </Content>
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
+    <TypeScriptCompile Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorNoteGrid\VendorNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
@@ -1490,6 +1495,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
     <Content Include="Source\Validations\OrganizationType\OrganizationTypeBrowse.htm" />
     <Content Include="Source\Validations\BatchAR\BatchARBrowse.htm" />
     <Content Include="Source\Validations\BatchInvoices\BatchInvoicesBrowse.htm" />
@@ -1676,6 +1682,7 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
     <Compile Include="Source\Validations\OrganizationType\OrganizationType.cs" />
     <Compile Include="Source\Validations\AttributeValue\AttributeValue.cs" />
     <Compile Include="Source\Validations\Attribute\Attribute.cs" />
@@ -1941,6 +1948,7 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
+    <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

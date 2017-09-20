@@ -81,10 +81,44 @@ class Customer {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $customerResaleGrid: any;
+        var $customerResaleGridControl: any;
+        var $customerNoteGrid: any;
+        var $customerNoteGridControl: any;
 
+        // load AttributeValue Grid
+        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
+        $customerResaleGridControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
+        $customerResaleGrid.empty().append($customerResaleGridControl);
+        $customerResaleGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+            };
+        });
+        FwBrowse.init($customerResaleGridControl);
+        FwBrowse.renderRuntimeHtml($customerResaleGridControl);
+
+        $customerNoteGrid = $form.find('div[data-grid="CustomerNoteGrid"]');
+        $customerNoteGridControl = jQuery(jQuery('#tmpl-grids-CustomerNoteGridBrowse').html());
+        $customerNoteGrid.empty().append($customerNoteGridControl);
+        $customerNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomerId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+            };
+        });
+        FwBrowse.init($customerNoteGridControl);
+        FwBrowse.renderRuntimeHtml($customerNoteGridControl);
+    }
 
     afterLoad($form: any) {
+        var $customerResaleGrid: any;
+        var $customerNoteGrid: any;
 
+        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
+        $customerNoteGrid = $form.find('[data-name="CustomerNoteGrid"]');
+        FwBrowse.search($customerResaleGrid);
+        FwBrowse.search($customerNoteGrid);
     }
 }
 

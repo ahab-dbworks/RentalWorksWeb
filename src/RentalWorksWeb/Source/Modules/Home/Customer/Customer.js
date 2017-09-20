@@ -57,7 +57,40 @@ var Customer = (function () {
         uniqueid = $form.find('div.fwformfield[data-datafield="CustomerId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
+    Customer.prototype.renderGrids = function ($form) {
+        var $customerResaleGrid;
+        var $customerResaleGridControl;
+        var $customerNoteGrid;
+        var $customerNoteGridControl;
+        // load AttributeValue Grid
+        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
+        $customerResaleGridControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
+        $customerResaleGrid.empty().append($customerResaleGridControl);
+        $customerResaleGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+            };
+        });
+        FwBrowse.init($customerResaleGridControl);
+        FwBrowse.renderRuntimeHtml($customerResaleGridControl);
+        $customerNoteGrid = $form.find('div[data-grid="CustomerNoteGrid"]');
+        $customerNoteGridControl = jQuery(jQuery('#tmpl-grids-CustomerNoteGridBrowse').html());
+        $customerNoteGrid.empty().append($customerNoteGridControl);
+        $customerNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomerId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+            };
+        });
+        FwBrowse.init($customerNoteGridControl);
+        FwBrowse.renderRuntimeHtml($customerNoteGridControl);
+    };
     Customer.prototype.afterLoad = function ($form) {
+        var $customerResaleGrid;
+        var $customerNoteGrid;
+        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
+        $customerNoteGrid = $form.find('[data-name="CustomerNoteGrid"]');
+        FwBrowse.search($customerResaleGrid);
+        FwBrowse.search($customerNoteGrid);
     };
     return Customer;
 }());
