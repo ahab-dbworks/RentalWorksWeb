@@ -26,16 +26,16 @@ var Vendor = (function () {
     };
     Vendor.prototype.events = function () {
         var _this = this;
-        var $parent = jQuery(document);
-        $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
+        var $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form.on('click', '.vendertyperadio input[type=radio]', function (e) {
             var $tab = _this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
             _this.togglePanels($tab, value);
             _this.toggleRequiredFields($tab);
         });
-        $parent.on('click', '#companytaxgrid .selected', function (e) {
+        $form.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
-        $parent.on('click', '#vendornotegrid .selected', function (e) {
+        $form.on('click', '#vendornotegrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
     };

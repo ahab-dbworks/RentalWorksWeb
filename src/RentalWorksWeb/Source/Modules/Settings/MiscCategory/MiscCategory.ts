@@ -32,6 +32,22 @@ declare var FwBrowse: any;
             return screen;
         }
 
+        renderGrids($form: any) {
+            var $subCategoryGrid, $subCategoryControl;
+
+            $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+            $subCategoryControl = jQuery(jQuery('#tmpl-grids-SubCategoryGridBrowse').html());
+            $subCategoryGrid.empty().append($subCategoryControl);
+            $subCategoryControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    InventoryCategoryId: $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val()
+                }
+            });
+            FwBrowse.init($subCategoryControl);
+            FwBrowse.renderRuntimeHtml($subCategoryControl);
+
+        }
+
         openBrowse() {
             var $browse;
 
@@ -55,7 +71,7 @@ declare var FwBrowse: any;
             var $form;
 
             $form = this.openForm('EDIT');
-            $form.find('div.fwformfield[data-datafield="MiscCategoryId"] input').val(uniqueids.MiscCategoryId);
+            $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val(uniqueids.InventoryCategoryId);
             FwModule.loadForm(this.Module, $form);
 
                 return $form;
@@ -73,7 +89,9 @@ declare var FwBrowse: any;
         }
 
         afterLoad($form: any) {
-
+            var $laborCategoryGrid;
+            $laborCategoryGrid = $form.find('[data-name="LaborCategoryGrid"]');
+            FwBrowse.search($laborCategoryGrid);
         }
 
     }

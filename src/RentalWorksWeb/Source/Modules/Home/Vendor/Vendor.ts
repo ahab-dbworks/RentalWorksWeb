@@ -41,20 +41,19 @@ declare var FwBrowse: any;
 
         events(): void {
 
-            var $parent = jQuery(document);
+            var $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
             
-            $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
-                var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
-                
+            $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
+                var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();                
                 this.togglePanels($tab, value);
                 this.toggleRequiredFields($tab);
             });
 
-            $parent.on('click', '#companytaxgrid .selected', (e) => {
+            $form.on('click', '#companytaxgrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
 
-            $parent.on('click', '#vendornotegrid .selected', (e) => {
+            $form.on('click', '#vendornotegrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
         }
