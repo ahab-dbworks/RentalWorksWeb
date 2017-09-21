@@ -153,7 +153,7 @@ namespace FwStandard.DataLayer
                                             validateMsg = property.Name + " cannot be blank.";
                                         }
                                     }
-                                    if (propertyValue is Int32)
+                                    else if (propertyValue is Int32)
                                     {
                                         valid = (((Int32)propertyValue) != 0);
                                         if (!valid)
