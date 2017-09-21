@@ -23,18 +23,17 @@ var Vendor = (function () {
     Vendor.prototype.setupEvents = function () {
         this.toggleRequiredFields(jQuery('.tabpages'));
     };
-    Vendor.prototype.events = function () {
+    Vendor.prototype.events = function ($form) {
         var _this = this;
-        var $parent = jQuery('#moduleMaster-body');
-        $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
+        $form.on('click', '.vendertyperadio input[type=radio]', function (e) {
             var $tab = _this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
             _this.togglePanels($tab, value);
             _this.toggleRequiredFields($tab);
         });
-        $parent.on('click', '#companytaxgrid .selected', function (e) {
+        $form.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
-        $parent.on('click', '#vendornotegrid .selected', function (e) {
+        $form.on('click', '#vendornotegrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
     };
@@ -153,7 +152,7 @@ var Vendor = (function () {
         FwBrowse.search($companyTaxGrid);
         $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
         FwBrowse.search($vendorNoteGrid);
-        this.events();
+        this.events($form);
         this.setupEvents();
     };
     return Vendor;

@@ -1459,6 +1459,11 @@
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodForm.htm" />
+    <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js">
+      <DependentUpon>TaxOptions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
@@ -1969,6 +1974,9 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.js.map" />
+    <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js.map">
+      <DependentUpon>TaxOptions.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2079,6 +2087,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeSource\WardrobeSource.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\TaxOptions\TaxOptions.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>

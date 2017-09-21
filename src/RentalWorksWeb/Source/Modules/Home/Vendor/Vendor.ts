@@ -37,21 +37,19 @@ declare var FwBrowse: any;
             this.toggleRequiredFields(jQuery('.tabpages'));
         }
 
-        events(): void {
-
-            var $parent = jQuery('#moduleMaster-body');
+        events($form: JQuery): void {
             
-            $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
+            $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
                 var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();                
                 this.togglePanels($tab, value);
                 this.toggleRequiredFields($tab);
             });
 
-            $parent.on('click', '#companytaxgrid .selected', (e) => {
+            $form.on('click', '#companytaxgrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
 
-            $parent.on('click', '#vendornotegrid .selected', (e) => {
+            $form.on('click', '#vendornotegrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
         }
@@ -201,7 +199,7 @@ declare var FwBrowse: any;
             $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
 
-            this.events();
+            this.events($form);
 
             this.setupEvents();
 
