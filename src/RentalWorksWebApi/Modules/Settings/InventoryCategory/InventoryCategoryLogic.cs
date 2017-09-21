@@ -15,6 +15,8 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string InventoryCategoryId { get { return inventoryCategory.InventoryCategoryId; } set { inventoryCategory.InventoryCategoryId = value; } }
         public string InventoryTypeId { get { return inventoryCategory.InventoryTypeId; } set { inventoryCategory.InventoryTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InventoryType { get; set; }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategory = value; } }
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }

@@ -14,6 +14,9 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string InventoryCategory { get; set; }
         //------------------------------------------------------------------------------------
