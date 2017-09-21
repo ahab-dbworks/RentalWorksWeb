@@ -47,13 +47,13 @@
 			]
 		},
 		{
-			"name": "Billing Cycle",
+			"name": "Bar Code Range",
 			"description": "",
 			"item": [
 				{
-					"name": "BillingCycle: Get Many",
+					"name": "Bar Code Range: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/billingcycle",
+						"url": "http://localhost:57949/api/v1/barcoderange",
 						"method": "GET",
 						"header": [
 							{
@@ -76,9 +76,140 @@
 					"response": []
 				},
 				{
-					"name": "BillingCycle: Get One",
+					"name": "Bar Code Range: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/billingcycle/A0003IJU",
+						"url": "http://localhost:57949/api/v1/barcoderange/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Bar Code Range: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/barcoderange/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Bar Code Range: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/barcoderange",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"BarcodeFrom\": 400,\n    \"BarcodeTo\": 450,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Bar Code Range: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/barcoderange",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"BarCodeRangeId\": \"00003EOV\",\n    \"BarcodeFrom\": 420,\n    \"BarcodeTo\": 450,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Bar Code Range: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle/00003AN7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Billing Cycle",
+			"description": "",
+			"item": [
+				{
+					"name": "BillingCycle: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle",
 						"method": "GET",
 						"header": [
 							{
@@ -120,6 +251,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"BillingCycle\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "BillingCycle: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/billingcycle/A0003IJU",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
@@ -6262,6 +6418,162 @@
 			]
 		},
 		{
+			"name": "Order Location",
+			"description": "",
+			"item": [
+				{
+					"name": "Order Location: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Location: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Location: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation/00001A0F",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Location: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"Description\": \"Location ABC\",\n        \"LocationId\": \"00000VU8\",\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Location: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n    \"OrderLocationId\": \"00003EO1\",\n    \"Description\": \"Location ABCDEF\",\n    }\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Location: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderlocation/00003EO1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"orderId\": \"000011KO\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Organization Type",
 			"description": "",
 			"item": [
@@ -7486,6 +7798,162 @@
 					"name": "PO Importance: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/poimportance/00003AQ7",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PO Reject Reason",
+			"description": "",
+			"item": [
+				{
+					"name": "PO Reject Reason: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Reject Reason: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"PoRejectReason\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Reject Reason: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason/B0002TQA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Reject Reason: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoRejectReason\": \"ABC\",\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Reject Reason: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoRejectReasonId\": \"00003ENZ\",\n    \"PoRejectReason\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Reject Reason: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/porejectreason/00003ENZ",
 						"method": "DELETE",
 						"header": [
 							{
@@ -10474,162 +10942,6 @@
 			]
 		},
 		{
-			"name": "Wardrobe Color",
-			"description": "",
-			"item": [
-				{
-					"name": "Wardrobe Color: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Wardrobe Color: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Wardrobe Color\",\n    \t\"options\": {},\n    \t\"orderby\": \"WardrobeColor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Wardrobe Color: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor/B0002TL2",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Wardrobe Color: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"WardrobeColor\": \"BLACK-GREY\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Wardrobe Color: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"WardrobeColorId\": \"00003ARB\",\n    \"WardrobeColor\": \"ORANGE\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Wardrobe Color: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/wardrobecolor/00003ARB",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Vehicle Color",
 			"description": "",
 			"item": [
@@ -12502,6 +12814,162 @@
 			]
 		},
 		{
+			"name": "Wardrobe Color",
+			"description": "",
+			"item": [
+				{
+					"name": "Wardrobe Color: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Color: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Wardrobe Color\",\n    \t\"options\": {},\n    \t\"orderby\": \"WardrobeColor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Color: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor/B0002TL2",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Color: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WardrobeColor\": \"BLACK-GREY\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Color: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"WardrobeColorId\": \"00003ARB\",\n    \"WardrobeColor\": \"ORANGE\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Color: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobecolor/00003ARB",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Wardrobe Condition",
 			"description": "",
 			"item": [
@@ -13414,6 +13882,318 @@
 					"name": "Wardrobe Source: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/wardrobesource/00003EGH",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouse",
+			"description": "",
+			"item": [
+				{
+					"name": "Warehouse: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Warehouse\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse/00000VVR",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Warehouse\": \"ABC Warehouse\",\n    \"WarehouseCode\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseId\": \"00003EOR\",\n    \"Warehouse\": \"XYZ Warehouse\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouse/00003EOR",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouse Catalog",
+			"description": "",
+			"item": [
+				{
+					"name": "Warehouse Catalog: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Catalog: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"WarehouseCatalog\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Catalog: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog/B0002TLT",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Catalog: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseCatalog\": \"WAREHOUSE CATX\",\n    \"CatalogType\": \"RENTAL\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Catalog: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseCatalogId\": \"00003EOT\",\n    \"WarehouseCatalog\": \"WAREHOUSE ASDFASDF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Catalog: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousecatalog/00003EOT",
 						"method": "DELETE",
 						"header": [
 							{
