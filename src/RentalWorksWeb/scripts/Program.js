@@ -109,6 +109,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/wardrobesource$/,             getScreen: function() { return WardrobeSourceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/formdesign$/,                 getScreen: function() { return FormDesignController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorcatalog$/,              getScreen: function() { return VendorCatalogController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/partscategory$/,              getScreen: function () { return PartsCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/salescategory$/,              getScreen: function () { return SalesCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/rentalcategory$/,             getScreen: function () { return RentalCategoryController.getModuleScreen({}, {}); } }
 
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }

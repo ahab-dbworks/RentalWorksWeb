@@ -90,7 +90,7 @@ declare var FwBrowse: any;
 
         afterLoad($form: any) {
             var $laborCategoryGrid;
-            $laborCategoryGrid = $form.find('[data-name="LaborCategoryGrid"]');
+            $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
             FwBrowse.search($laborCategoryGrid);
         }
 

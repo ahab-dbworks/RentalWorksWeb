@@ -10,7 +10,6 @@ var Vendor = (function () {
         screen.viewModel = {};
         screen.properties = {};
         $browse = this.openBrowse();
-        this.events();
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Vendor', false, 'BROWSE', true);
             FwBrowse.databind($browse);
@@ -26,16 +25,16 @@ var Vendor = (function () {
     };
     Vendor.prototype.events = function () {
         var _this = this;
-        var $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-        $form.on('click', '.vendertyperadio input[type=radio]', function (e) {
+        var $parent = jQuery('#moduleMaster-body');
+        $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
             var $tab = _this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
             _this.togglePanels($tab, value);
             _this.toggleRequiredFields($tab);
         });
-        $form.on('click', '#companytaxgrid .selected', function (e) {
+        $parent.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
-        $form.on('click', '#vendornotegrid .selected', function (e) {
+        $parent.on('click', '#vendornotegrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
     };
@@ -154,6 +153,7 @@ var Vendor = (function () {
         FwBrowse.search($companyTaxGrid);
         $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
         FwBrowse.search($vendorNoteGrid);
+        this.events();
         this.setupEvents();
     };
     return Vendor;

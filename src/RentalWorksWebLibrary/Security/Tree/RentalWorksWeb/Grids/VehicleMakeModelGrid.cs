@@ -13,9 +13,9 @@ namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
         public override void BuildBranch(FwSecurityTree tree)
         {
             var nodeGridMenuBar = tree.AddMenuBar("{6ECD7342-FD5B-4F60-ABFB-24EEEA16877C}", MODULEID);
-            tree.AddNewMenuBarButton("{275BA516-03A1-4EDF-B94C-A9D242E20308}", nodeGridMenuBar.Id);
-            tree.AddEditMenuBarButton("{17CBBD34-D473-4823-A857-52E80A3DC5E7}", nodeGridMenuBar.Id);
-            tree.AddDeleteMenuBarButton("{9A48B194-5E09-4677-B75C-5FF030734E19}", nodeGridMenuBar.Id);
+            tree.AddNewMenuBarButton("{757D8FBF-2C40-4C2F-BAEB-FFF74817F805}", nodeGridMenuBar.Id);
+            tree.AddEditMenuBarButton("{B3661BB5-BAD3-439C-9C0E-6023296CDA72}", nodeGridMenuBar.Id);
+            tree.AddDeleteMenuBarButton("{510781C0-CD5E-4314-A492-3462C89A7F3E}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

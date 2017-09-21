@@ -1148,6 +1148,12 @@
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
+    <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryForm.htm" />
+    <Content Include="Source\Modules\Settings\SalesCategory\SalesCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SalesCategory\SalesCategoryForm.htm" />
+    <Content Include="Source\Modules\Settings\PartsCategory\PartsCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PartsCategory\PartsCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleBrowse.htm" />
     <Content Include="Source\Modules\Settings\POApproverRole\POApproverRoleForm.htm" />
     <Content Include="Source\Modules\Settings\LaborCategory\LaborCategoryBrowse.htm" />
@@ -1997,6 +2003,9 @@
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\RentalCategory\RentalCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\SalesCategory\SalesCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PartsCategory\PartsCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscCategory\MiscCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POApproverRole\POApproverRole.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorCatalog\VendorCatalog.ts" />

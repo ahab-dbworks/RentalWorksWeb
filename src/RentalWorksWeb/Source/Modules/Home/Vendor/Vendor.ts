@@ -18,9 +18,7 @@ declare var FwBrowse: any;
             screen.viewModel = {};
             screen.properties = {};
 
-            $browse = this.openBrowse();            
-
-            this.events();
+            $browse = this.openBrowse();                        
 
             screen.load = function () {
                 FwModule.openModuleTab($browse, 'Vendor', false, 'BROWSE', true);
@@ -41,19 +39,19 @@ declare var FwBrowse: any;
 
         events(): void {
 
-            var $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+            var $parent = jQuery('#moduleMaster-body');
             
-            $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
+            $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
                 var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();                
                 this.togglePanels($tab, value);
                 this.toggleRequiredFields($tab);
             });
 
-            $form.on('click', '#companytaxgrid .selected', (e) => {
+            $parent.on('click', '#companytaxgrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
 
-            $form.on('click', '#vendornotegrid .selected', (e) => {
+            $parent.on('click', '#vendornotegrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
         }
@@ -202,6 +200,8 @@ declare var FwBrowse: any;
 
             $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
+
+            this.events();
 
             this.setupEvents();
 

@@ -1,13 +1,13 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-    class LaborCategory {
+    class SalesCategory {
         Module: string;
         apiurl: string;
 
         constructor() {
-            this.Module = 'LaborCategory';
-            this.apiurl = 'api/v1/laborcategory';
+            this.Module = 'SalesCategory';
+            this.apiurl = 'api/v1/misccategory';
         }
 
         getModuleScreen() {
@@ -21,7 +21,7 @@ declare var FwBrowse: any;
             $browse = this.openBrowse();
 
             screen.load = function () {
-                FwModule.openModuleTab($browse, 'Labor Category', false, 'BROWSE', true);
+                FwModule.openModuleTab($browse, 'Sales Category', false, 'BROWSE', true);
                 FwBrowse.databind($browse);
                 FwBrowse.screenload($browse);
             };
@@ -34,7 +34,7 @@ declare var FwBrowse: any;
 
         renderGrids($form: any) {
             var $subCategoryGrid, $subCategoryControl;
-            
+
             $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
             $subCategoryControl = jQuery(jQuery('#tmpl-grids-SubCategoryGridBrowse').html());
             $subCategoryGrid.empty().append($subCategoryControl);
@@ -71,7 +71,7 @@ declare var FwBrowse: any;
             var $form;
 
             $form = this.openForm('EDIT');
-            $form.find('div.fwformfield[data-datafield="LaborCategoryId"] input').val(uniqueids.InventoryCategoryId);
+            $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val(uniqueids.InventoryCategoryId);
             FwModule.loadForm(this.Module, $form);
 
                 return $form;
@@ -84,16 +84,16 @@ declare var FwBrowse: any;
 
         loadAudit($form: any) {
                 var uniqueid;
-                uniqueid = $form.find('div.fwformfield[data-datafield="LaborCategoryId"] input').val();
+                uniqueid = $form.find('div.fwformfield[data-datafield="SalesCategoryId"] input').val();
                 FwModule.loadAudit($form, uniqueid);
         }
 
         afterLoad($form: any) {
             var $laborCategoryGrid;
-            $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+            $laborCategoryGrid = $form.find('[data-name="LaborCategoryGrid"]');
             FwBrowse.search($laborCategoryGrid);
         }
 
     }
 
-(<any>window).LaborCategoryController = new LaborCategory();
+(<any>window).SalesCategoryController = new SalesCategory();
