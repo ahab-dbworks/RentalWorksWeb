@@ -153,6 +153,14 @@ namespace FwStandard.DataLayer
                                             validateMsg = property.Name + " cannot be blank.";
                                         }
                                     }
+                                    if (propertyValue is Int32)
+                                    {
+                                        valid = (((Int32)propertyValue) != 0);
+                                        if (!valid)
+                                        {
+                                            validateMsg = property.Name + " cannot be zero.";
+                                        }
+                                    }
                                     else
                                     {
                                         throw new Exception("A test for \"Required\" of property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllFieldsValid]");
