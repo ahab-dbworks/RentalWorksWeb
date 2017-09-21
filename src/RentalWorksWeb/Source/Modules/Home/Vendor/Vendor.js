@@ -20,20 +20,21 @@ var Vendor = (function () {
         };
         return screen;
     };
-    Vendor.prototype.setupEvents = function () {
-        this.toggleRequiredFields(jQuery('.tabpages'));
+    Vendor.prototype.setupEvents = function ($form) {
+        this.toggleRequiredFields($form.find('.tabpages'));
     };
     Vendor.prototype.events = function ($form) {
         var _this = this;
-        $form.on('click', '.vendertyperadio input[type=radio]', function (e) {
+        var $parent = jQuery('#moduletabs');
+        $parent.on('click', '.vendertyperadio input[type=radio]', function (e) {
             var $tab = _this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();
             _this.togglePanels($tab, value);
             _this.toggleRequiredFields($tab);
         });
-        $form.on('click', '#companytaxgrid .selected', function (e) {
+        $parent.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
-        $form.on('click', '#vendornotegrid .selected', function (e) {
+        $parent.on('click', '#vendornotegrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
     };
@@ -119,6 +120,7 @@ var Vendor = (function () {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         if (mode == 'NEW') {
+            this.toggleRequiredFields($form);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
@@ -153,7 +155,7 @@ var Vendor = (function () {
         $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
         FwBrowse.search($vendorNoteGrid);
         this.events($form);
-        this.setupEvents();
+        this.setupEvents($form);
     };
     return Vendor;
 }());

@@ -32,24 +32,25 @@ declare var FwBrowse: any;
             return screen;
         }
 
-        setupEvents(): void {
+        setupEvents($form: JQuery): void {
             
-            this.toggleRequiredFields(jQuery('.tabpages'));
+            this.toggleRequiredFields($form.find('.tabpages'));
         }
 
         events($form: JQuery): void {
-            
-            $form.on('click', '.vendertyperadio input[type=radio]', (e) => {
+            var $parent = jQuery('#moduletabs');
+
+            $parent.on('click', '.vendertyperadio input[type=radio]', (e) => {
                 var $tab = this.getTab(jQuery(e.currentTarget)), value = jQuery(e.currentTarget).val();                
                 this.togglePanels($tab, value);
                 this.toggleRequiredFields($tab);
             });
 
-            $form.on('click', '#companytaxgrid .selected', (e) => {
+            $parent.on('click', '#companytaxgrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
 
-            $form.on('click', '#vendornotegrid .selected', (e) => {
+            $parent.on('click', '#vendornotegrid .selected', (e) => {
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
         }
@@ -154,6 +155,7 @@ declare var FwBrowse: any;
             $form = FwModule.openForm($form, mode);
 
             if (mode == 'NEW') {
+                this.toggleRequiredFields($form);
                 FwFormField.setValueByDataField($form, 'DefaultSubRentDaysInWeek', 0);
                 FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
                 FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
@@ -201,7 +203,7 @@ declare var FwBrowse: any;
 
             this.events($form);
 
-            this.setupEvents();
+            this.setupEvents($form);
 
         }
 

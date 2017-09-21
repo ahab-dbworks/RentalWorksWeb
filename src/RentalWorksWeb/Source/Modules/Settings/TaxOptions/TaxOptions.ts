@@ -7,7 +7,7 @@ class TaxOption {
 
     constructor() {
         this.Module = 'TaxOption';
-        this.apiurl = 'api/v1/warehouse';
+        this.apiurl = 'api/v1/taxoption';
     }
 
     getModuleScreen() {
