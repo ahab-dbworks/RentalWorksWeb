@@ -32,6 +32,24 @@ declare var FwBrowse: any;
             return screen;
         }
 
+        events($form: JQuery): void {
+
+            $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
+                var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
+
+                this.toggleEnabled($overrideCheck, $categoryValidation);
+            });
+
+        }
+
+        toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
+            if ($checkbox.is(':checked')) {
+                $validation.attr('data-enabled', 'true');
+            } else {
+                $validation.attr('data-enabled', 'false');
+            }
+        }
+
         renderGrids($form: any) {
             var $subCategoryGrid, $subCategoryControl;
             
@@ -63,6 +81,10 @@ declare var FwBrowse: any;
 
             $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
             $form = FwModule.openForm($form, mode);
+
+            this.events($form);
+
+            this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
 
             return $form;
         }

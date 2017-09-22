@@ -11,16 +11,11 @@
         <div class="tabpages">
             <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Category">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Category">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryCategory" data-validationname="InventoryType" style="float:left;width:250px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-noduplicate="true" data-datafield="InventoryCategory" style="float:left;width:250px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-noduplicate="true" data-datafield="InventoryType" style="float:left;width:250px;"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>                                                
-                    </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rentals">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically stage sub-rental items when received" data-datafield="HasMaintenance" style="float:left;width:325px;"></div>
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Put sub-rental items in 'Holding' until manually staged" data-datafield="CatalogCategory" style="float:left;width:340px;"></div>
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically add all Category Items as Substitues" data-datafield="AllCategoryItemsAreSubstitutes" style="float:left;width:340px;"></div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
             <div data-type="tabpage" id="subcattabpage" class="tabpage" data-tabid="subcattab">
@@ -30,6 +25,7 @@
                     </div>                    
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rentals">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Put Sub Rental items in 'Holding' until manually staged" data-datafield="SubsRequireQc" style="float:left;width:340px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically add all Category Items as Substitues" data-datafield="AllCategoryItemsAreSubstitutes" style="float:left;width:340px;"></div>
                     </div>                        
                 </div>
             </div>
@@ -59,8 +55,8 @@
             <div data-type="tabpage" id="proflosstabpage" class="tabpage" data-tabid="proflosstab">
                 <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit/Loss">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:290px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategory" style="float:left;width:150px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield overridecheck" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:290px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="true" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategory" style="float:left;width:150px;"></div>
                     </div>
                 </div>
             </div>
