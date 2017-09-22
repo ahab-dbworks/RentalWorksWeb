@@ -186,6 +186,8 @@ namespace RentalWorksWebLibrary
 
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
+            AddModule("Source", "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id, "SourceController", "module/source", settingsiconbaseurl + "placeholder.png");
+
 
             //Reports 
             //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");

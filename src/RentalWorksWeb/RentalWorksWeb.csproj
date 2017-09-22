@@ -1163,6 +1163,12 @@
     <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
+    <Content Include="Source\Modules\Settings\Source\Source.js" />
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
+      <DependentUpon>TermsConditions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsForm.htm" />
     <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js" />
@@ -1206,11 +1212,8 @@
     <Content Include="Source\Modules\Settings\RepairItemStatus\RepairItemStatus.js">
       <DependentUpon>RepairItemStatus.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
-      <DependentUpon>TermsConditions.ts</DependentUpon>
-    </Content>
-    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsBrowse.htm" />
-    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsForm.htm" />
+    <Content Include="Source\Modules\Settings\Source\SourceBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Source\SourceForm.htm" />
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetterBrowse.htm" />
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetterForm.htm" />
     <Content Include="Source\Modules\Settings\CreditStatus\CreditStatus.js">
@@ -1515,6 +1518,9 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
+    <Content Include="Source\Validations\SalesCategory\SalesCategoryBrowse.htm" />
+    <Content Include="Source\Validations\PartsCategory\PartsCategoryBrowse.htm" />
+    <Content Include="Source\Validations\RentalCategory\RentalCategoryBrowse.htm" />
     <Content Include="Source\Validations\MiscCategory\MiscCategoryBrowse.htm" />
     <Content Include="Source\Validations\LaborCategory\LaborCategoryBrowse.htm" />
     <Content Include="Source\Validations\LaborType\LaborTypeBrowse.htm" />
@@ -1705,6 +1711,9 @@
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
+    <Compile Include="Source\Validations\SalesCategory\SalesCategory.cs" />
+    <Compile Include="Source\Validations\PartsCategory\PartsCategory.cs" />
+    <Compile Include="Source\Validations\RentalCategory\RentalCategory.cs" />
     <Compile Include="Source\Validations\MiscCategory\MiscCategory.cs" />
     <Compile Include="Source\Validations\LaborCategory\LaborCategory.cs" />
     <Compile Include="Source\Validations\LaborType\LaborType.cs" />
@@ -1911,9 +1920,6 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js.map">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js.map">
-      <DependentUpon>TermsConditions.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js.map">
       <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
     </Content>
@@ -1974,6 +1980,10 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.js.map" />
+    <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js.map">
+      <DependentUpon>TermsConditions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Source\Source.js.map" />
     <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js.map">
       <DependentUpon>TaxOptions.ts</DependentUpon>
     </Content>
@@ -2016,6 +2026,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\PartsCategory\PartsCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscCategory\MiscCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POApproverRole\POApproverRole.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorCatalog\VendorCatalog.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscType\MiscType.ts" />
@@ -2025,7 +2036,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleMake\VehicleMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryType\InventoryType.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\TermsConditions\TermsConditions.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Source\Source.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CoverLetter\CoverLetter.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewStatus\CrewStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityStatus\FacilityStatus.ts" />
