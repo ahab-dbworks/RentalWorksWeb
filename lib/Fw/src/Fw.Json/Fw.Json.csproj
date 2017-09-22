@@ -43,29 +43,25 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EO.Base, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\EO.Pdf.2017\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=17.2.75.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\EO.Pdf.17.2.75.0\lib\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Pdf, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\EO.Pdf.2017\EO.Pdf.dll</HintPath>
+    <Reference Include="EO.Pdf, Version=17.2.75.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\EO.Pdf.17.2.75.0\lib\EO.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebEngine, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\EO.Pdf.2017\EO.WebEngine.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=17.2.75.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\EO.Pdf.17.2.75.0\lib\EO.WebBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser, Version=15.2.37.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\EO.Pdf.2017\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebEngine, Version=17.2.75.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\EO.Pdf.17.2.75.0\lib\EO.WebEngine.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\EPPlus\EPPlus.dll</HintPath>
+      <HintPath>$(SolutionDir)\lib\EPPlus\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=b0d5abe00db94ce4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\JsonFx\JsonFx.dll</HintPath>
+      <HintPath>$(SolutionDir)\lib\JsonFx\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -222,22 +218,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\lib\EO.Pdf.2017\EO.Base.dll">
-      <Link>EO.Base.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\EO.Pdf.2017\EO.Base.xml">
-      <Link>EO.Base.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\EO.Pdf.2017\EO.Pdf.dll">
-      <Link>EO.Pdf.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\lib\EO.Pdf.2017\EO.Pdf.xml">
-      <Link>EO.Pdf.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\lib\EPPlus\EPPlus.dll">
       <Link>EPPlus.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

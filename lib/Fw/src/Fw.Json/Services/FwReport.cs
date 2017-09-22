@@ -59,14 +59,24 @@ namespace Fw.Json.Services
             //    "EPGs4PP/6KFqrLLBzZ9otZGbyw==");
 
             //2017
+            //EO.Pdf.Runtime.AddLicense(
+            //    "LdoPvUaBpLHLn3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4" +
+            //    "iVmXpLHLn1mXwPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqussHNn2i1" +
+            //    "kZvLn1mXwMAM66Xm+8+4iVmXpLHn7qvb6QP07Z/mpPUM8560psLasXCmtsHc" +
+            //    "tFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZpAcQ8azg8//ooW+ZpMDpjEOX" +
+            //    "pLHLu6zg6/8M867p6c/61IHH+P7/so/tuwkA7HHu+dLtsYbewc7nrqzg6/8M" +
+            //    "867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azcwp61n1mXpM0X6Jzc8gQQyJ21" +
+            //    "usnisW+pusHbsXWm8PoO5Kfq6Q==");
+
+            //2017
             EO.Pdf.Runtime.AddLicense(
-                "LdoPvUaBpLHLn3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4" +
-                "iVmXpLHLn1mXwPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqussHNn2i1" +
-                "kZvLn1mXwMAM66Xm+8+4iVmXpLHn7qvb6QP07Z/mpPUM8560psLasXCmtsHc" +
-                "tFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZpAcQ8azg8//ooW+ZpMDpjEOX" +
-                "pLHLu6zg6/8M867p6c/61IHH+P7/so/tuwkA7HHu+dLtsYbewc7nrqzg6/8M" +
-                "867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azcwp61n1mXpM0X6Jzc8gQQyJ21" +
-                "usnisW+pusHbsXWm8PoO5Kfq6Q==");
+                "tZf3Bg3EseftAxDyeuvBs9yua66zw9uwcZmkBxDxrODz/+ihb5mkwOmMQ5ek" + 
+                "scu7rODr/wzzrunpz/rUgcf4/v+yj+27CQDsce750u2xht7BzueurODr/wzz" + 
+                "runpz7iJdabw+g7kp+rpz7iJdePt9BDtrNzCnrWfWZekzRfonNzyBBDInbW6" + 
+                "yeKxb6m6wduxdabw+g7kp+rp2g+9RoGkscufdePt9BDtrNzpz+eupeDn9hny" + 
+                "ntzCnrWfWZekzQzrpeb7z7iJWZekscufWZfA8g/jWev9ARC8W7zTv/vjn5mk" + 
+                "BxDxrODz/+ihaq6ywc2faLWRm8ufWZfAwAzrpeb7z7iJWZeksefuq9vpA/Tt" + 
+                "n+ak9QzznrSmwtqxcKa2wdy0Ww==");
         }
         //---------------------------------------------------------------------------------------------
         abstract protected FwSqlConnection GetApplicationSqlConnection();
