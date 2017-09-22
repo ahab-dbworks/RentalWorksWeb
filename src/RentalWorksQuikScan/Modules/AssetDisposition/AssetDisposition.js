@@ -64,7 +64,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
     FwControl.init($fwcontrols);
     FwControl.renderRuntimeHtml($fwcontrols);
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         try {
             if (screen.$view.find('.screenItemStatus').is(':visible')) {
                 screen.showScanBarcodeScreen(false);
@@ -76,7 +76,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
         }
     });
 
-    screen.$btncontinue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', 'continue', false, function() {
+    screen.$btncontinue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', '&#xE5CC;', false, function() { //continue
         var request, barcode, containerid;
         try {
             screen.showRetireScreen();
@@ -85,7 +85,7 @@ RwInventoryController.getAssetDispositionScreen = function(viewModel, properties
         }
     });
 
-    screen.$btnretire = FwMobileMasterController.addFormControl(screen, 'Retire', 'right', 'save', false, function() {
+    screen.$btnretire = FwMobileMasterController.addFormControl(screen, 'Retire', 'right', '&#xE161;', false, function() { //save
         var request, barcode, containerid;
         try {
             screen.retireItem();

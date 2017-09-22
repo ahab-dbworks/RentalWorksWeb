@@ -23,7 +23,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             {
                 caption:     'New',
                 orientation: 'right',
-                icon:        'add',
+                icon:        '&#xE145;', //add
                 state:       0,
                 buttonclick: function () {
                     $search.hide();
@@ -86,7 +86,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -100,7 +100,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Continue',
                 orientation: 'right',
-                icon:        'arrow_forward',
+                icon:        '&#xE5CC;', //arrow_forward
                 state:       0,
                 buttonclick: function () {
                     try {

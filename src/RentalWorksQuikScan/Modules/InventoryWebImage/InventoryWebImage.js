@@ -25,7 +25,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                 { 
                     caption:     'Take Picture',
                     orientation: 'right',
-                    icon:        'photo_camera',
+                    icon:        '&#xE412;', //photo_camera
                     state:       0,
                     buttonclick: function () {
                         if (properties.item != null) {

@@ -18,12 +18,12 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
     canvas = $canvas[0];
     canvas.onselectstart = function () { return false; }
 
-    screen.$btncancel = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
+    screen.$btncancel = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
         //application.navigate('home/home');
         application.popScreen();
     });
 
-    screen.$btnsave = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'save', true, function() {
+    screen.$btnsave = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE161;', true, function() { //save
         var requestCreateContract, signatureOnTransparentCanvas, signatureImage, context, compositeOperation;
         try {
             signatureImage = jQuery('#contractSignatureView').signaturePad().getSignatureImage('image/jpeg').replace('data:image/jpeg;base64,', '');

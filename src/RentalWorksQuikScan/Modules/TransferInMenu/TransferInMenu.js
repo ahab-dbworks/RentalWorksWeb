@@ -38,7 +38,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     $ordersearch.hide();
@@ -219,7 +219,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     screen.setOrderInfo({});
@@ -230,7 +230,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       1,
                 buttonclick: function () {
                     screen.setOrderInfo({});
@@ -241,7 +241,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'New Session',
                 orientation: 'right',
-                icon:        'chevron_right',
+                icon:        '&#xE5CC;', //chevron_right
                 state:       1,
                 buttonclick: function () {
                     var request, orderinfo;

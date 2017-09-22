@@ -169,14 +169,14 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             $findset.$newset.hide();
         }
     });
-    $findset.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    $findset.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         $findset.hide();
         $findpo.showscreen();
 
         $findset.$back.hide();
         $findset.$newset.hide();
     });
-    $findset.$newset = FwMobileMasterController.addFormControl(screen, 'New Set', 'right', 'new', false, function() {
+    $findset.$newset = FwMobileMasterController.addFormControl(screen, 'New Set', 'right', '&#xE145;', false, function() { //new
         $findset.hide();
         $newset.showscreen();
 
@@ -217,14 +217,14 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             }
         })
     ;
-    $newset.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    $newset.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         $newset.hide();
         $findset.showscreen();
 
         $newset.$back.hide();
         $newset.$save.hide();
     });
-    $newset.$save = FwMobileMasterController.addFormControl(screen, 'Save', 'right', 'save', false, function() {
+    $newset.$save = FwMobileMasterController.addFormControl(screen, 'Save', 'right', '&#xE161;', false, function() { //save
         if ($newset.validatefields()) {
             var request;
             request = {
@@ -311,7 +311,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             }
         })
     ;
-    $scan.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    $scan.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         $scan.hide();
         $findset.showscreen();
 
@@ -320,7 +320,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         $scan.$createcontract.hide();
         FwMobileMasterController.tabcontrols.clearcontrols();
     });
-    $scan.$createcontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'submit', false, function() {
+    $scan.$createcontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE161;', false, function() { //submit
         $scan.hide();
         $scan.$back.hide();
         $scan.$createcontract.hide();
@@ -569,14 +569,14 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         FwControl.renderRuntimeControls($itemupdate.find('.item-fields .fwcontrol'));
         $itemupdate.addassetsetlocation();
     };
-    $itemupdate.$cancel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', 'cancel', false, function() {
+    $itemupdate.$cancel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', '&#xE14C;', false, function() { //cancel
         $itemupdate.hide();
         $itemupdate.data('recorddata', null);
         $itemupdate.$cancel.hide();
         $itemupdate.$submit.hide();
         $scan.showscreen();
     });
-    $itemupdate.$submit = FwMobileMasterController.addFormControl(screen, 'Submit', 'right', 'save', false, function() {
+    $itemupdate.$submit = FwMobileMasterController.addFormControl(screen, 'Submit', 'right', '&#xE161;', false, function() { //save
         var request = {};
         if ($itemupdate.validate()) {
             request.recorddata        = $itemupdate.data('recorddata');
@@ -625,9 +625,9 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         html.push('    <input type="text" class="location" />');
         html.push('  </div>');
         html.push('  <div class="assetsetlocation-col2 flexrow">');
-        html.push('    <i class="material-icons md-dark asl-subtract">remove_circle_outline</i>');
+        html.push('    <i class="material-icons md-dark asl-subtract">&#xE15D;</i>'); //remove_circle_outline
         html.push('    <div class="qty">0</div>');
-        html.push('    <i class="material-icons md-dark asl-add">add_circle_outline</i>');
+        html.push('    <i class="material-icons md-dark asl-add">&#xE148;</i>'); //add_circle_outline
         html.push('  </div>');
         html.push('</div>');
         $assetsetlocation = jQuery(html.join(''));
@@ -681,7 +681,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         }
         $signature.signaturePad();
     };
-    $signature.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    $signature.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         $signature.hide();
         $signature.$back.hide();
         $signature.$createcontract.hide();

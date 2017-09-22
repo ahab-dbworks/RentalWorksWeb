@@ -59,7 +59,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     $ordersearch.hide();
@@ -70,7 +70,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 id:          'itemlist_menu',
                 type:        'menu',
                 orientation: 'right',
-                icon:        'more_vert',
+                icon:        '&#xE5D4;', //more-vert
                 state:       0,
                 menuoptions: [
                     {
@@ -264,7 +264,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     screen.setOrderInfo({});
@@ -275,7 +275,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       1,
                 buttonclick: function () {
                     screen.setOrderInfo({});
@@ -287,7 +287,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 id:          'itemlist_menu',
                 type:        'menu',
                 orientation: 'right',
-                icon:        'more_vert',
+                icon:        '&#xE5D4;', //more_vert
                 state:       0,
                 menuoptions: [
                     {
@@ -303,7 +303,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'New Session',
                 orientation: 'right',
-                icon:        'chevron_right',
+                icon:        '&#xE5CC;', //chevron_right
                 state:       1,
                 buttonclick: function () {
                     var request, orderinfo;
@@ -467,7 +467,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'chevron_left',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     $dealsearch.hide();
@@ -478,7 +478,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 id:          'itemlist_menu',
                 type:        'menu',
                 orientation: 'right',
-                icon:        'more_vert',
+                icon:        '&#xE5D4;', //more_vert
                 state:       0,
                 menuoptions: [
                     {
@@ -553,13 +553,13 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     screen.toggleShowAllLocation = function(value) { //value = true/false
         screen.showalllocation = (typeof value != 'undefined') ? value : !screen.showalllocation;
         if (screen.showalllocation) {
-            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
-            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
-            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE834;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box
+            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE834;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box
+            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE834;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box
         } else {
-            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
-            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
-            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">check_box_outline_blank</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>');
+            $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE835;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box_outline_blank
+            $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE835;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box_outline_blank
+            $dealsearch.find('#dealsearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE835;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box_outline_blank
         }
     };
 

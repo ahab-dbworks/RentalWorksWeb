@@ -159,7 +159,7 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
                         break;
                 }
 
-                $back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
+                $back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
                     $search.find('.tl-search-foundmulti').show();
                     $search.find('.tl-search-foundrecord').empty().data('recorddata', '').hide();
                     $search.find('.btnnoorder').show();
@@ -167,7 +167,7 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
                     $back.remove();
                 });
 
-                $continue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', 'continue', true, function() {
+                $continue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', '&#xE5CC;', true, function() { //continue
                     var recorddata;
                     recorddata = $search.find('.tl-search-foundrecord').data('recorddata');
                     switch(screen.properties.timelogdata.mode) {
@@ -519,7 +519,7 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
                     }
                 }
 
-                $back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
+                $back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
                     $viewentries.show();
                     $editentry.hide();
                     $editentry.find('.card-body').empty();
@@ -529,7 +529,7 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
                     $back.remove();
                 });
 
-                $submit = FwMobileMasterController.addFormControl(screen, 'Submit', 'right', 'save', true, function() {
+                $submit = FwMobileMasterController.addFormControl(screen, 'Submit', 'right', '&#xE161;', true, function() { //save
                     var request;
                     if ($editentry.data('validatefields')()) {
                         if ((screen.properties.timelogdata.mode == 'ORDER') || (screen.properties.timelogdata.mode == 'DEAL') || (screen.properties.timelogdata.mode == 'EVENT')) {

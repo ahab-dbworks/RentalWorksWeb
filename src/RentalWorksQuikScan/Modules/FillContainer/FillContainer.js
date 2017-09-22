@@ -59,7 +59,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     FwControl.renderRuntimeControls(screen.$view.find('.fwcontrol'));
     screen.$view.find('#fillcontainer-pendingitems-pnladdallqtyitems').toggle(sessionStorage.getItem('users_qsallowapplyallqtyitems') === 'T');
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Close', 'left', 'back', false, function() {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Close', 'left', '&#xE5CB;', false, function() { //back
         try {
             if (screen.$view.find('.fillcontainerheader .containeritem').is(':visible')) {
                 $confirmation = FwConfirmation.renderConfirmation(RwLanguages.translate('Confirm'), RwLanguages.translate('Are you finished filling this Container?'));
@@ -76,7 +76,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btncontinue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', 'continue', false, function() {
+    screen.$btncontinue = FwMobileMasterController.addFormControl(screen, 'Continue', 'right', '&#xE5CC;', false, function() { //continue
         var request, barcode, containerid;
         try {
             containerid = FwFormField.getValue(screen.$view, '.containerdesc');
@@ -133,7 +133,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     });
 
     screen.hascreatecontainer = (applicationConfig.designMode) || ((properties.mode === 'fillcontainer') && (sessionStorage.users_enablecreatecontract === 'T'));
-    screen.$btncreatecontainer = FwMobileMasterController.addFormControl(screen, 'Create Container', 'right', 'continue', false, function () {
+    screen.$btncreatecontainer = FwMobileMasterController.addFormControl(screen, 'Create Container', 'right', '&#xE5CC;', false, function () { //continue
         try {
             var request = {
                 mode: screen.getMode(),

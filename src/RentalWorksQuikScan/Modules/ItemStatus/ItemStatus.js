@@ -68,7 +68,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             $this   = jQuery(this);
             if ($this.data('recorddata').rentalstatus !== '') {
                 $rfiditems.hide();
-                $rfiditems.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
+                $rfiditems.$back = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
                     $rfiditems.show();
                     $itemdetails.hide();
                     jQuery(this).remove();

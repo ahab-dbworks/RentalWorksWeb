@@ -81,18 +81,18 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
     };
 
     if (properties.mode === 'sendtorepair') {
-        screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', true, function() {
+        screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
             application.popScreen();
         });
     }
 
     if (properties.mode === 'repairorder') {
-        screen.$btncancel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', 'cancel', true, function() {
+        screen.$btncancel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', '&#xE14C;', true, function() { //cancel
             screen.resetRepairOrder();
         });
     }
 
-    screen.$btnsave = FwMobileMasterController.addFormControl(screen, 'Save', 'right', 'save', false, function() {
+    screen.$btnsave = FwMobileMasterController.addFormControl(screen, 'Save', 'right', '&#xE161;', false, function() { //save
         var request, $appdocument, $appimages, $deleteimages;
         try {
             $appdocument = screen.$view.find('.newappdocument');

@@ -143,7 +143,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Close',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     if (properties.moduleType == 'Order') {
@@ -159,7 +159,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 id:          'itemlist_menu',
                 type:        'menu',
                 orientation: 'right',
-                icon:        'more_vert',
+                icon:        '&#xE5D4;', //more_vert
                 state:       0,
                 menuoptions: [
                     {
@@ -235,7 +235,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Create Contract',
                 orientation: 'right',
-                icon:        '',
+                icon:        '&#xE5CC;', //chevron_right
                 state:       0,
                 buttonclick: function () {
                     if (screen.getContractId() != '') {
@@ -870,7 +870,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Cancel',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     $orderpriority.close();
@@ -995,7 +995,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Cancel',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
                     $checkinserial.close();
@@ -1005,7 +1005,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 id:          'setmeters',
                 caption:     'Set Meters',
                 orientation: 'right',
-                icon:        'arrow_forward',
+                icon:        '&#xE5CC;', //chevron_right
                 state:       0,
                 buttonclick: function() {
                     $checkinserial.find('.serial-details').hide();
@@ -1018,7 +1018,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //chevron_left
                 state:       1,
                 buttonclick: function () {
                     $checkinserial.find('.serialitems').show();
@@ -1031,7 +1031,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             {
                 caption:     'Finish',
                 orientation: 'right',
-                icon:        'arrow_forward',
+                icon:        '&#xE5CC;', //chevron_right
                 state:       1,
                 buttonclick: function () {
                     $checkinserial.close();

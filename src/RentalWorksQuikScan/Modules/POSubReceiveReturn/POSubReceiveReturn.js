@@ -53,7 +53,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
     screen = {};
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
     
-    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'continue', false, function() {
+    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE5CC;', false, function() { //continue
         try {
             screen.createContract();
         } catch(ex) {

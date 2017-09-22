@@ -55,7 +55,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -135,7 +135,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -152,7 +152,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
                 id:          'itemlist_menu',
                 type:        'menu',
                 orientation: 'right',
-                icon:        'more_vert',
+                icon:        '&#xE5D4;', //more_vert
                 state:       0,
                 menuoptions: [
                     {
@@ -275,7 +275,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -288,7 +288,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Assign',
                 orientation: 'right',
-                icon:        'save',
+                icon:        '&#xE161;', //save
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -334,7 +334,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     '',
                 orientation: 'right',
-                icon:        'settings_input_antenna',
+                icon:        '&#xE8BF;', //settings_input_antenna
                 state:       0,
                 buttonclick: function () {
                     try {

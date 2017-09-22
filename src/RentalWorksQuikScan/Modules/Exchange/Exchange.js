@@ -99,7 +99,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         FwFormField.setValue(screen.$view, '.exchangeqty', 0);
     };
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function() {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function() { //back
         try {
             screen.pages[screen.getCurrentPage()].back();
         } catch(ex) {
@@ -107,7 +107,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', 'continue', false, function() {
+    screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', '&#xE5CC;', false, function() { //continue
         try {
             var request = {
 
@@ -125,7 +125,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'continue', false, function() {
+    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE5CC;', false, function() { //continue
         try {
             properties.contract = {
                 contractType:        'EXCHANGE',
@@ -800,7 +800,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">chevron_right</i>');
+                html.push('    <i class="material-icons">&#xE5CC;</i>'); //chevron_right
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -886,7 +886,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">chevron_right</i>');
+                html.push('    <i class="material-icons">&#xE5CC;</i>'); //chevron_right
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -969,7 +969,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">chevron_right</i>');
+                html.push('    <i class="material-icons">&#xE5CC;</i>'); //chevron_right
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -1073,7 +1073,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">chevron_right</i>');
+                html.push('    <i class="material-icons">&#xE5CC;</i>'); //chevron_right
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -1174,7 +1174,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">chevron_right</i>');
+                html.push('    <i class="material-icons">&#xE5CC;</i>'); //chevron_right
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -1262,7 +1262,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">more_vert</i>');
+                html.push('    <i class="material-icons">&#xE5D4;</i>'); //more_vert
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -1325,7 +1325,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">more_vert</i>');
+                html.push('    <i class="material-icons">&#xE5D4;</i>'); //more_vert
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');
@@ -1395,7 +1395,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 html.push('    </div>');
                 html.push('  </div>');
                 html.push('  <div class="col2">');
-                html.push('    <i class="material-icons">more_vert</i>');
+                html.push('    <i class="material-icons">&#xE5D4;</i>'); //more_vert
                 html.push('  </div>');
                 html.push('</div>');
                 html = html.join('\n');

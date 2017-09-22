@@ -23,7 +23,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     screen.$searchicodes       = screen.$view.find('.search-icodes');
     screen.$searchbarcodelabel = screen.$view.find('.search-barcodelabel');
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function () {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function () { //back
         try {
             screen.getCurrentPage().back();
         } catch (ex) {
@@ -31,7 +31,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         }
     });
 
-    screen.$btnprint = FwMobileMasterController.addFormControl(screen, 'Print', 'right', 'print', false, function () {
+    screen.$btnprint = FwMobileMasterController.addFormControl(screen, 'Print', 'right', '&#xE8AD;', false, function () { //print
         try {
             var $records = screen.pages.barcodesearch.getElement().find('.record[data-selected="true"]');
             var models = [];
@@ -50,7 +50,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         }
     });
 
-    screen.$btnselectnone = FwMobileMasterController.addFormControl(screen, 'None', 'right', 'clear', false, function () {
+    screen.$btnselectnone = FwMobileMasterController.addFormControl(screen, 'None', 'right', '&#xE14C;', false, function () { //clear
         try {
             var $records;
             if (screen.getCurrentPage().name === 'barcodesearch') {
@@ -65,7 +65,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         }
     });
 
-    screen.$btnselectall = FwMobileMasterController.addFormControl(screen, 'All', 'right', 'playlist_add_check', false, function () {
+    screen.$btnselectall = FwMobileMasterController.addFormControl(screen, 'All', 'right', '&#xE065;', false, function () { //playlist_add_check
         try {
             var $records;
             if (screen.getCurrentPage().name === 'barcodesearch') {
@@ -377,7 +377,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.$btnback.show();
                 FwMobileMasterController.setTitle('Manage Barcode Labels...');
                 screen.$searchbarcodelabel.fwmobilesearch('search');
-                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', 'add', true, function () {
+                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', '&#xE145;', true, function () { //add
                     try {
                         screen.pages.uploadbarcodelabel.forward('NEW');
                     } catch (ex) {
@@ -406,14 +406,14 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.pages.reset();
                 screen.pages.uploadbarcodelabel.getElement().show();
                 FwMobileMasterController.setTitle('Upload Barcode Label...');
-                screen.$btncancelbarcodelabel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', 'cancel', true, function () {
+                screen.$btncancelbarcodelabel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', '&#xE5C9;', true, function () { //cancel
                     try {
                         screen.getCurrentPage().back();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
-                screen.$btnsavebarcodelabel = FwMobileMasterController.addFormControl(screen, 'Save', 'right', 'save', true, function () {
+                screen.$btnsavebarcodelabel = FwMobileMasterController.addFormControl(screen, 'Save', 'right', '&#xE161;', true, function () { //save
                     try {
                         var fileBarcodeLabel = screen.$view.find('.fileBarcodeLabel');
                         if (fileBarcodeLabel.get(0).files.length > 0) {

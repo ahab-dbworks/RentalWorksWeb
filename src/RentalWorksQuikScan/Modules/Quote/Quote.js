@@ -40,7 +40,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     //screen.$view.find('#quote-messages').toggle(applicationConfig.designMode || false);
     //screen.$view.find('#quote-info').toggle(applicationConfig.designMode || false);
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Back'), 'left', 'back', true, function() {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Back'), 'left', '&#xE5CB;', true, function() { //back
         try {
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 FwFunc.showMessage('Navigation is locked.');
@@ -52,7 +52,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnsubmit = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Submit'), 'right', 'save', true, function() {
+    screen.$btnsubmit = FwMobileMasterController.addFormControl(screen, RwLanguages.translate('Submit'), 'right', '&#xE161;', true, function() { //save
         var request;
             try {
                 request = {

@@ -15,7 +15,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
     FwControl.init($fwcontrols);
     FwControl.renderRuntimeHtml($fwcontrols);
 
-    $searchbtn = jQuery('<i class="material-icons">search</i>');
+    $searchbtn = jQuery('<i class="material-icons">&#xE8B6;</i>'); //search
     screen.$view.find('#module-controls').append($searchbtn);
     $searchbtn.parent().on('click', function() {
         if ($scan.find('div[data-caption="Cancel"]').is(':visible')) $scan.find('div[data-caption="Cancel"]').click();
@@ -31,7 +31,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             { 
                 caption:     'Edit',
                 orientation: 'right',
-                icon:        'edit',
+                icon:        '&#xE3C9;', //edit
                 state:       1,
                 buttonclick: function () {
                     $scan.toggleeditable(true);
@@ -41,7 +41,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             { 
                 caption:     'Save',
                 orientation: 'right',
-                icon:        'check',
+                icon:        '&#xE3C9;', //check
                 state:       2,
                 buttonclick: function () {
                     var plugin = this;
@@ -83,7 +83,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             { 
                 caption:     'Cancel',
                 orientation: 'left',
-                icon:        'clear',
+                icon:        '&#xE14C;', //clear
                 state:       2,
                 buttonclick: function () {
                     $scan.toggleeditable(false);
@@ -257,9 +257,9 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
         html.push('    <input type="text" class="location editable" disabled />');
         html.push('  </div>');
         html.push('  <div class="assetsetlocation-col2 flexrow">');
-        html.push('    <i class="material-icons md-dark asl-subtract">remove_circle_outline</i>');
+        html.push('    <i class="material-icons md-dark asl-subtract">&#xE15D;</i>'); //remove_circle_outline
         html.push('    <div class="qty">0</div>');
-        html.push('    <i class="material-icons md-dark asl-add">add_circle_outline</i>');
+        html.push('    <i class="material-icons md-dark asl-add">&#xE148;</i>'); //add_circle_outline
         html.push('  </div>');
         html.push('</div>');
         $assetsetlocation = jQuery(html.join(''));
@@ -378,7 +378,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
             { 
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5CB;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     $scan.show();

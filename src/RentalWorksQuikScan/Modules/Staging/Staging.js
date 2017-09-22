@@ -72,7 +72,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel, properties);
     screen.$view.find('#staging-pendingList-pnlApplyAllQtyItems').toggle(false);
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', 'back', false, function () {
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function () { //back
         try {
             screen.getCurrentPage().back();
         } catch (ex) {
@@ -80,7 +80,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnclose = FwMobileMasterController.addFormControl(screen, 'Close', 'left', 'back', false, function () {
+    screen.$btnclose = FwMobileMasterController.addFormControl(screen, 'Close', 'left', '&#xE5CB;', false, function () { //back
         try {
             screen.getCurrentPage().back();
         } catch (ex) {
@@ -88,7 +88,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', 'continue', false, function () {
+    screen.$btnnewsession = FwMobileMasterController.addFormControl(screen, 'New Session', 'right', '&#xE5CC;', false, function () { //continue
         try {
             var request = {
                 orderid: screen.getOrderId()
@@ -107,7 +107,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', 'continue', false, function () {
+    screen.$btnmeters = FwMobileMasterController.addFormControl(screen, 'Set Meters', 'right', '&#xE5CC;', false, function () { //continue
         try {
             var masterid = screen.pages.selectserialno.getMasterId();
             var masteritemid = screen.pages.selectserialno.getMasterItemId();
@@ -119,7 +119,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btnfinishmeters = FwMobileMasterController.addFormControl(screen, 'Finish', 'right', 'continue', false, function () {
+    screen.$btnfinishmeters = FwMobileMasterController.addFormControl(screen, 'Finish', 'right', '&#xE5CC;', false, function () { //continue
         try {
             screen.pagehistory.pop();
             screen.pagehistory.pop();
@@ -129,7 +129,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     });
 
-    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', 'continue', false, function () {
+    screen.$btncreatecontract = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE5CC;', false, function () { //continue
         try {
             var request = {
                 orderid: screen.getOrderId(),
@@ -1078,7 +1078,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             }
                             $pageserialmeters.find('.items').append($divSerialNo);
                             var $serialinfo = jQuery('<div class="serialinfo">')
-                                .html('<div class="caption">Serial No:</div><div class="value">' + response.funcserialmeterout[i].mfgserial + '</div><div class="expander"><i class="material-icons">expand_more</i></div>')
+                                .html('<div class="caption">Serial No:</div><div class="value">' + response.funcserialmeterout[i].mfgserial + '</div><div class="expander"><i class="material-icons">&#xE5CF;</i></div>') //expand_more
                                 .click(function() {
                                     try {
                                         var $this = jQuery(this);
@@ -1089,10 +1089,10 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                         $pageserialmeters.find('.expandable').hide();
                                         if ($expandableisvisible) {
                                             $expandable.hide();
-                                            $expander.html('<i class="material-icons">expand_more</i>');
+                                            $expander.html('<i class="material-icons">&#xE5CF;</i>'); //expand_more
                                         } else {
                                             $expandable.show();
-                                            $expander.html('<i class="material-icons">expand_less</i>');
+                                            $expander.html('<i class="material-icons">&#xE5CE;</i>'); //expand_less
                                         }
                                     } catch(ex) {
                                         FwFunc.showError(ex);
@@ -2709,7 +2709,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             var $jumptotop;
 
             $jumptotop = jQuery('<div>')
-                .html('<i class="material-icons">arrow_upward</i>')
+                .html('<i class="material-icons">&#xE5D8;</i>') //arrow_upward
                 .addClass('fwchip jumptotop')
                 .on('click', function() {
                     jQuery(window).scrollTop(0);
