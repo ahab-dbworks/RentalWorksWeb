@@ -39,6 +39,13 @@ namespace RentalWorksWebApi.Modules.Settings.SubCategory
             return await DoPostAsync<SubCategoryLogic>(l);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/subcategory
+        [HttpPost("saveform")]
+        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
+        {
+            return await DoSaveFormAsync<SubCategoryLogic>(request, typeof(SubCategoryLogic));
+        }
+        //------------------------------------------------------------------------------------
         // DELETE api/v1/subcategory/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
