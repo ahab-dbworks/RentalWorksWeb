@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         [FwSqlDataField(column: "sourceid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string SourceId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "source", modeltype: FwDataTypes.Text, maxlength: 100, required: true)]
+        [FwSqlDataField(column: "source", modeltype: FwDataTypes.Text, maxlength: 100)]
         public string Source { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sourcetype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]

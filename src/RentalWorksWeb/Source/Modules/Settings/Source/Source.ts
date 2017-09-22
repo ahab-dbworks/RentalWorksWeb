@@ -21,7 +21,7 @@ class Source {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Terms & Conditions', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Source', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

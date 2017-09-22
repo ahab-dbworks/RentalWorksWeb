@@ -58,8 +58,7 @@ namespace RentalWorksWebLibrary
                                             AddModule("Country"        , "{D6E787E6-502B-4D36-B0A6-FA691E6D10CF}", lv2menuAddressSettings.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png", "", "", "", "#eed5b7");
                                             AddModule("State/Province" , "{B70B4B88-51EB-4635-971B-1F676243B810}", lv2menuAddressSettings.Id, "StateController"  , "module/state"  , settingsiconbaseurl + "placeholder.png", "", "", "", "#eed5b7");
 
-            var lv2menuBillingSettings = AddLv2ModuleMenu("Billing Settings", "{E302CBDC-BA33-4100-8DCF-C2BC174002E9}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                            AddModule("Billing Cycle", "{5736D549-CEA7-4FCF-86DA-0BCD4C87FA04}", lv2menuBillingSettings.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png");
+            AddModule("Billing Cycle", "{5736D549-CEA7-4FCF-86DA-0BCD4C87FA04}", lv1menuSettings.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Company Department", "{A6CC5F50-F9DE-4158-B627-6FDC1044C22A}", lv1menuSettings.Id, "DepartmentController", "module/department", settingsiconbaseurl + "placeholder.png");
 
