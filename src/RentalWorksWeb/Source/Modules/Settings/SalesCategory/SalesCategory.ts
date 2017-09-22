@@ -7,7 +7,7 @@ declare var FwBrowse: any;
 
         constructor() {
             this.Module = 'SalesCategory';
-            this.apiurl = 'api/v1/misccategory';
+            this.apiurl = 'api/v1/salescategory';
         }
 
         getModuleScreen() {

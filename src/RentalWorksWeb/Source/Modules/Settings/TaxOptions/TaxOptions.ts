@@ -1,12 +1,12 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
 
-class TaxOption {
+class TaxOptions {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'TaxOption';
+        this.Module = 'TaxOptions';
         this.apiurl = 'api/v1/taxoption';
     }
 
@@ -21,7 +21,7 @@ class TaxOption {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'TaxOption', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'TaxOptions', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -78,4 +78,4 @@ class TaxOption {
     }
 }
 
-(window as any).TaxOptionController = new TaxOption();
+(window as any).TaxOptionsController = new TaxOptions();

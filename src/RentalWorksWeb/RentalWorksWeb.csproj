@@ -1465,8 +1465,8 @@
     <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js">
       <DependentUpon>TaxOptions.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionBrowse.htm" />
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionForm.htm" />
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsBrowse.htm" />
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
@@ -1519,8 +1519,8 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
     <Content Include="Source\Validations\SalesCategory\SalesCategoryBrowse.htm" />
-    <Content Include="Source\Validations\PartsCategory\PartsCategoryBrowse.htm" />
     <Content Include="Source\Validations\RentalCategory\RentalCategoryBrowse.htm" />
+    <Content Include="Source\Validations\PartsCategory\PartsCategoryBrowse.htm" />
     <Content Include="Source\Validations\MiscCategory\MiscCategoryBrowse.htm" />
     <Content Include="Source\Validations\LaborCategory\LaborCategoryBrowse.htm" />
     <Content Include="Source\Validations\LaborType\LaborTypeBrowse.htm" />
@@ -1712,8 +1712,8 @@
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
     <Compile Include="Source\Validations\SalesCategory\SalesCategory.cs" />
-    <Compile Include="Source\Validations\PartsCategory\PartsCategory.cs" />
     <Compile Include="Source\Validations\RentalCategory\RentalCategory.cs" />
+    <Compile Include="Source\Validations\PartsCategory\PartsCategory.cs" />
     <Compile Include="Source\Validations\MiscCategory\MiscCategory.cs" />
     <Compile Include="Source\Validations\LaborCategory\LaborCategory.cs" />
     <Compile Include="Source\Validations\LaborType\LaborType.cs" />

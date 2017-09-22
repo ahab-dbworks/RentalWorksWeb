@@ -13,7 +13,9 @@ namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
                 var nodeGridSubMenu = tree.AddSubMenu("{639F4EF6-EC17-4BC7-AFB6-1286523E69C7}", nodeGridMenuBar.Id);
                     var nodeBrowseOptions = tree.AddSubMenuGroup("Options", "{301B2D56-A939-4F52-8976-C72499B3F32D}", nodeGridSubMenu.Id);
                         tree.AddSubMenuItem("Toggle Active / Inactive", "{15A2FDC1-CA3A-43E7-9E11-B07C64EB7E6D}", nodeBrowseOptions.Id);
-                tree.AddEditMenuBarButton("{8FD7DB80-AFDD-48C7-B712-A69D93AE3BC0}",   nodeGridMenuBar.Id);                
+            tree.AddNewMenuBarButton("{71297438-6A73-44B8-820F-55AC23B7D9F5}", nodeGridMenuBar.Id);
+            tree.AddEditMenuBarButton("{8FD7DB80-AFDD-48C7-B712-A69D93AE3BC0}",   nodeGridMenuBar.Id);
+            tree.AddDeleteMenuBarButton("{97543228-BEBF-4A34-B2C7-B957F51248F5}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

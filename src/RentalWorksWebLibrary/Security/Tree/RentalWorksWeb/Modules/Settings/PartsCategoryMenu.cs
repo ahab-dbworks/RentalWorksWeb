@@ -20,6 +20,11 @@ namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddEditMenuBarButton("{60F37B7B-1C8C-4A76-B043-F9E322A294AB}", nodeBrowseMenuBar.Id);
             tree.AddDeleteMenuBarButton("{F9BBE470-947A-4010-9520-FBB21FC39E8A}", nodeBrowseMenuBar.Id);
 
+            // Form
+            var nodeForm = tree.AddForm("{9D63AE8B-E127-4434-AEBC-622448386B21}", MODULEID);
+            var nodeFormMenuBar = tree.AddMenuBar("{42B8490A-3903-4854-8068-3FA764E2F1EF}", nodeForm.Id);
+            var nodeFormSubMenu = tree.AddSubMenu("{90F0990C-0725-42C6-AA6C-8C0B77528209}", nodeFormMenuBar.Id);
+            tree.AddSaveMenuBarButton("{6C7D183E-E601-456B-BFC1-C8239A4AEA6D}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }
