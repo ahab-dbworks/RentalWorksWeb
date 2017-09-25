@@ -1148,6 +1148,10 @@
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
+    <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerForm.htm" />
+    <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogForm.htm" />
     <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryBrowse.htm" />
     <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\SalesCategory\SalesCategoryBrowse.htm" />
@@ -2021,6 +2025,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RentalCategory\RentalCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SalesCategory\SalesCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PartsCategory\PartsCategory.ts" />

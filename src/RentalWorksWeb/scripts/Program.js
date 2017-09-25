@@ -114,6 +114,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/rentalcategory$/,             getScreen: function () { return RentalCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/taxoptions$/,                  getScreen: function () { return TaxOptionsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/source$/,                     getScreen: function() { return SourceController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/warehousecatalog$/,           getScreen: function() { return WarehouseCatalogController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/presentationlayer$/,          getScreen: function() { return PresentationLayerController.getModuleScreen({}, {}); } }
 
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }

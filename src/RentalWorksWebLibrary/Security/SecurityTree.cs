@@ -121,6 +121,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Parts Category", "{4750DFBD-6C60-41EF-83FE-49C8340D6062}", lv2menuInventorySettings.Id, "PartsCategoryController", "module/partscategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Sales Category", "{428619B5-ABDE-48C4-9B2F-CF6D2A3AC574}", lv2menuInventorySettings.Id, "SalesCategoryController", "module/salescategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Rental Category", "{91079439-A188-4637-B733-A7EF9A9DFC22}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Warehouse Catalog", "{9045B118-A790-44FB-9867-3E8035EFEE69}", lv2menuInventorySettings.Id, "WarehouseCatalogController", "module/warehousecatalog", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborSettings.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
@@ -148,6 +149,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
             AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
