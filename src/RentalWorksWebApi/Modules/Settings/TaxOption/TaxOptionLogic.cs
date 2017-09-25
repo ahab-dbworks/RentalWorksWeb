@@ -54,6 +54,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public bool QuickBooksTaxGroup { get { return taxOption.QuickBooksTaxGroup; } set { taxOption.QuickBooksTaxGroup = value; } }
         public string GstExportCode { get { return taxOption.GstExportCode; } set { taxOption.GstExportCode = value; } }
         public string PstExportCode { get { return taxOption.PstExportCode; } set { taxOption.PstExportCode = value; } }
+        public bool Inactive { get { return taxOption.Inactive; } set { taxOption.Inactive = value; } }
         public string DateStamp { get { return taxOption.DateStamp; } set { taxOption.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
