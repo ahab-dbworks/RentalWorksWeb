@@ -1,0 +1,24 @@
+using FwStandard.BusinessLogic; 
+using FwStandard.SqlServer; 
+using FwStandard.SqlServer.Attributes; 
+using RentalWorksWebApi.Data;
+namespace RentalWorksWebApi.Modules.Settings.PresentationLayer
+{
+    [FwSqlTable("presentationlayer")]
+    public class PresentationLayerRecord : RwDataReadWriteRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        public string PresentationLayerId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "presentationlayer", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50, required: true)]
+        public string PresentationLayer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+    }
+}

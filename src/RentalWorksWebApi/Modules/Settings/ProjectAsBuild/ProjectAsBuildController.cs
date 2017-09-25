@@ -1,0 +1,56 @@
+using FwStandard.Models; 
+using Microsoft.AspNetCore.Mvc; 
+using Microsoft.Extensions.Options; 
+using RentalWorksWebApi.Controllers; 
+using System.Threading.Tasks;
+namespace RentalWorksWebApi.Modules.Settings.ProjectAsBuild
+{
+    [Route("api/v1/[controller]")]
+    public class ProjectAsBuildController : RwDataController
+    {
+        public ProjectAsBuildController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/projectasbuild/browse 
+        [HttpPost("browse")]
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest, typeof(ProjectAsBuildLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/projectasbuild 
+        [HttpGet]
+        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        {
+            return await DoGetAsync<ProjectAsBuildLogic>(pageno, pagesize, sort, typeof(ProjectAsBuildLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/projectasbuild/A0000001 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<ProjectAsBuildLogic>(id, typeof(ProjectAsBuildLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/projectasbuild 
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]ProjectAsBuildLogic l)
+        {
+            return await DoPostAsync<ProjectAsBuildLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // DELETE api/v1/projectasbuild/A0000001 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        {
+            return await DoDeleteAsync(id, typeof(ProjectAsBuildLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/projectasbuild/validateduplicate 
+        [HttpPost("validateduplicate")]
+        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
+        {
+            return await DoValidateDuplicateAsync(request);
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}

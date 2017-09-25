@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 
 namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
@@ -19,6 +20,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string InventoryType { get; set; }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategory = value; } }
+        [JsonIgnore]
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }
         public bool WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
         public bool CatalogCategory { get { return inventoryCategory.CatalogCategory; } set { inventoryCategory.CatalogCategory = value; } }
