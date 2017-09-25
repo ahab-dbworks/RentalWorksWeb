@@ -219,7 +219,7 @@ namespace RentalWorksWebApi.Controllers
                 }
                 else
                 {
-                        throw new Exception(validateMsg);
+                    throw new Exception(validateMsg);
                 }
             }
             catch (Exception ex)

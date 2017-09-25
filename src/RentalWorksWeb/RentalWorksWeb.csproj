@@ -1138,7 +1138,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
-    <Content Include="Source\Modules\Settings\ShipVia\Country.js">
+    <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js">
+      <DependentUpon>PresentationLayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ShipVia\ShipVia.js">
       <DependentUpon>ShipVia.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\ShipVia\ShipViaBrowse.htm" />
@@ -1149,16 +1152,90 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\FacilityType\FacilityType.js">
+      <DependentUpon>FacilityType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FacilityType\FacilityType.js.map">
+      <DependentUpon>FacilityType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FormDesign\FormDesign.js">
+      <DependentUpon>FormDesign.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FormDesign\FormDesign.js.map">
+      <DependentUpon>FormDesign.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\FormDesign\FormDesignBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\FacilityType\FacilityTypeForm.htm" />
-    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js" />
+    <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWatts.js">
+      <DependentUpon>GeneratorWatts.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWatts.js.map">
+      <DependentUpon>GeneratorWatts.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js">
+      <DependentUpon>InventoryCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js.map">
+      <DependentUpon>InventoryCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js">
+      <DependentUpon>InventoryType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js.map">
+      <DependentUpon>InventoryType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\LaborCategory\LaborCategory.js">
+      <DependentUpon>LaborCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\LaborCategory\LaborCategory.js.map">
+      <DependentUpon>LaborCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\LaborType\LaborType.js">
+      <DependentUpon>LaborType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\LaborType\LaborType.js.map">
+      <DependentUpon>LaborType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\MiscCategory\MiscCategory.js">
+      <DependentUpon>MiscCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\MiscCategory\MiscCategory.js.map">
+      <DependentUpon>MiscCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\MiscType\MiscType.js">
+      <DependentUpon>MiscType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\MiscType\MiscType.js.map">
+      <DependentUpon>MiscType.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PartsCategory\PartsCategory.js">
+      <DependentUpon>PartsCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\POApproverRole\POApproverRole.js">
+      <DependentUpon>POApproverRole.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js">
+      <DependentUpon>PropsCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js.map">
+      <DependentUpon>PropsCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\RentalCategory\RentalCategory.js">
+      <DependentUpon>RentalCategory.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerForm.htm" />
+    <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.js">
+      <DependentUpon>WarehouseCatalog.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogBrowse.htm" />
     <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogForm.htm" />
     <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryBrowse.htm" />
     <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryForm.htm" />
+    <Content Include="Source\Modules\Settings\SalesCategory\SalesCategory.js">
+      <DependentUpon>SalesCategory.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\SalesCategory\SalesCategoryBrowse.htm" />
     <Content Include="Source\Modules\Settings\SalesCategory\SalesCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\PartsCategory\PartsCategoryBrowse.htm" />
@@ -1169,24 +1246,43 @@
     <Content Include="Source\Modules\Settings\LaborCategory\LaborCategoryForm.htm" />
     <Content Include="Source\Modules\Settings\MiscCategory\MiscCategoryBrowse.htm" />
     <Content Include="Source\Modules\Settings\MiscCategory\MiscCategoryForm.htm" />
-    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryCondition\InventoryConditionForm.htm" />
-    <Content Include="Source\Modules\Settings\Source\Source.js" />
+    <Content Include="Source\Modules\Settings\Source\Source.js">
+      <DependentUpon>Source.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Source\Source.js.map">
+      <DependentUpon>Source.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptions.js">
+      <DependentUpon>TaxOptions.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptions.js.map">
+      <DependentUpon>TaxOptions.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
       <DependentUpon>TermsConditions.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsBrowse.htm" />
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditionsForm.htm" />
+    <Content Include="Source\Modules\Settings\VehicleMake\VehicleMake.js">
+      <DependentUpon>VehicleMake.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalog.js">
+      <DependentUpon>VendorCatalog.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalogForm.htm" />
-    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js" />
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js">
+      <DependentUpon>WardrobeCondition.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js.map">
+      <DependentUpon>WardrobeCondition.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeConditionForm.htm" />
-    <Content Include="Source\Modules\Settings\MiscType\MiscType.js" />
     <Content Include="Source\Modules\Settings\MiscType\MiscTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\MiscType\MiscTypeForm.htm" />
-    <Content Include="Source\Modules\Settings\LaborType\LaborType.js" />
     <Content Include="Source\Modules\Settings\LaborType\LaborTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\LaborType\LaborTypeForm.htm" />
     <Content Include="Source\Modules\Settings\PropsCondition\PropsConditionBrowse.htm" />
@@ -1196,9 +1292,6 @@
     </Content>
     <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWattsBrowse.htm" />
     <Content Include="Source\Modules\Settings\GeneratorWatts\GeneratorWattsForm.htm" />
-    <Content Include="Source\Modules\Settings\VehicleMake\GeneratorMake.js">
-      <DependentUpon>VehicleMake.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Modules\Settings\VehicleMake\VehicleMakeBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleMake\VehicleMakeForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorMake\GeneratorMake.js">
@@ -1212,7 +1305,6 @@
     <Content Include="Source\Modules\Settings\GeneratorRating\GeneratorRating.js">
       <DependentUpon>GeneratorRating.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js" />
     <Content Include="Source\Modules\Settings\InventoryType\InventoryTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryType\InventoryTypeForm.htm" />
     <Content Include="Source\Modules\Settings\LicenseClass\LicenseClass.js">
@@ -1465,15 +1557,21 @@
     </Content>
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeLabel\WardrobeLabelForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.js">
+      <DependentUpon>WardrobePattern.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.js">
+      <DependentUpon>WardrobePeriod.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSource.js">
+      <DependentUpon>WardrobeSource.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSourceBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSourceForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodForm.htm" />
-    <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js">
-      <DependentUpon>TaxOptions.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsBrowse.htm" />
     <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
@@ -1965,18 +2063,9 @@
     <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.js.map">
       <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\InventoryType\InventoryType.js.map" />
-    <Content Include="Source\Modules\Settings\VehicleMake\GeneratorMake.js.map">
-      <DependentUpon>VehicleMake.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Grids\VehicleMakeModelGrid\GeneratorMakeModelGridController.js.map">
       <DependentUpon>VehicleMakeModelGridController.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\LaborType\LaborType.js.map" />
-    <Content Include="Source\Modules\Settings\MiscType\MiscType.js.map" />
-    <Content Include="Source\Modules\Settings\WardrobeCondition\WardrobeCondition.js.map" />
-    <Content Include="Source\Modules\Settings\PropsCondition\PropsCondition.js.map" />
-    <Content Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.js.map" />
     <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js.map">
       <DependentUpon>VendorNoteGridController.ts</DependentUpon>
     </Content>
@@ -1992,12 +2081,41 @@
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js.map">
       <DependentUpon>TermsConditions.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\Source\Source.js.map" />
-    <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js.map">
-      <DependentUpon>TaxOptions.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\PartsCategory\PartsCategory.js.map">
+      <DependentUpon>PartsCategory.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\ShipVia\Country.js.map">
+    <Content Include="Source\Modules\Settings\POApproverRole\POApproverRole.js.map">
+      <DependentUpon>POApproverRole.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\RentalCategory\RentalCategory.js.map">
+      <DependentUpon>RentalCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\SalesCategory\SalesCategory.js.map">
+      <DependentUpon>SalesCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VehicleMake\VehicleMake.js.map">
+      <DependentUpon>VehicleMake.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\VendorCatalog\VendorCatalog.js.map">
+      <DependentUpon>VendorCatalog.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.js.map">
+      <DependentUpon>WardrobePattern.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.js.map">
+      <DependentUpon>WardrobePeriod.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WardrobeSource\WardrobeSource.js.map">
+      <DependentUpon>WardrobeSource.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.js.map">
+      <DependentUpon>WarehouseCatalog.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ShipVia\ShipVia.js.map">
       <DependentUpon>ShipVia.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js.map">
+      <DependentUpon>PresentationLayer.ts</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
