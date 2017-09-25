@@ -32,12 +32,35 @@ class TaxOptions {
         return screen;
     }
 
+    events($form: JQuery): void {
+
+        $form.on('change', '.countryradio input[type="radio"]:checked', (e) => {            
+            this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val());
+        });
+
+    }
+
+    canadaOnlyConfiguration($form: JQuery, country: string): void {        
+
+        if (country == 'U') {
+
+            $form.find('.canadatab, .canadataxratespanel').hide();
+            $form.find('.ustaxratespanel').show();
+
+        } else {
+
+            $form.find('.ustaxratespanel').hide();
+            $form.find('.canadatab, .canadataxratespanel').show();
+
+        }
+    }
+
     openBrowse() {
         var $browse;
 
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
+        FwBrowse.init($browse);        
 
         return $browse;
     }
@@ -46,7 +69,9 @@ class TaxOptions {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-        $form = FwModule.openForm($form, mode);
+        $form = FwModule.openForm($form, mode);        
+
+        this.events($form);                        
 
         return $form;
     }
@@ -57,7 +82,7 @@ class TaxOptions {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val(uniqueids.TaxOptionId);
         FwModule.loadForm(this.Module, $form);
-
+        
         return $form;
     }
 
@@ -71,10 +96,10 @@ class TaxOptions {
         FwModule.loadAudit($form, uniqueid);
     }
 
-
-
     afterLoad($form: any) {
+        var country = $form.find('.countryradio input[type="radio"]:checked').val();
 
+        this.canadaOnlyConfiguration($form, country);
     }
 }
 
