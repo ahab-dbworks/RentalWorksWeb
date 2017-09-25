@@ -1138,6 +1138,11 @@
     </Content>
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
+    <Content Include="Source\Modules\Settings\ShipVia\Country.js">
+      <DependentUpon>ShipVia.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ShipVia\ShipViaBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ShipVia\ShipViaForm.htm" />
     <Content Include="Source\Modules\Settings\Country\Country.js">
       <DependentUpon>Country.ts</DependentUpon>
     </Content>
@@ -1991,6 +1996,9 @@
     <Content Include="Source\Modules\Settings\TaxOptions\Warehouse.js.map">
       <DependentUpon>TaxOptions.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\ShipVia\Country.js.map">
+      <DependentUpon>ShipVia.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2021,6 +2029,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ShipVia\ShipVia.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FormDesign\FormDesign.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityType\FacilityType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
