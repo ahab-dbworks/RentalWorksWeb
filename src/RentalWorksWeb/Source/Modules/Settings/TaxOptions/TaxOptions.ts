@@ -55,6 +55,15 @@ class TaxOptions {
         }
     }
 
+    markFieldsNotRequired($form: JQuery): void {
+
+        $form.find('.gstexportcodetxt, .pstexporttxt').attr('data-required', 'false');
+
+        $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
+
+        //$form.find('').find('input[type="percent"]').attr('data-required', 'false');
+    }
+
     openBrowse() {
         var $browse;
 
@@ -73,6 +82,19 @@ class TaxOptions {
 
         this.events($form);                        
 
+        this.markFieldsNotRequired($form);
+
+        if (mode == 'NEW') {
+            this.canadaOnlyConfiguration($form, 'U');
+            this.markFieldsNotRequired($form);
+            FwFormField.setValueByDataField($form, 'RentalTaxRate1', 0);
+            FwFormField.setValueByDataField($form, 'SalesTaxRate1', 0);
+            FwFormField.setValueByDataField($form, 'LaborTaxRate1', 0);
+            FwFormField.setValueByDataField($form, 'RentalTaxRate2', 0);
+            FwFormField.setValueByDataField($form, 'SalesTaxRate2', 0);
+            FwFormField.setValueByDataField($form, 'LaborTaxRate2', 0);
+        }        
+        
         return $form;
     }
 
@@ -100,6 +122,7 @@ class TaxOptions {
         var country = $form.find('.countryradio input[type="radio"]:checked').val();
 
         this.canadaOnlyConfiguration($form, country);
+        
     }
 }
 
