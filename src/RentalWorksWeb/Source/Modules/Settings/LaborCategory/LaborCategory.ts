@@ -58,7 +58,7 @@ declare var FwBrowse: any;
             $subCategoryGrid.empty().append($subCategoryControl);
             $subCategoryControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    InventoryCategoryId: $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val()
+                    InventoryCategoryId: $form.find('div.fwformfield[data-datafield="LaborCategoryId"] input').val()
                 }
             });
             FwBrowse.init($subCategoryControl);
