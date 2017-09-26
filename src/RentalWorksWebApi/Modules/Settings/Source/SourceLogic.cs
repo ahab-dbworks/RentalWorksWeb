@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string Path { get { return source.Path; } set { source.Path = value; } }
         public string FileName { get { return source.FileName; } set { source.FileName = value; } }
         public string FtpHost { get { return source.FtpHost; } set { source.FtpHost = value; } }
-        public string FtpPort { get { return FwConvert.ToString(source.FtpPort); } set { source.FtpPort = FwConvert.ToInt32(!string.IsNullOrEmpty(value) ? value : "0"); } }
+        public int FtpPort { get { return source.FtpPort; } set { source.FtpPort = value; } }
         public string FtpUserName { get { return source.FtpUserName; } set { source.FtpUserName = value; } }
         public string FtpPassword { get { return source.FtpPassword; } set { source.FtpPassword = value; } }
         public string FtpPath { get { return source.FtpPath; } set { source.FtpPath = value; } }
