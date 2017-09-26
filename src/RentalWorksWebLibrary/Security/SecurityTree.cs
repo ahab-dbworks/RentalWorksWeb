@@ -156,6 +156,9 @@ namespace RentalWorksWebLibrary
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
             AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuSetSettings = AddLv2ModuleMenu("Set Settings", "{210AB6DE-159D-4979-B321-3BC1EA6574D7}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                     AddModule("Set Condition", "{0FFC8940-C060-49E4-BC24-688E25250C5F}", lv2menuSetSettings.Id, "SetConditionController", "module/setcondition", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuUserSettings = AddLv2ModuleMenu("User Settings", "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("User Status", "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id, "UserStatusController", "module/userstatus", settingsiconbaseurl + "placeholder.png");
 
@@ -224,12 +227,13 @@ namespace RentalWorksWebLibrary
             AddGrid("Customer Resale",                "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CustomerResaleGridController");
             AddGrid("Document Version",               "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
             AddGrid("Generator Make Model",           "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
-            AddGrid("Inventory Attribute Value",      "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
+            AddGrid("Inventory Attribute Value",      "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Master Item",                    "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",           "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             AddGrid("Order Contract Note",            "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
             AddGrid("Order Dates",                    "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
             AddGrid("Order Note",                     "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
+            AddGrid("Presentation Layer Activity",    "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Quik Entry Accessories Options", "{27317105-BA68-417A-A592-86EEB977CA32}", lv1menuGrids.Id, "RwQuikEntryAccessoriesOptionsGridController");
             AddGrid("Quik Entry Category",            "{01604AEC-2127-4756-BF92-3A340EF000E1}", lv1menuGrids.Id, "RwQuikEntryCategoryGridController");
             AddGrid("Quik Entry Department",          "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");

@@ -6,9 +6,11 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
     {
         //------------------------------------------------------------------------------------ 
         PresentationLayerActivityRecord presentationLayerActivity = new PresentationLayerActivityRecord();
+        PresentationLayerActivityLoader presentationLayerActivityLoader = new PresentationLayerActivityLoader();
         public PresentationLayerActivityLogic()
         {
             dataRecords.Add(presentationLayerActivity);
+            dataLoader = presentationLayerActivityLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

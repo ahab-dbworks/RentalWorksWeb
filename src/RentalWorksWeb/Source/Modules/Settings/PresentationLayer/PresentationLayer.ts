@@ -73,8 +73,28 @@ loadAudit($form: any)
         FwModule.loadAudit($form, uniqueid);
     }
 
-afterLoad($form: any)
-    {
+renderGrids($form: any) {
+    var $presentationLayerActivityGrid: any;
+    var $presentationLayerActivityGridControl: any;
+
+    // load AttributeValue Grid
+    $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
+    $presentationLayerActivityGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerActivityGridBrowse').html());
+    $presentationLayerActivityGrid.empty().append($presentationLayerActivityGridControl);
+    $presentationLayerActivityGridControl.data('ondatabind', function (request) {
+        request.uniqueids = {
+            InventoryAttributeId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+        };
+    });
+    FwBrowse.init($presentationLayerActivityGridControl);
+    FwBrowse.renderRuntimeHtml($presentationLayerActivityGridControl);
+}
+
+afterLoad($form: any) {
+    var $presentationLayerActivityGrid: any;
+
+    $presentationLayerActivityGrid = $form.find('[data-name="PresentationLayerActivityGrid"]');
+    FwBrowse.search($presentationLayerActivityGrid);
 
     }
 }
