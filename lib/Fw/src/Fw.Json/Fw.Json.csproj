@@ -538,6 +538,7 @@
     <Content Include="Content\theme\FwMobileSearch.css" />
     <Content Include="Content\theme\FwOverlay.css" />
     <Content Include="Content\theme\databaseworks.css" />
+    <Content Include="Content\theme\FwSettings.css" />
     <Content Include="Content\theme\material\FwBrowse.css" />
     <Content Include="Content\theme\material\FwConfirmation.css" />
     <Content Include="Content\theme\material\FwContainer.css" />
@@ -696,7 +697,7 @@
     </ItemGroup>
   </Target>
   <Target Name="AfterClean">
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/>
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/>
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
   </Target>
 </Project>

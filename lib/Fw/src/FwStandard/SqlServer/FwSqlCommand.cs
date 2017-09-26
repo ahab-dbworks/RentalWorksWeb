@@ -1000,7 +1000,8 @@ namespace FwStandard.SqlServer
             dt.PageNo = pageNo;
             dt.PageSize = pageSize;
             await QueryToFwJsonTableAsync(dt, this.qryText.ToString(), includeAllColumns);
-            dt.TotalRows = dt.Rows.Count;
+            // mv 2017-09-24 this was overwriting the correct result
+            //dt.TotalRows = dt.Rows.Count;
 
             return dt;
         }

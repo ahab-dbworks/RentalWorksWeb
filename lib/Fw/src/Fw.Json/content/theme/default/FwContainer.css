@@ -52,7 +52,8 @@ html.theme-default .fwstatus {margin:5px;}
 /***************************
 Structure
 ***************************/
-html.theme-default .formpage {min-width:1138px;display:inline-block;}
+html.theme-default.transworks .formpage {min-width:1138px;display:inline-block;}
+html.theme-default .formpage {}
 html.theme-default .formpage:after {content:"";display:table;clear:both;}
 html.theme-default .formrow:after {content:"";display:table;clear:both;}
 html.theme-default .formcolumn {float:left;width:50%;}
