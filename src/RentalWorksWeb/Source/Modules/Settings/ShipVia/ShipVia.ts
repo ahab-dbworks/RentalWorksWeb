@@ -21,7 +21,7 @@ class ShipVia {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'ShipVia', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Ship Via', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

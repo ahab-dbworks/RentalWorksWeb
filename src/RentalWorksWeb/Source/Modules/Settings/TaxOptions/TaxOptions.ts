@@ -38,20 +38,41 @@ class TaxOptions {
             this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val());
         });
 
+        $form.on('change', '.exempttype', (e) => {
+            var isChecked = jQuery(e.currentTarget).find('input[type="checkbox"]').is(':checked'),
+                exemptTypeClass = jQuery(e.currentTarget).data('exempttypetxtclass');
+
+            this.toggleDisableUSTaxRates($form, isChecked, exemptTypeClass);
+        });
+
     }
 
     canadaOnlyConfiguration($form: JQuery, country: string): void {        
 
         if (country == 'U') {
 
-            $form.find('.canadatab, .canadataxratespanel').hide();
+            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').hide();
             $form.find('.ustaxratespanel').show();
 
         } else {
 
             $form.find('.ustaxratespanel').hide();
-            $form.find('.canadatab, .canadataxratespanel').show();
+            $form.find('.canadatab, .canadataxratespanel, .canadataxrulespanel').show();
 
+        }
+    }
+
+    toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
+        if (isChecked) {
+            $form.find('.' + exemptTypeClass)
+                .attr('data-enabled', 'true')
+                .find('input[type="text"]')
+                .prop('disabled', false);
+        } else {
+            $form.find('.' + exemptTypeClass)
+                .attr('data-enabled', 'false')
+                .find('input[type="text"]')
+                .prop('disabled', true);
         }
     }
 
@@ -61,7 +82,7 @@ class TaxOptions {
 
         $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
 
-        //$form.find('').find('input[type="percent"]').attr('data-required', 'false');
+        $form.find('.desc').attr('data-required', 'false');
     }
 
     openBrowse() {
@@ -122,7 +143,11 @@ class TaxOptions {
         var country = $form.find('.countryradio input[type="radio"]:checked').val();
 
         this.canadaOnlyConfiguration($form, country);
-        
+
+        $form.find('.exempttype').each((i, e) => {
+            this.toggleDisableUSTaxRates($form, jQuery(e).find('input[type="checkbox"]').is(':checked'), jQuery(e).data('exempttypetxtclass'));
+        });                
+
     }
 }
 
