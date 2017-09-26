@@ -9,7 +9,7 @@ class DealStatus {
         this.Module = 'DealStatus';
         this.apiurl = 'api/v1/dealstatus';
     }
-
+    // Test
     getModuleScreen() {
         var screen, $browse;
 
