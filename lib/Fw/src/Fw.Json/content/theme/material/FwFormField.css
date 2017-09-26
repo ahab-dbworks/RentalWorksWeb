@@ -12,7 +12,7 @@ html.theme-material .fwformfield .fwformfield-control   select.fwformfield-value
 .mobile .fwformfield .fwformfield-control   select.fwformfield-value {font-size:18px;padding:5px;min-height:33px;}*/
 html.theme-material.mobile .fwformfield .fwformfield-control .fwformfield-value {font-size:18px;height:44px;box-sizing:border-box}
 
-html.theme-material .fwformfield[data-enabled="false"] .fwformfield-value {border-bottom:1px dotted #9e9e9e !important;color: #757575;}
+html.theme-material .fwformfield[data-enabled="false"] .fwformfield-value {border-bottom:1px dashed #9e9e9e !important;color: #757575;}
 html.theme-material .fwformfield[data-required="true"]:not([data-enabled="false"]) .fwformfield-caption {color:#f44336;}
 
 html.theme-material .fwformfield[data-captionlocation="left"] {display:flex;}
@@ -25,10 +25,11 @@ html.theme-material .fwformfield[data-type="select"][data-enabled="true"] select
 
 /*#region Number CSS*/
 html.theme-material.desktop .fwformfield[data-type="number"] .fwformfield-control {height:24px;display:flex;}
-html.theme-material.desktop .fwformfield[data-type="number"] .add-on {width:20px;border-bottom: 1px solid #9e9e9e;outline: 0;transition: all 0.3s;}
-html.theme-material.desktop .fwformfield[data-type="number"] .icon-n {height:12px;background-repeat: no-repeat;cursor:pointer;box-sizing: border-box;background-image:url("../fwimages/icons/128/arrow-north.png");background-size: 8px 8px;background-position: center;}
-html.theme-material.desktop .fwformfield[data-type="number"] .icon-s {height:12px;background-repeat: no-repeat;cursor:pointer;background-image:url("../fwimages/icons/128/arrow-south.png");background-size: 8px 8px;background-position: center;}
+html.theme-material.desktop .fwformfield[data-type="number"] .add-on {width:20px;border-bottom: 1px solid #9e9e9e;outline: 0;transition: all 0.3s;cursor:pointer;}
+html.theme-material.desktop .fwformfield[data-type="number"] .icon-n {height:12px;background-repeat: no-repeat;box-sizing: border-box;background-image:url("../fwimages/icons/128/arrow-north.png");background-size: 8px 8px;background-position: center;}
+html.theme-material.desktop .fwformfield[data-type="number"] .icon-s {height:12px;background-repeat: no-repeat;background-image:url("../fwimages/icons/128/arrow-south.png");background-size: 8px 8px;background-position: center;}
 html.theme-material.desktop .fwformfield[data-type="number"] input.fwformfield-value:focus+.add-on {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+html.theme-material.desktop .fwformfield[data-type="number"][data-enabled="false"] .add-on {cursor:default;border-bottom:1px dashed #9e9e9e !important;color: #9E9E9E;}
 
 html.theme-material.mobile .fwformfield[data-type="number"] .fwformfield-control {background-color:#ffffff;overflow:hidden;border-radius:4px;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
 html.theme-material.mobile .fwformfield[data-type="number"] input.fwformfield-value {text-align:center !important;height:44px;padding:0;}
@@ -52,7 +53,7 @@ html.theme-material.desktop .fwformfield[data-type="date"] .date-nav .tomorrow {
 html.theme-material.desktop .fwformfield[data-type="date"] .date-nav .tomorrow .icon-eastarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-east.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
 html.theme-material.desktop .fwformfield[data-type="date"] .date-nav .yesterday {height:22px;width:29px;box-sizing: border-box;vertical-align:middle;text-align:center;}
 html.theme-material.desktop .fwformfield[data-type="date"] .date-nav .yesterday .icon-westarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-west.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
-html.theme-material.desktop .fwformfield[data-type="date"][data-enabled="false"] .add-on {cursor:default;border-bottom:1px dotted #9e9e9e !important;}
+html.theme-material.desktop .fwformfield[data-type="date"][data-enabled="false"] .add-on {cursor:default;border-bottom:1px dotted #9e9e9e !important;color: #9E9E9E;}
 html.theme-material.desktop .fwformfield[data-type="date"][data-enabled="true"] .today {cursor:pointer;}
 html.theme-material.desktop .fwformfield[data-type="date"][data-enabled="true"] .tomorrow {cursor:pointer;}
 html.theme-material.desktop .fwformfield[data-type="date"][data-enabled="true"] .yesterday {cursor:pointer;}
@@ -182,7 +183,8 @@ html.theme-material .fwformfield[data-type="validation"] input.fwformfield-text 
 html.theme-material .fwformfield[data-type="validation"] input.fwformfield-text:focus {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
 html.theme-material .fwformfield[data-type="validation"] .btnvalidate {width: 32px;text-align: center;cursor:pointer;border-bottom: 1px solid #9e9e9e;outline: 0;transition: all 0.3s;color: #616161;}
 html.theme-material .fwformfield[data-type="validation"] input.fwformfield-text:focus+.btnvalidate {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
-html.theme-material .fwformfield[data-type="validation"][data-enabled="false"] .btnvalidate {cursor:default;}
+html.theme-material .fwformfield[data-type="validation"][data-enabled="false"] input.fwformfield-text {border-bottom:1px dashed #9e9e9e !important;color: #757575;}
+html.theme-material .fwformfield[data-type="validation"][data-enabled="false"] .btnvalidate {cursor:default;border-bottom:1px dashed #9e9e9e !important;color: #9E9E9E;}
 html.theme-material .fwformfield[data-type="validation"].error input.fwformfield-text {border-bottom: 1px solid #f44336;box-shadow: 0 1px 0 0 #f44336;}
 html.theme-material .fwformfield[data-type="validation"].error .btnvalidate {border-bottom: 1px solid #f44336;box-shadow: 0 1px 0 0 #f44336;}
 /*#endregion*/
@@ -283,7 +285,7 @@ html.theme-material .fwformfield[data-type="radio"] .fwformfield-control input.f
 html.theme-material .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:checked + label:before {border: 2px solid #bdbdbd;}
 html.theme-material .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:checked + label:after {border: 2px solid #bdbdbd;background-color:#bdbdbd;}
 html.theme-material .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:not(:checked) + label:before {background-color: transparent;border-color: #bdbdbd;}
-html.theme-material .fwformfield[data-type="radio"][data-enabled="false"] label {color: #bdbdbd;}
+html.theme-material .fwformfield[data-type="radio"][data-enabled="false"] label {color: #bdbdbd;cursor:default;}
 /*#endregion*/
 
 /*#region Default Theme - Button CSS*/
