@@ -69,10 +69,6 @@ namespace RentalWorksWebLibrary
 
             AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
 
-            AddModule("Tax Options", "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id, "TaxOptionsController", "module/taxoptions", settingsiconbaseurl + "placeholder.png");
-
-            AddModule("Ship Via", "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id, "ShipViaController", "module/shipvia", settingsiconbaseurl + "placeholder.png");
-
             var lv2menuCustomerSettings = AddLv2ModuleMenu("Customer Settings", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                              AddModule("Credit Status", "{A28D0CC9-B922-4259-BA4A-A5DE474ADFA4}", lv2menuCustomerSettings.Id, "CreditStatusController", "module/creditstatus", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
                                              AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerSettings.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
@@ -159,6 +155,12 @@ namespace RentalWorksWebLibrary
             var lv2menuSetSettings = AddLv2ModuleMenu("Set Settings", "{210AB6DE-159D-4979-B321-3BC1EA6574D7}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                      AddModule("Set Condition", "{0FFC8940-C060-49E4-BC24-688E25250C5F}", lv2menuSetSettings.Id, "SetConditionController", "module/setcondition", settingsiconbaseurl + "placeholder.png");
 
+            AddModule("Ship Via", "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id, "ShipViaController", "module/shipvia", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Source", "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id, "SourceController", "module/source", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Tax Options", "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id, "TaxOptionsController", "module/taxoptions", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuUserSettings = AddLv2ModuleMenu("User Settings", "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("User Status", "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id, "UserStatusController", "module/userstatus", settingsiconbaseurl + "placeholder.png");
 
@@ -188,11 +190,7 @@ namespace RentalWorksWebLibrary
                                              AddModule("Wardrobe Period", "{BF51623D-ABA6-471A-BC00-4729067C64CF}", lv2menuWardrobeSettings.Id, "WardrobePeriodController", "module/wardrobeperiod", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Source", "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id, "WardrobeSourceController", "module/wardrobesource", settingsiconbaseurl + "placeholder.png");
 
-
-
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
-
-            AddModule("Source", "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id, "SourceController", "module/source", settingsiconbaseurl + "placeholder.png");
 
 
             //Reports 
