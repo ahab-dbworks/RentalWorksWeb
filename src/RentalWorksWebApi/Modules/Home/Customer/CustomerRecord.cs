@@ -317,8 +317,8 @@ TODO:
         [FwSqlDataField(column: "shipzip", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string ShipZipCode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        //public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -165,7 +165,8 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         [FwBusinessLogicField(isReadOnly: true)]
         public string ShipCountry { get; set; }
         public string ShipZipCode { get { return customer.ShipZipCode; } set { customer.ShipZipCode = value; } }
-        public bool Inactive { get { return customer.Inactive; } set { customer.Inactive = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool Inactive { get; set; }
         public string DateStamp { get { return customer.DateStamp; } set { customer.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
