@@ -2337,7 +2337,7 @@
 				{
 					"name": "Customer: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/customerstatus",
+						"url": "http://localhost:57949/api/v1/customer",
 						"method": "POST",
 						"header": [
 							{
@@ -2353,7 +2353,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CustomerStatusId\": \"00003A3Z\",\n    \"CustomerStatus\":\"TEST61\",\n    \"StatusType\":\"U\",\n    \"CreditStatusId\":\"\"\n}"
+							"raw": "{\"CustomerId\":\"00001M61\",\"TermsAndConditionsOnFile\":false,\"Address2\":\"a\",\"customer.addressoptionflg\":\"All\",\"department\":false,\"Inactive\":false,\"UseDiscountTemplate\":false,\"Order Number\":false,\"Group Number\":false,\"Group Sort\":false,\"Location\":false,\"CreditUnlimited\":false,\"CreditResponsiblePartyOnFile\":false,\"TradeReferencesVerified\":false,\"CreditCardAuthorizationOnFile\":false,\"VehicleInsuranceCertficationOnFile\":false,\"NonTaxableCertificateOnFile\":false,\"DisableQuoteOrderActivity\":false,\"DisableRental\":false,\"DisableSales\":false,\"DisableFacilities\":false,\"DisableTransportation\":false,\"DisableLabor\":false,\"DisableMisc\":false,\"DisableRentalSale\":false,\"DisableSubRental\":false,\"DisableSubSale\":false,\"DisableSubLabor\":false,\"DisableSubMisc\":false,\"manufacturer\":false}"
 						},
 						"description": ""
 					},
@@ -9982,6 +9982,318 @@
 					"name": "Rental Category: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/rentalcategory/00003EA4",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rental Inventory",
+			"description": "",
+			"item": [
+				{
+					"name": "Rental Inventory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Inventory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental  Inventory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory/000032T1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Inventory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryTypeId\": \"00000VXB\",\n    \"InventoryCategory\": \"ABCD\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Inventory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryId\": \"000032T1\",\n    \"Description\": \"10' X 20.5\\\" X 20.5\\\" SILVER MEDIUM DUTY TRUSSXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Rental Inventory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/rentalinventory/00003EA4",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Inventory",
+			"description": "",
+			"item": [
+				{
+					"name": "Sales Inventory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Inventory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Inventory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory/000032T1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Inventory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryTypeId\": \"00000VXB\",\n    \"InventoryCategory\": \"ABCD\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Inventory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryId\": \"000032T1\",\n    \"Description\": \"10' X 20.5\\\" X 20.5\\\" SILVER MEDIUM DUTY TRUSSXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Sales Inventory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/salesinventory/00003EA4",
 						"method": "DELETE",
 						"header": [
 							{
