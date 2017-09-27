@@ -1140,10 +1140,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
-<<<<<<< Updated upstream
+    <Content Include="Source\Modules\Settings\SetOpening\SetOpeningBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SetOpening\SetOpeningForm.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
-=======
     <Content Include="Source\Modules\Settings\Deal\CrewStatus.js">
       <DependentUpon>Deal.ts</DependentUpon>
     </Content>
@@ -1189,7 +1189,6 @@
     </Content>
     <Content Include="Source\Modules\Settings\OrderSetNo\OrderSetNoBrowse.htm" />
     <Content Include="Source\Modules\Settings\OrderSetNo\OrderSetNoForm.htm" />
->>>>>>> Stashed changes
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js">
@@ -2228,9 +2227,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
-<<<<<<< Updated upstream
+    <TypeScriptCompile Include="Source\Modules\Settings\SetOpening\SetOpening.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
-=======
     <TypeScriptCompile Include="Source\Modules\Settings\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ItemsOrdered\ItemsOrdered.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrderLocation\OrderLocation.ts" />
@@ -2240,7 +2238,6 @@
     <TypeScriptCompile Include="Source\Modules\Settings\FiscalYear\FiscalYear.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\AsBuild\AsBuild.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrderSetNo\OrderSetNo.ts" />
->>>>>>> Stashed changes
     <TypeScriptCompile Include="Source\Modules\Settings\SetCondition\SetCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ShipVia\ShipVia.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FormDesign\FormDesign.ts" />
