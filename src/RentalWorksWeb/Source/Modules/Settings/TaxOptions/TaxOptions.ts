@@ -21,7 +21,7 @@ class TaxOptions {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'TaxOptions', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Tax Option', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -63,7 +63,7 @@ class TaxOptions {
     }
 
     toggleDisableUSTaxRates($form: JQuery, isChecked: boolean, exemptTypeClass: string): void {
-        if (isChecked) {
+        if (!isChecked) {
             $form.find('.' + exemptTypeClass)
                 .attr('data-enabled', 'true')
                 .find('input[type="text"]')
