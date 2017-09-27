@@ -158,6 +158,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuSetSettings = AddLv2ModuleMenu("Set Settings", "{210AB6DE-159D-4979-B321-3BC1EA6574D7}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                      AddModule("Set Condition", "{0FFC8940-C060-49E4-BC24-688E25250C5F}", lv2menuSetSettings.Id, "SetConditionController", "module/setcondition", settingsiconbaseurl + "placeholder.png");
+                                     AddModule("Set Surface", "{EC55E743-0CB1-4A74-9D10-6C4C6045AAAB}", lv2menuSetSettings.Id, "SetSurfaceController", "module/setsurface", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Ship Via", "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id, "ShipViaController", "module/shipvia", settingsiconbaseurl + "placeholder.png");
 

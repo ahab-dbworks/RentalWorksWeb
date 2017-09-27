@@ -1140,6 +1140,8 @@
     </Content>
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
+    <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js">
@@ -2151,6 +2153,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetCondition\SetCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ShipVia\ShipVia.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FormDesign\FormDesign.ts" />

@@ -51,7 +51,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/productiontype$/,             getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/officelocation$/,             getScreen: function() { return OfficeLocationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/documenttype$/,               getScreen: function() { return DocumentTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/documenttype$/,               getScreen: function () { return DocumentTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/setsurface$/,                 getScreen: function () { return SetSurfaceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/personneltype$/,              getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/photographytype$/,            getScreen: function() { return PhotographyTypeController.getModuleScreen({}, {}); } }
