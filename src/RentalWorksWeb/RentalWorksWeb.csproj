@@ -1140,8 +1140,56 @@
     </Content>
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
+<<<<<<< Updated upstream
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
+=======
+    <Content Include="Source\Modules\Settings\Deal\CrewStatus.js">
+      <DependentUpon>Deal.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Deal\DealBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Deal\DealForm.htm" />
+    <Content Include="Source\Modules\Settings\ItemsOrdered\CrewStatus.js">
+      <DependentUpon>ItemsOrdered.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ItemsOrdered\ItemsOrderedBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ItemsOrdered\ItemsOrderedForm.htm" />
+    <Content Include="Source\Modules\Settings\OrderLocation\CrewStatus.js">
+      <DependentUpon>OrderLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\OrderLocation\OrderLocationBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderLocation\OrderLocationForm.htm" />
+    <Content Include="Source\Modules\Settings\PORejectReason\CrewStatus.js">
+      <DependentUpon>PORejectReason.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PORejectReason\PORejectReasonBrowse.htm" />
+    <Content Include="Source\Modules\Settings\PORejectReason\PORejectReasonForm.htm" />
+    <Content Include="Source\Modules\Settings\FacilityCategory\CrewStatus.js">
+      <DependentUpon>FacilityCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FacilityCategory\FacilityCategoryBrowse.htm" />
+    <Content Include="Source\Modules\Settings\FacilityCategory\FacilityCategoryForm.htm" />
+    <Content Include="Source\Modules\Settings\BarCodeRange\CrewStatus.js">
+      <DependentUpon>BarCodeRange.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\BarCodeRange\BarCodeRangeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\BarCodeRange\BarCodeRangeForm.htm" />
+    <Content Include="Source\Modules\Settings\FiscalYear\CrewStatus.js">
+      <DependentUpon>FiscalYear.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FiscalYear\FiscalYearBrowse.htm" />
+    <Content Include="Source\Modules\Settings\FiscalYear\FiscalYearForm.htm" />
+    <Content Include="Source\Modules\Settings\AsBuild\CrewStatus.js">
+      <DependentUpon>AsBuild.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\AsBuild\AsBuildBrowse.htm" />
+    <Content Include="Source\Modules\Settings\AsBuild\AsBuildForm.htm" />
+    <Content Include="Source\Modules\Settings\OrderSetNo\CrewStatus.js">
+      <DependentUpon>OrderSetNo.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\OrderSetNo\OrderSetNoBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderSetNo\OrderSetNoForm.htm" />
+>>>>>>> Stashed changes
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetCondition\SetConditionForm.htm" />
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js">
@@ -2123,6 +2171,33 @@
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.js.map">
       <DependentUpon>PresentationLayer.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\OrderSetNo\CrewStatus.js.map">
+      <DependentUpon>OrderSetNo.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\OrderLocation\CrewStatus.js.map">
+      <DependentUpon>OrderLocation.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\PORejectReason\CrewStatus.js.map">
+      <DependentUpon>PORejectReason.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FacilityCategory\CrewStatus.js.map">
+      <DependentUpon>FacilityCategory.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\BarCodeRange\CrewStatus.js.map">
+      <DependentUpon>BarCodeRange.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\FiscalYear\CrewStatus.js.map">
+      <DependentUpon>FiscalYear.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\AsBuild\CrewStatus.js.map">
+      <DependentUpon>AsBuild.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\ItemsOrdered\CrewStatus.js.map">
+      <DependentUpon>ItemsOrdered.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\Deal\CrewStatus.js.map">
+      <DependentUpon>Deal.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2153,7 +2228,19 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
+<<<<<<< Updated upstream
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
+=======
+    <TypeScriptCompile Include="Source\Modules\Settings\Deal\Deal.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ItemsOrdered\ItemsOrdered.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderLocation\OrderLocation.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\PORejectReason\PORejectReason.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FacilityCategory\FacilityCategory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\BarCodeRange\BarCodeRange.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\FiscalYear\FiscalYear.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\AsBuild\AsBuild.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderSetNo\OrderSetNo.ts" />
+>>>>>>> Stashed changes
     <TypeScriptCompile Include="Source\Modules\Settings\SetCondition\SetCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ShipVia\ShipVia.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FormDesign\FormDesign.ts" />

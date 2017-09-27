@@ -46,9 +46,8 @@ namespace RentalWorksWebLibrary
             //RentalWorks
             AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
             AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", fileiconbaseurl + "placeholder.png");
-
-
             AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", fileiconbaseurl + "contact.png");
+            AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", fileiconbaseurl + "contact.png");
 
             //Settings 
             var lv2menuAccountingSettings = AddLv2ModuleMenu("Accounting Settings", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
@@ -68,6 +67,8 @@ namespace RentalWorksWebLibrary
                                             AddModule("Mail List", "{255ceb68-fb87-4248-ab99-37c18a192300}", lv2menuContactSettings.Id, "MailListController", "module/maillist", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
 
             AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Fiscal Year", "{6F87E62B-F17A-48CB-B673-16D12B6DFFB9}", lv1menuSettings.Id, "FiscalYearController", "module/fiscalyear", settingsiconbaseurl + "placeholder.png");
 
             //AddModule("Tax Option", "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id, "TaxOptionsController", "module/taxoptions", settingsiconbaseurl + "placeholder.png");
 
@@ -100,6 +101,7 @@ namespace RentalWorksWebLibrary
                                                AddModule("Facility Type", "{197BBE51-28A8-4D00-BD0C-098C0F88DD0E}", lv2menuFacilitiesSettings.Id, "FacilityTypeController", "module/facilitytype", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesSettings.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Status", "{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}", lv2menuFacilitiesSettings.Id, "FacilityStatusController", "module/facilitystatus", settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Facility Category", "{67A9BEC5-4865-409C-9327-B2B8714DDAA8}", lv2menuFacilitiesSettings.Id, "FacilityCategoryController", "module/facilitycategory", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuGeneratorSettings = AddLv2ModuleMenu("Generator Settings", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorSettings.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
@@ -135,10 +137,16 @@ namespace RentalWorksWebLibrary
                                          AddModule("Misc Type", "{EAFEE5C7-84BB-419E-905A-3AE86E18DFAB}", lv2menuMiscSettings.Id, "MiscTypeController", "module/misctype", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Category", "{D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF}", lv2menuMiscSettings.Id, "MiscCategoryController", "module/misccategory", settingsiconbaseurl + "placeholder.png");
 
+            var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                        AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "AsBuildController", "module/asbuild", settingsiconbaseurl + "placeholder.png");
+                                        AddModule("Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ItemsOrderedController", "module/itemsordered", settingsiconbaseurl + "placeholder.png");
+
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuOrderSettings = AddLv2ModuleMenu("Order Settings", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                           AddModule("Discount Reason", "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderSettings.Id, "DiscountReasonController", "module/discountreason", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Order Location", "{CF58D8C9-95EE-4617-97B9-CAFE200719CC}", lv2menuOrderSettings.Id, "OrderLocationController", "module/orderlocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentSettings = AddLv2ModuleMenu("Payment Settings", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Payment Terms", "{44FD799A-1572-4B34-9943-D94FFBEF89D4}", lv2menuPaymentSettings.Id, "PaymentTermsController", "module/paymentterms", settingsiconbaseurl + "placeholder.png");
@@ -148,6 +156,7 @@ namespace RentalWorksWebLibrary
                                        AddModule("PO Approver Role", "{992314B6-A24F-468C-A8B6-5EAC8F14BE16}", lv2menuPOSettings.Id, "POApproverRoleController", "module/poapproverrole", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOSettings.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOSettings.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Reject Reason", "{2C6910A8-51BC-421E-898F-C23938B624B4}", lv2menuPOSettings.Id, "PORejectReasonController", "module/prorejectreason", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");

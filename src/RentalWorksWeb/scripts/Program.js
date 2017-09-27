@@ -120,6 +120,18 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/shipvia$/,                    getScreen: function () { return ShipViaController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setcondition$/,               getScreen: function() { return SetConditionController.getModuleScreen({}, {}); } }
 
+
+    , { urlpattern: /^module\/ordersetno$/, getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/orderlocation$/, getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/porejectreason$/, getScreen: function () { return PORejectReasonController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/facilitycategory$/, getScreen: function () { return FacilityCategoryController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/barcoderange$/, getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/fiscalyear$/, getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/asbuild$/, getScreen: function () { return AsBuildController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/itemsordered$/, getScreen: function () { return ItemsOrderedController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/deal$/, getScreen: function () { return DealController.getModuleScreen({}, {}); } }
+
+
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
     //Reports                                             
