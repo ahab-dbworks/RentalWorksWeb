@@ -209,8 +209,8 @@ TODO:
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool Taxable { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "stateofinc", modeltype: FwDataTypes.Text, maxlength: 2)]
-        public string TaxStateOfIncorporation { get; set; }
+        [FwSqlDataField(column: "stateofincid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string TaxStateOfIncorporationId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxfedno", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string TaxFederalNo { get; set; }

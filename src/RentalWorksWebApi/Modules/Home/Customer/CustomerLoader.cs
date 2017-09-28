@@ -269,6 +269,9 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool Taxable { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "stateofincid", modeltype: FwDataTypes.Text)]
+        public string TaxStateOfIncorporationId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "stateofinc", modeltype: FwDataTypes.Text)]
         public string TaxStateOfIncorporation { get; set; }
         //------------------------------------------------------------------------------------

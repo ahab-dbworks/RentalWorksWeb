@@ -127,7 +127,9 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public string InsuranceCompanyFax { get; set; }
         public bool VehicleInsuranceCertficationOnFile { get { return customer.VehicleInsuranceCertficationOnFile; } set { customer.VehicleInsuranceCertficationOnFile = value; } }
         public bool Taxable { get { return customer.Taxable; } set { customer.Taxable = value; } }
-        public string TaxStateOfIncorporation { get { return customer.TaxStateOfIncorporation; } set { customer.TaxStateOfIncorporation = value; } }
+        public string TaxStateOfIncorporationId { get { return customer.TaxStateOfIncorporationId; } set { customer.TaxStateOfIncorporationId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxStateOfIncorporation { get; set; }
         public string TaxFederalNo { get { return customer.TaxFederalNo; } set { customer.TaxFederalNo = value; } }
         public int NonTaxableYear { get { return customer.NonTaxableYear; } set { customer.NonTaxableYear = value; } }
         public string NonTaxableCertificateNo { get { return customer.NonTaxableCertificateNo; } set { customer.NonTaxableCertificateNo = value; } }
