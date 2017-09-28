@@ -54,6 +54,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/documenttype$/,               getScreen: function () { return DocumentTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setsurface$/,                 getScreen: function () { return SetSurfaceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setopening$/,                 getScreen: function () { return SetOpeningController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/projectdrawings$/,            getScreen: function () { return ProjectDrawingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/personneltype$/,              getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/photographytype$/,            getScreen: function() { return PhotographyTypeController.getModuleScreen({}, {}); } }
@@ -122,7 +123,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/setcondition$/,               getScreen: function() { return SetConditionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/salesinventory$/,             getScreen: function() { return SalesInventoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/rentalinventory$/,            getScreen: function() { return RentalInventoryController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/projectdropshipitems$/,              getScreen: function () { return ProjectDropShipItemsController.getModuleScreen({}, {}); } }
 
     , { urlpattern: /^module\/ordersetno$/, getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/orderlocation$/, getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }

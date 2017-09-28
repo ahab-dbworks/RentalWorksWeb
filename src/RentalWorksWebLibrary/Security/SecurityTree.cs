@@ -140,11 +140,7 @@ namespace RentalWorksWebLibrary
             var lv2menuMiscSettings = AddLv2ModuleMenu("Misc Settings", "{2ED700C1-2D45-4307-9F92-41281185BD15}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Type", "{EAFEE5C7-84BB-419E-905A-3AE86E18DFAB}", lv2menuMiscSettings.Id, "MiscTypeController", "module/misctype", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Category", "{D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF}", lv2menuMiscSettings.Id, "MiscCategoryController", "module/misccategory", settingsiconbaseurl + "placeholder.png");
-
-            var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                        AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "AsBuildController", "module/asbuild", settingsiconbaseurl + "placeholder.png");
-                                        AddModule("Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ItemsOrderedController", "module/itemsordered", settingsiconbaseurl + "placeholder.png");
-
+           
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuOrderSettings = AddLv2ModuleMenu("Order Settings", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
@@ -165,6 +161,13 @@ namespace RentalWorksWebLibrary
             var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+            AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "AsBuildController", "module/asbuild", settingsiconbaseurl + "placeholder.png");
+            AddModule("Drawings", "{7486859D-243F-4817-8177-6DCB81392C36}", lv2menuProjectSettings.Id, "ProjectDrawingsController", "module/projectdrawings", settingsiconbaseurl + "placeholder.png");
+            AddModule("Drop Ship Items", "{20CD34E6-7E35-4EAF-B4D3-587870412C85}", lv2menuProjectSettings.Id, "ProjectDropShipItemsController", "module/projectdropshipitems", settingsiconbaseurl + "placeholder.png");
+            AddModule("Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ItemsOrderedController", "module/itemsordered", settingsiconbaseurl + "placeholder.png");
+
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
             AddModule("Repair Item Status", "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
