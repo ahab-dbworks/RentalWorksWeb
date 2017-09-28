@@ -1311,11 +1311,11 @@
     <Content Include="Source\Modules\Settings\Source\Source.js.map">
       <DependentUpon>Source.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptions.js">
-      <DependentUpon>TaxOptions.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\TaxOption\TaxOptions.js">
+      <DependentUpon>TaxOption.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptions.js.map">
-      <DependentUpon>TaxOptions.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\TaxOption\TaxOptions.js.map">
+      <DependentUpon>TaxOption.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\TermsConditions\TermsConditions.js">
       <DependentUpon>TermsConditions.ts</DependentUpon>
@@ -1629,8 +1629,8 @@
     <Content Include="Source\Modules\Settings\WardrobePattern\WardrobePatternForm.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodBrowse.htm" />
     <Content Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriodForm.htm" />
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsBrowse.htm" />
-    <Content Include="Source\Modules\Settings\TaxOptions\TaxOptionsForm.htm" />
+    <Content Include="Source\Modules\Settings\TaxOption\TaxOptionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\TaxOption\TaxOptionForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\Warehouse.js">
       <DependentUpon>Warehouse.ts</DependentUpon>
     </Content>
@@ -2331,7 +2331,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobeSource\WardrobeSource.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePattern\WardrobePattern.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WardrobePeriod\WardrobePeriod.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\TaxOptions\TaxOptions.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\TaxOption\TaxOption.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
   </ItemGroup>
   <ItemGroup>

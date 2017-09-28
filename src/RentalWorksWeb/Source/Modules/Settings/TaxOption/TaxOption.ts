@@ -1,12 +1,12 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
 
-class TaxOptions {
+class TaxOption {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'TaxOptions';
+        this.Module = 'TaxOption';
         this.apiurl = 'api/v1/taxoption';
     }
 
@@ -151,4 +151,4 @@ class TaxOptions {
     }
 }
 
-(window as any).TaxOptionsController = new TaxOptions();
+(window as any).TaxOptionController = new TaxOption();

@@ -55,7 +55,7 @@ class PORejectReason {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="PORejectReasonId"] input').val(uniqueids.PORejectReasonId);
+        $form.find('div.fwformfield[data-datafield="PoRejectReasonId"] input').val(uniqueids.PoRejectReasonId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class PORejectReason {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="PORejectReasonId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="PoRejectReasonId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 

@@ -116,7 +116,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/rentalcategory$/,             getScreen: function () { return RentalCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/warehousecatalog$/,           getScreen: function() { return WarehouseCatalogController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/presentationlayer$/,          getScreen: function() { return PresentationLayerController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/taxoptions$/,                 getScreen: function () { return TaxOptionsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/taxoption$/,                  getScreen: function () { return TaxOptionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/source$/,                     getScreen: function () { return SourceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/shipvia$/,                    getScreen: function () { return ShipViaController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setcondition$/,               getScreen: function() { return SetConditionController.getModuleScreen({}, {}); } }
