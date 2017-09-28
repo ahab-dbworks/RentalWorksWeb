@@ -120,6 +120,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/source$/,                     getScreen: function () { return SourceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/shipvia$/,                    getScreen: function () { return ShipViaController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setcondition$/,               getScreen: function() { return SetConditionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/salesinventory$/,             getScreen: function() { return SalesInventoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/rentalinventory$/,            getScreen: function() { return RentalInventoryController.getModuleScreen({}, {}); } }
 
 
     , { urlpattern: /^module\/ordersetno$/, getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }

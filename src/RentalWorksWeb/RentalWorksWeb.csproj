@@ -1117,6 +1117,10 @@
     </Content>
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
+    <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
+    <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
+    <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -1678,6 +1682,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
+    <Content Include="Source\Validations\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Validations\SalesCategory\SalesCategoryBrowse.htm" />
     <Content Include="Source\Validations\RentalCategory\RentalCategoryBrowse.htm" />
     <Content Include="Source\Validations\PartsCategory\PartsCategoryBrowse.htm" />
@@ -1871,6 +1876,7 @@
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
+    <Compile Include="Source\Validations\PaymentType\PaymentType.cs" />
     <Compile Include="Source\Validations\SalesCategory\SalesCategory.cs" />
     <Compile Include="Source\Validations\RentalCategory\RentalCategory.cs" />
     <Compile Include="Source\Validations\PartsCategory\PartsCategory.cs" />
@@ -2225,6 +2231,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetOpening\SetOpening.ts" />
