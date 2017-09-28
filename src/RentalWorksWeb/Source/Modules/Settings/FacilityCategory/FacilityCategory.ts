@@ -55,7 +55,7 @@ class FacilityCategory {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="FacilityCategoryId"] input').val(uniqueids.FacilityCategoryId);
+        $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val(uniqueids.InventoryCategoryId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class FacilityCategory {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="FacilityCategoryId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
