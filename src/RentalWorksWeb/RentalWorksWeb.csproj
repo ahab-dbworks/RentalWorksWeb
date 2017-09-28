@@ -1682,6 +1682,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
+    <Content Include="Source\Validations\State\StateBrowse.htm" />
     <Content Include="Source\Validations\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Validations\SalesCategory\SalesCategoryBrowse.htm" />
     <Content Include="Source\Validations\RentalCategory\RentalCategoryBrowse.htm" />
@@ -1876,6 +1877,7 @@
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
+    <Compile Include="Source\Validations\State\State.cs" />
     <Compile Include="Source\Validations\PaymentType\PaymentType.cs" />
     <Compile Include="Source\Validations\SalesCategory\SalesCategory.cs" />
     <Compile Include="Source\Validations\RentalCategory\RentalCategory.cs" />
