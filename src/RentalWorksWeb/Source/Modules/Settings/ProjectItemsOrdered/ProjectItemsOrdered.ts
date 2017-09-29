@@ -1,13 +1,13 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class ItemsOrdered {
+class ProjectItemsOrdered {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'ItemsOrdered';
-        this.apiurl = 'api/v1/itemsordered';
+        this.Module = 'ProjectItemsOrdered';
+        this.apiurl = 'api/v1/projectitemsordered';
     }
 
     getModuleScreen() {
@@ -21,7 +21,7 @@ class ItemsOrdered {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Items Ordered', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Project Items Ordered', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class ItemsOrdered {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="ItemsOrderedId"] input').val(uniqueids.ItemsOrderedId);
+        $form.find('div.fwformfield[data-datafield="ProjectItemsOrderedId"] input').val(uniqueids.ProjectItemsOrderedId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class ItemsOrdered {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="ItemsOrderedId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="ProjectItemsOrderedId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,4 @@ class ItemsOrdered {
     }
 }
 
-(<any>window).ItemsOrderedController = new ItemsOrdered();
+(<any>window).ProjectItemsOrderedController = new ProjectItemsOrdered();

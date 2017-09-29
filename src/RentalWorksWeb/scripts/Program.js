@@ -134,9 +134,8 @@ Program.prototype.modules = [
     , { urlpattern: /^module\/barcoderange$/, getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/fiscalyear$/, getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/asbuild$/, getScreen: function () { return AsBuildController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/itemsordered$/, getScreen: function () { return ItemsOrderedController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/projectitemsordered$/, getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/deal$/, getScreen: function () { return DealController.getModuleScreen({}, {}); } }
-
 
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }

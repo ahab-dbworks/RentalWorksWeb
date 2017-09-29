@@ -1162,11 +1162,11 @@
     </Content>
     <Content Include="Source\Modules\Settings\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Settings\Deal\DealForm.htm" />
-    <Content Include="Source\Modules\Settings\ItemsOrdered\CrewStatus.js">
-      <DependentUpon>ItemsOrdered.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js">
+      <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\ItemsOrdered\ItemsOrderedBrowse.htm" />
-    <Content Include="Source\Modules\Settings\ItemsOrdered\ItemsOrderedForm.htm" />
+    <Content Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrderedBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrderedForm.htm" />
     <Content Include="Source\Modules\Settings\OrderLocation\CrewStatus.js">
       <DependentUpon>OrderLocation.ts</DependentUpon>
     </Content>
@@ -2212,8 +2212,8 @@
     <Content Include="Source\Modules\Settings\AsBuild\CrewStatus.js.map">
       <DependentUpon>AsBuild.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\ItemsOrdered\CrewStatus.js.map">
-      <DependentUpon>ItemsOrdered.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js.map">
+      <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\Deal\CrewStatus.js.map">
       <DependentUpon>Deal.ts</DependentUpon>
@@ -2258,7 +2258,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItems.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Deal\Deal.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\ItemsOrdered\ItemsOrdered.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrdered.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrderLocation\OrderLocation.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PORejectReason\PORejectReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\FacilityCategory\FacilityCategory.ts" />
