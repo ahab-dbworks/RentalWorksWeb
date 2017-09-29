@@ -1287,6 +1287,10 @@
     </Content>
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerBrowse.htm" />
     <Content Include="Source\Modules\Settings\PresentationLayer\PresentationLayerForm.htm" />
+    <Content Include="Source\Modules\Settings\ProjectDeposit\ProjectDepositBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ProjectDeposit\ProjectDepositForm.htm" />
+    <Content Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioningBrowse.htm" />
+    <Content Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioningForm.htm" />
     <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.js">
       <DependentUpon>WarehouseCatalog.ts</DependentUpon>
     </Content>
@@ -2261,6 +2265,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryCondition\InventoryCondition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborCategory\LaborCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ProjectDeposit\ProjectDeposit.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioning.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RentalCategory\RentalCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SalesCategory\SalesCategory.ts" />
