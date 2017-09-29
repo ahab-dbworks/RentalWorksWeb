@@ -4,6 +4,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data;
+using System.Collections.Generic;
+
 namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
 {
     [FwSqlTable("presentationlayerform")]
@@ -29,8 +31,15 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("presentationlayerid = @presentationlayerid");
-            select.AddParameter("@presentationlayerid", request.miscfields.PresentationLayerId.value);
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey("PresentationLayerId"))
+                {
+                    select.AddWhere("presentationlayerid = @presentationlayerid");
+                    select.AddParameter("@presentationlayerid", miscfields["PresentationLayerId"].ToString());
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

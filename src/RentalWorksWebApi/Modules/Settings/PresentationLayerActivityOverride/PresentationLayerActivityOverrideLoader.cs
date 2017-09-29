@@ -41,8 +41,15 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivityOverride
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("presentationlayerid = @presentationlayerid");
-            select.AddParameter("@presentationlayerid", request.miscfields.PresentationLayerId.value);
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey("PresentationLayerId"))
+                {
+                    select.AddWhere("presentationlayerid = @presentationlayerid");
+                    select.AddParameter("@presentationlayerid", miscfields["PresentationLayerId"].ToString());
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
