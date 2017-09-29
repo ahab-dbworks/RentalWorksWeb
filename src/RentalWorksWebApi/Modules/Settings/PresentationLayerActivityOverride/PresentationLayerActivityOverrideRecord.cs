@@ -8,11 +8,8 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivityOverride
     public class PresentationLayerActivityOverrideRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", isPrimaryKey: true, identity: true, modeltype: FwDataTypes.Integer, sqltype: "int")]
-        public int Id { get; set; } = 0;
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "internalchar", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKeyOptional: true)]
-        public string InternalChar { get; set; } = "";
+        [FwSqlDataField(column: "presentationlayeractivityoverrideid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PresentationLayerActivityOverrideId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string PresentationLayerId { get; set; }

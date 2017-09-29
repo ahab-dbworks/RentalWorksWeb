@@ -14,9 +14,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivityOverride
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public int Id { get { return presentationLayerActivityOverride.Id; } set { presentationLayerActivityOverride.Id = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true, isPrimaryKeyOptional: true)]
-        public string InternalChar { get { return presentationLayerActivityOverride.InternalChar; } set { presentationLayerActivityOverride.InternalChar = value; } }
+        public string PresentationLayerActivityOverrideId { get { return presentationLayerActivityOverride.PresentationLayerActivityOverrideId; } set { presentationLayerActivityOverride.PresentationLayerActivityOverrideId = value; } }
         public string PresentationLayerId { get { return presentationLayerActivityOverride.PresentationLayerId; } set { presentationLayerActivityOverride.PresentationLayerId = value; } }
         public string PresentationLayerActivityId { get { return presentationLayerActivityOverride.PresentationLayerActivityId; } set { presentationLayerActivityOverride.PresentationLayerActivityId = value; } }
         public string MasterId { get { return presentationLayerActivityOverride.MasterId; } set { presentationLayerActivityOverride.MasterId = value; } }
