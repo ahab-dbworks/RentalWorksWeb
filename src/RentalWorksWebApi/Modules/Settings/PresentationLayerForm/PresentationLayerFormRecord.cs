@@ -1,4 +1,6 @@
-using FwStandard.BusinessLogic; 
+using FwStandard.BusinessLogic;
+using FwStandard.DataLayer;
+using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data;
@@ -23,5 +25,13 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            select.AddWhere("presentationlayerid = @presentationlayerid");
+            select.AddParameter("@presentationlayerid", request.miscfields.PresentationLayerId.value);
+        }
+        //------------------------------------------------------------------------------------
     }
 }
