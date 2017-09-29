@@ -384,6 +384,7 @@ namespace FwStandard.DataLayer
                                 tokenBuilder = new StringBuilder();
                                 switch (token)
                                 {
+                                    case "": break; //jh 09/29/2017 allows for spaces between field names in the "Order By" list
                                     case "asc":
                                     case "desc":
                                         orderbyBuilder.Append(token);
