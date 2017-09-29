@@ -1,12 +1,12 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class BarCadeRange {
+class BarCodeRange {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'BarCadeRange';
+        this.Module = 'BarCodeRange';
         this.apiurl = 'api/v1/barcoderange';
     }
 
@@ -55,7 +55,7 @@ class BarCadeRange {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="BarCadeRangeId"] input').val(uniqueids.BarCadeRangeId);
+        $form.find('div.fwformfield[data-datafield="BarCodeRangeId"] input').val(uniqueids.BarCodeRangeId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class BarCadeRange {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="BarCadeRangeId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="BarCodeRangeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,4 @@ class BarCadeRange {
     }
 }
 
-(<any>window).BarCadeRangeController = new BarCadeRange();
+(<any>window).BarCodeRangeController = new BarCodeRange();

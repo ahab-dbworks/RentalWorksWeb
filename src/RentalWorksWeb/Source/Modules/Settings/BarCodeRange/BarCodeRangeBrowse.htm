@@ -1,9 +1,17 @@
-<div data-name="CrewStatus" data-control="FwBrowse" data-type="Browse" id="CrewStatusBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="CrewStatusController">
+<div data-name="BarCodeRange" data-control="FwBrowse" data-type="Browse" id="BarCodeRangeBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="BarCodeRangeController">
     <div class="column" data-width="0" data-visible="false">
-        <div class="field" data-isuniqueid="true" data-browsedatafield="CrewStatusId" data-browsedatatype="key" data-formdatafield="CrewStatusId"></div>
+        <div class="field" data-isuniqueid="true" data-browsedatafield="BarCodeRangeId" data-browsedatatype="key" data-formdatafield="BarCodeRangeId"></div>
     </div>
     <div class="column" data-width="300px" data-visible="true">
-        <div class="field" data-caption="Crew Status" data-browsedatafield="CrewStatus" data-browsedatatype="text" data-sort="asc"></div>
+        <div class="field" data-caption="Bar Code Range" data-browsedatafield="Description" data-browsedatatype="text" data-sort="asc"></div>
     </div>
-    <div class="column" data-width="auto" data-visible="true"></div>
+    <div class="column" data-width="300px" data-visible="true">
+        <div class="field" data-caption="Prefix" data-browsedatafield="Prefix" data-browsedatatype="text" data-sort="asc"></div>
+    </div>
+    <div class="column" data-width="300px" data-visible="true">
+        <div class="field" data-caption="Bar Code From" data-browsedatafield="BarcodeFrom" data-browsedatatype="text" data-sort="asc"></div>
+    </div>
+    <div class="column" data-width="300px" data-visible="true">
+        <div class="field" data-caption="Bar Code To" data-browsedatafield="BarcodeTo" data-browsedatatype="text" data-sort="asc"></div>
+    </div>
 </div>
