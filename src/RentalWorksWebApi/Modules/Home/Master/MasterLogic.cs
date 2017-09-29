@@ -1,29 +1,41 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Home.Inventory;
-
-namespace RentalWorksWebApi.Modules.Home.SalesInventory
+namespace RentalWorksWebApi.Modules.Home.Master
 {
-    public class SalesInventoryLogic : InventoryLogic
+    public abstract class MasterLogic : RwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        SalesInventoryLoader inventoryLoader = new SalesInventoryLoader();
-        public SalesInventoryLogic()
+        protected MasterRecord master = new MasterRecord();
+        public MasterLogic()
         {
-            dataLoader = inventoryLoader;
+            dataRecords.Add(master);
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isRecordTitle: true)]
+        public string ICode { get { return master.ICode; } set { master.ICode = value; } }
+        public string Description { get { return master.Description; } set { master.Description = value; } }
+        [JsonIgnore]
+        public string AvailFor { get { return master.AvailFor; } set { master.AvailFor = value; } }
+        public string CategoryId { get { return master.CategoryId; } set { master.CategoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Category { get; set; }
+        public string SubCategoryId { get { return master.SubCategoryId; } set { master.SubCategoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SubCategory { get; set; }
+        public string Classification { get { return master.Classification; } set { master.Classification = value; } }
+        public string UnitId { get { return master.UnitId; } set { master.UnitId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Unit { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string UnitType { get; set; }
+
+
         /*
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext255 { get; set; }
-                public string UnitId { get { return master.UnitId; } set { master.UnitId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Unit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Unittype { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Vendor { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -101,10 +113,8 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 public bool Fixedasset { get { return master.Fixedasset; } set { master.Fixedasset = value; } }
                 public bool Nodiscount { get { return master.Nodiscount; } set { master.Nodiscount = value; } }
                 public string Hazardousmaterial { get { return master.Hazardousmaterial; } set { master.Hazardousmaterial = value; } }
-                public bool Rank { get { return master.Rank; } set { master.Rank = value; } }
                 public decimal Replacementcost { get { return master.Replacementcost; } set { master.Replacementcost = value; } }
                 public decimal Manifestvalue { get { return master.Manifestvalue; } set { master.Manifestvalue = value; } }
-                public string Trackedby { get { return master.Trackedby; } set { master.Trackedby = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Notes { get; set; }
                 public string Partnumber { get { return master.Partnumber; } set { master.Partnumber = value; } }
@@ -153,7 +163,6 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 public int Lengthm { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Lengthcm { get; set; }
-                public bool Noavail { get { return master.Noavail; } set { master.Noavail = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public decimal Dw { get; set; }
                 public bool Metered { get { return master.Metered; } set { master.Metered = value; } }
@@ -221,11 +230,8 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Stoptime { get; set; }
         */
-
-        public override void BeforeSave()
-        {
-            AvailFor = "S";
-        }
+        public bool Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
+        public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -2,18 +2,23 @@ using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Home.Master;
 using RentalWorksWebApi.Modules.Home.Inventory;
+using RentalWorksWebApi.Modules.Settings.Rate;
 
-namespace RentalWorksWebApi.Modules.Home.SalesInventory
+namespace RentalWorksWebApi.Modules.Settings.LaborRate
 {
-    public class SalesInventoryLogic : InventoryLogic
+    public class LaborRateLogic : RateLogic 
     {
         //------------------------------------------------------------------------------------ 
-        SalesInventoryLoader inventoryLoader = new SalesInventoryLoader();
-        public SalesInventoryLogic()
+        LaborRateLoader inventoryLoader = new LaborRateLoader();
+        public LaborRateLogic()
         {
             dataLoader = inventoryLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LaborTypeId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LaborType { get; set; }
         /*
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext { get; set; }
@@ -224,7 +229,7 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
 
         public override void BeforeSave()
         {
-            AvailFor = "S";
+            AvailFor = "M";
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -1,44 +1,30 @@
-using FwStandard.BusinessLogic.Attributes;
-using Newtonsoft.Json;
+using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
+using RentalWorksWebApi.Modules.Home.Master;
+
 namespace RentalWorksWebApi.Modules.Home.Inventory
 {
-    public abstract class InventoryLogic : RwBusinessLogic
+    public abstract class InventoryLogic : MasterLogic 
     {
         //------------------------------------------------------------------------------------ 
-        InventoryRecord inventory = new InventoryRecord();
-        public InventoryLogic()
-        {
-            dataRecords.Add(inventory);
-        }
-        //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string InventoryId { get { return inventory.InventoryId; } set { inventory.InventoryId = value; } }
-        [FwBusinessLogicField(isRecordTitle: true)]
-        public string ICode { get { return inventory.ICode; } set { inventory.ICode = value; } }
-        public string Description { get { return inventory.Description; } set { inventory.Description = value; } }
-        [JsonIgnore]
-        public string AvailFor { get { return inventory.AvailFor; } set { inventory.AvailFor = value; } }
+        public string InventoryId { get { return master.MasterId; } set { master.MasterId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
-        public string CategoryId { get { return inventory.CategoryId; } set { inventory.CategoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string Category { get; set; }
-        public string SubCategoryId { get { return inventory.SubCategoryId; } set { inventory.SubCategoryId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string SubCategory { get; set; }
-        public string Classification { get { return inventory.Classification; } set { inventory.Classification = value; } }
-        public string AvailableFrom { get { return inventory.AvailableFrom; } set { inventory.AvailableFrom = value; } }
-
+        public string AvailableFrom { get { return master.AvailableFrom; } set { master.AvailableFrom = value; } }
+        public string TrackedBy { get { return master.TrackedBy; } set { master.TrackedBy = value; } }
+        public bool NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
+        public string Rank { get { return master.Rank; } set { master.Rank = value; } }
+        public bool AvailabilityManuallyResolveConflicts { get { return master.AvailabilityManuallyResolveConflicts; } set { master.AvailabilityManuallyResolveConflicts = value; } }
 
         /*
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext255 { get; set; }
-                public string UnitId { get { return inventory.UnitId; } set { inventory.UnitId = value; } }
+                public string UnitId { get { return master.UnitId; } set { master.UnitId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Unit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -117,19 +103,19 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
                 public string PhysicalId { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Lastphydate { get; set; }
-                public bool Fixedasset { get { return inventory.Fixedasset; } set { inventory.Fixedasset = value; } }
-                public bool Nodiscount { get { return inventory.Nodiscount; } set { inventory.Nodiscount = value; } }
-                public string Hazardousmaterial { get { return inventory.Hazardousmaterial; } set { inventory.Hazardousmaterial = value; } }
-                public bool Rank { get { return inventory.Rank; } set { inventory.Rank = value; } }
-                public decimal Replacementcost { get { return inventory.Replacementcost; } set { inventory.Replacementcost = value; } }
-                public decimal Manifestvalue { get { return inventory.Manifestvalue; } set { inventory.Manifestvalue = value; } }
-                public string Trackedby { get { return inventory.Trackedby; } set { inventory.Trackedby = value; } }
+                public bool Fixedasset { get { return master.Fixedasset; } set { master.Fixedasset = value; } }
+                public bool Nodiscount { get { return master.Nodiscount; } set { master.Nodiscount = value; } }
+                public string Hazardousmaterial { get { return master.Hazardousmaterial; } set { master.Hazardousmaterial = value; } }
+                public bool Rank { get { return master.Rank; } set { master.Rank = value; } }
+                public decimal Replacementcost { get { return master.Replacementcost; } set { master.Replacementcost = value; } }
+                public decimal Manifestvalue { get { return master.Manifestvalue; } set { master.Manifestvalue = value; } }
+                public string Trackedby { get { return master.Trackedby; } set { master.Trackedby = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Notes { get; set; }
-                public string Partnumber { get { return inventory.Partnumber; } set { inventory.Partnumber = value; } }
-                public string Originalicode { get { return inventory.Originalicode; } set { inventory.Originalicode = value; } }
-                public string Ratetype { get { return inventory.Ratetype; } set { inventory.Ratetype = value; } }
-                public string MfgId { get { return inventory.MfgId; } set { inventory.MfgId = value; } }
+                public string Partnumber { get { return master.Partnumber; } set { master.Partnumber = value; } }
+                public string Originalicode { get { return master.Originalicode; } set { master.Originalicode = value; } }
+                public string Ratetype { get { return master.Ratetype; } set { master.Ratetype = value; } }
+                public string MfgId { get { return master.MfgId; } set { master.MfgId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Manufacturer { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -172,27 +158,27 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
                 public int Lengthm { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Lengthcm { get; set; }
-                public bool Noavail { get { return inventory.Noavail; } set { inventory.Noavail = value; } }
+                public bool Noavail { get { return master.Noavail; } set { master.Noavail = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public decimal Dw { get; set; }
-                public bool Metered { get { return inventory.Metered; } set { inventory.Metered = value; } }
-                public string OriginalshowId { get { return inventory.OriginalshowId; } set { inventory.OriginalshowId = value; } }
+                public bool Metered { get { return master.Metered; } set { master.Metered = value; } }
+                public string OriginalshowId { get { return master.OriginalshowId; } set { master.OriginalshowId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Originalshow { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Container { get; set; }
-                public bool Qcrequired { get { return inventory.Qcrequired; } set { inventory.Qcrequired = value; } }
-                public bool Hastieredprice { get { return inventory.Hastieredprice; } set { inventory.Hastieredprice = value; } }
+                public bool Qcrequired { get { return master.Qcrequired; } set { master.Qcrequired = value; } }
+                public bool Hastieredprice { get { return master.Hastieredprice; } set { master.Hastieredprice = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Chargetype { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Productionexchangeecode { get; set; }
-                public bool Displaywhenrateiszero { get { return inventory.Displaywhenrateiszero; } set { inventory.Displaywhenrateiszero = value; } }
+                public bool Displaywhenrateiszero { get { return master.Displaywhenrateiszero; } set { master.Displaywhenrateiszero = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Invdeptisprops { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Invdeptiswardrobe { get; set; }
-                public string ContainerId { get { return inventory.ContainerId; } set { inventory.ContainerId = value; } }
+                public string ContainerId { get { return master.ContainerId; } set { master.ContainerId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string ScannablemasterId { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -201,32 +187,32 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
                 public bool Availbydeal { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Availbyasset { get; set; }
-                public bool Unlockweek4rate { get { return inventory.Unlockweek4rate; } set { inventory.Unlockweek4rate = value; } }
-                public string PatternId { get { return inventory.PatternId; } set { inventory.PatternId = value; } }
-                public string PeriodId { get { return inventory.PeriodId; } set { inventory.PeriodId = value; } }
-                public string MaterialId { get { return inventory.MaterialId; } set { inventory.MaterialId = value; } }
-                public string GenderId { get { return inventory.GenderId; } set { inventory.GenderId = value; } }
-                public string LabelId { get { return inventory.LabelId; } set { inventory.LabelId = value; } }
-                public string Wardrobesize { get { return inventory.Wardrobesize; } set { inventory.Wardrobesize = value; } }
-                public int Wardrobepiececount { get { return inventory.Wardrobepiececount; } set { inventory.Wardrobepiececount = value; } }
-                public bool Tracksoftware { get { return inventory.Tracksoftware; } set { inventory.Tracksoftware = value; } }
-                public bool Trackassetusageflg { get { return inventory.Trackassetusageflg; } set { inventory.Trackassetusageflg = value; } }
-                public bool Tracklampusageflg { get { return inventory.Tracklampusageflg; } set { inventory.Tracklampusageflg = value; } }
-                public bool Trackstrikesflg { get { return inventory.Trackstrikesflg; } set { inventory.Trackstrikesflg = value; } }
-                public bool Trackcandlesflg { get { return inventory.Trackcandlesflg; } set { inventory.Trackcandlesflg = value; } }
-                public int Minfootcandles { get { return inventory.Minfootcandles; } set { inventory.Minfootcandles = value; } }
-                public int Lampcount { get { return inventory.Lampcount; } set { inventory.Lampcount = value; } }
-                public bool Defaultprorateweeks { get { return inventory.Defaultprorateweeks; } set { inventory.Defaultprorateweeks = value; } }
-                public bool Defaultproratemonths { get { return inventory.Defaultproratemonths; } set { inventory.Defaultproratemonths = value; } }
-                public bool Includeonpicklist { get { return inventory.Includeonpicklist; } set { inventory.Includeonpicklist = value; } }
+                public bool Unlockweek4rate { get { return master.Unlockweek4rate; } set { master.Unlockweek4rate = value; } }
+                public string PatternId { get { return master.PatternId; } set { master.PatternId = value; } }
+                public string PeriodId { get { return master.PeriodId; } set { master.PeriodId = value; } }
+                public string MaterialId { get { return master.MaterialId; } set { master.MaterialId = value; } }
+                public string GenderId { get { return master.GenderId; } set { master.GenderId = value; } }
+                public string LabelId { get { return master.LabelId; } set { master.LabelId = value; } }
+                public string Wardrobesize { get { return master.Wardrobesize; } set { master.Wardrobesize = value; } }
+                public int Wardrobepiececount { get { return master.Wardrobepiececount; } set { master.Wardrobepiececount = value; } }
+                public bool Tracksoftware { get { return master.Tracksoftware; } set { master.Tracksoftware = value; } }
+                public bool Trackassetusageflg { get { return master.Trackassetusageflg; } set { master.Trackassetusageflg = value; } }
+                public bool Tracklampusageflg { get { return master.Tracklampusageflg; } set { master.Tracklampusageflg = value; } }
+                public bool Trackstrikesflg { get { return master.Trackstrikesflg; } set { master.Trackstrikesflg = value; } }
+                public bool Trackcandlesflg { get { return master.Trackcandlesflg; } set { master.Trackcandlesflg = value; } }
+                public int Minfootcandles { get { return master.Minfootcandles; } set { master.Minfootcandles = value; } }
+                public int Lampcount { get { return master.Lampcount; } set { master.Lampcount = value; } }
+                public bool Defaultprorateweeks { get { return master.Defaultprorateweeks; } set { master.Defaultprorateweeks = value; } }
+                public bool Defaultproratemonths { get { return master.Defaultproratemonths; } set { master.Defaultproratemonths = value; } }
+                public bool Includeonpicklist { get { return master.Includeonpicklist; } set { master.Includeonpicklist = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public decimal Maxdiscount { get; set; }
-                public bool Dyed { get { return inventory.Dyed; } set { inventory.Dyed = value; } }
-                public string WardrobesourceId { get { return inventory.WardrobesourceId; } set { inventory.WardrobesourceId = value; } }
-                public string WardrobecareId { get { return inventory.WardrobecareId; } set { inventory.WardrobecareId = value; } }
-                public decimal Cleaningfeeamount { get { return inventory.Cleaningfeeamount; } set { inventory.Cleaningfeeamount = value; } }
-                public string Inputdate { get { return inventory.Inputdate; } set { inventory.Inputdate = value; } }
-                public bool Overrideprofitlosscategory { get { return inventory.Overrideprofitlosscategory; } set { inventory.Overrideprofitlosscategory = value; } }
+                public bool Dyed { get { return master.Dyed; } set { master.Dyed = value; } }
+                public string WardrobesourceId { get { return master.WardrobesourceId; } set { master.WardrobesourceId = value; } }
+                public string WardrobecareId { get { return master.WardrobecareId; } set { master.WardrobecareId = value; } }
+                public decimal Cleaningfeeamount { get { return master.Cleaningfeeamount; } set { master.Cleaningfeeamount = value; } }
+                public string Inputdate { get { return master.Inputdate; } set { master.Inputdate = value; } }
+                public bool Overrideprofitlosscategory { get { return master.Overrideprofitlosscategory; } set { master.Overrideprofitlosscategory = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string PlcategoryId { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -240,8 +226,11 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Stoptime { get; set; }
         */
-        public bool Inactive { get { return inventory.Inactive; } set { inventory.Inactive = value; } }
-        public string DateStamp { get { return inventory.DateStamp; } set { inventory.DateStamp = value; } }
+
+        public override void BeforeSave()
+        {
+            AvailFor = "R";
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
