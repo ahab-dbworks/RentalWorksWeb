@@ -34,9 +34,9 @@ var Vendor = (function () {
         $form.on('click', '#companytaxgrid .selected', function (e) {
             _this.updateExternalInputsWithGridValues(e.currentTarget);
         });
-        $form.on('click', '#vendornotegrid .selected', function (e) {
-            _this.updateExternalInputsWithGridValues(e.currentTarget);
-        });
+        //$form.on('click', '#vendornotegrid .selected', (e) => {
+        //    this.updateExternalInputsWithGridValues(e.currentTarget);
+        //});
     };
     Vendor.prototype.getTab = function ($target) {
         return $target.closest('.tabpage');

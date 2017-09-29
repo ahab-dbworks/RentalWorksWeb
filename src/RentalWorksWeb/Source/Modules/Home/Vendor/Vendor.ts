@@ -50,9 +50,9 @@ declare var FwBrowse: any;
                 this.updateExternalInputsWithGridValues(e.currentTarget);
             });
 
-            $form.on('click', '#vendornotegrid .selected', (e) => {
-                this.updateExternalInputsWithGridValues(e.currentTarget);
-            });
+            //$form.on('click', '#vendornotegrid .selected', (e) => {
+            //    this.updateExternalInputsWithGridValues(e.currentTarget);
+            //});
         }
 
         getTab($target: JQuery): JQuery {            

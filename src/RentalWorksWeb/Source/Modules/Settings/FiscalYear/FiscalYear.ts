@@ -42,6 +42,22 @@ class FiscalYear {
         return $browse;
     }
 
+    renderGrids($form: any) {
+        var $fiscalYearGrid, $fiscalYearControl;
+
+        // load companytax Grid
+        $fiscalYearGrid = $form.find('div[data-grid="FiscalYearGrid"]');
+        $fiscalYearControl = jQuery(jQuery('#tmpl-grids-FiscalYearGridBrowse').html());
+        $fiscalYearGrid.empty().append($fiscalYearControl);
+        $fiscalYearControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                Year: $form.find('div.fwformfield[data-datafield="Year"] input').val()
+            }
+        });
+        FwBrowse.init($fiscalYearControl);
+        FwBrowse.renderRuntimeHtml($fiscalYearControl);
+    }
+
     openForm(mode: string) {
         var $form;
 
@@ -72,7 +88,10 @@ class FiscalYear {
     }
 
     afterLoad($form: any) {
+        var $fiscalYearGrid;
 
+        $fiscalYearGrid = $form.find('[data-name="FiscalYearGrid"]');
+        FwBrowse.search($fiscalYearGrid);
     }
 }
 
