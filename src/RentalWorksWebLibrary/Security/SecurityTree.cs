@@ -163,7 +163,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                         AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "AsBuildController", "module/asbuild", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Project As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "ProjectAsBuildController", "module/projectasbuild", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Commissioning", "{0EFE9BBA-0685-4046-A7D6-EC3D34AD01AA}", lv2menuProjectSettings.Id, "ProjectCommissioningController", "module/projectcommissioning", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Deposit", "{24E6F284-7457-4E75-B77D-25B3A6BE6A4D}", lv2menuProjectSettings.Id, "ProjectDepositController", "module/projectdeposit", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Drawings", "{7486859D-243F-4817-8177-6DCB81392C36}", lv2menuProjectSettings.Id, "ProjectDrawingsController", "module/projectdrawings", settingsiconbaseurl + "placeholder.png");

@@ -133,7 +133,7 @@ Program.prototype.modules = [
     , { urlpattern: /^module\/facilitycategory$/, getScreen: function () { return FacilityCategoryController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/barcoderange$/, getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/fiscalyear$/, getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/asbuild$/, getScreen: function () { return AsBuildController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/projectasbuild$/, getScreen: function () { return ProjectAsBuildController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/projectitemsordered$/, getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/deal$/, getScreen: function () { return DealController.getModuleScreen({}, {}); } }
 

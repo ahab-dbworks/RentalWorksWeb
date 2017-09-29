@@ -2,10 +2,10 @@
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class AsBuildMenu : FwSecurityTreeBranch
+    public class ProjectAsBuildMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public AsBuildMenu() : base("{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}") { }
+        public ProjectAsBuildMenu() : base("{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

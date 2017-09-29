@@ -1,13 +1,13 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class AsBuild {
+class ProjectAsBuild {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'AsBuild';
-        this.apiurl = 'api/v1/asbuild';
+        this.Module = 'ProjectAsBuild';
+        this.apiurl = 'api/v1/projectasbuild';
     }
 
     getModuleScreen() {
@@ -21,7 +21,7 @@ class AsBuild {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'As Build', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Project As Build', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class AsBuild {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="AsBuildId"] input').val(uniqueids.AsBuildId);
+        $form.find('div.fwformfield[data-datafield="ProjectAsBuildId"] input').val(uniqueids.ProjectAsBuildId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class AsBuild {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="AsBuildId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="ProjectAsBuildId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,4 @@ class AsBuild {
     }
 }
 
-(<any>window).AsBuildController = new AsBuild();
+(<any>window).ProjectAsBuildController = new ProjectAsBuild();
