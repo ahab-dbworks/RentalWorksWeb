@@ -164,11 +164,11 @@ namespace RentalWorksWebLibrary
 
             var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "AsBuildController", "module/asbuild", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Commissioning", "{0EFE9BBA-0685-4046-A7D6-EC3D34AD01AA}", lv2menuProjectSettings.Id, "ProjectCommissioningController", "module/projectcommissioning", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Deposit", "{24E6F284-7457-4E75-B77D-25B3A6BE6A4D}", lv2menuProjectSettings.Id, "ProjectDepositController", "module/projectdeposit", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Drawings", "{7486859D-243F-4817-8177-6DCB81392C36}", lv2menuProjectSettings.Id, "ProjectDrawingsController", "module/projectdrawings", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Drop Ship Items", "{20CD34E6-7E35-4EAF-B4D3-587870412C85}", lv2menuProjectSettings.Id, "ProjectDropShipItemsController", "module/projectdropshipitems", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ItemsOrderedController", "module/itemsordered", settingsiconbaseurl + "placeholder.png");
-                                         AddModule("Commissioning", "{0EFE9BBA-0685-4046-A7D6-EC3D34AD01AA}", lv2menuProjectSettings.Id, "ProjectCommissioningController", "module/projectcommissioning", settingsiconbaseurl + "placeholder.png");
-                                         AddModule("Deposit", "{24E6F284-7457-4E75-B77D-25B3A6BE6A4D}", lv2menuProjectSettings.Id, "ProjectDepositController", "module/projectdeposit", settingsiconbaseurl + "placeholder.png");
 
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
