@@ -82,6 +82,10 @@ namespace FwStandard.DataLayer
                                 {
                                     hasPrimaryKeysSet &= (propertyValue as string).Length > 0;
                                 }
+                                else if (propertyValue is Int32)
+                                {
+                                    hasPrimaryKeysSet &= (((Int32)propertyValue) != 0);
+                                }
                                 else
                                 {
                                     throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllPrimaryKeysHaveValues]");
@@ -107,6 +111,10 @@ namespace FwStandard.DataLayer
                     if (propertyValue is string)
                     {
                         noPrimaryKeysHaveValues &= (propertyValue as string).Length == 0;
+                    }
+                    else if (propertyValue is Int32)
+                    {
+                        noPrimaryKeysHaveValues &= (((Int32)propertyValue) == 0);
                     }
                     else
                     {
@@ -487,7 +495,17 @@ namespace FwStandard.DataLayer
             int k = 0;
             foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
             {
-                primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
+                //primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
+                object propertyValue = primaryKeyProperty.GetValue(this);
+                if (propertyValue is Int32)
+                {
+                    primaryKeyProperty.SetValue(this, Convert.ToInt32(primaryKeyValues[k]));
+                }
+                else
+                {
+                    primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
+                }
+
                 k++;
             }
             return await GetAsync<T>(customFields);

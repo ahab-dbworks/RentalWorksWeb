@@ -168,14 +168,35 @@ namespace FwStandard.BusinessLogic
                 bool hasPrimaryKeysSet = true;
                 foreach (PropertyInfo property in primaryKeys)
                 {
-                    object propertyValue = property.GetValue(this);
-                    if (propertyValue is string)
+                    bool optionalPrimaryKey = false;
+
+                    foreach (Attribute attribute in property.GetCustomAttributes())
                     {
-                        hasPrimaryKeysSet &= (propertyValue as string).Length > 0;
+                        if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
+                        {
+                            FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
+                            if (businessLogicFieldAttribute.IsPrimaryKeyOptional)
+                            {
+                                optionalPrimaryKey = true;
+                            }
+                        }
                     }
-                    else
+
+                    if (!optionalPrimaryKey)
                     {
-                        throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.AllPrimaryKeysHaveValues]");
+                        object propertyValue = property.GetValue(this);
+                        if (propertyValue is string)
+                        {
+                            hasPrimaryKeysSet &= (propertyValue as string).Length > 0;
+                        }
+                        else if (propertyValue is Int32)
+                        {
+                            hasPrimaryKeysSet &= (((Int32)propertyValue) != 0);
+                        }
+                        else
+                        {
+                            throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.AllPrimaryKeysHaveValues]");
+                        }
                     }
                 }
                 return hasPrimaryKeysSet;
@@ -201,7 +222,19 @@ namespace FwStandard.BusinessLogic
             List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
             foreach (PropertyInfo pkProperty in pkProperties)
             {
-                pkProperty.SetValue(this, ids[pkIndex]);
+                //pkProperty.SetValue(this, ids[pkIndex]);
+
+                object propertyValue = pkProperty.GetValue(this);
+
+                if (propertyValue is Int32)
+                {
+                    pkProperty.SetValue(this, Convert.ToInt32(ids[pkIndex]));
+                }
+                else
+                {
+                    pkProperty.SetValue(this, ids[pkIndex]);
+                }
+
                 pkIndex++;
             }
         }

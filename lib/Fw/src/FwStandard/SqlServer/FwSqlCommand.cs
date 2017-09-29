@@ -1750,6 +1750,8 @@ namespace FwStandard.SqlServer
                 var insertParameterNames = new StringBuilder();
                 var i = 0;
                 var propertyInfos = businessObject.GetType().GetProperties();
+                bool hasIdentity = false;
+                PropertyInfo identityProperty = null;
                 foreach (var propertyInfo in propertyInfos)
                 {
                     var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
@@ -1777,6 +1779,11 @@ namespace FwStandard.SqlServer
                                 }
                                 propertyInfo.SetValue(businessObject, propertyValue);
                             }
+                        }
+                        if (isIdentity)
+                        {
+                            hasIdentity = true;
+                            identityProperty = propertyInfo;
                         }
                         if (!isIdentity)
                         {
@@ -1810,7 +1817,16 @@ namespace FwStandard.SqlServer
                         }
                     }
                 }
+
                 this.sqlCommand.CommandText = "insert into " + tablename + "(" + insertColumnsNames + ")\nvalues (" + insertParameterNames + ")";
+
+                //jh 09/29/2017 - need to capture the identify value here and update the property on this object
+                //if (hasIdentity)
+                //{
+                //    this.sqlCommand.CommandText += " SELECT SCOPE_IDENTITY()";
+                //    identityProperty.SetValue(XX);
+                //}
+
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
