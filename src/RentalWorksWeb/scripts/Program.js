@@ -53,6 +53,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/documenttype$/,               getScreen: function () { return DocumentTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setsurface$/,                 getScreen: function () { return SetSurfaceController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/walltype$/,                   getScreen: function () { return WallTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/walldescription$/,            getScreen: function () { return WallDescriptionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setopening$/,                 getScreen: function () { return SetOpeningController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectdrawings$/,            getScreen: function () { return ProjectDrawingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }

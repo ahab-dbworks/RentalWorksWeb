@@ -1160,6 +1160,10 @@
     <Content Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawingsForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItemsBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItemsForm.htm" />
+    <Content Include="Source\Modules\Settings\WallType\WallTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WallType\WallTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionForm.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
     <Content Include="Source\Modules\Settings\Deal\CrewStatus.js">
@@ -2257,6 +2261,8 @@
     <TypeScriptCompile Include="Source\Modules\Settings\SetOpening\SetOpening.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItems.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WallType\WallType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WallDescription\WallDescription.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrdered.ts" />

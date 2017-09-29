@@ -130,6 +130,9 @@ namespace RentalWorksWebLibrary
                                               AddModule("Rental Category", "{91079439-A188-4637-B733-A7EF9A9DFC22}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Warehouse Catalog", "{9045B118-A790-44FB-9867-3E8035EFEE69}", lv2menuInventorySettings.Id, "WarehouseCatalogController", "module/warehousecatalog", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Bar Code Range", "{9A52C5B8-98AB-49A0-A392-69DB0873F943}", lv2menuInventorySettings.Id, "BarCodeRangeController", "module/barcoderange", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Wall Description", "{F34F1A9B-53C6-447C-B52B-7FF5BAE38AB5}", lv2menuInventorySettings.Id, "WallDescriptionController", "module/walldescription", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Wall Type", "{4C9D2D20-D129-461D-9589-ABC896DD9BC6}", lv2menuInventorySettings.Id, "WallTypeController", "module/walltype", settingsiconbaseurl + "placeholder.png");
+
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborSettings.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
