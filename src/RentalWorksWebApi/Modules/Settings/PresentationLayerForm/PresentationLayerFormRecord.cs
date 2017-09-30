@@ -37,7 +37,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
                 if (miscfields.ContainsKey("PresentationLayerId"))
                 {
                     select.AddWhere("presentationlayerid = @presentationlayerid");
-                    select.AddParameter("@presentationlayerid", miscfields["PresentationLayerId"].ToString());
+                    select.AddParameter("@presentationlayerid", request.miscfields.PresentationLayerId.value);
                 }
             }
         }

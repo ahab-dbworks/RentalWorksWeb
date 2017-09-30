@@ -240,35 +240,37 @@ namespace RentalWorksWebLibrary
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
 
             // Add Grids
-            AddGrid("Audit History",                  "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
-            AddGrid("Billing Cycle Events",           "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
-            AddGrid("Contact",                        "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
-            AddGrid("Contact Company",                "{7E1840AE-9832-4E0E-9B1F-A2A115575852}", lv1menuGrids.Id, "FwContactCompanyGridController");
-            AddGrid("Contact Document",               "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
-            AddGrid("Contact Email History",          "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
-            AddGrid("Contact Note",                   "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
-            AddGrid("Contact Personal Event",         "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
-            AddGrid("Customer Note",                  "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
-            AddGrid("Customer Resale",                "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CustomerResaleGridController");
-            AddGrid("Document Version",               "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
-            AddGrid("Generator Make Model",           "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
-            AddGrid("Inventory Attribute Value",      "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
-            AddGrid("Master Item",                    "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
-            AddGrid("Order Activity Dates",           "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
-            AddGrid("Order Contract Note",            "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
-            AddGrid("Order Dates",                    "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
-            AddGrid("Order Note",                     "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
-            AddGrid("Presentation Layer Activity",    "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
-            AddGrid("Quik Entry Accessories Options", "{27317105-BA68-417A-A592-86EEB977CA32}", lv1menuGrids.Id, "RwQuikEntryAccessoriesOptionsGridController");
-            AddGrid("Quik Entry Category",            "{01604AEC-2127-4756-BF92-3A340EF000E1}", lv1menuGrids.Id, "RwQuikEntryCategoryGridController");
-            AddGrid("Quik Entry Department",          "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
-            AddGrid("Quik Entry Items",               "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
-            AddGrid("Quik Entry Sub Category",        "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
-            AddGrid("Company Tax",                    "{0679DED3-7CDF-468D-8513-7271024403A6}", lv1menuGrids.Id, "CompanyTaxGridController");
-            AddGrid("Vehicle Make Model",             "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
-            AddGrid("Vendor Note",                    "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
-            AddGrid("Sub Category",                   "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
-            AddGrid("Fiscal Year",                    "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
+            AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
+            AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
+            AddGrid("Contact",                                "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
+            AddGrid("Contact Company",                        "{7E1840AE-9832-4E0E-9B1F-A2A115575852}", lv1menuGrids.Id, "FwContactCompanyGridController");
+            AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
+            AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
+            AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
+            AddGrid("Contact Personal Event",                 "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
+            AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
+            AddGrid("Customer Resale",                        "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CustomerResaleGridController");
+            AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
+            AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
+            AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
+            AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
+            AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
+            AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
+            AddGrid("Order Dates",                            "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
+            AddGrid("Order Note",                             "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
+            AddGrid("Presentation Layer Activity",            "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
+            AddGrid("Presentation Layer Activity Override",   "{ABA89B3D-AA83-4298-AAD4-AC5294BE7388}", lv1menuGrids.Id, "PresentationLayerActivityOverrideGridController");
+            AddGrid("Presentation Layer Form",                "{88985C09-65AD-4480-830A-EFCE95C3940B}", lv1menuGrids.Id, "PresentationLayerFormGridController");
+            AddGrid("Quik Entry Accessories Options",         "{27317105-BA68-417A-A592-86EEB977CA32}", lv1menuGrids.Id, "RwQuikEntryAccessoriesOptionsGridController");
+            AddGrid("Quik Entry Category",                    "{01604AEC-2127-4756-BF92-3A340EF000E1}", lv1menuGrids.Id, "RwQuikEntryCategoryGridController");
+            AddGrid("Quik Entry Department",                  "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
+            AddGrid("Quik Entry Items",                       "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
+            AddGrid("Quik Entry Sub Category",                "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
+            AddGrid("Company Tax",                            "{0679DED3-7CDF-468D-8513-7271024403A6}", lv1menuGrids.Id, "CompanyTaxGridController");
+            AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
+            AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
+            AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
+            AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
         }
 
         //---------------------------------------------------------------------------------------------

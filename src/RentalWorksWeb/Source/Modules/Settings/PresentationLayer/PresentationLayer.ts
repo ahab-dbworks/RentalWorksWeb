@@ -76,25 +76,65 @@ loadAudit($form: any)
 renderGrids($form: any) {
     var $presentationLayerActivityGrid: any;
     var $presentationLayerActivityGridControl: any;
+    var $presentationLayerActivityOverrideGrid: any;
+    var $presentationLayerActivityOverrideGridControl: any;
+    var $presentationLayerFormGrid: any;
+    var $presentationLayerFormGridControl: any;
 
-    // load AttributeValue Grid
+    // load presentationlayeractivity Grid
     $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
     $presentationLayerActivityGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerActivityGridBrowse').html());
     $presentationLayerActivityGrid.empty().append($presentationLayerActivityGridControl);
     $presentationLayerActivityGridControl.data('ondatabind', function (request) {
         request.uniqueids = {
-            InventoryAttributeId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+            PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
         };
     });
     FwBrowse.init($presentationLayerActivityGridControl);
     FwBrowse.renderRuntimeHtml($presentationLayerActivityGridControl);
+
+    // load presentationlayeractivityoverride Grid
+    $presentationLayerActivityOverrideGrid = $form.find('div[data-grid="PresentationLayerActivityOverrideGrid"]');
+    $presentationLayerActivityOverrideGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerActivityOverrideGridBrowse').html());
+    $presentationLayerActivityOverrideGrid.empty().append($presentationLayerActivityOverrideGridControl);
+    $presentationLayerActivityOverrideGridControl.data('ondatabind', function (request) {
+        request.uniqueids = {
+            PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+        };
+    });
+    FwBrowse.init($presentationLayerActivityOverrideGridControl);
+    FwBrowse.renderRuntimeHtml($presentationLayerActivityOverrideGridControl);
+
+
+    // load presentationlayerform Grid
+    $presentationLayerFormGrid = $form.find('div[data-grid="PresentationLayerFormGrid"]');
+    $presentationLayerFormGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerFormGridBrowse').html());
+    $presentationLayerFormGrid.empty().append($presentationLayerFormGridControl);
+    $presentationLayerFormGridControl.data('ondatabind', function (request) {
+        request.uniqueids = {
+            PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+        };
+    });
+    FwBrowse.init($presentationLayerFormGridControl);
+    FwBrowse.renderRuntimeHtml($presentationLayerFormGridControl);
+
+
 }
 
 afterLoad($form: any) {
     var $presentationLayerActivityGrid: any;
+    var $presentationLayerActivityOverrideGrid: any;
+    var $presentationLayerFormGrid: any;
 
     $presentationLayerActivityGrid = $form.find('[data-name="PresentationLayerActivityGrid"]');
     FwBrowse.search($presentationLayerActivityGrid);
+
+    $presentationLayerActivityOverrideGrid = $form.find('[data-name="PresentationLayerActivityOverrideGrid"]');
+    FwBrowse.search($presentationLayerActivityOverrideGrid);
+
+    $presentationLayerFormGrid = $form.find('[data-name="PresentationLayerFormGrid"]');
+    FwBrowse.search($presentationLayerFormGrid);
+
 
     }
 }
