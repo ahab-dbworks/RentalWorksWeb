@@ -313,7 +313,8 @@ namespace FwStandard.DataLayer
                         }
                         string customUniqueIdField = "uniqueid" + k.ToString().PadLeft(2, '0');
                         select.Add("t." + sqlColumnName + " = " + customTable.Alias + "." + customUniqueIdField);
-                        if (k < primaryKeyProperties.Count) {
+                        if (k < primaryKeyProperties.Count)
+                        {
                             select.Add(" and ");
                         }
                         k++;
@@ -359,12 +360,12 @@ namespace FwStandard.DataLayer
                         }
                     }
                 }
-                
+
                 if (request.orderby.Trim().Length > 0)
                 {
                     // validate the user supplied order by expression to prevent SQL Injection attacks
                     List<string> tokens = new List<string>(request.orderby.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries));
-                    foreach(string token in tokens)
+                    foreach (string token in tokens)
                     {
                         if (!columns.ContainsKey(token) && token != "asc" && token != "desc")
                         {
@@ -402,7 +403,7 @@ namespace FwStandard.DataLayer
                                         if (columns.ContainsKey(token))
                                         {
                                             // rownumber over paging needs to use column alias name if it has one
-                                            if (request.pagesize > 0) 
+                                            if (request.pagesize > 0)
                                             {
                                                 orderbyBuilder.Append(token);
                                                 orderbyBuilder.Append(currentChar);
@@ -523,7 +524,7 @@ namespace FwStandard.DataLayer
                         SetBaseSelectQuery(select, qry, customFields);
                         select.SetQuery(qry);
 
-                        
+
 
                         List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
                         int k = 0;
@@ -574,5 +575,18 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected void addFilterToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequestDto request = null)
+        {
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey(filterFieldName))
+                {
+                    select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                    select.AddParameter("@" + databaseFieldName, uniqueIds[filterFieldName].ToString());
+                }
+                //------------------------------------------------------------------------------------
+            }
+        }
     }
 }
