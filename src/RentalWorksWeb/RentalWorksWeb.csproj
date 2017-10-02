@@ -1172,6 +1172,8 @@
     <Content Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawingsForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItemsBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItemsForm.htm" />
+    <Content Include="Source\Modules\Settings\SapVendorInvoiceStatus\SapVendorInvoiceStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SapVendorInvoiceStatus\SapVendorInvoiceStatusForm.htm" />
     <Content Include="Source\Modules\Settings\WallType\WallTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\WallType\WallTypeForm.htm" />
     <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionBrowse.htm" />
@@ -2278,6 +2280,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\SetOpening\SetOpening.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItems.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\SapVendorInvoiceStatus\SapVendorInvoiceStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WallType\WallType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WallDescription\WallDescription.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />

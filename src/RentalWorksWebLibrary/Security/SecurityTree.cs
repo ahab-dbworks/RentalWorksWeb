@@ -149,6 +149,7 @@ namespace RentalWorksWebLibrary
                                             AddModule("Payment Type", "{E88C4957-3A3E-4258-8677-EB6FB61F9BA3}", lv2menuPaymentSettings.Id, "PaymentTypeController", "module/paymenttype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPOSettings = AddLv2ModuleMenu("PO Settings", "{55EDE544-A603-467D-AFA2-EC9C2A650810}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Approval Status", "{22EF1328-FBB1-44D0-A965-4E96675B96CD}", lv2menuPOSettings.Id, "POApprovalStatusController", "module/poapprovalstatus", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Approver Role", "{992314B6-A24F-468C-A8B6-5EAC8F14BE16}", lv2menuPOSettings.Id, "POApproverRoleController", "module/poapproverrole", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOSettings.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOSettings.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
@@ -201,6 +202,7 @@ namespace RentalWorksWebLibrary
                                            AddModule("Organization Type", "{fe3a764c-ab55-4ce5-8d7f-bfc86f174c11}", lv2menuVendorSettings.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Catalog", "{BDA5E2DC-0FD2-4227-B80F-8414F3F912B8}", lv2menuVendorSettings.Id, "VendorCatalogController", "module/vendorcatalog", settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorSettings.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
+                                           AddModule("SAP Vendor Invoice Status", "{1C8E14A3-73A8-4BB6-9B33-65D827B3ED0C}", lv2menuVendorSettings.Id, "SapVendorInvoiceStatusController", "module/sapvendorinvoicestatus", settingsiconbaseurl + "placeholder.png");
 
 
 

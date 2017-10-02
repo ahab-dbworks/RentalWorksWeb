@@ -56,6 +56,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/walltype$/,                   getScreen: function () { return WallTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/walldescription$/,            getScreen: function () { return WallDescriptionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setopening$/,                 getScreen: function () { return SetOpeningController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/sapvendorinvoicestatus$/,     getScreen: function () { return SapVendorInvoiceStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectdrawings$/,            getScreen: function () { return ProjectDrawingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/personneltype$/,              getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
