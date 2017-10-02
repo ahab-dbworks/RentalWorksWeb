@@ -583,7 +583,13 @@ namespace FwStandard.DataLayer
                 if (uniqueIds.ContainsKey(filterFieldName))
                 {
                     select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    select.AddParameter("@" + databaseFieldName, uniqueIds[filterFieldName].ToString());
+                    if (uniqueIds[filterFieldName] is bool) {
+                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T": "F"));
+                    }
+                    else
+                    {
+                        select.AddParameter("@" + databaseFieldName, uniqueIds[filterFieldName].ToString());
+                    }
                 }
                 //------------------------------------------------------------------------------------
             }
