@@ -1170,11 +1170,11 @@
     <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionForm.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
-    <Content Include="Source\Modules\Settings\Deal\CrewStatus.js">
+    <Content Include="Source\Modules\Home\Deal\CrewStatus.js">
       <DependentUpon>Deal.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\Deal\DealBrowse.htm" />
-    <Content Include="Source\Modules\Settings\Deal\DealForm.htm" />
+    <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
+    <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js">
       <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
@@ -1703,6 +1703,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
+    <Content Include="Source\Validations\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Validations\State\StateBrowse.htm" />
     <Content Include="Source\Validations\PaymentType\PaymentTypeBrowse.htm" />
     <Content Include="Source\Validations\SalesCategory\SalesCategoryBrowse.htm" />
@@ -1898,6 +1899,7 @@
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
+    <Compile Include="Source\Validations\FacilityType\FacilityType.cs" />
     <Compile Include="Source\Validations\State\State.cs" />
     <Compile Include="Source\Validations\PaymentType\PaymentType.cs" />
     <Compile Include="Source\Validations\SalesCategory\SalesCategory.cs" />
@@ -2220,7 +2222,7 @@
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js.map">
       <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\Deal\CrewStatus.js.map">
+    <Content Include="Source\Modules\Home\Deal\CrewStatus.js.map">
       <DependentUpon>Deal.ts</DependentUpon>
     </Content>
     <Content Include="Source\Grids\FiscalYearGrid\CompanyTaxGridController.js.map">
@@ -2268,7 +2270,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\WallType\WallType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WallDescription\WallDescription.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetSurface\SetSurface.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\Deal\Deal.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectItemsOrdered\ProjectItemsOrdered.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrderLocation\OrderLocation.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PORejectReason\PORejectReason.ts" />
