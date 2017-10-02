@@ -9,6 +9,8 @@ namespace RentalWorksWebApi.Modules.Settings.Rate
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
+        public string RateType { get { return master.RateType; } set { master.RateType = value; } }
+        public bool IncludeAsProfitAndLossCategory { get { return master.IncludeAsProfitAndLossCategory; } set { master.IncludeAsProfitAndLossCategory = value; } }
         /*
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Masterakatext { get; set; }
@@ -217,10 +219,5 @@ namespace RentalWorksWebApi.Modules.Settings.Rate
                 public string Stoptime { get; set; }
         */
 
-        public override void BeforeSave()
-        {
-            AvailFor = "R";
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }

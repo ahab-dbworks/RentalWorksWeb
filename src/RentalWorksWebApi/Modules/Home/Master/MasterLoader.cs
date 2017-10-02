@@ -43,6 +43,21 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "unittype", modeltype: FwDataTypes.Text)]
         public string UnitType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nodiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool NonDiscountable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
+        public bool OverrideProfitAndLossCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text)]
+        public string ProfitAndLossCategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "profitlosscategory", modeltype: FwDataTypes.Text)]
+        public string ProfitAndLossCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AutoCopyNotesToQuoteOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -196,66 +211,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
                 public string Manufacturer { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "shipweightlbs", modeltype: FwDataTypes.Integer)]
-                public int Shipweightlbs { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "shipweightoz", modeltype: FwDataTypes.Integer)]
-                public int Shipweightoz { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "weightwcaselbs", modeltype: FwDataTypes.Integer)]
-                public int Weightwcaselbs { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "weightwcaseoz", modeltype: FwDataTypes.Integer)]
-                public int Weightwcaseoz { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "widthft", modeltype: FwDataTypes.Integer)]
-                public int Widthft { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "widthin", modeltype: FwDataTypes.Integer)]
-                public int Widthin { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "heightft", modeltype: FwDataTypes.Integer)]
-                public int Heightft { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "heightin", modeltype: FwDataTypes.Integer)]
-                public int Heightin { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "lengthft", modeltype: FwDataTypes.Integer)]
-                public int Lengthft { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "lengthin", modeltype: FwDataTypes.Integer)]
-                public int Lengthin { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "shipweightkg", modeltype: FwDataTypes.Integer)]
-                public int Shipweightkg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "shipweightg", modeltype: FwDataTypes.Integer)]
-                public int Shipweightg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "weightwcasekg", modeltype: FwDataTypes.Integer)]
-                public int Weightwcasekg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "weightwcaseg", modeltype: FwDataTypes.Integer)]
-                public int Weightwcaseg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "widthm", modeltype: FwDataTypes.Integer)]
-                public int Widthm { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "widthcm", modeltype: FwDataTypes.Integer)]
-                public int Widthcm { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "heightm", modeltype: FwDataTypes.Integer)]
-                public int Heightm { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "heightcm", modeltype: FwDataTypes.Integer)]
-                public int Heightcm { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "lengthm", modeltype: FwDataTypes.Integer)]
-                public int Lengthm { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "lengthcm", modeltype: FwDataTypes.Integer)]
-                public int Lengthcm { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dw", modeltype: FwDataTypes.Decimal)]
                 public decimal Dw { get; set; }

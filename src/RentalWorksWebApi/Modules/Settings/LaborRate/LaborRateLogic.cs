@@ -229,7 +229,7 @@ namespace RentalWorksWebApi.Modules.Settings.LaborRate
 
         public override void BeforeSave()
         {
-            AvailFor = "M";
+            AvailFor = "L";
         }
         //------------------------------------------------------------------------------------ 
     }

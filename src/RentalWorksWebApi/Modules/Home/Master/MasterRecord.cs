@@ -35,8 +35,8 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool NoAvailabilityCheck { get; set; }
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text, sqltype: "char")]
         public string Rank { get; set; }
@@ -44,8 +44,29 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string UnitId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nodiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool NonDiscountable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool NoAvailabilityCheck { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availmanuallyresolveconflict", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool AvailabilityManuallyResolveConflicts { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool SendAvailabilityAlert { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool OverrideProfitAndLossCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ProfitAndLossCategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool IncludeAsProfitAndLossCategory { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AutoCopyNotesToQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
@@ -71,9 +92,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string MfgId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "nodiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Nodiscount { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Qcrequired { get; set; }
@@ -144,9 +162,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "originalicode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
                 public string Originalicode { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
-                public string Ratetype { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "modbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string ModbyusersId { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -171,9 +186,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Contractreturnprint { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Copynotes { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Invoiceprint { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -194,9 +206,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Returnlistprint { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Sendavailabilityalert { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer, sqltype: "int")]
                 public int Orderby { get; set; }
@@ -383,15 +392,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "usecontainerno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Usecontainerno { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Overrideprofitlosscategory { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string ProfitlosscategoryId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Profitlossgroup { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string AssetaccountId { get; set; }

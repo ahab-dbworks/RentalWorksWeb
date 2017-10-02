@@ -29,6 +29,12 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public string Unit { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string UnitType { get; set; }
+        public bool NonDiscountable { get { return master.NonDiscountable; } set { master.NonDiscountable = value; } }
+        public bool OverrideProfitAndLossCategory { get { return master.OverrideProfitAndLossCategory; } set { master.OverrideProfitAndLossCategory = value; } }
+        public string ProfitAndLossCategoryId { get { return master.ProfitAndLossCategoryId; } set { master.ProfitAndLossCategoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ProfitAndLossCategory { get; set; }
+        public bool AutoCopyNotesToQuoteOrder { get { return master.AutoCopyNotesToQuoteOrder; } set { master.AutoCopyNotesToQuoteOrder = value; } }
 
 
         /*
