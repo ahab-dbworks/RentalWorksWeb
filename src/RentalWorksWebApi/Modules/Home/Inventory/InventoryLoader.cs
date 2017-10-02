@@ -43,126 +43,126 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
 
 
         [FwSqlDataField(column: "primarydimensionshipweightlbs", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionShipWeightLbs { get; set; }
+        public int? PrimaryDimensionShipWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionshipweightoz", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionShipWeightOz { get; set; }
+        public int? PrimaryDimensionShipWeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionweightwcaselbs", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWeightInCaseLbs { get; set; }
+        public int? PrimaryDimensionWeightInCaseLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionweightwcaseoz", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWeightInCaseOz { get; set; }
+        public int? PrimaryDimensionWeightInCaseOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionwidthft", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWidthFt { get; set; }
+        public int? PrimaryDimensionWidthFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionwidthin", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWidthIn { get; set; }
+        public int? PrimaryDimensionWidthIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionheightft", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionHeightFt { get; set; }
+        public int? PrimaryDimensionHeightFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionheightin", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionHeightIn { get; set; }
+        public int? PrimaryDimensionHeightIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionlengthft", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionLengthFt { get; set; }
+        public int? PrimaryDimensionLengthFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionlengthin", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionLengthIn { get; set; }
+        public int? PrimaryDimensionLengthIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionshipweightkg", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionShipWeightKg { get; set; }
+        public int? PrimaryDimensionShipWeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionshipweightg", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionShipWeightG { get; set; }
+        public int? PrimaryDimensionShipWeightG { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionweightwcasekg", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWeightInCaseKg { get; set; }
+        public int? PrimaryDimensionWeightInCaseKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionweightwcaseg", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWeightInCaseG { get; set; }
+        public int? PrimaryDimensionWeightInCaseG { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionwidthm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWidthM { get; set; }
+        public int? PrimaryDimensionWidthM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionwidthcm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionWidthCm { get; set; }
+        public int? PrimaryDimensionWidthCm { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionheightm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionHeightM { get; set; }
+        public int? PrimaryDimensionHeightM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionheightcm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionHeightCm { get; set; }
+        public int? PrimaryDimensionHeightCm { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionlengthm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionLengthM { get; set; }
+        public int? PrimaryDimensionLengthM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionlengthcm", modeltype: FwDataTypes.Integer)]
-        public int PrimaryDimensionLengthCm { get; set; }
+        public int? PrimaryDimensionLengthCm { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
         [FwSqlDataField(column: "secondarydimensionshipweightlbs", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionShipWeightLbs { get; set; }
+        public int? SecondaryDimensionShipWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionshipweightoz", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionShipWeightOz { get; set; }
+        public int? SecondaryDimensionShipWeightOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionweightwcaselbs", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWeightInCaseLbs { get; set; }
+        public int? SecondaryDimensionWeightInCaseLbs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionweightwcaseoz", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWeightInCaseOz { get; set; }
+        public int? SecondaryDimensionWeightInCaseOz { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionwidthft", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWidthFt { get; set; }
+        public int? SecondaryDimensionWidthFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionwidthin", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWidthIn { get; set; }
+        public int? SecondaryDimensionWidthIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionheightft", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionHeightFt { get; set; }
+        public int? SecondaryDimensionHeightFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionheightin", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionHeightIn { get; set; }
+        public int? SecondaryDimensionHeightIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionlengthft", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionLengthFt { get; set; }
+        public int? SecondaryDimensionLengthFt { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionlengthin", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionLengthIn { get; set; }
+        public int? SecondaryDimensionLengthIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionshipweightkg", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionShipWeightKg { get; set; }
+        public int? SecondaryDimensionShipWeightKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionshipweightg", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionShipWeightG { get; set; }
+        public int? SecondaryDimensionShipWeightG { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionweightwcasekg", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWeightInCaseKg { get; set; }
+        public int? SecondaryDimensionWeightInCaseKg { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionweightwcaseg", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWeightInCaseG { get; set; }
+        public int? SecondaryDimensionWeightInCaseG { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionwidthm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWidthM { get; set; }
+        public int? SecondaryDimensionWidthM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionwidthcm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionWidthCm { get; set; }
+        public int? SecondaryDimensionWidthCm { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionheightm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionHeightM { get; set; }
+        public int? SecondaryDimensionHeightM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionheightcm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionHeightCm { get; set; }
+        public int? SecondaryDimensionHeightCm { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionlengthm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionLengthM { get; set; }
+        public int? SecondaryDimensionLengthM { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionlengthcm", modeltype: FwDataTypes.Integer)]
-        public int SecondaryDimensionLengthCm { get; set; }
+        public int? SecondaryDimensionLengthCm { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

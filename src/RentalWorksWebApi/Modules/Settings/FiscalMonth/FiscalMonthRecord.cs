@@ -21,10 +21,10 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month", modeltype: FwDataTypes.Integer, sqltype: "smallint")]
-        public int Month { get; set; }
+        public int? Month { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "workdays", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
-        public int WorkDays { get; set; }
+        public int? WorkDays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fiscalorder", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string FiscalOrder { get; set; }

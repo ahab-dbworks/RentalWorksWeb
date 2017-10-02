@@ -151,7 +151,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string Dealcrappthru { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dealcreditlimit", modeltype: FwDataTypes.Integer)]
-                public int Dealcreditlimit { get; set; }
+                public int? Dealcreditlimit { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dealunlimitedcredit", modeltype: FwDataTypes.Boolean)]
                 public bool Dealunlimitedcredit { get; set; }
@@ -163,7 +163,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string Custcrappthru { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "custcreditlimit", modeltype: FwDataTypes.Integer)]
-                public int Custcreditlimit { get; set; }
+                public int? Custcreditlimit { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "custunlimitedcredit", modeltype: FwDataTypes.Boolean)]
                 public bool Custunlimitedcredit { get; set; }
@@ -193,7 +193,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string Creditvalidthru { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "creditlimit", modeltype: FwDataTypes.Integer)]
-                public int Creditlimit { get; set; }
+                public int? Creditlimit { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "unlimitedcredit", modeltype: FwDataTypes.Boolean)]
                 public bool Unlimitedcredit { get; set; }
@@ -208,10 +208,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string Insurancevalidthru { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "inscovliab", modeltype: FwDataTypes.Integer)]
-                public int Inscovliab { get; set; }
+                public int? Inscovliab { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "inscovprop", modeltype: FwDataTypes.Integer)]
-                public int Inscovprop { get; set; }
+                public int? Inscovprop { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Text)]
                 public string Taxable { get; set; }
@@ -280,10 +280,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public bool Rebaterentalflg { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "ownedrebaterate", modeltype: FwDataTypes.Integer)]
-                public int Ownedrebaterate { get; set; }
+                public int? Ownedrebaterate { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer)]
-                public int Vendorrebaterate { get; set; }
+                public int? Vendorrebaterate { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "rebatecustomerid", modeltype: FwDataTypes.Text)]
                 public string RebatecustomerId { get; set; }
@@ -325,7 +325,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string Lastorderdate { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "balance", modeltype: FwDataTypes.Decimal)]
-                public decimal Balance { get; set; }
+                public decimal? Balance { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dealclassificationid", modeltype: FwDataTypes.Text)]
                 public string DealclassificationId { get; set; }

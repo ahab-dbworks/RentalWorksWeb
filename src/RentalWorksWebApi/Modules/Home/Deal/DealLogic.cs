@@ -86,7 +86,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Dealcrappthru { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public int Dealcreditlimit { get; set; }
+                public int? Dealcreditlimit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Dealunlimitedcredit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -94,7 +94,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Custcrappthru { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public int Custcreditlimit { get; set; }
+                public int? Custcreditlimit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Custunlimitedcredit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -113,15 +113,15 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Creditvalidthru { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public int Creditlimit { get; set; }
+                public int? Creditlimit { get; set; }
                 public bool Unlimitedcredit { get { return deal.Unlimitedcredit; } set { deal.Unlimitedcredit = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Orderallow { get; set; }
                 public bool Inscertification { get { return deal.Inscertification; } set { deal.Inscertification = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Insurancevalidthru { get; set; }
-                public int Inscovliab { get { return deal.Inscovliab; } set { deal.Inscovliab = value; } }
-                public int Inscovprop { get { return deal.Inscovprop; } set { deal.Inscovprop = value; } }
+                public int? Inscovliab { get { return deal.Inscovliab; } set { deal.Inscovliab = value; } }
+                public int? Inscovprop { get { return deal.Inscovprop; } set { deal.Inscovprop = value; } }
                 public string Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Carrier { get; set; }
@@ -152,8 +152,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Splitrentalflg { get; set; }
                 public bool Rebaterentalflg { get { return deal.Rebaterentalflg; } set { deal.Rebaterentalflg = value; } }
-                public int Ownedrebaterate { get { return deal.Ownedrebaterate; } set { deal.Ownedrebaterate = value; } }
-                public int Vendorrebaterate { get { return deal.Vendorrebaterate; } set { deal.Vendorrebaterate = value; } }
+                public int? Ownedrebaterate { get { return deal.Ownedrebaterate; } set { deal.Ownedrebaterate = value; } }
+                public int? Vendorrebaterate { get { return deal.Vendorrebaterate; } set { deal.Vendorrebaterate = value; } }
                 public string RebatecustomerId { get { return deal.RebatecustomerId; } set { deal.RebatecustomerId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Rebatecustomer { get; set; }
@@ -172,7 +172,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Locdisableinsurancethroughdate { get; set; }
                 public string Lastorderdate { get { return deal.Lastorderdate; } set { deal.Lastorderdate = value; } }
-                public decimal Balance { get { return deal.Balance; } set { deal.Balance = value; } }
+                public decimal? Balance { get { return deal.Balance; } set { deal.Balance = value; } }
                 public string DealclassificationId { get { return deal.DealclassificationId; } set { deal.DealclassificationId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Dealclassification { get; set; }

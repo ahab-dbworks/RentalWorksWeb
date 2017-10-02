@@ -41,59 +41,59 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Currencycode { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Hourlyrate { get; set; }
+                public decimal? Hourlyrate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Dailyrate { get; set; }
+                public decimal? Dailyrate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Weeklyrate { get; set; }
+                public decimal? Weeklyrate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Week2rate { get; set; }
+                public decimal? Week2rate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Week3rate { get; set; }
+                public decimal? Week3rate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Week4rate { get; set; }
+                public decimal? Week4rate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Week5rate { get; set; }
+                public decimal? Week5rate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Monthlyrate { get; set; }
+                public decimal? Monthlyrate { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Hourlycost { get; set; }
+                public decimal? Hourlycost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Dailycost { get; set; }
+                public decimal? Dailycost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Weeklycost { get; set; }
+                public decimal? Weeklycost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Monthlycost { get; set; }
+                public decimal? Monthlycost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Price { get; set; }
+                public decimal? Price { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Cost { get; set; }
+                public decimal? Cost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Retail { get; set; }
+                public decimal? Retail { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Markup { get; set; }
+                public decimal? Markup { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Reorderqty { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Reorderpoint { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Defaultcost { get; set; }
+                public decimal? Defaultcost { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Qty { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Hasqty { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Qtyconsigned { get; set; }
+                public decimal? Qtyconsigned { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Qtyallocated { get; set; }
+                public decimal? Qtyallocated { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Qtyintransit { get; set; }
+                public decimal? Qtyintransit { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Qtystaged { get; set; }
+                public decimal? Qtystaged { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public int Qtyonpo { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Qtyin { get; set; }
+                public decimal? Qtyin { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string PhysicalId { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -102,8 +102,8 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 public bool Nodiscount { get { return master.Nodiscount; } set { master.Nodiscount = value; } }
                 public string Hazardousmaterial { get { return master.Hazardousmaterial; } set { master.Hazardousmaterial = value; } }
                 public bool Rank { get { return master.Rank; } set { master.Rank = value; } }
-                public decimal Replacementcost { get { return master.Replacementcost; } set { master.Replacementcost = value; } }
-                public decimal Manifestvalue { get { return master.Manifestvalue; } set { master.Manifestvalue = value; } }
+                public decimal? Replacementcost { get { return master.Replacementcost; } set { master.Replacementcost = value; } }
+                public decimal? Manifestvalue { get { return master.Manifestvalue; } set { master.Manifestvalue = value; } }
                 public string Trackedby { get { return master.Trackedby; } set { master.Trackedby = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Notes { get; set; }
@@ -155,7 +155,7 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 public int Lengthcm { get; set; }
                 public bool Noavail { get { return master.Noavail; } set { master.Noavail = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Dw { get; set; }
+                public decimal? Dw { get; set; }
                 public bool Metered { get { return master.Metered; } set { master.Metered = value; } }
                 public string OriginalshowId { get { return master.OriginalshowId; } set { master.OriginalshowId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -201,11 +201,11 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
                 public bool Defaultproratemonths { get { return master.Defaultproratemonths; } set { master.Defaultproratemonths = value; } }
                 public bool Includeonpicklist { get { return master.Includeonpicklist; } set { master.Includeonpicklist = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public decimal Maxdiscount { get; set; }
+                public decimal? Maxdiscount { get; set; }
                 public bool Dyed { get { return master.Dyed; } set { master.Dyed = value; } }
                 public string WardrobesourceId { get { return master.WardrobesourceId; } set { master.WardrobesourceId = value; } }
                 public string WardrobecareId { get { return master.WardrobecareId; } set { master.WardrobecareId = value; } }
-                public decimal Cleaningfeeamount { get { return master.Cleaningfeeamount; } set { master.Cleaningfeeamount = value; } }
+                public decimal? Cleaningfeeamount { get { return master.Cleaningfeeamount; } set { master.Cleaningfeeamount = value; } }
                 public string Inputdate { get { return master.Inputdate; } set { master.Inputdate = value; } }
                 public bool Overrideprofitlosscategory { get { return master.Overrideprofitlosscategory; } set { master.Overrideprofitlosscategory = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]

@@ -39,10 +39,10 @@ namespace RentalWorksWebApi.Modules.Settings.VendorCatalog
         public string Category { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxrate", modeltype: FwDataTypes.Decimal)]
-        public decimal TaxRate { get; set; }
+        public decimal? TaxRate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "globalmarkup", modeltype: FwDataTypes.Decimal)]
-        public decimal GlobalMarkup { get; set; }
+        public decimal? GlobalMarkup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "carrierid", modeltype: FwDataTypes.Text)]
         public string CarrierId { get; set; }

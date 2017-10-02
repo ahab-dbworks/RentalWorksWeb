@@ -18,8 +18,8 @@ namespace RentalWorksWebApi.Modules.Settings.BarCodeRange
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string Description { get; set; }
         public string Prefix { get { return barCodeRange.Prefix; } set { barCodeRange.Prefix = value; } }
-        public int BarcodeFrom { get { return barCodeRange.BarcodeFrom; } set { barCodeRange.BarcodeFrom = value; } }
-        public int BarcodeTo { get { return barCodeRange.BarcodeTo; } set { barCodeRange.BarcodeTo = value; } }
+        public int? BarcodeFrom { get { return barCodeRange.BarcodeFrom; } set { barCodeRange.BarcodeFrom = value; } }
+        public int? BarcodeTo { get { return barCodeRange.BarcodeTo; } set { barCodeRange.BarcodeTo = value; } }
         public string DateStamp { get { return barCodeRange.DateStamp; } set { barCodeRange.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

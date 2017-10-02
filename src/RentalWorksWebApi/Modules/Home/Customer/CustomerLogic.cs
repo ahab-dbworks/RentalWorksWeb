@@ -77,11 +77,11 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public string CreditStatusThroughDate { get { return customer.CreditStatusThroughDate; } set { customer.CreditStatusThroughDate = value; } }
         public bool CreditApplicationOnFile { get { return customer.CreditApplicationOnFile; } set { customer.CreditApplicationOnFile = value; } }
         public bool CreditUnlimited { get { return customer.CreditUnlimited; } set { customer.CreditUnlimited = value; } }
-        public int CreditLimit { get { return customer.CreditLimit; } set { customer.CreditLimit = value; } }
+        public int? CreditLimit { get { return customer.CreditLimit; } set { customer.CreditLimit = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int CreditBalance { get; set; }
+        public int? CreditBalance { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int CreditAvailable { get; set; }
+        public int? CreditAvailable { get; set; }
         public bool CreditResponsiblePartyOnFile { get { return customer.CreditResponsiblePartyOnFile; } set { customer.CreditResponsiblePartyOnFile = value; } }
         public string CreditResponsibleParty { get { return customer.CreditResponsibleParty; } set { customer.CreditResponsibleParty = value; } }
         public bool TradeReferencesVerified { get { return customer.TradeReferencesVerified; } set { customer.TradeReferencesVerified = value; } }
@@ -90,19 +90,19 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public string CreditCardTypeId { get { return customer.CreditCardTypeId; } set { customer.CreditCardTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CreditCardType { get; set; }
-        public int CreditCardLimit { get { return customer.CreditCardLimit; } set { customer.CreditCardLimit = value; } }
+        public int? CreditCardLimit { get { return customer.CreditCardLimit; } set { customer.CreditCardLimit = value; } }
         public string CreditCardNo { get { return customer.CreditCardNo; } set { customer.CreditCardNo = value; } }
         public string CreditCardCode { get { return customer.CreditCardCode; } set { customer.CreditCardCode = value; } }
-        public int CreditCardExpirationMonth { get { return customer.CreditCardExpirationMonth; } set { customer.CreditCardExpirationMonth = value; } }
-        public int CreditCardExpirationYear { get { return customer.CreditCardExpirationYear; } set { customer.CreditCardExpirationYear = value; } }
+        public int? CreditCardExpirationMonth { get { return customer.CreditCardExpirationMonth; } set { customer.CreditCardExpirationMonth = value; } }
+        public int? CreditCardExpirationYear { get { return customer.CreditCardExpirationYear; } set { customer.CreditCardExpirationYear = value; } }
         public string CreditCardName { get { return customer.CreditCardName; } set { customer.CreditCardName = value; } }
         public bool CreditCardAuthorizationOnFile { get { return customer.CreditCardAuthorizationOnFile; } set { customer.CreditCardAuthorizationOnFile = value; } }
         public bool InsuranceCertificationOnFile { get { return customer.InsuranceCertificationOnFile; } set { customer.InsuranceCertificationOnFile = value; } }
         public string InsuranceCertificationValidThrough { get { return customer.InsuranceCertificationValidThrough; } set { customer.InsuranceCertificationValidThrough = value; } }
-        public int InsuranceCoverageLiability { get { return customer.InsuranceCoverageLiability; } set { customer.InsuranceCoverageLiability = value; } }
-        public int InsuranceCoverageLiabilityDeductible { get { return customer.InsuranceCoverageLiabilityDeductible; } set { customer.InsuranceCoverageLiabilityDeductible = value; } }
-        public int InsuranceCoveragePropertyValue { get { return customer.InsuranceCoveragePropertyValue; } set { customer.InsuranceCoveragePropertyValue = value; } }
-        public int InsuranceCoveragePropertyValueDeductible { get { return customer.InsuranceCoveragePropertyValueDeductible; } set { customer.InsuranceCoveragePropertyValueDeductible = value; } }
+        public int? InsuranceCoverageLiability { get { return customer.InsuranceCoverageLiability; } set { customer.InsuranceCoverageLiability = value; } }
+        public int? InsuranceCoverageLiabilityDeductible { get { return customer.InsuranceCoverageLiabilityDeductible; } set { customer.InsuranceCoverageLiabilityDeductible = value; } }
+        public int? InsuranceCoveragePropertyValue { get { return customer.InsuranceCoveragePropertyValue; } set { customer.InsuranceCoveragePropertyValue = value; } }
+        public int? InsuranceCoveragePropertyValueDeductible { get { return customer.InsuranceCoveragePropertyValueDeductible; } set { customer.InsuranceCoveragePropertyValueDeductible = value; } }
         public string InsuranceCompanyId { get { return customer.InsuranceCompanyId; } set { customer.InsuranceCompanyId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InsuranceCompany { get; set; }
@@ -131,7 +131,7 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxStateOfIncorporation { get; set; }
         public string TaxFederalNo { get { return customer.TaxFederalNo; } set { customer.TaxFederalNo = value; } }
-        public int NonTaxableYear { get { return customer.NonTaxableYear; } set { customer.NonTaxableYear = value; } }
+        public int? NonTaxableYear { get { return customer.NonTaxableYear; } set { customer.NonTaxableYear = value; } }
         public string NonTaxableCertificateNo { get { return customer.NonTaxableCertificateNo; } set { customer.NonTaxableCertificateNo = value; } }
         public string NonTaxableCertificateValidThrough { get { return customer.NonTaxableCertificateValidThrough; } set { customer.NonTaxableCertificateValidThrough = value; } }
         public bool NonTaxableCertificateOnFile { get { return customer.NonTaxableCertificateOnFile; } set { customer.NonTaxableCertificateOnFile = value; } }
@@ -149,14 +149,14 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public bool DisableSubMisc { get { return customer.DisableSubMisc; } set { customer.DisableSubMisc = value; } }
         public bool SplitRentalCustomer { get { return customer.SplitRentalCustomer; } set { customer.SplitRentalCustomer = value; } }
         public bool SplitRentalTaxCustomer { get { return customer.SplitRentalTaxCustomer; } set { customer.SplitRentalTaxCustomer = value; } }
-        public int OwnedEquipmentSplitRentalPerecent { get { return customer.OwnedEquipmentSplitRentalPerecent; } set { customer.OwnedEquipmentSplitRentalPerecent = value; } }
-        public int SubRentalEquipmentSplitRentalPerecent { get { return customer.SubRentalEquipmentSplitRentalPerecent; } set { customer.SubRentalEquipmentSplitRentalPerecent = value; } }
+        public int? OwnedEquipmentSplitRentalPerecent { get { return customer.OwnedEquipmentSplitRentalPerecent; } set { customer.OwnedEquipmentSplitRentalPerecent = value; } }
+        public int? SubRentalEquipmentSplitRentalPerecent { get { return customer.SubRentalEquipmentSplitRentalPerecent; } set { customer.SubRentalEquipmentSplitRentalPerecent = value; } }
         public bool RebateRentalCustomer { get { return customer.RebateRentalCustomer; } set { customer.RebateRentalCustomer = value; } }
-        public int OwnedEquipmentRebateRentalPerecent { get { return customer.OwnedEquipmentRebateRentalPerecent; } set { customer.OwnedEquipmentRebateRentalPerecent = value; } }
-        public int SubRentalEquipmentRebateRentalPerecent { get { return customer.SubRentalEquipmentRebateRentalPerecent; } set { customer.SubRentalEquipmentRebateRentalPerecent = value; } }
+        public int? OwnedEquipmentRebateRentalPerecent { get { return customer.OwnedEquipmentRebateRentalPerecent; } set { customer.OwnedEquipmentRebateRentalPerecent = value; } }
+        public int? SubRentalEquipmentRebateRentalPerecent { get { return customer.SubRentalEquipmentRebateRentalPerecent; } set { customer.SubRentalEquipmentRebateRentalPerecent = value; } }
         public string SplitRentalLogoFileName { get { return customer.SplitRentalLogoFileName; } set { customer.SplitRentalLogoFileName = value; } }
-        public int SplitRentalLogoWidth { get { return customer.SplitRentalLogoWidth; } set { customer.SplitRentalLogoWidth = value; } }
-        public int SplitRentalLogoHeight { get { return customer.SplitRentalLogoHeight; } set { customer.SplitRentalLogoHeight = value; } }
+        public int? SplitRentalLogoWidth { get { return customer.SplitRentalLogoWidth; } set { customer.SplitRentalLogoWidth = value; } }
+        public int? SplitRentalLogoHeight { get { return customer.SplitRentalLogoHeight; } set { customer.SplitRentalLogoHeight = value; } }
         public string ShippingAddressType { get { return customer.ShippingAddressType; } set { customer.ShippingAddressType = value; } }
         public string ShipAttention { get { return customer.ShipAttention; } set { customer.ShipAttention = value; } }
         public string ShipAddress1 { get { return customer.ShipAddress1; } set { customer.ShipAddress1 = value; } }

@@ -138,7 +138,7 @@ TODO:
         public bool CreditUnlimited { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditlimit", modeltype: FwDataTypes.Integer)]
-        public int CreditLimit { get; set; }
+        public int? CreditLimit { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditresponfile", modeltype: FwDataTypes.Boolean)]
         public bool CreditResponsiblePartyOnFile { get; set; }
@@ -159,7 +159,7 @@ TODO:
         public string CreditCardTypeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditcardlimit", modeltype: FwDataTypes.Integer)]
-        public int CreditCardLimit { get; set; }
+        public int? CreditCardLimit { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditcardno", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string CreditCardNo { get; set; }
@@ -168,10 +168,10 @@ TODO:
         public string CreditCardCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "crcexpmonth", modeltype: FwDataTypes.Integer)]
-        public int CreditCardExpirationMonth { get; set; }
+        public int? CreditCardExpirationMonth { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "crcexpyear", modeltype: FwDataTypes.Integer)]
-        public int CreditCardExpirationYear { get; set; }
+        public int? CreditCardExpirationYear { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditcname", modeltype: FwDataTypes.Text, maxlength: 35)]
         public string CreditCardName { get; set; }
@@ -186,16 +186,16 @@ TODO:
         public string InsuranceCertificationValidThrough { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inscovliability", modeltype: FwDataTypes.Integer)]
-        public int InsuranceCoverageLiability { get; set; }
+        public int? InsuranceCoverageLiability { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inscovliabdeduct", modeltype: FwDataTypes.Integer)]
-        public int InsuranceCoverageLiabilityDeductible { get; set; }
+        public int? InsuranceCoverageLiabilityDeductible { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inscovpropvalue", modeltype: FwDataTypes.Integer)]
-        public int InsuranceCoveragePropertyValue { get; set; }
+        public int? InsuranceCoveragePropertyValue { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inscovpropvaldeduct", modeltype: FwDataTypes.Integer)]
-        public int InsuranceCoveragePropertyValueDeductible { get; set; }
+        public int? InsuranceCoveragePropertyValueDeductible { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string InsuranceCompanyId { get; set; }
@@ -216,7 +216,7 @@ TODO:
         public string TaxFederalNo { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nontaxyear", modeltype: FwDataTypes.Integer)]
-        public int NonTaxableYear { get; set; }
+        public int? NonTaxableYear { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nontaxcertificateno", modeltype: FwDataTypes.Text, maxlength: 30)]
         public string NonTaxableCertificateNo { get; set; }
@@ -270,28 +270,28 @@ TODO:
         public bool SplitRentalTaxCustomer { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedsplitrate", modeltype: FwDataTypes.Integer)]
-        public int OwnedEquipmentSplitRentalPerecent { get; set; }
+        public int? OwnedEquipmentSplitRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorsplitrate", modeltype: FwDataTypes.Integer)]
-        public int SubRentalEquipmentSplitRentalPerecent { get; set; }
+        public int? SubRentalEquipmentSplitRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rebaterentalflg", modeltype: FwDataTypes.Boolean)]
         public bool RebateRentalCustomer { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedrebaterate", modeltype: FwDataTypes.Integer)]
-        public int OwnedEquipmentRebateRentalPerecent { get; set; }
+        public int? OwnedEquipmentRebateRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer)]
-        public int SubRentalEquipmentRebateRentalPerecent { get; set; }
+        public int? SubRentalEquipmentRebateRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentallogofilename", modeltype: FwDataTypes.Text, maxlength: 100)]
         public string SplitRentalLogoFileName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentallogowidth", modeltype: FwDataTypes.Integer)]
-        public int SplitRentalLogoWidth { get; set; }
+        public int? SplitRentalLogoWidth { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentallogoheight", modeltype: FwDataTypes.Integer)]
-        public int SplitRentalLogoHeight { get; set; }
+        public int? SplitRentalLogoHeight { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "shipadd", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string ShippingAddressType { get; set; }

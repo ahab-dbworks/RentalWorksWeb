@@ -16,13 +16,13 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerType
         public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "defaultrentaldiscountpct", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal DefaultRentalDiscountPercent { get; set; }
+        public decimal? DefaultRentalDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "defaultsalesdiscountpct", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal DefaultSalesDiscountPercent { get; set; }
+        public decimal? DefaultSalesDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "defaultspacediscountpct", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal DefaultFacilitiesDiscountPercent { get; set; }
+        public decimal? DefaultFacilitiesDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }

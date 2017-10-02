@@ -28,8 +28,8 @@ namespace RentalWorksWebApi.Modules.Settings.VendorCatalog
         public string VendorId { get { return vendorCatalog.VendorId; } set { vendorCatalog.VendorId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Vendor { get; set; }
-        public decimal TaxRate { get { return vendorCatalog.TaxRate; } set { vendorCatalog.TaxRate = value; } }
-        public decimal GlobalMarkup { get { return vendorCatalog.GlobalMarkup; } set { vendorCatalog.GlobalMarkup = value; } }
+        public decimal? TaxRate { get { return vendorCatalog.TaxRate; } set { vendorCatalog.TaxRate = value; } }
+        public decimal? GlobalMarkup { get { return vendorCatalog.GlobalMarkup; } set { vendorCatalog.GlobalMarkup = value; } }
         public string CarrierId { get { return vendorCatalog.CarrierId; } set { vendorCatalog.CarrierId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Carrier { get; set; }

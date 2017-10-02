@@ -29,13 +29,13 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         public string MonthYear { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "workdays", modeltype: FwDataTypes.Integer)]
-        public int WorkDays { get; set; }
+        public int? WorkDays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "year", modeltype: FwDataTypes.Text)]
         public string Year { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month", modeltype: FwDataTypes.Integer)]
-        public int Month { get; set; }
+        public int? Month { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fiscalorder", modeltype: FwDataTypes.Text)]
         public string FiscalOrder { get; set; }

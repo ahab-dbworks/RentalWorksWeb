@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 3, scale: 1)]
-        public decimal OrderBy { get; set; }
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

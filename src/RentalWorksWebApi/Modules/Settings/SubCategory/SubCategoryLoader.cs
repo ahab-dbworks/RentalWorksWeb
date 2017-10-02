@@ -33,10 +33,10 @@ namespace RentalWorksWebApi.Modules.Settings.SubCategory
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal)]
-        public decimal OrderBy { get; set; }
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
-        public int PickListOrderBy { get; set; }
+        public int? PickListOrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

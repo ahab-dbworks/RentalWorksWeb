@@ -18,10 +18,10 @@ namespace RentalWorksWebApi.Modules.Settings.SubCategory
         public string InventoryCategoryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
-        public decimal OrderBy { get; set; }
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
-        public int PickListOrderBy { get; set; }
+        public int? PickListOrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

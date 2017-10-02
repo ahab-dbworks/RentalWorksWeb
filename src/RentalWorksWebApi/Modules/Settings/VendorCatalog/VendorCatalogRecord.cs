@@ -33,10 +33,10 @@ namespace RentalWorksWebApi.Modules.Settings.VendorCatalog
         public string ShipViaId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
-        public decimal TaxRate { get; set; }
+        public decimal? TaxRate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "globalmarkup", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 2)]
-        public decimal GlobalMarkup { get; set; }
+        public decimal? GlobalMarkup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool Inactive { get; set; }

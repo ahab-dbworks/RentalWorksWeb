@@ -34,7 +34,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal)]
-        public decimal OrderBy { get; set; }
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

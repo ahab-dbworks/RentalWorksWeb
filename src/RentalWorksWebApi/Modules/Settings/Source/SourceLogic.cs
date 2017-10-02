@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string Path { get { return source.Path; } set { source.Path = value; } }
         public string FileName { get { return source.FileName; } set { source.FileName = value; } }
         public string FtpHost { get { return source.FtpHost; } set { source.FtpHost = value; } }
-        public int FtpPort { get { return source.FtpPort; } set { source.FtpPort = value; } }
+        public int? FtpPort { get { return source.FtpPort; } set { source.FtpPort = value; } }
         public string FtpUserName { get { return source.FtpUserName; } set { source.FtpUserName = value; } }
         public string FtpPassword { get { return source.FtpPassword; } set { source.FtpPassword = value; } }
         public string FtpPath { get { return source.FtpPath; } set { source.FtpPath = value; } }
@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string WebServicePassword { get { return source.WebServicePassword; } set { source.WebServicePassword = value; } }
         public bool UseProxy { get { return source.UseProxy; } set { source.UseProxy = value; } }
         public string Proxy { get { return source.Proxy; } set { source.Proxy = value; } }
-        public string ProxyPort { get { return FwConvert.ToString(source.ProxyPort); } set { source.ProxyPort = FwConvert.ToInt32(!string.IsNullOrEmpty(value) ? value : "0"); } }
+        public int? ProxyPort { get { return source.ProxyPort; } set { source.ProxyPort = value; } }
         public string ProxyUserName { get { return source.ProxyUserName; } set { source.ProxyUserName = value; } }
         public string ProxyPassword { get { return source.ProxyPassword; } set { source.ProxyPassword = value; } }
         public string DateStamp { get { return source.DateStamp; } set { source.DateStamp = value; } }

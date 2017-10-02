@@ -18,10 +18,10 @@ namespace RentalWorksWebApi.Modules.Settings.BillPeriodEventPercent
         public string BillPeriodEvent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billpercent", modeltype: FwDataTypes.Integer)]
-        public int BillPercent { get; set; }
+        public int? BillPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer)]
-        public int OrderBy { get; set; }
+        public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "revenue", modeltype: FwDataTypes.Boolean)]
         public bool Revenue { get; set; }

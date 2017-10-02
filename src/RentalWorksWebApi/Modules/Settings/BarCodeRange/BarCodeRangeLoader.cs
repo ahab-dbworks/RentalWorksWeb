@@ -20,10 +20,10 @@ namespace RentalWorksWebApi.Modules.Settings.BarCodeRange
         public string Prefix { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcodefrom", modeltype: FwDataTypes.Integer)]
-        public int BarcodeFrom { get; set; }
+        public int? BarcodeFrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcodeto", modeltype: FwDataTypes.Integer)]
-        public int BarcodeTo { get; set; }
+        public int? BarcodeTo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

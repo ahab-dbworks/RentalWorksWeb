@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
         public string GroupNo { get { return presentationLayerActivity.GroupNo; } set { presentationLayerActivity.GroupNo = value; } }
         public string RecType { get { return presentationLayerActivity.RecType; } set { presentationLayerActivity.RecType = value; } }
         public string ExportCode { get { return presentationLayerActivity.ExportCode; } set { presentationLayerActivity.ExportCode = value; } }
-        public decimal OrderBy { get { return presentationLayerActivity.OrderBy; } set { presentationLayerActivity.OrderBy = value; } }
+        public decimal? OrderBy { get { return presentationLayerActivity.OrderBy; } set { presentationLayerActivity.OrderBy = value; } }
         public string DateStamp { get { return presentationLayerActivity.DateStamp; } set { presentationLayerActivity.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

@@ -20,8 +20,8 @@ namespace RentalWorksWebApi.Modules.Settings.RentalCategory
         public bool ScheduleItems { get { return inventoryCategory.ScheduleItems; } set { inventoryCategory.ScheduleItems = value; } }
         public bool HasMaintenance { get { return inventoryCategory.HasMaintenance; } set { inventoryCategory.HasMaintenance = value; } }
         public string PreventiveMaintenanceCycle { get { return inventoryCategory.PreventiveMaintenanceCycle; } set { inventoryCategory.PreventiveMaintenanceCycle = value; } }
-        public int PreventiveMaintenanceCyclePeriod { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
-        public int DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
+        public int? PreventiveMaintenanceCyclePeriod { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
+        public int? DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
 
 
         public override void BeforeSave()

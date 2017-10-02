@@ -57,10 +57,10 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string PreventiveMaintenanceCycle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pmcycleperiod", modeltype: FwDataTypes.Integer)]
-        public int PreventiveMaintenanceCyclePeriod { get; set; }
+        public int? PreventiveMaintenanceCyclePeriod { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "depreciationmonths", modeltype: FwDataTypes.Integer)]
-        public int DepreciationMonths { get; set; }
+        public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
         public bool OverrideProfitAndLossCategory { get; set; }
@@ -147,10 +147,10 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
-        public decimal OrderBy { get; set; }
+        public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
-        public int PickListOrderBy { get; set; }
+        public int? PickListOrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }

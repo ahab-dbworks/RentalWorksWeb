@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Home.DealOrderDetail
         public string OrderId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal MaximumCumulativeDiscount { get; set; }
+        public decimal? MaximumCumulativeDiscount { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string PoApprovalStatusId { get; set; }

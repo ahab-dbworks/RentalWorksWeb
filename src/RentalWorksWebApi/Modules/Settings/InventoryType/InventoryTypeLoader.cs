@@ -38,10 +38,10 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryType
         public bool Vehicle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availabilitygrace", modeltype: FwDataTypes.Integer)]
-        public int LowAvailabilityPercent { get; set; }
+        public int? LowAvailabilityPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "barcodeprintqty", modeltype: FwDataTypes.Integer)]
-        public int BarCodePrintQty { get; set; }
+        public int? BarCodePrintQty { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
         public bool BarCodePrintUseDesigner { get; set; }

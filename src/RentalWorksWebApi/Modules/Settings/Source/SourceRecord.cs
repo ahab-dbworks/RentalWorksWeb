@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string FtpHost { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ftpport", modeltype: FwDataTypes.Integer)]
-        public int FtpPort { get; set; }
+        public int? FtpPort { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ftpusername", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string FtpUserName { get; set; }
@@ -78,7 +78,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string Proxy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "proxyport", modeltype: FwDataTypes.Integer)]
-        public int ProxyPort { get; set; }
+        public int? ProxyPort { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "proxyusername", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string ProxyUserName { get; set; }
