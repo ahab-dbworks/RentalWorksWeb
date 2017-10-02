@@ -71,12 +71,6 @@ namespace RentalWorksWebLibrary
 
             AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
 
-            AddModule("Fiscal Year", "{6F87E62B-F17A-48CB-B673-16D12B6DFFB9}", lv1menuSettings.Id, "FiscalYearController", "module/fiscalyear", settingsiconbaseurl + "placeholder.png");
-
-            //AddModule("Tax Option", "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id, "TaxOptionsController", "module/taxoptions", settingsiconbaseurl + "placeholder.png");
-
-            //AddModule("Ship Via", "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id, "ShipViaController", "module/shipvia", settingsiconbaseurl + "placeholder.png");
-
             var lv2menuCustomerSettings = AddLv2ModuleMenu("Customer Settings", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                              AddModule("Credit Status", "{A28D0CC9-B922-4259-BA4A-A5DE474ADFA4}", lv2menuCustomerSettings.Id, "CreditStatusController", "module/creditstatus", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
                                              AddModule("Customer Category", "{8FB6C746-AB6E-4CA5-9BD4-4E9AD88A3BC5}", lv2menuCustomerSettings.Id, "CustomerCategoryController", "module/customercategory", settingsiconbaseurl + "placeholder.png", "", "", "", "#cdcdc1");
@@ -105,6 +99,8 @@ namespace RentalWorksWebLibrary
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesSettings.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Status", "{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}", lv2menuFacilitiesSettings.Id, "FacilityStatusController", "module/facilitystatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Category", "{67A9BEC5-4865-409C-9327-B2B8714DDAA8}", lv2menuFacilitiesSettings.Id, "FacilityCategoryController", "module/facilitycategory", settingsiconbaseurl + "placeholder.png");
+
+            AddModule("Fiscal Year", "{6F87E62B-F17A-48CB-B673-16D12B6DFFB9}", lv1menuSettings.Id, "FiscalYearController", "module/fiscalyear", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuGeneratorSettings = AddLv2ModuleMenu("Generator Settings", "{711E8D44-E71F-4D10-B704-855E1018D20B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Fuel Type", "{8A331FE0-B92A-4DD2-8A59-29E4E6D6EA4F}", lv2menuGeneratorSettings.Id, "GeneratorFuelTypeController", "module/generatorfueltype", settingsiconbaseurl + "placeholder.png");
