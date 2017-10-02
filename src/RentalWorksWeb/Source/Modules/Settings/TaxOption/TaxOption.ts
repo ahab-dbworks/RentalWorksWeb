@@ -83,6 +83,8 @@ class TaxOption {
         $form.find('.canadataxratespanel, .ustaxratespanel').find('.fwformfield').attr('data-required', 'false');
 
         $form.find('.desc').attr('data-required', 'false');
+
+        $form.find('.notrequired').attr('data-required', 'false');
     }
 
     openBrowse() {
