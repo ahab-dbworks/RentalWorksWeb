@@ -19,19 +19,88 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
+        public string CustomerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        public string Customer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string LocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string Location { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text)]
+        public string DealtypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text)]
+        public string Dealtype { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
+        public string Address1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
+        public string Address2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
+        public string City { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
+        public string State { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
+        public string ZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
+        public string CountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
+        public string Country { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
+        public string Phone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
+        public string Phone800 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phoneother", modeltype: FwDataTypes.Text)]
+        public string PhoneOther { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        public string DepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        public string Department { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "csrid", modeltype: FwDataTypes.Text)]
+        public string CsrId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "csr", modeltype: FwDataTypes.Text)]
+        public string Csr { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultprojectmanagerid", modeltype: FwDataTypes.Text)]
+        public string DefaultProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string DefaultProjectManager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultagentid", modeltype: FwDataTypes.Text)]
+        public string DefaultAgentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string DefaultAgent { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         /*
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text)]
-                public string Dealtype { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
-                public string Customer { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "custtypeid", modeltype: FwDataTypes.Text)]
                 public string CusttypeId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
-                public string Department { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
                 public string Dealstatus { get; set; }
@@ -39,38 +108,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.UTCDateTime)]
                 public string Statusasof { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-                public string LocationId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-                public string Location { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "prodtype", modeltype: FwDataTypes.Text)]
                 public string Prodtype { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
-                public string Add1 { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
-                public string Add2 { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
-                public string City { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
-                public string State { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
-                public string Zip { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
-                public string Phone { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
-                public string Fax { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "phone800", modeltype: FwDataTypes.Text)]
-                public string Phone800 { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "prcontact", modeltype: FwDataTypes.Text)]
                 public string Prcontact { get; set; }
@@ -219,23 +258,11 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Boolean)]
                 public bool Statustype { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
-                public string CustomerId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
-                public string DepartmentId { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
                 public string Ratetype { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "periodtype", modeltype: FwDataTypes.Text)]
                 public string Periodtype { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "csr", modeltype: FwDataTypes.Text)]
-                public string Csr { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
-                public string Projectmanager { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.UTCDateTime)]
                 public string Expwrapdate { get; set; }
@@ -264,17 +291,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 [FwSqlDataField(column: "rebatecustomer", modeltype: FwDataTypes.Text)]
                 public string Rebatecustomer { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text)]
-                public string DealtypeId { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text)]
                 public string DealstatusId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
-                public string CountryId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "csrid", modeltype: FwDataTypes.Text)]
-                public string CsrId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean)]
                 public bool Enablewebquoterequest { get; set; }

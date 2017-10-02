@@ -18,31 +18,52 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Deal { get { return deal.Deal; } set { deal.Deal = value; } }
         public string DealNumber { get { return deal.DealNumber; } set { deal.DealNumber = value; } }
+        public string CustomerId { get { return deal.CustomerId; } set { deal.CustomerId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Customer { get; set; }
+        public string LocationId { get { return deal.LocationId; } set { deal.LocationId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Location { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DealTypeId { get { return deal.DealTypeId; } set { deal.DealTypeId = value; } }
+        public string DealType { get; set; }
+
+        public string Address1 { get { return deal.Address1; } set { deal.Address1 = value; } }
+        public string Address2 { get { return deal.Address2; } set { deal.Address2 = value; } }
+        public string City { get { return deal.City; } set { deal.City = value; } }
+        public string State { get { return deal.State; } set { deal.State = value; } }
+        public string ZipCode { get { return deal.ZipCode; } set { deal.ZipCode = value; } }
+        public string CountryId { get { return deal.CountryId; } set { deal.CountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Country { get; set; }
+        public string Phone { get { return deal.Phone; } set { deal.Phone = value; } }
+        public string Phone800 { get { return deal.Phone800; } set { deal.Phone800 = value; } }
+        public string Fax { get { return deal.Fax; } set { deal.Fax = value; } }
+        public string PhoneOther { get { return deal.PhoneOther; } set { deal.PhoneOther = value; } }
+
+
+        public string DepartmentId { get { return deal.DepartmentId; } set { deal.DepartmentId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Department { get; set; }
+        public string CsrId { get { return deal.CsrId; } set { deal.CsrId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Csr { get; set; }
+        public string DefaultAgentId { get { return deal.DefaultAgentId; } set { deal.DefaultAgentId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultAgent { get; set; }
+        public string DefaultProjectManagerId { get { return deal.DefaultProjectManagerId; } set { deal.DefaultProjectManagerId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultProjectManager { get; set; }
+
+
         /*
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Dealtype { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Customer { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string CusttypeId { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
-                public string Department { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
                 public string Dealstatus { get; set; }
                 public string Statusasof { get { return deal.Statusasof; } set { deal.Statusasof = value; } }
-                public string LocationId { get { return deal.LocationId; } set { deal.LocationId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Location { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true)]
                 public string Prodtype { get; set; }
-                public string Add1 { get { return deal.Add1; } set { deal.Add1 = value; } }
-                public string Add2 { get { return deal.Add2; } set { deal.Add2 = value; } }
-                public string City { get { return deal.City; } set { deal.City = value; } }
-                public string State { get { return deal.State; } set { deal.State = value; } }
-                public string Zip { get { return deal.Zip; } set { deal.Zip = value; } }
-                public string Phone { get { return deal.Phone; } set { deal.Phone = value; } }
-                public string Fax { get { return deal.Fax; } set { deal.Fax = value; } }
-                public string Phone800 { get { return deal.Phone800; } set { deal.Phone800 = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Prcontact { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -121,15 +142,9 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public bool Dealinactive { get; set; }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public bool Statustype { get; set; }
-                public string CustomerId { get { return deal.CustomerId; } set { deal.CustomerId = value; } }
-                public string DepartmentId { get { return deal.DepartmentId; } set { deal.DepartmentId = value; } }
                 public string Ratetype { get { return deal.Ratetype; } set { deal.Ratetype = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Periodtype { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Csr { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Projectmanager { get; set; }
                 public string Expwrapdate { get { return deal.Expwrapdate; } set { deal.Expwrapdate = value; } }
                 public string SalesrepresentativeId { get { return deal.SalesrepresentativeId; } set { deal.SalesrepresentativeId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
@@ -142,10 +157,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
                 public string RebatecustomerId { get { return deal.RebatecustomerId; } set { deal.RebatecustomerId = value; } }
                 [FwBusinessLogicField(isReadOnly: true)]
                 public string Rebatecustomer { get; set; }
-                public string DealtypeId { get { return deal.DealtypeId; } set { deal.DealtypeId = value; } }
                 public string DealstatusId { get { return deal.DealstatusId; } set { deal.DealstatusId = value; } }
-                public string CountryId { get { return deal.CountryId; } set { deal.CountryId = value; } }
-                public string CsrId { get { return deal.CsrId; } set { deal.CsrId = value; } }
                 public bool Enablewebquoterequest { get { return deal.Enablewebquoterequest; } set { deal.Enablewebquoterequest = value; } }
                 public bool Enablewebreports { get { return deal.Enablewebreports; } set { deal.Enablewebreports = value; } }
                 public string Inputdate { get { return deal.Inputdate; } set { deal.Inputdate = value; } }
