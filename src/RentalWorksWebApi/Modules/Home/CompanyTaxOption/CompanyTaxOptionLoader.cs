@@ -71,16 +71,8 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("CompanyId"))
-                {
-                    select.Parse();
-                    select.AddWhere("companyid = @companyid");
-                    select.AddParameter("@companyid", uniqueIds["CompanyId"].ToString());
-                }
-            }
+            select.Parse();
+            addFilterToSelect("CompanyId", "companyid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

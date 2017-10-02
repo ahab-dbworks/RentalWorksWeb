@@ -44,16 +44,8 @@ namespace RentalWorksWebApi.Modules.Settings.SubCategory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("InventoryCategoryId"))
-                {
-                    select.Parse();
-                    select.AddWhere("categoryid = @categoryid");
-                    select.AddParameter("@categoryid", uniqueIds["InventoryCategoryId"].ToString());
-                }
-            }
+            select.Parse();
+            addFilterToSelect("InventoryCategoryId", "categoryid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

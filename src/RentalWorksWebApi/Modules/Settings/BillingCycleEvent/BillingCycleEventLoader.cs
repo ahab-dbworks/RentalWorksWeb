@@ -35,16 +35,8 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("BillingCycleId"))
-                {
-                    select.Parse();
-                    select.AddWhere("billperiodid = @billperiodid");
-                    select.AddParameter("@billperiodid", uniqueIds["BillingCycleId"].ToString());
-                }
-            }
+            select.Parse();
+            addFilterToSelect("BillingCycleId", "billperiodid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

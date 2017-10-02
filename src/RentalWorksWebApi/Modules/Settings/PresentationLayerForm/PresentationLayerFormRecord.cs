@@ -31,15 +31,7 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            if ((request != null) && (request.miscfields != null))
-            {
-                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
-                if (miscfields.ContainsKey("PresentationLayerId"))
-                {
-                    select.AddWhere("presentationlayerid = @presentationlayerid");
-                    select.AddParameter("@presentationlayerid", request.miscfields.PresentationLayerId.value);
-                }
-            }
+            addFilterToSelect("PresentationLayerId", "presentationlayerid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

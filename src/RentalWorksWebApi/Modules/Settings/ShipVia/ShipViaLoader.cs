@@ -32,16 +32,8 @@ namespace RentalWorksWebApi.Data.Settings
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("VendorId"))
-                {
-                    select.Parse();
-                    select.AddWhere("vendorid = @vendorid");
-                    select.AddParameter("@vendorid", uniqueIds["VendorId"].ToString());
-                }
-            }
+            select.Parse();
+            addFilterToSelect("VendorId", "vendorid", select, request);
         }
         //------------------------------------------------------------------------------------
 
