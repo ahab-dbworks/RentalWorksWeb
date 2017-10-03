@@ -1029,6 +1029,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\FiscalMonthGrid\CompanyTaxGridController.js">
+      <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\FiscalYearGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\CompanyTaxGridController.js">
       <DependentUpon>FiscalYearGridController.ts</DependentUpon>
@@ -1042,6 +1046,7 @@
     <Content Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\LaborCategoryGrid\LaborCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalYearGrid\FiscalYearGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PresentationLayerFormGrid\PresentationLayerFormGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PresentationLayerActivityOverrideGrid\PresentationLayerActivityOverrideGridController.ts" />
@@ -1170,9 +1175,6 @@
     <Content Include="Source\Modules\Settings\WallDescription\WallDescriptionForm.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetSurface\SetSurfaceForm.htm" />
-    <Content Include="Source\Modules\Home\Deal\CrewStatus.js">
-      <DependentUpon>Deal.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js">
@@ -2222,15 +2224,15 @@
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js.map">
       <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Home\Deal\CrewStatus.js.map">
-      <DependentUpon>Deal.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Grids\FiscalYearGrid\CompanyTaxGridController.js.map">
       <DependentUpon>FiscalYearGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\ProjectAsBuild\AsBuild.js.map" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\CrewStatus.js.map" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.js.map" />
+    <Content Include="Source\Grids\FiscalMonthGrid\CompanyTaxGridController.js.map">
+      <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

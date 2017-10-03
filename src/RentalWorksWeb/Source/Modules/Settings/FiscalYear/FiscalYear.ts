@@ -32,6 +32,17 @@ class FiscalYear {
         return screen;
     }
 
+    events($form: JQuery): void {
+
+        $form.on('change', '.year input[type="text"]', (e) => {
+
+            
+            // find a way to update grid with new year value.
+            
+        });
+
+    }
+
     openBrowse() {
         var $browse;
 
@@ -46,8 +57,8 @@ class FiscalYear {
         var $fiscalYearGrid, $fiscalYearControl;
 
         // load companytax Grid
-        $fiscalYearGrid = $form.find('div[data-grid="FiscalYearGrid"]');
-        $fiscalYearControl = jQuery(jQuery('#tmpl-grids-FiscalYearGridBrowse').html());
+        $fiscalYearGrid = $form.find('div[data-grid="FiscalMonthGrid"]');
+        $fiscalYearControl = jQuery(jQuery('#tmpl-grids-FiscalMonthGridBrowse').html());
         $fiscalYearGrid.empty().append($fiscalYearControl);
         $fiscalYearControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -63,6 +74,8 @@ class FiscalYear {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+        this.events($form);
 
         return $form;
     }
@@ -90,8 +103,9 @@ class FiscalYear {
     afterLoad($form: any) {
         var $fiscalYearGrid;
 
-        $fiscalYearGrid = $form.find('[data-name="FiscalYearGrid"]');
+        $fiscalYearGrid = $form.find('[data-name="FiscalMonthGrid"]');
         FwBrowse.search($fiscalYearGrid);
+        
     }
 }
 
