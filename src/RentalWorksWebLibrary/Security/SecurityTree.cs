@@ -159,7 +159,8 @@ namespace RentalWorksWebLibrary
 
             var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");            
+                                              AddModule("Presentation Layer Activity", "{084E26BD-37FD-4E0E-AD65-A0824A6DC884}", lv2menuPresentationSettings.Id, "PresentationLayerActivityController", "module/presentationlayeractivity", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("Project As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "ProjectAsBuildController", "module/projectasbuild", settingsiconbaseurl + "placeholder.png");

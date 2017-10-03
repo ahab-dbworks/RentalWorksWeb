@@ -128,6 +128,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/projectdropshipitems$/,       getScreen: function () { return ProjectDropShipItemsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectdeposit$/,             getScreen: function() { return ProjectDepositController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectcommissioning$/,       getScreen: function() { return ProjectCommissioningController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/presentationlayeractivity$/,  getScreen: function() { return PresentationLayerActivityController.getModuleScreen({}, {}); } }
 
     , { urlpattern: /^module\/ordersetno$/, getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
     , { urlpattern: /^module\/orderlocation$/, getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }
