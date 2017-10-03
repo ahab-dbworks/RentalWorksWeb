@@ -169,7 +169,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"BarCodeRangeId\": \"00003EOV\",\n    \"BarcodeFrom\": 420,\n    \"BarcodeTo\": 450,\n}"
+							"raw": "{\n\t \"BarCodeRangeId\":\"00002WPC\",\n\t \"BarcodeFrom\":\"1000007\"\n}"
 						},
 						"description": ""
 					},
@@ -4103,6 +4103,162 @@
 			]
 		},
 		{
+			"name": "Facility Rate",
+			"description": "",
+			"item": [
+				{
+					"name": "Facility Rate: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Rate: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Category\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Rate: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate/00001AB4",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Rate: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryTypeId\": \"00001AB3\",\n    \"InventoryCategory\": \"ABC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Rate: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryCategoryId\": \"00003EYL\",\n    \"InventoryCategory\": \"ABCDEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Facility Rate: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/facilityrate/00003EYL",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Fiscal Year",
 			"description": "",
 			"item": [
@@ -6443,6 +6599,162 @@
 			]
 		},
 		{
+			"name": "Labor Rate",
+			"description": "",
+			"item": [
+				{
+					"name": "Labor Rate: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/laborrate",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Labor Rate: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/laborrate/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"LaborType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Labor Rate: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/labortype/000016K6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Labor Rate: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/labortype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"MiscType\": \"TEST MISC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Labor Rate: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/labortype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"MiscTypeId\": \"00003E10\",\n    \"MiscType\": \"TEST MISCXXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Labor Rate: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/labortype/00003E10",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "License Class",
 			"description": "",
 			"item": [
@@ -6885,6 +7197,162 @@
 				},
 				{
 					"name": "Misc Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/misctype/00003E10",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Misc Rate",
+			"description": "",
+			"item": [
+				{
+					"name": "Misc Rate: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/miscrate",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Misc  Rate: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/misctype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"MiscType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Misc Rate: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/misctype/000016K6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Misc Rate: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/misctype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"MiscType\": \"TEST MISC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Misc Rate: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/misctype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"MiscTypeId\": \"00003E10\",\n    \"MiscType\": \"TEST MISCXXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Misc Rate: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/misctype/00003E10",
 						"method": "DELETE",
@@ -8290,6 +8758,162 @@
 			]
 		},
 		{
+			"name": "PO Approval Status",
+			"description": "",
+			"item": [
+				{
+					"name": "PO Approval Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Approval Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"PoApprovalStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Approval Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus/00000TGA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Approval Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoApprovalStatus\": \"ABC\",\n    \"PoApprovalStatusType\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Approval Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoApprovalStatusId\": \"00003FSS\",\n    \"PoApprovalStatus\": \"ABCDDDD\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PO Approval Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprovalstatus/00003FSS",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "PO Classification",
 			"description": "",
 			"item": [
@@ -8961,7 +9585,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Activity\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Activity\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PresentationLayerId\": \"A00000EB\", \"RecType\": \"UD\"}\n\n}"
 						},
 						"description": ""
 					},
@@ -9062,6 +9686,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Presentation Layer Activity: SaveForm",
+					"request": {
+						"url": "http://localhost:57949/api/v1/presentationlayeractivity/saveform",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n   \"module\":\"PresentationLayerActivityGrid\",\r\n   \"mode\":\"EDIT\",\r\n   \"ids\":{  \r\n      \"PresentationLayerId\":{  \r\n         \"datafield\":\"PresentationLayerId\",\r\n         \"value\":\"A00000EB\"\r\n      }\r\n   },\r\n   \"fields\":{  \r\n      \"OrderBy\":{  \r\n         \"datafield\":\"OrderBy\",\r\n         \"value\":\"4\"\r\n      },\r\n      \"Activity\":{  \r\n         \"datafield\":\"Activity\",\r\n         \"value\":\"PARTS\"\r\n      },\r\n      \"ActivityRename\":{  \r\n         \"datafield\":\"ActivityRename\",\r\n         \"value\":\"\"\r\n      },\r\n      \"GroupNo\":{  \r\n         \"datafield\":\"GroupNo\",\r\n         \"value\":\"a\"\r\n      },\r\n      \"ExportCode\":{  \r\n         \"datafield\":\"ExportCode\",\r\n         \"value\":\"1234567890\"\r\n      }\r\n   },\r\n   \"miscfields\":{  \r\n      \"PresentationLayerId\":{  \r\n         \"datafield\":\"PresentationLayerId\",\r\n         \"value\":\"A00000EB\"\r\n      },\r\n      \"PresentationLayer\":{  \r\n         \"datafield\":\"PresentationLayer\",\r\n         \"value\":\"PRESENTATION LAYER\"\r\n      },\r\n      \"Inactive\":{  \r\n         \"datafield\":\"Inactive\",\r\n         \"value\":false\r\n      }\r\n   }\r\n}"
 						},
 						"description": ""
 					},
@@ -15201,7 +15850,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Vendor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Vendor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"Freight\": true}\n\t\n}"
 						},
 						"description": ""
 					},
