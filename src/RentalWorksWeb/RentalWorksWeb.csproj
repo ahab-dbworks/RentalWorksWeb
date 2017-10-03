@@ -1166,6 +1166,8 @@
     <Content Include="Source\Modules\Settings\ProjectAsBuild\CrewStatus.js" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.js" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuildForm.htm" />
+    <Content Include="Source\Modules\Settings\POApprovalStatus\POApprovalStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\POApprovalStatus\POApprovalStatusForm.htm" />
     <Content Include="Source\Modules\Settings\SetOpening\SetOpeningBrowse.htm" />
     <Content Include="Source\Modules\Settings\SetOpening\SetOpeningForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawingsBrowse.htm" />
@@ -2277,6 +2279,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayerActivity\PresentationLayerActivity.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\POApprovalStatus\POApprovalStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SetOpening\SetOpening.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDrawings\ProjectDrawings.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDropShipItems\ProjectDropShipItems.ts" />
