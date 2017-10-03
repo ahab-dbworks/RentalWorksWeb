@@ -8,6 +8,12 @@ namespace RentalWorksWebApi.Modules.Settings.MasterLocation
     public class MasterLocationRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
+        public string Id { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, maxlength: 1, isPrimaryKey: true, isPrimaryKeyOptional: true)]
+        public string InternalChar { get; set; } = "";
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string MasterId { get; set; }
         //------------------------------------------------------------------------------------ 

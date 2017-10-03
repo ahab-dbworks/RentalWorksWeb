@@ -7,12 +7,15 @@ using System.Collections.Generic;
 namespace RentalWorksWebApi.Modules.Settings.MasterLocation
 {
     [FwSqlTable("masterlocationview")]
-    public class MasterLocationLoader : RwDataLoadRecord
+    public abstract class MasterLocationLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string MasterId { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
+        public string Id { get; set; } = "";
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, isPrimaryKey: true, isPrimaryKeyOptional: true)]
+        public string InternalChar { get; set; } = "";
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -31,12 +34,5 @@ namespace RentalWorksWebApi.Modules.Settings.MasterLocation
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
-        {
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            addFilterToSelect("ItemId", "masterid", select, request); 
-        }
-        //------------------------------------------------------------------------------------    } 
     }
 }

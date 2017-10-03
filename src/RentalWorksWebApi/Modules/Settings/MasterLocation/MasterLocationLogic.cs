@@ -2,20 +2,22 @@ using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
 namespace RentalWorksWebApi.Modules.Settings.MasterLocation
 {
-    public class MasterLocationLogic : RwBusinessLogic
+    public abstract class MasterLocationLogic : RwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        MasterLocationRecord masterLocation = new MasterLocationRecord();
-        MasterLocationLoader masterLocationLoader = new MasterLocationLoader();
+        protected MasterLocationRecord masterLocation = new MasterLocationRecord();
         public MasterLocationLogic()
         {
             dataRecords.Add(masterLocation);
-            dataLoader = masterLocationLoader;
         }
         //------------------------------------------------------------------------------------ 
-        public string MasterId { get { return masterLocation.MasterId; } set { masterLocation.MasterId = value; } }
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string Id { get { return masterLocation.Id; } set { masterLocation.Id = value; } }
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InternalChar { get { return masterLocation.InternalChar; } set { masterLocation.InternalChar = value; } }
+        //public string MasterId { get { return masterLocation.MasterId; } set { masterLocation.MasterId = value; } }
         public string LocationId { get { return masterLocation.LocationId; } set { masterLocation.LocationId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
+        [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string Location { get; set; }
         public bool Taxable { get { return masterLocation.Taxable; } set { masterLocation.Taxable = value; } }
         public string ModByUsersId { get { return masterLocation.ModByUsersId; } set { masterLocation.ModByUsersId = value; } }
