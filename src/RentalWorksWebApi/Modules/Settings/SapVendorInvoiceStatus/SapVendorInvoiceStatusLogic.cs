@@ -6,9 +6,12 @@ namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
     {
         //------------------------------------------------------------------------------------ 
         SapVendorInvoiceStatusRecord sapVendorInvoiceStatus = new SapVendorInvoiceStatusRecord();
+        SapVendorInvoiceStatusLoader sapVendorInvoiceStatusLoader = new SapVendorInvoiceStatusLoader();
+
         public SapVendorInvoiceStatusLogic()
         {
             dataRecords.Add(sapVendorInvoiceStatus);
+            dataLoader = sapVendorInvoiceStatusLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
