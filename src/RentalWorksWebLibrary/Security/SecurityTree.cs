@@ -197,6 +197,7 @@ namespace RentalWorksWebLibrary
                                             AddModule("Vehicle Rating", "{09913CDB-68FB-4F18-BBAA-DCA8A8F926E5}", lv2menuVehicleSettings.Id, "VehicleRatingController", "module/vehiclerating", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Schedule Status", "{A001473B-1FB4-4E85-8093-37A92057CD93}", lv2menuVehicleSettings.Id, "VehicleScheduleStatusController", "module/vehicleschedulestatus", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Vehicle Status", "{FB12061D-E6AF-4C09-95A0-8647930C289A}", lv2menuVehicleSettings.Id, "VehicleStatusController", "module/vehiclestatus", settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Vehicle Type", "{60187072-8990-40BA-8D80-43B451E5BC8B}", lv2menuVehicleSettings.Id, "VehicleTypeController", "module/vehicletype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuVendorSettings = AddLv2ModuleMenu("Vendor Settings", "{93376B75-2771-474A-8C25-2BBE53B50F5C}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                            AddModule("Organization Type", "{fe3a764c-ab55-4ce5-8d7f-bfc86f174c11}", lv2menuVendorSettings.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");

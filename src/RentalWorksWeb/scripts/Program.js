@@ -131,17 +131,16 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/projectdeposit$/,             getScreen: function() { return ProjectDepositController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectcommissioning$/,       getScreen: function() { return ProjectCommissioningController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/presentationlayeractivity$/,  getScreen: function() { return PresentationLayerActivityController.getModuleScreen({}, {}); } }
-
-    , { urlpattern: /^module\/ordersetno$/, getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/orderlocation$/, getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/porejectreason$/, getScreen: function () { return PORejectReasonController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/facilitycategory$/, getScreen: function () { return FacilityCategoryController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/barcoderange$/, getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/fiscalyear$/, getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/projectasbuild$/, getScreen: function () { return ProjectAsBuildController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/projectitemsordered$/, getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/deal$/, getScreen: function () { return DealController.getModuleScreen({}, {}); } }
-
+  , { urlpattern: /^module\/ordersetno$/,                 getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/orderlocation$/,              getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/porejectreason$/,             getScreen: function () { return PORejectReasonController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/facilitycategory$/,           getScreen: function () { return FacilityCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/barcoderange$/,               getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/fiscalyear$/,                 getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/projectasbuild$/,             getScreen: function () { return ProjectAsBuildController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/projectitemsordered$/,        getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/deal$/,                       getScreen: function () { return DealController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vehicletype$/,                getScreen: function () { return VehicleTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
     //Reports                                             
