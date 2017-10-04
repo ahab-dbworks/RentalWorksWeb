@@ -20,6 +20,8 @@ namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
         public string SapVendorInvoiceStatus { get { return sapVendorInvoiceStatus.SapVendorInvoiceStatus; } set { sapVendorInvoiceStatus.SapVendorInvoiceStatus = value; } }
         public string VendorInvoiceStatus { get { return sapVendorInvoiceStatus.VendorInvoiceStatus; } set { sapVendorInvoiceStatus.VendorInvoiceStatus = value; } }
         public string SapStatus { get { return sapVendorInvoiceStatus.SapStatus; } set { sapVendorInvoiceStatus.SapStatus = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SapStatusDisplay { get; set; }
         public string DateStamp { get { return sapVendorInvoiceStatus.DateStamp; } set { sapVendorInvoiceStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

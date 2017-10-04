@@ -19,11 +19,11 @@ namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
         [FwSqlDataField(column: "vendorinvoicestatus", modeltype: FwDataTypes.Text)]
         public string VendorInvoiceStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sapstatuscode", modeltype: FwDataTypes.Text)]
-        public string SapStatusCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sapstatus", modeltype: FwDataTypes.Text)]
         public string SapStatus { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sapstatusdisplay", modeltype: FwDataTypes.Text)]
+        public string SapStatusDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
