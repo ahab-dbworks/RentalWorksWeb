@@ -1034,9 +1034,6 @@
     </Content>
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\FiscalYearGridBrowse.htm" />
-    <Content Include="Source\Grids\FiscalYearGrid\CompanyTaxGridController.js">
-      <DependentUpon>FiscalYearGridController.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Grids\PresentationLayerFormGrid\PresentationLayerFormGridBrowse.htm" />
     <Content Include="Source\Grids\PresentationLayerActivityOverrideGrid\PresentationLayerActivityOverrideGridBrowse.htm" />
     <Content Include="Source\Grids\PresentationLayerActivityGrid\PresentationLayerActivityGridBrowse.htm" />
@@ -1140,7 +1137,6 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
-    <Content Include="Source\Modules\Settings\AsBuild\AsBuild.js" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -1711,6 +1707,9 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\DealStatus\DealStatusBrowse.htm" />
+    <Content Include="Source\Validations\DealClassification\DealClassificationBrowse.htm" />
+    <Content Include="Source\Validations\ProductionType\ProductionTypeBrowse.htm" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
     <Content Include="Source\Validations\FacilityType\FacilityTypeBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerActivity\PresentationLayerActivityBrowse.htm" />
@@ -1909,6 +1908,9 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />
+    <Compile Include="Source\Validations\DealClassification\DealClassification.cs" />
+    <Compile Include="Source\Validations\ProductionType\ProductionType.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
     <Compile Include="Source\Validations\PresentationLayerActivity\PresentationLayerActivity.cs" />
     <Compile Include="Source\Validations\Unit\Unit.cs" />
@@ -2235,16 +2237,12 @@
     <Content Include="Source\Modules\Settings\ProjectItemsOrdered\CrewStatus.js.map">
       <DependentUpon>ProjectItemsOrdered.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Grids\FiscalYearGrid\CompanyTaxGridController.js.map">
-      <DependentUpon>FiscalYearGridController.ts</DependentUpon>
-    </Content>
     <Content Include="Source\Modules\Settings\ProjectAsBuild\AsBuild.js.map" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\CrewStatus.js.map" />
     <Content Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.js.map" />
     <Content Include="Source\Grids\FiscalMonthGrid\CompanyTaxGridController.js.map">
       <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\AsBuild\AsBuild.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
