@@ -71,7 +71,27 @@ class RwFacilityRate {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $rateLocationTaxGrid: any;
+        var $rateLocationTaxGridControl: any;
+
+        $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+        $rateLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-RateLocationTaxGridBrowse').html());
+        $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
+        $rateLocationTaxGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+            };
+        })
+        FwBrowse.init($rateLocationTaxGridControl);
+        FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
+    }
+
     afterLoad($form: any) {
+        var $rateLocationTaxGrid: any;
+
+        $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
+        FwBrowse.search($rateLocationTaxGrid);
 
     }
 }
