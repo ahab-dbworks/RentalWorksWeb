@@ -111,8 +111,6 @@ namespace RentalWorksQuikScan.Modules
         public static void RemoveExtraItem(dynamic request, dynamic response, dynamic session)
         {
             ChkInItemCancel(request.contractid, "", "", "", "", "", session.security.webUser.usersid, "", request.recorddata.ordertranid, request.recorddata.internalchar, 0);
-
-            response.extraitems = GetExtraSessionedInItems(request.contractid, "");
         }
         //---------------------------------------------------------------------------------------------
         private static void ChkInItemCancel(string contractid, string masteritemid, string masterid, string vendorid, string consignorid, string warehouseid, string usersid,
@@ -447,15 +445,34 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public void LoadSessionInList(dynamic request, dynamic response, dynamic session)
+        public void SessionInSearch(dynamic request, dynamic response, dynamic session)
         {
-            const string METHOD_NAME = "LoadSessionInList";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractid");
+            FwSqlCommand qry;
+            FwSqlSelect select = new FwSqlSelect();
+            dynamic allsessioninitems;
+            decimal sessionin, totalin = 0;
 
-            response.items             = new ExpandoObject();
-            response.items.sessionedin = GetSessionedInItems(request.contractid);
-            response.items.extraitems  = GetExtraSessionedInItems(request.contractid, "");
+            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            select.PageNo   = request.pageno;
+            select.PageSize = request.pagesize;
+            qry.AddColumn("sessionin",  false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyordered", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            select.Add("select *");
+            select.Add("from   dbo.funccheckincontract(@contractid, @groupby)");
+            select.Add("order by orderby");
+            select.AddParameter("@contractid", request.contractid);
+            select.AddParameter("@groupby",    "DETAIL");
+
+            response.searchresults = qry.QueryToFwJsonTable(select, true);
+
+            allsessioninitems = GetSessionedInItems(request.contractid);
+            for (int i = 0; i < allsessioninitems.Count; i++)
+            {
+                sessionin = FwConvert.ToDecimal(allsessioninitems[i].sessionin);
+                totalin   = totalin + sessionin;
+            }
+            response.totalin    = totalin;
+            response.extraitems = GetExtraSessionedInItems(request.contractid, "").Count;
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -499,10 +516,6 @@ namespace RentalWorksQuikScan.Modules
                                         ordertranid:  FwConvert.ToInt32(request.ordertranid),
                                         internalchar: request.internalchar,
                                         qty:          request.qty);
-
-            response.items             = new ExpandoObject();
-            response.items.sessionedin = GetSessionedInItems(request.contractid);
-            response.items.extraitems  = GetExtraSessionedInItems(request.contractid, "");
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -541,6 +554,24 @@ namespace RentalWorksQuikScan.Modules
 
             return result;
         }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public static void ExtraItemsSearch(dynamic request, dynamic response, dynamic session)
+        {
+            FwSqlCommand qry;
+            FwSqlSelect select = new FwSqlSelect();
+
+            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            select.PageNo   = request.pageno;
+            select.PageSize = request.pagesize;
+            select.Add("select *");
+            select.Add("from   dbo.funcitemstoswap(@contractid, @exchangecontractid)");
+            select.Add("order by masterno, inorderno, outorderno");
+            select.AddParameter("@contractid",         request.contractid);
+            select.AddParameter("@exchangecontractid", "");
+
+            response.searchresults = qry.QueryToFwJsonTable(select, true);
+        }
         //----------------------------------------------------------------------------------------------------
         public static dynamic GetExtraSessionedInItems(string contractid, string exchangecontractid)
         {
@@ -560,12 +591,59 @@ namespace RentalWorksQuikScan.Modules
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
-        public static void LoadPendingList(dynamic request, dynamic response, dynamic session)
+        public static void PendingSearch(dynamic request, dynamic response, dynamic session)
         {
-            const string METHOD_NAME = "LoadPendingList";
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "contractId");
-            response.pendingitems = GetPendingItems(request.contractId, "F");
+            FwSqlCommand qry;
+            FwSqlSelect select = new FwSqlSelect();
+            dynamic allpendingitems;
+            string trackedby, subbyquantity;
+            decimal qtystillout, totalout = 0;
+            bool qtyitemexists = false;
+
+            qry             = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            select.PageNo   = request.pageno;
+            select.PageSize = request.pagesize;
+            qry.AddColumn("exceptionflg",       false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("somein",             false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtysub",             false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtysubstagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtysubout",          false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtyin",              false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("qtystillout",        false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("missingflg",         false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("missingqty",         false, FwJsonDataTableColumn.DataTypes.Decimal);
+            qry.AddColumn("isbarcode",          false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("subbyquantity",      false, FwJsonDataTableColumn.DataTypes.Boolean);
+            qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
+            select.Add("select *, ispackage = dbo.ispackage(itemclass)");
+            select.Add("  from dbo.funccheckinexception3(@contractid, @rectype, @containeritemid, @showall)");
+            select.Add(" where exceptionflg = 'T'");
+            select.Add("   and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
+            select.Add("order by orderno, itemorder, masterno");
+            select.AddParameter("@contractid",      request.contractid);
+            select.AddParameter("@rectype",         "R");
+            select.AddParameter("@containeritemid", "");
+            select.AddParameter("@showall",         "F");
+
+            response.searchresults = qry.QueryToFwJsonTable(select, true);
+
+            allpendingitems = GetPendingItems(request.contractid, "F");
+            for (int i = 0; i < allpendingitems.Count; i++)
+            {
+                trackedby     = allpendingitems[i].trackedby;
+                subbyquantity = FwConvert.ToString(allpendingitems[i].subbyquantity);
+                qtystillout   = FwConvert.ToDecimal(allpendingitems[i].qtystillout);
+                if ((trackedby.Equals("QUANTITY") || subbyquantity.Equals("T")) && (qtystillout > 0))
+                {
+                    qtyitemexists = true;
+                }
+                totalout = totalout + qtystillout;
+            }
+            response.qtyitemexists = qtyitemexists;
+            response.totalout      = totalout;
         }
         //---------------------------------------------------------------------------------------------
         [FwJsonServiceMethod]
@@ -616,7 +694,6 @@ namespace RentalWorksQuikScan.Modules
                                          containeroutcontractid: string.Empty);
                 }
             }
-            response.pendingitems = GetPendingItems(request.contractId, "F");
         }
         //----------------------------------------------------------------------------------------------------
         public static dynamic GetPendingItems(string contractid, string showall)

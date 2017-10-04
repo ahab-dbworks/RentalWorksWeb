@@ -17,9 +17,9 @@ namespace RentalWorksWeb.Integration
 {
     public class QBOIntegrationData
     {
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         public static dynamic qbokeys, qbosettings;
-        public static List<dynamic> _Items                  = new List<dynamic>();
+        public static List<dynamic> Items                   = new List<dynamic>();
         public static List<dynamic> Invoices                = new List<dynamic>();
         public static List<dynamic> CreditMemos             = new List<dynamic>();
         public static List<dynamic> Classes                 = new List<dynamic>();
@@ -34,7 +34,15 @@ namespace RentalWorksWeb.Integration
         public static List<dynamic> VendorInvoices          = new List<dynamic>(); /*bill*/
         public static List<dynamic> VendorCredit            = new List<dynamic>();
         public static List<dynamic> Accounts                = new List<dynamic>();
-        //---------------------------------------------------------------------------------------------
+        public static string exportbatchid                  = string.Empty;
+        public static string chgbatchexportid               = string.Empty;
+        //----------------------------------------------------------------------------------------------------
+        //====================================================================================================
+        //----------------------------------------------------------------------------------------------------
+        private const int RECEIPT_INVOICE_ERROR             = 200;
+        //----------------------------------------------------------------------------------------------------
+        //====================================================================================================
+        //----------------------------------------------------------------------------------------------------
         public class ExportInvoicesToQBOReturn
         {
             public string status  = string.Empty;
@@ -51,17 +59,18 @@ namespace RentalWorksWeb.Integration
                 invoices.Add(item);
             }
         }
-        //---------------------------------------------------------------------------------------------
-        public static ExportInvoicesToQBOReturn ExportInvoicesToQBO(string batchno, string batchfrom, string batchto, string locationid, string usersid)
+        //----------------------------------------------------------------------------------------------------
+        public static ExportInvoicesToQBOReturn ExportInvoicesToQBO(string batchid, string batchfrom, string batchto, string locationid, string usersid)
         {
             dynamic invoiceids, invoiceinfo;
             ExportInvoicesToQBOReturn result = new ExportInvoicesToQBOReturn();
 
             try
             {
+                exportbatchid   = batchid;
                 qbosettings     = GetQBOSettings(FwSqlConnection.RentalWorks);
                 qbokeys         = GetQBOKeys(FwSqlConnection.RentalWorks, locationid);
-                invoiceids      = ExportInvoices(FwSqlConnection.RentalWorks, batchno, batchfrom, batchto, locationid);
+                invoiceids      = ExportInvoices(FwSqlConnection.RentalWorks, batchid, batchfrom, batchto, locationid);
 
                 for (int i = 0; i < invoiceids.Count; i++)
                 {
@@ -83,12 +92,12 @@ namespace RentalWorksWeb.Integration
             {
                 result.status  = "100";
                 result.message = ex.Message + "<br/> " + ex.StackTrace;
-                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchno, ex.Message, "", ex.StackTrace);
+                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchid, "", "", "", ex.Message  + ex.StackTrace);
             }
 
             return result;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         public class ExportReceiptsToQBOReturn
         {
             public string status = string.Empty;
@@ -105,17 +114,18 @@ namespace RentalWorksWeb.Integration
                 receipts.Add(item);
             }
         }
-        //---------------------------------------------------------------------------------------------
-        public static ExportReceiptsToQBOReturn ExportReceiptsToQBO(string batchno, string batchfrom, string batchto, string locationid)
+        //----------------------------------------------------------------------------------------------------
+        public static ExportReceiptsToQBOReturn ExportReceiptsToQBO(string batchid, string batchfrom, string batchto, string locationid)
         {
             dynamic arids, payment;
             ExportReceiptsToQBOReturn result = new ExportReceiptsToQBOReturn();
 
             try
             {
+                exportbatchid   = batchid;
                 qbosettings     = GetQBOSettings(FwSqlConnection.RentalWorks);
                 qbokeys         = GetQBOKeys(FwSqlConnection.RentalWorks, locationid);
-                arids           = ExportRecepits(FwSqlConnection.RentalWorks, batchno, batchfrom, batchto, locationid);
+                arids           = ExportRecepits(FwSqlConnection.RentalWorks, batchid, batchfrom, batchto, locationid);
 
                 for (int i = 0; i < arids.Count; i++)
                 {
@@ -130,12 +140,12 @@ namespace RentalWorksWeb.Integration
             {
                 result.status  = "100";
                 result.message = ex.Message + "<br/> " + ex.StackTrace;
-                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchno, ex.Message, "", ex.StackTrace);
+                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchid, "", "", "", ex.Message  + ex.StackTrace);
             }
 
             return result;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         public class ExportVendorInvoicesToQBOReturn
         {
             public string status = string.Empty;
@@ -152,17 +162,18 @@ namespace RentalWorksWeb.Integration
                 vendorinvoices.Add(item);
             }
         }
-        //---------------------------------------------------------------------------------------------
-        public static ExportVendorInvoicesToQBOReturn ExportVendorInvoicesToQBO(string batchno, string locationid)
+        //----------------------------------------------------------------------------------------------------
+        public static ExportVendorInvoicesToQBOReturn ExportVendorInvoicesToQBO(string batchid, string locationid)
         {
             dynamic vendorinvoiceids, vendorinvoiceinfo;
             ExportVendorInvoicesToQBOReturn result = new ExportVendorInvoicesToQBOReturn();
 
             try
             {
+                exportbatchid    = batchid;
                 qbosettings      = GetQBOSettings(FwSqlConnection.RentalWorks);
                 qbokeys          = GetQBOKeys(FwSqlConnection.RentalWorks, locationid);
-                vendorinvoiceids = ExportVendorInvoices(FwSqlConnection.RentalWorks, batchno);
+                vendorinvoiceids = ExportVendorInvoices(FwSqlConnection.RentalWorks, batchid);
 
                 for (int i = 0; i < vendorinvoiceids.Count; i++)
                 {
@@ -184,32 +195,28 @@ namespace RentalWorksWeb.Integration
             {
                 result.status  = "100";
                 result.message = ex.Message + "<br/> " + ex.StackTrace;
-                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchno, ex.Message, "", ex.StackTrace);
+                LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, batchid, "", "", "", ex.Message  + ex.StackTrace);
             }
 
             return result;
         }
-        //------------------------------------------------------------------------------
-        private static dynamic QueryToJsonObject(string query)
+        //----------------------------------------------------------------------------------------------------
+        //====================================================================================================
+        //----------------------------------------------------------------------------------------------------
+        private class QBOQueryResponse
         {
-            dynamic obj = new ExpandoObject();
-            JsonConvert.PopulateObject(Get(query), obj);
-            return obj;
+            public int     StatusCode   = 0;
+            public dynamic JSONResponse = new ExpandoObject();
         }
         //------------------------------------------------------------------------------
-        private static dynamic PostToJsonObject(string entity, string poststr)
+        private static QBOQueryResponse QueryQBO(string query)
         {
-            dynamic obj = new ExpandoObject();
-            JsonConvert.PopulateObject(Post(entity, poststr), obj);
-            return obj;
-        }
-        //------------------------------------------------------------------------------
-        private static string Get(string query)
-        {
-            string encodedQuery           = System.Net.WebUtility.UrlEncode(query);
-            string uri                    = string.Format("{0}/company/{1}/query?query={2}", qbosettings.qbobaseurl, qbokeys.companyid, encodedQuery);
-            HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
-            string responseFromServer     = string.Empty;
+            string encodedQuery            = System.Net.WebUtility.UrlEncode(query);
+            string uri                     = string.Format("{0}/company/{1}/query?query={2}", qbosettings.qbobaseurl, qbokeys.companyid, encodedQuery);
+            HttpWebRequest httpWebRequest  = WebRequest.Create(uri) as HttpWebRequest;
+            string responseFromServer      = string.Empty;
+            QBOQueryResponse queryresponse = new QBOQueryResponse();
+
             httpWebRequest.Method         = "GET";
             httpWebRequest.Accept         = "application/json";
             httpWebRequest.Headers.Add("Authorization", GetDevDefinedOAuthHeader(qbosettings.qboconsumerkey, qbosettings.qboconsumersecret, qbokeys.accesstoken, qbokeys.accesstokensecret, httpWebRequest, null));
@@ -220,59 +227,84 @@ namespace RentalWorksWeb.Integration
                 using (Stream data = httpWebResponse.GetResponseStream())
                 {
                     responseFromServer = new StreamReader(data).ReadToEnd();
+
+                    queryresponse.StatusCode = (int)httpWebResponse.StatusCode;
+                    JsonConvert.PopulateObject(responseFromServer, queryresponse.JSONResponse);
                 }
             }
-            catch (Exception e)
+            catch (WebException e)
             {
-                responseFromServer = "ERROR: " + e.Message + "  ----  " + "Query: " + query;
+                if (e.Response != null) {
+                    using (var errorResponse = (HttpWebResponse)e.Response) {
+                        queryresponse.StatusCode = (int)errorResponse.StatusCode;
+                        using (var reader = new StreamReader(errorResponse.GetResponseStream())) {
+                            responseFromServer = reader.ReadToEnd();
+                            LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, exportbatchid, "", responseFromServer, query, e.Message);
+                            JsonConvert.PopulateObject(responseFromServer, queryresponse.JSONResponse);
+                        }
+                    }
+                }
             }
-            return responseFromServer;
+
+            return queryresponse;
         }
-        //------------------------------------------------------------------------------
-        private static string Post(string entity, string postStr)
+        //----------------------------------------------------------------------------------------------------
+        private class QBOPostResponse
+        {
+            public int     StatusCode   = 0;
+            public dynamic JSONResponse = new ExpandoObject();
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static QBOPostResponse PostToQBO(string entity, dynamic postObject)
         {
             string uri                    = string.Format("{0}/company/{1}/{2}", qbosettings.qbobaseurl, qbokeys.companyid, entity);
             HttpWebRequest httpWebRequest = WebRequest.Create(uri) as HttpWebRequest;
             string responseFromServer     = string.Empty;
+            QBOPostResponse postresponse  = new QBOPostResponse();
+            string postStr                = JsonConvert.SerializeObject(postObject);
+            string decodedPostStr         = HttpUtility.HtmlDecode(postStr);
+            byte[] byteArray              = Encoding.UTF8.GetBytes(decodedPostStr);
+
             httpWebRequest.Method         = "POST";
             httpWebRequest.Accept         = "application/json";
             httpWebRequest.ContentType    = "application/json";
-
+            httpWebRequest.ContentLength  = byteArray.Length;
             httpWebRequest.Headers.Add("Authorization", GetDevDefinedOAuthHeader(qbosettings.qboconsumerkey, qbosettings.qboconsumersecret, qbokeys.accesstoken, qbokeys.accesstokensecret, httpWebRequest, null));
-
-            string decodedPostStr        = HttpUtility.HtmlDecode(postStr);
-            byte[] byteArray             = Encoding.UTF8.GetBytes(decodedPostStr);
-            httpWebRequest.ContentLength = byteArray.Length;
 
             try
             {
                 Stream dataStream = httpWebRequest.GetRequestStream();
                 dataStream.Write(byteArray, 0, byteArray.Length);
 
-                WebResponse response = httpWebRequest.GetResponse();
-                dataStream           = response.GetResponseStream();
+                HttpWebResponse httpWebResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+                dataStream                      = httpWebResponse.GetResponseStream();
 
                 StreamReader reader = new StreamReader(dataStream);
                 responseFromServer  = reader.ReadToEnd();
 
+                postresponse.StatusCode = (int)httpWebResponse.StatusCode;
+                JsonConvert.PopulateObject(responseFromServer, postresponse.JSONResponse);
+
                 reader.Close();
                 dataStream.Close();
-                response.Close();
+                httpWebResponse.Close();
             }
             catch (WebException e)
             {
-                responseFromServer = "ERROR: " + e.Message + "  ----  " + "Entity: " + entity + "  ---  Post: " + postStr;
                 if (e.Response != null) {
                     using (var errorResponse = (HttpWebResponse)e.Response) {
+                        postresponse.StatusCode = (int)errorResponse.StatusCode;
                         using (var reader = new StreamReader(errorResponse.GetResponseStream())) {
-                            LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, entity, e.Message, "", "Response: " + reader.ReadToEnd() + " Request: " + postStr);
+                            responseFromServer = reader.ReadToEnd();
+                            LogChgBatchExportRecordError(FwSqlConnection.RentalWorks, exportbatchid, entity, responseFromServer, postStr, e.Message);
+                            JsonConvert.PopulateObject(responseFromServer, postresponse.JSONResponse);
                         }
                     }
                 }
             } 
-            return responseFromServer;
+            return postresponse;
         }
-        //------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static string GetDevDefinedOAuthHeader(string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret, HttpWebRequest webRequest, string requestBody)
         {
 
@@ -304,7 +336,9 @@ namespace RentalWorksWeb.Integration
             consumerRequest = consumerRequest.SignWithToken();
             return consumerRequest.Context.GenerateOAuthParametersForHeader();
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
+        //====================================================================================================
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateCustomer(dynamic customer)
         {
             dynamic _customer = null;
@@ -323,10 +357,11 @@ namespace RentalWorksWeb.Integration
 
             if (_customer == null)
             {
-                _customer = QueryToJsonObject("select * from customer where fullyqualifiedname = '" + customer + "'").QueryResponse.Customer;
-                if (_customer != null)
+                string querystring           = customer.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from customer where fullyqualifiedname = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Customer != null)
                 {
-                    _customer = _customer[0];
+                    _customer = qboresponse.JSONResponse.QueryResponse.Customer[0];
                     Customers.Add(_customer);
                 }
             }
@@ -334,7 +369,7 @@ namespace RentalWorksWeb.Integration
             if (_customer == null)
             {
                 dynamic newCustomer = new ExpandoObject(), customerinfo;
-                string newCustomerJson;
+                QBOPostResponse qbopost;
 
                 customerinfo = GetCustomerInfo(FwSqlConnection.RentalWorks, customer);
 
@@ -357,14 +392,14 @@ namespace RentalWorksWeb.Integration
                     //newCustomer.BillAddr.Country                = customerinfo.billtocountry;
                 }
 
-                newCustomerJson = JsonConvert.SerializeObject(newCustomer);
-                _customer       = PostToJsonObject("customer", newCustomerJson).Customer;
+                qbopost   = PostToQBO("customer", newCustomer);
+                _customer = qbopost.JSONResponse.Customer;
                 Customers.Add(_customer);
             }
 
             return _customer;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateClass(dynamic classname)
         {
             dynamic _class = null;
@@ -383,10 +418,11 @@ namespace RentalWorksWeb.Integration
 
             if (_class == null)
             {
-                _class = QueryToJsonObject("select * from class where fullyqualifiedname = '" + classname + "'").QueryResponse.Class;
-                if (_class != null)
+                string querystring           = classname.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from class where fullyqualifiedname = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Class != null)
                 {
-                    _class = _class[0];
+                    _class = qboresponse.JSONResponse.QueryResponse.Class[0];
                     Classes.Add(_class);
                 }
             }
@@ -394,18 +430,18 @@ namespace RentalWorksWeb.Integration
             if (_class == null)
             {
                 dynamic newClass = new ExpandoObject();
-                string newClassJson;
+                QBOPostResponse qbopost;
 
-                newClass.Name = classname;
+                newClass.Name = classname.Replace(":", "");
 
-                newClassJson = JsonConvert.SerializeObject(newClass);
-                _class       = PostToJsonObject("class", newClassJson).Class;
+                qbopost = PostToQBO("class", newClass);
+                _class  = qbopost.JSONResponse.Class;
                 Classes.Add(_class);
             }
 
             return _class;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateTerm(dynamic payterms)
         {
             dynamic term = null;
@@ -424,10 +460,11 @@ namespace RentalWorksWeb.Integration
 
             if (term == null)
             {
-                term = QueryToJsonObject("select * from term where name = '" + payterms + "'").QueryResponse.Term;
-                if (term != null)
+                string querystring           = payterms.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from term where name = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Term != null)
                 {
-                    term = term[0];
+                    term = qboresponse.JSONResponse.QueryResponse.Term[0];
                     Terms.Add(term);
                 }
             }
@@ -435,7 +472,8 @@ namespace RentalWorksWeb.Integration
             if (term == null)
             {
                 dynamic newTerm = new ExpandoObject();
-                string newTermJson, duedays;
+                QBOPostResponse qbopost;
+                string duedays;
 
                 duedays = GetPayTermsDueDate(FwSqlConnection.RentalWorks, payterms);
 
@@ -443,15 +481,15 @@ namespace RentalWorksWeb.Integration
                 newTerm.Type    = "STANDARD";
                 newTerm.DueDays = duedays;
 
-                newTermJson = JsonConvert.SerializeObject(newTerm);
-                term        = PostToJsonObject("term", newTermJson).Term;
+                qbopost = PostToQBO("term", newTerm);
+                term    = qbopost.JSONResponse.Term;
                 Terms.Add(term);
             }
 
             return term;
         }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateTaxCode(dynamic invoice)
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryTaxCode(dynamic invoice)
         {
             dynamic taxcode = null;
 
@@ -469,22 +507,32 @@ namespace RentalWorksWeb.Integration
 
             if (taxcode == null)
             {
-                taxcode = QueryToJsonObject("select * from taxcode where name = '" + invoice.taxitemcode + "'").QueryResponse.TaxCode;
-                if (taxcode != null)
+                string querystring           = invoice.taxitemcode.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from taxcode where name = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.TaxCode != null)
                 {
-                    taxcode = taxcode[0];
+                    taxcode = qboresponse.JSONResponse.QueryResponse.TaxCode[0];
                     TaxItems.Add(taxcode);
                 }
             }
 
+            return taxcode;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic ValidateTaxCode(dynamic invoice)
+        {
+            dynamic taxcode = null;
+
+            taxcode = QueryTaxCode(invoice);
+
             if (taxcode == null)
             {
                 dynamic newTaxService = new ExpandoObject(), taxrate, taxagency;
-                string newTaxServiceJson;
+                QBOPostResponse qbopost;
 
                 newTaxService.TaxCode = invoice.taxitemcode;
 
-                taxrate                      = ValidateTaxRate(invoice);
+                taxrate                      = QueryTaxRate(invoice);
                 newTaxService.TaxRateDetails = new List<dynamic>();
                 dynamic rate                 = new ExpandoObject();
                 if (taxrate != null)
@@ -502,16 +550,15 @@ namespace RentalWorksWeb.Integration
                     newTaxService.TaxRateDetails.Add(rate);
                 }
 
-                newTaxServiceJson = JsonConvert.SerializeObject(newTaxService);
-                taxcode           = PostToJsonObject("taxservice/taxcode", newTaxServiceJson);
-                taxcode           = QueryToJsonObject("select * from taxcode where name = '" + invoice.taxitemcode + "'").QueryResponse.TaxCode;
-                taxcode           = taxcode[0];
+                qbopost = PostToQBO("taxservice/taxcode", newTaxService);
+                taxcode = qbopost.JSONResponse.TaxCode;
+                taxcode = QueryTaxCode(invoice);
                 TaxItems.Add(taxcode);
             }
 
             return taxcode;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateTaxAgency(dynamic invoice)
         {
             dynamic taxagency = null;
@@ -530,10 +577,11 @@ namespace RentalWorksWeb.Integration
 
             if (taxagency == null)
             {
-                taxagency = QueryToJsonObject("select * from taxagency where name = '" + invoice.taxvendor + "'").QueryResponse.TaxAgency;
-                if (taxagency != null)
+                string querystring           = invoice.taxvendor.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from taxagency where name = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.TaxAgency != null)
                 {
-                    taxagency = taxagency[0];
+                    taxagency = qboresponse.JSONResponse.QueryResponse.TaxAgency[0];
                     TaxAgencies.Add(taxagency);
                 }
             }
@@ -541,19 +589,19 @@ namespace RentalWorksWeb.Integration
             if (taxagency == null)
             {
                 dynamic newTaxAgency = new ExpandoObject();
-                string newTaxAgencyJson;
+                QBOPostResponse qbopost;
 
                 newTaxAgency.DisplayName = invoice.taxvendor;
 
-                newTaxAgencyJson = JsonConvert.SerializeObject(newTaxAgency);
-                taxagency        = PostToJsonObject("taxagency", newTaxAgencyJson).TaxAgency;
+                qbopost   = PostToQBO("taxagency", newTaxAgency);
+                taxagency = qbopost.JSONResponse.TaxAgency;
                 TaxAgencies.Add(taxagency);
             }
 
             return taxagency;
         }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateTaxRate(dynamic invoice)
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryTaxRate(dynamic invoice)
         {
             dynamic taxrate = null;
 
@@ -571,10 +619,11 @@ namespace RentalWorksWeb.Integration
 
             if (taxrate == null)
             {
-                taxrate = QueryToJsonObject("select * from taxrate where name = '" + invoice.taxitemcode + "'").QueryResponse.TaxRate;
-                if (taxrate != null)
+                string querystring           = invoice.taxitemcode.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from taxrate where name = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.TaxRate != null)
                 {
-                    taxrate = taxrate[0];
+                    taxrate = qboresponse.JSONResponse.QueryResponse.TaxRate[0];
                     TaxRates.Add(taxrate);
                 }
             }
@@ -586,13 +635,13 @@ namespace RentalWorksWeb.Integration
         {
             dynamic _item = null;
 
-            if (_Items.Count != 0)
+            if (Items.Count != 0)
             {
-                for (int i = 0; i < _Items.Count; i++)
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    if (_Items[i].Name == item.description)
+                    if (Items[i].Name == item.description)
                     {
-                        _item = _Items[i];
+                        _item = Items[i];
                         break;
                     }
                 }
@@ -600,36 +649,36 @@ namespace RentalWorksWeb.Integration
 
             if (_item == null)
             {
-                string itemdescription = item.description;
-                _item = QueryToJsonObject("select * from item where name = '" + itemdescription.Replace("'", @"\'") + "'").QueryResponse.Item;
-                if (_item != null)
+                string queryname             = item.description.Replace(":", "").Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from item where name = '" + queryname + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Item != null)
                 {
-                    _item = _item[0];
-                    _Items.Add(_item);
+                    _item = qboresponse.JSONResponse.QueryResponse.Item[0];
+                    Items.Add(_item);
                 }
             }
 
             if (_item == null)
             {
                 dynamic newItem = new ExpandoObject();
-                string newItemJson = string.Empty;
+                QBOPostResponse qbopost;
 
-                string itemdescrription         = item.description;
-                newItem.Name                    = itemdescrription.Replace(":", "");
+                string itemdescription          = (item.description != "") ? item.description : "No Description";
+                newItem.Name                    = itemdescription.Replace(":", "");
                 newItem.Type                    = "Service";
                 newItem.IncomeAccountRef        = new ExpandoObject();
                 newItem.IncomeAccountRef.value  = ValidateAccount(item.incomeaccountid, "", "Income").Id.Value;
                 newItem.ExpenseAccountRef       = new ExpandoObject();
                 newItem.ExpenseAccountRef.value = ValidateAccount(item.expenseaccountid, "", "Expense").Id.Value;
 
-                newItemJson = JsonConvert.SerializeObject(newItem);
-                _item       = PostToJsonObject("item", newItemJson).Item;
-                _Items.Add(_item);
+                qbopost = PostToQBO("item", newItem);
+                _item   = qbopost.JSONResponse.Item;
+                Items.Add(_item);
             }
 
             return _item;
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateAccount(string accountid, string accountname, string accounttype)
         {
             dynamic account     = null;
@@ -648,8 +697,7 @@ namespace RentalWorksWeb.Integration
             {
                 for (int i = 0; i < Accounts.Count; i++)
                 {
-                    //if (Accounts[i].Name == accountinfo.glacctdesc)
-                    if (Accounts[i].FullyQualifiedName == accountinfo.glacctdesc)   //jh 06/12/2017 CAS-20384-ZPXQ
+                    if (Accounts[i].FullyQualifiedName == accountinfo.glacctdesc)
                     {
                         account = Accounts[i];
                         break;
@@ -659,11 +707,11 @@ namespace RentalWorksWeb.Integration
 
             if (account == null)
             {
-                //account = QueryToJsonObject("select * from account where name = '" + accountinfo.glacctdesc + "'").QueryResponse.Account;
-                account = QueryToJsonObject("select * from account where FullyQualifiedName = '" + accountinfo.glacctdesc + "'").QueryResponse.Account;  //jh 06/12/2017 CAS-20384-ZPXQ
-                if (account != null)
+                string queryname             = accountinfo.glacctdesc.Replace(":", "").Replace("\"", "").Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from account where FullyQualifiedName = '" + queryname + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Account != null)
                 {
-                    account = account[0];
+                    account = qboresponse.JSONResponse.QueryResponse.Account[0];
                     Accounts.Add(account);
                 }
             }
@@ -671,9 +719,9 @@ namespace RentalWorksWeb.Integration
             if (account == null)
             {
                 dynamic newAccount = new ExpandoObject();
-                string newAccountJson;
+                QBOPostResponse qbopost;
 
-                newAccount.Name = accountinfo.glacctdesc;
+                newAccount.Name = accountinfo.glacctdesc.Replace(":", "").Replace("\"", "");
 
                 if (accounttype == "Expense")
                 {
@@ -688,294 +736,14 @@ namespace RentalWorksWeb.Integration
                     newAccount.AccountSubType = "OtherCurrentLiabilities";
                 }
 
-                newAccountJson = JsonConvert.SerializeObject(newAccount);
-                account        = PostToJsonObject("account", newAccountJson).Account;
+                qbopost = PostToQBO("account", newAccount);
+                account = qbopost.JSONResponse.Account;
                 Accounts.Add(account);
             }
 
             return account;
         }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateInvoice(dynamic invoice, ExportInvoicesToQBOReturn result)
-        {
-            dynamic _invoice = null;
-
-            if (Invoices.Count != 0)
-            {
-                for (int i = 0; i < Invoices.Count; i++)
-                {
-                    if (Invoices[i].DocNumber == invoice.invoiceno)
-                    {
-                        _invoice = Invoices[i];
-                        break;
-                    }
-                }
-            }
-
-            if (_invoice == null)
-            {
-                _invoice = QueryToJsonObject("select * from invoice where docnumber = '" + invoice.invoiceno + "'").QueryResponse.Invoice;
-                if (_invoice != null)
-                {
-                    _invoice = _invoice[0];
-                    Invoices.Add(_invoice);
-                }
-            }
-
-            if (_invoice != null)
-            {
-                result.addInvoice(invoice.invoiceno, "Already exported to Quickbooks");
-            }
-
-            if (_invoice == null)
-            {
-                dynamic newInvoice = new ExpandoObject();
-                string newInvoiceJson;
-                string TxnTaxCodeRefValue = string.Empty;
-
-                newInvoice.DocNumber                       = invoice.invoiceno;
-                newInvoice.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
-                newInvoice.CustomerRef                     = new ExpandoObject();
-                newInvoice.CustomerRef.value               = ValidateCustomer(invoice.customer).Id.Value;
-                newInvoice.DueDate                         = FwConvert.ToDateTime(invoice.invoiceduedate).ToString("yyyy-MM-dd");
-                newInvoice.BillAddr                        = new ExpandoObject();
-                newInvoice.BillAddr.Line1                  = invoice.billtoadd1;
-                newInvoice.BillAddr.Line2                  = invoice.billtoadd2;
-                newInvoice.BillAddr.City                   = invoice.billtocity;
-                newInvoice.BillAddr.CountrySubDivisionCode = invoice.billtostate;
-                newInvoice.BillAddr.PostalCode             = invoice.billtozip;
-                newInvoice.BillAddr.Country                = invoice.billtocountry;
-
-                if (invoice.invoiceclass != "")
-                {
-                    newInvoice.ClassRef       = new ExpandoObject();
-                    newInvoice.ClassRef.value = ValidateClass(invoice.invoiceclass).Id.Value;
-                }
-
-                if (invoice.payterms != "")
-                {
-                    newInvoice.SalesTermRef       = new ExpandoObject();
-                    newInvoice.SalesTermRef.value = ValidateTerm(invoice.payterms).Id.Value;
-                }
-
-                if (invoice.taxitemcode != "")
-                {
-                    TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
-
-                    newInvoice.TxnTaxDetail                     = new ExpandoObject();
-                    newInvoice.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                    newInvoice.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;
-                }
-
-                if (invoice.printnotes != "")
-                {
-                    newInvoice.CustomerMemo = invoice.printnotes;
-                }
-
-                if (invoice.chgbatchno != "")
-                {
-                    newInvoice.PrivateNote = invoice.chgbatchno;
-                }
-
-                newInvoice.Line = new List<dynamic>();
-                for (int j = 0; j < invoice.items.Count; j++)
-                {
-                    dynamic newItem = new ExpandoObject();
-                    string  taxCodeRefValue = string.Empty;
-                    if (invoice.taxcountry == "U")
-                    {
-                        taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
-                    }
-                    //else if (invoice.taxcountry == "C")
-                    else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
-                    {
-                        taxCodeRefValue = TxnTaxCodeRefValue;
-                    }
-
-                    newItem.Id                                   = j+1;
-                    newItem.DetailType                           = "SalesItemLineDetail";
-                    newItem.SalesItemLineDetail                  = new ExpandoObject();
-                    newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
-                    newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
-                    newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
-                    newItem.SalesItemLineDetail.UnitPrice        = (invoice.items[j].qty != 0) ? (invoice.items[j].linetotal / invoice.items[j].qty) : "0";
-                    newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-                    newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;
-                    newItem.Amount                               = invoice.items[j].linetotal;
-
-                    newInvoice.Line.Add(newItem);
-                }
-
-                newInvoiceJson = JsonConvert.SerializeObject(newInvoice);
-                _invoice       = PostToJsonObject("invoice", newInvoiceJson).Invoice;
-                Invoices.Add(_invoice);
-
-                //jh 06/22/2017 CAS-20810-L6T5
-                //if (invoice.taxcountry == "C") // if Canada
-                if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
-                {
-                    decimal taxAmount = _invoice.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
-                    if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
-                    {
-                        dynamic newInvoice2 = new ExpandoObject();
-                        dynamic _invoice2 = new ExpandoObject();
-                        newInvoice2 = _invoice;
-                        newInvoice2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
-                        newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                        newInvoiceJson = JsonConvert.SerializeObject(newInvoice2);
-                        _invoice2 = PostToJsonObject("invoice", newInvoiceJson).Invoice;
-                    }
-                }
-
-                result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
-            }
-
-            return _invoice;
-        }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateCreditMemo(dynamic invoice, ExportInvoicesToQBOReturn result)
-        {
-            dynamic creditmemo = null;
-
-            if (CreditMemos.Count != 0)
-            {
-                for (int i = 0; i < CreditMemos.Count; i++)
-                {
-                    if (CreditMemos[i].DocNumber == invoice.invoiceno)
-                    {
-                        creditmemo = CreditMemos[i];
-                        break;
-                    }
-                }
-            }
-
-            if (creditmemo == null)
-            {
-                creditmemo = QueryToJsonObject("select * from creditmemo where docnumber = '" + invoice.invoiceno + "'").QueryResponse.CreditMemo;
-                if (creditmemo != null)
-                {
-                    creditmemo = creditmemo[0];
-                    CreditMemos.Add(creditmemo);
-                }
-            }
-
-            if (creditmemo != null)
-            {
-                result.addInvoice(invoice.invoiceno, "Already exported to Quickbooks");
-            }
-
-            if (creditmemo == null)
-            {
-                dynamic newCreditMemo = new ExpandoObject();
-                string newCreditMemoJson;
-                string TxnTaxCodeRefValue = string.Empty;
-
-                newCreditMemo.DocNumber                       = invoice.invoiceno;
-                newCreditMemo.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
-                newCreditMemo.CustomerRef                     = new ExpandoObject();
-                newCreditMemo.CustomerRef.value               = ValidateCustomer(invoice.customer).Id.Value;
-                newCreditMemo.DueDate                         = FwConvert.ToDateTime(invoice.invoiceduedate).ToString("yyyy-MM-dd");
-                newCreditMemo.BillAddr                        = new ExpandoObject();
-                newCreditMemo.BillAddr.Line1                  = invoice.billtoadd1;
-                newCreditMemo.BillAddr.Line2                  = invoice.billtoadd2;
-                newCreditMemo.BillAddr.City                   = invoice.billtocity;
-                newCreditMemo.BillAddr.CountrySubDivisionCode = invoice.billtostate;
-                newCreditMemo.BillAddr.PostalCode             = invoice.billtozip;
-                newCreditMemo.BillAddr.Country                = invoice.billtocountry;
-
-                if (invoice.invoiceclass != "")
-                {
-                    newCreditMemo.ClassRef       = new ExpandoObject();
-                    newCreditMemo.ClassRef.value = ValidateClass(invoice.invoiceclass).Id.Value;
-                }
-
-                if (invoice.payterms != "")
-                {
-                    newCreditMemo.SalesTermRef       = new ExpandoObject();
-                    newCreditMemo.SalesTermRef.value = ValidateTerm(invoice.payterms).Id.Value;
-                }
-
-                if (invoice.taxitemcode != "")
-                {
-
-                    TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
-
-                    newCreditMemo.TxnTaxDetail                     = new ExpandoObject();
-                    newCreditMemo.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                    //newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
-                    newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
-                }
-
-                if (invoice.printnotes != "")
-                {
-                    newCreditMemo.CustomerMemo = invoice.printnotes;
-                }
-
-                if (invoice.chgbatchno != "")
-                {
-                    newCreditMemo.PrivateNote = invoice.chgbatchno;
-                }
-
-                newCreditMemo.Line = new List<dynamic>();
-                for (int j = 0; j < invoice.items.Count; j++)
-                {
-                    dynamic newItem = new ExpandoObject();
-
-                    //jh 07/05/2017 CAS-20755-XOPL
-                    string taxCodeRefValue = string.Empty;
-                    if (invoice.taxcountry == "U")
-                    {
-                        taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
-                    }
-                    //else if (invoice.taxcountry == "C")
-                    else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
-                    {
-                        taxCodeRefValue = TxnTaxCodeRefValue;
-                    }
-
-
-                    newItem.Id                                   = j+1;
-                    newItem.DetailType                           = "SalesItemLineDetail";
-                    newItem.SalesItemLineDetail                  = new ExpandoObject();
-                    newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
-                    newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
-                    newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
-                    //newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
-                    newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
-                    newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
-                    newItem.Amount                               = invoice.items[j].linetotal*(-1);
-
-                    newCreditMemo.Line.Add(newItem);
-                }
-
-                newCreditMemoJson = JsonConvert.SerializeObject(newCreditMemo);
-                creditmemo        = PostToJsonObject("creditmemo", newCreditMemoJson).CreditMemo;
-                CreditMemos.Add(creditmemo);
-
-                //jh 07/05/2017 CAS-20810-L6T5
-                //if (invoice.taxcountry == "C") // if Canada
-                if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
-                {
-                    decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
-                    if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
-                    {
-                        dynamic newCreditMemo2 = new ExpandoObject();
-                        dynamic creditmemo2 = new ExpandoObject();
-                        newCreditMemo2 = creditmemo;
-                        newCreditMemo2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
-                        newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                        newCreditMemoJson = JsonConvert.SerializeObject(newCreditMemo2);
-                        creditmemo2 = PostToJsonObject("creditmemo", newCreditMemoJson).CreditMemo;
-                    }
-                }
-
-
-                result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
-            }
-
-            return creditmemo;
-        }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidateVendor(dynamic vendor)
         {
             dynamic _vendor = null;
@@ -994,10 +762,11 @@ namespace RentalWorksWeb.Integration
 
             if (_vendor == null)
             {
-                _vendor = QueryToJsonObject("select * from vendor where displayname = '" + vendor + "'").QueryResponse.Vendor;
-                if (_vendor != null)
+                string querystring           = vendor.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from vendor where displayname = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Vendor != null)
                 {
-                    _vendor = _vendor[0];
+                    _vendor = qboresponse.JSONResponse.QueryResponse.Vendor[0];
                     Vendors.Add(_vendor);
                 }
             }
@@ -1005,11 +774,11 @@ namespace RentalWorksWeb.Integration
             if (_vendor == null)
             {
                 dynamic newVendor = new ExpandoObject(), vendorinfo;
-                string newVendorJson;
+                QBOPostResponse qbopost;
 
                 vendorinfo = GetVendorInfo(FwSqlConnection.RentalWorks, vendor);
 
-                newVendor.DisplayName                     = vendor;
+                newVendor.DisplayName                     = vendor.Replace(":", "");
                 newVendor.BillAddr                        = new ExpandoObject();
                 newVendor.BillAddr.Line1                  = vendorinfo.add1;
                 newVendor.BillAddr.Line2                  = vendorinfo.add2;
@@ -1020,168 +789,14 @@ namespace RentalWorksWeb.Integration
                 newVendor.PrimaryPhone                    = new ExpandoObject();
                 newVendor.PrimaryPhone.FreeFormNumber     = vendorinfo.phone;
 
-                newVendorJson = JsonConvert.SerializeObject(newVendor);
-                _vendor        = PostToJsonObject("vendor", newVendorJson).Vendor;
+                qbopost = PostToQBO("vendor", newVendor);
+                _vendor = qbopost.JSONResponse.Vendor;
                 Vendors.Add(_vendor);
             }
 
             return _vendor;
         }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateVendorInvoice(dynamic vendorinvoice, ExportVendorInvoicesToQBOReturn result)
-        {
-            dynamic _bill = null;
-
-            if (VendorInvoices.Count != 0)
-            {
-                for (int i = 0; i < VendorInvoices.Count; i++)
-                {
-                    if (VendorInvoices[i].DocNumber == vendorinvoice.invno)
-                    {
-                        _bill = VendorInvoices[i];
-                        break;
-                    }
-                }
-            }
-
-            if (_bill == null)
-            {
-                _bill = QueryToJsonObject("select * from bill where docnumber = '" + vendorinvoice.invno + "'").QueryResponse.Bill;
-                if (_bill != null)
-                {
-                    _bill = _bill[0];
-                    VendorInvoices.Add(_bill);
-                }
-            }
-
-            if (_bill != null)
-            {
-                result.addVendorInvoice(vendorinvoice.invno, "Already exported to Quickbooks");
-            }
-
-            if (_bill == null)
-            {
-                dynamic newBill = new ExpandoObject();
-                string newBillJson;
-
-                newBill.VendorRef                     = new ExpandoObject();
-                newBill.VendorRef.value               = ValidateVendor(vendorinvoice.vendor).Id.Value;
-                newBill.TxnDate                       = FwConvert.ToDateTime(vendorinvoice.invdate).ToString("yyyy-MM-dd");
-                newBill.DueDate                       = FwConvert.ToDateTime(vendorinvoice.invoiceduedate).ToString("yyyy-MM-dd");
-                newBill.DocNumber                     = vendorinvoice.invno;
-
-                if (vendorinvoice.payterms != "")
-                {
-                    newBill.SalesTermRef       = new ExpandoObject();
-                    newBill.SalesTermRef.value = ValidateTerm(vendorinvoice.payterms).Id.Value;
-                }
-
-                //2017/02/01 MY: Not required as QBO does not use any tax information on vendor invoices.
-                //if (vendorinvoice.taxitemcode != "")
-                //{
-                //    newBill.TxnTaxDetail                     = new ExpandoObject();
-                //    newBill.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
-                //    newBill.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(vendorinvoice).Id.Value;
-                //}
-
-                newBill.Line = new List<dynamic>();
-                for (int j = 0; j < vendorinvoice.items.Count; j++)
-                {
-                    dynamic newItem = new ExpandoObject();
-
-                    newItem.Id                                          = j+1;
-                    newItem.DetailType                                  = "ItemBasedExpenseLineDetail";
-                    newItem.ItemBasedExpenseLineDetail                  = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.ItemRef          = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.ItemRef.value    = ValidateItem(vendorinvoice.items[j]).Id.Value;
-                    newItem.ItemBasedExpenseLineDetail.Qty              = vendorinvoice.items[j].qty;
-                    newItem.ItemBasedExpenseLineDetail.UnitPrice        = (vendorinvoice.items[j].taxable == "T") ? (vendorinvoice.items[j].extendedwtax / vendorinvoice.items[j].qty) : vendorinvoice.items[j].cost;
-                    newItem.ItemBasedExpenseLineDetail.TaxCodeRef       = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.TaxCodeRef.value = (vendorinvoice.items[j].taxable == "T") ? "TAX" : "NON";
-                    newItem.Amount                                      = (vendorinvoice.items[j].taxable == "T") ? vendorinvoice.items[j].extendedwtax : vendorinvoice.items[j].linetotal;
-
-                    newBill.Line.Add(newItem);
-                }
-
-                newBillJson = JsonConvert.SerializeObject(newBill);
-                _bill       = PostToJsonObject("bill", newBillJson).Bill;
-                VendorInvoices.Add(_bill);
-
-                result.addVendorInvoice(vendorinvoice.invno, "Exported to Quickbooks");
-            }
-
-            return _bill;
-        }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateVendorCredit(dynamic vendorinvoice, ExportVendorInvoicesToQBOReturn result)
-        {
-            dynamic _vendorcredit = null;
-
-            if (VendorCredit.Count != 0)
-            {
-                for (int i = 0; i < VendorCredit.Count; i++)
-                {
-                    if (VendorCredit[i].DocNumber == vendorinvoice.invno)
-                    {
-                        _vendorcredit = VendorCredit[i];
-                        break;
-                    }
-                }
-            }
-
-            if (_vendorcredit == null)
-            {
-                _vendorcredit = QueryToJsonObject("select * from vendorcredit where docnumber = '" + vendorinvoice.invno + "'").QueryResponse.VendorCredit;
-                if (_vendorcredit != null)
-                {
-                    _vendorcredit = _vendorcredit[0];
-                    VendorCredit.Add(_vendorcredit);
-                }
-            }
-
-            if (_vendorcredit != null)
-            {
-                result.addVendorInvoice(vendorinvoice.invno, "Already exported to Quickbooks");
-            }
-
-            if (_vendorcredit == null)
-            {
-                dynamic newVendorCredit = new ExpandoObject();
-                string newVendorCreditJson;
-
-                newVendorCredit.VendorRef                     = new ExpandoObject();
-                newVendorCredit.VendorRef.value               = ValidateVendor(vendorinvoice.vendor).Id.Value;
-                newVendorCredit.TxnDate                       = FwConvert.ToDateTime(vendorinvoice.invdate).ToString("yyyy-MM-dd");
-                newVendorCredit.DocNumber                     = vendorinvoice.invno;
-
-                newVendorCredit.Line = new List<dynamic>();
-                for (int j = 0; j < vendorinvoice.items.Count; j++)
-                {
-                    dynamic newItem = new ExpandoObject();
-
-                    newItem.Id                                          = j+1;
-                    newItem.DetailType                                  = "ItemBasedExpenseLineDetail";
-                    newItem.ItemBasedExpenseLineDetail                  = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.ItemRef          = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.ItemRef.value    = ValidateItem(vendorinvoice.items[j]).Id.Value;
-                    newItem.ItemBasedExpenseLineDetail.Qty              = vendorinvoice.items[j].qty;
-                    newItem.ItemBasedExpenseLineDetail.TaxCodeRef       = new ExpandoObject();
-                    newItem.ItemBasedExpenseLineDetail.TaxCodeRef.value = (vendorinvoice.items[j].taxable == "T") ? "TAX" : "NON";
-                    newItem.Amount                                      = ((vendorinvoice.items[j].taxable == "T") ? vendorinvoice.items[j].extendedwtax : vendorinvoice.items[j].linetotal) * (-1);
-
-                    newVendorCredit.Line.Add(newItem);
-                }
-
-                newVendorCreditJson = JsonConvert.SerializeObject(newVendorCredit);
-                _vendorcredit       = PostToJsonObject("vendorcredit", newVendorCreditJson).VendorCredit;
-                VendorCredit.Add(_vendorcredit);
-
-                result.addVendorInvoice(vendorinvoice.invno, "Exported to Quickbooks");
-            }
-
-            return _vendorcredit;
-        }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
         private static dynamic ValidatePaymentMethod(dynamic paymentmethod)
         {
             dynamic _paymentmethod = null;
@@ -1200,10 +815,11 @@ namespace RentalWorksWeb.Integration
 
             if (_paymentmethod == null)
             {
-                _paymentmethod = QueryToJsonObject("select * from paymentmethod where name = '" + paymentmethod + "'").QueryResponse.PaymentMethod;
-                if (_paymentmethod != null)
+                string querystring           = paymentmethod.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from paymentmethod where name = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.PaymentMethod != null)
                 {
-                    _paymentmethod = _paymentmethod[0];
+                    _paymentmethod = qboresponse.JSONResponse.QueryResponse.PaymentMethod[0];
                     PaymentMethods.Add(_paymentmethod);
                 }
             }
@@ -1211,43 +827,531 @@ namespace RentalWorksWeb.Integration
             if (_paymentmethod == null)
             {
                 dynamic newPaymentMethod = new ExpandoObject();
-                string newPaymentMethodJson;
+                QBOPostResponse qbopost;
 
                 newPaymentMethod.Name = paymentmethod;
 
-                newPaymentMethodJson = JsonConvert.SerializeObject(newPaymentMethod);
-                _paymentmethod       = PostToJsonObject("paymentmethod", newPaymentMethodJson).Name;
+                qbopost        = PostToQBO("paymentmethod", newPaymentMethod);
+                _paymentmethod = qbopost.JSONResponse.Name;
                 PaymentMethods.Add(_paymentmethod);
             }
 
             return _paymentmethod;
         }
-        //---------------------------------------------------------------------------------------------
-        private static dynamic ValidateReceipt(dynamic payment, ExportReceiptsToQBOReturn result)
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic ValidateInvoice(dynamic invoice, ExportInvoicesToQBOReturn result)
         {
-            dynamic _payment = null;
+            dynamic _invoice = null;
 
-            if ((Receipts.Count != 0) && (payment.externalid != ""))
+            _invoice = QueryInvoice(invoice.invoiceno);
+
+            if (_invoice != null)
             {
-                for (int i = 0; i < Receipts.Count; i++)
+                result.addInvoice(invoice.invoiceno, "Already exported to Quickbooks");
+            }
+
+            if (_invoice == null)
+            {
+                _invoice = PostInvoice(invoice);
+
+                result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
+            }
+
+            return _invoice;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryInvoice(dynamic invoiceno)
+        {
+            dynamic invoice = null;
+
+            if (Invoices.Count != 0)
+            {
+                for (int i = 0; i < Invoices.Count; i++)
                 {
-                    if (Receipts[i].Id == payment.externalid)
+                    if (Invoices[i].DocNumber == invoiceno)
                     {
-                        _payment = Receipts[i];
+                        invoice = Invoices[i];
                         break;
                     }
                 }
             }
 
-            if ((_payment == null) && (payment.externalid != ""))
+            if (invoice == null)
             {
-                _payment = QueryToJsonObject("select * from payment where id = '" + payment.externalid + "'").QueryResponse.Payment;
-                if (_payment != null)
+                string querystring           = invoiceno.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from invoice where docnumber = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Invoice != null)
                 {
-                    _payment = _payment[0];
-                    Receipts.Add(_payment);
+                    invoice = qboresponse.JSONResponse.QueryResponse.Invoice[0];
+                    Invoices.Add(invoice);
                 }
             }
+
+            return invoice;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic PostInvoice(dynamic invoice)
+        {
+            dynamic _invoice = null;
+
+            dynamic newInvoice = new ExpandoObject();
+            QBOPostResponse qbopost;
+            string TxnTaxCodeRefValue = string.Empty;
+
+            newInvoice.DocNumber                       = invoice.invoiceno;
+            newInvoice.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
+            newInvoice.CustomerRef                     = new ExpandoObject();
+            newInvoice.CustomerRef.value               = ValidateCustomer(invoice.customer).Id.Value;
+            newInvoice.DueDate                         = FwConvert.ToDateTime(invoice.invoiceduedate).ToString("yyyy-MM-dd");
+            newInvoice.BillAddr                        = new ExpandoObject();
+            newInvoice.BillAddr.Line1                  = invoice.billtoadd1;
+            newInvoice.BillAddr.Line2                  = invoice.billtoadd2;
+            newInvoice.BillAddr.City                   = invoice.billtocity;
+            newInvoice.BillAddr.CountrySubDivisionCode = invoice.billtostate;
+            newInvoice.BillAddr.PostalCode             = invoice.billtozip;
+            newInvoice.BillAddr.Country                = invoice.billtocountry;
+
+            if (invoice.invoiceclass != "")
+            {
+                newInvoice.ClassRef       = new ExpandoObject();
+                newInvoice.ClassRef.value = ValidateClass(invoice.invoiceclass).Id.Value;
+            }
+
+            if (invoice.payterms != "")
+            {
+                newInvoice.SalesTermRef       = new ExpandoObject();
+                newInvoice.SalesTermRef.value = ValidateTerm(invoice.payterms).Id.Value;
+            }
+
+            if (invoice.taxitemcode != "")
+            {
+                TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
+
+                newInvoice.TxnTaxDetail                     = new ExpandoObject();
+                newInvoice.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
+                newInvoice.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;
+            }
+
+            if (invoice.printnotes != "")
+            {
+                newInvoice.CustomerMemo       = new ExpandoObject();
+                newInvoice.CustomerMemo.value = invoice.printnotes;
+            }
+
+            if (invoice.chgbatchno != "")
+            {
+                newInvoice.PrivateNote = invoice.chgbatchno;
+            }
+
+            newInvoice.Line = new List<dynamic>();
+            for (int j = 0; j < invoice.items.Count; j++)
+            {
+                dynamic newItem = new ExpandoObject();
+                string  taxCodeRefValue = string.Empty;
+                if (invoice.taxcountry == "U")
+                {
+                    taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                }
+                //else if (invoice.taxcountry == "C")
+                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
+                {
+                    taxCodeRefValue = TxnTaxCodeRefValue;
+                }
+
+                newItem.Id                                   = j+1;
+                newItem.DetailType                           = "SalesItemLineDetail";
+                newItem.SalesItemLineDetail                  = new ExpandoObject();
+                newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
+                newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
+                newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
+                newItem.SalesItemLineDetail.UnitPrice        = (invoice.items[j].qty != 0) ? (invoice.items[j].linetotal / invoice.items[j].qty) : "0";
+                newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
+                newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;
+                newItem.Amount                               = invoice.items[j].linetotal;
+
+                newInvoice.Line.Add(newItem);
+            }
+
+            qbopost  = PostToQBO("invoice", newInvoice);
+            _invoice = qbopost.JSONResponse.Invoice;
+            Invoices.Add(_invoice);
+
+            //jh 06/22/2017 CAS-20810-L6T5
+            //if (invoice.taxcountry == "C") // if Canada
+            if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
+            {
+                decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
+                if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                {
+                    dynamic newInvoice2                        = new ExpandoObject();
+                    dynamic _invoice2                          = new ExpandoObject();
+                    newInvoice2                                = _invoice;
+                    newInvoice2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
+                    newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                    qbopost                                    = PostToQBO("invoice", newInvoice2);
+                    _invoice2                                  = qbopost.JSONResponse.Invoice;
+                }
+            }
+
+            return _invoice;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic ValidateCreditMemo(dynamic invoice, ExportInvoicesToQBOReturn result)
+        {
+            dynamic creditmemo = null;
+
+            creditmemo = QueryCreditMemo(invoice.invoiceno);
+
+            if (creditmemo != null)
+            {
+                result.addInvoice(invoice.invoiceno, "Already exported to Quickbooks");
+            }
+
+            if (creditmemo == null)
+            {
+                creditmemo = PostCreditMemo(invoice);
+
+                result.addInvoice(invoice.invoiceno, "Exported to Quickbooks");
+            }
+
+            return creditmemo;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryCreditMemo(dynamic invoiceno)
+        {
+            dynamic creditmemo = null;
+
+            if (CreditMemos.Count != 0)
+            {
+                for (int i = 0; i < CreditMemos.Count; i++)
+                {
+                    if (CreditMemos[i].DocNumber == invoiceno)
+                    {
+                        creditmemo = CreditMemos[i];
+                        break;
+                    }
+                }
+            }
+
+            if (creditmemo == null)
+            {
+                string querystring           = invoiceno.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from creditmemo where docnumber = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.CreditMemo != null)
+                {
+                    creditmemo = qboresponse.JSONResponse.QueryResponse.CreditMemo[0];
+                    CreditMemos.Add(creditmemo);
+                }
+            }
+
+            return creditmemo;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic PostCreditMemo(dynamic invoice)
+        {
+            dynamic creditmemo = null;
+            dynamic newCreditMemo = new ExpandoObject();
+            QBOPostResponse qbopost;
+            string TxnTaxCodeRefValue = string.Empty;
+
+            newCreditMemo.DocNumber                       = invoice.invoiceno;
+            newCreditMemo.TxnDate                         = FwConvert.ToDateTime(invoice.invoicedate).ToString("yyyy-MM-dd");
+            newCreditMemo.CustomerRef                     = new ExpandoObject();
+            newCreditMemo.CustomerRef.value               = ValidateCustomer(invoice.customer).Id.Value;
+            newCreditMemo.DueDate                         = FwConvert.ToDateTime(invoice.invoiceduedate).ToString("yyyy-MM-dd");
+            newCreditMemo.BillAddr                        = new ExpandoObject();
+            newCreditMemo.BillAddr.Line1                  = invoice.billtoadd1;
+            newCreditMemo.BillAddr.Line2                  = invoice.billtoadd2;
+            newCreditMemo.BillAddr.City                   = invoice.billtocity;
+            newCreditMemo.BillAddr.CountrySubDivisionCode = invoice.billtostate;
+            newCreditMemo.BillAddr.PostalCode             = invoice.billtozip;
+            newCreditMemo.BillAddr.Country                = invoice.billtocountry;
+
+            if (invoice.invoiceclass != "")
+            {
+                newCreditMemo.ClassRef       = new ExpandoObject();
+                newCreditMemo.ClassRef.value = ValidateClass(invoice.invoiceclass).Id.Value;
+            }
+
+            if (invoice.payterms != "")
+            {
+                newCreditMemo.SalesTermRef       = new ExpandoObject();
+                newCreditMemo.SalesTermRef.value = ValidateTerm(invoice.payterms).Id.Value;
+            }
+
+            if (invoice.taxitemcode != "")
+            {
+
+                TxnTaxCodeRefValue = ValidateTaxCode(invoice).Id.Value;
+
+                newCreditMemo.TxnTaxDetail                     = new ExpandoObject();
+                newCreditMemo.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
+                //newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(invoice).Id.Value;
+                newCreditMemo.TxnTaxDetail.TxnTaxCodeRef.value = TxnTaxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
+            }
+
+            if (invoice.printnotes != "")
+            {
+                newCreditMemo.CustomerMemo       = new ExpandoObject();
+                newCreditMemo.CustomerMemo.value = invoice.printnotes.Replace("'", @"\'");
+            }
+
+            if (invoice.chgbatchno != "")
+            {
+                newCreditMemo.PrivateNote = invoice.chgbatchno;
+            }
+
+            newCreditMemo.Line = new List<dynamic>();
+            for (int j = 0; j < invoice.items.Count; j++)
+            {
+                dynamic newItem = new ExpandoObject();
+
+                //jh 07/05/2017 CAS-20755-XOPL
+                string taxCodeRefValue = string.Empty;
+                if (invoice.taxcountry == "U")
+                {
+                    taxCodeRefValue = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                }
+                //else if (invoice.taxcountry == "C")
+                else if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE
+                {
+                    taxCodeRefValue = TxnTaxCodeRefValue;
+                }
+
+
+                newItem.Id                                   = j+1;
+                newItem.DetailType                           = "SalesItemLineDetail";
+                newItem.SalesItemLineDetail                  = new ExpandoObject();
+                newItem.SalesItemLineDetail.ItemRef          = new ExpandoObject();
+                newItem.SalesItemLineDetail.ItemRef.value    = ValidateItem(invoice.items[j]).Id.Value;
+                newItem.SalesItemLineDetail.TaxCodeRef       = new ExpandoObject();
+                //newItem.SalesItemLineDetail.TaxCodeRef.value = (invoice.items[j].taxable == "T") ? "TAX" : "NON";
+                newItem.SalesItemLineDetail.TaxCodeRef.value = taxCodeRefValue;  //jh 07/05/2017 CAS-20755-XOPL
+                newItem.SalesItemLineDetail.Qty              = invoice.items[j].qty;
+                newItem.Amount                               = invoice.items[j].linetotal*(-1);
+
+                newCreditMemo.Line.Add(newItem);
+            }
+
+            qbopost    = PostToQBO("creditmemo", newCreditMemo);
+            creditmemo = qbopost.JSONResponse.CreditMemo;
+            CreditMemos.Add(creditmemo);
+
+            //jh 07/05/2017 CAS-20810-L6T5
+            //if (invoice.taxcountry == "C") // if Canada
+            if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
+            {
+                decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
+                if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+                {
+                    dynamic newCreditMemo2                        = new ExpandoObject();
+                    dynamic creditmemo2                           = new ExpandoObject();
+                    newCreditMemo2                                = creditmemo;
+                    newCreditMemo2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
+                    newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                    qbopost                                       = PostToQBO("creditmemo", newCreditMemo2);
+                    creditmemo2                                   = qbopost.JSONResponse.CreditMemo;
+                }
+            }
+
+            return creditmemo;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic ValidateVendorInvoice(dynamic vendorinvoice, ExportVendorInvoicesToQBOReturn result)
+        {
+            dynamic _bill = null;
+
+            _bill = QueryVendorInvoice(vendorinvoice.invno);
+
+            if (_bill != null)
+            {
+                result.addVendorInvoice(vendorinvoice.invno, "Already exported to Quickbooks");
+            }
+
+            if (_bill == null)
+            {
+                _bill = PostVendorInvoice(vendorinvoice);
+
+                result.addVendorInvoice(vendorinvoice.invno, "Exported to Quickbooks");
+            }
+
+            return _bill;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryVendorInvoice(dynamic invno)
+        {
+            dynamic bill = null;
+
+            if (VendorInvoices.Count != 0)
+            {
+                for (int i = 0; i < VendorInvoices.Count; i++)
+                {
+                    if (VendorInvoices[i].DocNumber == invno)
+                    {
+                        bill = VendorInvoices[i];
+                        break;
+                    }
+                }
+            }
+
+            if (bill == null)
+            {
+                string querystring           = invno.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from bill where docnumber = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Bill != null)
+                {
+                    bill = qboresponse.JSONResponse.QueryResponse.Bill[0];
+                    VendorInvoices.Add(bill);
+                }
+            }
+
+            return bill;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic PostVendorInvoice(dynamic vendorinvoice)
+        {
+            dynamic bill    = null;
+            dynamic newBill = new ExpandoObject();
+            QBOPostResponse qbopost;
+
+            newBill.VendorRef                     = new ExpandoObject();
+            newBill.VendorRef.value               = ValidateVendor(vendorinvoice.vendor).Id.Value;
+            newBill.TxnDate                       = FwConvert.ToDateTime(vendorinvoice.invdate).ToString("yyyy-MM-dd");
+            newBill.DueDate                       = FwConvert.ToDateTime(vendorinvoice.invoiceduedate).ToString("yyyy-MM-dd");
+            newBill.DocNumber                     = vendorinvoice.invno;
+
+            if (vendorinvoice.payterms != "")
+            {
+                newBill.SalesTermRef       = new ExpandoObject();
+                newBill.SalesTermRef.value = ValidateTerm(vendorinvoice.payterms).Id.Value;
+            }
+
+            //2017/02/01 MY: Not required as QBO does not use any tax information on vendor invoices.
+            //if (vendorinvoice.taxitemcode != "")
+            //{
+            //    newBill.TxnTaxDetail                     = new ExpandoObject();
+            //    newBill.TxnTaxDetail.TxnTaxCodeRef       = new ExpandoObject();
+            //    newBill.TxnTaxDetail.TxnTaxCodeRef.value = ValidateTaxCode(vendorinvoice).Id.Value;
+            //}
+
+            newBill.Line = new List<dynamic>();
+            for (int j = 0; j < vendorinvoice.items.Count; j++)
+            {
+                dynamic newItem = new ExpandoObject();
+
+                newItem.Id                                          = j+1;
+                newItem.DetailType                                  = "ItemBasedExpenseLineDetail";
+                newItem.ItemBasedExpenseLineDetail                  = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.ItemRef          = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.ItemRef.value    = ValidateItem(vendorinvoice.items[j]).Id.Value;
+                newItem.ItemBasedExpenseLineDetail.Qty              = vendorinvoice.items[j].qty;
+                newItem.ItemBasedExpenseLineDetail.UnitPrice        = (vendorinvoice.items[j].taxable == "T") ? (vendorinvoice.items[j].extendedwtax / vendorinvoice.items[j].qty) : vendorinvoice.items[j].cost;
+                newItem.ItemBasedExpenseLineDetail.TaxCodeRef       = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.TaxCodeRef.value = (vendorinvoice.items[j].taxable == "T") ? "TAX" : "NON";
+                newItem.Amount                                      = (vendorinvoice.items[j].taxable == "T") ? vendorinvoice.items[j].extendedwtax : vendorinvoice.items[j].linetotal;
+
+                newBill.Line.Add(newItem);
+            }
+
+            qbopost = PostToQBO("bill", newBill);
+            bill    = qbopost.JSONResponse.Bill;
+            VendorInvoices.Add(bill);
+
+            return bill;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic ValidateVendorCredit(dynamic vendorinvoice, ExportVendorInvoicesToQBOReturn result)
+        {
+            dynamic _vendorcredit = null;
+
+            _vendorcredit = QueryVendorCredit(vendorinvoice.invno);
+
+            if (_vendorcredit != null)
+            {
+                result.addVendorInvoice(vendorinvoice.invno, "Already exported to Quickbooks");
+            }
+
+            if (_vendorcredit == null)
+            {
+                _vendorcredit = PostVendorCredit(vendorinvoice);
+
+                result.addVendorInvoice(vendorinvoice.invno, "Exported to Quickbooks");
+            }
+
+            return _vendorcredit;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryVendorCredit(dynamic invno)
+        {
+            dynamic vendorcredit = null;
+
+            if (VendorCredit.Count != 0)
+            {
+                for (int i = 0; i < VendorCredit.Count; i++)
+                {
+                    if (VendorCredit[i].DocNumber == invno)
+                    {
+                        vendorcredit = VendorCredit[i];
+                        break;
+                    }
+                }
+            }
+
+            if (vendorcredit == null)
+            {
+                string querystring           = invno.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from vendorcredit where docnumber = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.VendorCredit != null)
+                {
+                    vendorcredit = qboresponse.JSONResponse.QueryResponse.VendorCredit[0];
+                    VendorCredit.Add(vendorcredit);
+                }
+            }
+
+            return vendorcredit;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic PostVendorCredit(dynamic vendorinvoice)
+        {
+            dynamic vendorcredit   = null;
+            dynamic newVendorCredit = new ExpandoObject();
+            QBOPostResponse qbopost;
+
+            newVendorCredit.VendorRef                     = new ExpandoObject();
+            newVendorCredit.VendorRef.value               = ValidateVendor(vendorinvoice.vendor).Id.Value;
+            newVendorCredit.TxnDate                       = FwConvert.ToDateTime(vendorinvoice.invdate).ToString("yyyy-MM-dd");
+            newVendorCredit.DocNumber                     = vendorinvoice.invno;
+
+            newVendorCredit.Line = new List<dynamic>();
+            for (int j = 0; j < vendorinvoice.items.Count; j++)
+            {
+                dynamic newItem = new ExpandoObject();
+
+                newItem.Id                                          = j+1;
+                newItem.DetailType                                  = "ItemBasedExpenseLineDetail";
+                newItem.ItemBasedExpenseLineDetail                  = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.ItemRef          = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.ItemRef.value    = ValidateItem(vendorinvoice.items[j]).Id.Value;
+                newItem.ItemBasedExpenseLineDetail.Qty              = vendorinvoice.items[j].qty;
+                newItem.ItemBasedExpenseLineDetail.TaxCodeRef       = new ExpandoObject();
+                newItem.ItemBasedExpenseLineDetail.TaxCodeRef.value = (vendorinvoice.items[j].taxable == "T") ? "TAX" : "NON";
+                newItem.Amount                                      = ((vendorinvoice.items[j].taxable == "T") ? vendorinvoice.items[j].extendedwtax : vendorinvoice.items[j].linetotal) * (-1);
+
+                newVendorCredit.Line.Add(newItem);
+            }
+
+            qbopost      = PostToQBO("vendorcredit", newVendorCredit);
+            vendorcredit = qbopost.JSONResponse.VendorCredit;
+            VendorCredit.Add(vendorcredit);
+
+            return vendorcredit;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static void ValidateReceipt(dynamic payment, ExportReceiptsToQBOReturn result)
+        {
+            dynamic _payment = null;
+
+            _payment = QueryReceipt(payment.externalid);
 
             if (_payment != null)
             {
@@ -1256,30 +1360,81 @@ namespace RentalWorksWeb.Integration
 
             if (_payment == null)
             {
-                dynamic newPayment = new ExpandoObject();
-                string newPaymentJson;
+                _payment = PostReceipt(payment);
 
-                newPayment.CustomerRef       = new ExpandoObject();
-                newPayment.CustomerRef.value = ValidateCustomer(payment.customer).Id.Value;
-                newPayment.TxnDate           = FwConvert.ToDateTime(payment.ardate).ToString("yyyy-MM-dd");
-                newPayment.PaymentRefNum     = payment.checkno;
-                newPayment.TotalAmt          = payment.pmtamt;
-
-                if (payment.paymentmethod != "")
+                if (_payment.status == 0)
                 {
-                    newPayment.PaymentMethodRef       = new ExpandoObject();
-                    newPayment.PaymentMethodRef.value = ValidatePaymentMethod(payment.paymentmethod).Id.Value;
+                    result.addReceipt(_payment.data.Id.Value, "Exported to Quickbooks");
+                    UpdateARExternalId(FwSqlConnection.RentalWorks, payment.arid, _payment.data.Id.Value);
                 }
-
-                if (payment.invoicespaid.Count == 0)
+                else if (_payment.status == RECEIPT_INVOICE_ERROR)
                 {
-                    newPayment.DepositToAccountRef = new ExpandoObject();
-                    newPayment.DepositToAccountRef.value = ValidateAccount("", payment.depositglacctdesc, "Liability").Id.Value;
+                    result.addReceipt("", _payment.message);
                 }
-                else
+            }
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic QueryReceipt(dynamic externalid)
+        {
+            dynamic payment = null;
+
+            if ((Receipts.Count != 0) && (externalid != ""))
+            {
+                for (int i = 0; i < Receipts.Count; i++)
                 {
-                    newPayment.Line = new List<dynamic>();
-                    for (int j = 0; j < payment.invoicespaid.Count; j++)
+                    if (Receipts[i].Id == externalid)
+                    {
+                        payment = Receipts[i];
+                        break;
+                    }
+                }
+            }
+
+            if ((payment == null) && (externalid != ""))
+            {
+                string querystring           = externalid.Replace("'", @"\'");
+                QBOQueryResponse qboresponse = QueryQBO("select * from payment where id = '" + querystring + "'");
+                if (qboresponse.JSONResponse.QueryResponse.Payment != null)
+                {
+                    payment = qboresponse.JSONResponse.QueryResponse.Payment[0];
+                    Receipts.Add(payment);
+                }
+            }
+
+            return payment;
+        }
+        //----------------------------------------------------------------------------------------------------
+        private static dynamic PostReceipt(dynamic payment)
+        {
+            dynamic paymentreturn = new ExpandoObject();
+            dynamic newPayment    = new ExpandoObject();
+            QBOPostResponse qbopost;
+
+            paymentreturn.status = 0;
+
+            newPayment.CustomerRef       = new ExpandoObject();
+            newPayment.CustomerRef.value = ValidateCustomer(payment.customer).Id.Value;
+            newPayment.TxnDate           = FwConvert.ToDateTime(payment.ardate).ToString("yyyy-MM-dd");
+            newPayment.PaymentRefNum     = payment.checkno;
+            newPayment.TotalAmt          = payment.pmtamt;
+
+            if (payment.paymentmethod != "")
+            {
+                newPayment.PaymentMethodRef       = new ExpandoObject();
+                newPayment.PaymentMethodRef.value = ValidatePaymentMethod(payment.paymentmethod).Id.Value;
+            }
+
+            if (payment.invoicespaid.Count == 0)
+            {
+                newPayment.DepositToAccountRef       = new ExpandoObject();
+                newPayment.DepositToAccountRef.value = ValidateAccount("", payment.depositglacctdesc, "Liability").Id.Value;
+            }
+            else
+            {
+                newPayment.Line = new List<dynamic>();
+                for (int j = 0; j < payment.invoicespaid.Count; j++)
+                {
+                    try
                     {
                         dynamic newInvoice   = new ExpandoObject();
                         dynamic newLinkedTxn = new ExpandoObject();
@@ -1288,34 +1443,41 @@ namespace RentalWorksWeb.Integration
                         newInvoice.LinkedTxn = new List<dynamic>();
                         if (payment.invoicespaid[j].fromcredit == true)
                         {
-                            dynamic creditmemo = QueryToJsonObject("select * from creditmemo where docnumber = '" + payment.invoicespaid[j].invoiceno + "'").QueryResponse.CreditMemo;
-                            newLinkedTxn.TxnId   = creditmemo[0].Id;
+                            dynamic creditmemo   = QueryCreditMemo(payment.invoicespaid[j].invoiceno);
+                            newLinkedTxn.TxnId   = creditmemo.Id;
                             newLinkedTxn.TxnType = "CreditMemo";
                             newInvoice.LinkedTxn.Add(newLinkedTxn);
                         }
                         else
                         {
-                            dynamic invoice = QueryToJsonObject("select * from invoice where docnumber = '" + payment.invoicespaid[j].invoiceno + "'").QueryResponse.Invoice;
-                            newLinkedTxn.TxnId   = invoice[0].Id;
+                            dynamic invoice      = QueryInvoice(payment.invoicespaid[j].invoiceno);
+                            newLinkedTxn.TxnId   = invoice.Id;
                             newLinkedTxn.TxnType = "Invoice";
                             newInvoice.LinkedTxn.Add(newLinkedTxn);
                         }
 
                         newPayment.Line.Add(newInvoice);
                     }
+                    catch (Exception ex)
+                    {
+                        paymentreturn.status  = RECEIPT_INVOICE_ERROR;
+                        paymentreturn.message = "Invoice " + payment.invoicespaid[j].invoiceno + " does not exist in QBO.";
+                    }
                 }
-
-                newPaymentJson = JsonConvert.SerializeObject(newPayment);
-                _payment = PostToJsonObject("payment", newPaymentJson).Payment;
-                Receipts.Add(_payment);
-
-                result.addReceipt(_payment.Id.Value, "Exported to Quickbooks");
-
-                UpdateARExternalId(FwSqlConnection.RentalWorks, payment.arid, _payment.Id.Value);
+                
             }
 
-            return _payment;
+            if (paymentreturn.status == 0)
+            {
+                qbopost            = PostToQBO("payment", newPayment);
+                paymentreturn.data = qbopost.JSONResponse.Payment;
+                Receipts.Add(paymentreturn.data);
+            }
+
+            return paymentreturn;
         }
+        //----------------------------------------------------------------------------------------------------
+        //====================================================================================================
         //----------------------------------------------------------------------------------------------------
         public static dynamic GetQBOSettings(FwSqlConnection conn)
         {
@@ -1509,19 +1671,26 @@ namespace RentalWorksWeb.Integration
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void LogChgBatchExportRecordError(FwSqlConnection conn, string responsevalue01, string responsevalue02, string responsevalue03, string msg)
+        public static void LogChgBatchExportRecordError(FwSqlConnection conn, string chgbatchid, string responsevalue01, string responsevalue02, string responsevalue03, string msg)
         {
             FwSqlCommand qry;
 
+            if (string.IsNullOrEmpty(chgbatchexportid))
+            {
+                chgbatchexportid = FwSqlData.GetNextId(FwSqlConnection.RentalWorks);
+            }
+
             qry = new FwSqlCommand(conn);
-            qry.Add("insert into chgbatchexportrecord (datestamp, chgbatchexportrecordid, recordtype,  responsevalue01,  responsevalue02,  responsevalue03,  msg)");
-            qry.Add("                          values (getdate(), @nextid,                @recordtype, @responsevalue01, @responsevalue02, @responsevalue03, @msg)");
-            qry.AddParameter("@nextid",          FwSqlData.GetNextId(FwSqlConnection.RentalWorks));
-            qry.AddParameter("@recordtype",      "QBO Error");
-            qry.AddParameter("@responsevalue01", responsevalue01);
-            qry.AddParameter("@responsevalue02", responsevalue02);
-            qry.AddParameter("@responsevalue03", responsevalue03);
-            qry.AddParameter("@msg",             msg);
+            qry.Add("insert into chgbatchexportrecord (datestamp, chgbatchexportrecordid, recordtype,  chgbatchid,  chgbatchexportid,  responsevalue01,  responsevalue02,  responsevalue03,  msg)");
+            qry.Add("                          values (getdate(), @nextid,                @recordtype, @chgbatchid, @chgbatchexportid, @responsevalue01, @responsevalue02, @responsevalue03, @msg)");
+            qry.AddParameter("@nextid",           FwSqlData.GetNextId(FwSqlConnection.RentalWorks));
+            qry.AddParameter("@recordtype",       "QBO Error");
+            qry.AddParameter("@chgbatchid",       chgbatchid);
+            qry.AddParameter("@chgbatchexportid", chgbatchexportid);
+            qry.AddParameter("@responsevalue01",  responsevalue01);
+            qry.AddParameter("@responsevalue02",  responsevalue02);
+            qry.AddParameter("@responsevalue03",  responsevalue03);
+            qry.AddParameter("@msg",              msg);
             qry.Execute();
         }
         //----------------------------------------------------------------------------------------------------
@@ -1662,6 +1831,6 @@ namespace RentalWorksWeb.Integration
             qry.AddParameter("@externalid", externalid);
             qry.Execute();
         }
-        //---------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------
     }
 }

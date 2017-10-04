@@ -56,16 +56,16 @@ RwChargeProcessingController.openForm = function() {
         })
         .on('change', 'div[data-datafield="viewbatch"] input.fwformfield-value', function() {
             if (jQuery(this).is(':checked')) {
-                $form.data('focusbatch')();
+                $form.focusbatch();
             } else {
-                $form.data('focusdates')();
+                $form.focusdates();
             }
         })
         .on('change', 'div[data-datafield="viewdates"] input.fwformfield-value', function() {
             if (jQuery(this).is(':checked')) {
-                $form.data('focusdates')();
+                $form.focusdates();
             } else {
-                $form.data('focusbatch')();
+                $form.focusbatch();
             }
         })
         .on('click', '.exportqbo', function() {
@@ -123,31 +123,28 @@ RwChargeProcessingController.openForm = function() {
                 }
             }
         })
-        .data({
-            focusbatch: function() {
-                FwFormField.enable($form.find('div[data-datafield="batchno"]'));
-                $form.find('div[data-datafield="batchno"]').attr('data-required', true);
-                FwFormField.disable($form.find('div[data-datafield="batchfrom"]'));
-                $form.find('div[data-datafield="batchfrom"]').attr('data-required', false).removeClass('error');
-                FwFormField.disable($form.find('div[data-datafield="batchto"]'));
-                $form.find('div[data-datafield="batchto"]').attr('data-required', false).removeClass('error');
+        $form.focusbatch = function() {
+            FwFormField.enable($form.find('div[data-datafield="batchno"]'));
+            $form.find('div[data-datafield="batchno"]').attr('data-required', true);
+            FwFormField.disable($form.find('div[data-datafield="batchfrom"]'));
+            $form.find('div[data-datafield="batchfrom"]').attr('data-required', false).removeClass('error');
+            FwFormField.disable($form.find('div[data-datafield="batchto"]'));
+            $form.find('div[data-datafield="batchto"]').attr('data-required', false).removeClass('error');
 
-                FwFormField.setValue($form, 'div[data-datafield="viewdates"]', false);
-                FwFormField.setValue($form, 'div[data-datafield="viewbatch"]', true);
-            },
-            focusdates: function() {
-                FwFormField.disable($form.find('div[data-datafield="batchno"]'));
-                $form.find('div[data-datafield="batchno"]').attr('data-required', false).removeClass('error');
-                FwFormField.enable($form.find('div[data-datafield="batchfrom"]'));
-                $form.find('div[data-datafield="batchfrom"]').attr('data-required', true);
-                FwFormField.enable($form.find('div[data-datafield="batchto"]'));
-                $form.find('div[data-datafield="batchto"]').attr('data-required', true);
+            FwFormField.setValue($form, 'div[data-datafield="viewdates"]', false);
+            FwFormField.setValue($form, 'div[data-datafield="viewbatch"]', true);
+        };
+        $form.focusdates = function() {
+            FwFormField.disable($form.find('div[data-datafield="batchno"]'));
+            $form.find('div[data-datafield="batchno"]').attr('data-required', false).removeClass('error');
+            FwFormField.enable($form.find('div[data-datafield="batchfrom"]'));
+            $form.find('div[data-datafield="batchfrom"]').attr('data-required', true);
+            FwFormField.enable($form.find('div[data-datafield="batchto"]'));
+            $form.find('div[data-datafield="batchto"]').attr('data-required', true);
 
-                FwFormField.setValue($form, 'div[data-datafield="viewbatch"]', false);
-                FwFormField.setValue($form, 'div[data-datafield="viewdates"]', true);
-            }
-        })
-    ;
+            FwFormField.setValue($form, 'div[data-datafield="viewbatch"]', false);
+            FwFormField.setValue($form, 'div[data-datafield="viewdates"]', true);
+        };
 
     return $form;
 };
@@ -173,7 +170,6 @@ RwChargeProcessingController.onLoadForm = function($form) {
     FwFormField.setValue($form, 'div[data-datafield="asofdate"]', FwFunc.getDate());
 
     if ((typeof appOptions['quickbooks'] != 'undefined') && (appOptions['quickbooks'].enabled)) {
-        //$form.find('.qbo').attr('src', window.location.pathname + 'integration/qbointegration/qbointegration.aspx');
         $form.find('.qbointegration').show();
     }
 };

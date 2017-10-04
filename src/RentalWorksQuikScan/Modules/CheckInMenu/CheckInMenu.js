@@ -110,7 +110,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 html.push('      <div class="datafield orderno">');
                 html.push('        <div class="caption">' + RwLanguages.translate('Order No') + ':</div>');
                 html.push('        <div class="value">{{orderno}}</div>');
-                html.push('      </div>')
+                html.push('      </div>');
             }
             if (typeof model.orderdate !== 'undefined') {
                 html.push('      <div class="datafield orderdate">')
@@ -353,7 +353,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         ],
         getRequest: function() {
             var request = {
-                orderid:         (typeof screen.getOrderInfo().orderid == 'undefined') ? '' : screen.getOrderInfo().orderid,
+                orderid:         (typeof screen.getOrderInfo().orderid === 'undefined') ? '' : screen.getOrderInfo().orderid,
                 moduletype:      RwConstants.moduleTypes.Order,
                 showalllocation: screen.showalllocation
             };
@@ -551,7 +551,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     };
 
     screen.toggleShowAllLocation = function(value) { //value = true/false
-        screen.showalllocation = (typeof value != 'undefined') ? value : !screen.showalllocation;
+        screen.showalllocation = (typeof value !== 'undefined') ? value : !screen.showalllocation;
         if (screen.showalllocation) {
             $ordersearch.find('#ordersearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE834;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box
             $sessionsearch.find('#sessionsearchcontrol #showalllocation').empty().html('<i class="material-icons">&#xE834;</i><div style="line-height:24px;padding-left:5px;">Show All Locations</div>'); //check_box
@@ -564,7 +564,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     };
 
     screen.enableShowAllLocations = function(enable) {
-        if (typeof enable == 'undefined') {
+        if (typeof enable === 'undefined') {
             RwServices.callMethod("CheckInMenu", "EnableShowAllLocations", {}, function(response) {
                 screen.enableShowAllLocations(response.enable);
             });
