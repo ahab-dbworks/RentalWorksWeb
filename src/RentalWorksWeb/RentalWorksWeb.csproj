@@ -1141,6 +1141,8 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
+    <Content Include="Source\Modules\Settings\VehicleType\VehicleTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VehicleType\VehicleTypeForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
       <DependentUpon>BillingCycle.ts</DependentUpon>
     </Content>
@@ -2278,6 +2280,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VehicleType\VehicleType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayerActivity\PresentationLayerActivity.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.ts" />

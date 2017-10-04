@@ -10,7 +10,7 @@ using Fw.Json.ValueTypes;
 
 namespace RentalWorksWeb.Source.Validations
 {
-    class Currency : FwValidation
+    class DealStatus : FwValidation
     {
         //---------------------------------------------------------------------------------------------
     }
