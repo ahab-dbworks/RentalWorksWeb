@@ -43,13 +43,9 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            if (request.filter == "123")
-            {
-                addFilterToSelect("PresentationLayerId", "presentationlayerid", select, request);
-                addFilterToSelect("RecType", "rectype", select, request);
-            }
+            addFilterToSelect("PresentationLayerId", "presentationlayerid", select, request);
+            addFilterToSelect("RecType", "rectype", select, request);
         }
         //------------------------------------------------------------------------------------
-
     }
 }
