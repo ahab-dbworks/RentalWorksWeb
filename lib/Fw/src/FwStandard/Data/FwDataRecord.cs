@@ -37,6 +37,11 @@ namespace FwStandard.DataLayer
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
+        public virtual SqlServerOptions GetDbConfig()
+        {
+            return _dbConfig;
+        }
+        //------------------------------------------------------------------------------------
         protected virtual List<PropertyInfo> GetPrimaryKeyProperties()
         {
             List<PropertyInfo> primaryKeyProperties = new List<PropertyInfo>();

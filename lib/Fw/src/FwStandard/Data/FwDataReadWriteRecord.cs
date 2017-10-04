@@ -7,6 +7,32 @@ namespace FwStandard.DataLayer
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
+        public event EventHandler<SaveEventArgs> BeforeSaves;
+        public event EventHandler<SaveEventArgs> AfterSaves;
+
+        public class SaveEventArgs : EventArgs
+        {
+            public TDataRecordSaveMode SaveMode { get; set; }
+        }
+        public delegate void BeforeSavesEventHandler(SaveEventArgs e);
+        public delegate void AfterSavesEventHandler(SaveEventArgs e);
+
+        protected virtual void OnBeforeSaves(SaveEventArgs e)
+        {
+            EventHandler<SaveEventArgs> handler = BeforeSaves;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnAfterSaves(SaveEventArgs e)
+        {
+            EventHandler<SaveEventArgs> handler = AfterSaves;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
@@ -41,17 +67,41 @@ namespace FwStandard.DataLayer
                 {
                     //insert
                     await SetPrimaryKeyIdsForInsertAsync(conn);
+                    if (BeforeSaves != null)
+                    {
+                        SaveEventArgs args = new SaveEventArgs();
+                        args.SaveMode = TDataRecordSaveMode.smInsert;
+                        BeforeSaves(this, args);
+                    }
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                     {
                         rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
+                    }
+                    if (AfterSaves != null)
+                    {
+                        SaveEventArgs args = new SaveEventArgs();
+                        args.SaveMode = TDataRecordSaveMode.smInsert;
+                        AfterSaves(this, args);
                     }
                 }
                 else if (AllPrimaryKeysHaveValues)
                 {
                     // update
+                    if (BeforeSaves != null)
+                    {
+                        SaveEventArgs args = new SaveEventArgs();
+                        args.SaveMode = TDataRecordSaveMode.smUpdate;
+                        BeforeSaves(this, args);
+                    }
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                     {
                         rowsAffected = await cmd.UpdateAsync(true, TableName, this);
+                    }
+                    if (AfterSaves != null)
+                    {
+                        SaveEventArgs args = new SaveEventArgs();
+                        args.SaveMode = TDataRecordSaveMode.smUpdate;
+                        AfterSaves(this, args);
                     }
                 }
                 else
