@@ -1,34 +1,51 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
+using RentalWorksWebApi.Modules.Home.Master;
+using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+using System;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
+namespace RentalWorksWebApi.Modules.Settings.VehicleType
 {
-    public abstract class InventoryCategoryLogic : RwBusinessLogic
+    public abstract class VehicleTypeBaseLogic: RwBusinessLogic
     {
         //------------------------------------------------------------------------------------
         protected InventoryCategoryRecord inventoryCategory = new InventoryCategoryRecord();
-        public InventoryCategoryLogic() : base()
+        protected MasterRecord masterRecord = new MasterRecord();
+        //protected VehicleTypeLoader vehicleTypeLoader = new VehicleTypeLoader();
+        public VehicleTypeBaseLogic()
         {
             dataRecords.Add(inventoryCategory);
+            dataRecords.Add(masterRecord);
+            //dataLoader = vehicleTypeLoader;
+            inventoryCategory.InventoryCategory = "TEMP";  //jh - temporary value because the field is required
         }
         //------------------------------------------------------------------------------------
-        [FwBusinessLogicField(isPrimaryKey: true)]
-        public string InventoryCategoryId { get { return inventoryCategory.InventoryCategoryId; } set { inventoryCategory.InventoryCategoryId = value; } }
         public string InventoryTypeId { get { return inventoryCategory.InventoryTypeId; } set { inventoryCategory.InventoryTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
-        [FwBusinessLogicField(isRecordTitle: true)]
-        public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategory = value; } }
         [JsonIgnore]
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }
-        public bool WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
-        public bool CatalogCategory { get { return inventoryCategory.CatalogCategory; } set { inventoryCategory.CatalogCategory = value; } }
-        public bool OverrideProfitAndLossCategory { get { return inventoryCategory.OverrideProfitAndLossCategory; } set { inventoryCategory.OverrideProfitAndLossCategory = value; } }
-        public string ProfitAndLossCategoryId { get { return inventoryCategory.ProfitAndLossCategoryId; } set { inventoryCategory.ProfitAndLossCategoryId = value; } }
+        [JsonIgnore]
+        public string MasterId { get { return masterRecord.MasterId; } set { masterRecord.MasterId = value; } }
+        [JsonIgnore]
+        public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategoryId = value; inventoryCategory.InventoryCategory = value; masterRecord.CategoryId = value; } }
+        [JsonIgnore]
+        public string Classification { get { return masterRecord.Classification; } set { masterRecord.Classification = value; } }
+        [JsonIgnore]
+        public string AvailableFrom { get { return masterRecord.AvailableFrom; } set { masterRecord.AvailableFrom = value; } }
+        [JsonIgnore]
+        public string AvailFor { get { return masterRecord.AvailFor; } set { masterRecord.AvailFor = value; } }
+        [JsonIgnore]
+        public bool HasMaintenance { get { return inventoryCategory.HasMaintenance; } set { inventoryCategory.HasMaintenance = value; } }
+        [JsonIgnore]
+        public string InternalVehicleType { get { return inventoryCategory.VehicleType; } set { inventoryCategory.VehicleType = value; } }
+        public string UnitId { get { return masterRecord.UnitId; } set { masterRecord.UnitId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string ProfitAndLossCategory { get; set; }
-        public bool ProfitAndLossIncludeAsMiscExpense { get { return inventoryCategory.ProfitAndLossIncludeAsMiscExpense; } set { inventoryCategory.ProfitAndLossIncludeAsMiscExpense = value; } }
+        public string Unit { get; set; }
+
+
         public string AssetAccountId { get { return inventoryCategory.AssetAccountId; } set { inventoryCategory.AssetAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AssetAccountNo { get; set; }
@@ -73,6 +90,17 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public int? PickListOrderBy { get { return inventoryCategory.PickListOrderBy; } set { inventoryCategory.PickListOrderBy = value; } }
         public bool Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
+        //------------------------------------------------------------------------------------
+        public override void BeforeSave()
+        {
+            RecType = "V";
+            InternalVehicleType = "VEHICLE";
+            HasMaintenance = true;
+            Classification = "V";
+            AvailableFrom = "W";
+            AvailFor = "V";
+        }
+        //------------------------------------------------------------------------------------
     }
 
 }

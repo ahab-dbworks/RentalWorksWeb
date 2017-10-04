@@ -10,10 +10,6 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         /*
         TODO:
 transworksvehicle
-vehicletype
-regulated
-licclassid
-dotperiod
 
 appreportdesignerid
 inventoryappreportdesignerid
@@ -30,6 +26,9 @@ inventoryappreportdesignerid
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 3)]
         public string RecType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicletype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        public string VehicleType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventory", modeltype: FwDataTypes.Boolean)]
         public bool WarehouseCategory { get; set; }
@@ -108,6 +107,15 @@ inventoryappreportdesignerid
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
         public int? PickListOrderBy { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dotperiod", modeltype: FwDataTypes.Integer)]
+        public int? DotPeriod { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "licclassid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string LicenseClassId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "regulated", modeltype: FwDataTypes.Boolean)]
+        public bool Regulated { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
