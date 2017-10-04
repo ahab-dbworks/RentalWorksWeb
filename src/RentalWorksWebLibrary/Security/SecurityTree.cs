@@ -252,6 +252,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Customer Resale",                        "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CustomerResaleGridController");
             AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
+            AddGrid("Item Location Tax",                      "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "ItemLocationTaxGridController");
             AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
@@ -266,6 +267,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Quik Entry Department",                  "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
             AddGrid("Quik Entry Items",                       "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
             AddGrid("Quik Entry Sub Category",                "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
+            AddGrid("Rate Location Tax",                      "{F1A613A6-FD31-4082-88CC-4F0252BF56AC}", lv1menuGrids.Id, "RateLocationTaxGridController");
             AddGrid("Company Tax",                            "{0679DED3-7CDF-468D-8513-7271024403A6}", lv1menuGrids.Id, "CompanyTaxGridController");
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");

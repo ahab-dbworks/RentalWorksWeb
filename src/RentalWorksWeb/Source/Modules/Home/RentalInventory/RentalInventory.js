@@ -48,7 +48,25 @@ var RentalInventory = (function () {
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
+    RentalInventory.prototype.renderGrids = function ($form) {
+        var $itemLocationTaxGrid;
+        var $itemLocationTaxGridControl;
+        // load AttributeValue Grid
+        $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
+        $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
+        $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
+        $itemLocationTaxGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($itemLocationTaxGridControl);
+        FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
+    };
     RentalInventory.prototype.afterLoad = function ($form) {
+        var $itemLocationTaxGrid;
+        $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
+        FwBrowse.search($itemLocationTaxGrid);
     };
     return RentalInventory;
 }());

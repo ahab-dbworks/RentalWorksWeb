@@ -71,8 +71,28 @@ class RentalInventory {
         FwModule.loadAudit($form, uniqueid);
     }
 
-    afterLoad($form: any) {
+    renderGrids($form: any) {
+        var $itemLocationTaxGrid: any;
+        var $itemLocationTaxGridControl: any;
 
+        // load AttributeValue Grid
+        $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
+        $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
+        $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
+        $itemLocationTaxGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($itemLocationTaxGridControl);
+        FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
+    }
+
+    afterLoad($form: any) {
+        var $itemLocationTaxGrid: any;
+
+        $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
+        FwBrowse.search($itemLocationTaxGrid);
     }
 }
 

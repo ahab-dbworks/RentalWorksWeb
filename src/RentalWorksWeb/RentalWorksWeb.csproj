@@ -1042,12 +1042,16 @@
     <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.js" />
     <Content Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\LaborCategoryGrid\LaborCategoryGridBrowse.htm" />
+    <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
+    <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalYearGrid\FiscalYearGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PresentationLayerFormGrid\PresentationLayerFormGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PresentationLayerActivityOverrideGrid\PresentationLayerActivityOverrideGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PresentationLayerActivityGrid\PresentationLayerActivityGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SubCategoryGrid\SubCategoryGridController.ts" />
     <Content Include="Source\Grids\VendorNoteGrid\VendorNoteGridBrowse.htm" />
     <Content Include="Source\Grids\VendorNoteGrid\CompanyTaxGridController.js">
