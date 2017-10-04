@@ -1717,6 +1717,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\FacilityCategory\FacilityCategoryBrowse.htm" />
     <Content Include="Source\Validations\DealStatus\DealStatusBrowse.htm" />
     <Content Include="Source\Validations\DealClassification\DealClassificationBrowse.htm" />
     <Content Include="Source\Validations\ProductionType\ProductionTypeBrowse.htm" />
@@ -1918,6 +1919,7 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\FacilityCategory\FacilityCategory.cs" />
     <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />
     <Compile Include="Source\Validations\DealClassification\DealClassification.cs" />
     <Compile Include="Source\Validations\ProductionType\ProductionType.cs" />
