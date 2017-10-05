@@ -32,16 +32,6 @@ class FiscalYear {
         return screen;
     }
 
-    events($form: JQuery): void {
-
-        $form.on('change', '.year input[type="text"]', (e) => {
-
-            
-            
-        });
-
-    }
-
     openBrowse() {
         var $browse;
 
@@ -73,8 +63,6 @@ class FiscalYear {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-
-        this.events($form);
 
         return $form;
     }
