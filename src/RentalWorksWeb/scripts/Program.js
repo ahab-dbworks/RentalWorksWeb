@@ -145,6 +145,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/generatortype$/,              getScreen: function () { return GeneratorTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/miscrate$/,                   getScreen: function () { return MiscRateController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/laborrate$/,                  getScreen: function () { return LaborRateController.getModuleScreen({}, {}); } }
+
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   

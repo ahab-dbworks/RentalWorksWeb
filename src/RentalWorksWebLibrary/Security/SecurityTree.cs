@@ -130,12 +130,14 @@ namespace RentalWorksWebLibrary
                                               AddModule("Bar Code Range", "{9A52C5B8-98AB-49A0-A392-69DB0873F943}", lv2menuInventorySettings.Id, "BarCodeRangeController", "module/barcoderange", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Labor Rate", "{650305EC-0A53-490B-A8FB-E1AF636DA89B}", lv2menuLaborSettings.Id, "LaborRateController", "module/laborrate", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborSettings.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Category", "{2A5190B9-B0E8-4B93-897B-C91FC4807FA6}", lv2menuLaborSettings.Id, "LaborCategoryController", "module/laborcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Crew Schedule Status", "{E4E11656-0783-4327-A374-161BCFDF0F24}", lv2menuLaborSettings.Id, "CrewScheduleStatusController", "module/crewschedulestatus", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Crew Status", "{73A6D9E3-E3BE-4B7A-BB3B-0AFE571C944E}", lv2menuLaborSettings.Id, "CrewStatusController", "module/crewstatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuMiscSettings = AddLv2ModuleMenu("Misc Settings", "{2ED700C1-2D45-4307-9F92-41281185BD15}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Misc Rate", "{15B5AA83-4C3A-4136-B74B-574BDC0141B2}", lv2menuMiscSettings.Id, "MiscRateController", "module/miscrate", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Type", "{EAFEE5C7-84BB-419E-905A-3AE86E18DFAB}", lv2menuMiscSettings.Id, "MiscTypeController", "module/misctype", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Misc Category", "{D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF}", lv2menuMiscSettings.Id, "MiscCategoryController", "module/misccategory", settingsiconbaseurl + "placeholder.png");
            

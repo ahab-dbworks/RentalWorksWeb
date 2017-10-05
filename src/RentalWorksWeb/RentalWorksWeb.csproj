@@ -1141,6 +1141,10 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
+    <Content Include="Source\Modules\Settings\LaborRate\LaborRateBrowse.htm" />
+    <Content Include="Source\Modules\Settings\LaborRate\LaborRateForm.htm" />
+    <Content Include="Source\Modules\Settings\MiscRate\MiscRateBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MiscRate\MiscRateForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorType\GeneratorTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\GeneratorType\GeneratorTypeForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleType\VehicleTypeBrowse.htm" />
@@ -1721,6 +1725,7 @@
     <Content Include="Source\Validations\DealStatus\DealStatusBrowse.htm" />
     <Content Include="Source\Validations\DealClassification\DealClassificationBrowse.htm" />
     <Content Include="Source\Validations\LicenseClass\LicenseClassBrowse.htm" />
+    <Content Include="Source\Validations\MiscType\MiscTypeBrowse.htm" />
     <Content Include="Source\Validations\ProductionType\ProductionTypeBrowse.htm" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
     <Content Include="Source\Validations\FacilityType\FacilityTypeBrowse.htm" />
@@ -1924,6 +1929,7 @@
     <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />
     <Compile Include="Source\Validations\DealClassification\DealClassification.cs" />
     <Compile Include="Source\Validations\LicenseClass\LicenseClass.cs" />
+    <Compile Include="Source\Validations\MiscType\MiscType.cs" />
     <Compile Include="Source\Validations\ProductionType\ProductionType.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
     <Compile Include="Source\Validations\PresentationLayerActivity\PresentationLayerActivity.cs" />
@@ -2288,6 +2294,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\LaborRate\LaborRate.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MiscRate\MiscRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorType\GeneratorType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleType\VehicleType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
