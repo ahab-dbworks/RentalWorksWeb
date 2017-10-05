@@ -11903,13 +11903,13 @@
 			]
 		},
 		{
-			"name": "Rental Status",
+			"name": "Inventory Status",
 			"description": "",
 			"item": [
 				{
-					"name": "Rental Status: Get Many",
+					"name": "Inventory Status: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"url": "http://localhost:57949/api/v1/inventorystatus",
 						"method": "GET",
 						"header": [
 							{
@@ -11932,9 +11932,9 @@
 					"response": []
 				},
 				{
-					"name": "Rental Status: Browse",
+					"name": "Inventory Status: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus/browse",
+						"url": "http://localhost:57949/api/v1/inventorystatus/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -11950,16 +11950,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"RentalStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"RentalStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Rental Status: Get One",
+					"name": "Inventory Status: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus/00000QXI",
+						"url": "http://localhost:57949/api/v1/inventorystatus/00000QXI",
 						"method": "GET",
 						"header": [
 							{
@@ -11982,9 +11982,9 @@
 					"response": []
 				},
 				{
-					"name": "Rental Status: Insert",
+					"name": "Inventory Status: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"url": "http://localhost:57949/api/v1/inventorystatus",
 						"method": "POST",
 						"header": [
 							{
@@ -12007,9 +12007,9 @@
 					"response": []
 				},
 				{
-					"name": "Rental Status: Update",
+					"name": "Inventory Status: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus",
+						"url": "http://localhost:57949/api/v1/inventorystatus",
 						"method": "POST",
 						"header": [
 							{
@@ -12032,9 +12032,9 @@
 					"response": []
 				},
 				{
-					"name": "Rental Status: Delete",
+					"name": "Inventory Status: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalstatus/00003APT",
+						"url": "http://localhost:57949/api/v1/inventorystatus/00003APT",
 						"method": "DELETE",
 						"header": [
 							{
@@ -16246,7 +16246,7 @@
 				{
 					"name": "Generator Type: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/vehiclemodel/00003D45",
+						"url": "http://localhost:57949/api/v1/generatortype/00003D45",
 						"method": "DELETE",
 						"header": [
 							{

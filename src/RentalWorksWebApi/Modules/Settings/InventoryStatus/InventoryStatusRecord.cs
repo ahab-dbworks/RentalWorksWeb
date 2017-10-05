@@ -5,14 +5,14 @@ using RentalWorksWebApi.Data;
 namespace RentalWorksWebApi.Modules.Settings.RentalStatus
 {
     [FwSqlTable("rentalstatus")]
-    public class RentalStatusRecord : RwDataReadWriteRecord
+    public class InventoryStatusRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
-        public string RentalStatusId { get; set; } = "";
+        public string InventoryStatusId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalstatus", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
-        public string RentalStatus { get; set; }
+        public string InventoryStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string StatusType { get; set; }
