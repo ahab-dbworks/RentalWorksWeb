@@ -108,6 +108,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Generator Make", "{D7C38A54-A198-4304-8EC2-CE8038D3BE9C}", lv2menuGeneratorSettings.Id, "GeneratorMakeController", "module/generatormake", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Rating", "{140E6997-1BA9-49B7-AA79-CD5EF6444C72}", lv2menuGeneratorSettings.Id, "GeneratorRatingController", "module/generatorrating", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Generator Watts", "{503349D6-711A-4F45-8891-4B3203008441}", lv2menuGeneratorSettings.Id, "GeneratorWattsController", "module/generatorwatts", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Generator Type", "{95D9D422-DCEB-4150-BCC2-79573B87AC4D}", lv2menuGeneratorSettings.Id, "GeneratorTypeController", "module/generatortype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuHolidaySettings = AddLv2ModuleMenu("Holiday Settings", "{8A1C54ED-01B6-4EF5-AEBD-5E3F9F2563E0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Blackout Status", "{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}", lv2menuHolidaySettings.Id, "BlackoutStatusController", "module/blackoutstatus", settingsiconbaseurl + "placeholder.png");

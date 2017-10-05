@@ -1,12 +1,12 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class VehicleType {
+class GeneratorType {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'VehicleType';
+        this.Module = 'GeneratorType';
         this.apiurl = 'api/v1/vehicletype';
     }
 
@@ -21,7 +21,7 @@ class VehicleType {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Vehicle Type', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Generator Type', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class VehicleType {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val(uniqueids.VehicleTypeId);
+        $form.find('div.fwformfield[data-datafield="GeneratorTypeId"] input').val(uniqueids.GeneratorTypeId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class VehicleType {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="GeneratorTypeId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,4 @@ class VehicleType {
     }
 }
 
-(<any>window).VehicleTypeController = new VehicleType();
+(<any>window).GeneratorTypeController = new GeneratorType();

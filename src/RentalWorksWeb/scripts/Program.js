@@ -144,6 +144,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehicletype$/,                getScreen: function () { return VehicleTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/generatortype$/,              getScreen: function () { return GeneratorTypeController.getModuleScreen({}, {}); } }
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   
