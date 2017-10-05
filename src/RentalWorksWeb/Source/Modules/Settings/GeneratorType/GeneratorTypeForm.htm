@@ -4,7 +4,6 @@
         <div class="tabs">
             <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
             <div data-type="tab" id="maintenancetab" class="tab" data-tabpageid="maintenancetabpage" data-caption="Maintenance"></div>
-            <div data-type="tab" id="requirementtab" class="tab" data-tabpageid="requirementtabpage" data-caption="Requirement"></div>
             <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
             <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div>
             <div data-type="tab" id="audittab" class="tab" data-tabpageid="audittabpage" data-caption="Audit"></div>
@@ -14,8 +13,8 @@
                 <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="General">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocation" style="float:left;width:275px;" data-required="true"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Country Code" data-datafield="CountryCode" data-noduplicate="true" style="float:left;width:275px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Transportation Department" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="Department" style="float:left;width:275px;" data-required="true"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="GeneratorType" data-noduplicate="true" style="float:left;width:275px;"></div>
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:85px;"></div>
                         </div>                        
                     </div>
@@ -23,38 +22,23 @@
             </div>
             <div data-type="tabpage" id="maintenancetabpage" class="tabpage" data-tabid="maintenancetab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Maintenance">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PM">                        
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield vendertyperadio" data-caption="Vendor Type" data-datafield="VendorNameType"
-                                 style="float:left;width:250px;border:1px solid silver;">
-                                <div data-value="COMPANY" data-caption="Company"></div>
-                                <div data-value="PERSON" data-caption="Person"></div>
-                            </div>
-                        </div>
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Country Code" data-datafield="CountryCode" data-noduplicate="true" style="float:left;width:275px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div data-type="tabpage" id="requirementtabpage" class="tabpage" data-tabid="requirementtab">
-                <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Range">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Prefix:" data-datafield="Prefix" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From:" data-datafield="BarcodeFrom" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="To:" data-datafield="BarcodeTo" data-noduplicate="true" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Hours" data-datafield="PreventiveMaintenanceCycleHours" data-noduplicate="true" style="float:left;width:100px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div data-type="tabpage" id="billingtabpage" class="tabpage" data-tabid="billingtab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Range">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Prefix:" data-datafield="Prefix" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From:" data-datafield="BarcodeFrom" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="To:" data-datafield="BarcodeTo" data-noduplicate="true" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation Department" data-datafield="UnitId" data-displayfield="Unit" data-validationname="Unit" style="float:left;width:275px;" data-required="true"></div>
+                        </div>
+                    </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Warehouse Pricing">
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwGrid" data-grid="Warehouse" data-securitycaption="Warehouse"></div>
                         </div>
                     </div>
                 </div>
@@ -63,20 +47,22 @@
                 <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Range">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Prefix:" data-datafield="Prefix" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From:" data-datafield="BarcodeFrom" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="To:" data-datafield="BarcodeTo" data-noduplicate="true" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Image Description" data-datafield="" data-noduplicate="true" style="float:left;width:275px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Image Number" data-datafield="" data-noduplicate="true" style="float:left;width:275px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div data-type="tabpage" id="audittabpage" class="tabpage" data-tabid="audittab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Range">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Prefix:" data-datafield="Prefix" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From:" data-datafield="BarcodeFrom" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="To:" data-datafield="BarcodeTo" data-noduplicate="true" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Opened" data-datafield="" data-noduplicate="true" style="float:left;width:150px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="" data-noduplicate="true" style="float:left;width:250px;"></div>
+                        </div>
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Modified" data-datafield="" data-noduplicate="true" style="float:left;width:150px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="" data-noduplicate="true" style="float:left;width:250px;"></div>
                         </div>
                     </div>
                 </div>

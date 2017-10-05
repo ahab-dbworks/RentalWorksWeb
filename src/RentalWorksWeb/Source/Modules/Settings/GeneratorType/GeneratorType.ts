@@ -7,7 +7,7 @@ class GeneratorType {
 
     constructor() {
         this.Module = 'GeneratorType';
-        this.apiurl = 'api/v1/vehicletype';
+        this.apiurl = 'api/v1/generatortype';
     }
 
     getModuleScreen() {

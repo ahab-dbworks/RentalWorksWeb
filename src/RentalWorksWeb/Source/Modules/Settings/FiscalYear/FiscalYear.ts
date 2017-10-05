@@ -37,7 +37,6 @@ class FiscalYear {
         $form.on('change', '.year input[type="text"]', (e) => {
 
             
-            // find a way to update grid with new year value.
             
         });
 
@@ -54,7 +53,7 @@ class FiscalYear {
     }
 
     renderGrids($form: any) {
-        var $fiscalYearGrid, $fiscalYearControl;
+        var $fiscalYearGrid, $fiscalYearControl: JQuery;
 
         // load companytax Grid
         $fiscalYearGrid = $form.find('div[data-grid="FiscalMonthGrid"]');
@@ -63,7 +62,7 @@ class FiscalYear {
         $fiscalYearControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 Year: $form.find('div.fwformfield[data-datafield="Year"] input').val()
-            }
+            }            
         });
         FwBrowse.init($fiscalYearControl);
         FwBrowse.renderRuntimeHtml($fiscalYearControl);
