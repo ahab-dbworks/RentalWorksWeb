@@ -2,10 +2,10 @@ using FwStandard.Security;
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class RentalStatusMenu : FwSecurityTreeBranch
+    public class InventoryStatusMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public RentalStatusMenu() : base("{E8E24D94-A07D-4388-9F2F-58FE028F24BB}") { }
+        public InventoryStatusMenu() : base("{E8E24D94-A07D-4388-9F2F-58FE028F24BB}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

@@ -1476,8 +1476,8 @@
     <Content Include="Source\Modules\Settings\Region\Region.js">
       <DependentUpon>Region.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatus.js">
-      <DependentUpon>RentalStatus.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\InventoryStatus\RentalStatus.js">
+      <DependentUpon>InventoryStatus.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\RetiredReason\RetiredReason.js">
       <DependentUpon>RetiredReason.ts</DependentUpon>
@@ -1545,8 +1545,8 @@
     <Content Include="Source\Modules\Settings\UnretiredReason\UnretiredReasonForm.htm" />
     <Content Include="Source\Modules\Settings\DiscountReason\DiscountReasonBrowse.htm" />
     <Content Include="Source\Modules\Settings\DiscountReason\DiscountReasonForm.htm" />
-    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatusBrowse.htm" />
-    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatusForm.htm" />
+    <Content Include="Source\Modules\Settings\InventoryStatus\InventoryStatusBrowse.htm" />
+    <Content Include="Source\Modules\Settings\InventoryStatus\InventoryStatusForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReasonForm.htm" />
     <Content Include="Source\Modules\Settings\Region\RegionBrowse.htm" />
@@ -2108,8 +2108,8 @@
       <DependentUpon>Region.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js.map" />
-    <Content Include="Source\Modules\Settings\RentalStatus\RentalStatus.js.map">
-      <DependentUpon>RentalStatus.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\InventoryStatus\RentalStatus.js.map">
+      <DependentUpon>InventoryStatus.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\RetiredReason\RetiredReason.js.map">
       <DependentUpon>RetiredReason.ts</DependentUpon>
@@ -2354,7 +2354,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\RetiredReason\RetiredReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UnretiredReason\UnretiredReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountReason\DiscountReason.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\RentalStatus\RentalStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\InventoryStatus\InventoryStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Region\Region.ts" />

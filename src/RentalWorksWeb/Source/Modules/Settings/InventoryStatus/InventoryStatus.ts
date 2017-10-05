@@ -1,13 +1,13 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class RentalStatus {
+class InventoryStatus {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'RentalStatus';
-        this.apiurl = 'api/v1/rentalstatus';
+        this.Module = 'InventoryStatus';
+        this.apiurl = 'api/v1/inventorystatus';
     }
 
     getModuleScreen() {
@@ -21,7 +21,7 @@ class RentalStatus {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Rental Status', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Inventory Status', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -55,7 +55,7 @@ class RentalStatus {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="RentalStatusId"] input').val(uniqueids.RentalStatusId);
+        $form.find('div.fwformfield[data-datafield="InventoryStatusId"] input').val(uniqueids.InventoryStatusId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,7 +67,7 @@ class RentalStatus {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="RentalStatusId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="InventoryStatusId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -76,4 +76,4 @@ class RentalStatus {
     }
 }
 
-(<any>window).RentalStatusController = new RentalStatus();
+(<any>window).InventoryStatusController = new InventoryStatus();
