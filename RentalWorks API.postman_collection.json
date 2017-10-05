@@ -5351,6 +5351,162 @@
 			]
 		},
 		{
+			"name": "Generator Type",
+			"description": "",
+			"item": [
+				{
+					"name": "Generator Type: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Type: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"GeneratorType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Type: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype/00003GGW",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Type: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"GeneratorType\": \"GENERATORS3\",\n    \"PreventiveMaintenanceCycleHours\": 23,\n    \"InventoryTypeId\": \"A0000DX6\",\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator  Type: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n    \"GeneratorTypeId\": \"00003GGW\",\n    \"GeneratorType\": \"GENERATORS333\",\n    }\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Generator Type: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/generatortype/00003D45",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Generator Watts",
 			"description": "",
 			"item": [
@@ -6419,6 +6575,162 @@
 					"name": "Item Location Tax: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/itemlocationtax/7656~",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Status",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Status: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Status: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Status: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus/00000QXI",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Status: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RentalStatus\": \"XX\",\n    \"StatusType\": \"YY\"\n    }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Status: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"RentalStatusId\": \"00003APT\",\n    \"RentalStatus\": \"ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Status: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorystatus/00003APT",
 						"method": "DELETE",
 						"header": [
 							{
@@ -11903,162 +12215,6 @@
 			]
 		},
 		{
-			"name": "Inventory Status",
-			"description": "",
-			"item": [
-				{
-					"name": "Inventory Status: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Status: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Status: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus/00000QXI",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Status: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"RentalStatus\": \"XX\",\n    \"StatusType\": \"YY\"\n    }"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Status: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"RentalStatusId\": \"00003APT\",\n    \"RentalStatus\": \"ABC\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Status: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/inventorystatus/00003APT",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Repair Item Status",
 			"description": "",
 			"item": [
@@ -14711,6 +14867,162 @@
 			]
 		},
 		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "User: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Name\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user/A0000NB0",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Unit\": \"AAA\",\n    \"Description\": \"BBB\",\n    \"UnitType\": \"CCC\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"UnitId\": \"00003AR5\",\n    \"Unit\": \"XXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/user/00003AR5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User Status",
 			"description": "",
 			"item": [
@@ -16091,162 +16403,6 @@
 					"name": "Vehicle Type: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/vehicletype/00003D45",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Generator Type",
-			"description": "",
-			"item": [
-				{
-					"name": "Generator Type: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Generator Type: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"GeneratorType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Generator Type: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype/00003GGW",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Generator Type: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"GeneratorType\": \"GENERATORS3\",\n    \"PreventiveMaintenanceCycleHours\": 23,\n    \"InventoryTypeId\": \"A0000DX6\",\n\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Generator  Type: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\n    \"GeneratorTypeId\": \"00003GGW\",\n    \"GeneratorType\": \"GENERATORS333\",\n    }\n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Generator Type: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/generatortype/00003D45",
 						"method": "DELETE",
 						"header": [
 							{
