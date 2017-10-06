@@ -97,13 +97,47 @@ GroupController.loadGroupTree = function($editgrouptree, $previewgrouptree, $for
 };
 //----------------------------------------------------------------------------------------------
 GroupController.render = function($form, $editgrouptree, $previewgrouptree, applicationtree) {
-    var $editgrouptree_children, $previewgrouptree_children
+    var $editgrouptree_children, $previewgrouptree_children, searchbarHtml = [];
     
     $editgrouptree_children = jQuery('<ul class="grouptree"></ul>');
     $editgrouptree.empty()
         //.append('<div class="title">Edit Group Tree</div>')
         .append($editgrouptree_children);
     GroupController.renderNode('edit', $form, $editgrouptree_children, applicationtree);
+
+    $searchbar = $form.find('.searchbar');
+    searchbarHtml.push('<form id="groupsearch">')
+    searchbarHtml.push('  <input type="text" id="query" class="form-control" placeholder="Search">');
+    searchbarHtml.push('  <span class="input-group-addon"><i class="material-icons">search</i></span>');
+    searchbarHtml.push('</form>')
+
+    $searchbar.empty().append(searchbarHtml.join(''));
+
+    $form.find('#groupsearch').submit(function (e) {
+        e.preventDefault();
+        var val = jQuery.trim($form.find('#query').val()).toUpperCase();
+        var $node = $form.find('li.node');
+        var checkParents = function (node) {
+            if (node.parent().closest('li').length > 0) {
+                jQuery(node).attr('data-expanded', 'T');
+                checkParents(jQuery(node).parent().closest('li'));
+            } else {
+                jQuery(node).attr('data-expanded', 'T');
+            }
+        }
+        jQuery.fn.checkParents = function () {
+                checkParents(jQuery(this).parent().closest('li'));
+        }
+        if (val === "") {
+            $node.attr('data-expanded', 'T');
+        }
+        else {
+            $node.attr('data-expanded', 'F').children('div.content').css('background-color', 'rgba(100,100,100,.1)');
+            $node.filter(function () {
+                return -1 != jQuery(this).data().propertyCaption.toUpperCase().indexOf(val);        
+            }).attr('data-expanded', 'T').children('div.content').css('background-color', 'cornflowerblue').checkParents();
+        }
+    });
 
     //TwGroupController.renderGroupTreePreview($form);
 };
@@ -131,7 +165,7 @@ GroupController.renderNode = function(mode, $form, $container, node) {
 
     hidenewmenuoptionsbydefault = (FwFormField.getValueByDataField($form, 'groups.hidenewmenuoptionsbydefault'));
     haschildren = (node.children.length > 0);
-    $node = jQuery('<li>')
+    $node = jQuery('<li class="node">')
         .attr('data-property-id', node.id)
         .attr('data-haschildren', haschildren ? 'T' : 'F')
     ;

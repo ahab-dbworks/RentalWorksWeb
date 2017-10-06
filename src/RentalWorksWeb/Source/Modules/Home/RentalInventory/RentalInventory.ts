@@ -74,6 +74,8 @@ class RentalInventory {
     renderGrids($form: any) {
         var $itemLocationTaxGrid: any;
         var $itemLocationTaxGridControl: any;
+        var $rentalInventoryWarehouseGrid: any;
+        var $rentalInventoryWarehouseGridControl: any;
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
@@ -86,13 +88,27 @@ class RentalInventory {
         });
         FwBrowse.init($itemLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
+
+        $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
+        $rentalInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RentalInventoryWarehouseGridBrowse').html());
+        $rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
+        $rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($rentalInventoryWarehouseGridControl);
+        FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
     }
 
     afterLoad($form: any) {
         var $itemLocationTaxGrid: any;
+        var $rentalInventoryWarehouseGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
+        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
+        FwBrowse.search($rentalInventoryWarehouseGrid);
     }
 }
 

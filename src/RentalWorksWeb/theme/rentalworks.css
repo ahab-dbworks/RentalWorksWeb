@@ -35,8 +35,8 @@ div[data-controller="GroupController"] .previewgrouptree {margin:0 0 0 60px;}
 div[data-controller="GroupController"] .previewgrouptree > .title {text-align:center;}
 div[data-controller="GroupController"] .grouptree {cursor:default;margin:0;padding:0;}
 div[data-controller="GroupController"] .grouptree ul {margin:0 0 0 5px;padding:0;border-left: 1px dotted #777777;}
-div[data-controller="GroupController"] .grouptree li {margin:1px 0 0 10px;padding:0;list-style-type:none;display:block;}
-div[data-controller="GroupController"] .grouptree .content {overflow:hidden;background-color:rgba(100,100,100,.1);border:1px solid rgba(100,100,100,.3);padding:2px 2px;}
+div[data-controller="GroupController"] .grouptree li {margin:1px 0 0 20px;padding:0;list-style-type:none;display:block;}
+div[data-controller="GroupController"] .grouptree .content {overflow:hidden;background-color:rgba(100,100,100,.1);border:1px solid rgba(100,100,100,.3);padding:5px 2px;}
 
 div[data-controller="GroupController"] .grouptree .iconexpander {float:left;cursor:pointer;margin:5px 6px 5px 0;width:12px;height:12px;background-size:cover;background-repeat:no-repeat;visibility:hidden;}
 div[data-controller="GroupController"] .grouptree li[data-expanded="T"] > .iconexpander {background-image:url('fwimages/icons/128/arrow-south.png');visibility:visible;}
@@ -57,7 +57,7 @@ div[data-controller="GroupController"] .grouptree li[data-property-visible="T"] 
 div[data-controller="GroupController"] .grouptree li[data-property-visible="T"][data-property-editable="T"] > .content > .iconeditable {background-image:url('fwimages/icons/128/securitytree-editable-true.001.png');}
 div[data-controller="GroupController"] .grouptree li[data-property-editable="F"] > .content > .caption {color:#ff0000;}
 
-div[data-controller="GroupController"] .grouptree .caption {float:left;font-size:11px;height:16px;line-height:16px;padding:0 3px 0 3px;}
+div[data-controller="GroupController"] .grouptree .caption {float:left;font-size:20px;height:16px;line-height:16px;padding:0 3px 0 3px;}
 
 div[data-controller="GroupController"] .grouptree li[data-haschildren="F"] {list-style-type:none;}
 div[data-controller="GroupController"] .grouptree li[data-expanded="F"] > .childrencontainer {display:none;}
