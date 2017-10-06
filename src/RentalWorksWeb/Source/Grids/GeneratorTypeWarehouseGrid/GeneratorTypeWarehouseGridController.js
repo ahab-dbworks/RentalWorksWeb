@@ -1,10 +1,10 @@
 var GeneratorTypeWarehouseGrid = (function () {
     function GeneratorTypeWarehouseGrid() {
-        this.Module = 'FiscalYearGrid';
+        this.Module = 'Generator Type Warehouse';
         this.apiurl = 'api/v1/generatortypewarehouse';
     }
     return GeneratorTypeWarehouseGrid;
 }());
-window.FiscalYearGridController = new FiscalYearGrid();
+window.GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
 //---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=GeneratorTypeWarehouseGridController.js.map

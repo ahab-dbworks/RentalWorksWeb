@@ -3,10 +3,10 @@
     apiurl: string;
 
     constructor() {
-        this.Module = 'FiscalYearGrid';
+        this.Module = 'Generator Type Warehouse';
         this.apiurl = 'api/v1/generatortypewarehouse';
     }
 }
 
-(<any>window).FiscalYearGridController = new FiscalYearGrid();
+(<any>window).GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
 //----------------------------------------------------------------------------------------------

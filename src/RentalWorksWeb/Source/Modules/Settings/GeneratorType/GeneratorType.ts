@@ -42,6 +42,22 @@ class GeneratorType {
         return $browse;
     }
 
+    renderGrids($form: any) {
+        var $generatorTypeWarehouseGrid, $generatorTypeWarehouseControl;
+
+        $generatorTypeWarehouseGrid = $form.find('div[data-grid="GeneratorTypeWarehouseGrid"]');
+        $generatorTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-GeneratorTypeWarehouseGridBrowse').html());
+        $generatorTypeWarehouseGrid.empty().append($generatorTypeWarehouseControl);
+        $generatorTypeWarehouseControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                GeneratorTypeId: $form.find('div.fwformfield[data-datafield="GeneratorTypeId"] input').val()
+            }
+        });
+        FwBrowse.init($generatorTypeWarehouseControl);
+        FwBrowse.renderRuntimeHtml($generatorTypeWarehouseControl);
+
+    }
+
     openForm(mode: string) {
         var $form;
 
@@ -72,7 +88,10 @@ class GeneratorType {
     }
 
     afterLoad($form: any) {
+        var $generatorTypeWarehouseGrid;
 
+        $generatorTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
+        FwBrowse.search($generatorTypeWarehouseGrid);
     }
 }
 

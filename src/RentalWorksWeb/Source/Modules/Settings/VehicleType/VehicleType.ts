@@ -42,6 +42,23 @@ class VehicleType {
         return $browse;
     }
 
+    renderGrids($form: any) {
+        var $vehicleTypeWarehouseGrid, $vehicleTypeWarehouseControl;        
+
+        // load vendornote Grid
+        $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
+        $vehicleTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-VehicleTypeWarehouseGridBrowse').html());
+        $vehicleTypeWarehouseGrid.empty().append($vehicleTypeWarehouseControl);
+        $vehicleTypeWarehouseControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                VehicleTypeId: $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val()
+            }
+        });
+        FwBrowse.init($vehicleTypeWarehouseControl);
+        FwBrowse.renderRuntimeHtml($vehicleTypeWarehouseControl);
+
+    }
+
     openForm(mode: string) {
         var $form;
 
@@ -72,7 +89,10 @@ class VehicleType {
     }
 
     afterLoad($form: any) {
+        var $vehicleTypeWarehouseGrid;
 
+        $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
+        FwBrowse.search($vehicleTypeWarehouseGrid);
     }
 }
 

@@ -3,7 +3,7 @@
     apiurl: string;
 
     constructor() {
-        this.Module = 'VehicleTypeWarehouseGrid';
+        this.Module = 'Vehicle Type Warehouse';
         this.apiurl = 'api/v1/vehicletypewarehouse';
     }
 }
