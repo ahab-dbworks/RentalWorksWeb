@@ -41,6 +41,7 @@
                 <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Recurring Rates">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div data-control="FwGrid" data-grid="RateWarehouseGrid" data-securitycaption="Rate Warehouse Tax" style="min-width:250px;max-width:1000px;"></div>
                         </div>
                     </div>
                 </div>
@@ -62,13 +63,13 @@
                 <div class="formpage">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit/Loss">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:350px;"></div>
+                            <div id="overrideCategory" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="float:left;width:350px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="" data-displayfield="Category" data-validationname="Category" style="float:left;width:350px;" data-enabled="false"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include as a Category on the Profit and Loss Report" data-datafield="ProfitAndLossCategory" style="float:left;width:350px;"></div>
+                            <div id="includeCategory" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include as a Category on the Profit and Loss Report" data-datafield="ProfitAndLossCategory" style="float:left;width:350px;"></div>
                         </div>
                     </div>
                 </div>

@@ -1033,6 +1033,7 @@
       <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
+    <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\FiscalYearGridBrowse.htm" />
@@ -1049,6 +1050,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalYearGrid\FiscalYearGridController.ts" />
