@@ -278,6 +278,8 @@ namespace RentalWorksWebLibrary
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
             AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
             AddGrid("Fiscal Month",                           "{EB2DCCD4-0747-4055-87A4-0C60D811AFB5}", lv1menuGrids.Id, "FiscalMonthGridController");
+            AddGrid("Vehicle Type Warehouse",                 "{51707760-645D-452C-A545-37A4C861B139}", lv1menuGrids.Id, "VehicleTypeWarehouseGridController");
+            AddGrid("Generator Type Warehouse",               "{A310B3F4-2B34-433A-8F24-04400B45670A}", lv1menuGrids.Id, "GeneratorTypeWarehouseGridController");
         }
 
         //---------------------------------------------------------------------------------------------
