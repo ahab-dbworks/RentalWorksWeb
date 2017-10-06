@@ -1750,7 +1750,7 @@ namespace FwStandard.SqlServer
                 var insertParameterNames = new StringBuilder();
                 var i = 0;
                 var propertyInfos = businessObject.GetType().GetProperties();
-                bool hasIdentity = false;
+                //bool hasIdentity = false;
                 PropertyInfo identityProperty = null;
                 foreach (var propertyInfo in propertyInfos)
                 {
@@ -1782,7 +1782,7 @@ namespace FwStandard.SqlServer
                         }
                         if (isIdentity)
                         {
-                            hasIdentity = true;
+                            //hasIdentity = true;
                             identityProperty = propertyInfo;
                         }
                         if (!isIdentity)
