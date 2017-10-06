@@ -1,7 +1,10 @@
-﻿<div data-name="GLAccount" data-control="FwBrowse" data-type="Browse" id="GlAccountBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="GlAccountController">
+﻿<div data-name="GLAccount" data-control="FwBrowse" data-type="Browse" id="GlAccountBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="GlAccountController" data-hasinactive="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-browsedatafield="GlAccountId" data-browsedatatype="key" data-formdatafield="GlAccountId"></div>
   </div>
+    <div class="column" data-width="0" data-visible="false">
+        <div class="field" data-browsedatafield="Inactive" data-browsedatatype="text" data-formdatafield="Inactive" data-visible="false"></div>
+    </div>
     <div class="column" data-width="140px" data-visible="true">
         <div class="field" data-caption="Account Number" data-browsedatafield="GlAccountNo" data-browsedatatype="text" data-sort="asc"></div>
     </div>

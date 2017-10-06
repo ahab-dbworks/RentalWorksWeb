@@ -1,7 +1,10 @@
-<div data-name="SalesInventory" data-control="FwBrowse" data-type="Browse" id="SalesInventoryBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="SalesInventoryController">
+<div data-name="SalesInventory" data-control="FwBrowse" data-type="Browse" id="SalesInventoryBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="SalesInventoryController" data-hasinactive="true">
   <div class="column" data-width="0" data-visible="false">
     <div class="field" data-isuniqueid="true" data-browsedatafield="InventoryId" data-browsedatatype="key" data-formdatafield="InventoryId"></div>
   </div>
+    <div class="column" data-width="0" data-visible="false">
+        <div class="field" data-browsedatafield="Inactive" data-browsedatatype="text" data-formdatafield="Inactive" data-visible="false"></div>
+    </div>
   <div class="column" data-width="500px" data-visible="true">
     <div class="field" data-caption="Description" data-browsedatafield="Description" data-browsedatatype="text" data-sort="asc"></div>
   </div>
