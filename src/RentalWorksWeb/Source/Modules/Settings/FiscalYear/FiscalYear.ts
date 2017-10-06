@@ -51,7 +51,7 @@ class FiscalYear {
         $fiscalYearGrid.empty().append($fiscalYearControl);
         $fiscalYearControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                Year: $form.find('div.fwformfield[data-datafield="Year"] input').val()
+                FiscalYearId: $form.find('div.fwformfield[data-datafield="FiscalYearId"] input').val()
             }            
         });
         FwBrowse.init($fiscalYearControl);
