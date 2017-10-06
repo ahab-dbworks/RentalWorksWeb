@@ -46,5 +46,12 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("FiscalYearId", "fiscalyearid", select, request); 
+        }
+        //------------------------------------------------------------------------------------    } 
     }
 }
