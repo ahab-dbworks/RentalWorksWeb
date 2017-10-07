@@ -61,11 +61,17 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "hourlycost", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hourlymarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? HourlyMarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dailycost", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dailymarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? DailyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyRate { get; set; }
@@ -85,11 +91,17 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "weeklycost", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklymarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyMarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlycost", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlymarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "maxdiscount", modeltype: FwDataTypes.Decimal)]
         public decimal? MaxDiscount { get; set; }
