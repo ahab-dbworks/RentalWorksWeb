@@ -52,11 +52,19 @@ class RentalInventory {
     }
 
     loadForm(uniqueids: any) {
-        var $form;
+        var $form, $rank;
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
+
+        $rank = $form.find('.rank');
+        FwFormField.loadItems($rank, [
+            { value: 'A', text: 'A'},
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+            { value: 'D', text: 'D' }
+        ]);
 
         return $form;
     }

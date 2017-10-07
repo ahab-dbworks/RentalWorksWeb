@@ -34,10 +34,17 @@ var RentalInventory = (function () {
         return $form;
     };
     RentalInventory.prototype.loadForm = function (uniqueids) {
-        var $form;
+        var $form, $rank;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
+        $rank = $form.find('.rank');
+        FwFormField.loadItems($rank, [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+            { value: 'D', text: 'D' }
+        ]);
         return $form;
     };
     RentalInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
