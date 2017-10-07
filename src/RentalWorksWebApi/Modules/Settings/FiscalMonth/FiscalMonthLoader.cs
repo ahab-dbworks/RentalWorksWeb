@@ -19,10 +19,10 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         [FwSqlDataField(column: "monthdisplay", modeltype: FwDataTypes.Text)]
         public string MonthDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
         public string FromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthyear", modeltype: FwDataTypes.Text)]
