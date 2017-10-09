@@ -145,6 +145,20 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "availbydeal", modeltype: FwDataTypes.Boolean)]
         public bool AvailabilityByDeal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean)]
+        public bool AvailabilityByAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer)]
+        public int? AvailabilityQcDelay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean)]
+        public bool AllowAllUsersAddToOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+        //------------------------------------------------------------------------------------ 
         //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         //{
         //    base.SetBaseSelectQuery(select, qry, customFields, request);

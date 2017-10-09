@@ -68,6 +68,84 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool AutoCopyNotesToQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "displaywhenrateiszero", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool DisplayInSummaryModeWhenRateIsZero { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool QcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qctime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        public string QcTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "copyattributesasnote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool CopyAttributesAsNote { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackassetusageflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool TrackAssetUsage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tracklampusageflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool TrackLampUsage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackstrikesflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool TrackStrikes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackcandlesflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool TrackCandles { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lampcount", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? LampCount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "minfootcandles", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? MinimumFootCandles { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tracksoftware", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool TrackSoftware { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string SoftwareVersion { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        public string SoftwareEffectiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnInContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnOutContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnReceiveContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnReturnContract { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnPickList { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnPO { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnQuote { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnReturnList { get; set; }
+        //------------------------------------------------------------------------------------                 
+        [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnPoReceiveList { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool PrintNoteOnPoReturnList { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }
@@ -93,14 +171,8 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string MfgId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Qcrequired { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string Hazardousmaterial { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "qctime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
-                public string Qctime { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
                 public string Mfgurl { get; set; }
@@ -174,39 +246,10 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string InputbyusersId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Contractinprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Contractoutprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Contractreceiveprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Contractreturnprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Invoiceprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "orbitsplitqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Orbitsplitqty { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Orderprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Picklistprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Poprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Quoteprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Returnlistprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
+
                 [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer, sqltype: "int")]
                 public int? Orderby { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -252,26 +295,8 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "spacesqft", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
                 public decimal? Spacesqft { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "trackassetusageflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Trackassetusageflg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "tracklampusageflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Tracklampusageflg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "trackstrikesflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Trackstrikesflg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "trackcandlesflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Trackcandlesflg { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "secondarydimensionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string SecondarydimensionId { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "rentalmasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string RentalmasterId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "displaywhenrateiszero", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Displaywhenrateiszero { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string PatternId { get; set; }
@@ -305,24 +330,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "treatconsignedqtyasowned", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Treatconsignedqtyasowned { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "copyattributesasnote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Copyattributesasnote { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "lampcount", modeltype: FwDataTypes.Integer, sqltype: "int")]
-                public int? Lampcount { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "minfootcandles", modeltype: FwDataTypes.Integer, sqltype: "int")]
-                public int? Minfootcandles { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "tracksoftware", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Tracksoftware { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-                public string Softwareversion { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
-                public string Softwareeffectivedate { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "overridepackagerevenuedefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool Overridepackagerevenuedefault { get; set; }
@@ -423,12 +430,7 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "warrantyperiod", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
                 public decimal? Warrantyperiod { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Poreceivelistprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Poreturnlistprint? { get; set; }
-                //------------------------------------------------------------------------------------ 
+
         */
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 3)]
         public bool Inactive { get; set; }

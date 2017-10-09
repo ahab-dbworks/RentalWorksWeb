@@ -49,6 +49,13 @@ namespace RentalWorksWebApi.Modules.Settings.ItemWarehouse
         public decimal? QtyOnPo { get; set; }
         public string AisleLoc { get { return masterWarehouse.AisleLoc; } set { masterWarehouse.AisleLoc = value; } }
         public string ShelfLoc { get { return masterWarehouse.ShelfLoc; } set { masterWarehouse.ShelfLoc = value; } }
+        public bool AvailabilityByHour { get { return masterWarehouse.AvailabilityByHour; } set { masterWarehouse.AvailabilityByHour = value; } }
+        public bool AvailabilityByDeal { get { return masterWarehouse.AvailabilityByDeal; } set { masterWarehouse.AvailabilityByDeal = value; } }
+        public bool AvailabilityByAsset { get { return masterWarehouse.AvailabilityByAsset; } set { masterWarehouse.AvailabilityByAsset = value; } }
+        public int? AvailabilityQcDelay { get { return masterWarehouse.AvailabilityQcDelay; } set { masterWarehouse.AvailabilityQcDelay = value; } }
+        public bool AllowAllUsersAddToOrder { get { return masterWarehouse.AllowAllUsersAddToOrder; } set { masterWarehouse.AllowAllUsersAddToOrder = value; } }
+
+
         //------------------------------------------------------------------------------------
     }
 

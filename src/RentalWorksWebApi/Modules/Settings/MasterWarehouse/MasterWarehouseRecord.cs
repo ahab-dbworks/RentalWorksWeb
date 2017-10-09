@@ -59,6 +59,34 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
         public string ShelfLoc { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AvailabilityByHour { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availbydeal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AvailabilityByDeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AvailabilityByAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? AvailabilityQcDelay { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool AllowAllUsersAddToOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+
+
+
+
+
+
+
+
         //[FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -137,14 +165,8 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         //[FwSqlDataField(column: "oldweek3rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Oldweek3rate { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Availbyhour { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "maxdiscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
         //public decimal? Maxdiscount { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availbydeal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Availbydeal { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "newhourlyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Newhourlyrate { get; set; }
@@ -194,20 +216,11 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         //[FwSqlDataField(column: "oldweek5rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Oldweek5rate { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Availbyasset { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
         //public string Starttime { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
         //public string Stoptime { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        //public int? Availqcdelay { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowallusersaddtoorder { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "physicalid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string PhysicalId { get; set; }
