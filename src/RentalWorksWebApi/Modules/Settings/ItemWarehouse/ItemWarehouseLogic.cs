@@ -29,6 +29,26 @@ namespace RentalWorksWebApi.Modules.Settings.ItemWarehouse
         public decimal? WeeklyCost { get { return masterWarehouse.WeeklyCost; } set { masterWarehouse.WeeklyCost = value; } }
         public decimal? MonthlyRate { get { return masterWarehouse.MonthlyRate; } set { masterWarehouse.MonthlyRate = value; } }
         public decimal? MonthlyCost { get { return masterWarehouse.MonthlyCost; } set { masterWarehouse.MonthlyCost = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Qty { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyConsigned { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyIn { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyInContainer { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? QtyQcRequired { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyStaged { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyOut { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyInRepair { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyOnPo { get; set; }
+        public string AisleLoc { get { return masterWarehouse.AisleLoc; } set { masterWarehouse.AisleLoc = value; } }
+        public string ShelfLoc { get { return masterWarehouse.ShelfLoc; } set { masterWarehouse.ShelfLoc = value; } }
         //------------------------------------------------------------------------------------
     }
 

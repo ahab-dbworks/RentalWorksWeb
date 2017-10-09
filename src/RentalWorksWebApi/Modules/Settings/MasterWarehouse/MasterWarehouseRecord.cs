@@ -53,23 +53,23 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "week5rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? Week5Rate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
+        public string AisleLoc { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
+        public string ShelfLoc { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "reorderpoint", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Reorderpoint { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
-        //public string Shelfloc { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "newdailyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Newdailyrate { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "newmonthlyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Newmonthlyrate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
-        //public string Aisleloc { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "newweeklyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Newweeklyrate { get; set; }

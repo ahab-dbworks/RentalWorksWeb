@@ -34,6 +34,30 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Qty { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyconsigned", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyConsigned { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyin", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyIn { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyincontainer", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyInContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyqcrequired", modeltype: FwDataTypes.Integer)]
+        public int? QtyQcRequired { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtystaged", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyStaged { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyout", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyOut { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyinrepair", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyInRepair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyonpo", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyOnPo { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
