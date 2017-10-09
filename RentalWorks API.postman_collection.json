@@ -3323,6 +3323,162 @@
 			]
 		},
 		{
+			"name": "DiscountTemplate",
+			"description": "",
+			"item": [
+				{
+					"name": "DiscountTemplate: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DiscountTemplate: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"DiscountTemplate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DiscountTemplate: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate/00001A0G",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DiscountTemplate: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DiscountTemplate\": \"NEW DISCOUNT TEMPLATE\",\n    \"LocationId\": \"0000000F\",\n    \"Rental\": true,\n    \"RentalDiscountPercent\": 25,\n    \"RentalDaysPerWeek\": 1,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DiscountTemplate: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DiscountTemplateId\": \"00003GUF\",\n    \"DiscountTemplate\": \"NEW DISCOUNT TEMPLATEXXX\",\n   \"RentalDiscountPercent\": 26,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DiscountTemplate: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/discounttemplate/00003GUF",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "DocumentType",
 			"description": "",
 			"item": [
