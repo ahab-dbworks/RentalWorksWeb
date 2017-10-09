@@ -327,10 +327,10 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public bool DisableSubMisc { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentalflg", modeltype: FwDataTypes.Boolean)]
-        public bool SplitRentalCustomer { get; set; }
+        public bool SplitRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentaltaxflg", modeltype: FwDataTypes.Boolean)]
-        public bool SplitRentalTaxCustomer { get; set; }
+        public bool SplitRentalTaxCustoemr { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedsplitrate", modeltype: FwDataTypes.Integer)]
         public int? OwnedEquipmentSplitRentalPerecent { get; set; }
@@ -339,7 +339,7 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public int? SubRentalEquipmentSplitRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rebaterentalflg", modeltype: FwDataTypes.Boolean)]
-        public bool RebateRentalCustomer { get; set; }
+        public bool RebateRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedrebaterate", modeltype: FwDataTypes.Integer)]
         public int? OwnedEquipmentRebateRentalPerecent { get; set; }

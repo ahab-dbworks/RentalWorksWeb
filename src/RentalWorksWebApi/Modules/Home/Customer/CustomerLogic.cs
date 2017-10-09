@@ -147,11 +147,11 @@ namespace RentalWorksWebApi.Modules.Home.Customer
         public bool DisableSubSale { get { return customer.DisableSubSale; } set { customer.DisableSubSale = value; } }
         public bool DisableSubLabor { get { return customer.DisableSubLabor; } set { customer.DisableSubLabor = value; } }
         public bool DisableSubMisc { get { return customer.DisableSubMisc; } set { customer.DisableSubMisc = value; } }
-        public bool SplitRentalCustomer { get { return customer.SplitRentalCustomer; } set { customer.SplitRentalCustomer = value; } }
+        public bool SplitRental { get { return customer.SplitRental; } set { customer.SplitRental = value; } }
         public bool SplitRentalTaxCustomer { get { return customer.SplitRentalTaxCustomer; } set { customer.SplitRentalTaxCustomer = value; } }
         public int? OwnedEquipmentSplitRentalPerecent { get { return customer.OwnedEquipmentSplitRentalPerecent; } set { customer.OwnedEquipmentSplitRentalPerecent = value; } }
         public int? SubRentalEquipmentSplitRentalPerecent { get { return customer.SubRentalEquipmentSplitRentalPerecent; } set { customer.SubRentalEquipmentSplitRentalPerecent = value; } }
-        public bool RebateRentalCustomer { get { return customer.RebateRentalCustomer; } set { customer.RebateRentalCustomer = value; } }
+        public bool RebateRental { get { return customer.RebateRental; } set { customer.RebateRental = value; } }
         public int? OwnedEquipmentRebateRentalPerecent { get { return customer.OwnedEquipmentRebateRentalPerecent; } set { customer.OwnedEquipmentRebateRentalPerecent = value; } }
         public int? SubRentalEquipmentRebateRentalPerecent { get { return customer.SubRentalEquipmentRebateRentalPerecent; } set { customer.SubRentalEquipmentRebateRentalPerecent = value; } }
         public string SplitRentalLogoFileName { get { return customer.SplitRentalLogoFileName; } set { customer.SplitRentalLogoFileName = value; } }
