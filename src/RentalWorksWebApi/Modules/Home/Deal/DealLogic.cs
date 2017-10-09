@@ -27,7 +27,6 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwBusinessLogicField(isReadOnly: true)]
         public string DealTypeId { get { return deal.DealTypeId; } set { deal.DealTypeId = value; } }
         public string DealType { get; set; }
-
         public string Address1 { get { return deal.Address1; } set { deal.Address1 = value; } }
         public string Address2 { get { return deal.Address2; } set { deal.Address2 = value; } }
         public string City { get { return deal.City; } set { deal.City = value; } }
@@ -40,8 +39,6 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string Phone800 { get { return deal.Phone800; } set { deal.Phone800 = value; } }
         public string Fax { get { return deal.Fax; } set { deal.Fax = value; } }
         public string PhoneOther { get { return deal.PhoneOther; } set { deal.PhoneOther = value; } }
-
-
         public string DepartmentId { get { return deal.DepartmentId; } set { deal.DepartmentId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Department { get; set; }
@@ -54,131 +51,134 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string DefaultProjectManagerId { get { return deal.DefaultProjectManagerId; } set { deal.DefaultProjectManagerId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DefaultProjectManager { get; set; }
-
-
-        /*
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string CusttypeId { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Dealstatus { get; set; }
-                public string Statusasof { get { return deal.Statusasof; } set { deal.Statusasof = value; } }
+        public string DealClassificationId { get { return deal.DealClassificationId; } set { deal.DealClassificationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-                public string Prodtype { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Prcontact { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Prphone { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Billperiod { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Porequired { get; set; }
-                public string Billtoadd1 { get { return deal.Billtoadd1; } set { deal.Billtoadd1 = value; } }
-                public string Billtoadd2 { get { return deal.Billtoadd2; } set { deal.Billtoadd2 = value; } }
-                public string Billtocity { get { return deal.Billtocity; } set { deal.Billtocity = value; } }
-                public string Billtostate { get { return deal.Billtostate; } set { deal.Billtostate = value; } }
-                public string Billtozip { get { return deal.Billtozip; } set { deal.Billtozip = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Creditstatus { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Usecustomercredit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string DealcreditstatusId { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Dealcrappthru { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public int? Dealcreditlimit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Dealunlimitedcredit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string CustcreditstatusId { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Custcrappthru { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public int? Custcreditlimit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Custunlimitedcredit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Usecustomerinsurance { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Dealinscertification { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Dealinsvalidthru { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Custinscertification { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Custinsvalidthru { get; set; }
-                public string CreditstatusId { get { return deal.CreditstatusId; } set { deal.CreditstatusId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Creditapponfile { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Creditvalidthru { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public int? Creditlimit { get; set; }
-                public bool Unlimitedcredit { get { return deal.Unlimitedcredit; } set { deal.Unlimitedcredit = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Orderallow { get; set; }
-                public bool Inscertification { get { return deal.Inscertification; } set { deal.Inscertification = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Insurancevalidthru { get; set; }
-                public int? Inscovliab { get { return deal.Inscovliab; } set { deal.Inscovliab = value; } }
-                public int? Inscovprop { get { return deal.Inscovprop; } set { deal.Inscovprop = value; } }
-                public string Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Carrier { get; set; }
-                public string Shipadd1 { get { return deal.Shipadd1; } set { deal.Shipadd1 = value; } }
-                public string Shipadd2 { get { return deal.Shipadd2; } set { deal.Shipadd2 = value; } }
-                public string Shipcity { get { return deal.Shipcity; } set { deal.Shipcity = value; } }
-                public string Shipstate { get { return deal.Shipstate; } set { deal.Shipstate = value; } }
-                public string Shipzip { get { return deal.Shipzip; } set { deal.Shipzip = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Shipcountry { get; set; }
-                public string BillperiodId { get { return deal.BillperiodId; } set { deal.BillperiodId = value; } }
-                public string PaytermsId { get { return deal.PaytermsId; } set { deal.PaytermsId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Payterms { get; set; }
-                public string PaytypeId { get { return deal.PaytypeId; } set { deal.PaytypeId = value; } }
-                public string BilltocountryId { get { return deal.BilltocountryId; } set { deal.BilltocountryId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Dealinactive { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Statustype { get; set; }
-                public string Ratetype { get { return deal.Ratetype; } set { deal.Ratetype = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Periodtype { get; set; }
-                public string Expwrapdate { get { return deal.Expwrapdate; } set { deal.Expwrapdate = value; } }
-                public string SalesrepresentativeId { get { return deal.SalesrepresentativeId; } set { deal.SalesrepresentativeId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Salesrepresentative { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Splitrentalflg { get; set; }
-                public bool Rebaterentalflg { get { return deal.Rebaterentalflg; } set { deal.Rebaterentalflg = value; } }
-                public int? Ownedrebaterate { get { return deal.Ownedrebaterate; } set { deal.Ownedrebaterate = value; } }
-                public int? Vendorrebaterate { get { return deal.Vendorrebaterate; } set { deal.Vendorrebaterate = value; } }
-                public string RebatecustomerId { get { return deal.RebatecustomerId; } set { deal.RebatecustomerId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Rebatecustomer { get; set; }
-                public string DealstatusId { get { return deal.DealstatusId; } set { deal.DealstatusId = value; } }
-                public bool Enablewebquoterequest { get { return deal.Enablewebquoterequest; } set { deal.Enablewebquoterequest = value; } }
-                public bool Enablewebreports { get { return deal.Enablewebreports; } set { deal.Enablewebreports = value; } }
-                public string Inputdate { get { return deal.Inputdate; } set { deal.Inputdate = value; } }
-                public string Moddate { get { return deal.Moddate; } set { deal.Moddate = value; } }
-                public bool Usecustomertax { get { return deal.Usecustomertax; } set { deal.Usecustomertax = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Locdisablecredit { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Locdisablecreditthroughdate { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Locdisableinsurance { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Locdisableinsurancethroughdate { get; set; }
-                public string Lastorderdate { get { return deal.Lastorderdate; } set { deal.Lastorderdate = value; } }
-                public decimal? Balance { get { return deal.Balance; } set { deal.Balance = value; } }
-                public string DealclassificationId { get { return deal.DealclassificationId; } set { deal.DealclassificationId = value; } }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public string Dealclassification { get; set; }
-                [FwBusinessLogicField(isReadOnly: true)]
-                public bool Inactive { get; set; }
-                //------------------------------------------------------------------------------------ 
-                */
+        public string DealClassification { get; set; }
+        public string ProductionTypeId { get { return deal.ProductionTypeId; } set { deal.ProductionTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ProductionType { get; set; }
+        public string DealStatusId { get { return deal.DealStatusId; } set { deal.DealStatusId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DealStatus { get; set; }
+        public string StatusAsOf { get { return deal.StatusAsOf; } set { deal.StatusAsOf = value; } }
+        public string ExpectedWrapDate { get { return deal.ExpectedWrapDate; } set { deal.ExpectedWrapDate = value; } }
+        public string BillingCycleId { get { return deal.BillingCycleId; } set { deal.BillingCycleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillingCycle { get; set; }
+        public string PaymentTermsId { get { return deal.PaymentTermsId; } set { deal.PaymentTermsId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PaymentTerms { get; set; }
+        public string PaymentTypeId { get { return deal.PaymentTypeId; } set { deal.PaymentTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PaymentType { get; set; }
+        public bool UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
+        public bool UseDiscountTemplate { get { return deal.UseDiscountTemplate; } set { deal.UseDiscountTemplate = value; } }
+        public string DiscountTemplateId { get { return deal.DiscountTemplateId; } set { deal.DiscountTemplateId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DiscountTemplate { get; set; }
+        public string SalesRepresentativeId { get { return deal.SalesRepresentativeId; } set { deal.SalesRepresentativeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SalesRepresentative { get; set; }
+        public decimal? CommissionRate { get { return deal.CommissionRate; } set { deal.CommissionRate = value; } }
+        public bool CommissionIncludesVendorItems { get { return deal.CommissionIncludesVendorItems; } set { deal.CommissionIncludesVendorItems = value; } }
+        public bool PoRequired { get { return deal.PoRequired; } set { deal.PoRequired = value; } }
+        public bool PoType { get { return deal.PoType; } set { deal.PoType = value; } }
+        public string BillToAddressType { get { return deal.BillToAddressType; } set { deal.BillToAddressType = value; } }
+        public string BillToAttention1 { get { return deal.BillToAttention1; } set { deal.BillToAttention1 = value; } }
+        public string BillToAttention2 { get { return deal.BillToAttention2; } set { deal.BillToAttention2 = value; } }
+        public string BillToAddress1 { get { return deal.BillToAddress1; } set { deal.BillToAddress1 = value; } }
+        public string BillToAddress2 { get { return deal.BillToAddress2; } set { deal.BillToAddress2 = value; } }
+        public string BillToCity { get { return deal.BillToCity; } set { deal.BillToCity = value; } }
+        public string BillToState { get { return deal.BillToState; } set { deal.BillToState = value; } }
+        public string BillToCountryId { get { return deal.BillToCountryId; } set { deal.BillToCountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillToCountry { get; set; }
+        public string BillToZipCode { get { return deal.BillToZipCode; } set { deal.BillToZipCode = value; } }
+        public bool AssessFinanceCharge { get { return deal.AssessFinanceCharge; } set { deal.AssessFinanceCharge = value; } }
+        public bool AllowBillingScheduleOverride { get { return deal.AllowBillingScheduleOverride; } set { deal.AllowBillingScheduleOverride = value; } }
+        public bool AllowRebateCreditInvoices { get { return deal.AllowRebateCreditInvoices; } set { deal.AllowRebateCreditInvoices = value; } }
+        public bool UseCustomerCredit { get { return deal.UseCustomerCredit; } set { deal.UseCustomerCredit = value; } }
+        public string CreditStatusId { get { return deal.CreditStatusId; } set { deal.CreditStatusId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CreditStatus { get; set; }
+        public string CreditStatusThrough { get { return deal.CreditStatusThrough; } set { deal.CreditStatusThrough = value; } }
+        public bool CreditApplicationOnFile { get { return deal.CreditApplicationOnFile; } set { deal.CreditApplicationOnFile = value; } }
+        public bool UnlimitedCredit { get { return deal.UnlimitedCredit; } set { deal.UnlimitedCredit = value; } }
+        public int? CreditLimit { get { return deal.CreditLimit; } set { deal.CreditLimit = value; } }
+        public bool CreditResponsiblePartyOnFile { get { return deal.CreditResponsiblePartyOnFile; } set { deal.CreditResponsiblePartyOnFile = value; } }
+        public string CreditResponsibleParty { get { return deal.CreditResponsibleParty; } set { deal.CreditResponsibleParty = value; } }
+        public bool TradeReferencesVerified { get { return deal.TradeReferencesVerified; } set { deal.TradeReferencesVerified = value; } }
+        public string TradeReferencesVerifiedBy { get { return deal.TradeReferencesVerifiedBy; } set { deal.TradeReferencesVerifiedBy = value; } }
+        public string TradeReferencesVerifiedOn { get { return deal.TradeReferencesVerifiedOn; } set { deal.TradeReferencesVerifiedOn = value; } }
+        public string CreditCardTypeId { get { return deal.CreditCardTypeId; } set { deal.CreditCardTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CreditCardType { get; set; }
+        public int? CreditCardLimit { get { return deal.CreditCardLimit; } set { deal.CreditCardLimit = value; } }
+        public string CreditCardNumber { get { return deal.CreditCardNumber; } set { deal.CreditCardNumber = value; } }
+        public string CreditCardCode { get { return deal.CreditCardCode; } set { deal.CreditCardCode = value; } }
+        public string CreditCardName { get { return deal.CreditCardName; } set { deal.CreditCardName = value; } }
+        public int? CreditCardExpirationMonth { get { return deal.CreditCardExpirationMonth; } set { deal.CreditCardExpirationMonth = value; } }
+        public int? CreditCardExpirationYear { get { return deal.CreditCardExpirationYear; } set { deal.CreditCardExpirationYear = value; } }
+        public bool CreditCardAuthorizationFormOnFile { get { return deal.CreditCardAuthorizationFormOnFile; } set { deal.CreditCardAuthorizationFormOnFile = value; } }
+        public decimal? DepletingDepositThresholdAmount { get { return deal.DepletingDepositThresholdAmount; } set { deal.DepletingDepositThresholdAmount = value; } }
+        public int? DepletingDepositThresholdPercent { get { return deal.DepletingDepositThresholdPercent; } set { deal.DepletingDepositThresholdPercent = value; } }
+        public bool UseCustomerInsurance { get { return deal.UseCustomerInsurance; } set { deal.UseCustomerInsurance = value; } }
+        public bool InsuranceCertification { get { return deal.InsuranceCertification; } set { deal.InsuranceCertification = value; } }
+        public string InsuranceCertificationValidThrough { get { return deal.InsuranceCertificationValidThrough; } set { deal.InsuranceCertificationValidThrough = value; } }
+        public int? InsuranceCoverageLiability { get { return deal.InsuranceCoverageLiability; } set { deal.InsuranceCoverageLiability = value; } }
+        public int? InsuranceCoverageLiabilityDeductible { get { return deal.InsuranceCoverageLiabilityDeductible; } set { deal.InsuranceCoverageLiabilityDeductible = value; } }
+        public int? InsuranceCoverageProperty { get { return deal.InsuranceCoverageProperty; } set { deal.InsuranceCoverageProperty = value; } }
+        public int? InsuranceCoveragePropertyDeductible { get { return deal.InsuranceCoveragePropertyDeductible; } set { deal.InsuranceCoveragePropertyDeductible = value; } }
+        public string InsuranceCompanyId { get { return deal.InsuranceCompanyId; } set { deal.InsuranceCompanyId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompany { get; set; }
+        public string InsuranceCompanyAgent { get { return deal.InsuranceCompanyAgent; } set { deal.InsuranceCompanyAgent = value; } }
+        public bool VehicleInsuranceCertification { get { return deal.VehicleInsuranceCertification; } set { deal.VehicleInsuranceCertification = value; } }
+
+
+
+
+
+
+        public bool UseCustomerTax { get { return deal.UseCustomerTax; } set { deal.UseCustomerTax = value; } }
+        public bool Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
+        public string TaxStateOfIncorporationId { get { return deal.TaxStateOfIncorporationId; } set { deal.TaxStateOfIncorporationId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxStateOfIncorporation { get; set; }
+        public string TaxFederalNo { get { return deal.TaxFederalNo; } set { deal.TaxFederalNo = value; } }
+        public int? NonTaxableYear { get { return deal.NonTaxableYear; } set { deal.NonTaxableYear = value; } }
+        public string NonTaxableCertificateNo { get { return deal.NonTaxableCertificateNo; } set { deal.NonTaxableCertificateNo = value; } }
+        public string NonTaxableCertificateValidThrough { get { return deal.NonTaxableCertificateValidThrough; } set { deal.NonTaxableCertificateValidThrough = value; } }
+        public bool NonTaxableCertificateOnFile { get { return deal.NonTaxableCertificateOnFile; } set { deal.NonTaxableCertificateOnFile = value; } }
+        public bool DisableQuoteOrderActivity { get { return deal.DisableQuoteOrderActivity; } set { deal.DisableQuoteOrderActivity = value; } }
+        public bool DisableRental { get { return deal.DisableRental; } set { deal.DisableRental = value; } }
+        public bool DisableSales { get { return deal.DisableSales; } set { deal.DisableSales = value; } }
+        public bool DisableFacilities { get { return deal.DisableFacilities; } set { deal.DisableFacilities = value; } }
+        public bool DisableTransportation { get { return deal.DisableTransportation; } set { deal.DisableTransportation = value; } }
+        public bool DisableLabor { get { return deal.DisableLabor; } set { deal.DisableLabor = value; } }
+        public bool DisableMisc { get { return deal.DisableMisc; } set { deal.DisableMisc = value; } }
+        public bool DisableRentalSale { get { return deal.DisableRentalSale; } set { deal.DisableRentalSale = value; } }
+        public bool DisableSubRental { get { return deal.DisableSubRental; } set { deal.DisableSubRental = value; } }
+        public bool DisableSubSale { get { return deal.DisableSubSale; } set { deal.DisableSubSale = value; } }
+        public bool DisableSubLabor { get { return deal.DisableSubLabor; } set { deal.DisableSubLabor = value; } }
+        public bool DisableSubMisc { get { return deal.DisableSubMisc; } set { deal.DisableSubMisc = value; } }
+        public string DefaultOutgoingDeliveryType { get { return deal.DefaultOutgoingDeliveryType; } set { deal.DefaultOutgoingDeliveryType = value; } }
+        public string DefaultIncomingDeliveryType { get { return deal.DefaultIncomingDeliveryType; } set { deal.DefaultIncomingDeliveryType = value; } }
+        public string ShippingAddressType { get { return deal.ShippingAddressType; } set { deal.ShippingAddressType = value; } }
+        public string ShipAttention { get { return deal.ShipAttention; } set { deal.ShipAttention = value; } }
+        public string ShipAddress1 { get { return deal.ShipAddress1; } set { deal.ShipAddress1 = value; } }
+        public string ShipAddress2 { get { return deal.ShipAddress2; } set { deal.ShipAddress2 = value; } }
+        public string ShipCity { get { return deal.ShipCity; } set { deal.ShipCity = value; } }
+        public string ShipState { get { return deal.ShipState; } set { deal.ShipState = value; } }
+        public string ShipCountryId { get { return deal.ShipCountryId; } set { deal.ShipCountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ShipCountry { get; set; }
+        public string ShipZipCode { get { return deal.ShipZipCode; } set { deal.ShipZipCode = value; } }
+        public bool RebateRental { get { return deal.RebateRental; } set { deal.RebateRental = value; } }
+        public string RebateCustomerId { get { return deal.RebateCustomerId; } set { deal.RebateCustomerId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RebateCustomer { get; set; }
+        public int? OwnedEquipmentRebateRentalPerecent { get { return deal.OwnedEquipmentRebateRentalPerecent; } set { deal.OwnedEquipmentRebateRentalPerecent = value; } }
+        public int? SubRentalEquipmentRebateRentalPerecent { get { return deal.SubRentalEquipmentRebateRentalPerecent; } set { deal.SubRentalEquipmentRebateRentalPerecent = value; } }
     }
 }
