@@ -71,10 +71,29 @@ class RwBuilding {
         FwModule.loadAudit($form, uniqueid);
     }
 
-   
+    renderGrids($form: any) {
+        var $floorGrid: any;
+        var $floorGridControl: any;
+       
+        $floorGrid = $form.find('div[data-grid="FloorGrid"]');
+        $floorGridControl = jQuery(jQuery('#tmpl-grids-FloorGridBrowse').html());
+        $floorGrid.empty().append($floorGridControl);
+        $floorGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val()
+            };
+        })
+        FwBrowse.init($floorGridControl);
+        FwBrowse.renderRuntimeHtml($floorGridControl);
+
+    }
 
     afterLoad($form: any) {
- 
+        var $floorGrid: any;
+
+        $floorGrid = $form.find('[data-name="FloorGrid"]');
+        FwBrowse.search($floorGrid);
+
     }
 
  

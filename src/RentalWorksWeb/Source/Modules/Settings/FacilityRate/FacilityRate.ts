@@ -126,7 +126,6 @@ class RwFacilityRate {
     afterLoad($form: any) {
         var $rateLocationTaxGrid: any;
         var $rateWarehouseGrid: any;
-        var $rateProfitLoss: any;
 
         $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
         FwBrowse.search($rateLocationTaxGrid);
