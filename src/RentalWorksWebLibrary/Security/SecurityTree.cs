@@ -280,6 +280,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
+            AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
             AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
             AddGrid("Fiscal Month",                           "{EB2DCCD4-0747-4055-87A4-0C60D811AFB5}", lv1menuGrids.Id, "FiscalMonthGridController");
