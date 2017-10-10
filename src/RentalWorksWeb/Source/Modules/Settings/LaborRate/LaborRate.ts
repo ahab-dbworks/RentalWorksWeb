@@ -46,6 +46,11 @@ class RwLaborRate {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true')
+        }
+
         $form = FwModule.openForm($form, mode);
 
         return $form;
