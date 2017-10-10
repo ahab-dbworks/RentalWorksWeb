@@ -95,6 +95,7 @@ namespace RentalWorksWebLibrary
                                           AddModule("Photography Type", "{66bff7f0-8bca-4d32-bd94-6b5f13623bec}", lv2menuEventSettings.Id, "PhotographyTypeController", "module/photographytype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuFacilitiesSettings = AddLv2ModuleMenu("Facilities Settings", "{CEDB17C6-BD90-4469-B104-B9492A5C4E96}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Building", "{2D344845-7E77-40C9-BB9D-04A930D352EB}", lv2menuFacilitiesSettings.Id, "BuildingController", "module/building", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Type", "{197BBE51-28A8-4D00-BD0C-098C0F88DD0E}", lv2menuFacilitiesSettings.Id, "FacilityTypeController", "module/facilitytype", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Rate", "{5D49FC0B-F1BA-4FE4-889D-3C52B6202ACD}", lv2menuFacilitiesSettings.Id, "FacilityRateController", "module/facilityrate", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesSettings.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
