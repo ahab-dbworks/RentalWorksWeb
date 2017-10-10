@@ -74,6 +74,8 @@ class RwBuilding {
     renderGrids($form: any) {
         var $floorGrid: any;
         var $floorGridControl: any;
+        var $spaceGrid: any;
+        var $spaceGridControl: any;
        
         $floorGrid = $form.find('div[data-grid="FloorGrid"]');
         $floorGridControl = jQuery(jQuery('#tmpl-grids-FloorGridBrowse').html());
@@ -86,13 +88,28 @@ class RwBuilding {
         FwBrowse.init($floorGridControl);
         FwBrowse.renderRuntimeHtml($floorGridControl);
 
+        $spaceGrid = $form.find('div[data-grid="SpaceGrid"]');
+        $spaceGridControl = jQuery(jQuery('#tmpl-grids-SpaceGridBrowse').html());
+        $spaceGrid.empty().append($spaceGridControl);
+        $spaceGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val()
+            };
+        })
+        FwBrowse.init($spaceGridControl);
+        FwBrowse.renderRuntimeHtml($spaceGridControl);
+
     }
 
     afterLoad($form: any) {
         var $floorGrid: any;
+        var $spaceGrid: any;
 
         $floorGrid = $form.find('[data-name="FloorGrid"]');
         FwBrowse.search($floorGrid);
+
+        $spaceGrid = $form.find('[data-name="SpaceGrid"]');
+        FwBrowse.search($spaceGrid);
 
     }
 
