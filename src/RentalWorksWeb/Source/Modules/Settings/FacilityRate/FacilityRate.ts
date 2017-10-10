@@ -48,6 +48,28 @@ class RwFacilityRate {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.category [data-type="validation"]'))
+                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+            }
+            else {
+                FwFormField.disable($form.find('.category [data-type="validation"]'))
+                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+            }
+        });
+
+        $form.find('[data-datafield="ProfitAndLossCategory"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('[data-datafield="OverrideProfitAndLossCategory"]'))
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="OverrideProfitAndLossCategory"]'))
+            }
+        });
+
         return $form;
     }
 

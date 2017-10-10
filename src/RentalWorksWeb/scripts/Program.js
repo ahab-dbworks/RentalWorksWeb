@@ -53,7 +53,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/documenttype$/,               getScreen: function () { return DocumentTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/setsurface$/,                 getScreen: function () { return SetSurfaceController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/building$/,                 getScreen: function () { return BuildingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/building$/,                   getScreen: function () { return BuildingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/walltype$/,                   getScreen: function () { return WallTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/walldescription$/,            getScreen: function () { return WallDescriptionController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/poapprovalstatus/,            getScreen: function () { return POApprovalStatusController.getModuleScreen({}, {}); } }
