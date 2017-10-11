@@ -156,6 +156,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuPOSettings = AddLv2ModuleMenu("PO Settings", "{55EDE544-A603-467D-AFA2-EC9C2A650810}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Approval Status", "{22EF1328-FBB1-44D0-A965-4E96675B96CD}", lv2menuPOSettings.Id, "POApprovalStatusController", "module/poapprovalstatus", settingsiconbaseurl + "placeholder.png");
+                                       AddModule("PO Approver", "{237B99DC-252D-4197-AB4A-01E795076447}", lv2menuPOSettings.Id, "POApproverController", "module/poapprover", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Approver Role", "{992314B6-A24F-468C-A8B6-5EAC8F14BE16}", lv2menuPOSettings.Id, "POApproverRoleController", "module/poapproverrole", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Classification", "{58ef51c5-a97b-43c6-9298-08b064a84a48}", lv2menuPOSettings.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
                                        AddModule("PO Importance", "{82BF3B3E-0EF8-4A6E-8577-33F23EA9C4FB}", lv2menuPOSettings.Id, "POImportanceController", "module/poimportance", settingsiconbaseurl + "placeholder.png");
