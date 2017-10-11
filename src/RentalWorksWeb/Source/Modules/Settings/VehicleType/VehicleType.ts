@@ -46,12 +46,12 @@ class VehicleType {
         var $vehicleTypeWarehouseGrid, $vehicleTypeWarehouseControl;        
 
         // load vendornote Grid
-        $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
-        $vehicleTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-VehicleTypeWarehouseGridBrowse').html());
+        $vehicleTypeWarehouseGrid = $form.find('div[data-grid="GeneratorTypeWarehouseGrid"]');
+        $vehicleTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-GeneratorTypeWarehouseGridBrowse').html());
         $vehicleTypeWarehouseGrid.empty().append($vehicleTypeWarehouseControl);
         $vehicleTypeWarehouseControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                VehicleTypeId: $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val()
+                VehicleTypeId: $form.find('div.fwformfield[data-datafield="GeneratorTypeId"] input').val()
             }
         });
         FwBrowse.init($vehicleTypeWarehouseControl);
@@ -91,7 +91,7 @@ class VehicleType {
     afterLoad($form: any) {
         var $vehicleTypeWarehouseGrid;
 
-        $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
+        $vehicleTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
         FwBrowse.search($vehicleTypeWarehouseGrid);
     }
 }

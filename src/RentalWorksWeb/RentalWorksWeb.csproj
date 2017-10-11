@@ -1042,6 +1042,7 @@
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
     <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseGrid\WarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\FiscalYearGridBrowse.htm" />
@@ -1064,6 +1065,7 @@
     <TypeScriptCompile Include="Source\Grids\FloorGrid\FloorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseGrid\WarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalYearGrid\FiscalYearGridController.ts" />
