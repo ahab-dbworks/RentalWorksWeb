@@ -1029,6 +1029,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridBrowse.htm" />
+    <Content Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxGridController.js">
+      <DependentUpon>CompanyTaxResaleGridController.ts</DependentUpon>
+    </Content>
     <Content Include="Source\Grids\FiscalMonthGrid\CompanyTaxGridController.js">
       <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
     </Content>
@@ -1037,6 +1041,7 @@
     <Content Include="Source\Grids\SpaceGrid\SpaceGridBrowse.htm" />
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
     <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
+    <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\FiscalYearGrid\FiscalYearGridBrowse.htm" />
@@ -1052,11 +1057,13 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceRateGrid\SpaceRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceGrid\SpaceGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FloorGrid\FloorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalYearGrid\FiscalYearGridController.ts" />
@@ -2280,6 +2287,9 @@
     <Content Include="Source\Modules\Settings\ProjectAsBuild\ProjectAsBuild.js.map" />
     <Content Include="Source\Grids\FiscalMonthGrid\CompanyTaxGridController.js.map">
       <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxGridController.js.map">
+      <DependentUpon>CompanyTaxResaleGridController.ts</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
