@@ -10243,6 +10243,162 @@
 			]
 		},
 		{
+			"name": "PoApprover",
+			"description": "",
+			"item": [
+				{
+					"name": "PoApprover: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PoApprover: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"UserName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PoApprover: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover/00001EQI",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PoApprover: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UsersId\": \"00000UL2\",\n    \"AppRoleId\": \"00000SJR\",\n    \"IsBackup\": true,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PoApprover: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PoApproverId\": \"00003GY1\",\n    \"HasLimit\": true,\n    \"LimitRental\": 1500,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PoApprover: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/poapprover/00003GY1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "PO Approver Role",
 			"description": "",
 			"item": [
