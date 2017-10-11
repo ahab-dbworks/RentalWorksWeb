@@ -18848,6 +18848,162 @@
 			]
 		},
 		{
+			"name": "VendorInvoiceApprover",
+			"description": "",
+			"item": [
+				{
+					"name": "VendorInvoiceApprover: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorInvoiceApprover: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"UserName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorInvoiceApprover: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover/A000J004",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorInvoiceApprover: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"LocationId\": \"\",\n    \"DepartmentId\": \"0000000I\",\n    \"UsersId\": \"00000WBV\",\n    \"SubVehicle\": true,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorInvoiceApprover: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VendorInvoiceApproverId\": \"00003GY8\",\n    \"SubLabor\": true,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "VendorInvoiceApprover: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/vendorinvoiceapprover/00003GY8",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Wall Type",
 			"description": "",
 			"item": [
