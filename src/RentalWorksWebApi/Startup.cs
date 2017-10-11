@@ -1,28 +1,25 @@
 ﻿using AutoMapper;
+using FwStandard.Options;
+using FwStandard.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using RentalWorksWebApi.Options;
 using RentalWorksWebApi.Policies;
+using RentalWorksWebLibrary;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
-using RentalWorksWebLibrary;
-using FwStandard.Options;
-using FwStandard.Security;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace RentalWorksWebApi
 {
@@ -162,7 +159,7 @@ namespace RentalWorksWebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "RentalWorksWeb API", Version = "v1" });
-                var filePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "RentalWorksWebApi.xml");
+                var filePath = Path.Combine(ApplicationEnvironment.ApplicationBasePath, "RentalWorksWebApi.xml");
                 c.IncludeXmlComments(filePath);
             });
         }
