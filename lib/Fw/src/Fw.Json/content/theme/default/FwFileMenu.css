@@ -54,6 +54,7 @@ html.theme-default .fwfilemenu[data-version="2"] .user-controls .usermenu {curso
 html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown {display:none;position:absolute;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;right:2px;min-width: 170px;}
 html.theme-default .fwfilemenu[data-version="2"] .user-controls.active .user-dropdown {display:block;}
 html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item {padding:6px;cursor:pointer;}
+html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown .staticinfo {font-size: 14px;text-align: center;border-top: 1px solid #616161;margin-top: 6px;padding: 6px;color: #BDBDBD;background-color: #424242;cursor: default;}
 
 /*#region Default Theme*/
 html.theme-default .fwfilemenu[data-version="2"] {background-color:#37474f;color:#fafafa;border-bottom:1px solid #263238;}

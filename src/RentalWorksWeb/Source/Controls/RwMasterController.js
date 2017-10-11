@@ -13,11 +13,11 @@ RwMasterController.getMasterView = function(viewModel, properties) {
     } else {
         $headerView = RwMasterController.getHeaderView();
     }
-    $footerView = RwMasterController.getFooterView();
+    //$footerView = RwMasterController.getFooterView();
 
     $view = jQuery(Mustache.render(jQuery('#tmpl-controls-Master').html(), combinedViewModel));
     $view.find('#master-header').append($headerView);
-    $view.find('#master-footer').append($footerView);
+    //$view.find('#master-footer').append($footerView);
 
     jQuery('html').addClass(applicationtheme);
 
@@ -287,12 +287,14 @@ RwMasterController.getHeaderView = function() {
     }
 
     FwFileMenu.renderUserControl($view, sessionStorage.getItem('userType'), sessionStorage.getItem('fullname'));
+    $view.find('.user-controls .copyright').html('Database Works © ' + new Date().getFullYear());
+    $view.find('.user-controls .version').html('RentalWorks v' + applicationConfig.version);
     RwMasterController.buildOfficeLocation($view);
     $view
-        .on('click', '.usersettings', function() {
+        .on('click', '.user-controls .usersettings', function() {
             try { program.getModule('module/usersettings'); } catch (ex) { FwFunc.showError(ex); }
         })
-        .on('click', '.logoff', function() {
+        .on('click', '.user-controls .logoff', function() {
             try { program.navigate('logoff'); } catch (ex) { FwFunc.showError(ex); }
         })
     ;

@@ -18,7 +18,7 @@ html.theme-default .fwtabs[data-version="2"] {display:flex;}
 html.theme-default .fwtabs[data-version="2"] > .tabs {flex:0 0 140px;}
 html.theme-default .fwtabs[data-version="2"] > .tabs .tab {font-size:14px;cursor:pointer;min-height:20px;display:flex;border-bottom:1px solid #9e9e9e;}
 html.theme-default .fwtabs[data-version="2"] > .tabs .tab .border {flex:0 0 6px;background-color:#424242;}
-html.theme-default .fwtabs[data-version="2"] > .tabs .tab.active {background-color:#ffffff;}
+html.theme-default .fwtabs[data-version="2"] > .tabs .tab.active {background-color:#ffffff;box-shadow: none;}
 html.theme-default .fwtabs[data-version="2"] > .tabs .tab.active .border {background-color:#2196f3;}
 html.theme-default .fwtabs[data-version="2"] > .tabs .tab .caption {padding:10px 6px;}
 html.theme-default .fwtabs[data-version="2"] > .tabs .tab[data-enabled="false"] {opacity:0.5;cursor:default;}
