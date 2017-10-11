@@ -15728,6 +15728,162 @@
 			]
 		},
 		{
+			"name": "SpaceType",
+			"description": "",
+			"item": [
+				{
+					"name": "SpaceType: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SpaceType: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SpaceType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SpaceType: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype/00003GYA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SpaceType: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SpaceType\": \"ABCSPACETYPE\",\n    \"SpaceTypeClassification\": \"SPACE TYPE\",\n    \"FacilityTypeId\": \"0000193M\",\n    \"RateId\": \"A0000TPI\",\n    \"Color\": 16777215,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SpaceType: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SpaceTypeId\": \"00003GYA\",\n    \"SpaceType\": \"ABCSPACETYPExx\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SpaceType: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/spacetype/00003GYA",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "State",
 			"description": "",
 			"item": [
