@@ -148,6 +148,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/generatortype$/,              getScreen: function () { return GeneratorTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/miscrate$/,                   getScreen: function () { return MiscRateController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborrate$/,                  getScreen: function () { return LaborRateController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/holiday$/,                    getScreen: function () { return HolidayController.getModuleScreen({}, {}); } }
 
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }

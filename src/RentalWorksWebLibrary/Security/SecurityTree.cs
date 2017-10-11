@@ -112,6 +112,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Generator Type", "{95D9D422-DCEB-4150-BCC2-79573B87AC4D}", lv2menuGeneratorSettings.Id, "GeneratorTypeController", "module/generatortype", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuHolidaySettings = AddLv2ModuleMenu("Holiday Settings", "{8A1C54ED-01B6-4EF5-AEBD-5E3F9F2563E0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                            AddModule("Holiday", "{CFFEFF09-A083-478E-913C-945184B5DE94}", lv2menuHolidaySettings.Id, "HolidayController", "module/holiday", settingsiconbaseurl + "placeholder.png");
                                             AddModule("Blackout Status", "{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}", lv2menuHolidaySettings.Id, "BlackoutStatusController", "module/blackoutstatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuInventorySettings = AddLv2ModuleMenu("Inventory Settings", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
@@ -223,7 +224,6 @@ namespace RentalWorksWebLibrary
                                              AddModule("Wardrobe Source", "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id, "WardrobeSourceController", "module/wardrobesource", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
-
 
             //Reports 
             //var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports",     "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id,                                                              reportsiconbaseurl + "placeholder.png", "Deal Reports");

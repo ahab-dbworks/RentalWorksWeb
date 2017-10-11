@@ -1163,6 +1163,8 @@
     <Content Include="Source\Modules\Settings\MiscRate\MiscRateForm.htm" />
     <Content Include="Source\Modules\Settings\GeneratorType\GeneratorTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\GeneratorType\GeneratorTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\Holiday\HolidayBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Holiday\HolidayForm.htm" />
     <Content Include="Source\Modules\Settings\VehicleType\VehicleTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\VehicleType\VehicleTypeForm.htm" />
     <Content Include="Source\Modules\Settings\BillingCycle\BillingCycle.js">
@@ -2314,6 +2316,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\LaborRate\LaborRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscRate\MiscRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorType\GeneratorType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Holiday\Holiday.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleType\VehicleType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\BlackoutStatus\BlackoutStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayerActivity\PresentationLayerActivity.ts" />
