@@ -11,8 +11,10 @@
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-noduplicate="true" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Approver" data-datafield="UserName" data-noduplicate="true" style="float:left;width:150px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Role" data-datafield="AppRole" data-noduplicate="true" style="float:left;width:150px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Approver" data-datafield="UsersId" data-displayfield="UserName" data-validationname="User" style="float:left;width:250px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Role" data-datafield="AppRoleId" data-displayfield="AppRole" data-validationname="POApproverRole" style="float:left;width:250px;"></div>
+                            </div>
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Backup" data-datafield="IsBackup" data-noduplicate="true" style="float:left;width:150px;"></div>
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Limit" data-datafield="HasLimit" data-noduplicate="true" style="float:left;width:150px;"></div>
                         </div>
