@@ -76,10 +76,8 @@ class POApprover {
       
         if ($limit == 'true') {
             $form.find('.limits').attr('data-enabled', 'true')
-            console.log("T")
         } else {
             $form.find('.limits').attr('data-enabled', 'false')
-            console.log("F")
         }
     }
 }
