@@ -43,7 +43,12 @@ class Deal {
     }
 
     renderGrids($form: any) {
-        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl;
+        var $companyTaxResaleGrid,
+            $companyTaxResaleControl,
+            $taxOptionGrid,
+            $taxOptionControl,
+            $contactGrid,
+            $contactControl;
 
         // load companytax Grid
         $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
@@ -69,6 +74,16 @@ class Deal {
         FwBrowse.init($taxOptionControl);
         FwBrowse.renderRuntimeHtml($taxOptionControl);
 
+        $contactGrid = $form.find('div[data-grid="ContactGrid"]');
+        $contactControl = jQuery(jQuery('#tmpl-grids-ContactGridBrowse').html());
+        $contactGrid.empty().append($contactControl);
+        $contactControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        FwBrowse.init($contactControl);
+        FwBrowse.renderRuntimeHtml($contactControl);
 
     }
 
@@ -102,13 +117,16 @@ class Deal {
     }
 
     afterLoad($form: any) {
-        var $companyTaxResaleGrid, $taxOptionGrid;
+        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid;
 
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
 
         $taxOptionGrid = $form.find('[data-name="TaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);
+
+        $contactGrid = $form.find('[data-name="ContactGrid"]');
+        FwBrowse.search($contactGrid);
     }
 }
 

@@ -42,6 +42,10 @@ class GeneratorType {
         return $browse;
     }
 
+    disableFields(): void {
+        jQuery('.disablefield').attr('data-required', 'false');
+    }
+
     renderGrids($form: any) {
         var $generatorTypeWarehouseGrid, $generatorTypeWarehouseControl;
 
@@ -92,6 +96,9 @@ class GeneratorType {
 
         $generatorTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
         FwBrowse.search($generatorTypeWarehouseGrid);
+
+        this.disableFields();
+
     }
 }
 
