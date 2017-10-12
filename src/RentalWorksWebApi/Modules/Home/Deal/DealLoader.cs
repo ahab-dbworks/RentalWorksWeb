@@ -209,10 +209,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "custcredit", modeltype: FwDataTypes.Boolean)]
         public bool UseCustomerCredit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "creditstatusid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealcreditstatusid", modeltype: FwDataTypes.Text)]
         public string CreditStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "creditstatus", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "dealcreditstatus", modeltype: FwDataTypes.Text)]
         public string CreditStatus { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crappthru", modeltype: FwDataTypes.UTCDateTime)]
@@ -299,20 +299,45 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string InsuranceCompanyId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "insvendor", modeltype: FwDataTypes.Text)]
         public string InsuranceCompany { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inscompagent", modeltype: FwDataTypes.Text)]
         public string InsuranceCompanyAgent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inscompadd1", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompadd2", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompcity", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyCity { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompstate", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyState { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompzip", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyZipCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompcountryid", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyCountryId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompcountry", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompphone", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inscompfax", modeltype: FwDataTypes.Text)]
+        public string InsuranceCompanyFax { get; set; }
+        //------------------------------------------------------------------------------------
+
+
+
         [FwSqlDataField(column: "vehicleinsurancecertification", modeltype: FwDataTypes.Boolean)]
         public bool VehicleInsuranceCertification { get; set; }
         //------------------------------------------------------------------------------------         
-
-
-
-
-
         [FwSqlDataField(column: "usecustomertax", modeltype: FwDataTypes.Boolean)]
         public bool UseCustomerTax { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -424,5 +449,11 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer)]
         public int? SubRentalEquipmentRebateRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string DefaultRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "securitydepositamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? SecurityDepositAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

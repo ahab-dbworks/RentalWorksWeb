@@ -71,6 +71,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string PaymentTypeId { get { return deal.PaymentTypeId; } set { deal.PaymentTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PaymentType { get; set; }
+        public string DefaultRate { get { return deal.DefaultRate; } set { deal.DefaultRate = value; } }
+
         public bool UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
         public bool UseDiscountTemplate { get { return deal.UseDiscountTemplate; } set { deal.UseDiscountTemplate = value; } }
         public string DiscountTemplateId { get { return deal.DiscountTemplateId; } set { deal.DiscountTemplateId = value; } }
@@ -129,17 +131,31 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public int? InsuranceCoverageLiabilityDeductible { get { return deal.InsuranceCoverageLiabilityDeductible; } set { deal.InsuranceCoverageLiabilityDeductible = value; } }
         public int? InsuranceCoverageProperty { get { return deal.InsuranceCoverageProperty; } set { deal.InsuranceCoverageProperty = value; } }
         public int? InsuranceCoveragePropertyDeductible { get { return deal.InsuranceCoveragePropertyDeductible; } set { deal.InsuranceCoveragePropertyDeductible = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SecurityDepositAmount { get; set; }
         public string InsuranceCompanyId { get { return deal.InsuranceCompanyId; } set { deal.InsuranceCompanyId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InsuranceCompany { get; set; }
         public string InsuranceCompanyAgent { get { return deal.InsuranceCompanyAgent; } set { deal.InsuranceCompanyAgent = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyAddress1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyAddress2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyState { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyZipCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCountryId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyCountry { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyPhone { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InsuranceCompanyFax { get; set; }
         public bool VehicleInsuranceCertification { get { return deal.VehicleInsuranceCertification; } set { deal.VehicleInsuranceCertification = value; } }
-
-
-
-
-
-
         public bool UseCustomerTax { get { return deal.UseCustomerTax; } set { deal.UseCustomerTax = value; } }
         public bool Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
         public string TaxStateOfIncorporationId { get { return deal.TaxStateOfIncorporationId; } set { deal.TaxStateOfIncorporationId = value; } }
