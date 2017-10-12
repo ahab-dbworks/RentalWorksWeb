@@ -1,7 +1,7 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
 
-class RwPOApprover {
+class POApprover {
     Module: string;
     apiurl: string;
 
@@ -55,7 +55,7 @@ class RwPOApprover {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="POApproverId"] input').val(uniqueids.POApproverId);
+        $form.find('div.fwformfield[data-datafield="PoApproverId"] input').val(uniqueids.PoApproverId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -67,13 +67,21 @@ class RwPOApprover {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="POApproverId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="PoApproverId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
     afterLoad($form: any) {
-
+        var $limit = $form.find('div.fwformfield[data-datafield="HasLimit"] input').val();
+      
+        if ($limit == 'true') {
+            $form.find('.limits').attr('data-enabled', 'true')
+            console.log("T")
+        } else {
+            $form.find('.limits').attr('data-enabled', 'false')
+            console.log("F")
+        }
     }
 }
 
-(<any>window).POApproverController = new RwPOApprover();
+(<any>window).POApproverController = new POApprover();
