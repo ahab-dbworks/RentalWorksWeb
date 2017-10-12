@@ -12,6 +12,7 @@ using RentalWorksWebApi.Options;
 using RentalWorksWebApi.Security;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -26,7 +27,7 @@ namespace RentalWorksApi.Controllers
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger _logger;
         private readonly JsonSerializerSettings _serializerSettings;
-
+        //---------------------------------------------------------------------------------------------
         public JwtController(IOptions<ApplicationConfig> appConfig, IOptions<JwtIssuerOptions> jwtOptions, ILoggerFactory loggerFactory)
         {
             _appConfig = appConfig.Value;
@@ -40,51 +41,54 @@ namespace RentalWorksApi.Controllers
                 Formatting = Formatting.Indented
             };
         }
-
+        //---------------------------------------------------------------------------------------------
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]ApplicationUser user)
         {
+            dynamic response = new ExpandoObject();
             var identity = await UserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
             if (identity == null)
             {
-                _logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})");
-                return BadRequest("Invalid credentials");
+                _logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})"); //MY 10/12/2017: Not sure we should log failed attempts with user entered info. Could be harvested to guess correct passwords.
+                //return BadRequest("Invalid credentials"); //MY 10/12/2017: Removed so we can control the error on front end.
+                response.statuscode    = 401; //Unauthorized
+                response.statusmessage = "Invalid user and/or password.";
             }
-
-            var jwtClaims = new[]
-                {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
-                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-            };
-            List<Claim> claims = new List<Claim>();
-            claims.AddRange(jwtClaims);
-            claims.AddRange(identity.Claims);
-            
-
-            // Create the JWT security token and encode it.
-            var jwt = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                audience: _jwtOptions.Audience,
-                claims: claims,
-                notBefore: _jwtOptions.NotBefore,
-                expires: _jwtOptions.Expiration,
-                signingCredentials: _jwtOptions.SigningCredentials);
-
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            // Serialize and return the response
-            var response = new
+            else
             {
-                access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
-            };
+                var jwtClaims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
+                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                };
+                List<Claim> claims = new List<Claim>();
+                claims.AddRange(jwtClaims);
+                claims.AddRange(identity.Claims);
+                
+
+                // Create the JWT security token and encode it.
+                var jwt = new JwtSecurityToken(
+                    issuer:             _jwtOptions.Issuer,
+                    audience:           _jwtOptions.Audience,
+                    claims:             claims,
+                    notBefore:          _jwtOptions.NotBefore,
+                    expires:            _jwtOptions.Expiration,
+                    signingCredentials: _jwtOptions.SigningCredentials);
+
+                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                // Serialize and return the response
+                response.statuscode   = 0;
+                response.access_token = encodedJwt;
+                response.expires_in   = (int)_jwtOptions.ValidFor.TotalSeconds;
+            }
 
             var json = JsonConvert.SerializeObject(response, _serializerSettings);
             return new OkObjectResult(json);
         }
-
+        //---------------------------------------------------------------------------------------------
         private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
@@ -104,9 +108,10 @@ namespace RentalWorksApi.Controllers
                 throw new ArgumentNullException(nameof(JwtIssuerOptions.JtiGenerator));
             }
         }
-
+        //---------------------------------------------------------------------------------------------
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
         private static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+        //---------------------------------------------------------------------------------------------
     }
 }
