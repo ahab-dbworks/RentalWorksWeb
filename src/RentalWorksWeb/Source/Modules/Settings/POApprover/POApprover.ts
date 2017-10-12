@@ -48,6 +48,16 @@ class POApprover {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="HasLimit"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.limits'))
+            }
+            else {
+                FwFormField.disable($form.find('.limits'))
+            }
+        });
+
         return $form;
     }
 
@@ -72,13 +82,14 @@ class POApprover {
     }
 
     afterLoad($form: any) {
-        var $limit = $form.find('div.fwformfield[data-datafield="HasLimit"] input').val();
-      
-        if ($limit == 'true') {
+        var $limit = $form.find('div.fwformfield[data-datafield="HasLimit"] input').prop('checked');
+     
+        if ($limit === true) {
             $form.find('.limits').attr('data-enabled', 'true')
         } else {
             $form.find('.limits').attr('data-enabled', 'false')
         }
+
     }
 }
 
