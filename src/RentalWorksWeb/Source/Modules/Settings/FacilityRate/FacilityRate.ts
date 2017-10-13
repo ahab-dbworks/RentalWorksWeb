@@ -131,12 +131,18 @@ class RwFacilityRate {
     afterLoad($form: any) {
         var $rateLocationTaxGrid: any;
         var $rateWarehouseGrid: any;
+        var $limit = $form.find('div.fwformfield[data-datafield="OverrideProfitAndLossCategory"] input').prop('checked');
 
         $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
         FwBrowse.search($rateLocationTaxGrid);
 
         $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
+
+        if ($limit === true) {
+            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'));
+        } 
 
     }
 
