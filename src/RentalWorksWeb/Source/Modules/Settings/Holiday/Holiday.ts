@@ -47,25 +47,24 @@ class Holiday {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());   
         if (mode === 'NEW') {
-            $form.find('.ifnew').attr('data-enabled', 'true')
-        }
-        $form = FwModule.openForm($form, mode);
-
-        
-
-        var type = $form.find('[data-datafield="Type"] .fwformfield-value:checked').val();
-        if (type === 'F') {
             $form.find('.fixeddate').show();
+            $form.find('.ifnew').attr('data-enabled', 'true')
+
+            var type = $form.find('[data-datafield="Type"] .fwformfield-value:checked').val();
+            if (type === 'F') {
+                $form.find('.fixeddate').show();
+            }
+            if (type === 'M') {
+                $form.find('.specificmonth').show();
+            }
+            if (type === 'S') {
+                $form.find('.mondaybefore').show()
+            }
+            if (type === 'O') {
+                $form.find('.offset').show();
+            }
         }
-        if (type === 'M') {
-            $form.find('.specificmonth').show();
-        }
-        if (type === 'S') {
-            $form.find('.mondaybefore').show()
-        }
-        if (type === 'O') {
-            $form.find('.offset').show();
-        }
+        $form = FwModule.openForm($form, mode);      
 
         $form.find('[data-datafield="Type"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this).val();
@@ -85,7 +84,15 @@ class Holiday {
             if ($this === 'O') {
                 $form.find('.offset').show();
             }
-        })
+        });
+
+        $form.find('[data-datafield="FixedMonth"] .fwformfield-value').on('change', function () {
+            $form.find('[data-datafield="FixedMonth"] input').val(jQuery(this).val())
+        });
+
+        $form.find('[data-datafield="Adjustment"] .fwformfield-value').on('change', function () {
+            $form.find('[data-datafield="Adjustment"] input').val(jQuery(this).val())
+        });
 
         $form.find('.datepicker').change(function () {
             var month = jQuery('div.datepicker').find('input').val().slice(0, 2);
@@ -145,6 +152,20 @@ class Holiday {
 
 
     afterLoad($form: any) {
+
+        var type = $form.find('[data-datafield="Type"] .fwformfield-value:checked').val();
+        if (type === 'F') {
+            $form.find('.fixeddate').show();
+        }
+        if (type === 'M') {
+            $form.find('.specificmonth').show();
+        }
+        if (type === 'S') {
+            $form.find('.mondaybefore').show()
+        }
+        if (type === 'O') {
+            $form.find('.offset').show();
+        }
 
     }
 }
