@@ -118,7 +118,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/poapproverrole$/,             getScreen: function() { return POApproverRoleController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobesource$/,             getScreen: function() { return WardrobeSourceController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/formdesign$/,                 getScreen: function() { return FormDesignController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorcatalog$/,              getScreen: function() { return VendorCatalogController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorcatalog$/,              getScreen: function () { return VendorCatalogController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/vendorinvoiceapprover$/,      getScreen: function () { return VendorInvoiceApproverController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/partscategory$/,              getScreen: function () { return PartsCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/salescategory$/,              getScreen: function () { return SalesCategoryController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/rentalcategory$/,             getScreen: function () { return RentalCategoryController.getModuleScreen({}, {}); } }

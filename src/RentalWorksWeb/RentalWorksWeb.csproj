@@ -1166,6 +1166,8 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
+    <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverForm.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingBrowse.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingForm.htm" />
     <Content Include="Source\Modules\Settings\SpaceType\SpaceTypeBrowse.htm" />
@@ -2336,6 +2338,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SpaceType\SpaceType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborRate\LaborRate.ts" />
