@@ -48,7 +48,9 @@ class Deal {
             $taxOptionGrid,
             $taxOptionControl,
             $contactGrid,
-            $contactControl;
+            $contactControl,
+            $dealNotesGrid,
+            $dealNotesControl;
 
         // load companytax Grid
         $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
@@ -85,13 +87,31 @@ class Deal {
         FwBrowse.init($contactControl);
         FwBrowse.renderRuntimeHtml($contactControl);
 
+        $dealNotesGrid = $form.find('div[data-grid="DealNotesGrid"]');
+        $dealNotesControl = jQuery(jQuery('#tmpl-grids-DealNotesGridBrowse').html());
+        $dealNotesGrid.empty().append($dealNotesControl);
+        $dealNotesControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        FwBrowse.init($dealNotesControl);
+        FwBrowse.renderRuntimeHtml($dealNotesControl);
+
     }
 
     openForm(mode: string) {
-        var $form;
+        var $form, $defaultrate;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+        $defaultrate = $form.find('.defaultrate');
+        FwFormField.loadItems($defaultrate, [
+            { value: 'DAILY', text: 'Daily Rate' }
+            , { value: 'WEEKLY', text: 'Weekly Rate' }
+            , { value: 'MONTHLY', text: 'Monthly Rate' }
+        ]);
 
         return $form;
     }
@@ -117,7 +137,10 @@ class Deal {
     }
 
     afterLoad($form: any) {
-        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid;
+        var $companyTaxResaleGrid,
+            $taxOptionGrid,
+            $contactGrid,
+            $dealNotesGrid;
 
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
@@ -127,6 +150,10 @@ class Deal {
 
         $contactGrid = $form.find('[data-name="ContactGrid"]');
         FwBrowse.search($contactGrid);
+
+        $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
+        FwBrowse.search($dealNotesGrid);
+
     }
 }
 

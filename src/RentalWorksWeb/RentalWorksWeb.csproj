@@ -1038,6 +1038,7 @@
     </Content>
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridBrowse.htm" />
+    <Content Include="Source\Grids\DealNotesGrid\DealNotesGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceRateGrid\SpaceRateGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceGrid\SpaceGridBrowse.htm" />
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
@@ -1061,6 +1062,7 @@
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DealNotesGrid\DealNotesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceRateGrid\SpaceRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceGrid\SpaceGridController.ts" />
@@ -1170,6 +1172,11 @@
     <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverForm.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingBrowse.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingForm.htm" />
+    <Content Include="Source\Modules\Settings\DiscountTemplate\DealType.js">
+      <DependentUpon>DiscountTemplate.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplateBrowse.htm" />
+    <Content Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplateForm.htm" />
     <Content Include="Source\Modules\Settings\SpaceType\SpaceTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\SpaceType\SpaceTypeForm.htm" />
     <Content Include="Source\Modules\Settings\LaborRate\LaborRateBrowse.htm" />
@@ -1756,6 +1763,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\DiscountTemplate\DiscountTemplateBrowse.htm" />
     <Content Include="Source\Validations\Holiday\HolidayBrowse.htm" />
     <Content Include="Source\Validations\POApproverRole\POApproverRoleBrowse.htm" />
     <Content Include="Source\Validations\DealType\DealTypeBrowse.htm" />
@@ -1964,6 +1972,7 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\DiscountTemplate\DiscountTemplate.cs" />
     <Compile Include="Source\Validations\DealType\DealType.cs" />
     <Compile Include="Source\Validations\Holiday\Holiday.cs" />
     <Compile Include="Source\Validations\POApproverRole\POApproverRole.cs" />
@@ -2309,6 +2318,9 @@
     <Content Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxGridController.js.map">
       <DependentUpon>CompanyTaxResaleGridController.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\DiscountTemplate\DealType.js.map">
+      <DependentUpon>DiscountTemplate.ts</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2342,6 +2354,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SpaceType\SpaceType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborRate\LaborRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscRate\MiscRate.ts" />

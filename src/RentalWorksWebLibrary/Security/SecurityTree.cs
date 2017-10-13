@@ -84,6 +84,8 @@ namespace RentalWorksWebLibrary
                                          AddModule("Production Type", "{993EBF0C-EDF0-47A2-8507-51492502088B}", lv2menuDealSettings.Id, "ProductionTypeController", "module/productiontype", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Schedule Type", "{8646d7bb-9676-4fdd-b9ea-db98045390f4}", lv2menuDealSettings.Id, "ScheduleTypeController", "module/scheduletype", settingsiconbaseurl + "placeholder.png");
 
+            AddModule("Discount Template", "{258D920E-7024-4F68-BF1F-F07F3613829C}", lv1menuSettings.Id, "DiscountTemplateController", "module/discounttemplate", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuDocumentSettings = AddLv2ModuleMenu("Document Settings", "{CE6E0F99-8A5E-4359-B1A1-ECBDCCC43659}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                              AddModule("Document Type", "{358fbe63-83a7-4ab4-973b-1a5520573674}", lv2menuDocumentSettings.Id, "DocumentTypeController", "module/documenttype", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Cover Letter", "{BE13DA09-E3AA-4520-A16C-F43F1A207EA5}", lv2menuDocumentSettings.Id, "CoverLetterController", "module/coverletter", settingsiconbaseurl + "placeholder.png");
@@ -293,6 +295,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Company Tax Resale",                     "{797FA2DB-87EC-4C60-8DA2-772E0010FA9E}", lv1menuGrids.Id, "CompanyTaxResaleGridController");
             AddGrid("Company Tax Option",                     "{B7E9F2F8-D28C-43C6-A91F-40B9B530C8A1}", lv1menuGrids.Id, "CompanyTaxOptionGridController");
             AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
+            AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNotesGridController");
         }
 
         //---------------------------------------------------------------------------------------------

@@ -151,6 +151,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/miscrate$/,                   getScreen: function () { return MiscRateController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborrate$/,                  getScreen: function () { return LaborRateController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/holiday$/,                    getScreen: function () { return HolidayController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/discounttemplate$/,           getScreen: function () { return DiscountTemplateController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/spacetype$/,                  getScreen: function () { return SpaceTypeController.getModuleScreen({}, {}); } }
 
     //Reports                                             

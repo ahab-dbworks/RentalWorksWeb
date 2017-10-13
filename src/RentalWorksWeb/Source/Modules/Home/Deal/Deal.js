@@ -28,7 +28,7 @@ var Deal = (function () {
         return $browse;
     };
     Deal.prototype.renderGrids = function ($form) {
-        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl;
+        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl;
         // load companytax Grid
         $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
         $companyTaxResaleControl = jQuery(jQuery('#tmpl-grids-CompanyTaxResaleGridBrowse').html());
@@ -61,11 +61,27 @@ var Deal = (function () {
         });
         FwBrowse.init($contactControl);
         FwBrowse.renderRuntimeHtml($contactControl);
+        $dealNotesGrid = $form.find('div[data-grid="DealNotesGrid"]');
+        $dealNotesControl = jQuery(jQuery('#tmpl-grids-DealNotesGridBrowse').html());
+        $dealNotesGrid.empty().append($dealNotesControl);
+        $dealNotesControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            };
+        });
+        FwBrowse.init($dealNotesControl);
+        FwBrowse.renderRuntimeHtml($dealNotesControl);
     };
     Deal.prototype.openForm = function (mode) {
-        var $form;
+        var $form, $defaultrate;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $defaultrate = $form.find('.defaultrate');
+        FwFormField.loadItems($defaultrate, [
+            { value: 'DAILY', text: 'Daily Rate' },
+            { value: 'WEEKLY', text: 'Weekly Rate' },
+            { value: 'MONTHLY', text: 'Monthly Rate' }
+        ]);
         return $form;
     };
     Deal.prototype.loadForm = function (uniqueids) {
@@ -84,13 +100,15 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
-        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid;
+        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid;
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);
         $contactGrid = $form.find('[data-name="ContactGrid"]');
         FwBrowse.search($contactGrid);
+        $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
+        FwBrowse.search($dealNotesGrid);
     };
     return Deal;
 }());
