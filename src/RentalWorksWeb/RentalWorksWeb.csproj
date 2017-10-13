@@ -1756,6 +1756,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\Holiday\HolidayBrowse.htm" />
     <Content Include="Source\Validations\POApproverRole\POApproverRoleBrowse.htm" />
     <Content Include="Source\Validations\DealType\DealTypeBrowse.htm" />
     <Content Include="Source\Validations\FacilityCategory\FacilityCategoryBrowse.htm" />
@@ -1964,6 +1965,7 @@
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
     <Compile Include="Source\Validations\DealType\DealType.cs" />
+    <Compile Include="Source\Validations\Holiday\Holiday.cs" />
     <Compile Include="Source\Validations\POApproverRole\POApproverRole.cs" />
     <Compile Include="Source\Validations\FacilityCategory\FacilityCategory.cs" />
     <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />

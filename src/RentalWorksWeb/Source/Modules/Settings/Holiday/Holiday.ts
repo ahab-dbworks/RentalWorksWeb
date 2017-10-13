@@ -111,7 +111,7 @@ class Holiday {
             { value: '12', text: '12' }            
             ], true);
 
-        FwFormField.loadItems($form.find('.beforeafter'), [
+        FwFormField.loadItems($form.find('.weekofmonth'), [
             { value: '0', text: '0'},
             { value: '1', text: '1' },
             { value: '2', text: '2' },
