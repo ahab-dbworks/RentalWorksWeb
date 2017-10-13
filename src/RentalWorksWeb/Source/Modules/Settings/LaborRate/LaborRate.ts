@@ -53,6 +53,7 @@ class RwLaborRate {
 
         $form = FwModule.openForm($form, mode);
 
+
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -136,6 +137,15 @@ class RwLaborRate {
 
         $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
+
+
+        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('.category [data-type="validation"]'))
+            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+        } else {
+            FwFormField.disable($form.find('.category [data-type="validation"]'))
+            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+        }
     }
 }
 

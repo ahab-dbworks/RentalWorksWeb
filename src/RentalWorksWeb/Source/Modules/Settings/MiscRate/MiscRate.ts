@@ -136,6 +136,14 @@ class RwMiscRate {
 
         $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
+
+        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('.category [data-type="validation"]'))
+            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+        } else {
+            FwFormField.disable($form.find('.category [data-type="validation"]'))
+            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
+        }
     }
 }
 

@@ -101,6 +101,7 @@ namespace RentalWorksWebLibrary
                                                AddModule("Facility Schedule Status", "{A693C2F7-DF16-4492-9DE5-FC672375C44E}", lv2menuFacilitiesSettings.Id, "FacilityScheduleStatusController", "module/facilityschedulestatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Status", "{DB2C8448-9287-4885-952F-BE3D0E4BFEF1}", lv2menuFacilitiesSettings.Id, "FacilityStatusController", "module/facilitystatus", settingsiconbaseurl + "placeholder.png");
                                                AddModule("Facility Category", "{67A9BEC5-4865-409C-9327-B2B8714DDAA8}", lv2menuFacilitiesSettings.Id, "FacilityCategoryController", "module/facilitycategory", settingsiconbaseurl + "placeholder.png");
+                                               AddModule("Space Type / Activity", "{EDF05CFB-9F6B-4771-88EB-6FD254CFE6C6}", lv2menuFacilitiesSettings.Id, "SpaceTypeController", "module/spacetype", settingsiconbaseurl + "placeholder.png");
 
             AddModule("Fiscal Year", "{6F87E62B-F17A-48CB-B673-16D12B6DFFB9}", lv1menuSettings.Id, "FiscalYearController", "module/fiscalyear", settingsiconbaseurl + "placeholder.png");
 
@@ -282,6 +283,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
             AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
+            AddGrid("Space Warehouse Rate",                   "{0F264871-A72C-48F7-9A6C-891208F52AD1}", lv1menuGrids.Id, "SpaceWarehouseRateGridController");
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
             AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
             AddGrid("Fiscal Month",                           "{EB2DCCD4-0747-4055-87A4-0C60D811AFB5}", lv1menuGrids.Id, "FiscalMonthGridController");

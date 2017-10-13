@@ -1037,6 +1037,7 @@
       <DependentUpon>FiscalMonthGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridBrowse.htm" />
+    <Content Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceRateGrid\SpaceRateGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceGrid\SpaceGridBrowse.htm" />
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
@@ -1060,6 +1061,7 @@
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceRateGrid\SpaceRateGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceGrid\SpaceGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FloorGrid\FloorGridController.ts" />
@@ -1166,6 +1168,8 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPageController.js" />
     <Content Include="Source\Modules\Settings\Building\BuildingBrowse.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingForm.htm" />
+    <Content Include="Source\Modules\Settings\SpaceType\SpaceTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\SpaceType\SpaceTypeForm.htm" />
     <Content Include="Source\Modules\Settings\LaborRate\LaborRateBrowse.htm" />
     <Content Include="Source\Modules\Settings\LaborRate\LaborRateForm.htm" />
     <Content Include="Source\Modules\Settings\MiscRate\MiscRateBrowse.htm" />
@@ -1755,6 +1759,7 @@
     <Content Include="Source\Validations\FacilityCategory\FacilityCategoryBrowse.htm" />
     <Content Include="Source\Validations\DealStatus\DealStatusBrowse.htm" />
     <Content Include="Source\Validations\DealClassification\DealClassificationBrowse.htm" />
+    <Content Include="Source\Validations\FacilityRate\FacilityRateBrowse.htm" />
     <Content Include="Source\Validations\LicenseClass\LicenseClassBrowse.htm" />
     <Content Include="Source\Validations\MiscType\MiscTypeBrowse.htm" />
     <Content Include="Source\Validations\User\UserBrowse.htm" />
@@ -1961,6 +1966,7 @@
     <Compile Include="Source\Validations\FacilityCategory\FacilityCategory.cs" />
     <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />
     <Compile Include="Source\Validations\DealClassification\DealClassification.cs" />
+    <Compile Include="Source\Validations\FacilityRate\FacilityRate.cs" />
     <Compile Include="Source\Validations\LicenseClass\LicenseClass.cs" />
     <Compile Include="Source\Validations\MiscType\MiscType.cs" />
     <Compile Include="Source\Validations\User\User.cs" />
@@ -2331,6 +2337,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\SpaceType\SpaceType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborRate\LaborRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MiscRate\MiscRate.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GeneratorType\GeneratorType.ts" />
