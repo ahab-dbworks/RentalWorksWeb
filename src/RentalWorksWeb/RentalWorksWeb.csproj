@@ -1044,6 +1044,10 @@
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
     <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
+    <Content Include="Source\Grids\VendorGrid\CompanyTaxGridController.js">
+      <DependentUpon>VendorGridController.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\VendorGrid\VendorGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseGrid\WarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridBrowse.htm" />
@@ -1069,6 +1073,7 @@
     <TypeScriptCompile Include="Source\Grids\FloorGrid\FloorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\VendorGrid\VendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseGrid\WarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridController.ts" />
@@ -2320,6 +2325,9 @@
     </Content>
     <Content Include="Source\Modules\Settings\DiscountTemplate\DealType.js.map">
       <DependentUpon>DiscountTemplate.ts</DependentUpon>
+    </Content>
+    <Content Include="Source\Grids\VendorGrid\CompanyTaxGridController.js.map">
+      <DependentUpon>VendorGridController.ts</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

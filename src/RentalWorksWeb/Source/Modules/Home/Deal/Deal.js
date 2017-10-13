@@ -28,7 +28,7 @@ var Deal = (function () {
         return $browse;
     };
     Deal.prototype.renderGrids = function ($form) {
-        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl;
+        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
         // load companytax Grid
         $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
         $companyTaxResaleControl = jQuery(jQuery('#tmpl-grids-CompanyTaxResaleGridBrowse').html());
@@ -71,6 +71,16 @@ var Deal = (function () {
         });
         FwBrowse.init($dealNotesControl);
         FwBrowse.renderRuntimeHtml($dealNotesControl);
+        $vendorGrid = $form.find('div[data-grid="VendorGrid"]');
+        $vendorControl = jQuery(jQuery('#tmpl-grids-VendorGridBrowse').html());
+        $vendorGrid.empty().append($vendorControl);
+        $vendorControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                VendorId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            };
+        });
+        FwBrowse.init($vendorControl);
+        FwBrowse.renderRuntimeHtml($vendorControl);
     };
     Deal.prototype.openForm = function (mode) {
         var $form, $defaultrate;
@@ -100,7 +110,7 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
-        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid;
+        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
@@ -109,6 +119,8 @@ var Deal = (function () {
         FwBrowse.search($contactGrid);
         $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
         FwBrowse.search($dealNotesGrid);
+        $vendorGrid = $form.find('[data-name="VendorGrid"]');
+        FwBrowse.search($vendorGrid);
     };
     return Deal;
 }());

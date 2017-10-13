@@ -296,6 +296,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Company Tax Option",                     "{B7E9F2F8-D28C-43C6-A91F-40B9B530C8A1}", lv1menuGrids.Id, "CompanyTaxOptionGridController");
             AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
             AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNotesGridController");
+            AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
         }
 
         //---------------------------------------------------------------------------------------------

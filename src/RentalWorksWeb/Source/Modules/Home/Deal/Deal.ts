@@ -50,7 +50,9 @@ class Deal {
             $contactGrid,
             $contactControl,
             $dealNotesGrid,
-            $dealNotesControl;
+            $dealNotesControl,
+            $vendorGrid,
+            $vendorControl;
 
         // load companytax Grid
         $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
@@ -98,6 +100,17 @@ class Deal {
         FwBrowse.init($dealNotesControl);
         FwBrowse.renderRuntimeHtml($dealNotesControl);
 
+        $vendorGrid = $form.find('div[data-grid="VendorGrid"]');
+        $vendorControl = jQuery(jQuery('#tmpl-grids-VendorGridBrowse').html());
+        $vendorGrid.empty().append($vendorControl);
+        $vendorControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                VendorId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+            }
+        });
+        FwBrowse.init($vendorControl);
+        FwBrowse.renderRuntimeHtml($vendorControl);
+
     }
 
     openForm(mode: string) {
@@ -140,7 +153,8 @@ class Deal {
         var $companyTaxResaleGrid,
             $taxOptionGrid,
             $contactGrid,
-            $dealNotesGrid;
+            $dealNotesGrid,
+            $vendorGrid;
 
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
@@ -154,6 +168,8 @@ class Deal {
         $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
         FwBrowse.search($dealNotesGrid);
 
+        $vendorGrid = $form.find('[data-name="VendorGrid"]');
+        FwBrowse.search($vendorGrid);
     }
 }
 
