@@ -63,8 +63,8 @@ class Deal {
         FwBrowse.renderRuntimeHtml($companyTaxResaleControl);
 
         // load vendornote Grid
-        $taxOptionGrid = $form.find('div[data-grid="TaxOptionGrid"]');
-        $taxOptionControl = jQuery(jQuery('#tmpl-grids-TaxOptionGridBrowse').html());
+        $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
         $taxOptionGrid.empty().append($taxOptionControl);
         $taxOptionControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -122,7 +122,7 @@ class Deal {
         $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
         FwBrowse.search($companyTaxResaleGrid);
 
-        $taxOptionGrid = $form.find('[data-name="TaxOptionGrid"]');
+        $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);
 
         $contactGrid = $form.find('[data-name="ContactGrid"]');

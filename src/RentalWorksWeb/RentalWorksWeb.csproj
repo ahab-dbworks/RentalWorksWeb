@@ -1751,11 +1751,13 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\POApproverRole\POApproverRoleBrowse.htm" />
+    <Content Include="Source\Validations\DealType\DealTypeBrowse.htm" />
     <Content Include="Source\Validations\FacilityCategory\FacilityCategoryBrowse.htm" />
     <Content Include="Source\Validations\DealStatus\DealStatusBrowse.htm" />
     <Content Include="Source\Validations\DealClassification\DealClassificationBrowse.htm" />
     <Content Include="Source\Validations\LicenseClass\LicenseClassBrowse.htm" />
     <Content Include="Source\Validations\MiscType\MiscTypeBrowse.htm" />
+    <Content Include="Source\Validations\User\UserBrowse.htm" />
     <Content Include="Source\Validations\ProductionType\ProductionTypeBrowse.htm" />
     <Content Include="Source\Validations\CustomerCategory\CustomerCategoryBrowse.htm" />
     <Content Include="Source\Validations\FacilityType\FacilityTypeBrowse.htm" />
@@ -1806,7 +1808,6 @@
     <Content Include="Source\Validations\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Validations\OfficeLocation\OfficeLocationBrowse.htm" />
     <Content Include="Source\Validations\CoverLetter\CoverLetterBrowse.htm" />
-    <Content Include="Source\Validations\User\UserBrowse.htm" />
     <Content Include="Source\Validations\CompanyDepartment\CompanyDepartmentBrowse.htm" />
     <Content Include="Source\Validations\RateType\RateTypeBrowse.htm" />
     <Content Include="Source\Validations\Deal\DealBrowse.htm" />
@@ -1955,12 +1956,14 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\Validations\DealType\DealType.cs" />
     <Compile Include="Source\Validations\POApproverRole\POApproverRole.cs" />
     <Compile Include="Source\Validations\FacilityCategory\FacilityCategory.cs" />
     <Compile Include="Source\Validations\DealStatus\DealStatus.cs" />
     <Compile Include="Source\Validations\DealClassification\DealClassification.cs" />
     <Compile Include="Source\Validations\LicenseClass\LicenseClass.cs" />
     <Compile Include="Source\Validations\MiscType\MiscType.cs" />
+    <Compile Include="Source\Validations\User\User.cs" />
     <Compile Include="Source\Validations\ProductionType\ProductionType.cs" />
     <Compile Include="Source\Validations\CustomerCategory\CustomerCategory.cs" />
     <Compile Include="Source\Validations\PresentationLayerActivity\PresentationLayerActivity.cs" />
@@ -2011,7 +2014,6 @@
     <Compile Include="Source\Validations\TermsConditions\TermsConditions.cs" />
     <Compile Include="Source\Validations\UserOfficeLocation\UserOfficeLocation.cs" />
     <Compile Include="Source\Validations\UserWarehouse\UserWarehouse.cs" />
-    <Compile Include="Source\Validations\User\User.cs" />
     <Compile Include="Source\Validations\POClassification\POClassification.cs" />
     <Compile Include="Source\Validations\VendorClass\VendorClass.cs" />
     <Compile Include="Source\Validations\Vendor\Vendor.cs" />
