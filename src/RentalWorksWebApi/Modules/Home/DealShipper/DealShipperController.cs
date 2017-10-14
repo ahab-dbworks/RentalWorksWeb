@@ -38,6 +38,13 @@ namespace RentalWorksWebApi.Modules.Home.DealShipper
             return await DoPostAsync<DealShipperLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/dealshipper
+        [HttpPost("saveform")]
+        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
+        {
+            return await DoSaveFormAsync<DealShipperLogic>(request, typeof(DealShipperLogic));
+        }
+        //------------------------------------------------------------------------------------
         // DELETE api/v1/dealshipper/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
