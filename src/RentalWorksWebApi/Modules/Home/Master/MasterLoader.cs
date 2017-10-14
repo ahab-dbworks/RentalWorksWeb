@@ -58,6 +58,9 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean)]
         public bool AutoCopyNotesToQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
+        public string Note { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 

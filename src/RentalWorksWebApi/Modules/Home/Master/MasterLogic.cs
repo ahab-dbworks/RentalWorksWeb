@@ -36,6 +36,21 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public string ProfitAndLossCategory { get; set; }
         public bool AutoCopyNotesToQuoteOrder { get { return master.AutoCopyNotesToQuoteOrder; } set { master.AutoCopyNotesToQuoteOrder = value; } }
 
+        [FwBusinessLogicField(isReadOnly: true)]  // todo: override the save
+        public string Note { get; set; }
+        public bool PrintNoteOnInContract { get { return master.PrintNoteOnInContract; } set { master.PrintNoteOnInContract = value; } }
+        public bool PrintNoteOnOutContract { get { return master.PrintNoteOnOutContract; } set { master.PrintNoteOnOutContract = value; } }
+        public bool PrintNoteOnReceiveContract { get { return master.PrintNoteOnReceiveContract; } set { master.PrintNoteOnReceiveContract = value; } }
+        public bool PrintNoteOnReturnContract { get { return master.PrintNoteOnReturnContract; } set { master.PrintNoteOnReturnContract = value; } }
+        public bool PrintNoteOnInvoice { get { return master.PrintNoteOnInvoice; } set { master.PrintNoteOnInvoice = value; } }
+        public bool PrintNoteOnOrder { get { return master.PrintNoteOnOrder; } set { master.PrintNoteOnOrder = value; } }
+        public bool PrintNoteOnPickList { get { return master.PrintNoteOnPickList; } set { master.PrintNoteOnPickList = value; } }
+        public bool PrintNoteOnPO { get { return master.PrintNoteOnPO; } set { master.PrintNoteOnPO = value; } }
+        public bool PrintNoteOnQuote { get { return master.PrintNoteOnQuote; } set { master.PrintNoteOnQuote = value; } }
+        public bool PrintNoteOnReturnList { get { return master.PrintNoteOnReturnList; } set { master.PrintNoteOnReturnList = value; } }
+        public bool PrintNoteOnPoReceiveList { get { return master.PrintNoteOnPoReceiveList; } set { master.PrintNoteOnPoReceiveList = value; } }
+        public bool PrintNoteOnPoReturnList { get { return master.PrintNoteOnPoReturnList; } set { master.PrintNoteOnPoReturnList = value; } }
+
 
 
 
