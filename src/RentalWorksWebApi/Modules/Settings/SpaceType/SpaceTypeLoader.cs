@@ -40,8 +40,8 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         [FwSqlDataField(column: "rateunit", modeltype: FwDataTypes.Text)]
         public string RateUnit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
-        public int? Color { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean)]
         public bool WhiteText { get; set; }

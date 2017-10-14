@@ -23,8 +23,8 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string FacilityTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        public int? Color { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "forreportsonly", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ForReportsOnly { get; set; }

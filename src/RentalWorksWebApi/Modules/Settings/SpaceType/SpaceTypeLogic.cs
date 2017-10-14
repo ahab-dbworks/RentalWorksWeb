@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         public string RateUnitId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RateUnit { get; set; }
-        public int? Color { get { return spaceType.Color; } set { spaceType.Color = value; } }
+        public string Color { get { return spaceType.Color; } set { spaceType.Color = value; } }
         public bool WhiteText { get { return spaceType.WhiteText; } set { spaceType.WhiteText = value; } }
         public int? OrderBy { get { return spaceType.OrderBy; } set { spaceType.OrderBy = value; } }
         public bool NonBillable { get { return spaceType.NonBillable; } set { spaceType.NonBillable = value; } }
