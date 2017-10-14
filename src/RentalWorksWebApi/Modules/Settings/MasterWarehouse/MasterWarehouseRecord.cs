@@ -68,6 +68,9 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool AvailabilityByAsset { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool QcRequired { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? AvailabilityQcDelay { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -149,9 +152,6 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "reorderqty", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Reorderqty { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qcrequired { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "newweek2rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Newweek2rate { get; set; }

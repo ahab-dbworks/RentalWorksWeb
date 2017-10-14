@@ -49,7 +49,6 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         //public int? ReorderPoint { get { return masterWarehouse.ReorderPoint; } set { masterWarehouse.ReorderPoint = value; } }
         //public int? Reorderqty { get { return masterWarehouse.Reorderqty; } set { masterWarehouse.Reorderqty = value; } }
         //public decimal? Maxdiscount { get { return masterWarehouse.Maxdiscount; } set { masterWarehouse.Maxdiscount = value; } }
-        //public bool Qcrequired { get { return masterWarehouse.Qcrequired; } set { masterWarehouse.Qcrequired = value; } }
         //public string Aisleloc { get { return masterWarehouse.Aisleloc; } set { masterWarehouse.Aisleloc = value; } }
         //public string Shelfloc { get { return masterWarehouse.Shelfloc; } set { masterWarehouse.Shelfloc = value; } }
         //public bool Availbyhour { get { return masterWarehouse.Availbyhour; } set { masterWarehouse.Availbyhour = value; } }
