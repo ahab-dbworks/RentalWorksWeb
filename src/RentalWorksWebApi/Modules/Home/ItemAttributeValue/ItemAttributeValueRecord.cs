@@ -2,17 +2,17 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.InventoryAttributeValue
+namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
 {
     [FwSqlTable("itemattribute")]
-    public class InventoryAttributeValueRecord : RwDataReadWriteRecord
+    public class ItemAttributeValueRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string InventoryAttributeValueId { get; set; } = "";
+        public string ItemAttributeValueId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string InventoryId { get; set; }
+        public string UniqueId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string AttributeId { get; set; }

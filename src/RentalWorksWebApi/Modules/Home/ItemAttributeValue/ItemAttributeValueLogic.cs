@@ -1,24 +1,23 @@
 using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.ItemAttributeValue;
 
-namespace RentalWorksWebApi.Modules.Home.InventoryAttributeValue
+namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
 {
-    public class InventoryAttributeValueLogic : RwBusinessLogic
+    public class ItemAttributeValueLogic : RwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ItemAttributeValueRecord itemAttribute = new ItemAttributeValueRecord();
-        InventoryAttributeValueLoader itemAttributeLoader = new InventoryAttributeValueLoader();
-        public InventoryAttributeValueLogic()
+        ItemAttributeValueLoader itemAttributeLoader = new ItemAttributeValueLoader();
+        public ItemAttributeValueLogic()
         {
             dataRecords.Add(itemAttribute);
             dataLoader = itemAttributeLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string InventoryAttributeValueId { get { return itemAttribute.ItemAttributeValueId; } set { itemAttribute.ItemAttributeValueId = value; } }
+        public string ItemAttributeValueId { get { return itemAttribute.ItemAttributeValueId; } set { itemAttribute.ItemAttributeValueId = value; } }
         public string AttributeId { get { return itemAttribute.AttributeId; } set { itemAttribute.AttributeId = value; } }
-        public string InventoryId { get { return itemAttribute.UniqueId; } set { itemAttribute.UniqueId = value; } }
+        public string ItemId { get { return itemAttribute.UniqueId; } set { itemAttribute.UniqueId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Attribute { get; set; }
         public string AttributeValueId { get { return itemAttribute.AttributeValueId; } set { itemAttribute.AttributeValueId = value; } }

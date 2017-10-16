@@ -54,10 +54,10 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         public decimal? Week5Rate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
-        public string AisleLoc { get; set; }
+        public string AisleLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
-        public string ShelfLoc { get; set; }
+        public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool AvailabilityByHour { get; set; }

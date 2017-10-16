@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         [FwBusinessLogicField(isReadOnly: true)]
         public string Consignor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string AgreementNo { get; set; }
+        public string AgreementNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AgreementDescription { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

@@ -134,10 +134,10 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         public bool QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text)]
-        public string AisleLoc { get; set; }
+        public string AisleLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text)]
-        public string ShelfLoc { get; set; }
+        public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
         public bool AvailabilityByHour { get; set; }

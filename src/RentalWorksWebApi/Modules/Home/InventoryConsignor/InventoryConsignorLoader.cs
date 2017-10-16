@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         public string Consignor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agreementno", modeltype: FwDataTypes.Text)]
-        public string AgreementNo { get; set; }
+        public string AgreementNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agreementdesc", modeltype: FwDataTypes.Text)]
         public string AgreementDescription { get; set; }

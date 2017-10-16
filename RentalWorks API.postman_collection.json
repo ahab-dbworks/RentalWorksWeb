@@ -47,6 +47,318 @@
 			]
 		},
 		{
+			"name": "Attribute",
+			"description": "",
+			"item": [
+				{
+					"name": "Attribute: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute/A0004NP3",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Attribute\": \"TEXTURESS\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"AttributeId\": \"00003AQV\",\n    \"Attribute\": \"TEXTUREX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attribute/00003AQV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attribute Value",
+			"description": "",
+			"item": [
+				{
+					"name": "Attribute Value: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute Value: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute Value: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue/00003271",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute Value: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"AttributeValue\": \"GOLD\",\n    \"AttributeId\": \"00001F67\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute Value: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"AttributeValueId\": \"00003H9Y\",\n    \"AttributeValue\": \"GOLDXX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attribute Value: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/attributevalue/00003H9Y",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Bar Code Range",
 			"description": "",
 			"item": [
@@ -7067,318 +7379,6 @@
 			]
 		},
 		{
-			"name": "Attribute",
-			"description": "",
-			"item": [
-				{
-					"name": "Attribute: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute/A0004NP3",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Attribute\": \"TEXTURESS\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"AttributeId\": \"00003AQV\",\n    \"Attribute\": \"TEXTUREX\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attribute/00003AQV",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Attribute Value",
-			"description": "",
-			"item": [
-				{
-					"name": "Attribute Value: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute Value: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute Value: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue/00003271",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute Value: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"AttributeValue\": \"GOLD\",\n    \"AttributeId\": \"00001F67\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute Value: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"AttributeValueId\": \"00003H9Y\",\n    \"AttributeValue\": \"GOLDXX\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Attribute Value: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/attributevalue/00003H9Y",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Inventory Condition",
 			"description": "",
 			"item": [
@@ -8921,6 +8921,474 @@
 					"name": "Inventory Type: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/inventorytype/00003DZI",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item",
+			"description": "",
+			"item": [
+				{
+					"name": "Item: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"TrackedByCode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"InventoryId\": \"000015P4\", \"WarehouseId\": \"0000000H\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item/00001PN5",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n// not supported\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ItemId\": \"00001PN5\",\n    \"InspectionNo\": \"100\",\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/item/00003EOV // not suported",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item Attribute Value",
+			"description": "",
+			"item": [
+				{
+					"name": "Item Attribute Value: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item Attribute Value: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item Attribute Value: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue/A0004NPA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item Attribute Value: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item Attribute Value: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ItemAttributeId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Item Attribute Value: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemattributevalue/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ItemQc",
+			"description": "",
+			"item": [
+				{
+					"name": "ItemQc: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ItemQc: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ItemQc: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc/00001LPG",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ItemQc: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n//not tested\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ItemQc: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n//not tested\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ItemQc: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/itemqc/00003EOV   // not supported",
 						"method": "DELETE",
 						"header": [
 							{
