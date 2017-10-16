@@ -1,12 +1,12 @@
-﻿class RentalInventoryWarehouseGrid {
+﻿class InventoryAvailabilityGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'RentalInventoryWarehouseGrid';
+        this.Module = 'InventoryAvailabilityGrid';
         this.apiurl = 'api/v1/inventorywarehouse';
     }
 }
 
-(<any>window).RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
+(<any>window).InventoryAvailabilityGridController = new InventoryAvailabilityGrid();
 //----------------------------------------------------------------------------------------------

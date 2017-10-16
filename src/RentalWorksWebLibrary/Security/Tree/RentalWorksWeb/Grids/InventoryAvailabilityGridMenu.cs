@@ -2,15 +2,15 @@
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    public class InventoryAttributeValueGridMenu : FwSecurityTreeBranch
+    public class InventoryAvailabilityGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public InventoryAttributeValueGridMenu() : base("{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}") { }
+        public InventoryAvailabilityGridMenu() : base("{8241ACB4-9346-43D6-8D3C-B6567FAA0270}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
-            var nodeGridMenuBar = tree.AddMenuBar("{CC68FF21-0CC4-49C2-BB7C-09DBCFC7EA7D}", MODULEID);
-            tree.AddEditMenuBarButton("{057DABBC-A3D4-4038-891A-96F90CE521B2}",   nodeGridMenuBar.Id);
+            var nodeGridMenuBar = tree.AddMenuBar("{5F781FBE-3CA4-45B6-860F-B58B602FF826}", MODULEID);
+            tree.AddEditMenuBarButton("{2F0015D5-E2A8-4A8A-84B7-3CFFC5A73DB2}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

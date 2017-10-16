@@ -1,12 +1,12 @@
-﻿class AttributeValueGrid {
+﻿class InventoryAttributeValueGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'AttributeValueGrid';
+        this.Module = 'InventoryAttributeValueGrid';
         this.apiurl = 'api/v1/attributevalue';
     }
 }
 
-(<any>window).AttributeValueGridController = new AttributeValueGrid();
+(<any>window).InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
 //----------------------------------------------------------------------------------------------

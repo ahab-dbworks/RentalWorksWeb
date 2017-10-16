@@ -1,12 +1,12 @@
-﻿class RentalInventoryWarehouseGrid {
+﻿class InventoryQcGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'RentalInventoryWarehouseGrid';
+        this.Module = 'InventoryQcGrid';
         this.apiurl = 'api/v1/inventorywarehouse';
     }
 }
 
-(<any>window).RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
+(<any>window).InventoryQcGridController = new InventoryQcGrid();
 //----------------------------------------------------------------------------------------------

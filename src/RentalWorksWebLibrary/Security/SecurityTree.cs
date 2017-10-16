@@ -264,7 +264,14 @@ namespace RentalWorksWebLibrary
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
             AddGrid("Item Location Tax",                      "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "ItemLocationTaxGridController");
-            AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
+            AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
+            AddGrid("Inventory Availability",                 "{8241ACB4-9346-43D6-8D3C-B6567FAA0270}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
+            AddGrid("Inventory Compatibility",                "{7416DAAE-2875-408B-AEEF-78481378C4C4}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
+            AddGrid("Inventory Complete Kit",                 "{797339C1-79C3-4FC0-82E4-7DA2FE150DDA}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
+            AddGrid("Inventory Consignment",                  "{0D22AF5B-CF50-41EA-A8CC-D039C402E4CC}", lv1menuGrids.Id, "InventoryConsignmentGridController");
+            AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
+            AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");
+            AddGrid("Inventory Vendor",                       "{C68281F9-0FC9-4FFE-8931-A5E501577AC3}", lv1menuGrids.Id, "InventoryVendorGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");

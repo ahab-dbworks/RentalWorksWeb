@@ -4,7 +4,7 @@
 
     constructor() {
         this.Module = 'ItemLocationTaxGrid';
-        this.apiurl = 'api/v1/itemlocationtax';
+        this.apiurl = 'api/v1/inventorylocationtax';
     }
 }
 
