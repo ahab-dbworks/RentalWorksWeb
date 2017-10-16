@@ -331,6 +331,8 @@
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
+    <Content Include="Source\Modules\Home\Asset\AssetForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -1491,6 +1493,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />

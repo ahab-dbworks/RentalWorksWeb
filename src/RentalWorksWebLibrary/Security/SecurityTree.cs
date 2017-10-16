@@ -44,12 +44,13 @@ namespace RentalWorksWebLibrary
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
 
             //RentalWorks
-            AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", homeiconbaseurl + "placeholder.png");
-            AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
-            AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", homeiconbaseurl + "placeholder.png");
-            AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
-            AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
-            AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Asset", "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuRentalWorks.Id, "AssetController", "module/asset", fileiconbaseurl + "placeholder.png");
+            AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", fileiconbaseurl + "contact.png");
+            AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", fileiconbaseurl + "placeholder.png");
+            AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", fileiconbaseurl + "contact.png");
+            AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", fileiconbaseurl + "contact.png");
+            AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", fileiconbaseurl + "contact.png");
+            AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", fileiconbaseurl + "contact.png");
             
 
             //Settings 

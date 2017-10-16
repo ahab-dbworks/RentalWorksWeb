@@ -84,6 +84,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/vehiclecolor$/,               getScreen: function() { return VehicleColorController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/facilityschedulestatus$/,     getScreen: function() { return FacilityScheduleStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/unit$/,                       getScreen: function () { return UnitController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/asset$/,                      getScreen: function () { return AssetController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/poapprover$/,                 getScreen: function () { return POApproverController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/userstatus$/,                 getScreen: function () { return UserStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/crewstatus/,                  getScreen: function () { return CrewStatusController.getModuleScreen({}, {}); } }
