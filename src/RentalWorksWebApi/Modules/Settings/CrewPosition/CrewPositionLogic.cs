@@ -4,28 +4,28 @@ using RentalWorksWebApi.Modules.Home.Master;
 using RentalWorksWebApi.Modules.Home.Inventory;
 using RentalWorksWebApi.Modules.Settings.Rate;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityRate
+namespace RentalWorksWebApi.Modules.Settings.CrewPosition
 {
-    public class FacilityRateLogic : RateLogic 
+    public class CrewPositionLogic : RateLogic 
     {
         //------------------------------------------------------------------------------------ 
-        FacilityRateLoader inventoryLoader = new FacilityRateLoader();
-        public FacilityRateLogic()
+        CrewPositionLoader crewPositionLoader = new CrewPositionLoader();
+        public CrewPositionLogic()
         {
-            dataLoader = inventoryLoader;
+            dataLoader = crewPositionLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
+        public string PositionId { get { return master.MasterId; } set { master.MasterId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string FacilityTypeId { get; set; }
+        public string LaborTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string FacilityType { get; set; }
+        public string LaborType { get; set; }
 
         public override void BeforeSave()
         {
-            AvailFor = "M";
-            Classification = "SP";
+            AvailFor = "L";
+            Classification = "LP";
         }
         //------------------------------------------------------------------------------------ 
     }

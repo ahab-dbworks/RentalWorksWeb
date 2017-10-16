@@ -37,6 +37,8 @@ namespace RentalWorksWebApi.Modules.Settings.RateWarehouse
         public decimal? MonthlyCost { get { return masterWarehouse.MonthlyCost; } set { masterWarehouse.MonthlyCost = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MonthlyMarkupPercent { get; set; }
+        public string DefaultStartTime { get { return masterWarehouse.DefaultStartTime; } set { masterWarehouse.DefaultStartTime = value; } }
+        public string DefaultStopTime { get { return masterWarehouse.DefaultStopTime; } set { masterWarehouse.DefaultStopTime = value; } }
         //------------------------------------------------------------------------------------
     }
 

@@ -15,6 +15,8 @@ namespace RentalWorksWebApi.Modules.Settings.MiscRate
             dataLoader = inventoryLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string RateId { get { return master.MasterId; } set { master.MasterId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string MiscTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

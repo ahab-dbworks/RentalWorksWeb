@@ -13,6 +13,9 @@ namespace RentalWorksWebApi.Modules.Settings.LaborRate
     public class LaborRateLoader : RateLoader
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string RateId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string LaborTypeId { get; set; }
         //------------------------------------------------------------------------------------ 

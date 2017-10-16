@@ -74,10 +74,14 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? AvailabilityQcDelay { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
         [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool AllowAllUsersAddToOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
+        public string DefaultStartTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
+        public string DefaultStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
 
 
@@ -215,12 +219,6 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "oldweek5rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Oldweek5rate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
-        //public string Starttime { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
-        //public string Stoptime { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "physicalid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string PhysicalId { get; set; }

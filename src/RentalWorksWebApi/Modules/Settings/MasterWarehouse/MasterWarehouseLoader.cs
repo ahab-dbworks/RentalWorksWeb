@@ -154,5 +154,11 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean)]
         public bool AllowAllUsersAddToOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text)]
+        public string DefaultStartTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text)]
+        public string DefaultStopTime { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }
