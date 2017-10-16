@@ -71,12 +71,12 @@ var Deal = (function () {
         });
         FwBrowse.init($dealNotesControl);
         FwBrowse.renderRuntimeHtml($dealNotesControl);
-        $vendorGrid = $form.find('div[data-grid="VendorGrid"]');
-        $vendorControl = jQuery(jQuery('#tmpl-grids-VendorGridBrowse').html());
+        $vendorGrid = $form.find('div[data-grid="DealShipperGrid"]');
+        $vendorControl = jQuery(jQuery('#tmpl-grids-DealShipperGridBrowse').html());
         $vendorGrid.empty().append($vendorControl);
         $vendorControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                VendorId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+                DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
         });
         FwBrowse.init($vendorControl);
@@ -119,7 +119,7 @@ var Deal = (function () {
         FwBrowse.search($contactGrid);
         $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
         FwBrowse.search($dealNotesGrid);
-        $vendorGrid = $form.find('[data-name="VendorGrid"]');
+        $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
     };
     return Deal;
