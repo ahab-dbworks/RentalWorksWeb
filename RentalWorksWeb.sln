@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebApi", "src\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebLibrary", "src\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwFrontEndLibrary", "..\Fw\src\FwFrontEndLibrary\FwFrontEndLibrary.csproj", "{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwFrontEndLibrary", "lib\Fw\src\FwFrontEndLibrary\FwFrontEndLibrary.csproj", "{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
