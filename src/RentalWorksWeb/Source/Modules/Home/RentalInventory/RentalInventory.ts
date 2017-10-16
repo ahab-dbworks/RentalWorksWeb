@@ -58,14 +58,6 @@ class RentalInventory {
             }
         });
 
-        FwFormField.loadItems($form.find('.lamps'), [
-            { value: '0', text: '0' },
-            { value: '1', text: '1' },
-            { value: '2', text: '2' },
-            { value: '3', text: '3' },
-            { value: '4', text: '4' }
-        ], true);
-
         return $form;
     }
 
@@ -83,6 +75,14 @@ class RentalInventory {
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
         ]);
+
+        FwFormField.loadItems($form.find('.lamps'), [
+            { value: '0', text: '0' },
+            { value: '1', text: '1' },
+            { value: '2', text: '2' },
+            { value: '3', text: '3' },
+            { value: '4', text: '4' }
+        ], true);
 
         return $form;
     }

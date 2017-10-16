@@ -31,6 +31,15 @@ var SalesInventory = (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+            }
+        });
         return $form;
     };
     SalesInventory.prototype.loadForm = function (uniqueids) {
@@ -58,22 +67,163 @@ var SalesInventory = (function () {
     SalesInventory.prototype.renderGrids = function ($form) {
         var $itemLocationTaxGrid;
         var $itemLocationTaxGridControl;
+        var $rentalInventoryWarehouseGrid;
+        var $rentalInventoryWarehouseGridControl;
+        var $inventoryAvailabilityGrid;
+        var $inventoryAvailabilityGridControl;
+        var $inventoryConsignmentGrid;
+        var $inventoryConsignmentGridControl;
+        var $inventoryCompleteKitGrid;
+        var $inventoryCompleteKitGridControl;
+        var $inventorySubstituteGrid;
+        var $inventorySubstituteGridControl;
+        var $inventoryCompatibilityGrid;
+        var $inventoryCompatibilityGridControl;
+        var $inventoryQcGrid;
+        var $inventoryQcGridControl;
+        var $inventoryAttributeValueGrid;
+        var $inventoryAttributeValueGridControl;
+        var $inventoryVendorGrid;
+        var $inventoryVendorGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
         $itemLocationTaxGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ItemId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
         FwBrowse.init($itemLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
+        $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
+        $rentalInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RentalInventoryWarehouseGridBrowse').html());
+        $rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
+        $rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($rentalInventoryWarehouseGridControl);
+        FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
+        $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
+        $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
+        $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
+        $inventoryAvailabilityGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryAvailabilityGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
+        $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
+        $inventoryConsignmentGridControl = jQuery(jQuery('#tmpl-grids-InventoryConsignmentGridBrowse').html());
+        $inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
+        $inventoryConsignmentGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryConsignmentGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
+        $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
+        $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
+        $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
+        $inventoryCompleteKitGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryCompleteKitGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
+        $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
+        $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-InventorySubstituteGridBrowse').html());
+        $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
+        $inventorySubstituteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventorySubstituteGridControl);
+        FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
+        $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
+        $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompatibilityGridBrowse').html());
+        $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
+        $inventoryCompatibilityGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryCompatibilityGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
+        $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
+        $inventoryQcGridControl = jQuery(jQuery('#tmpl-grids-InventoryQcGridBrowse').html());
+        $inventoryQcGrid.empty().append($inventoryQcGridControl);
+        $inventoryQcGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryQcGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
+        $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
+        $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
+        $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
+        $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryAttributeValueGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
+        $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
+        $inventoryVendorGridControl = jQuery(jQuery('#tmpl-grids-InventoryVendorGridBrowse').html());
+        $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
+        $inventoryVendorGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryVendorGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
     };
     SalesInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
+        var $rentalInventoryWarehouseGrid;
+        var $inventoryAvailabilityGrid;
+        var $inventoryConsignmentGrid;
+        var $inventoryCompleteKitGrid;
+        var $inventorySubstituteGrid;
+        var $inventoryCompatibilityGrid;
+        var $inventoryQcGrid;
+        var $inventoryAttributeValueGrid;
+        var $inventoryVendorGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
+        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
+        FwBrowse.search($rentalInventoryWarehouseGrid);
+        $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
+        FwBrowse.search($inventoryAvailabilityGrid);
+        $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
+        FwBrowse.search($inventoryConsignmentGrid);
+        $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
+        FwBrowse.search($inventoryCompleteKitGrid);
+        $inventorySubstituteGrid = $form.find('[data-name="InventorySubstituteGrid"]');
+        FwBrowse.search($inventorySubstituteGrid);
+        $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
+        FwBrowse.search($inventoryCompatibilityGrid);
+        $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
+        FwBrowse.search($inventoryQcGrid);
+        $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
+        FwBrowse.search($inventoryAttributeValueGrid);
+        $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
+        FwBrowse.search($inventoryVendorGrid);
+        if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
+        }
     };
     return SalesInventory;
 }());
