@@ -1105,9 +1105,9 @@
     <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.js">
       <DependentUpon>CompanyTaxGridController.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
-    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js">
-      <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
+    <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
+    <Content Include="Source\Grids\AttributeValueGrid\InventoryAttributeValueGridController.js">
+      <DependentUpon>AttributeValueGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Grids\OrderContractNote\OrderContractNoteBrowse.htm" />
     <Content Include="Source\Grids\OrderContractNote\RwOrderContractNoteGridController.js" />
@@ -1154,7 +1154,7 @@
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\Customer.js">
       <DependentUpon>Customer.ts</DependentUpon>
@@ -1503,8 +1503,8 @@
     <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.js">
       <DependentUpon>InventoryAdjustmentReason.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.js">
-      <DependentUpon>InventoryAttribute.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\Attribute\InventoryAttribute.js">
+      <DependentUpon>Attribute.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\MailList\MailList.js">
       <DependentUpon>MailList.ts</DependentUpon>
@@ -1584,8 +1584,8 @@
       <DependentUpon>CustomerType.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\DealStatus\DealStatusSettings.htm" />
-    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeBrowse.htm" />
-    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttributeForm.htm" />
+    <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
     <Content Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusBrowse.htm" />
     <Content Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatusForm.htm" />
     <Content Include="Source\Modules\Settings\POImportance\POImportanceBrowse.htm" />
@@ -2148,8 +2148,8 @@
     <Content Include="Source\Modules\Settings\InventoryAdjustmentReason\InventoryAdjustmentReason.js.map">
       <DependentUpon>InventoryAdjustmentReason.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.js.map">
-      <DependentUpon>InventoryAttribute.ts</DependentUpon>
+    <Content Include="Source\Modules\Settings\Attribute\InventoryAttribute.js.map">
+      <DependentUpon>Attribute.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\MailList\MailList.js.map">
       <DependentUpon>MailList.ts</DependentUpon>
@@ -2203,8 +2203,8 @@
     <Content Include="Source\Modules\Settings\CoverLetter\CoverLetter.js.map">
       <DependentUpon>CoverLetter.ts</DependentUpon>
     </Content>
-    <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.js.map">
-      <DependentUpon>InventoryAttributeValueGridController.ts</DependentUpon>
+    <Content Include="Source\Grids\AttributeValueGrid\InventoryAttributeValueGridController.js.map">
+      <DependentUpon>AttributeValueGridController.ts</DependentUpon>
     </Content>
     <Content Include="Source\Modules\Settings\GeneratorFuelType\GeneratorFuelType.js.map">
       <DependentUpon>GeneratorFuelType.ts</DependentUpon>
@@ -2430,7 +2430,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleFuelType\VehicleFuelType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleRating\VehicleRating.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VehicleScheduleStatus\VehicleScheduleStatus.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\CrewScheduleStatus\CrewScheduleStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POImportance\POImportance.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RetiredReason\RetiredReason.ts" />

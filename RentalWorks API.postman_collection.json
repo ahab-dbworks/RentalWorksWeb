@@ -7067,13 +7067,13 @@
 			]
 		},
 		{
-			"name": "Inventory Attribute",
+			"name": "Attribute",
 			"description": "",
 			"item": [
 				{
-					"name": "Inventory Attribute: Get Many",
+					"name": "Attribute: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute",
+						"url": "http://localhost:57949/api/v1/attribute",
 						"method": "GET",
 						"header": [
 							{
@@ -7096,9 +7096,9 @@
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute: Browse",
+					"name": "Attribute: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute/browse",
+						"url": "http://localhost:57949/api/v1/attribute/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -7114,16 +7114,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"InventoryAttribute\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryAttribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute: Get One",
+					"name": "Attribute: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute/A0004NP3",
+						"url": "http://localhost:57949/api/v1/attribute/A0004NP3",
 						"method": "GET",
 						"header": [
 							{
@@ -7146,9 +7146,9 @@
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute: Insert",
+					"name": "Attribute: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute",
+						"url": "http://localhost:57949/api/v1/attribute",
 						"method": "POST",
 						"header": [
 							{
@@ -7164,16 +7164,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"InventoryAttribute\": \"TEXTURE\"\n}"
+							"raw": "{\n    \"Attribute\": \"TEXTURESS\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute: Update",
+					"name": "Attribute: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute",
+						"url": "http://localhost:57949/api/v1/attribute",
 						"method": "POST",
 						"header": [
 							{
@@ -7189,16 +7189,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"InventoryAttributeId\": \"00003AQV\",\n    \"InventoryAttribute\": \"TEXTUREX\",\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"AttributeId\": \"00003AQV\",\n    \"Attribute\": \"TEXTUREX\",\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute: Delete",
+					"name": "Attribute: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattribute/00003AQV",
+						"url": "http://localhost:57949/api/v1/attribute/00003AQV",
 						"method": "DELETE",
 						"header": [
 							{
@@ -7223,13 +7223,13 @@
 			]
 		},
 		{
-			"name": "Inventory Attribute Value",
+			"name": "Attribute Value",
 			"description": "",
 			"item": [
 				{
-					"name": "Inventory Attribute Value: Get Many",
+					"name": "Attribute Value: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
+						"url": "http://localhost:57949/api/v1/attributevalue",
 						"method": "GET",
 						"header": [
 							{
@@ -7252,9 +7252,9 @@
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute Value: Browse",
+					"name": "Attribute Value: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue/browse",
+						"url": "http://localhost:57949/api/v1/attributevalue/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -7270,16 +7270,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"InventoryAttributeValue\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryAttribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute Value: Get One",
+					"name": "Attribute Value: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue/00003AQX",
+						"url": "http://localhost:57949/api/v1/attributevalue/00003271",
 						"method": "GET",
 						"header": [
 							{
@@ -7302,9 +7302,9 @@
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute Value: Insert",
+					"name": "Attribute Value: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
+						"url": "http://localhost:57949/api/v1/attributevalue",
 						"method": "POST",
 						"header": [
 							{
@@ -7320,16 +7320,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"InventoryAttributeValue\": \"GOLD\",\n    \"InventoryAttributeId\": \"00001F67\"\n}"
+							"raw": "{\n    \"AttributeValue\": \"GOLD\",\n    \"AttributeId\": \"00001F67\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute Value: Update",
+					"name": "Attribute Value: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
+						"url": "http://localhost:57949/api/v1/attributevalue",
 						"method": "POST",
 						"header": [
 							{
@@ -7345,16 +7345,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"InventoryAttributeValueId\": \"00003AQZ\",\n    \"InventoryAttributeValue\": \"GOLDXX\",\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"AttributeValueId\": \"00003H9Y\",\n    \"AttributeValue\": \"GOLDXX\",\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Inventory Attribute Value: Delete",
+					"name": "Attribute Value: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventoryattributevalue/00003AQZ",
+						"url": "http://localhost:57949/api/v1/attributevalue/00003H9Y",
 						"method": "DELETE",
 						"header": [
 							{
@@ -7535,13 +7535,13 @@
 			]
 		},
 		{
-			"name": "Item Warehouse",
+			"name": "Inventory Attribute Value",
 			"description": "",
 			"item": [
 				{
-					"name": "Item Warehouse: Get Many",
+					"name": "Inventory Attribute Value: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse",
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
 						"method": "GET",
 						"header": [
 							{
@@ -7564,9 +7564,9 @@
 					"response": []
 				},
 				{
-					"name": "Item Warehouse: Browse",
+					"name": "Inventory Attribute Value: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse/browse",
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -7582,16 +7582,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueid\": {\"ItemId\": \"00003GGY\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Attribute\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Item Warehouse: Get One",
+					"name": "Inventory Attribute Value: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse/00003GGY~A000ILYF",
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue/A0004NPA",
 						"method": "GET",
 						"header": [
 							{
@@ -7614,246 +7614,9 @@
 					"response": []
 				},
 				{
-					"name": "Item Warehouse: Insert",
+					"name": "Inventory Attribute Value: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t// not yet tested\n}\n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Item Warehouse: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t// not yet tested\n}\n"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Item Warehouse: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemwarehouse/<<not implemented>>",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Item Complete/Kit",
-			"description": "",
-			"item": [
-				{
-					"name": "Item Complete/Kit: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompletekit",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Item Complete/Kit: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompletekit/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueid\": {\"ItemId\": \"00003GGY\"}\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Item Complete/Kit: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompletekit/000011IQ~000011J1",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "ItemCompatible",
-			"description": "",
-			"item": [
-				{
-					"name": "ItemCompatible: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "ItemCompatible: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "ItemCompatible: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible/00002WPC",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "ItemCompatible: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible",
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
 						"method": "POST",
 						"header": [
 							{
@@ -7876,9 +7639,402 @@
 					"response": []
 				},
 				{
-					"name": "ItemCompatible: Update",
+					"name": "Inventory Attribute Value: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible",
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ItemAttributeId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Attribute Value: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryattributevalue/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Warehouse",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Warehouse: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Warehouse: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueid\": {\"ItemId\": \"00003GGY\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Warehouse: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse/00003GGY~A000ILYF",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Warehouse: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t// not yet tested\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Warehouse: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t// not yet tested\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Warehouse: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorywarehouse/<<not implemented>>",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Complete/Kit",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Complete/Kit: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompletekit",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Complete/Kit: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompletekit/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueid\": {\"ItemId\": \"00003GGY\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Complete/Kit: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompletekit/000011IQ~000011J1",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Compatible",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Compatible: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompatible",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Compatible: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompatible/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Compatible: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompatible/00001LJI",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Compatible: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompatible",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Compatible: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycompatible",
 						"method": "POST",
 						"header": [
 							{
@@ -7901,9 +8057,9 @@
 					"response": []
 				},
 				{
-					"name": "ItemCompatible: Delete",
+					"name": "Inventory Compatible: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemcompatible/00003EOV",
+						"url": "http://localhost:57949/api/v1/inventorycompatible/00003EOV",
 						"method": "DELETE",
 						"header": [
 							{
@@ -7928,13 +8084,13 @@
 			]
 		},
 		{
-			"name": "ItemConsignor",
+			"name": "Inventory Consignor",
 			"description": "",
 			"item": [
 				{
-					"name": "ItemConsignor: Get Many",
+					"name": "Inventory Consignor: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemconsignor",
+						"url": "http://localhost:57949/api/v1/inventoryconsignor",
 						"method": "GET",
 						"header": [
 							{
@@ -7957,9 +8113,9 @@
 					"response": []
 				},
 				{
-					"name": "ItemConsignor: Browse",
+					"name": "Inventory Consignor: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemconsignor/browse",
+						"url": "http://localhost:57949/api/v1/inventoryconsignor/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -7982,9 +8138,9 @@
 					"response": []
 				},
 				{
-					"name": "ItemConsignor: Get One",
+					"name": "Inventory Consignor: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemconsignor/00002WPC",
+						"url": "http://localhost:57949/api/v1/inventoryconsignor/00002WPC",
 						"method": "GET",
 						"header": [
 							{
@@ -8009,13 +8165,13 @@
 			]
 		},
 		{
-			"name": "Item Location Tax",
+			"name": "Inventory Location Tax",
 			"description": "",
 			"item": [
 				{
-					"name": "Item Location Tax: Get Many",
+					"name": "Inventory Location Tax: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax",
 						"method": "GET",
 						"header": [
 							{
@@ -8038,9 +8194,9 @@
 					"response": []
 				},
 				{
-					"name": "Item Location Tax: Browse",
+					"name": "Inventory Location Tax: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax/browse",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -8056,16 +8212,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ItemId\": \"00000SH5\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"ItemId\": \"00000SH5\"}\n\t\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Item Location Tax: Get One",
+					"name": "Inventory Location Tax: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax/7656~",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax/7656~",
 						"method": "GET",
 						"header": [
 							{
@@ -8088,9 +8244,9 @@
 					"response": []
 				},
 				{
-					"name": "Item Location Tax: Insert",
+					"name": "Inventory Location Tax: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax",
 						"method": "POST",
 						"header": [
 							{
@@ -8106,16 +8262,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ItemId\": \"ABC\",\n    \"LocationId\": \"00000VVW\",\n    \"Taxable\": true,\n    \"ModByUsersId\": \"A000001Q\",\n}"
+							"raw": "{\n    \"InventoryId\": \"ABC\",\n    \"LocationId\": \"00000VVW\",\n    \"Taxable\": true,\n    \"ModByUsersId\": \"A000001Q\",\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Item Location Tax: Update",
+					"name": "Inventory Location Tax: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax",
 						"method": "POST",
 						"header": [
 							{
@@ -8131,16 +8287,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ItemId\": \"DEF\",\n    \"Id\": \"7656\",\n    \"InternalChar\": \"\",\n}"
+							"raw": "{\n    \"InventoryId\": \"DEF\",\n    \"Id\": \"7656\",\n    \"InternalChar\": \"\",\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Item Location Tax: Delete",
+					"name": "Inventory Location Tax: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/itemlocationtax/7656~",
+						"url": "http://localhost:57949/api/v1/inventorylocationtax/7656~",
 						"method": "DELETE",
 						"header": [
 							{
@@ -8165,13 +8321,13 @@
 			]
 		},
 		{
-			"name": "Item Substitute",
+			"name": "Inventory Vendor",
 			"description": "",
 			"item": [
 				{
-					"name": "Substitute: Get Many",
+					"name": "Inventory Vendor: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute",
+						"url": "http://localhost:57949/api/v1/inventoryvendor",
 						"method": "GET",
 						"header": [
 							{
@@ -8194,9 +8350,165 @@
 					"response": []
 				},
 				{
-					"name": "Substitute: Browse",
+					"name": "Inventory Vendor: Browse",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute/browse",
+						"url": "http://localhost:57949/api/v1/inventoryvendor/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Vendor\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Vendor: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryvendor/00003H8O",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Vendor: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryvendor",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Vendor: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryvendor",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ItemVendorId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Vendor: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventoryvendor/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Substitute",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Substitute: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysubstitute",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Substitute: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysubstitute/browse",
 						"method": "POST",
 						"header": [
 							{
@@ -8219,9 +8531,9 @@
 					"response": []
 				},
 				{
-					"name": "Substitute: Get One",
+					"name": "Inventory Substitute: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute/A0000US4~000026WZ",
+						"url": "http://localhost:57949/api/v1/inventorysubstitute/000011E9~00000XBX",
 						"method": "GET",
 						"header": [
 							{
@@ -8244,9 +8556,9 @@
 					"response": []
 				},
 				{
-					"name": "Substitute: Insert",
+					"name": "Inventory Substitute: Insert",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute",
+						"url": "http://localhost:57949/api/v1/inventorysubstitute",
 						"method": "POST",
 						"header": [
 							{
@@ -8262,16 +8574,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ItemId\": \"A0000US4\",\n    \"SubstituteId\": \"000026WZ\",\n}"
+							"raw": "{\n    \"InventoryId\": \"A0000US4\",\n    \"SubstituteInventoryId\": \"000026WZ\",\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Substitute: Update",
+					"name": "Inventory Substitute: Update",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute",
+						"url": "http://localhost:57949/api/v1/inventorysubstitute",
 						"method": "POST",
 						"header": [
 							{
@@ -8287,16 +8599,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"ItemId\": \"A0000US4\",\n    \"SubstituteId\": \"000026WZ\",\n\t \"Field1\":\"1\"\n}"
+							"raw": "{\n    \"InventoryId\": \"A0000US4\",\n    \"SubstituteInventoryId\": \"000026WZ\",\n\t \"Field1\":\"1\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "Substitute: Delete",
+					"name": "Inventory Substitute: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/substitute/A0000US4~000026WZ",
+						"url": "http://localhost:57949/api/v1/inventorysubstitute/A0000US4~000026WZ",
 						"method": "DELETE",
 						"header": [
 							{

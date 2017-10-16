@@ -1,0 +1,49 @@
+using FwStandard.DataLayer; 
+using FwStandard.Models; 
+using FwStandard.SqlServer; 
+using FwStandard.SqlServer.Attributes; 
+using RentalWorksWebApi.Data; 
+using System.Collections.Generic;
+namespace RentalWorksWebApi.Modules.Home.InventoryAttributeValue
+{
+    [FwSqlTable("itemattributeview")]
+    public class InventoryAttributeValueLoader : RwDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string InventoryAttributeValueId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text)]
+        public string AttributeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "uniqueid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "attribute", modeltype: FwDataTypes.Text)]
+        public string Attribute { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "attributevalueid", modeltype: FwDataTypes.Text)]
+        public string AttributeValueId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "attributevalue", modeltype: FwDataTypes.Text)]
+        public string AttributeValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "numericvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? NumericValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "numericonly", modeltype: FwDataTypes.Boolean)]
+        public bool NumericOnly { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            addFilterToSelect("InventoryId", "uniqueid", select, request); 
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}

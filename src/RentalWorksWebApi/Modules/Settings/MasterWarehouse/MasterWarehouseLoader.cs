@@ -154,18 +154,5 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean)]
         public bool AllowAllUsersAddToOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
-
-
-        //------------------------------------------------------------------------------------ 
-        //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
-        //{
-        //    base.SetBaseSelectQuery(select, qry, customFields, request);
-        //    select.Parse();
-        //    addFilterToSelect("ItemId", "masterid", select, request);
-        //    addFilterToSelect("WarehouseId", "warehouseid", select, request);
-        //}
-        ////------------------------------------------------------------------------------------    
     }
 }

@@ -1,0 +1,31 @@
+using FwStandard.BusinessLogic.Attributes; 
+using RentalWorksWebApi.Logic;
+namespace RentalWorksWebApi.Modules.Home.InventoryAttributeValue
+{
+    public class InventoryAttributeValueLogic : RwBusinessLogic
+    {
+        //------------------------------------------------------------------------------------ 
+        InventoryAttributeValueRecord itemAttribute = new InventoryAttributeValueRecord();
+        InventoryAttributeValueLoader itemAttributeLoader = new InventoryAttributeValueLoader();
+        public InventoryAttributeValueLogic()
+        {
+            dataRecords.Add(itemAttribute);
+            dataLoader = itemAttributeLoader;
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InventoryAttributeValueId { get { return itemAttribute.InventoryAttributeValueId; } set { itemAttribute.InventoryAttributeValueId = value; } }
+        public string AttributeId { get { return itemAttribute.AttributeId; } set { itemAttribute.AttributeId = value; } }
+        public string InventoryId { get { return itemAttribute.InventoryId; } set { itemAttribute.InventoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Attribute { get; set; }
+        public string AttributeValueId { get { return itemAttribute.AttributeValueId; } set { itemAttribute.AttributeValueId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string AttributeValue { get; set; }
+        public decimal? NumericValue { get { return itemAttribute.NumericValue; } set { itemAttribute.NumericValue = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool NumericOnly { get; set; }
+        public string DateStamp { get { return itemAttribute.DateStamp; } set { itemAttribute.DateStamp = value; } }
+        //------------------------------------------------------------------------------------ 
+    }
+}
