@@ -86,7 +86,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountTemplate
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(iscompany = 'F')");
+            select.AddWhere("(iscompany <> 'T')");
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
