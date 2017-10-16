@@ -24,7 +24,7 @@
       },
       "form",
       {
-        "tabs": [ {"fields":  "glno", "caption":  "G/L Account", "validationname": "AccountType", "nodupe":true} ]": 
+        "tabs": [ {"fields":  "glno", "caption":  "G/L Account", "validationname": "AccountTypeValidation", "nodupe":true} ]": 
       }
     }
   }

@@ -15,8 +15,10 @@ namespace RentalWorksWebApi
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .CaptureStartupErrors(true)
                 .Build();
 
             host.Run();

@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using Fw.Json.Services;
-using Fw.Json.SqlServer;
+﻿using Fw.Json.SqlServer;
+using Fw.Json.SqlServer.Entities;
 using Fw.Json.Utilities;
+using Fw.Json.ValueTypes;
 using JsonFx.Json;
-using System.Web.Security;
 using System;
 using System.Dynamic;
-using Fw.Json.ValueTypes;
 using System.Web;
-using Fw.Json.SqlServer.Entities;
-using FwStandard.Security;
+using System.Web.Security;
+//using FwStandard.Security;
 
 namespace Fw.Json.Services
 {
-    public class FwAccountService
+    public abstract class FwAccountService
     {
         //---------------------------------------------------------------------------------------------
         public void GetAuthToken(FwSqlConnection conn, dynamic request, dynamic response, dynamic session)
@@ -85,8 +82,7 @@ namespace Fw.Json.Services
                     
                 groupsid                            = (FwValidate.IsPropertyDefined(webUsersView, "webusersid")) ? webUsersView.groupsid : string.Empty;
                 tokenData.webUser.groupsid          = groupsid;
-                //response.applicationtree            = FwApplicationTree.Tree.GetGroupsTree(groupsid, true);
-                response.applicationtree            = FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, true);
+                response.applicationtree            = this.GetGroupsTree(groupsid, true);
                     
                 webadministrator                    = (FwValidate.IsPropertyDefined(webUsersView, "webadministrator")) ? webUsersView.webadministrator : string.Empty;
                 tokenData.webUser.webadministrator  = webadministrator;
@@ -131,6 +127,8 @@ namespace Fw.Json.Services
             response.errNo  = errNo;
             response.errMsg = errMsg;
         }
+
+        public abstract dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes);
         //---------------------------------------------------------------------------------------------
         public string GetAuthToken(string email, dynamic userData)
         {

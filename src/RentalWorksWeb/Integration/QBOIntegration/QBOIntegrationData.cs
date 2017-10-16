@@ -1458,7 +1458,7 @@ namespace RentalWorksWeb.Integration
 
                         newPayment.Line.Add(newInvoice);
                     }
-                    catch (Exception ex)
+                    catch //(Exception ex)
                     {
                         paymentreturn.status  = RECEIPT_INVOICE_ERROR;
                         paymentreturn.message = "Invoice " + payment.invoicespaid[j].invoiceno + " does not exist in QBO.";

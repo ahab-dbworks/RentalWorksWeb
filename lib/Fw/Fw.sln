@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fw.MSBuild", "src\Fw.MSBuild\Fw.MSBuild.csproj", "{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReplaceInFile", "src\ReplaceInFile\ReplaceInFile.csproj", "{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "src\FwStandard\FwStandard.csproj", "{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwFrontEndLibrary", "src\FwFrontEndLibrary\FwFrontEndLibrary.csproj", "{6967C0D5-E981-4448-A4A5-D9B02397153A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,15 +59,15 @@ Global
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Debug|x64.Build.0 = Debug|x64
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Debug|x86.ActiveCfg = Debug|x86
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Debug|x86.Build.0 = Debug|x86
-		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Any CPU.Build.0 = Debug|Any CPU
+		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Any CPU.Build.0 = Release|Any CPU
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Itanium.ActiveCfg = Release|Itanium
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|Itanium.Build.0 = Release|Itanium
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|x64.ActiveCfg = Release|x64
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|x64.Build.0 = Release|x64
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|x86.ActiveCfg = Release|x86
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish JSAppBuilder|x86.Build.0 = Release|x86
-		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish ReplaceInFile|Itanium.ActiveCfg = Release|Itanium
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish ReplaceInFile|Itanium.Build.0 = Release|Itanium
 		{FAD66725-A1F9-4395-89DC-EC2B9CB2CADE}.Publish ReplaceInFile|x64.ActiveCfg = Release|x64
@@ -85,14 +87,14 @@ Global
 		{830780CB-F889-459C-A772-A887A06D36D4}.Debug|Itanium.ActiveCfg = Debug|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
+		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|Itanium.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|Itanium.Build.0 = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|x64.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|x64.Build.0 = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|x86.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish JSAppBuilder|x86.Build.0 = Release|Any CPU
-		{830780CB-F889-459C-A772-A887A06D36D4}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
+		{830780CB-F889-459C-A772-A887A06D36D4}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish ReplaceInFile|Itanium.ActiveCfg = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish ReplaceInFile|Itanium.Build.0 = Release|Any CPU
 		{830780CB-F889-459C-A772-A887A06D36D4}.Publish ReplaceInFile|x64.ActiveCfg = Release|Any CPU
@@ -115,14 +117,14 @@ Global
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|x64.Build.0 = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Debug|x86.Build.0 = Debug|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|Itanium.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|Itanium.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|x64.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|x64.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|x86.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish JSAppBuilder|x86.Build.0 = Release|Any CPU
-		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish ReplaceInFile|Itanium.ActiveCfg = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish ReplaceInFile|Itanium.Build.0 = Release|Any CPU
 		{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}.Publish ReplaceInFile|x64.ActiveCfg = Release|Any CPU
@@ -145,15 +147,15 @@ Global
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Debug|x64.Build.0 = Debug|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Debug|x86.Build.0 = Debug|Any CPU
-		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
-		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Any CPU.Build.0 = Debug|Any CPU
+		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
+		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Any CPU.Build.0 = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Itanium.ActiveCfg = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|Itanium.Build.0 = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|x64.ActiveCfg = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|x64.Build.0 = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|x86.ActiveCfg = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish JSAppBuilder|x86.Build.0 = Release|Any CPU
-		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
+		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish ReplaceInFile|Itanium.ActiveCfg = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish ReplaceInFile|Itanium.Build.0 = Release|Any CPU
 		{326C0C27-EDBE-434E-B7DD-03CC6EB20811}.Publish ReplaceInFile|x64.ActiveCfg = Release|Any CPU
@@ -176,15 +178,15 @@ Global
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Debug|x64.Build.0 = Debug|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Debug|x86.Build.0 = Debug|Any CPU
-		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|Itanium.ActiveCfg = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|Itanium.Build.0 = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|x64.ActiveCfg = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|x64.Build.0 = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|x86.ActiveCfg = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish JSAppBuilder|x86.Build.0 = Release|Any CPU
-		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Any CPU.Build.0 = Debug|Any CPU
+		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Any CPU.Build.0 = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Itanium.ActiveCfg = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|Itanium.Build.0 = Release|Any CPU
 		{2CE3AADF-E6C3-4992-9703-927EDFD1EA0B}.Publish ReplaceInFile|x64.ActiveCfg = Release|Any CPU
@@ -207,16 +209,16 @@ Global
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Debug|x64.Build.0 = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Debug|x86.Build.0 = Debug|Any CPU
-		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Any CPU.Build.0 = Debug|Any CPU
+		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Any CPU.Build.0 = Release|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Itanium.ActiveCfg = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|Itanium.Build.0 = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|x64.ActiveCfg = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|x64.Build.0 = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|x86.ActiveCfg = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish JSAppBuilder|x86.Build.0 = Debug|Any CPU
-		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Any CPU.Build.0 = Debug|Any CPU
+		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Any CPU.Build.0 = Release|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Itanium.ActiveCfg = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|Itanium.Build.0 = Debug|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Publish ReplaceInFile|x64.ActiveCfg = Debug|Any CPU
@@ -231,6 +233,38 @@ Global
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Release|x64.Build.0 = Release|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3DAEFFC-E153-4C5D-893B-5622D0F8AF26}.Release|x86.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|Itanium.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|Itanium.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|x64.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Debug|x86.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|Any CPU.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|Any CPU.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|Itanium.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|Itanium.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|x64.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|x64.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|x86.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish JSAppBuilder|x86.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|Any CPU.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|Any CPU.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|Itanium.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|Itanium.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|x64.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|x64.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|x86.ActiveCfg = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Publish ReplaceInFile|x86.Build.0 = Debug|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|Itanium.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|Itanium.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|x64.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|x64.Build.0 = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|x86.ActiveCfg = Release|Any CPU
+		{6967C0D5-E981-4448-A4A5-D9B02397153A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

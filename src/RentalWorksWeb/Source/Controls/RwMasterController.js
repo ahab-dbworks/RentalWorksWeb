@@ -155,10 +155,10 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
 
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="location" data-validationname="UserOfficeLocation"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="location" data-validationname="UserOfficeLocationValidation"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="warehouse" data-validationname="UserWarehouse" data-boundfields="location" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="warehouse" data-validationname="UserWarehouseValidation" data-boundfields="location" data-enabled="false"></div>');
         html.push('</div>');
         html.push('</div>');
 
@@ -321,10 +321,10 @@ RwMasterController.buildOfficeLocation = function($view) {
 
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="location" data-validationname="UserOfficeLocation"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="location" data-validationname="UserOfficeLocationValidation"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="warehouse" data-validationname="UserWarehouse" data-boundfields="location" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="warehouse" data-validationname="UserWarehouseValidation" data-boundfields="location" data-enabled="false"></div>');
         html.push('</div>');
         html.push('</div>');
 

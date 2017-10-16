@@ -1,6 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
+using FwStandard.Security;
 
 namespace RentalWorksWeb.Source
 {
@@ -16,5 +17,11 @@ namespace RentalWorksWeb.Source
 
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "quickbooks")) response.applicationOptions.quickbooks = session.applicationOptions.quickbooks;
         }
+        //----------------------------------------------------------------------------------------------------
+        public override dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes)
+        {
+            return FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, true);
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

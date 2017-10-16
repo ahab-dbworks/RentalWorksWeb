@@ -1,6 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
+using FwStandard.Security;
 using RentalWorksQuikScan.Modules;
 
 namespace RentalWorksQuikScan.Source
@@ -26,5 +27,11 @@ namespace RentalWorksQuikScan.Source
 
             DepartmentFilter.LoadUserDepartmentFilter(session.security.webUser.usersid, session);
         }
+        //----------------------------------------------------------------------------------------------------
+        public override dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes)
+        {
+            return FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, true);
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

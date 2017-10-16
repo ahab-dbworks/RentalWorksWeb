@@ -6,6 +6,7 @@
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
     <MSBuildCommunityTasksPath>$(AppSolutionDir)\lib\Fw\lib\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
     <FwJsonPath>$(AppSolutionDir)\lib\Fw\src\Fw.Json</FwJsonPath>
+    <FwFrontEndLibraryPath>$(AppSolutionDir)\lib\Fw\src\FwFrontEndLibrary</FwFrontEndLibraryPath>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksQuikScan</FwApplicationDirectory>
     <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwApplicationName>RentalWorksQuikScan</FwApplicationName>
@@ -134,14 +135,11 @@
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
     <Content Include="ApplicationConfig.test.js" />
-    <Content Include="app_body.htm" />
     <Content Include="app_bodysrc.htm" />
     <Content Include="Application.sample.config">
       <SubType>Designer</SubType>
     </Content>
     <None Include=".csslintrc" />
-    <Content Include="app_head.htm" />
-    <Content Include="app_startupscript.js" />
     <Content Include="index.htm" />
     <Content Include="Modules\AssetDisposition\AssetDisposition.css" />
     <Content Include="Modules\AssetDisposition\AssetDisposition.html" />
@@ -246,15 +244,15 @@
     <Content Include="scripts\ModuleList.js" />
     <Content Include="scripts\Rw.js" />
     <Content Include="scripts\RwRFID.js" />
-    <Content Include="Source\Validations\SetNo\SetNoBrowse.htm" />
-    <Content Include="Source\Validations\PrimaryVendor\PrimaryVendorBrowse.htm" />
-    <Content Include="Source\Validations\RepairOrderDesc\RepairOrderDescBrowse.htm" />
-    <Content Include="Source\Validations\Manufacturer\ManufacturerBrowse.htm" />
-    <Content Include="Source\Validations\Vendor\VendorBrowse.htm" />
-    <Content Include="Source\Validations\RetiredReason\RetiredReasonBrowse.htm" />
-    <Content Include="Source\Validations\SetCharactersByICode\SetCharactersByICodeBrowse.htm" />
-    <Content Include="Source\Validations\RepairOrderNo\RepairOrderNoBrowse.htm" />
-    <Content Include="Source\Validations\ContainerDescription\ContainerDescriptionBrowse.htm" />
+    <Content Include="Source\Validations\SetNoValidation\SetNoValidationBrowse.htm" />
+    <Content Include="Source\Validations\PrimaryVendorValidation\PrimaryVendorValidationBrowse.htm" />
+    <Content Include="Source\Validations\RepairOrderDescValidation\RepairOrderDescValidationBrowse.htm" />
+    <Content Include="Source\Validations\ManufacturerValidation\ManufacturerValidationBrowse.htm" />
+    <Content Include="Source\Validations\VendorValidation\VendorValidationBrowse.htm" />
+    <Content Include="Source\Validations\RetiredReasonValidation\RetiredReasonValidationBrowse.htm" />
+    <Content Include="Source\Validations\SetCharactersByICodeValidation\SetCharactersByICodeValidationBrowse.htm" />
+    <Content Include="Source\Validations\RepairOrderNoValidation\RepairOrderNoValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContainerDescriptionValidation\ContainerDescriptionValidationBrowse.htm" />
     <Content Include="theme\images\icons\128\assetdisposition.001.png" />
     <Content Include="theme\images\icons\128\assetsetlocation.001.png" />
     <Content Include="theme\images\icons\128\barcode.png" />
@@ -376,7 +374,6 @@
     <Content Include="theme\images\icons\128\package-truck.001.png" />
     <Content Include="theme\images\icons\128\logoff.001.png" />
     <Content Include="FwApplicationSchema.config" />
-    <Content Include="app_scripts.json" />
     <None Include="JSAppBuilder.config">
       <SubType>Designer</SubType>
     </None>
@@ -462,15 +459,15 @@
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
-    <Compile Include="Source\Validations\ContainerDescription\ContainerDescription.cs" />
-    <Compile Include="Source\Validations\Manufacturer\Manufacturer.cs" />
-    <Compile Include="Source\Validations\PrimaryVendor\PrimaryVendor.cs" />
-    <Compile Include="Source\Validations\RepairOrderDesc\RepairOrderDesc.cs" />
-    <Compile Include="Source\Validations\RepairOrderNo\RepairOrderNo.cs" />
-    <Compile Include="Source\Validations\RetiredReason\RetiredReason.cs" />
-    <Compile Include="Source\Validations\SetCharactersByICode\SetCharactersByICode.cs" />
-    <Compile Include="Source\Validations\SetNo\SetNo.cs" />
-    <Compile Include="Source\Validations\Vendor\Vendor.cs" />
+    <Compile Include="Source\Validations\ContainerDescriptionValidation\ContainerDescriptionValidation.cs" />
+    <Compile Include="Source\Validations\ManufacturerValidation\ManufacturerValidation.cs" />
+    <Compile Include="Source\Validations\PrimaryVendorValidation\PrimaryVendorValidation.cs" />
+    <Compile Include="Source\Validations\RepairOrderDescValidation\RepairOrderDescValidation.cs" />
+    <Compile Include="Source\Validations\RepairOrderNoValidation\RepairOrderNoValidation.cs" />
+    <Compile Include="Source\Validations\RetiredReasonValidation\RetiredReasonValidation.cs" />
+    <Compile Include="Source\Validations\SetCharactersByICodeValidation\SetCharactersByICodeValidation.cs" />
+    <Compile Include="Source\Validations\SetNoValidation\SetNoValidation.cs" />
+    <Compile Include="Source\Validations\VendorValidation\VendorValidation.cs" />
     <Compile Include="Source\Version.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +538,9 @@
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -562,9 +559,9 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\audio&quot; &quot;$(FwDeploymentDirectory)\audio&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\fonts&quot; &quot;$(FwDeploymentDirectory)\theme\fonts&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="xcopy &quot;$(FwJsonPath)\content\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="xcopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="xcopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /e" ContinueOnError="false" IgnoreExitCode="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.htm" DestinationFiles="$(FwDeploymentDirectory)\index.htm" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />

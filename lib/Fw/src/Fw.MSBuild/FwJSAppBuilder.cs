@@ -163,7 +163,7 @@ namespace Fw.MSBuildTasks
                             {
                                 sbModules = new StringBuilder();
                                 // Fw Controls
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls");
+                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleArray = Directory.GetFiles(pathModules, "*.htm", SearchOption.AllDirectories);
@@ -181,7 +181,7 @@ namespace Fw.MSBuildTasks
                                     }
                                 }
                                 // Fw Pages
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Pages");
+                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Pages");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleArray = Directory.GetFiles(pathModules, "*.htm", SearchOption.AllDirectories);
@@ -247,7 +247,7 @@ namespace Fw.MSBuildTasks
                             {
                                 // Fw Modules
                                 sbModules = new StringBuilder();
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Modules");
+                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Modules");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -279,7 +279,7 @@ namespace Fw.MSBuildTasks
                                     }
                                 }
                                 // Fw SubModules
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\SubModules");
+                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\SubModules");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -343,14 +343,8 @@ namespace Fw.MSBuildTasks
                                                 }
                                                 else
                                                 {
-                                                    string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + fileInfo.Name;
-                                                    foreach (Field field in config.Fields)
-                                                    {
-                                                        if (urlHtml.Contains(field.Key))
-                                                        {
-                                                            urlHtml = urlHtml.Replace(field.Key, field.Value);
-                                                        }
-                                                    }
+                                                    string urlHtml = "{{AppUri}}Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + fileInfo.Name;
+                                                    urlHtml = ApplyFields(urlHtml, config, Publish);
                                                     sbModules.AppendLine("<script id=\"tmpl-modules-" + fileInfo.Name.Replace(".htm", string.Empty) + "\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
                                                 }
                                             }
@@ -370,14 +364,8 @@ namespace Fw.MSBuildTasks
                                             }
                                             else
                                             {
-                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
-                                                foreach (Field field in config.Fields)
-                                                {
-                                                    if (urlHtml.Contains(field.Key))
-                                                    {
-                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
-                                                    }
-                                                }
+                                                string urlHtml = "{{AppUri}}Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                                urlHtml = ApplyFields(urlHtml, config, Publish);
                                                 sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
                                             }
                                         }
@@ -392,14 +380,8 @@ namespace Fw.MSBuildTasks
                                             }
                                             else
                                             {
-                                                string urlHtml = "{{AppUri}}/Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Form.htm";
-                                                foreach (Field field in config.Fields)
-                                                {
-                                                    if (urlHtml.Contains(field.Key))
-                                                    {
-                                                        urlHtml = urlHtml.Replace(field.Key, field.Value);
-                                                    }
-                                                }
+                                                string urlHtml = "{{AppUri}}Source/Modules/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Form.htm";
+                                                urlHtml = ApplyFields(urlHtml, config, Publish);
                                                 sbModules.AppendLine("<script id=\"tmpl-modules-" + nameModule + "Form\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
                                             }
                                         }
@@ -448,7 +430,7 @@ namespace Fw.MSBuildTasks
                             // Grids
                             sbModules = new StringBuilder();
                             // Fw Grids
-                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Grids");
+                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Grids");
                             if (Directory.Exists(pathModules))
                             {
                                 pathModuleList = getModuleDirectories(pathModules);
@@ -490,14 +472,8 @@ namespace Fw.MSBuildTasks
                                     }
                                     else
                                     {
-                                        string urlHtml = "{{AppUri}}/Source/Grids/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
-                                        foreach (Field field in config.Fields)
-                                        {
-                                            if (urlHtml.Contains(field.Key))
-                                            {
-                                                urlHtml = urlHtml.Replace(field.Key, field.Value);
-                                            }
-                                        }
+                                        string urlHtml = "{{AppUri}}Source/Grids/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                        urlHtml = ApplyFields(urlHtml, config, Publish);
                                         sbModules.AppendLine("<script id=\"tmpl-grids-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
                                     }
                                 }
@@ -512,7 +488,7 @@ namespace Fw.MSBuildTasks
                             // Validations
                             sbModules = new StringBuilder();
                             // Fw Validations
-                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Validations");
+                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Validations");
                             if (Directory.Exists(pathModules))
                             {
                                 pathModuleList = getModuleDirectories(pathModules);
@@ -554,14 +530,8 @@ namespace Fw.MSBuildTasks
                                     }
                                     else
                                     {
-                                        string urlHtml = "{{AppUri}}/Source/Validations/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
-                                        foreach (Field field in config.Fields)
-                                        {
-                                            if (urlHtml.Contains(field.Key))
-                                            {
-                                                urlHtml = urlHtml.Replace(field.Key, field.Value);
-                                            }
-                                        }
+                                        string urlHtml = "{{AppUri}}Source/Validations/" + pathModule.Substring(pathModules.Length + 1).Replace("\\", "/") + "/" + nameModule + "Browse.htm";
+                                        urlHtml = ApplyFields(urlHtml, config, Publish);
                                         sbModules.AppendLine("<script id=\"tmpl-validations-" + nameModule + "Browse\" type=\"text/html\" src=\"" + urlHtml + "\" data-ajaxload=\"true\"></script>");
                                     }
                                 }
@@ -586,7 +556,7 @@ namespace Fw.MSBuildTasks
                             {
                                 sbModules = new StringBuilder();
                                 // Fw Reports
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Reports");
+                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Reports");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -698,17 +668,17 @@ namespace Fw.MSBuildTasks
                                     List<string> jsFiles;
                                     string[] newInputFiles;
                                     string fieldKey, jspath;
-                                    string fwpath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content");
+                                    string fwpath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot");
 
                                     jsFiles = new List<string>();
 
-                                    jspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source");
+                                    jspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source");
                                     if (Directory.Exists(jspath))
                                     {
                                         newInputFiles = Directory.GetFiles(jspath, "*.js", SearchOption.AllDirectories);
                                         for (int jsfileno = 0; jsfileno < newInputFiles.Length; jsfileno++)
                                         {
-                                            newInputFiles[jsfileno] = "{{FwJsonUri}}" + newInputFiles[jsfileno].Substring(fwpath.Length + 1);
+                                            newInputFiles[jsfileno] = "{{FwFrontEndLibraryUri}}" + newInputFiles[jsfileno].Substring(fwpath.Length + 1);
                                         }
                                         jsFiles.AddRange(newInputFiles);
                                     }
@@ -731,7 +701,7 @@ namespace Fw.MSBuildTasks
                                                 {
                                                     if (this.Publish == field.Publish)
                                                     {
-                                                        fieldKey = field.Key.Replace("{{FwJsonPath}}", "{{FwJsonUri}}")
+                                                        fieldKey = field.Key.Replace("{{FwFrontEndLibraryPath}}", "{{FwFrontEndLibraryUri}}")
                                                                                 .Replace("{{AppPath}}", "{{AppUri}}");
                                                         jsFiles[uriNo] = jsFiles[uriNo].Replace(field.Value + "\\", fieldKey); 
                                                     }
@@ -759,49 +729,49 @@ namespace Fw.MSBuildTasks
 
                                     cssFiles = new List<string>();
                                     
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\Grids");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Grids");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\Modules");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Modules");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\Pages");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Pages");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\Reports");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Reports");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "FrontEnd.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\SubModules");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\SubModules");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\content\source\Controls\Modules\Validations");
+                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Modules\Validations");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
@@ -872,7 +842,7 @@ namespace Fw.MSBuildTasks
                                                 {
                                                     if (this.Publish == field.Publish)
                                                     {
-                                                        fieldKey = field.Key.Replace("{{FwJsonPath}}", "{{FwJsonUri}}")
+                                                        fieldKey = field.Key.Replace("{{FwFrontEndLibraryPath}}", "{{FwFrontEndLibraryUri}}")
                                                                                 .Replace("{{AppPath}}", "{{AppUri}}");
                                                         cssFiles[uriNo] = cssFiles[uriNo].Replace(field.Value + "\\", fieldKey); 
                                                     }
@@ -917,7 +887,7 @@ namespace Fw.MSBuildTasks
                                             sourceFile_inputFileUri = config.SourceFiles[j].InputFiles[k]
                                                 .Replace(@"\", @"/")
                                                 .Replace("{{Version}}", Version)
-                                                .Replace("{{FwJsonUri}}", "[appbaseurl][fwvirtualdirectory]")
+                                                .Replace("{{FwFrontEndLibraryUri}}", "[appbaseurl][fwvirtualdirectory]")
                                                 .Replace("{{AppUri}}", "[appbaseurl][appvirtualdirectory]");
                                             sourceFile_inputFileUri = ApplyFields(sourceFile_inputFileUri, config, config.Targets[i].Publish);
                                             if (k > 0) sourceFiles_combinedText.Append(",");
@@ -1297,7 +1267,7 @@ namespace Fw.MSBuildTasks
         {
             // create the Fw.Json _references.js file
             // when you open a fw script, it will intellisense against all the fw scripts
-            string fwjsoncontentpath = Path.Combine(solutionDir, @"lib\Fw\src\Fw.Json\Content\");
+            string fwjsoncontentpath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\");
             if (Directory.Exists(fwjsoncontentpath))
             {
                 string[] fwscripts = Directory.GetFiles(fwjsoncontentpath, "*.js", SearchOption.AllDirectories);
@@ -1344,7 +1314,7 @@ namespace Fw.MSBuildTasks
             List<string> jsfiles = null;
             for (int fieldno = 0; fieldno < config.Fields.Count; fieldno++)
             {
-                if (config.Fields[fieldno].Key == "{{FwJsonPath}}")
+                if (config.Fields[fieldno].Key == "{{FwFrontEndLibraryPath}}")
                 {
                     fwpath = config.Fields[fieldno].Value + @"\";
                 }
@@ -1381,7 +1351,7 @@ namespace Fw.MSBuildTasks
                     for (int jsfileno = 0; jsfileno < jsfiles.Count; jsfileno++)
                     {
                         appreferencesfile.AppendLine("/// <reference path=\"" + jsfiles[jsfileno].Replace(@"/", @"\") + "\" />" );
-                        appreferencesfile.Replace("{{FwJsonUri}}", fwpath);
+                        appreferencesfile.Replace("{{FwFrontEndLibraryUri}}", fwpath);
                         appreferencesfile.Replace("{{AppUri}}", apppath);
                     }
                     string appreferencespath = apppath + @"scripts\_references.js";
@@ -2210,7 +2180,7 @@ namespace Fw.MSBuildTasks
                 if ((publish == field.Publish) && (!string.IsNullOrEmpty(field.Key)))
                 {
                     value = field.Value;
-                    if (((field.Key == "{{FwJsonUri}}") && (field.Value != "[appbaseurl][fwvirtualdirectory]")) || ((field.Key == "{{AppUri}}") && (field.Value != "[appbaseurl][appvirtualdirectory]")))
+                    if (((field.Key == "{{FwFrontEndLibraryUri}}") && (field.Value != "[appbaseurl][fwvirtualdirectory]")) || ((field.Key == "{{AppUri}}") && (field.Value != "[appbaseurl][appvirtualdirectory]")))
                     {
                         if (!value.EndsWith("/"))
                         {
