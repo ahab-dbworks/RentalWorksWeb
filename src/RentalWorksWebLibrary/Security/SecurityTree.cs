@@ -139,6 +139,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Rate", "{650305EC-0A53-490B-A8FB-E1AF636DA89B}", lv2menuLaborSettings.Id, "LaborRateController", "module/laborrate", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Position", "{6D3B3D4F-2DD8-436F-8942-8FF68B73F3B6}", lv2menuLaborSettings.Id, "LaborPositionController", "module/laborposition", settingsiconbaseurl + "placeholder.png");       
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborSettings.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Category", "{2A5190B9-B0E8-4B93-897B-C91FC4807FA6}", lv2menuLaborSettings.Id, "LaborCategoryController", "module/laborcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Crew Schedule Status", "{E4E11656-0783-4327-A374-161BCFDF0F24}", lv2menuLaborSettings.Id, "CrewScheduleStatusController", "module/crewschedulestatus", settingsiconbaseurl + "placeholder.png");

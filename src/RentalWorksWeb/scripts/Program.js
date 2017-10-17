@@ -156,6 +156,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/discounttemplate$/,           getScreen: function () { return DiscountTemplateController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/spacetype$/,                  getScreen: function () { return SpaceTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventoryrank$/,              getScreen: function () { return InventoryRankController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/laborposition$/,              getScreen: function () { return LaborPositionController.getModuleScreen({}, {}); } }
 
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
