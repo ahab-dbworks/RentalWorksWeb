@@ -989,7 +989,6 @@
     <Content Include="Source\Validations\LanguageValidation\LanguageValidationBrowse.htm" />
     <Content Include="Source\Validations\CountryValidation\CountryValidationBrowse.htm" />
     <Content Include="Source\Validations\ShipViaValidation\ShipViaValidationBrowse.htm" />
-    <Content Include="Source\Validations\UserValidation\UserValidationBrowse.htm" />
     <Content Include="Source\Validations\UserWarehouseValidation\UserWarehouseValidationBrowse.htm" />
     <Content Include="Source\Validations\UserOfficeLocationValidation\UserOfficeLocationValidationBrowse.htm" />
     <Content Include="Source\Validations\POClassificationValidation\POClassificationValidationBrowse.htm" />
