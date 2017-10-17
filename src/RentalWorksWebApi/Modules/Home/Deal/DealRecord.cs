@@ -197,7 +197,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string CreditCardNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
+        [FwSqlDataField(column: "creditcardcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
         public string CreditCardCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crcname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
