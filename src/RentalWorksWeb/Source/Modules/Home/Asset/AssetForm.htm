@@ -11,7 +11,7 @@
         </div>
         <div class="tabpages">
 
-            <!-- Bar Code tab -->
+            <!-- General tab -->
             <div data-type="tabpage" id="assettabpage" class="tabpage" data-tabid="assettab">
                 <div class="formpage">
                     <div class="formrow">
@@ -108,26 +108,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Current Facility Location" style="width:525px;">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="BuildingRoom" data-enabled="false" style="float:left;width:375px;"></div>
-                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-datafield="" data-enabled="false" style="float:left;width:125px;"></div>
-                        </div>
-                    </div>
                     <div class="formrow">
                         <div class="formcolumn" style="width:400px;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location / Condition">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Aisle" data-datafield="AisleLocation" style="float:left;width:75px;"></div>
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Shelf" data-datafield="ShelfLocation" style="float:left;width:75px;"></div>
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="" style="float:left;width:225px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="ConditionId" data-validationname="" style="float:left;width:225px;"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="formcolumn" style="width:124px;padding-left:1px;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Usage">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Hours" data-datafield="" style="float:left;width:75px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Hours" data-datafield="AssetHours" style="float:left;width:75px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +151,7 @@
                     <div class="formrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manufacturer" style="width:525px;">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Name" data-datafield="ManufacturerId" data-displayfield="Manufacturer" data-validationname="" style="float:left;width:375px;"></div>
+                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Name" data-datafield="ManufacturerId" data-displayfield="Manufacturer" data-validationname="VendorValidation" style="float:left;width:375px;"></div>
                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warranty Period" data-datafield="" style="float:left;width:100px;"></div>
                                 <p style="float:left;margin-top:22px;margin-bottom:-22px;font-size:10pt;">Days</p>
                             </div>
@@ -195,9 +189,7 @@
                     <div class="formrow">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Attributes" style="width:500px;">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwGrid" data-grid="" data-securitycaption="" style="min-height:350px;border:1px solid silver;">
-                                    <p>Attribue | Value</p>
-                                </div>
+                                <div data-control="FwGrid" data-grid="ItemAttributeValueGrid" data-securitycaption="Item Attribute Value" style="min-width:250px;max-width:500px;"></div>
                             </div>
                         </div>
                     </div>

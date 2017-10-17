@@ -71,8 +71,28 @@ class RwAsset {
         FwModule.loadAudit($form, uniqueid);
     }
 
-    afterLoad($form: any) {
+    renderGrids($form: any) {
+        var $itemAttributeValueGrid: any;
+        var $itemAttributeValueGridControl: any;
 
+        $itemAttributeValueGrid = $form.find('div[data-grid="ItemAttributeValueGrid"]');
+        $itemAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-ItemAttributeValueGridBrowse').html());
+        $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
+        $itemAttributeValueGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="ItemId"] input').val()
+            };
+        })
+        FwBrowse.init($itemAttributeValueGridControl);
+        FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
+    
+    }
+
+    afterLoad($form: any) {
+        var $itemAttributeValueGrid: any;
+
+        $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
+        FwBrowse.search($itemAttributeValueGrid);
     }
 }
 

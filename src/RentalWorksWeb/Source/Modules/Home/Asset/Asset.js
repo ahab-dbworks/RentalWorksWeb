@@ -48,7 +48,24 @@ var RwAsset = (function () {
         uniqueid = $form.find('div.fwformfield[data-datafield="ItemId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
+    RwAsset.prototype.renderGrids = function ($form) {
+        var $itemAttributeValueGrid;
+        var $itemAttributeValueGridControl;
+        $itemAttributeValueGrid = $form.find('div[data-grid="ItemAttributeValueGrid"]');
+        $itemAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-ItemAttributeValueGridBrowse').html());
+        $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
+        $itemAttributeValueGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="ItemId"] input').val()
+            };
+        });
+        FwBrowse.init($itemAttributeValueGridControl);
+        FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
+    };
     RwAsset.prototype.afterLoad = function ($form) {
+        var $itemAttributeValueGrid;
+        $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
+        FwBrowse.search($itemAttributeValueGrid);
     };
     return RwAsset;
 }());
