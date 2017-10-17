@@ -41,7 +41,7 @@ class POApprover {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -83,13 +83,12 @@ class POApprover {
 
     afterLoad($form: any) {
         var $limit = $form.find('div.fwformfield[data-datafield="HasLimit"] input').prop('checked');
-     
-        if ($limit === true) {
-            $form.find('.limits').attr('data-enabled', 'true')
-        } else {
-            $form.find('.limits').attr('data-enabled', 'false')
-        }
 
+        if ($limit === true) {
+            FwFormField.enable($form.find('.limits'));
+        } else {
+            FwFormField.disable($form.find('.limits'));
+        }
     }
 }
 
