@@ -348,6 +348,8 @@
     <Content Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplate.js">
       <DependentUpon>DiscountTemplate.ts</DependentUpon>
     </Content>
+    <Content Include="Source\Modules\Settings\InventoryGroup\InventoryGroupBrowse.htm" />
+    <Content Include="Source\Modules\Settings\InventoryGroup\InventoryGroupForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryRank\InventoryRankBrowse.htm" />
     <Content Include="Source\Modules\Settings\InventoryRank\InventoryRankForm.htm" />
     <Content Include="Source\Modules\Settings\SpaceType\SpaceType.js">
@@ -1499,6 +1501,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\InventoryGroup\InventoryGroup.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryRank\InventoryRank.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
