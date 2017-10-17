@@ -134,6 +134,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Rental Category", "{91079439-A188-4637-B733-A7EF9A9DFC22}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Warehouse Catalog", "{9045B118-A790-44FB-9867-3E8035EFEE69}", lv2menuInventorySettings.Id, "WarehouseCatalogController", "module/warehousecatalog", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Bar Code Range", "{9A52C5B8-98AB-49A0-A392-69DB0873F943}", lv2menuInventorySettings.Id, "BarCodeRangeController", "module/barcoderange", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Rank", "{963F5133-29CA-4675-9BE6-E5C47D38789A}", lv2menuInventorySettings.Id, "InventoryRankController", "module/inventoryrank", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Rate", "{650305EC-0A53-490B-A8FB-E1AF636DA89B}", lv2menuLaborSettings.Id, "LaborRateController", "module/laborrate", settingsiconbaseurl + "placeholder.png");
