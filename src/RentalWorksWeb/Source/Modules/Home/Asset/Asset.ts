@@ -104,12 +104,17 @@ class RwAsset {
     afterLoad($form: any) {
         var $itemAttributeValueGrid: any;
         var $itemQcGrid: any;
+        var $status = $form.find('div.fwformfield[data-datafield="StatusType"] input').val();
 
         $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
         FwBrowse.search($itemAttributeValueGrid);
 
         $itemQcGrid = $form.find('[data-name="ItemQcGrid"]');
         FwBrowse.search($itemQcGrid);
+
+        if ($status === "IN") {
+            FwFormField.enable($form.find('.ifin'));
+        }
     }
 }
 
