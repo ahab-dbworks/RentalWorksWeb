@@ -596,6 +596,7 @@
     <Content Include="Source\Validations\FacilityRateValidation\FacilityRateValidationBrowse.htm" />
     <Content Include="Source\Validations\HolidayValidation\HolidayValidationBrowse.htm" />
     <Content Include="Source\Validations\ICodeValidation\ICodeValidationBrowse.htm" />
+    <Content Include="Source\Validations\InventoryAttributeValidation\InventoryAttributeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryConditionValidation\InventoryConditionValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborCategoryValidation\LaborCategoryValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborRateValidation\LaborRateValidationBrowse.htm" />
