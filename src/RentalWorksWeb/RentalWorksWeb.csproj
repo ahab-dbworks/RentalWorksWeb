@@ -608,6 +608,7 @@
     <Content Include="Source\Validations\FacilityTypeValidation\FacilityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerActivityValidation\PresentationLayerActivityValidationBrowse.htm" />
     <Content Include="Source\Validations\RateTypeValidation\RateTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\SalesInventoryValidation\SalesInventoryValidationBrowse.htm" />
     <Content Include="Source\Validations\RentalInventoryValidation\RentalInventoryValidationBrowse.htm" />
     <Content Include="Source\Validations\UnitValidation\UnitValidationBrowse.htm" />
     <Content Include="Source\Validations\StateValidation\StateValidationBrowse.htm" />

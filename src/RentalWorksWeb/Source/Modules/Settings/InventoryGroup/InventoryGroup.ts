@@ -83,6 +83,17 @@ class RwInventoryGroup {
                 InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
             };
         })
+
+        $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.val() === "S") {
+                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "SalesInventoryValidation");
+            }
+            else {
+                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "RentalInventoryValidation");
+            }
+        });
+
         FwBrowse.init($iCodeGridControl);
         FwBrowse.renderRuntimeHtml($iCodeGridControl);
 
@@ -92,6 +103,7 @@ class RwInventoryGroup {
 
         $iCodeGrid = $form.find('[data-name="ICodeGrid"]');
         FwBrowse.search($iCodeGrid);
+
     }
 
  
