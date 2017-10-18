@@ -1,7 +1,7 @@
 var InventoryPrepGrid = (function () {
     function InventoryPrepGrid() {
         this.Module = 'InventoryPrepGrid';
-        this.apiurl = 'api/v1/inventorywarehouse';
+        this.apiurl = 'api/v1/inventoryprep';
     }
     return InventoryPrepGrid;
 }());

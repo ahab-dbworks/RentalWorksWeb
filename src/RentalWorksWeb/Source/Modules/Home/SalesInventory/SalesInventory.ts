@@ -110,6 +110,8 @@ class SalesInventory {
         var $inventoryAttributeValueGridControl: any;
         var $inventoryVendorGrid: any;
         var $inventoryVendorGridControl: any;
+        var $inventoryPrepGrid: any;
+        var $inventoryPrepGridControl: any;
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
@@ -221,6 +223,17 @@ class SalesInventory {
         });
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
+
+        $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
+        $inventoryPrepGridControl = jQuery(jQuery('#tmpl-grids-InventoryPrepGridBrowse').html());
+        $inventoryPrepGrid.empty().append($inventoryPrepGridControl);
+        $inventoryPrepGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryPrepGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
     }
 
     afterLoad($form: any) {
@@ -234,6 +247,7 @@ class SalesInventory {
         var $inventoryQcGrid: any;
         var $inventoryAttributeValueGrid: any;
         var $inventoryVendorGrid: any;
+        var $inventoryPrepGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -255,6 +269,8 @@ class SalesInventory {
         FwBrowse.search($inventoryAttributeValueGrid);
         $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
         FwBrowse.search($inventoryVendorGrid);
+        $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
+        FwBrowse.search($inventoryPrepGrid);
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
