@@ -22,6 +22,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
+        public string ItemDescription { get { return item.ItemDescription; } set { item.ItemDescription = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TrackedBy { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -55,7 +56,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string RfId { get { return item.RfId; } set { item.RfId = value; } }
         public string OldBarCode { get { return item.OldBarCode; } set { item.OldBarCode = value; } }
         public string OldSerialNumber { get { return item.OldSerialNumber; } set { item.OldSerialNumber = value; } }
-        public string OldRfId { get { return item.OldRfId; } set { item.OldRfId = value; } }
+        public string OldRfid { get { return item.OldRfid; } set { item.OldRfid = value; } }
         public string ManufacturerPartNumber { get { return item.ManufacturerPartNumber; } set { item.ManufacturerPartNumber = value; } }
         public string ManufactureDate { get { return item.ManufactureDate; } set { item.ManufactureDate = value; } }
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
@@ -77,6 +78,10 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string ItemNotes { get { return item.ItemNotes; } set { item.ItemNotes = value; } }
         public string PhysicalId { get { return item.PhysicalId; } set { item.PhysicalId = value; } }
         public int? PhysicalItemId { get { return item.PhysicalItemId; } set { item.PhysicalItemId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PhysicalDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PhysicalBy { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Warehouse { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -147,11 +152,19 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string OriginalShow { get; set; }
         public string ConditionId { get { return item.ConditionId; } set { item.ConditionId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string Condition { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string SurfaceId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Surface { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string WallTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string WallType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string OpeningId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Opening { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ResponsiblePersonId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -226,8 +239,38 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string Location { get { return item.Location; } set { item.Location = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RetiredReason { get; set; }
+        public string WarrantyExpiration { get { return item.WarrantyExpiration; } set { item.WarrantyExpiration = value; } }
+        public int? WarrantyPeriod { get { return item.WarrantyPeriod; } set { item.WarrantyPeriod = value; } }
+        public string CountryOfOriginId { get { return item.CountryOfOriginId; } set { item.CountryOfOriginId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string Datstamp { get; set; }
+        public string CountryOfOrigin { get; set; }
+        public string ShelfLifeExpirationDate { get { return item.ShelfLifeExpirationDate; } set { item.ShelfLifeExpirationDate = value; } }
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentDealId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentDeal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentCustomerId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentCustomer { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderNumber { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderDescription { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderPickDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderFromDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrentOrderToDate { get; set; }
+
+
+        public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

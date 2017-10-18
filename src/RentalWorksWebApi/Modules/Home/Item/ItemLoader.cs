@@ -25,6 +25,9 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
+        public string ItemDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -83,7 +86,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string OldSerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldrfid", modeltype: FwDataTypes.Text)]
-        public string OldFfId { get; set; }
+        public string OldRfid { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
@@ -135,6 +138,12 @@ namespace RentalWorksWebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "physicalitemid", modeltype: FwDataTypes.Integer)]
         public int? PhysicalItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "physicaldate", modeltype: FwDataTypes.Date)]
+        public string PhysicalDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "physicalby", modeltype: FwDataTypes.Text)]
+        public string PhysicalBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
@@ -244,14 +253,26 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text)]
         public string ConditionId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "condition", modeltype: FwDataTypes.Text)]
+        public string Condition { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "surfaceid", modeltype: FwDataTypes.Text)]
         public string SurfaceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "surface", modeltype: FwDataTypes.Text)]
+        public string Surface { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "walltypeid", modeltype: FwDataTypes.Text)]
         public string WallTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "walltype", modeltype: FwDataTypes.Text)]
+        public string WallType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text)]
         public string OpeningId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "opening", modeltype: FwDataTypes.Text)]
+        public string Opening { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "responsiblepersonid", modeltype: FwDataTypes.Text)]
         public string ResponsiblePersonId { get; set; }
@@ -391,8 +412,56 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "retiredreason", modeltype: FwDataTypes.Text)]
         public string RetiredReason { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datstamp", modeltype: FwDataTypes.UTCDateTime)]
-        public string Datstamp { get; set; }
+        [FwSqlDataField(column: "warrantyexp", modeltype: FwDataTypes.Date)]
+        public string WarrantyExpiration { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warrantyperiod", modeltype: FwDataTypes.Integer)]
+        public int? WarrantyPeriod { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text)]
+        public string CountryOfOriginId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
+        public string CountryOfOrigin { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shelflifeexpiration", modeltype: FwDataTypes.Date)]
+        public string ShelfLifeExpirationDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentdealid", modeltype: FwDataTypes.Text)]
+        public string CurrentDealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentdeal", modeltype: FwDataTypes.Text)]
+        public string CurrentDeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentcustomerid", modeltype: FwDataTypes.Text)]
+        public string CurrentCustomerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentcustomer", modeltype: FwDataTypes.Text)]
+        public string CurrentCustomer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderid", modeltype: FwDataTypes.Text)]
+        public string CurrentOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderno", modeltype: FwDataTypes.Text)]
+        public string CurrentOrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderdesc", modeltype: FwDataTypes.Text)]
+        public string CurrentOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderdate", modeltype: FwDataTypes.Date)]
+        public string CurrentOrderDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderpickdate", modeltype: FwDataTypes.Date)]
+        public string CurrentOrderPickDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderestrentfrom", modeltype: FwDataTypes.Date)]
+        public string CurrentOrderFromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currentorderestrentto", modeltype: FwDataTypes.Date)]
+        public string CurrentOrderToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {

@@ -54,7 +54,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string ManufactureDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "countryoriginid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string CountryOriginId { get; set; }
+        public string CountryOfOriginId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warrantyexp", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
         public string WarrantyExpiration { get; set; }
@@ -65,7 +65,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "warrantyperiod", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? WarrantyPeriod { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "shelflifeexpiration", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "shelflifeexpiration", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ShelfLifeExpirationDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spaceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -177,7 +177,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string OldSerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldrfid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        public string OldRfId { get; set; }
+        public string OldRfid { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InputByUsersId { get; set; }
