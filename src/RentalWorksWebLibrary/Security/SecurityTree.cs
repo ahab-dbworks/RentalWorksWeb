@@ -268,6 +268,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
+            AddGrid("ICode",                                  "{2EE8822B-F83E-4D8B-B055-4DA5853080C8}", lv1menuGrids.Id, "ICodeGridController");
             AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");
             AddGrid("Item Location Tax",                      "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "ItemLocationTaxGridController");
             AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
