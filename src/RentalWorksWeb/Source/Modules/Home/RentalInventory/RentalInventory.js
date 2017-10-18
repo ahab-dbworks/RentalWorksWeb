@@ -180,7 +180,7 @@ var RentalInventory = (function () {
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                AttributeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
@@ -190,7 +190,7 @@ var RentalInventory = (function () {
         $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
         $inventoryVendorGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
         FwBrowse.init($inventoryVendorGridControl);

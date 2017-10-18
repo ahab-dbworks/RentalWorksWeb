@@ -173,7 +173,7 @@ var SalesInventory = (function () {
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                AttributeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
