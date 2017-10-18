@@ -15,11 +15,9 @@ namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeBrowseSubMenu = tree.AddSubMenu("{04DD2FAA-91D4-495C-9D77-ECC363C2CD56}", nodeBrowseMenuBar.Id);
             var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{E0BF75B1-2579-46AA-A583-B0C0F581926E}", nodeBrowseSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{71AA2092-F6F5-426A-BA13-9BC3CFDF403C}", nodeBrowseExport.Id);
-            tree.AddNewMenuBarButton("{E0443A9E-9A93-43F1-B077-B19A350AEA9E}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{E02B5164-378C-4BE0-B2AA-5E2FF24B4497}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{212CA338-F48D-4D3E-B54C-0F918446BD8D}", nodeBrowseMenuBar.Id);
-            tree.AddDeleteMenuBarButton("{D7A027F2-7389-4F51-97F1-7E801CFC001D}", nodeBrowseMenuBar.Id);
-
+           
             // Form
             var nodeForm = tree.AddForm("{300C734C-A159-401E-B521-551A4870B97A}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{C7E446A0-018E-4754-843F-B468154DEA38}", nodeForm.Id);

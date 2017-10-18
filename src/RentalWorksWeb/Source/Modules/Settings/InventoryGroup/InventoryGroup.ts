@@ -71,8 +71,27 @@ class RwInventoryGroup {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $iCodeGrid: any;
+        var $iCodeGridControl: any;
+
+        $iCodeGrid = $form.find('div[data-grid="ICodeGrid"]');
+        $iCodeGridControl = jQuery(jQuery('#tmpl-grids-ICodeGridBrowse').html());
+        $iCodeGrid.empty().append($iCodeGridControl);
+        $iCodeGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
+            };
+        })
+        FwBrowse.init($iCodeGridControl);
+        FwBrowse.renderRuntimeHtml($iCodeGridControl);
+
+    }
     afterLoad($form: any) {
-   
+        var $iCodeGrid: any;
+
+        $iCodeGrid = $form.find('[data-name="ICodeGrid"]');
+        FwBrowse.search($iCodeGrid);
     }
 
  
