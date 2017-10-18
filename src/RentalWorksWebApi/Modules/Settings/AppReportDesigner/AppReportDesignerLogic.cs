@@ -16,6 +16,7 @@ dataLoader = appReportDesignerLoader;
 [FwBusinessLogicField(isPrimaryKey: true)] 
 public string AppReportDesignerId { get { return appReportDesigner.AppReportDesignerId; } set { appReportDesigner.AppReportDesignerId = value; } } 
 public string Category { get { return appReportDesigner.Category; } set { appReportDesigner.Category = value; } } 
+[FwBusinessLogicField(isRecordTitle: true)] 
 public string Description { get { return appReportDesigner.Description; } set { appReportDesigner.Description = value; } } 
 public bool Inactive { get { return appReportDesigner.Inactive; } set { appReportDesigner.Inactive = value; } } 
 //------------------------------------------------------------------------------------ 
