@@ -107,6 +107,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public bool CreditApplicationOnFile { get { return deal.CreditApplicationOnFile; } set { deal.CreditApplicationOnFile = value; } }
         public bool UnlimitedCredit { get { return deal.UnlimitedCredit; } set { deal.UnlimitedCredit = value; } }
         public int? CreditLimit { get { return deal.CreditLimit; } set { deal.CreditLimit = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CreditBalance { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CreditAvailable { get; set; }
         public bool CreditResponsiblePartyOnFile { get { return deal.CreditResponsiblePartyOnFile; } set { deal.CreditResponsiblePartyOnFile = value; } }
         public string CreditResponsibleParty { get { return deal.CreditResponsibleParty; } set { deal.CreditResponsibleParty = value; } }
         public bool TradeReferencesVerified { get { return deal.TradeReferencesVerified; } set { deal.TradeReferencesVerified = value; } }
@@ -124,6 +128,12 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public bool CreditCardAuthorizationFormOnFile { get { return deal.CreditCardAuthorizationFormOnFile; } set { deal.CreditCardAuthorizationFormOnFile = value; } }
         public decimal? DepletingDepositThresholdAmount { get { return deal.DepletingDepositThresholdAmount; } set { deal.DepletingDepositThresholdAmount = value; } }
         public int? DepletingDepositThresholdPercent { get { return deal.DepletingDepositThresholdPercent; } set { deal.DepletingDepositThresholdPercent = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? DepletingDepositTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? DepletingDepositApplied { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? DepletingDepositRemaining { get; set; }
         public bool UseCustomerInsurance { get { return deal.UseCustomerInsurance; } set { deal.UseCustomerInsurance = value; } }
         public bool InsuranceCertification { get { return deal.InsuranceCertification; } set { deal.InsuranceCertification = value; } }
         public string InsuranceCertificationValidThrough { get { return deal.InsuranceCertificationValidThrough; } set { deal.InsuranceCertificationValidThrough = value; } }

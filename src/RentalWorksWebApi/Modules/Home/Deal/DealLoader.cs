@@ -227,6 +227,12 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "crlimitdeal", modeltype: FwDataTypes.Integer)]
         public int? CreditLimit { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealcreditbalance", modeltype: FwDataTypes.Integer)]
+        public int? CreditBalance { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealcreditavailable", modeltype: FwDataTypes.Integer)]
+        public int? CreditAvailable { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crresponfile", modeltype: FwDataTypes.Boolean)]
         public bool CreditResponsiblePartyOnFile { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -274,6 +280,15 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "thresholdpercent", modeltype: FwDataTypes.Integer)]
         public int? DepletingDepositThresholdPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depletingdeposittotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? DepletingDepositTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depletingdepositapplied", modeltype: FwDataTypes.Decimal)]
+        public decimal? DepletingDepositApplied { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "depletingdepositremaining", modeltype: FwDataTypes.Decimal)]
+        public decimal? DepletingDepositRemaining { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custinsurance", modeltype: FwDataTypes.Boolean)]
         public bool UseCustomerInsurance { get; set; }
