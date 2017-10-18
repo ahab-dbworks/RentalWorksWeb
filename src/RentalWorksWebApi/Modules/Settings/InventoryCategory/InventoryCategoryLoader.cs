@@ -38,6 +38,18 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
         public bool BarCodePrintUseDesigner { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventoryappreportdesignerid", modeltype: FwDataTypes.Text)]
+        public string InventoryBarCodeDesignerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventoryappreportdesigner", modeltype: FwDataTypes.Text)]
+        public string InventoryBarCodeDesigner { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text)]
+        public string BarCodeDesignerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "appreportdesigner", modeltype: FwDataTypes.Text)]
+        public string BarCodeDesigner { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text)]
         public string BarCodeType { get; set; }
         //------------------------------------------------------------------------------------

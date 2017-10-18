@@ -11,8 +11,6 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         TODO:
 transworksvehicle
 
-appreportdesignerid
-inventoryappreportdesignerid
              */
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
@@ -44,6 +42,12 @@ inventoryappreportdesignerid
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
         public bool BarCodePrintUseDesigner { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventoryappreportdesignerid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string InventoryBarCodeDesignerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string BarCodeDesignerId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text, maxlength: 1)]
         public string BarCodeType { get; set; }
