@@ -1,6 +1,8 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
+
 namespace RentalWorksWebApi.Modules.Home.Master
 {
     public abstract class MasterLogic : RwBusinessLogic
@@ -10,6 +12,7 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public MasterLogic()
         {
             dataRecords.Add(master);
+            master.AfterSaves += OnAfterSavesMaster;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -60,5 +63,11 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public bool Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSavesMaster(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = master.SaveNoteASync(Note).Result;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

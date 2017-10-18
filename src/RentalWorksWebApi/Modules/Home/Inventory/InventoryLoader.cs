@@ -197,41 +197,5 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime)]
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnInContract { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnOutContract { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReceiveContract { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReturnContract { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnInvoice { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnOrder { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPickList { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPO { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnQuote { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReturnList { get; set; }
-        //------------------------------------------------------------------------------------                 
-        [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPoReceiveList { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPoReturnList { get; set; }
-        //------------------------------------------------------------------------------------ 
     }
 }
