@@ -51,6 +51,8 @@ var RwAsset = (function () {
     RwAsset.prototype.renderGrids = function ($form) {
         var $itemAttributeValueGrid;
         var $itemAttributeValueGridControl;
+        var $itemQcGrid;
+        var $itemQcGridControl;
         $itemAttributeValueGrid = $form.find('div[data-grid="ItemAttributeValueGrid"]');
         $itemAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-ItemAttributeValueGridBrowse').html());
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
@@ -61,11 +63,24 @@ var RwAsset = (function () {
         });
         FwBrowse.init($itemAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
+        $itemQcGrid = $form.find('div[data-grid="ItemQcGrid"]');
+        $itemQcGridControl = jQuery(jQuery('#tmpl-grids-ItemQcGridBrowse').html());
+        $itemQcGrid.empty().append($itemQcGridControl);
+        $itemQcGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ItemId: $form.find('div.fwformfield[data-datafield="ItemId"] input').val()
+            };
+        });
+        FwBrowse.init($itemQcGridControl);
+        FwBrowse.renderRuntimeHtml($itemQcGridControl);
     };
     RwAsset.prototype.afterLoad = function ($form) {
         var $itemAttributeValueGrid;
+        var $itemQcGrid;
         $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
         FwBrowse.search($itemAttributeValueGrid);
+        $itemQcGrid = $form.find('[data-name="ItemQcGrid"]');
+        FwBrowse.search($itemQcGrid);
     };
     return RwAsset;
 }());
