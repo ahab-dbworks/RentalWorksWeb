@@ -21,7 +21,7 @@ public string InventoryDepartmentId { get; set; }
 public decimal? MarginPercent { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)] 
-public decimal? Markuppct { get; set; } 
+public decimal? MarkupPercent { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
 public string MasterId { get; set; } 
@@ -33,7 +33,7 @@ public string OrderTypeId { get; set; }
 public string RecType { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string SubcategoryId { get; set; } 
+public string SubCategoryId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)] 
 public decimal? DailyRate { get; set; } 
