@@ -1,5 +1,6 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Home.CustomerNote
 {
@@ -12,6 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.CustomerNote
         {
             dataRecords.Add(customerNote);
             dataLoader = customerNoteLoader;
+            customerNote.AfterSaves += OnAfterSavesCustomerNote;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -24,11 +26,15 @@ namespace RentalWorksWebApi.Modules.Home.CustomerNote
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get { return customerNote.Description; } set { customerNote.Description = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-
-        // TODO: save to separte table
         public string Notes { get; set; }
         public bool Notify { get { return customerNote.Notify; } set { customerNote.Notify = value; } }
         public string DateStamp { get { return customerNote.DateStamp; } set { customerNote.DateStamp = value; } }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSavesCustomerNote(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = customerNote.SaveNoteASync(Notes).Result;
+        }
         //------------------------------------------------------------------------------------
     }
 }

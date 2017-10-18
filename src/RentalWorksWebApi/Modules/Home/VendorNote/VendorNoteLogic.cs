@@ -1,5 +1,6 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Home.VendorNote
 {
@@ -12,6 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.VendorNote
         {
             dataRecords.Add(vendorNoteRecord);
             dataLoader = vendorNoteLoader;
+            vendorNoteRecord.AfterSaves += OnAfterSavesVendorNote;
         }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string VendorNoteId { get { return vendorNoteRecord.VendorNoteId; } set { vendorNoteRecord.VendorNoteId = value; } }
@@ -25,5 +27,11 @@ namespace RentalWorksWebApi.Modules.Home.VendorNote
         public string NotesBy { get; set; }
         public string DateStamp { get { return vendorNoteRecord.DateStamp; } set { vendorNoteRecord.DateStamp = value; } }
         //------------------------------------------------------------------------------------
+        public void OnAfterSavesVendorNote(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = vendorNoteRecord.SaveNoteASync(Notes).Result;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

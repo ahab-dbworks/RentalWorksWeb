@@ -1,5 +1,6 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Home.DealNote
 {
@@ -12,6 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.DealNote
         {
             dataRecords.Add(dealNote);
             dataLoader = dealNoteLoader;
+            dealNote.AfterSaves += OnAfterSavesDealNote;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -24,11 +26,15 @@ namespace RentalWorksWebApi.Modules.Home.DealNote
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get { return dealNote.Description; } set { dealNote.Description = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-
-        // TODO: save to separte table
         public string Notes { get; set; }
         public bool Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSavesDealNote(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = dealNote.SaveNoteASync(Notes).Result;
+        }
         //------------------------------------------------------------------------------------
     }
 }
