@@ -10,10 +10,13 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryGroupInventory
     public class InventoryGroupInventoryLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inventorygroupid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "inventorygroupmasterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string InventoryGroupInventoryId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorygroupid", modeltype: FwDataTypes.Text)]
         public string InventoryGroupId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]

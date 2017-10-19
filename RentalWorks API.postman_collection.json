@@ -7886,16 +7886,18 @@
 				{
 					"name": "Inventory Group Inventory: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventorygroupinventory/00002FRW~00000XCQ",
+						"url": "http://localhost:57949/api/v1/inventorygroupinventory/00003HH5",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -7955,16 +7957,18 @@
 				{
 					"name": "Inventory Group Inventory: Delete",
 					"request": {
-						"url": "http://localhost:57949/api/v1/inventorygroupinventory/00002FRW~00000XCQ",
+						"url": "http://localhost:57949/api/v1/inventorygroupinventory/00003HH5",
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {

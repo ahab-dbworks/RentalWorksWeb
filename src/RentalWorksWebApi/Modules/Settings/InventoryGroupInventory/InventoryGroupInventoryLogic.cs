@@ -14,8 +14,8 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryGroupInventory
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InventoryGroupInventoryId { get { return inventoryGroupInventory.InventoryGroupInventoryId; } set { inventoryGroupInventory.InventoryGroupInventoryId = value; } }
         public string InventoryGroupId { get { return inventoryGroupInventory.InventoryGroupId; } set { inventoryGroupInventory.InventoryGroupId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
         public string InventoryId { get { return inventoryGroupInventory.InventoryId; } set { inventoryGroupInventory.InventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
