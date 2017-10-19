@@ -60,6 +60,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/setopening$/,                 getScreen: function () { return SetOpeningController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventorygroup$/,             getScreen: function () { return InventoryGroupController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/facilityrate$/,               getScreen: function () { return FacilityRateController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/potype$/,                     getScreen: function () { return POTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/sapvendorinvoicestatus$/,     getScreen: function () { return SapVendorInvoiceStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectdrawings$/,            getScreen: function () { return ProjectDrawingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
