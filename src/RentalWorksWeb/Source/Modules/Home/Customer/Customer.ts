@@ -105,8 +105,7 @@ class Customer {
         var nameCustomerResaleGrid: string = 'CustomerResaleGrid';
         var $customerResaleGrid: any = $customerResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
         var $customerResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
-        var $companyTaxGrid: any;
-        var $companyTaxControl: any;
+
         $customerResaleGrid.empty().append($customerResaleGridControl);
         $customerResaleGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -132,12 +131,15 @@ class Customer {
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
         
-        $companyTaxGrid = $form.find('div[data-grid="CompanyTaxGrid"]');
-        $companyTaxControl = jQuery(jQuery('#tmpl-grids-CompanyTaxGridBrowse').html());
+
+        // ----------
+        var nameCompanyTaxGrid: string = 'CompanyTaxGrid'
+        var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
+        var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
         $companyTaxGrid.empty().append($companyTaxControl);
         $companyTaxControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
             }
         });
         FwBrowse.init($companyTaxControl);
@@ -146,12 +148,12 @@ class Customer {
 
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CustomerResaleGrid"]');
-        var $companyTaxGrid: any;
         FwBrowse.search($customerResaleGrid);
 
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
         FwBrowse.search($customerNoteGrid);
-        $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
+
+        var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxGrid"]');
         FwBrowse.search($companyTaxGrid);
     }
 }
