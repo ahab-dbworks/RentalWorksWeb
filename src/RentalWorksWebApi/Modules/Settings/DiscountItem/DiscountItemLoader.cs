@@ -117,7 +117,8 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("DiscountTemplateId", "discounttemplateid", select, request); 
+            addFilterToSelect("DiscountTemplateId", "discounttemplateid", select, request);
+            addFilterToSelect("RecType", "rectype", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }
