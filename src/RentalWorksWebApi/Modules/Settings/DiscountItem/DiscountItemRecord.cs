@@ -56,7 +56,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DiscountTemplateId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

@@ -62,7 +62,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentorderby", modeltype: FwDataTypes.Integer)]
-        public int? DepartmentOrderBy { get; set; }
+        public int? InventoryTypeOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
@@ -83,10 +83,10 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public decimal? SubCategoryOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string InventryId { get; set; }
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        public string MasterNo { get; set; }
+        public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
@@ -98,16 +98,16 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whdailyrate", modeltype: FwDataTypes.Decimal)]
-        public decimal? WhDailyRate { get; set; }
+        public decimal? WarehouseDailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whweeklyrate", modeltype: FwDataTypes.Decimal)]
-        public decimal? WhWeeklyRate { get; set; }
+        public decimal? WarehouseWeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whdefaultdailyrate", modeltype: FwDataTypes.Decimal)]
-        public decimal? WhDefaultDailyRate { get; set; }
+        public decimal? WarehouseDefaultDailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whdefaultweeklyrate", modeltype: FwDataTypes.Decimal)]
-        public decimal? WhDefaultWeeklyRate { get; set; }
+        public decimal? WarehouseDefaultWeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text)]
         public string DiscountTemplateId { get; set; }
@@ -117,7 +117,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("DiscountTemplateId", "discounttemplateid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }

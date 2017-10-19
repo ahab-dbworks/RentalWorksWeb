@@ -35,7 +35,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int? DepartmentOrderBy { get; set; }
+        public int? InventoryTypeOrderBy { get; set; }
         public string CategoryId { get { return discountItem.CategoryId; } set { discountItem.CategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Category { get; set; }
@@ -55,13 +55,13 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string Classification { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WhDailyRate { get; set; }
+        public decimal? WarehouseDailyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WhWeeklyRate { get; set; }
+        public decimal? WarehouseWeeklyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WhDefaultDailyRate { get; set; }
+        public decimal? WarehouseDefaultDailyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? WhDefaultWeeklyRate { get; set; }
+        public decimal? WarehouseDefaultWeeklyRate { get; set; }
         public string DiscountTemplateId { get { return discountItem.DiscountTemplateId; } set { discountItem.DiscountTemplateId = value; } }
         //------------------------------------------------------------------------------------ 
     }
