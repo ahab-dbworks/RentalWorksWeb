@@ -34,6 +34,28 @@ class Customer {
         return screen;
     }
 
+    events($form: JQuery): void {
+
+        $form.on('click', '#companytaxgrid .selected', (e) => {
+            this.updateExternalInputsWithGridValues(e.currentTarget);
+        });
+        
+    }
+
+    updateExternalInputsWithGridValues(target: Element): void {
+        var $row = jQuery(target);
+        $row.find('.column > .field').each((i, e) => {
+            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+
+            if (value == undefined || null) {
+                jQuery('.' + id).find(':input').val(0);
+            } else {
+                jQuery('.' + id).find(':input').val(value);
+            }
+
+        });
+    }
+
     openBrowse() {
         var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -54,6 +76,8 @@ class Customer {
                 FwFormField.disable($form.find('.quote-order [data-type="checkbox"]'))
             }
         });
+
+        this.events($form);
 
         
         return $form;
@@ -81,6 +105,8 @@ class Customer {
         var nameCustomerResaleGrid: string = 'CustomerResaleGrid';
         var $customerResaleGrid: any = $customerResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
         var $customerResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
+        var $companyTaxGrid: any;
+        var $companyTaxControl: any;
         $customerResaleGrid.empty().append($customerResaleGridControl);
         $customerResaleGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -105,14 +131,28 @@ class Customer {
         });
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
+        
+        $companyTaxGrid = $form.find('div[data-grid="CompanyTaxGrid"]');
+        $companyTaxControl = jQuery(jQuery('#tmpl-grids-CompanyTaxGridBrowse').html());
+        $companyTaxGrid.empty().append($companyTaxControl);
+        $companyTaxControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+            }
+        });
+        FwBrowse.init($companyTaxControl);
+        FwBrowse.renderRuntimeHtml($companyTaxControl);
     }
 
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CustomerResaleGrid"]');
+        var $companyTaxGrid: any;
         FwBrowse.search($customerResaleGrid);
 
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
         FwBrowse.search($customerNoteGrid);
+        $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
+        FwBrowse.search($companyTaxGrid);
     }
 }
 
