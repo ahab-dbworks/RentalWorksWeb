@@ -42,6 +42,22 @@ class DiscountTemplate {
         return $browse;
     }
 
+    renderGrids($form: any) {
+        var $discountItemGrid, $discountItemControl;
+
+        // load companytax Grid
+        $discountItemGrid = $form.find('div[data-grid="DiscountItemGrid"]');
+        $discountItemControl = jQuery(jQuery('#tmpl-grids-DiscountItemGridBrowse').html());
+        $discountItemGrid.empty().append($discountItemControl);
+        $discountItemControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val()
+            }
+        });
+        FwBrowse.init($discountItemControl);
+        FwBrowse.renderRuntimeHtml($discountItemControl);
+    }
+
     openForm(mode: string) {
         var $form;
 
@@ -72,7 +88,10 @@ class DiscountTemplate {
     }
 
     afterLoad($form: any) {
+        var $discountItemControl;
 
+        $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
+        FwBrowse.search($discountItemControl);
     }
 }
 

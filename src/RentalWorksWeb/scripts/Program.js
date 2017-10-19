@@ -158,6 +158,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/inventoryrank$/,              getScreen: function () { return InventoryRankController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborposition$/,              getScreen: function () { return LaborPositionController.getModuleScreen({}, {}); } }
 
+
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
     //Utilities Modules                                   
