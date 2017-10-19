@@ -63,6 +63,8 @@
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
 /src/RentalWorksWeb/scripts/_references.js
+/src/RentalWorksWeb/Source/Modules/Home/**/*.js
+/src/RentalWorksWeb/Source/Modules/Home/**/*.js.map
 /src/RentalWorksWeb/Source/Modules/Settings/**/*.js
 /src/RentalWorksWeb/Source/Modules/Settings/**/*.js.map
 /src/RentalWorksWeb/theme/fwcursors/*
