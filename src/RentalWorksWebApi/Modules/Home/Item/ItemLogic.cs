@@ -1,5 +1,7 @@
 using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
+
 namespace RentalWorksWebApi.Modules.Home.Item
 {
     public class ItemLogic : RwBusinessLogic
@@ -11,6 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         {
             dataRecords.Add(item);
             dataLoader = itemLoader;
+            item.AfterSaves += OnAfterSavesItem;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -272,5 +275,11 @@ namespace RentalWorksWebApi.Modules.Home.Item
 
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSavesItem(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = item.SaveNoteASync(ItemNotes).Result;
+        }
+        //------------------------------------------------------------------------------------   
     }
 }
