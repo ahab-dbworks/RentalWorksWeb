@@ -38,7 +38,7 @@
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="StatusType" data-enabled="false" style="width:175px;"></div>
                                 </div>
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusDate" data-enabled="false" style="float:left;width:175px;"></div>
+                                    <div data-control="FwFormField" data-type="datetime" class="fwcontrol fwformfield" data-caption="Status Date" data-datafield="StatusDate" data-enabled="false" style="float:left;width:175px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -83,21 +83,15 @@
                             </div>
                         </div>
                         <div class="formrow">
-                            <div class="formcolumn" style="width:225px;">
+                            <div class="formcolumn" style="width:600px">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-top:10px;">
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date / Time" data-datafield="CurrentOrderPickDate" data-enabled="false" style="float:left;width:125px;"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date / Time" data-datafield="CurrentOrderPickDate" data-enabled="false" style="float:left;width:150px;"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start Date / Time" data-datafield="CurrentOrderFromDate" data-enabled="false" style="float:left;width:150px;"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop Date / Time" data-datafield="CurrentOrderToDate" data-enabled="false" style="float:left;width:150px;"></div>
+
                                 </div>
                             </div>
-                            <div class="formcolumn" style="width:225px;">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-top:10px;">
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start Date / Time" data-datafield="CurrentOrderFromDate" data-enabled="false" style="float:left;width:125px;"></div>
-                                </div>
-                            </div>
-                            <div class="formcolumn" style="width:225px;">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin-top:10px;">
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop Date / Time" data-datafield="CurrentOrderToDate" data-enabled="false" style="float:left;width:125px;"></div>
-                                </div>
-                            </div>
+                          
                         </div>
                     </div>
                     <div class="formrow">
@@ -106,7 +100,7 @@
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Aisle" data-datafield="AisleLocation" style="float:left;width:75px;"></div>
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Shelf" data-datafield="ShelfLocation" style="float:left;width:75px;"></div>
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="ConditionId" data-validationname="InventoryConditionValidation" style="float:left;width:225px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="ConditionId" data-displayfield="Condition" data-validationname="InventoryConditionValidation" style="float:left;width:225px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +148,7 @@
                             </div>
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Part No." data-datafield="ManufacturerPartNumber" style="float:left;width:375px;"></div>
-                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Mfg. Date" data-datafield="ManufactureDate" style="float:left;width:125px;"></div>
+                                <div data-control="FwFormField" data-type="datetime" class="fwcontrol fwformfield" data-caption="Mfg. Date" data-datafield="ManufactureDate" style="float:left;width:125px;"></div>
                             </div>
                         </div>
                     </div>
