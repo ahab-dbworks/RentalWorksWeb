@@ -24,6 +24,8 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryRank
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string Warehouse { get; set; }
         public string Type { get { return inventoryRank.Type; } set { inventoryRank.Type = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TypeDisplay { get; set; }
         public decimal? AFromValue { get { return inventoryRank.AFromValue; } set { inventoryRank.AFromValue = value; } }
         public decimal? AToValue { get { return inventoryRank.AToValue; } set { inventoryRank.AToValue = value; } }
         public decimal? BFromValue { get { return inventoryRank.BFromValue; } set { inventoryRank.BFromValue = value; } }

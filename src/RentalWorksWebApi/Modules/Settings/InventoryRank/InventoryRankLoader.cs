@@ -31,6 +31,9 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryRank
         [FwSqlDataField(column: "type", modeltype: FwDataTypes.Text)]
         public string Type { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "typedisplay", modeltype: FwDataTypes.Text)]
+        public string TypeDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "afromvalue", modeltype: FwDataTypes.Decimal)]
         public decimal? AFromValue { get; set; }
         //------------------------------------------------------------------------------------ 
