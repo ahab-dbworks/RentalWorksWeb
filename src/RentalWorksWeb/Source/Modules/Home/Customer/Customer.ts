@@ -4,24 +4,26 @@ declare var FwBrowse: any;
 class Customer {
     Module: string;
     apiurl: string;
+    caption: string;
+    thisModule: Customer;
 
     constructor() {
         this.Module = 'Customer';
         this.apiurl = 'api/v1/customer';
+        this.caption = 'Customer';
     }
 
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+        var self = this;
+        var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        var $browse : any = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Customer', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -33,9 +35,7 @@ class Customer {
     }
 
     openBrowse() {
-        var $browse;
-
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
 
@@ -43,9 +43,7 @@ class Customer {
     }
 
     openForm(mode: string) {
-        var $form;
-
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
@@ -62,10 +60,8 @@ class Customer {
     }
 
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CustomerId"] input').val(uniqueids.CustomerId);
+        var $form : any = this.openForm('EDIT');
+        FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -76,35 +72,35 @@ class Customer {
     }
 
     loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="CustomerId"] input').val();
+        var uniqueid : string = FwFormField.getValueByDataField($form, 'CustomerId');
         FwModule.loadAudit($form, uniqueid);
     }
 
     renderGrids($form: any) {
-        var $customerResaleGrid: any;
-        var $customerResaleGridControl: any;
-        var $customerNoteGrid: any;
-        var $customerNoteGridControl: any;
-
-        // load AttributeValue Grid
-        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
-        $customerResaleGridControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
+        // ----------
+        var nameCustomerResaleGrid: string = 'CustomerResaleGrid';
+        var $customerResaleGrid: any = $customerResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
+        var $customerResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
         $customerResaleGrid.empty().append($customerResaleGridControl);
         $customerResaleGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
             };
+        });
+        $customerResaleGridControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
         });
         FwBrowse.init($customerResaleGridControl);
         FwBrowse.renderRuntimeHtml($customerResaleGridControl);
 
-        $customerNoteGrid = $form.find('div[data-grid="CustomerNoteGrid"]');
-        $customerNoteGridControl = jQuery(jQuery('#tmpl-grids-CustomerNoteGridBrowse').html());
+        // ----------
+        var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
+        var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
+        var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
         $customerNoteGrid.empty().append($customerNoteGridControl);
         $customerNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CustomerId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
             };
         });
         FwBrowse.init($customerNoteGridControl);
@@ -112,12 +108,10 @@ class Customer {
     }
 
     afterLoad($form: any) {
-        var $customerResaleGrid: any;
-        var $customerNoteGrid: any;
-
-        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
-        $customerNoteGrid = $form.find('[data-name="CustomerNoteGrid"]');
+        var $customerResaleGrid: any = $form.find('[data-name="CustomerResaleGrid"]');
         FwBrowse.search($customerResaleGrid);
+
+        var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
         FwBrowse.search($customerNoteGrid);
     }
 }

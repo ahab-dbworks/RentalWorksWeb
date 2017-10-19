@@ -1,7 +1,9 @@
 ﻿using FwStandard.Models;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
+using System;
 using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Modules.Home.CustomerNote
@@ -36,6 +38,8 @@ namespace RentalWorksWebApi.Modules.Home.CustomerNote
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]CustomerNoteLogic l)
         {
+            l.NoteDate = FwConvert.ToUSShortDate(DateTime.Today);
+            l.NotesById = UsersId;
             return await DoPostAsync<CustomerNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
