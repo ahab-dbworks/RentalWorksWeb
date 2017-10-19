@@ -158,6 +158,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/spacetype$/,                  getScreen: function () { return SpaceTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventoryrank$/,              getScreen: function () { return InventoryRankController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborposition$/,              getScreen: function () { return LaborPositionController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } }
 
 
     //Reports                                             

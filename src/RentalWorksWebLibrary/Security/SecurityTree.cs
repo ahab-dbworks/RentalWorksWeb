@@ -94,6 +94,7 @@ namespace RentalWorksWebLibrary
 
             var lv2menuEventSettings = AddLv2ModuleMenu("Event Settings", "{AC96C86F-C229-4E35-8978-859BDAC5865B}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                           AddModule("Event Category", "{3912b3cc-b35f-434d-aeeb-c45fed537e29}", lv2menuEventSettings.Id, "EventCategoryController", "module/eventcategory", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Event Type", "{FE501F99-95D4-444C-A7B6-EA20ACE88879}", lv2menuEventSettings.Id, "EventTypeController", "module/eventtype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Personnel Type", "{46339c9c-c663-4041-aeb4-a7f85783996f}", lv2menuEventSettings.Id, "PersonnelTypeController", "module/personneltype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Photography Type", "{66bff7f0-8bca-4d32-bd94-6b5f13623bec}", lv2menuEventSettings.Id, "PhotographyTypeController", "module/photographytype", settingsiconbaseurl + "placeholder.png");
 
