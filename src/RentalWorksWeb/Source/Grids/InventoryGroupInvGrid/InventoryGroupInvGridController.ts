@@ -1,12 +1,12 @@
-﻿class ICodeGrid {
+﻿class InventoryGroupInvGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'ICodeGrid';
+        this.Module = 'InventoryGroupInvGrid';
         this.apiurl = 'api/v1/inventorygroupinventory';
     }
 }
 
-(<any>window).ICodeGridController = new ICodeGrid();
+(<any>window).InventoryGroupInvGridController = new InventoryGroupInvGrid();
 //----------------------------------------------------------------------------------------------

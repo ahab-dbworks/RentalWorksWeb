@@ -41,6 +41,34 @@ class RwInventoryGroup {
 
         return $browse;
     }
+
+    renderGrids($form: any) {
+        var $inventoryGroupInvGrid: any;
+        var $inventoryGroupInvGridControl: any;
+
+        $inventoryGroupInvGrid = $form.find('div[data-grid="InventoryGroupInvGrid"]');
+        $inventoryGroupInvGridControl = jQuery(jQuery('#tmpl-grids-InventoryGroupInvGridBrowse').html());
+        $inventoryGroupInvGrid.empty().append($inventoryGroupInvGridControl);
+        $inventoryGroupInvGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
+            };
+        })
+
+        $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.val() === "S") {
+                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "SalesInventoryValidation");
+            }
+            else {
+                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "RentalInventoryValidation");
+            }
+        });
+
+        FwBrowse.init($inventoryGroupInvGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
+
+    }
      
     openForm(mode: string) {
         var $form;
@@ -71,38 +99,12 @@ class RwInventoryGroup {
         FwModule.loadAudit($form, uniqueid);
     }
 
-    renderGrids($form: any) {
-        var $iCodeGrid: any;
-        var $iCodeGridControl: any;
 
-        $iCodeGrid = $form.find('div[data-grid="ICodeGrid"]');
-        $iCodeGridControl = jQuery(jQuery('#tmpl-grids-ICodeGridBrowse').html());
-        $iCodeGrid.empty().append($iCodeGridControl);
-        $iCodeGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryGroupId: $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val()
-            };
-        })
-
-        $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.val() === "S") {
-                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "SalesInventoryValidation");
-            }
-            else {
-                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "RentalInventoryValidation");
-            }
-        });
-
-        FwBrowse.init($iCodeGridControl);
-        FwBrowse.renderRuntimeHtml($iCodeGridControl);
-
-    }
     afterLoad($form: any) {
-        var $iCodeGrid: any;
+        var $inventoryGroupInvGrid: any;
 
-        $iCodeGrid = $form.find('[data-name="ICodeGrid"]');
-        FwBrowse.search($iCodeGrid);
+        $inventoryGroupInvGrid = $form.find('[data-name="InventoryGroupInvGrid"]');
+        FwBrowse.search($inventoryGroupInvGrid);
 
     }
 

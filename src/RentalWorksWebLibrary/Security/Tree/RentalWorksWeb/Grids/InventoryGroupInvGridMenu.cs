@@ -2,10 +2,10 @@
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    public class ICodeGridMenu : FwSecurityTreeBranch
+    public class InventoryGroupInvGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ICodeGridMenu() : base("{2EE8822B-F83E-4D8B-B055-4DA5853080C8}") { }
+        public InventoryGroupInvGridMenu() : base("{2EE8822B-F83E-4D8B-B055-4DA5853080C8}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

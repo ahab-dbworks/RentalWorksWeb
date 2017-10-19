@@ -193,7 +193,7 @@
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridBrowse.htm" />
     <Content Include="Source\Grids\InventorySubstituteGrid\InventorySubstituteGridBrowse.htm" />
-    <Content Include="Source\Grids\ICodeGrid\ICodeGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryGroupInvGrid\InventoryGroupInvGridBrowse.htm" />
     <Content Include="Source\Grids\ItemQcGrid\ItemQcGridBrowse.htm" />
     <Content Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridBrowse.htm" />
@@ -234,7 +234,7 @@
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventorySubstituteGrid\InventorySubstituteGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\ICodeGrid\ICodeGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryGroupInvGrid\InventoryGroupInvGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ItemQcGrid\ItemQcGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridController.ts" />
