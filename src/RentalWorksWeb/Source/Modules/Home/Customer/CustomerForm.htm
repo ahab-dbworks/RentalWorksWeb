@@ -1147,6 +1147,19 @@
                 <div id="companytaxgrid" data-control="FwGrid" data-grid="CompanyTaxGrid" data-securitycaption="Company Tax Grid" style="min-width:240px;max-width:400px;"></div>
               </div>
             </div>
+            <div class="formcolumn" style="width:325px;padding-left:1px;">
+              <div class="formrow" style="width:325px;">
+                <!-- Tax Rates section -->
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield TaxOption" data-caption="Tax Option" data-enabled="false" data-datafield="" data-displayfield="Customer" data-validationname="CustomerValidation" style="width:200px;"></div>
+                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield RentalTaxRate1" data-caption="Rental %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
+                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-caption="Sales %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
+                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield LaborTaxRate1" data-caption="Labor %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="formrow">
             <div class="formcolumn" style="width:300px;">
@@ -1169,19 +1182,6 @@
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Resale">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwGrid" data-grid="CustomerResaleGrid" data-securitycaption="Customer Resale" style="min-width:240px;max-width:400px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="formcolumn" style="width:450px;padding-left:1px;">
-              <div class="formrow" style="width:325px;">
-                <!-- Tax Rates section -->
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield TaxOption" data-caption="Tax Option" data-enabled="false" data-datafield="" data-displayfield="Customer" data-validationname="CustomerValidation" style="width:200px;"></div>
-                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield RentalTaxRate1" data-caption="Rental %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
-                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-caption="Sales %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
-                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield LaborTaxRate1" data-caption="Labor %" data-datafield="" data-displayfield="" data-enabled="false" style="float:left;width:100px;"></div>
-                  </div>
                 </div>
               </div>
             </div>
