@@ -589,6 +589,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\DealClassificationValidation\DealClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\DealStatusValidation\DealStatusValidationBrowse.htm" />
+    <Content Include="Source\Validations\CompanyTaxOptionValidation\CompanyTaxOptionValidationBrowse.htm" />
     <Content Include="Source\Validations\DealTypeValidation\DealTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\DiscountTemplateValidation\DiscountTemplateValidationBrowse.htm" />
     <Content Include="Source\Validations\FacilityCategoryValidation\FacilityCategoryValidationBrowse.htm" />
