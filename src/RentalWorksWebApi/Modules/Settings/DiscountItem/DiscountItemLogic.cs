@@ -28,12 +28,12 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public decimal? MonthlyRate { get { return discountItem.MonthlyRate; } set { discountItem.MonthlyRate = value; } }
         public string OrderTypeId { get { return discountItem.OrderTypeId; } set { discountItem.OrderTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string Ordertype { get; set; }
+        public string OrderType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? OrderTypeOrderBy { get; set; }
-        public string InventoryDepartmentId { get { return discountItem.InventoryDepartmentId; } set { discountItem.InventoryDepartmentId = value; } }
+        public string InventoryTypeId { get { return discountItem.InventoryTypeId; } set { discountItem.InventoryTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string InventoryDepartment { get; set; }
+        public string InventoryType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? DepartmentOrderBy { get; set; }
         public string CategoryId { get { return discountItem.CategoryId; } set { discountItem.CategoryId = value; } }
@@ -46,14 +46,14 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public string SubCategory { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? SubCategoryOrderBy { get; set; }
-        public string MasterId { get { return discountItem.MasterId; } set { discountItem.MasterId = value; } }
+        public string InventoryId  { get { return discountItem.InventoryId; } set { discountItem.InventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string Masterno { get; set; }
+        public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Description { get; set; }
         public string RecType { get { return discountItem.RecType; } set { discountItem.RecType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string Class { get; set; }
+        public string Classification { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? WhDailyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

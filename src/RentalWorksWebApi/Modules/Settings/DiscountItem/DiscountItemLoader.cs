@@ -56,10 +56,10 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public decimal? OrderTypeOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
-        public string InventoryDepartmentId { get; set; }
+        public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
-        public string InventoryDepartment { get; set; }
+        public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentorderby", modeltype: FwDataTypes.Integer)]
         public int? DepartmentOrderBy { get; set; }
@@ -83,7 +83,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public decimal? SubCategoryOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string MasterId { get; set; }
+        public string InventryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string MasterNo { get; set; }
@@ -95,7 +95,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountItem
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
-        public string Class { get; set; }
+        public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whdailyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? WhDailyRate { get; set; }
