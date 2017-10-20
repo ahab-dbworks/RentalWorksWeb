@@ -91,7 +91,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "mfgdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "mfgdate", modeltype: FwDataTypes.Date)]
         public string ManufactureDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedbycode", modeltype: FwDataTypes.Text)]

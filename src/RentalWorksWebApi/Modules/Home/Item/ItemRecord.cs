@@ -53,7 +53,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "mfgvendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ManufacturerId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "mfgdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "mfgdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ManufactureDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "countryoriginid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
