@@ -55,6 +55,10 @@ class RwInventoryGroup {
             };
         })
 
+        $inventoryGroupInvGridControl.data('beforesave', function (request) {
+            request.InventoryGroupId = FwFormField.getValueByDataField($form, 'InventoryGroupId');
+        });
+
         $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.val() === "S") {
