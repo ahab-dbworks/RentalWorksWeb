@@ -27,6 +27,167 @@ var Deal = (function () {
         FwBrowse.init($browse);
         return $browse;
     };
+    Deal.prototype.events = function ($form) {
+        var _this = this;
+        $form.on('change', '.billing_use_discount_template input[type=checkbox]', function (e) {
+            _this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
+        });
+        $form.on('change', '.billing_use_customer input[type=checkbox]', function (e) {
+            _this.useCustomer(jQuery(e.currentTarget).is(':checked'));
+        });
+        $form.on('change', '.billing_radio1 input[type=radio]', function (e) {
+            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+            _this.toggleBillingAddressInfo($form, val);
+        });
+        $form.on('change', '.credit_use_customer input[type=checkbox]', function (e) {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            _this.toggleCredTabIfUseCustomer($form, isChecked);
+        });
+        $form.on('change', '.insurance_use_customer input[type=checkbox]', function (e) {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            _this.toggleInsurTabIfUseCustomer($form, isChecked);
+        });
+        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
+        //    FwFormField.setValue($form, jQuery(e.currentTarget))
+        //});
+        $form.on('change', '.tax_use_customer input[type=checkbox]', function (e) {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            _this.toggleTaxTabIfUseCustomer($form, isChecked);
+        });
+        $form.on('change', '.exlude_quote input[type=checkbox]', function (e) {
+            var isChecked = jQuery(e.currentTarget).is(':checked');
+            _this.toggleOptionsTabIfExcludeQuote($form, isChecked);
+        });
+    };
+    Deal.prototype.useDiscountTemplate = function (isChecked) {
+        var $temp = jQuery('.billing_template');
+        if (isChecked) {
+            $temp.attr('data-enabled', 'false');
+            $temp.find('input').prop('disabled', true);
+        }
+        else {
+            $temp.attr('data-enabled', 'true');
+            $temp.find('input').prop('disabled', false);
+        }
+    };
+    Deal.prototype.useCustomer = function (isChecked) {
+        var $discTemp = jQuery('.billing_use_discount_template'), $useCust = jQuery('.billing_use_customer'), $temp = jQuery('.billing_template');
+        if (isChecked) {
+            $temp.attr('data-enabled', 'false');
+            $temp.find('input').prop('disabled', true);
+            $discTemp.attr('data-enabled', 'false');
+            $discTemp.find('input').prop('disabled', true);
+        }
+        else {
+            if (!$discTemp.find('input[type=checkbox]').is(':checked')) {
+                $temp.attr('data-enabled', 'true');
+                $temp.find('input').prop('disabled', false);
+            }
+            $discTemp.attr('data-enabled', 'true');
+            $discTemp.find('input').prop('disabled', false);
+        }
+    };
+    Deal.prototype.toggleBillingAddressInfo = function ($form, isOther) {
+        var list = ['BillToAttention1',
+            'BillToAttention2',
+            'BillToAddress1',
+            'BillToAddress2',
+            'BillToCity',
+            'BillToState',
+            'BillToZipCode',
+            'BillToCountryId'];
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.toggleCredTabIfUseCustomer = function ($form, isCustomer) {
+        var list = ['CreditStatusId',
+            'CreditStatusThrough',
+            'CreditLimit',
+            'CreditAvailable',
+            'CreditBalance',
+            'UnlimitedCredit',
+            'CreditApplicationOnFile',
+            'TradeReferencesVerifiedBy',
+            'TradeReferencesVerifiedOn',
+            'TradeReferencesVerified',
+            'CreditCardName',
+            'CreditCardAuthorizationFormOnFile',
+            'CreditCardTypeId',
+            'CreditCardExpirationMonth',
+            'CreditCardExpirationYear',
+            'CreditCardCode',
+            'CreditCardLimit',
+            'CreditCardNumber',
+            'CreditResponsibleParty',
+            'CreditResponsiblePartyOnFile',
+            'DepletingDepositThresholdAmount',
+            'DepletingDepositThresholdPercent',
+            'DepletingDepositTotal',
+            'DepletingDepositApplied',
+            'DepletingDepositRemaining'];
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.toggleInsurTabIfUseCustomer = function ($form, isCustomer) {
+        var list = ['InsuranceCertificationValidThrough',
+            'InsuranceCoverageLiability',
+            'InsuranceCoverageLiabilityDeductible',
+            'InsuranceCertification',
+            'InsuranceCoverageProperty',
+            'InsuranceCoveragePropertyDeductible',
+            'SecurityDepositAmount',
+            'VehicleInsuranceCertification',
+            'InsuranceCompany',
+            'InsuranceCompanyAgent',
+            'InsuranceCompanyAddress1',
+            'InsuranceCompanyAddress2',
+            'InsuranceCompanyCity',
+            'InsuranceCompanyState',
+            'InsuranceCompanyZipCode',
+            'InsuranceCompanyCountryId',
+            'InsuranceCompanyPhone',
+            'InsuranceCompanyFax'];
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.disableInsurCompanyInfo = function ($form) {
+        var list = ['InsuranceCompanyAddress1',
+            'InsuranceCompanyAddress2',
+            'InsuranceCompanyCity',
+            'InsuranceCompanyState',
+            'InsuranceCompanyZipCode',
+            'InsuranceCompanyCountryId',
+            'InsuranceCompanyPhone',
+            'InsuranceCompanyFax'];
+        this.disableFields($form, list);
+    };
+    Deal.prototype.toggleTaxTabIfUseCustomer = function ($form, isCustomer) {
+        var list = ['Taxable',
+            'TaxStateOfIncorporationId',
+            'TaxFederalNo',
+            'NonTaxableCertificateNo',
+            'NonTaxableYear',
+            'NonTaxableCertificateValidThrough',
+            'NonTaxableCertificateOnFile'];
+        isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.toggleOptionsTabIfExcludeQuote = function ($form, isExlucded) {
+        var list = ['DisableRental',
+            'DisableSales',
+            'DisableFacilities',
+            'DisableTransportation',
+            'DisableLabor',
+            'DisableMisc',
+            'DisableRentalSale',
+            'DisableSubRental',
+            'DisableSubSale',
+            'DisableSubLabor',
+            'DisableSubMisc'];
+        isExlucded ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.disableFields = function ($form, fields) {
+        fields.forEach(function (e, i) { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
+    };
+    Deal.prototype.enableFields = function ($form, fields) {
+        fields.forEach(function (e, i) { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
+    };
     Deal.prototype.renderGrids = function ($form) {
         var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
         // load companytax Grid
@@ -46,7 +207,7 @@ var Deal = (function () {
         $taxOptionGrid.empty().append($taxOptionControl);
         $taxOptionControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                TaxOptionId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
         });
         FwBrowse.init($taxOptionControl);
@@ -92,6 +253,7 @@ var Deal = (function () {
             { value: 'WEEKLY', text: 'Weekly Rate' },
             { value: 'MONTHLY', text: 'Monthly Rate' }
         ]);
+        this.events($form);
         return $form;
     };
     Deal.prototype.loadForm = function (uniqueids) {
@@ -121,6 +283,14 @@ var Deal = (function () {
         FwBrowse.search($dealNotesGrid);
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
+        this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
+        this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
+        var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
+        this.toggleBillingAddressInfo($form, val_bill);
+        this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
+        this.disableInsurCompanyInfo($form);
+        this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
+        this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
     };
     return Deal;
 }());
