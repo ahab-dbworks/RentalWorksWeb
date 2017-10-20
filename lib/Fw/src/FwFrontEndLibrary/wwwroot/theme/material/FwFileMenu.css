@@ -14,7 +14,7 @@ html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn:hover .ddmodulebtn-dropdown {display:block;}
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {padding: 3px 10px;transition: background-color .3s;}
 
-/*#region Default Theme*/
+/*#region Material Theme*/
 html.theme-material .fwfilemenu[data-version="1"] {background-color:#b0bec5;}
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu:hover {background-color:#90a4ae;}
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu.active {background-color:#90a4ae;}
@@ -23,7 +23,7 @@ html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn:hover {background-color:#90a4ae;}
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown {background-color:white;}
 html.theme-material .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:hover {background-color:#90a4ae;}
-/*#endregion Default Theme*/
+/*#endregion Material Theme*/
 /*#endregion fwfilemenu - version 1*/
 
 /*#region fwfilemenu - version 2*/
@@ -35,11 +35,11 @@ html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper.active .fi
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu {padding:6px;flex: 1 0 auto;width: 240px;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .caption {text-transform: uppercase;color: #ffffff;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .modulebtn {padding: 3px 10px;cursor:pointer;transition: background-color .3s;}
-html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption {padding: 3px 2px 3px 10px;cursor:pointer;transition: background-color .3s;overflow:auto;display:flex;}
-
+html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption {padding: 3px 2px 3px 10px;cursor:pointer;transition: background-color .1s;overflow:auto;display:flex;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption .ddmodulebtn-text {flex:1 0 166px;}
-html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption > i {float:right;flex:0 0 auto;}
-html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {cursor:pointer;padding:4px 18px;}
+html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption > i {flex:0 0 auto;transition:all .2s;}
+html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption > i {transform:rotate(90deg);}
+html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {cursor:pointer;padding:4px 18px;transition: background-color .1s;}
 
 html.theme-material .fwfilemenu[data-version="2"] .logo {overflow:auto;flex:1 0 auto;font-size: 34px;line-height: 44px;cursor:default;margin-left:5px;}
 html.theme-material .fwfilemenu[data-version="2"] .logo img {display:block;margin:0 auto;height:46px;}
@@ -56,7 +56,7 @@ html.theme-material .fwfilemenu[data-version="2"] .user-controls.active .user-dr
 html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item {padding:6px;cursor:pointer;}
 html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown .staticinfo {font-size: 14px;text-align: center;border-top: 1px solid #616161;margin-top: 6px;padding: 6px;color: #BDBDBD;background-color: #424242;cursor: default;}
 
-/*#region Default Theme*/
+/*#region Material Theme*/
 html.theme-material .fwfilemenu[data-version="2"] {background-color:#EEEEEE;color:#37474F;border-bottom:1px solid #9E9E9E;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper > i:hover {background-color:#BDBDBD;}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown {background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131;}
@@ -70,5 +70,5 @@ html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu
 html.theme-material .fwfilemenu[data-version="2"] .user-controls i:hover {background-color:#BDBDBD;}
 html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown {background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131;}
 html.theme-material .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item:hover {background-color:#546E7A;}
-/*#endregion Default Theme*/
+/*#endregion Material Theme*/
 /*#endregion fwfilemenu - version 2*/

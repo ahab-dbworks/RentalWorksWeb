@@ -226,7 +226,7 @@ html.theme-classic .fwbrowse[data-type="Grid"] {border: 1px solid #E0E0E0;backgr
 html.theme-classic .fwbrowse[data-type="Grid"] .browsecaption {color:#212121;border-bottom:1px solid rgba(0,0,0,.2);background-color: #9e9e9e;}
 html.theme-classic .fwbrowse[data-type="Grid"][data-mode="EDIT"] .browsecaption {background-color:#4caf50;}
 html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;}
-html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr .editablefield {background-color:#FFFFFF;}
+html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr .editablefield {/*background-color:#FFFFFF;*/}
 html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow {background: #F5F5F5;}
 html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
 html.theme-classic .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
@@ -281,6 +281,14 @@ html.theme-classic .fwbrowse table tbody tr.editrow td .field[data-formreadonly=
 html.theme-classic .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="money"] {border:1px solid #bdbdbd;}
 html.theme-classic .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="validation"] {border:1px solid #bdbdbd;}
 html.theme-classic .fwbrowse table tbody tr.editrow td .field[data-formreadonly="false"][data-formdatatype="combobox"] {border:1px solid #bdbdbd;}
+
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
+html.theme-classic .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
 
 html.theme-classic .fwbrowse table tbody tr.editrow td .field input:focus {outline:0;}
 html.theme-classic .fwbrowse table tbody tr.editrow td .field input.error {background-color:rgba(255, 0, 0, .3);border:1px solid red !important;}
