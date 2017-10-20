@@ -1,20 +1,14 @@
-﻿<div data-name="CompanyTaxGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Company Tax" data-rendermode="template" data-showsearch="false" data-controller="CompanyTaxGridController">
-    <div class="column" data-width="0" data-visible="false">
-        <div class="field" data-isuniqueid="true" data-browsedatafield="CompanyId" data-browsedatatype="key" data-formdatafield="CompanyId" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
-    </div>
-    <div class="column" data-width="auto" data-visible="true">
-        <div class="field" data-caption="Location" data-browsedatafield="Location" data-browsedatatype="text" data-formdatafield="Location" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-formnoduplicate="true" data-formreadonly="true"></div>
-    </div>
-    <div class="column" data-width="auto" data-visible="true">
-        <div class="field" data-caption="Tax Option" data-browsedatafield="TaxOption" data-browsedatatype="validation" data-formdatafield="TaxOption" data-formdatatype="validation" data-sort="asc" data-formrequired="true" data-formnoduplicate="true" data-formvalidationname="TaxOptionValidation"></div>
-    </div>
-    <div class="column" data-width="auto" data-visible="false">
-        <div class="field" data-browsedatafield="RentalTaxRate1" data-browsedatatype="text" data-formdatafield="RentalTaxRate1" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-formnoduplicate="true"></div>
-    </div>
-    <div class="column" data-width="auto" data-visible="false">
-        <div class="field" data-browsedatafield="SalesTaxRate1" data-browsedatatype="text" data-formdatafield="SalesTaxRate1" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-formnoduplicate="true"></div>
-    </div>
-    <div class="column" data-width="auto" data-visible="false">
-        <div class="field" data-browsedatafield="LaborTaxRate1" data-browsedatatype="text" data-formdatafield="LaborTaxRate1" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-formnoduplicate="true"></div>
-    </div>    
+﻿<div data-name="CompanyTaxGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Company Tax" data-showsearch="false" data-controller="CompanyTaxGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-browsedatafield="CompanyId" data-browsedatatype="key" data-formdatafield="CompanyId" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-browsedatafield="RentalTaxRate1" data-browsedatatype="text" data-formdatafield="RentalTaxRate1" data-formdatatype="text" data-sort="off"></div>
+    <div class="field" data-browsedatafield="SalesTaxRate1" data-browsedatatype="text" data-formdatafield="SalesTaxRate1" data-formdatatype="text" data-sort="off"></div>
+    <div class="field" data-browsedatafield="LaborTaxRate1" data-browsedatatype="text" data-formdatafield="LaborTaxRate1" data-formdatatype="text" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Location" data-browsedatafield="Location" data-browsedatatype="text" data-formdatafield="Location" data-formdatatype="text" data-sort="asc" data-formnoduplicate="true" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Tax Option" data-browsedatafield="TaxOptionId" data-browsedisplayfield="TaxOption" data-browsedatatype="validation" data-formdatafield="TaxOptionId" data-formdatatype="validation" data-sort="asc" data-formrequired="true" data-formnoduplicate="true" data-formvalidationname="TaxOptionValidation"></div>
+  </div>
 </div>

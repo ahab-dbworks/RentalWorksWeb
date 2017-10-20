@@ -123,11 +123,6 @@ class Customer {
         var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
         var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
         $customerNoteGrid.empty().append($customerNoteGridControl);
-        $customerNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
-            };
-        });
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
         
@@ -141,6 +136,9 @@ class Customer {
             request.uniqueids = {
                 CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
             }
+        });
+        $companyTaxControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
         });
         FwBrowse.init($companyTaxControl);
         FwBrowse.renderRuntimeHtml($companyTaxControl);
