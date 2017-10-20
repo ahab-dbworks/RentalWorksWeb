@@ -116,8 +116,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "poreq", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool PoRequired { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "potype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool PoType { get; set; }
+        [FwSqlDataField(column: "potype", modeltype: FwDataTypes.Text, sqltype: "char")]
+        public string PoType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         public string BillToAddressType { get; set; }

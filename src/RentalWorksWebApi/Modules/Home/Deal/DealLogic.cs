@@ -84,7 +84,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public decimal? CommissionRate { get { return deal.CommissionRate; } set { deal.CommissionRate = value; } }
         public bool CommissionIncludesVendorItems { get { return deal.CommissionIncludesVendorItems; } set { deal.CommissionIncludesVendorItems = value; } }
         public bool PoRequired { get { return deal.PoRequired; } set { deal.PoRequired = value; } }
-        public bool PoType { get { return deal.PoType; } set { deal.PoType = value; } }
+        public string PoType { get { return deal.PoType; } set { deal.PoType = value; } }
         public string BillToAddressType { get { return deal.BillToAddressType; } set { deal.BillToAddressType = value; } }
         public string BillToAttention1 { get { return deal.BillToAttention1; } set { deal.BillToAttention1 = value; } }
         public string BillToAttention2 { get { return deal.BillToAttention2; } set { deal.BillToAttention2 = value; } }
