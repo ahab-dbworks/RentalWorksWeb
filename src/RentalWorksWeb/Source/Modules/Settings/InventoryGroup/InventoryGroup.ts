@@ -65,6 +65,7 @@ class RwInventoryGroup {
             }
         });
 
+
         FwBrowse.init($inventoryGroupInvGridControl);
         FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
 
