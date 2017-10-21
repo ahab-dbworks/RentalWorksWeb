@@ -2,16 +2,19 @@ var RwAsset = (function () {
     function RwAsset() {
         this.Module = 'Asset';
         this.apiurl = 'api/v1/item';
+        this.caption = 'Asset';
+        this.nameItemAttributeValueGrid = 'ItemAttributeValueGrid';
+        this.nameItemQcGrid = 'ItemQcGrid';
     }
     RwAsset.prototype.getModuleScreen = function () {
-        var screen, $browse;
-        screen = {};
+        var self = this;
+        var screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
-        $browse = this.openBrowse();
+        var $browse = this.openBrowse();
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Asset', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -21,22 +24,19 @@ var RwAsset = (function () {
         return screen;
     };
     RwAsset.prototype.openBrowse = function () {
-        var $browse;
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
         return $browse;
     };
     RwAsset.prototype.openForm = function (mode) {
-        var $form;
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         return $form;
     };
     RwAsset.prototype.loadForm = function (uniqueids) {
-        var $form;
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="ItemId"] input').val(uniqueids.ItemId);
+        var $form = this.openForm('EDIT');
+        FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
@@ -44,45 +44,41 @@ var RwAsset = (function () {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     };
     RwAsset.prototype.loadAudit = function ($form) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="ItemId"] input').val();
+        var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
         FwModule.loadAudit($form, uniqueid);
     };
     RwAsset.prototype.renderGrids = function ($form) {
-        var $itemAttributeValueGrid;
-        var $itemAttributeValueGridControl;
-        var $itemQcGrid;
-        var $itemQcGridControl;
-        $itemAttributeValueGrid = $form.find('div[data-grid="ItemAttributeValueGrid"]');
-        $itemAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-ItemAttributeValueGridBrowse').html());
+        var $itemAttributeValueGrid = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
+        var $itemAttributeValueGridControl = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid);
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
         $itemAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ItemId: $form.find('div.fwformfield[data-datafield="ItemId"] input').val()
+                ItemId: FwFormField.getValueByDataField($form, 'ItemId')
             };
+        });
+        $itemAttributeValueGridControl.data('beforesave', function (request) {
+            request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
         });
         FwBrowse.init($itemAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
-        $itemQcGrid = $form.find('div[data-grid="ItemQcGrid"]');
-        $itemQcGridControl = jQuery(jQuery('#tmpl-grids-ItemQcGridBrowse').html());
+        var $itemQcGrid = $form.find('div[data-grid="' + this.nameItemQcGrid + '"]');
+        var $itemQcGridControl = jQuery(jQuery('#tmpl-grids-' + this.nameItemQcGrid + 'Browse').html());
         $itemQcGrid.empty().append($itemQcGridControl);
         $itemQcGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ItemId: $form.find('div.fwformfield[data-datafield="ItemId"] input').val()
+                ItemId: FwFormField.getValueByDataField($form, 'ItemId')
             };
         });
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
     };
     RwAsset.prototype.afterLoad = function ($form) {
-        var $itemAttributeValueGrid;
-        var $itemQcGrid;
-        var $status = $form.find('div.fwformfield[data-datafield="StatusType"] input').val();
-        $itemAttributeValueGrid = $form.find('[data-name="ItemAttributeValueGrid"]');
+        var $itemAttributeValueGrid = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
         FwBrowse.search($itemAttributeValueGrid);
-        $itemQcGrid = $form.find('[data-name="ItemQcGrid"]');
+        var $itemQcGrid = $form.find('[data-name="' + this.nameItemQcGrid + '"]');
         FwBrowse.search($itemQcGrid);
-        if ($status === "IN") {
+        var status = FwFormField.getValueByDataField($form, 'StatusType');
+        if (status === "IN") {
             FwFormField.enable($form.find('.ifin'));
         }
     };
