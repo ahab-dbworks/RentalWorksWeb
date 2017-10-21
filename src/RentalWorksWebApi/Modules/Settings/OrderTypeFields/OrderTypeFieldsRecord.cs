@@ -15,10 +15,10 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeFields
         public bool ShowOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showrepairno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowRepairNnumber { get; set; }
+        public bool ShowRepairOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showmasterno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowICode{ get; set; }
+        public bool ShowICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "icodewidth", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? ICodeWidth { get; set; }
@@ -39,13 +39,13 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeFields
         public bool ShowToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showbillableperiods", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowBillableperiods { get; set; }
+        public bool ShowBillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showsubqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowSubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showavailqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowAvailQuantity { get; set; }
+        public bool ShowAvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showconflictdate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowConflictDate { get; set; }
@@ -114,7 +114,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeFields
         public bool ShowVarianceExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showcountryoforigin", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowCountryoforigin { get; set; }
+        public bool ShowCountryOfOrigin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showmanufacturer", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowManufacturer { get; set; }
@@ -168,19 +168,19 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeFields
         public bool ShowPickTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showavailqtyallwh", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowAvailqtyAllWarehouses { get; set; }
+        public bool ShowAvailableQuantityAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showconflictdateallwh", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowConflictDateAllWarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showconsignavailqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowConsignavailQuantity { get; set; }
+        public bool ShowConsignmentAvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showconsignconflictdate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowConsignconflictDate { get; set; }
+        public bool ShowConsignmentConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showconsignqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowConsignQuantity { get; set; }
+        public bool ShowConsignmentQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showinlocationqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowInLocationQuantity { get; set; }
@@ -207,7 +207,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeFields
         public bool ShowOrderActivity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showsuborderno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowSuborderNo { get; set; }
+        public bool ShowSubOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showorderstatus", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool ShowOrderStatus { get; set; }
