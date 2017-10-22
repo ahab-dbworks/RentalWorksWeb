@@ -113,10 +113,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "dealstatus", modeltype: FwDataTypes.Text)]
         public string DealStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.Date)]
         public string StatusAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.Date)]
         public string ExpectedWrapDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
@@ -215,7 +215,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "dealcreditstatus", modeltype: FwDataTypes.Text)]
         public string CreditStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crappthru", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "crappthru", modeltype: FwDataTypes.Date)]
         public string CreditStatusThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crapponfile", modeltype: FwDataTypes.Boolean)]
@@ -245,7 +245,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "crby", modeltype: FwDataTypes.Text)]
         public string TradeReferencesVerifiedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cron", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "cron", modeltype: FwDataTypes.Date)]
         public string TradeReferencesVerifiedOn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "creditcardtypeid", modeltype: FwDataTypes.Text)]
@@ -260,7 +260,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text)]
         public string CreditCardNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "creditcardcode", modeltype: FwDataTypes.Text)]
         public string CreditCardCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crcname", modeltype: FwDataTypes.Text)]
@@ -296,7 +296,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "inscertification", modeltype: FwDataTypes.Boolean)]
         public bool InsuranceCertification { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "insvalidthru", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "insvalidthru", modeltype: FwDataTypes.Date)]
         public string InsuranceCertificationValidThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inscovliab", modeltype: FwDataTypes.Integer)]
@@ -374,7 +374,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "nontaxcertificateno", modeltype: FwDataTypes.Text)]
         public string NonTaxableCertificateNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nontaxvalidthrough", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "nontaxvalidthrough", modeltype: FwDataTypes.Date)]
         public string NonTaxableCertificateValidThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nontaxcertificateonfile", modeltype: FwDataTypes.Boolean)]

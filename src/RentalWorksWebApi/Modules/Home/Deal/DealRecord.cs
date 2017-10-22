@@ -77,10 +77,10 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DealStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string StatusAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "expwrapdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ExpectedWrapDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -161,7 +161,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "creditstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CreditStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "crappthru", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "crappthru", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string CreditStatusThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crapponfile", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -185,7 +185,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "crby", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string TradeReferencesVerifiedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cron", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "cron", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string TradeReferencesVerifiedOn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "creditcardtypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -227,7 +227,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         //[FwSqlDataField(column: "inscert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool Inscert { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "insvalidthru", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "insvalidthru", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string InsuranceCertificationValidThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inscovliab", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
@@ -273,7 +273,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwSqlDataField(column: "nontaxcertificateno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
         public string NonTaxableCertificateNo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nontaxvalidthrough", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "nontaxvalidthrough", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string NonTaxableCertificateValidThrough { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nontaxcertificateonfile", modeltype: FwDataTypes.Boolean, sqltype: "char")]
