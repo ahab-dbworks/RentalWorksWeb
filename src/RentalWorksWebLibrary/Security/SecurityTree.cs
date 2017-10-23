@@ -121,22 +121,21 @@ namespace RentalWorksWebLibrary
                                             AddModule("Blackout Status", "{43D7C88D-8D8C-424E-94D3-A2C537F0C76E}", lv2menuHolidaySettings.Id, "BlackoutStatusController", "module/blackoutstatus", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuInventorySettings = AddLv2ModuleMenu("Inventory Settings", "{A3FB2C11-082B-4602-B189-54B4B1B3E510}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Inventory Condition", "{BF711CAC-1E69-4C92-B509-4CBFA29FAED3}", lv2menuInventorySettings.Id, "InventoryConditionController", "module/inventorycondition", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Inventory Type", "{D62E0D20-AFF4-46A7-A767-FF32F6EC4617}", lv2menuInventorySettings.Id, "InventoryTypeController", "module/inventorytype", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Bar Code Range", "{9A52C5B8-98AB-49A0-A392-69DB0873F943}", lv2menuInventorySettings.Id, "BarCodeRangeController", "module/barcoderange", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Adjustment Reason", "{B3156707-4D41-481C-A66E-8951E5233CDA}", lv2menuInventorySettings.Id, "InventoryAdjustmentReasonController", "module/inventoryadjustmentreason", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Attribute", "{2777dd37-daca-47ff-aa44-29677b302745}", lv2menuInventorySettings.Id, "AttributeController", "module/attribute", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Condition", "{BF711CAC-1E69-4C92-B509-4CBFA29FAED3}", lv2menuInventorySettings.Id, "InventoryConditionController", "module/inventorycondition", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Group", "{43AF2FBA-69FB-46A8-8E5A-2712486B66F3}", lv2menuInventorySettings.Id, "InventoryGroupController", "module/inventorygroup", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Rank", "{963F5133-29CA-4675-9BE6-E5C47D38789A}", lv2menuInventorySettings.Id, "InventoryRankController", "module/inventoryrank", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Inventory Status", "{E8E24D94-A07D-4388-9F2F-58FE028F24BB}", lv2menuInventorySettings.Id, "InventoryStatusController", "module/inventorystatus", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Props Condition", "{86C769E8-F8E6-4C59-BC0B-8F2D563C698F}", lv2menuInventorySettings.Id, "PropsConditionController", "module/propscondition", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Inventory Type", "{D62E0D20-AFF4-46A7-A767-FF32F6EC4617}", lv2menuInventorySettings.Id, "InventoryTypeController", "module/inventorytype", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Parts Category", "{4750DFBD-6C60-41EF-83FE-49C8340D6062}", lv2menuInventorySettings.Id, "PartsCategoryController", "module/partscategory", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Rental Category", "{91079439-A188-4637-B733-A7EF9A9DFC22}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Retired Reason", "{1DE1DD87-47FD-4079-B7D8-B5DE61FCB280}", lv2menuInventorySettings.Id, "RetiredReasonController", "module/retiredreason", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Sales Category", "{428619B5-ABDE-48C4-9B2F-CF6D2A3AC574}", lv2menuInventorySettings.Id, "SalesCategoryController", "module/salescategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Unit of Measure", "{EE9F1081-BD9F-4004-A0CA-3813E2360642}", lv2menuInventorySettings.Id, "UnitController", "module/unit", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Unretired Reason", "{C8E7F77B-52BC-435C-9971-331CF99284A0}", lv2menuInventorySettings.Id, "UnretiredReasonController", "module/unretiredreason", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Parts Category", "{4750DFBD-6C60-41EF-83FE-49C8340D6062}", lv2menuInventorySettings.Id, "PartsCategoryController", "module/partscategory", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Sales Category", "{428619B5-ABDE-48C4-9B2F-CF6D2A3AC574}", lv2menuInventorySettings.Id, "SalesCategoryController", "module/salescategory", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Rental Category", "{91079439-A188-4637-B733-A7EF9A9DFC22}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Warehouse Catalog", "{9045B118-A790-44FB-9867-3E8035EFEE69}", lv2menuInventorySettings.Id, "WarehouseCatalogController", "module/warehousecatalog", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Bar Code Range", "{9A52C5B8-98AB-49A0-A392-69DB0873F943}", lv2menuInventorySettings.Id, "BarCodeRangeController", "module/barcoderange", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Inventory Rank", "{963F5133-29CA-4675-9BE6-E5C47D38789A}", lv2menuInventorySettings.Id, "InventoryRankController", "module/inventoryrank", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Rate", "{650305EC-0A53-490B-A8FB-E1AF636DA89B}", lv2menuLaborSettings.Id, "LaborRateController", "module/laborrate", settingsiconbaseurl + "placeholder.png");
@@ -178,12 +177,15 @@ namespace RentalWorksWebLibrary
                                               AddModule("Presentation Layer Activity", "{084E26BD-37FD-4E0E-AD65-A0824A6DC884}", lv2menuPresentationSettings.Id, "PresentationLayerActivityController", "module/presentationlayeractivity", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
-                                         AddModule("Project As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "ProjectAsBuildController", "module/projectasbuild", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "ProjectAsBuildController", "module/projectasbuild", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Commissioning", "{0EFE9BBA-0685-4046-A7D6-EC3D34AD01AA}", lv2menuProjectSettings.Id, "ProjectCommissioningController", "module/projectcommissioning", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Deposit", "{24E6F284-7457-4E75-B77D-25B3A6BE6A4D}", lv2menuProjectSettings.Id, "ProjectDepositController", "module/projectdeposit", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Drawings", "{7486859D-243F-4817-8177-6DCB81392C36}", lv2menuProjectSettings.Id, "ProjectDrawingsController", "module/projectdrawings", settingsiconbaseurl + "placeholder.png");
                                          AddModule("Drop Ship Items", "{20CD34E6-7E35-4EAF-B4D3-587870412C85}", lv2menuProjectSettings.Id, "ProjectDropShipItemsController", "module/projectdropshipitems", settingsiconbaseurl + "placeholder.png");
-                                         AddModule("Project Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ProjectItemsOrderedController", "module/projectitemsordered", settingsiconbaseurl + "placeholder.png");
+                                         AddModule("Items Ordered", "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id, "ProjectItemsOrderedController", "module/projectitemsordered", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuPropsSettings = AddLv2ModuleMenu("Props Settings", "{B210CBF6-9CCE-442F-B11B-6B7AC60C3216}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                       AddModule("Props Condition", "{86C769E8-F8E6-4C59-BC0B-8F2D563C698F}", lv2menuPropsSettings.Id, "PropsConditionController", "module/propscondition", settingsiconbaseurl + "placeholder.png");
 
 
             AddModule("Region", "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id, "RegionController", "module/region", settingsiconbaseurl + "placeholder.png");
