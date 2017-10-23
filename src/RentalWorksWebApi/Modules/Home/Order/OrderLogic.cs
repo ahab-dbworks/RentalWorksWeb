@@ -25,7 +25,7 @@ namespace RentalWorksWebApi.Modules.Home.Order
         public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
-        public string OrderDescription { get { return dealOrder.OrderDescription; } set { dealOrder.OrderDescription = value; } }
+        public string Description { get { return dealOrder.Description; } set { dealOrder.Description = value; } }
         //------------------------------------------------------------------------------------
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         //------------------------------------------------------------------------------------
