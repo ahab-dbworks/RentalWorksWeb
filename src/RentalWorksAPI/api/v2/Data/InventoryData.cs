@@ -124,10 +124,11 @@ namespace RentalWorksAPI.api.v2.Data
 
             using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
             {
-                qry.AddColumn("datetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
-                qry.AddColumn("qty",      false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Integer);
+                qry.AddColumn("transactiondatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
+                qry.AddColumn("qty",                 false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Integer);
                 qry.Add("select *");
-                qry.Add("from apirest_itemstatushistoryfunc(@rentalitemid, @days)");
+                qry.Add("  from apirest_itemstatushistoryfunc(@rentalitemid, @days)");
+                qry.Add("order by transactiondatetime desc");
                 qry.AddParameter("@rentalitemid", rentalitemid);
                 qry.AddParameter("@days",         days);
                 qryresult = qry.QueryToDynamicList2();
@@ -138,7 +139,7 @@ namespace RentalWorksAPI.api.v2.Data
                 ItemStatusHistory transaction = new ItemStatusHistory();
 
                 transaction.type     = qryresult[i].type;
-                transaction.datetime = qryresult[i].datetime;
+                transaction.datetime = qryresult[i].transactiondatetime;
                 transaction.orderid  = qryresult[i].orderid;
                 transaction.orderno  = qryresult[i].orderno;
                 transaction.dealname = qryresult[i].dealname;

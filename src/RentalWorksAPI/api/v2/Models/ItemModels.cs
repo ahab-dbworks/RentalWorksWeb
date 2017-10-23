@@ -24,6 +24,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string renttotime            { get; set; }
         public string qtyordered            { get; set; }
         public string subqty                { get; set; }
+        public string subvendor             { get; set; }
         public string unit                  { get; set; }
         public string price                 { get; set; }
         public string daysinwk              { get; set; }

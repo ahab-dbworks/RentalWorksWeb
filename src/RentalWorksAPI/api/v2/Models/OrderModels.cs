@@ -16,6 +16,8 @@ namespace RentalWorksAPI.api.v2.Models
         public string orderno               { get; set; }
         public string orderdesc             { get; set; }
         public string orderdate             { get; set; }
+        public string csrid                 { get; set; }
+        public string csr                   { get; set; }
         public string pickdate              { get; set; }
         public string picktime              { get; set; }
         public string estrentfrom           { get; set; }

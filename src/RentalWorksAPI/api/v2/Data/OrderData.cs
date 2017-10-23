@@ -24,12 +24,12 @@ namespace RentalWorksAPI.api.v2.Data
             qry.Add("  from apirest_csrdeal");
             qry.Add(" where csrid      = @csrid");
             qry.Add("   and locationid = @locationid");
-            qry.AddParameter("@csrid",    csrid);
-            qry.AddParameter("@location", locationid);
+            qry.AddParameter("@csrid",      csrid);
+            qry.AddParameter("@locationid", locationid);
 
             qryresult = qry.QueryToDynamicObject2();
 
-            if (qryresult.csrid != "")
+            if ((qryresult != null) && (qryresult.csrid != ""))
             {
                 result.csrid = qryresult.csrid;
                 result.deals = GetCsrsDeals(csrid);
@@ -134,6 +134,8 @@ namespace RentalWorksAPI.api.v2.Data
                 order.orderno          = qryresult[i].orderno;
                 order.orderdesc        = qryresult[i].orderdesc;
                 order.orderdate        = qryresult[i].orderdate;
+                order.csrid            = qryresult[i].csrid;
+                order.csr              = qryresult[i].csr;
                 order.pickdate         = qryresult[i].pickdate;
                 order.picktime         = qryresult[i].picktime;
                 order.estrentfrom      = qryresult[i].estrentfrom;
@@ -230,9 +232,14 @@ namespace RentalWorksAPI.api.v2.Data
         //----------------------------------------------------------------------------------------------------
         public static List<Item> GetOAIItems(string orderid)
         {
-            FwSqlCommand qry;
+            FwSqlCommand qry, qry2;
             List<Item> result = new List<Item>();
             dynamic qryresult = new ExpandoObject();
+
+            qry2 = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry2.Add("exec apirest_availmakecurrent @orderid");
+            qry2.AddParameter("@orderid", orderid);
+            qry2.Execute();
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
             qry.AddColumn("rentfromdate",   false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
@@ -243,6 +250,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.AddColumn("periodextended", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
             qry.Add("select *");
             qry.Add("  from apirest_ordersanditemsfunc(@orderid)");
+            qry.Add("order by orderby");
             qry.AddParameter("@orderid", orderid);
 
             qryresult = qry.QueryToDynamicList2();
@@ -256,7 +264,6 @@ namespace RentalWorksAPI.api.v2.Data
                 item.masterno              = qryresult[i].masterno;
                 item.description           = qryresult[i].description;
                 item.rectype               = qryresult[i].rectype;
-                item.indent                = qryresult[i].indent;
                 item.itemorder             = qryresult[i].itemorder;
                 item.inventorydepartmentid = qryresult[i].inventorydepartmentid;
                 item.inventorydepartment   = qryresult[i].inventorydepartment;
@@ -267,6 +274,7 @@ namespace RentalWorksAPI.api.v2.Data
                 item.renttotime            = qryresult[i].renttotime;
                 item.qtyordered            = FwConvert.ToString(qryresult[i].qtyordered);
                 item.subqty                = FwConvert.ToString(qryresult[i].subqty);
+                item.subvendor             = qryresult[i].subvendor;
                 item.unit                  = qryresult[i].unit;
                 item.price                 = qryresult[i].price;
                 item.daysinwk              = FwConvert.ToString(qryresult[i].daysinweeks);
@@ -283,6 +291,7 @@ namespace RentalWorksAPI.api.v2.Data
                 item.qtyremaining          = FwConvert.ToString(qryresult[i].qtyremaining);
                 item.qtyconflict           = FwConvert.ToString(qryresult[i].qtyconflict);
                 item.availabletofulfillqty = FwConvert.ToString(qryresult[i].availabletofullfillqty);
+                item.trackedby             = qryresult[i].trackedby;
 
                 result.Add(item);
             }
@@ -302,7 +311,7 @@ namespace RentalWorksAPI.api.v2.Data
             {
                 qry.Add("select *");
                 qry.Add("from apirest_orderstatus(@orderid)");
-                qry.Add("order by itemorder");
+                qry.Add("order by orderby");
                 qry.AddParameter("@orderid", orderid);
                 qryresult = qry.QueryToDynamicList2();
 
@@ -312,6 +321,7 @@ namespace RentalWorksAPI.api.v2.Data
 
                     item.rectype         = qryresult[i].rectype;
                     item.masterid        = qryresult[i].masterid;
+                    item.masteritemid    = qryresult[i].masteritemid;
                     item.masterno        = qryresult[i].masterno;
                     item.description     = qryresult[i].description;
                     item.qtyordered      = qryresult[i].qtyordered;
@@ -322,7 +332,7 @@ namespace RentalWorksAPI.api.v2.Data
                     item.itemorder       = qryresult[i].itemorder;
                     item.trackedby       = qryresult[i].trackedby;
 
-                    item.physicalassets  = detailresult.Where(x => x.masterid == item.masterid).ToList();
+                    item.physicalassets  = detailresult.Where(x => x.masteritemid == item.masteritemid).ToList();
 
                     result.Add(item);
                 }
@@ -342,6 +352,7 @@ namespace RentalWorksAPI.api.v2.Data
                 qry.AddColumn("indatetime",  false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
                 qry.Add("select *");
                 qry.Add("from apirest_orderstatusdetail(@orderid)");
+                qry.Add("order by orderby");
                 qry.AddParameter("@orderid", orderid);
                 qryresult = qry.QueryToDynamicList2();
 
@@ -352,6 +363,7 @@ namespace RentalWorksAPI.api.v2.Data
                     item.rentalitemid    = qryresult[i].rentalitemid;
                     item.rectype         = qryresult[i].rectype;
                     item.masterid        = qryresult[i].masterid;
+                    item.masteritemid    = qryresult[i].masteritemid;
                     item.masterno        = qryresult[i].masterno;
                     item.description     = qryresult[i].description;
                     item.trackedby       = qryresult[i].trackedby;

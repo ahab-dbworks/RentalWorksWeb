@@ -5,6 +5,7 @@
         public string rentalitemid { get; set; }
         public string rectype      { get; set; }
         public string masterid     { get; set; }
+        public string masteritemid { get; set; }
         public string masterno     { get; set; }
         public string description  { get; set; }
         public string trackedby    { get; set; }

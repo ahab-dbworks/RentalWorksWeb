@@ -6,6 +6,7 @@ namespace RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetail
     {
         public string rectype                             { get; set; }
         public string masterid                            { get; set; }
+        public string masteritemid                        { get; set; }
         public string masterno                            { get; set; }
         public string description                         { get; set; }
         public int qtyordered                             { get; set; }
