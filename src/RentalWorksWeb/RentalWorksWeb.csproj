@@ -288,6 +288,8 @@
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
+    <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
@@ -302,6 +304,7 @@
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFieldsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />

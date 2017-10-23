@@ -87,6 +87,9 @@ class RwBuilding {
                 BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val()
             };
         })
+        $floorGridControl.data('beforesave', function (request) {
+            request.BuildingId = FwFormField.getValueByDataField($form, 'BuildingId');
+        });
         FwBrowse.init($floorGridControl);
         FwBrowse.renderRuntimeHtml($floorGridControl);
 
@@ -109,6 +112,7 @@ class RwBuilding {
                 SpaceId: $form.find('div.fwformfield[data-datafield="SpaceId"] input').val()
             };
         })
+
         FwBrowse.init($spaceRateGridControl);
         FwBrowse.renderRuntimeHtml($spaceRateGridControl);
 
@@ -129,6 +133,8 @@ class RwBuilding {
         $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
         FwBrowse.search($spaceRateGrid);
 
+
+        //this.events($form);
 
     }
 

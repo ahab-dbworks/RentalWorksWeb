@@ -170,7 +170,8 @@ Program.prototype.modules = [
     //Administrator                                       
   , { urlpattern: /^module\/group/,                       getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/integration/,                 getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                        getScreen: function() { return UserController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                        getScreen: function () { return UserController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customfields/,                getScreen: function () { return CustomFieldsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/settingspage$/,               getScreen: function () { return SettingsPageController.getModuleScreen({}, {}); } }
     //Exports                                             
   , { urlpattern: /^module\/example/,                     getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
