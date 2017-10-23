@@ -596,8 +596,27 @@ namespace FwStandard.DataLayer
                         select.AddParameter("@" + databaseFieldName, uniqueIds[filterFieldName].ToString());
                     }
                 }
-                //------------------------------------------------------------------------------------
             }
         }
+        //------------------------------------------------------------------------------------
+        protected void AddFilterFieldToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequestDto request = null)
+        {
+            if ((request != null) && (request.uniqueids != null))
+            {
+                Dictionary<string, string> filterfields = ((Dictionary<string, string>)request.filterfields);
+                if (filterfields.ContainsKey(filterFieldName))
+                {
+                    select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                    if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false") {
+                        select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T": "F"));
+                    }
+                    else
+                    {
+                        select.AddParameter("@" + databaseFieldName, filterfields[filterFieldName].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

@@ -44,7 +44,7 @@ namespace RentalWorksWebApi.Modules.Settings.AttributeValue
             select.Parse();
             //select.AddWhere("attributeid = @attributeid");
             //select.AddParameter("@attributeid", request.miscfields.AttributeId.value);
-            addFilterToSelect("AttributeId", "attributeid", select, request);
+            AddFilterFieldToSelect("AttributeId", "attributeid", select, request);
         }
         //------------------------------------------------------------------------------------
 

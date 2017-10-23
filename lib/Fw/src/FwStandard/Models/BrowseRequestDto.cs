@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 
 namespace FwStandard.Models
 {
@@ -15,6 +16,8 @@ namespace FwStandard.Models
         public string[] searchfields { get; set; } = new string[0];
         public string[] searchfieldvalues { get; set; } = new string[0];
         public dynamic uniqueids { get; set; } = new ExpandoObject();
+        public dynamic boundids { get; set; } = new ExpandoObject();
+        public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();
 
         public BrowseRequestDto()
         {
