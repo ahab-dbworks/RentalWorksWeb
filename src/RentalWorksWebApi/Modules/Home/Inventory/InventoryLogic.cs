@@ -88,9 +88,9 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public bool TrackSoftware { get { return master.TrackSoftware; } set { master.TrackSoftware = value; } }
         public string SoftwareVersion { get { return master.SoftwareVersion; } set { master.SoftwareVersion = value; } }
         public string SoftwareEffectiveDate { get { return master.SoftwareEffectiveDate; } set { master.SoftwareEffectiveDate = value; } }
-
-
-
+        public bool WarehouseSpecificPackage { get { return master.WarehouseSpecificPackage; } set { master.WarehouseSpecificPackage = value; } }
+        public string PackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
+        public bool SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

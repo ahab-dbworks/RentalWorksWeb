@@ -1486,6 +1486,162 @@
 			]
 		},
 		{
+			"name": "Control",
+			"description": "",
+			"item": [
+				{
+					"name": "Control: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Control: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Control: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Control: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Control: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ControlId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Control: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/control/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Country",
 			"description": "",
 			"item": [
@@ -1774,150 +1930,6 @@
 			]
 		},
 		{
-			"name": "Credit Status",
-			"description": "",
-			"item": [
-				{
-					"name": "CreditStatus: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "CreditStatus: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "CreditStatus: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus/00000S5R",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "CreditStatus: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"CreditStatus\": \"NEW STATUSX\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "CreditStatus: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"CreditStatusId\": \"A00003ML\",\n    \"CreditStatus\": \"NEW CREDIT XX \"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "CreditStatus: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus/00003AN1",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Company Tax Option",
 			"description": "",
 			"item": [
@@ -2184,6 +2196,150 @@
 					"name": "Company Tax Resale: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/companytaxresale/00003EL5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Credit Status",
+			"description": "",
+			"item": [
+				{
+					"name": "CreditStatus: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/00000S5R",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CreditStatus\": \"NEW STATUSX\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"CreditStatusId\": \"A00003ML\",\n    \"CreditStatus\": \"NEW CREDIT XX \"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "CreditStatus: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/creditstatus/00003AN1",
 						"method": "DELETE",
 						"header": [
 							{
@@ -3345,6 +3501,162 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Custom Field",
+			"description": "",
+			"item": [
+				{
+					"name": "Custom Field: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Field: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ModuleName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Field: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Field: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"ModuleName\": \"GlAccount\",\n        \"FieldName\": \"Setup Date\",\n        \"CustomTableName\": \"customvaluesdatetime\",\n    },"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Field: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"CustomFieldId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Field: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/customfield/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -7126,11 +7438,11 @@
 			]
 		},
 		{
-			"name": "GlAccount",
+			"name": "G/L Account",
 			"description": "",
 			"item": [
 				{
-					"name": "GlAccount: Get Many",
+					"name": "G/L Account: Get Many",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount",
 						"method": "GET",
@@ -7153,7 +7465,7 @@
 					"response": []
 				},
 				{
-					"name": "GlAccount: Browse",
+					"name": "G/L Account: Browse",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount/browse",
 						"method": "POST",
@@ -7176,7 +7488,7 @@
 					"response": []
 				},
 				{
-					"name": "GlAccount: Get One",
+					"name": "G/L Account: Get One",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount/00001HZH",
 						"method": "GET",
@@ -7199,7 +7511,7 @@
 					"response": []
 				},
 				{
-					"name": "GlAccount: Insert",
+					"name": "G/L Account: Insert",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount",
 						"method": "POST",
@@ -7222,7 +7534,7 @@
 					"response": []
 				},
 				{
-					"name": "GlAccount: Update",
+					"name": "G/L Account: Update",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount",
 						"method": "POST",
@@ -7245,7 +7557,7 @@
 					"response": []
 				},
 				{
-					"name": "GlAccount: Delete",
+					"name": "G/L Account: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/glaccount/000039C8",
 						"method": "DELETE",
@@ -7257,6 +7569,162 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "G/L Distribution",
+			"description": "",
+			"item": [
+				{
+					"name": "G/L Distribution: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "G/L Distribution: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "G/L Distribution: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "G/L Distribution: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "G/L Distribution: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"GlDistributionId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "G/L Distribution: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/gldistribution/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -8576,6 +9044,162 @@
 			]
 		},
 		{
+			"name": "Inventory Container Item",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Container Item: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Container Item: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RowNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n         \"uniqueids\": {\"PackageId\": \"A000000E\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Container Item: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem/00003HQS",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Container Item: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"PackageId\": \"A000000E\",\n    \"ContainerId\": \"000015SA\",\n    \"Description\": \"4/0 ELECTRICAL CABLE\",\n    \"QuantityOrdered\": 1,\n    \"Price\": 0,\n    \"InventoryId\": \"000029SC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Container Item: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InventoryContainerItemId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Container Item: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorycontaineritem/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Inventory Location Tax",
 			"description": "",
 			"item": [
@@ -8707,6 +9331,162 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Package Inventory",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Package Inventory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Package Inventory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PackageId\": \"000015OL\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Package Inventory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Package Inventory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Package Inventory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"InventoryPackageInventoryId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Package Inventory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorypackageinventory/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -17949,6 +18729,162 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Template",
+			"description": "",
+			"item": [
+				{
+					"name": "Template: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Template: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Template: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Template: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Template: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"TemplateId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Template: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/template/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {

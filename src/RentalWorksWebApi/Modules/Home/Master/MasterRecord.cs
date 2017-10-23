@@ -173,6 +173,15 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "primarydimensionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PrimaryDimensionId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool WarehouseSpecificPackage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
+        public string PackagePrice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool SeparatePackageOnQuoteOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -252,12 +261,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "modbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string ModbyusersId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
-                public string Packageprice { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Separate { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "inputbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string InputbyusersId { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -300,9 +303,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "productionexchangemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string ProductionexchangemasterId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool Warehousespecific { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "rentalmasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string RentalmasterId { get; set; }

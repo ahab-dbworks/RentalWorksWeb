@@ -197,5 +197,17 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime)]
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean)]
+        public bool WarehouseSpecificPackage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
+        public string PackagePrice { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean)]
+        public bool SeparatePackageOnQuoteOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
     }
 }
