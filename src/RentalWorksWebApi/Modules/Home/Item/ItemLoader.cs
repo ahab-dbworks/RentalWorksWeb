@@ -52,7 +52,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Text)]
         public string StatusType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalstatus", modeltype: FwDataTypes.Text)]
@@ -459,6 +459,9 @@ namespace RentalWorksWebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currentorderestrentto", modeltype: FwDataTypes.Date)]
         public string CurrentOrderToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

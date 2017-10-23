@@ -271,6 +271,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string CurrentOrderFromDate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrentOrderToDate { get; set; }
+        public bool Inactive { get; set; }
 
 
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
