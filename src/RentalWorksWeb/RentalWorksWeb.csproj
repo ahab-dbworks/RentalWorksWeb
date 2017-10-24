@@ -265,7 +265,6 @@
     <Content Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
-    <Content Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridBrowse.htm" />
     <Content Include="Source\Grids\OrderContractNote\OrderContractNoteBrowse.htm" />
     <Content Include="Source\Grids\OrderContractNote\RwOrderContractNoteGridController.js" />
     <Content Include="Source\Grids\OrderActivityDates\OrderActivityDatesBrowse.htm" />
@@ -309,7 +308,6 @@
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\CompanyTaxGrid\CompanyTaxGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFieldsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
