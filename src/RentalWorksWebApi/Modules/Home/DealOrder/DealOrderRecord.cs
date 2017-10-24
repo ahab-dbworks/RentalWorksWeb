@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, maxlength: 8)]

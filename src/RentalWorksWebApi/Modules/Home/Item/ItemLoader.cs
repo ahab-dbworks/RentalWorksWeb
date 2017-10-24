@@ -205,10 +205,10 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "purchasepoid", modeltype: FwDataTypes.Text)]
         public string PurchasePoId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
         public string PurchaseDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
         public string ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
@@ -223,7 +223,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "purchinvoiceno", modeltype: FwDataTypes.Text)]
         public string PurchaseInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchinvoicedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "purchinvoicedate", modeltype: FwDataTypes.Date)]
         public string PurchaseInvoiceDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]

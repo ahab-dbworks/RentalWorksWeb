@@ -59,7 +59,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "countryoriginid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CountryOfOriginId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warrantyexp", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "warrantyexp", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string WarrantyExpiration { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgmodel", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
@@ -77,7 +77,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "locationasof", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string LocationAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
@@ -143,7 +143,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lamphours1", modeltype: FwDataTypes.Integer, sqltype: "numeric")]

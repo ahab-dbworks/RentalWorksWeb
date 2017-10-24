@@ -194,7 +194,7 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date)]
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean)]

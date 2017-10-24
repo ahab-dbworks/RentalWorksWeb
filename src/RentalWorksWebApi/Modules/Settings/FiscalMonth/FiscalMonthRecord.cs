@@ -14,10 +14,10 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         [FwSqlDataField(column: "fiscalyearid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string FiscalYearId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", required: true)]
+        [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string FromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", required: true)]
+        [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month", modeltype: FwDataTypes.Integer, sqltype: "smallint")]

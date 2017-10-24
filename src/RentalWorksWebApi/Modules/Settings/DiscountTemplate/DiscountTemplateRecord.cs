@@ -44,19 +44,19 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountTemplate
         [FwSqlDataField(column: "spacediscountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
         public decimal? SpaceDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "laborasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "laborasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string LaborAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "miscasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "miscasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string MiscAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "rentalasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string RentalAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salesasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "salesasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string SalesAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spaceasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "spaceasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string SpaceAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacedw", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]

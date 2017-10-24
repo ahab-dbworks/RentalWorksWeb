@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Home.DealNote
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date)]
         public string NoteDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "notesbyid", modeltype: FwDataTypes.Text, maxlength: 8)]

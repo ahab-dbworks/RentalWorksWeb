@@ -107,7 +107,7 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string SoftwareVersion { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "softwareeffectivedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -158,10 +158,10 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "commonsqftflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool CommonSquareFeet { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spacefromdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "spacefromdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string SpaceFromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spacetodate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "spacetodate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string SpaceToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "occupancy", modeltype: FwDataTypes.Integer, sqltype: "int")]
