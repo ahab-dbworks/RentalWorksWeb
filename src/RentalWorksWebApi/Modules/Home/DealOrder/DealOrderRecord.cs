@@ -44,6 +44,9 @@ namespace RentalWorksWebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool Facilities { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool Transporation { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

@@ -29,6 +29,7 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public bool Misc { get { return template.Misc; } set { template.Misc = value; } }
         public bool Labor { get { return template.Labor; } set { template.Labor = value; } }
         public bool Facilities { get { return template.Facilities; } set { template.Facilities = value; } }
+        public bool Transporation { get { return template.Transporation; } set { template.Transporation = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? Lines { get; set; }
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }
