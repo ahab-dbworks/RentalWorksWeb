@@ -75,6 +75,9 @@ class DiscountTemplate {
                 RecType: "R"
             };
         })
+        $discountItemRentalGridControl.data('beforesave', function (request) {
+            request.DiscountItemId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        })
         FwBrowse.init($discountItemRentalGridControl);
         FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
 
@@ -86,6 +89,9 @@ class DiscountTemplate {
                 DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
                 RecType: "S"
             };
+        })
+        $discountItemSalesGridControl.data('beforesave', function (request) {
+            request.DiscountItemId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
         })
         FwBrowse.init($discountItemSalesGridControl);
         FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
@@ -99,6 +105,9 @@ class DiscountTemplate {
                 RecType: "L"
             };
         })
+        $discountItemLaborGridControl.data('beforesave', function (request) {
+            request.DiscountItemId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
+        })
         FwBrowse.init($discountItemLaborGridControl);
         FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
 
@@ -110,6 +119,9 @@ class DiscountTemplate {
                 DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
                 RecType: "M"
             };
+        })
+        $discountItemMiscGridControl.data('beforesave', function (request) {
+            request.DiscountItemId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
         })
         FwBrowse.init($discountItemMiscGridControl);
         FwBrowse.renderRuntimeHtml($discountItemMiscGridControl);
