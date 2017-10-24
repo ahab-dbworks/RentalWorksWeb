@@ -98,7 +98,7 @@ namespace RentalWorksWeb.Source.Reports
 
             select = new FwSqlSelect();
             select.Add("select rowtype='detail', * ");
-            select.Add("from  dbo.funcdealoutstandingrpt3(@fromdate,");
+            select.Add("from  dbo.funcdealoutstandingrpt (@fromdate,");
             select.Add("                                  @todate,");
             select.Add("                                  @datetouse,");
             select.Add("                                  @departmenttype,");
