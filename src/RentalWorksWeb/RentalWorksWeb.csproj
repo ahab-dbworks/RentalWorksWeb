@@ -317,6 +317,8 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
+    <Content Include="Source\Modules\Settings\OrderType\OrderTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\OrderType\OrderTypeForm.htm" />
     <Content Include="Source\Modules\Settings\EventType\EventTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\EventType\EventTypeForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryGroup\InventoryGroupBrowse.htm" />
@@ -874,6 +876,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\OrderType\OrderType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\EventType\EventType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryGroup\InventoryGroup.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryRank\InventoryRank.ts" />

@@ -39,7 +39,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/paymenttype$/,                getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
   , { urlpattern: /^module\/paymentterms$/,               getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
   , { urlpattern: /^module\/customersettings/,            getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/ordertype$/,                  getScreen: function() { return RwOrderTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/ordertype$/,                  getScreen: function() { return OrderTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/usersettings/,                getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorclass$/,                getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/warehouse$/,                  getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
@@ -158,7 +158,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/spacetype$/,                  getScreen: function () { return SpaceTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventoryrank$/,              getScreen: function () { return InventoryRankController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborposition$/,              getScreen: function () { return LaborPositionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } } 
 
 
     //Reports                                             

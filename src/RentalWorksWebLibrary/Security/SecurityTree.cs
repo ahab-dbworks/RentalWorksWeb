@@ -153,6 +153,7 @@ namespace RentalWorksWebLibrary
             AddModule("Office Location", "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuOrderSettings = AddLv2ModuleMenu("Order Settings", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Order Type", "{CF3E22CB-F836-4277-9589-998B0BEC3500}", lv2menuOrderSettings.Id, "OrderTypeController", "module/ordertype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Discount Reason", "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderSettings.Id, "DiscountReasonController", "module/discountreason", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Location", "{CF58D8C9-95EE-4617-97B9-CAFE200719CC}", lv2menuOrderSettings.Id, "OrderLocationController", "module/orderlocation", settingsiconbaseurl + "placeholder.png");

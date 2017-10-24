@@ -1,24 +1,70 @@
-<div id="eventtypeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Event Type" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="EventTypeController">
-  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="EventTypeId"></div>
-  <div id="eventtypeform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+<div id="ordertypeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order Type" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderTypeController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="OrderTypeId"></div>
+  <div id="ordertypeform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div data-type="tab" id="activitytab" class="tab" data-tabpageid="activitytabpage" data-caption="Activity Dates"></div>
       <div data-type="tab" id="rentaltab" class="tab" data-tabpageid="rentaltabpage" data-caption="Rental"></div>
       <div data-type="tab" id="salestab" class="tab" data-tabpageid="salestabpage" data-caption="Sales"></div>
       <div data-type="tab" id="facilitiestab" class="tab" data-tabpageid="facilitiestabpage" data-caption="Facilities"></div>
+      <div data-type="tab" id="transportationtab" class="tab" data-tabpageid="transportationtabpage" data-caption="Transportation"></div>
       <div data-type="tab" id="crewtab" class="tab" data-tabpageid="crewtabpage" data-caption="Crew"></div>
       <div data-type="tab" id="misctab" class="tab" data-tabpageid="misctabpage" data-caption="Misc"></div>
+      <div data-type="tab" id="usedtab" class="tab" data-tabpageid="usedtabpage" data-caption="Used Sale"></div>
       <div data-type="tab" id="finaltab" class="tab" data-tabpageid="finaltabpage" data-caption="Final L&amp;D"></div>
-      <div data-type="tab" id="personneltab" class="tab" data-tabpageid="personneltabpage" data-caption="Personnel"></div>
+      <div data-type="tab" id="quiktab" class="tab" data-tabpageid="quiktabpage" data-caption="QuikPay Discount"></div>
+      <div data-type="tab" id="invoicetab" class="tab" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
+      <div data-type="tab" id="termstab" class="tab" data-tabpageid="termstabpage" data-caption="Terms &amp; Conditions"></div>
+      <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+      <div data-type="tab" id="notesetab" class="tab" data-tabpageid="notestabpage" data-caption="Order Notes"></div>
+      <div data-type="tab" id="covertab" class="tab" data-tabpageid="covertabpage" data-caption="Cover Letter"></div>
+      <div data-type="tab" id="eventtab" class="tab" data-tabpageid="eventtabpage" data-caption="Event"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Event Type">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Event Type" data-datafield="EventType" data-noduplicate="true" style="float:left;width:250px;"></div>
-              <!--<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>-->
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Type" data-datafield="OrderType" data-noduplicate="true" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Master Sub-Order Type" data-datafield="IsMasterSubOrderType" style="float:left;width:200px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Type" data-datafield="OrdType" style="width:250px;border:1px solid silver;">
+                  <div data-value="MAIN" data-caption="Main Package"></div>
+                  <div data-value="TRUCK" data-caption="Truck"></div>
+                  <div data-value="OTHER" data-caption="Other"></div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Times - Quote / Order">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div class="formcolumn" style="width:auto;">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="DefaultPickTime" data-noduplicate="true" style="float:left;width:150px;"></div>
+                  <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="DefaultFromTime" data-noduplicate="true" style="float:left;width:150px;"></div>
+                  <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="DefaultToTime" data-noduplicate="true" style="float:left;width:150px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Times - Daily Schedule">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div class="formcolumn" style="width:auto;">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Daily Start Time" data-datafield="DailyScheduleDefaultStartTime" data-noduplicate="true" style="float:left;width:150px;"></div>
+                  <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Daily Stop Time" data-datafield="DailyScheduleDefaultStopTime" data-noduplicate="true" style="float:left;width:150px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="activitytabpage" class="tabpage" data-tabid="activitytab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity Dates">
           </div>
         </div>
       </div>
@@ -375,6 +421,124 @@
           </div>
         </div>
       </div>
+      <div data-type="tabpage" id="transportationtabpage" class="tabpage" data-tabid="transportationtab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transportation Grid">
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description - width:" data-datafield="VehicleShowDescription" style="float:left;width:200px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="VehicleDescriptionWidth" data-noduplicate="true" style="float:left;width:100px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="VehicleShowPickDate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Billable Periods" data-datafield="VehicleShowBillablePeriods" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Availability Quantity" data-datafield="VehicleShowAvailableQuantity" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Rate" data-datafield="VehicleShowRate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Discount Amount" data-datafield="VehicleShowUnitDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Extended" data-datafield="VehicleShowUnitExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="VehicleShowCost" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Period Discount Amount" data-datafield="VehicleShowPeriodDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Taxable" data-datafield="VehicleShowTaxable" style="float:left;width:250px;"></div>
+              </div>              
+            </div>
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vehicle Number" data-datafield="VehicleShowVehicleNumber" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent From Date" data-datafield="VehicleShowFromDate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent From Time" data-datafield="VehicleShowFromTime" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Rent Quantity" data-datafield="VehicleShowSubQuantity" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Availability Conflict Date" data-datafield="VehicleShowConflictDate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Days Per Week" data-datafield="VehicleShowDaysPerWeek" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Weekly Discount Amount" data-datafield="VehicleShowWeeklyDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Weekly Extended" data-datafield="VehicleShowWeeklyExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Period Extended" data-datafield="VehicleShowPeriodExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="VehicleShowWarehouse" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="VehicleShowNotes" style="float:left;width:250px;"></div>
+              </div>
+            </div>
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent To Date" data-datafield="VehicleShowToDate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rent To Time" data-datafield="VehicleShowToTime" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="VehicleShowUnit" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Percent" data-datafield="VehicleShowDiscountPercent" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Monthly Discount Amount" data-datafield="VehicleShowMonthlyDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Monthly Extended" data-datafield="VehicleShowMonthlyExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Monthly Discount Amount" data-datafield="VehicleShowMonthlyDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return to Warehouse" data-datafield="VehicleShowReturnToWarehouse" style="float:left;width:250px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div data-type="tabpage" id="crewtabpage" class="tabpage" data-tabid="crewtab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Crew">
@@ -393,7 +557,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Start Time" data-datafield="LaborShowFromTime" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Labor Quantity" data-datafield="LaborShowSubQuantity" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Labor Quantity" data-datafield="LaborShowSubQuantity" data-enabled="false" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="LaborShowUnit" style="float:left;width:250px;"></div>
@@ -432,10 +596,10 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost" data-datafield="LaborShowCost" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost" data-datafield="LaborShowCost" data-enabled="false" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost Extended" data-datafield="LaborShowPeriodCostExtended" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost Extended" data-datafield="LaborShowPeriodCostExtended" data-enabled="false" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Weekly Discount Amount" data-datafield="LaborShowWeeklyDiscountAmount" style="float:left;width:250px;"></div>
@@ -518,7 +682,7 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="From Date" data-datafield="MiscShowFromDate" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Misc Quantity" data-datafield="MiscShowSubQuantity" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sub Misc Quantity" data-datafield="MiscShowSubQuantity" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="MiscShowUnit" style="float:left;width:250px;"></div>
@@ -551,10 +715,10 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Weeks and Days" data-datafield="MiscShowWeeksAndDays" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost" data-datafield="MiscShowCost" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost" data-datafield="MiscShowCost" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost Extended" data-datafield="MiscShowPeriodCostExtended" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cost Extended" data-datafield="MiscShowPeriodCostExtended" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Weekly Discount Amount" data-datafield="MiscShowWeeklyDiscountAmount" style="float:left;width:250px;"></div>
@@ -598,6 +762,98 @@
           </div>
         </div>
       </div>
+      <div data-type="tabpage" id="usedtabpage" class="tabpage" data-tabid="usedtab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sale">
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bar Code" data-datafield="RentalSaleShowBarCode" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="I-Code - width:" data-datafield="RentalSaleShowICode" style="float:left;width:200px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="RentalSaleICodeWidth" data-noduplicate="true" style="float:left;width:100px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="RentalSaleShowPickDate"style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Availability Quantity" data-datafield="RentalSaleShowAvailableQuantity" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="RentalSaleShowUnit" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Percent" data-datafield="RentalSaleShowDiscountPercent" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="RentalSaleShowCost" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="RentalSaleShowWarehouse" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default Used Sale Price" data-datafield="RentalSaleDefaultPrice" style="width:250px;border:1px solid silver;">
+                  <div data-value="REPLACEMENT" data-caption="Replacement Cost"></div>
+                  <div data-value="UNIT" data-caption="Unit Value"></div>
+                </div>
+              </div>
+            </div>
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Serial No." data-datafield="RentalSaleShowSerialNumber" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Description - width:" data-datafield="RentalSaleShowDescription" style="float:left;width:200px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="RentalSaleDescriptionWidth" data-noduplicate="true" style="float:left;width:100px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="RentalSalesShowPickTime" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Availability Conflict Date" data-datafield="RentalSaleShowConflictDate" dstyle="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Price" data-datafield="RentalSaleShowRate" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Discount Amount" data-datafield="RentalSaleShowUnitDiscountAmount" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Extended" data-datafield="RentalSaleShowDiscountExtended"style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Taxable" data-datafield="RentalSaleShowTaxable" style="float:left;width:250px;"></div>
+              </div>
+            </div>
+            <div class="formcolumn" style="width:auto;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" data-visible="false" style="visibility:hidden;">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Extended" data-datafield="RentalSaleShowUnitExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Extended" data-datafield="RentalSaleShowPeriodExtended" style="float:left;width:250px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="RentalSaleShowNotes" style="float:left;width:250px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div data-type="tabpage" id="finaltabpage" class="tabpage" data-tabid="finaltab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Final L&amp;D">
@@ -610,7 +866,7 @@
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="FinalLandDICodeWidth" data-noduplicate="true" style="float:left;width:100px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="FinalLandDShowUnit" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="FinalLandDShowUnit" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Percent" data-datafield="FinalLandDShowDiscountPercent" style="float:left;width:250px;"></div>
@@ -634,10 +890,10 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Price" data-datafield="FinalLandDShowUnitPrice" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Discount Amount" data-datafield="FinalLandDShowUnitDiscountAmount" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Unit Discount Amount" data-datafield="FinalLandDShowUnitDiscountAmount" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Extended" data-datafield="FinalLandDShowDiscountExtended" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Discount Extended" data-datafield="FinalLandDShowDiscountExtended" style="float:left;width:250px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="FinalLandDShowNotes" style="float:left;width:250px;"></div>
@@ -663,9 +919,66 @@
           </div>
         </div>
       </div>
-      <div data-type="tabpage" id="personneltabpage" class="tabpage" data-tabid="personneltab">
+      <div data-type="tabpage" id="quiktabpage" class="tabpage" data-tabid="quiktab">
         <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikPay Discount">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Activate QuikPay Discount" data-datafield="QuikPayDiscount" style="float:left;width:250px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield discount" data-caption="Discount Type" data-enabled="false" data-datafield="QuikPayDiscountType" style="width:250px;border:1px solid silver;">
+                <div data-value="TOTAL" data-caption="Total Discount"></div>
+                <div data-value="ADDITIONAL" data-caption="Additional Discount"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield discount" data-caption="Default Discount Percent" data-enabled="false" data-datafield="QuikPayDiscountPercent" style="float:left;width:250px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield discount" data-caption="Default Discount Days" data-enabled="false" data-datafield="QuikPayDiscountDays" style="float:left;width:250px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Vendor Items by Default" data-datafield="QuikPayDiscountExcludeSubs" style="float:left;width:250px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="invoicetabpage" class="tabpage" data-tabid="invoicetab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Do not create G/L entries for Cost." data-datafield="DisableCostGl" style="float:left;width:250px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="termstabpage" class="tabpage" data-tabid="termstab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Terms &amp; Conditions">
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Notes">
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="covertabpage" class="tabpage" data-tabid="covertab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Cover Letter">
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="eventtabpage" class="tabpage" data-tabid="eventtab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Event">
           </div>
         </div>
       </div>
