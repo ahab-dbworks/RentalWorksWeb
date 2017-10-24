@@ -41,6 +41,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string qtyremaining          { get; set; }
         public string qtyconflict           { get; set; }
         public string availabletofulfillqty { get; set; }
+        public string trackedby             { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
 }
