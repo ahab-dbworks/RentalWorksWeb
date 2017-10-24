@@ -606,6 +606,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
+    <Content Include="Source\Validations\ReportDesignerValidation\ReportDesignerValidationBrowse.htm" />
     <Content Include="Source\Validations\DealClassificationValidation\DealClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\DealStatusValidation\DealStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyTaxOptionValidation\CompanyTaxOptionValidationBrowse.htm" />
