@@ -233,8 +233,8 @@ class Deal {
     }
 
     renderGrids($form: any) {
-        var $companyTaxResaleGrid,
-            $companyTaxResaleControl,
+        var $customerResaleGrid,
+            $customerResaleControl,
             $taxOptionGrid,
             $taxOptionControl,
             $contactGrid,
@@ -245,16 +245,16 @@ class Deal {
             $vendorControl;
 
         // load companytax Grid
-        $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
-        $companyTaxResaleControl = jQuery(jQuery('#tmpl-grids-CompanyTaxResaleGridBrowse').html());
-        $companyTaxResaleGrid.empty().append($companyTaxResaleControl);
-        $companyTaxResaleControl.data('ondatabind', function (request) {
+        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
+        $customerResaleControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
+        $customerResaleGrid.empty().append($customerResaleControl);
+        $customerResaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
             }
         });
-        FwBrowse.init($companyTaxResaleControl);
-        FwBrowse.renderRuntimeHtml($companyTaxResaleControl);
+        FwBrowse.init($customerResaleControl);
+        FwBrowse.renderRuntimeHtml($customerResaleControl);
 
         // load vendornote Grid
         $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
@@ -342,14 +342,14 @@ class Deal {
     }
 
     afterLoad($form: any) {
-        var $companyTaxResaleGrid,
+        var $customerResaleGrid,
             $taxOptionGrid,
             $contactGrid,
             $dealNotesGrid,
             $vendorGrid;
 
-        $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
-        FwBrowse.search($companyTaxResaleGrid);
+        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
+        FwBrowse.search($customerResaleGrid);
 
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);

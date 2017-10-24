@@ -189,18 +189,18 @@ var Deal = (function () {
         fields.forEach(function (e, i) { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
     };
     Deal.prototype.renderGrids = function ($form) {
-        var $companyTaxResaleGrid, $companyTaxResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
+        var $customerResaleGrid, $customerResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
         // load companytax Grid
-        $companyTaxResaleGrid = $form.find('div[data-grid="CompanyTaxResaleGrid"]');
-        $companyTaxResaleControl = jQuery(jQuery('#tmpl-grids-CompanyTaxResaleGridBrowse').html());
-        $companyTaxResaleGrid.empty().append($companyTaxResaleControl);
-        $companyTaxResaleControl.data('ondatabind', function (request) {
+        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
+        $customerResaleControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
+        $customerResaleGrid.empty().append($customerResaleControl);
+        $customerResaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
+                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
             };
         });
-        FwBrowse.init($companyTaxResaleControl);
-        FwBrowse.renderRuntimeHtml($companyTaxResaleControl);
+        FwBrowse.init($customerResaleControl);
+        FwBrowse.renderRuntimeHtml($customerResaleControl);
         // load vendornote Grid
         $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
         $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
@@ -272,9 +272,9 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
-        var $companyTaxResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
-        $companyTaxResaleGrid = $form.find('[data-name="CompanyTaxResaleGrid"]');
-        FwBrowse.search($companyTaxResaleGrid);
+        var $customerResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
+        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
+        FwBrowse.search($customerResaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);
         $contactGrid = $form.find('[data-name="ContactGrid"]');
