@@ -105,6 +105,8 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
         public int? SalesICodeWidth { get { return salesOrderTypeFields.ICodeWidth; } set { salesOrderTypeFields.ICodeWidth = value; } }
         public bool SalesShowDescription { get { return salesOrderTypeFields.ShowDescription; } set { salesOrderTypeFields.ShowDescription = value; } }
         public int? SalesDescriptionWidth { get { return salesOrderTypeFields.DescriptionWidth; } set { salesOrderTypeFields.DescriptionWidth = value; } }
+        public bool SalesShowManufacturerPartNumber { get { return salesOrderTypeFields.ShowManufacturerPartNumber; } set { salesOrderTypeFields.ShowManufacturerPartNumber = value; } }
+        public int? SalesManufacturerPartNumberWidth { get { return salesOrderTypeFields.ManufacturerPartNumberWidth; } set { salesOrderTypeFields.ManufacturerPartNumberWidth = value; } }
         public bool SalesShowPickDate { get { return salesOrderTypeFields.ShowPickDate; } set { salesOrderTypeFields.ShowPickDate = value; } }
         public bool SalesShowPickTime { get { return salesOrderTypeFields.ShowPickTime; } set { salesOrderTypeFields.ShowPickTime = value; } }
         //public bool SalesShowFromDate { get { return salesOrderTypeFields.ShowFromDate; } set { salesOrderTypeFields.ShowFromDate = value; } }
@@ -157,8 +159,8 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
         //public bool SalesShowEpisodeExtended { get { return salesOrderTypeFields.ShowEpisodeExtended; } set { salesOrderTypeFields.ShowEpisodeExtended = value; } }
         //public bool SalesShowEpisodeDiscountAmount { get { return salesOrderTypeFields.ShowEpisodeDiscountAmount; } set { salesOrderTypeFields.ShowEpisodeDiscountAmount = value; } }
         public string SalesDateStamp { get { return salesOrderTypeFields.DateStamp; } set { salesOrderTypeFields.DateStamp = value; } }
-        public bool SalesInventoryPrice { get { return eventType.Selectsalesprice; } set { eventType.Selectsalesprice = value; } }
-        public bool SalesInventoryCost { get { return eventType.Selectsalescost; } set { eventType.Selectsalescost = value; } }
+        public string SalesInventoryPrice { get { return eventType.Selectsalesprice; } set { eventType.Selectsalesprice = value; } }
+        public string SalesInventoryCost { get { return eventType.Selectsalescost; } set { eventType.Selectsalescost = value; } }
 
         //facilities fields
         public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { spaceOrderTypeFields.OrderTypeFieldsId = value; } }

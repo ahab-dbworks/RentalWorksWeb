@@ -79,8 +79,8 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal)]
         public decimal? Orderby { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "selectsalesprice", modeltype: FwDataTypes.Boolean)]
-        public bool SalesInventoryPrice { get; set; }
+        [FwSqlDataField(column: "selectsalesprice", modeltype: FwDataTypes.Text)]
+        public string SalesInventoryPrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disablecostgl", modeltype: FwDataTypes.Boolean)]
         public bool DisableCostGl { get; set; }
@@ -88,8 +88,8 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text)]
         public string Invoiceclass { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "selectsalescost", modeltype: FwDataTypes.Boolean)]
-        public bool SalesInventoryCost { get; set; }
+        [FwSqlDataField(column: "selectsalescost", modeltype: FwDataTypes.Text)]
+        public string SalesInventoryCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpaydiscount", modeltype: FwDataTypes.Boolean)]
         public bool QuikPayDiscount { get; set; }

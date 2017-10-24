@@ -89,8 +89,8 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 3, scale: 1)]
         public decimal? Orderby { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "selectsalesprice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Selectsalesprice { get; set; }
+        [FwSqlDataField(column: "selectsalesprice", modeltype: FwDataTypes.Text, sqltype: "char")]
+        public string Selectsalesprice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disablecostgl", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool Disablecostgl { get; set; }
@@ -98,8 +98,8 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string Invoiceclass { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "selectsalescost", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Selectsalescost { get; set; }
+        [FwSqlDataField(column: "selectsalescost", modeltype: FwDataTypes.Text, sqltype: "char")]
+        public string Selectsalescost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpaydiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool Quikpaydiscount { get; set; }
