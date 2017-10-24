@@ -206,6 +206,8 @@ namespace RentalWorksWebLibrary
 
             AddModule("Tax Option", "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id, "TaxOptionController", "module/taxoption", settingsiconbaseurl + "placeholder.png");
 
+            AddModule("Template", "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id, "TemplateController", "module/template", settingsiconbaseurl + "placeholder.png");
+
             var lv2menuUserSettings = AddLv2ModuleMenu("User Settings", "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("User Status", "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id, "UserStatusController", "module/userstatus", settingsiconbaseurl + "placeholder.png");
 

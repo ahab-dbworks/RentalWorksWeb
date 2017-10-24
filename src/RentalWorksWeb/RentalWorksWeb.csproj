@@ -336,6 +336,8 @@
     <Content Include="Source\Modules\Settings\LaborPosition\LaborPositionForm.htm" />
     <Content Include="Source\Modules\Settings\POType\POTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\POType\POTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\Template\TemplateBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Template\TemplateForm.htm" />
     <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverBrowse.htm" />
     <Content Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApproverForm.htm" />
     <Content Include="Source\Modules\Settings\Building\BuildingBrowse.htm" />
@@ -892,6 +894,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\InventoryRank\InventoryRank.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\LaborPosition\LaborPosition.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\POType\POType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Template\Template.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\VendorInvoiceApprover\VendorInvoiceApprover.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Building\Building.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\DiscountTemplate\DiscountTemplate.ts" />
