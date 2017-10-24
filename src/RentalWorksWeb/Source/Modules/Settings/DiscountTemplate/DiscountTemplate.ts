@@ -43,7 +43,16 @@ class DiscountTemplate {
     }
 
     renderGrids($form: any) {
-        var $discountItemGrid, $discountItemControl;
+        var $discountItemGrid
+            , $discountItemControl
+            , $discountItemRentalGrid
+            , $discountItemRentalGridControl
+            , $discountItemSalesGrid
+            , $discountItemSalesGridControl
+            , $discountItemLaborGrid
+            , $discountItemLaborGridControl
+            , $discountItemMiscGrid
+            , $discountItemMiscGridControl;
 
         // load companytax Grid
         $discountItemGrid = $form.find('div[data-grid="DiscountItemGrid"]');
@@ -56,6 +65,54 @@ class DiscountTemplate {
         });
         FwBrowse.init($discountItemControl);
         FwBrowse.renderRuntimeHtml($discountItemControl);
+
+        $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
+        $discountItemRentalGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemRentalGridBrowse').html());
+        $discountItemRentalGrid.empty().append($discountItemRentalGridControl);
+        $discountItemRentalGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
+                RecType: "R"
+            };
+        })
+        FwBrowse.init($discountItemRentalGridControl);
+        FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
+
+        $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
+        $discountItemSalesGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemSalesGridBrowse').html());
+        $discountItemSalesGrid.empty().append($discountItemSalesGridControl);
+        $discountItemSalesGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
+                RecType: "S"
+            };
+        })
+        FwBrowse.init($discountItemSalesGridControl);
+        FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
+
+        $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
+        $discountItemLaborGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemLaborGridBrowse').html());
+        $discountItemLaborGrid.empty().append($discountItemLaborGridControl);
+        $discountItemLaborGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
+                RecType: "L"
+            };
+        })
+        FwBrowse.init($discountItemLaborGridControl);
+        FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
+
+        $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
+        $discountItemMiscGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemMiscGridBrowse').html());
+        $discountItemMiscGrid.empty().append($discountItemMiscGridControl);
+        $discountItemMiscGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                DiscountItemId: $form.find('div.fwformfield[data-datafield="DiscountItemId"] input').val(),
+                RecType: "M"
+            };
+        })
+        FwBrowse.init($discountItemMiscGridControl);
+        FwBrowse.renderRuntimeHtml($discountItemMiscGridControl);
     }
 
     openForm(mode: string) {
@@ -88,11 +145,37 @@ class DiscountTemplate {
     }
 
     afterLoad($form: any) {
-        var $discountItemControl;
+        var $discountItemControl
+            , $discountItemRentalControl
+            , $discountItemSalesControl
+            , $discountItemLaborControl
+            , $discountItemMiscControl;
 
         $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
         FwBrowse.search($discountItemControl);
+
+        $discountItemRentalControl = $form.find('[data-name="DiscountItemRentalGrid"]');
+        FwBrowse.search($discountItemRentalControl);
+
+        $discountItemSalesControl = $form.find('[data-name="DiscountItemSalesGrid"]');
+        FwBrowse.search($discountItemSalesControl);
+
+        $discountItemLaborControl = $form.find('[data-name="DiscountItemLaborGrid"]');
+        FwBrowse.search($discountItemLaborControl);
+
+        $discountItemLaborControl = $form.find('[data-name="DiscountItemMiscGrid"]');
+        FwBrowse.search($discountItemLaborControl);
+
+        var rentalDays = parseFloat($form.find('div.fwformfield[data-datafield="RentalDaysPerWeek"] input').val());
+        var rentalDecimals = rentalDays.toFixed(3);
+        $form.find('div.fwformfield[data-datafield="RentalDaysPerWeek"] input').val(rentalDecimals);
+
+        var spaceDays = parseFloat($form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val());
+        var spaceDecimals = spaceDays.toFixed(3);
+        $form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val(spaceDecimals);
+ 
     }
+
 }
 
 (<any>window).DiscountTemplateController = new DiscountTemplate();

@@ -180,6 +180,10 @@
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
+    <Content Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridBrowse.htm" />
+    <Content Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridBrowse.htm" />
+    <Content Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridBrowse.htm" />
+    <Content Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemGrid\DiscountItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridBrowse.htm" />
@@ -220,6 +224,10 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DiscountItemSalesGrid\DiscountItemSalesGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DiscountItemRentalGrid\DiscountItemRentalGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemGrid\DiscountItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxResaleGrid\CompanyTaxResaleGridController.ts" />
@@ -611,6 +619,7 @@
     <Content Include="Source\Validations\InventoryAttributeValidation\InventoryAttributeValidationBrowse.htm" />
     <Content Include="Source\Validations\InventoryConditionValidation\InventoryConditionValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborCategoryValidation\LaborCategoryValidationBrowse.htm" />
+    <Content Include="Source\Validations\MiscRateValidation\MiscRateValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborRateValidation\LaborRateValidationBrowse.htm" />
     <Content Include="Source\Validations\LicenseClassValidation\LicenseClassValidationBrowse.htm" />
     <Content Include="Source\Validations\MiscTypeValidation\MiscTypeValidationBrowse.htm" />

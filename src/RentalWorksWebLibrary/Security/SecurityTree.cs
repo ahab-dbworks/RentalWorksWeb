@@ -271,6 +271,10 @@ namespace RentalWorksWebLibrary
             AddGrid("Contact Personal Event",                 "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
             AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
             AddGrid("Customer Resale",                        "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CustomerResaleGridController");
+            AddGrid("Discount Item Labor",                    "{B65A5839-0226-4BAD-99F9-64FA9D1C1E33}", lv1menuGrids.Id, "DiscountItemLaborGridController");
+            AddGrid("Discount Item Misc",                     "{5974DBEF-1D45-4B11-BA85-CB05B725F54C}", lv1menuGrids.Id, "DiscountItemMiscGridController");
+            AddGrid("Discount Item Rental",                   "{FF124304-4048-4A1F-A6DA-2F79343BCE87}", lv1menuGrids.Id, "DiscountItemRentalGridController");
+            AddGrid("Discount Item Sales",                    "{85AB2907-07FE-43CF-B16D-DDAE781F64ED}", lv1menuGrids.Id, "DiscountItemSalesGridController");
             AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
