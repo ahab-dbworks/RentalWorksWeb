@@ -210,7 +210,7 @@ class Deal {
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);            
     }
 
-    toggleOptionsTabIfExcludeQuote($form: JQuery, isExlucded: boolean): void {
+    toggleOptionsTabIfExcludeQuote($form: JQuery, isExcluded: boolean): void {
         var list = ['DisableRental',
             'DisableSales',
             'DisableFacilities',
@@ -223,7 +223,7 @@ class Deal {
             'DisableSubLabor',
             'DisableSubMisc'];
 
-        isExlucded ? this.disableFields($form, list) : this.enableFields($form, list);            
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);            
     }
 
     disableFields($form: JQuery, fields: string[]): void {
@@ -289,6 +289,9 @@ class Deal {
                 DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             }
         });
+        $dealNotesControl.data('beforesave', function (request) {
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+        })
         FwBrowse.init($dealNotesControl);
         FwBrowse.renderRuntimeHtml($dealNotesControl);
 

@@ -169,7 +169,7 @@ var Deal = (function () {
             'NonTaxableCertificateOnFile'];
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     };
-    Deal.prototype.toggleOptionsTabIfExcludeQuote = function ($form, isExlucded) {
+    Deal.prototype.toggleOptionsTabIfExcludeQuote = function ($form, isExcluded) {
         var list = ['DisableRental',
             'DisableSales',
             'DisableFacilities',
@@ -181,7 +181,7 @@ var Deal = (function () {
             'DisableSubSale',
             'DisableSubLabor',
             'DisableSubMisc'];
-        isExlucded ? this.disableFields($form, list) : this.enableFields($form, list);
+        isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
     };
     Deal.prototype.disableFields = function ($form, fields) {
         fields.forEach(function (e, i) { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
@@ -230,6 +230,9 @@ var Deal = (function () {
             request.uniqueids = {
                 DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
+        });
+        $dealNotesControl.data('beforesave', function (request) {
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
         });
         FwBrowse.init($dealNotesControl);
         FwBrowse.renderRuntimeHtml($dealNotesControl);
