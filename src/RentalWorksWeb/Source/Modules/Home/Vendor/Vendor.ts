@@ -46,7 +46,7 @@ declare var FwBrowse: any;
                 this.toggleRequiredFields($tab);
             });
 
-            $form.find('[data-name="CompanyTaxGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
                 try {
                     this.updateExternalInputsWithGridValues($tr);
                 } catch (ex) {
@@ -115,20 +115,20 @@ declare var FwBrowse: any;
 
         renderGrids($form: JQuery) {
             // load companytax Grid
-            var nameCompanyTaxGrid = 'CompanyTaxGrid';
-            var $companyTaxGrid: JQuery = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
-            var $companyTaxControl: JQuery = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
-            $companyTaxGrid.empty().append($companyTaxControl);
-            $companyTaxControl.data('ondatabind', function (request) {
+            var nameCompanyTaxOptionGrid = 'CompanyTaxOptionGrid';
+            var $companyTaxOptionGrid: JQuery = $form.find('div[data-grid="' + nameCompanyTaxOptionGrid + '"]');
+            var $companyTaxOptionControl: JQuery = FwBrowse.loadGridFromTemplate(nameCompanyTaxOptionGrid);
+            $companyTaxOptionGrid.empty().append($companyTaxOptionControl);
+            $companyTaxOptionControl.data('ondatabind', function (request) {
                 request.uniqueids = {
                     CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
                 }
             });
-            $companyTaxControl.data('beforesave', function (request) {
+            $companyTaxOptionControl.data('beforesave', function (request) {
                 request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
             });
-            FwBrowse.init($companyTaxControl);
-            FwBrowse.renderRuntimeHtml($companyTaxControl);
+            FwBrowse.init($companyTaxOptionControl);
+            FwBrowse.renderRuntimeHtml($companyTaxOptionControl);
 
             // load vendornote Grid
             var nameVendorNoteGrid = 'VendorNoteGrid';
@@ -199,8 +199,8 @@ declare var FwBrowse: any;
         }
 
         afterLoad($form: any) {
-            var $companyTaxGrid = $form.find('[data-name="CompanyTaxGrid"]');
-            FwBrowse.search($companyTaxGrid);
+            var $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
+            FwBrowse.search($companyTaxOptionGrid);
 
             var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
