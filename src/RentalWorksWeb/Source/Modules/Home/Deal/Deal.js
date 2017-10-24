@@ -136,16 +136,17 @@ var Deal = (function () {
             'SecurityDepositAmount',
             'VehicleInsuranceCertification',
             'InsuranceCompany',
-            'InsuranceCompanyAgent',
-            'InsuranceCompanyAddress1',
-            'InsuranceCompanyAddress2',
-            'InsuranceCompanyCity',
-            'InsuranceCompanyState',
-            'InsuranceCompanyZipCode',
-            'InsuranceCompanyCountryId',
-            'InsuranceCompanyPhone',
-            'InsuranceCompanyFax'];
+            'InsuranceCompanyAgent'];
+        var $insuranceName = jQuery('.insurance_name');
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
+        if (isCustomer) {
+            $insuranceName.attr('data-enabled', 'false');
+            $insuranceName.find('input').prop('disabled', true);
+        }
+        else {
+            $insuranceName.attr('data-enabled', 'true');
+            $insuranceName.find('input').prop('disabled', false);
+        }
     };
     Deal.prototype.disableInsurCompanyInfo = function ($form) {
         var list = ['InsuranceCompanyAddress1',
@@ -287,6 +288,7 @@ var Deal = (function () {
         this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
         this.toggleBillingAddressInfo($form, val_bill);
+        this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
         this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
