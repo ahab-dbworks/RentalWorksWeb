@@ -128,10 +128,11 @@ var Deal = (function () {
             'CreditResponsibleParty',
             'CreditResponsiblePartyOnFile',
             'DepletingDepositThresholdAmount',
-            'DepletingDepositThresholdPercent',
-            'DepletingDepositTotal',
-            'DepletingDepositApplied',
-            'DepletingDepositRemaining'];
+            'DepletingDepositThresholdPercent'
+            //'DepletingDepositTotal',
+            //'DepletingDepositApplied',
+            //'DepletingDepositRemaining'
+        ];
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     };
     Deal.prototype.toggleInsurTabIfUseCustomer = function ($form, isCustomer) {
@@ -263,6 +264,9 @@ var Deal = (function () {
             request.uniqueids = {
                 DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
+        });
+        $vendorControl.data('beforesave', function (request) {
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
         });
         FwBrowse.init($vendorControl);
         FwBrowse.renderRuntimeHtml($vendorControl);
