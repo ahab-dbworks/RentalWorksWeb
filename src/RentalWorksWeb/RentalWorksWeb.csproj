@@ -179,6 +179,8 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridBrowse.htm" />
+    <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
     <Content Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridBrowse.htm" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridBrowse.htm" />
@@ -217,12 +219,12 @@
     <Content Include="Source\Grids\PresentationLayerActivityOverrideGrid\PresentationLayerActivityOverrideGridBrowse.htm" />
     <Content Include="Source\Grids\PresentationLayerActivityGrid\PresentationLayerActivityGridBrowse.htm" />
     <Content Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridBrowse.htm" />
-    <Content Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridBrowse.htm" />
     <Content Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\LaborCategoryGrid\LaborCategoryGridBrowse.htm" />
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridController.ts" />
@@ -303,7 +305,6 @@
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
     <TypeScriptCompile Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\CustomerResaleGrid\CustomerResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\LaborCategoryGrid\LaborCategoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorNoteGrid\VendorNoteGridController.ts" />
@@ -856,6 +857,7 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.ttf" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
+    <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

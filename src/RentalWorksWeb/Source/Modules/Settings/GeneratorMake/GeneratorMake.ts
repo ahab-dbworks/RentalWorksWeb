@@ -84,6 +84,9 @@ class GeneratorMake {
                 GeneratorMakeId: $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val()
             };
         });
+        $generatorMakeModelGridControl.data('beforesave', function (request) {
+            request.GeneratorMakeId = $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val()
+        });
         FwBrowse.init($generatorMakeModelGridControl);
         FwBrowse.renderRuntimeHtml($generatorMakeModelGridControl);
     }

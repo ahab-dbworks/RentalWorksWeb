@@ -31,6 +31,17 @@ var RentalInventory = (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        if (mode === 'NEW') {
+            $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+                if ($this.prop('checked') === true && $this.val() === 'N') {
+                    $form.find('.containertab').show();
+                }
+                else {
+                    $form.find('.containertab').hide();
+                }
+            });
+        }
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -214,6 +225,9 @@ var RentalInventory = (function () {
             request.uniqueids = {
                 PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryContainerGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryContainerGridControl);
         FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
