@@ -19,8 +19,8 @@ namespace RentalWorksWebApi.Modules.Home.InventoryContainerItem
         public string ContainerItemId { get { return masterItem.MasterItemId; } set { masterItem.MasterItemId = value; } }
         public string PackageId { get; set; }
         public string ContainerId { get { return masterItem.OrderId; } set { masterItem.OrderId = value; } }
-
-
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? RowNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         [FwBusinessLogicField(isRecordTitle: true)]
