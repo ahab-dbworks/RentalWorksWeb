@@ -289,6 +289,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Inventory Compatibility",                "{7416DAAE-2875-408B-AEEF-78481378C4C4}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
             AddGrid("Inventory Complete Kit",                 "{797339C1-79C3-4FC0-82E4-7DA2FE150DDA}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
             AddGrid("Inventory Consignment",                  "{0D22AF5B-CF50-41EA-A8CC-D039C402E4CC}", lv1menuGrids.Id, "InventoryConsignmentGridController");
+            AddGrid("Inventory Container",                    "{494F7DD0-0D32-4FE0-B84A-BC7CD71CE9EC}", lv1menuGrids.Id, "InventoryContainerGridController");
             AddGrid("Inventory Prep",                         "{338934FD-CA10-48F4-9498-2D5250F4E6FA}", lv1menuGrids.Id, "InventoryPrepGridController");
             AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
             AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");

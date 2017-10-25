@@ -94,6 +94,8 @@ var RentalInventory = (function () {
         var $inventoryVendorGridControl;
         var $inventoryPrepGrid;
         var $inventoryPrepGridControl;
+        var $inventoryContainerGrid;
+        var $inventoryContainerGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -205,6 +207,16 @@ var RentalInventory = (function () {
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
+        $inventoryContainerGrid = $form.find('div[data-grid="InventoryContainerGrid"]');
+        $inventoryContainerGridControl = jQuery(jQuery('#tmpl-grids-InventoryContainerGridBrowse').html());
+        $inventoryContainerGrid.empty().append($inventoryContainerGridControl);
+        $inventoryContainerGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        FwBrowse.init($inventoryContainerGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
     };
     RentalInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
@@ -218,6 +230,7 @@ var RentalInventory = (function () {
         var $inventoryAttributeValueGrid;
         var $inventoryVendorGrid;
         var $inventoryPrepGrid;
+        var $inventoryContainerGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
@@ -240,6 +253,11 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryVendorGrid);
         $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
         FwBrowse.search($inventoryPrepGrid);
+        $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
+        FwBrowse.search($inventoryContainerGrid);
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
+            $form.find('.containertab').show();
+        }
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
         }
