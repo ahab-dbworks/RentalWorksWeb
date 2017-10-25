@@ -20,6 +20,8 @@ namespace RentalWorksWebApi.Modules.Settings.SubCategory
         public string SubCategory { get { return subCategory.SubCategory; } set { subCategory.SubCategory = value; } }
         public string InventoryCategoryId { get { return subCategory.InventoryCategoryId; } set { subCategory.InventoryCategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string InventoryCategory { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
