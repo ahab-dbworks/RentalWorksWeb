@@ -56,6 +56,7 @@ namespace RentalWorksWebLibrary
             //Settings 
             var lv2menuAccountingSettings = AddLv2ModuleMenu("Accounting Settings", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png", "","", "", "#838b83");
+                                               AddModule("G/L Distribution", "{7C249F59-B5E3-4DAE-933D-38D30858CF7C}", lv2menuAccountingSettings.Id, "GlDistributionController", "module/gldistribution", settingsiconbaseurl + "placeholder.png", "", "", "", "#838b83");
 
             var lv2menuAddressSettings = AddLv2ModuleMenu("Address Settings", "{2ABD806F-D059-4CCC-87C0-C4AE01B46EBC}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                             AddModule("Country"        , "{D6E787E6-502B-4D36-B0A6-FA691E6D10CF}", lv2menuAddressSettings.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png", "", "", "", "#eed5b7");
