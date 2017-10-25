@@ -48,6 +48,8 @@ class RwBuilding {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        this.events($form);
+
         return $form;
     }
 
@@ -69,6 +71,17 @@ class RwBuilding {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
         FwModule.loadAudit($form, uniqueid);
+    }
+
+    events($form: JQuery): void {
+
+        $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                alert('user selected a floor.');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
 
     renderGrids($form: any) {
@@ -132,9 +145,6 @@ class RwBuilding {
 
         $spaceRateGrid = $form.find('[data-name="SpaceRateGrid"]');
         FwBrowse.search($spaceRateGrid);
-
-
-        //this.events($form);
 
     }
 
