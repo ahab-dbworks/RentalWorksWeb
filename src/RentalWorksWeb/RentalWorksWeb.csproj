@@ -181,6 +181,7 @@
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
+    <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridBrowse.htm" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridBrowse.htm" />
@@ -225,6 +226,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridController.ts" />

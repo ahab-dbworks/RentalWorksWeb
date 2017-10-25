@@ -34,11 +34,16 @@ var RentalInventory = (function () {
         if (mode === 'NEW') {
             $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
                 var $this = jQuery(this);
+                $form.find('.completeskitstab').show();
+                $form.find('.containertab').hide();
+                $form.find('.completetab').hide();
                 if ($this.prop('checked') === true && $this.val() === 'N') {
                     $form.find('.containertab').show();
+                    $form.find('.completeskitstab').hide();
                 }
-                else {
-                    $form.find('.containertab').hide();
+                if ($this.prop('checked') === true && $this.val() === 'C') {
+                    $form.find('.completetab').show();
+                    $form.find('.completeskitstab').hide();
                 }
             });
         }
@@ -107,6 +112,8 @@ var RentalInventory = (function () {
         var $inventoryPrepGridControl;
         var $inventoryContainerGrid;
         var $inventoryContainerGridControl;
+        var $inventoryCompleteGrid;
+        var $inventoryCompleteGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -231,6 +238,19 @@ var RentalInventory = (function () {
         });
         FwBrowse.init($inventoryContainerGridControl);
         FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
+        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
+        $inventoryCompleteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryCompleteGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init($inventoryCompleteGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
     };
     RentalInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
@@ -271,6 +291,11 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryContainerGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
+            $form.find('.completeskitstab').hide();
+        }
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
+            $form.find('.completetab').show();
+            $form.find('.completeskitstab').hide();
         }
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));

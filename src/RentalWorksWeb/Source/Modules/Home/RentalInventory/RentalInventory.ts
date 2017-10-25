@@ -51,10 +51,18 @@ class RentalInventory {
         if (mode === 'NEW') {
             $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function() {
                 var $this = jQuery(this);
+
+                $form.find('.completeskitstab').show();
+                $form.find('.containertab').hide();
+                $form.find('.completetab').hide();
+
                 if ($this.prop('checked') === true && $this.val() === 'N') {
                     $form.find('.containertab').show();
-                } else {
-                    $form.find('.containertab').hide();
+                    $form.find('.completeskitstab').hide();
+                } 
+                if ($this.prop('checked') === true && $this.val() === 'C') {
+                    $form.find('.completetab').show();
+                    $form.find('.completeskitstab').hide();
                 }
 
             })
@@ -134,6 +142,8 @@ class RentalInventory {
         var $inventoryPrepGridControl: any;
         var $inventoryContainerGrid: any;
         var $inventoryContainerGridControl: any;
+        var $inventoryCompleteGrid: any;
+        var $inventoryCompleteGridControl: any;
 
 
         // load AttributeValue Grid
@@ -271,6 +281,20 @@ class RentalInventory {
         });
         FwBrowse.init($inventoryContainerGridControl);
         FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
+
+        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
+        $inventoryCompleteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryCompleteGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($inventoryCompleteGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
     }
 
     afterLoad($form: any) {
@@ -314,6 +338,12 @@ class RentalInventory {
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
+            $form.find('.completeskitstab').hide();
+        }
+
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
+            $form.find('.completetab').show();
+            $form.find('.completeskitstab').hide();
         }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
