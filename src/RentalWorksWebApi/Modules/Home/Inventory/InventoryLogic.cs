@@ -91,6 +91,8 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public bool WarehouseSpecificPackage { get { return master.WarehouseSpecificPackage; } set { master.WarehouseSpecificPackage = value; } }
         public string PackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
         public bool SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

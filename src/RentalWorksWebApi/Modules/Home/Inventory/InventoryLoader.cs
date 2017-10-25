@@ -206,6 +206,9 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean)]
         public bool SeparatePackageOnQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text)]
+        public string ContainerId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
