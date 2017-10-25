@@ -102,21 +102,21 @@ class Customer {
 
     renderGrids($form: any) {
         // ----------
-        var nameCustomerResaleGrid: string = 'CustomerResaleGrid';
-        var $customerResaleGrid: any = $customerResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
-        var $customerResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
+        var nameCustomerResaleGrid: string = 'CompanyResaleGrid';
+        var $companyResaleGrid: any = $companyResaleGrid = $form.find('div[data-grid="' + nameCustomerResaleGrid + '"]');
+        var $companyResaleGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerResaleGrid);
 
-        $customerResaleGrid.empty().append($customerResaleGridControl);
-        $customerResaleGridControl.data('ondatabind', function (request) {
+        $companyResaleGrid.empty().append($companyResaleGridControl);
+        $companyResaleGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
             };
         });
-        $customerResaleGridControl.data('beforesave', function (request) {
+        $companyResaleGridControl.data('beforesave', function (request) {
             request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId')
         });
-        FwBrowse.init($customerResaleGridControl);
-        FwBrowse.renderRuntimeHtml($customerResaleGridControl);
+        FwBrowse.init($companyResaleGridControl);
+        FwBrowse.renderRuntimeHtml($companyResaleGridControl);
 
         // ----------
         var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
@@ -145,7 +145,7 @@ class Customer {
     }
 
     afterLoad($form: any) {
-        var $customerResaleGrid: any = $form.find('[data-name="CustomerResaleGrid"]');
+        var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
         FwBrowse.search($customerResaleGrid);
 
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');

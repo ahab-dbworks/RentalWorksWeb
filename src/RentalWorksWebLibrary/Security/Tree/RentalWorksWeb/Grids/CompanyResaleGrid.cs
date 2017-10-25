@@ -2,10 +2,10 @@
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    public class CustomerResaleGridMenu : FwSecurityTreeBranch
+    public class CompanyResaleGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public CustomerResaleGridMenu() : base("{571F090C-D7EC-4D95-BA7B-84D09B609F39}") { }
+        public CompanyResaleGridMenu() : base("{571F090C-D7EC-4D95-BA7B-84D09B609F39}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

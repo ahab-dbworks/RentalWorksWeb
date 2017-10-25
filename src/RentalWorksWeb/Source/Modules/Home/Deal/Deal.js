@@ -190,19 +190,20 @@ var Deal = (function () {
         fields.forEach(function (e, i) { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
     };
     Deal.prototype.renderGrids = function ($form) {
-        var $customerResaleGrid, $customerResaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
-        // load companytax Grid
-        $customerResaleGrid = $form.find('div[data-grid="CustomerResaleGrid"]');
-        $customerResaleControl = jQuery(jQuery('#tmpl-grids-CustomerResaleGridBrowse').html());
-        $customerResaleGrid.empty().append($customerResaleControl);
-        $customerResaleControl.data('ondatabind', function (request) {
+        var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
+        $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
+        $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
+        $resaleGrid.empty().append($resaleControl);
+        $resaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                CompanyId: $form.find('div.fwformfield[data-datafield="CustomerId"] input').val()
+                CompanyId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
         });
-        FwBrowse.init($customerResaleControl);
-        FwBrowse.renderRuntimeHtml($customerResaleControl);
-        // load vendornote Grid
+        $resaleControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        });
+        FwBrowse.init($resaleControl);
+        FwBrowse.renderRuntimeHtml($resaleControl);
         $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
         $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
         $taxOptionGrid.empty().append($taxOptionControl);
@@ -276,9 +277,9 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
-        var $customerResaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
-        $customerResaleGrid = $form.find('[data-name="CustomerResaleGrid"]');
-        FwBrowse.search($customerResaleGrid);
+        var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
+        $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
+        FwBrowse.search($resaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($taxOptionGrid);
         $contactGrid = $form.find('[data-name="ContactGrid"]');

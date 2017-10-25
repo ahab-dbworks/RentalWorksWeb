@@ -1,12 +1,12 @@
-﻿class CustomerResaleGrid {
+﻿class CompanyResaleGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'CustomerResaleGrid';
+        this.Module = 'CompanyResaleGrid';
         this.apiurl = 'api/v1/companytaxresale';
     }
 }
 
-(<any>window).CustomerResaleGridController = new CustomerResaleGrid();
+(<any>window).CompanyResaleGridController = new CompanyResaleGrid();
 //----------------------------------------------------------------------------------------------
