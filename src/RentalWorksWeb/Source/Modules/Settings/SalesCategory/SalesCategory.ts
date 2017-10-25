@@ -87,6 +87,17 @@ declare var FwBrowse: any;
 
             this.events($form);
 
+            $form.find('[data-datafield="CatalogCategory"] .fwformfield-value').on('change', function () {
+                var $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    FwFormField.enable($form.find('.designer'))
+                    FwFormField.disable($form.find('.barcodetype'))
+                } else {
+                    FwFormField.disable($form.find('.designer'))
+                    FwFormField.enable($form.find('.barcodetype'))
+                }
+            })
+
             this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
 
             return $form;
@@ -117,6 +128,14 @@ declare var FwBrowse: any;
             var $subCategoryGrid;
             $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
             FwBrowse.search($subCategoryGrid);
+
+            if ($form.find('[data-datafield="CatalogCategory"] .fwformfield-value').prop('checked')) {
+                FwFormField.enable($form.find('.designer'))
+                FwFormField.disable($form.find('.barcodetype'))
+            } else {
+                FwFormField.disable($form.find('.designer'))
+                FwFormField.enable($form.find('.barcodetype'))
+            }
         }
 
     }
