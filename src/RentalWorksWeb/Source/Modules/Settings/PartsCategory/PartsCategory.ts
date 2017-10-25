@@ -61,6 +61,9 @@ declare var FwBrowse: any;
                     InventoryCategoryId: $form.find('div.fwformfield[data-datafield="InventoryCategoryId"] input').val()
                 }
             });
+            $subCategoryControl.data('beforesave', function (request) {
+                request.InventoryCategoryId = FwFormField.getValueByDataField($form, 'InventoryCategoryId');
+            })
             FwBrowse.init($subCategoryControl);
             FwBrowse.renderRuntimeHtml($subCategoryControl);
 
