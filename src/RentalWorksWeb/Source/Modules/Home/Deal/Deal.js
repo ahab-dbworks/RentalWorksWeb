@@ -29,6 +29,14 @@ var Deal = (function () {
     };
     Deal.prototype.events = function ($form) {
         var _this = this;
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', function ($control, $tr) {
+            try {
+                _this.updateExternalInputsWithGridValues($tr);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', function (e) {
             _this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));
         });
@@ -188,6 +196,17 @@ var Deal = (function () {
     };
     Deal.prototype.enableFields = function ($form, fields) {
         fields.forEach(function (e, i) { FwFormField.enable($form.find('[data-datafield="' + e + '"]')); });
+    };
+    Deal.prototype.updateExternalInputsWithGridValues = function ($tr) {
+        $tr.find('.column > .field').each(function (i, e) {
+            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            if (value == undefined || null) {
+                jQuery('.' + id).find(':input').val(0);
+            }
+            else {
+                jQuery('.' + id).find(':input').val(value);
+            }
+        });
     };
     Deal.prototype.renderGrids = function ($form) {
         var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;

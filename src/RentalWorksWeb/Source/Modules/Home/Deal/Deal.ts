@@ -44,6 +44,14 @@ class Deal {
 
     events($form: JQuery): void {
 
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                this.updateExternalInputsWithGridValues($tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', (e) => {
             this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
@@ -81,6 +89,7 @@ class Deal {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
+
     }
 
     useDiscountTemplate(isChecked: boolean): void {
@@ -232,6 +241,19 @@ class Deal {
 
     enableFields($form: JQuery, fields: string[]): void {
         fields.forEach((e, i) => { FwFormField.enable($form.find('[data-datafield="' + e + '"]'));});
+    }
+
+    updateExternalInputsWithGridValues($tr: JQuery): void {
+        $tr.find('.column > .field').each((i, e) => {
+            var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+
+            if (value == undefined || null) {
+                jQuery('.' + id).find(':input').val(0);
+            } else {
+                jQuery('.' + id).find(':input').val(value);
+            }
+
+        });
     }
 
     renderGrids($form: any) {

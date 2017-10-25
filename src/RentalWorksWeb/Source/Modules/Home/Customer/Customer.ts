@@ -36,15 +36,18 @@ class Customer {
 
     events($form: JQuery): void {
 
-        $form.on('click', '#companytaxgrid .selected', (e) => {
-            this.updateExternalInputsWithGridValues(e.currentTarget);
+        $form.find('[data-name="CompanyTaxOptionGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                this.updateExternalInputsWithGridValues($tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
         
     }
 
-    updateExternalInputsWithGridValues(target: Element): void {
-        var $row = jQuery(target);
-        $row.find('.column > .field').each((i, e) => {
+    updateExternalInputsWithGridValues($tr: JQuery): void {
+        $tr.find('.column > .field').each((i, e) => {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
 
             if (value == undefined || null) {
@@ -128,7 +131,7 @@ class Customer {
         
 
         // ----------
-        var nameCompanyTaxGrid: string = 'CompanyTaxGrid'
+        var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
         var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
         var $companyTaxControl: any = FwBrowse.loadGridFromTemplate(nameCompanyTaxGrid);
         $companyTaxGrid.empty().append($companyTaxControl);
@@ -151,7 +154,7 @@ class Customer {
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
         FwBrowse.search($customerNoteGrid);
 
-        var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxGrid"]');
+        var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxGrid);
     }
 }
