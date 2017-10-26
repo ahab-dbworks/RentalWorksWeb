@@ -49,6 +49,8 @@ class RentalInventory {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
+            FwFormField.enable($form.find('[data-datafield="Classification"]'));
+
             $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function() {
                 var $this = jQuery(this);
 

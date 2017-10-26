@@ -331,6 +331,7 @@
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionForm.htm" />
+    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.js" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeForm.htm" />
     <Content Include="Source\Modules\Settings\EventType\EventTypeBrowse.htm" />
@@ -862,6 +863,7 @@
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff" />
     <Content Include="theme\fwfonts\materialicons\MaterialIcons-Regular.woff2" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
+    <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
