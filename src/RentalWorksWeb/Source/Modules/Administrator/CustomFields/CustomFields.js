@@ -32,7 +32,10 @@ var CustomFields = (function () {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
-            $form.find('.ifnew').attr('data-enabled', 'true');
+            FwFormField.enable($form.find('.ifnew'));
+        }
+        else {
+            FwFormField.disable($form.find('.ifnew'));
         }
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
         var modules = FwApplicationTree.getChildrenByType(node, 'Module');
