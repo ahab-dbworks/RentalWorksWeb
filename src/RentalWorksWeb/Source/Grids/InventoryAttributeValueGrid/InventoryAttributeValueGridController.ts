@@ -4,7 +4,7 @@
 
     constructor() {
         this.Module = 'InventoryAttributeValueGrid';
-        this.apiurl = 'api/v1/attributevalue';
+        this.apiurl = 'api/v1/inventoryattributevalue';
     }
 }
 

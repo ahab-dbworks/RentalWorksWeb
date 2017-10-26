@@ -123,6 +123,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $itemLocationTaxGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($itemLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
         $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
@@ -132,6 +135,9 @@ var RentalInventory = (function () {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $rentalInventoryWarehouseGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($rentalInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
@@ -143,6 +149,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryAvailabilityGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
         $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
@@ -152,6 +161,9 @@ var RentalInventory = (function () {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryConsignmentGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryConsignmentGridControl);
         FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
@@ -163,6 +175,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryCompleteKitGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
         $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
@@ -172,6 +187,9 @@ var RentalInventory = (function () {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventorySubstituteGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
@@ -183,6 +201,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryCompatibilityGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
         $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
@@ -193,6 +214,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryQcGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryQcGridControl);
         FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
         $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
@@ -200,8 +224,11 @@ var RentalInventory = (function () {
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                AttributeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
@@ -213,6 +240,9 @@ var RentalInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryVendorGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
         $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
@@ -222,6 +252,9 @@ var RentalInventory = (function () {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryPrepGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
