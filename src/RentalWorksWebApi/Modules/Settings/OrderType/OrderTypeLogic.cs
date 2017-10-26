@@ -285,7 +285,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public bool VehicleShowMonthlyDiscountAmount { get { return vehicleOrderTypeFields.ShowMonthlyDiscountAmount; } set { vehicleOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
         public bool VehicleShowMonthlyExtended { get { return vehicleOrderTypeFields.ShowMonthlyExtended; } set { vehicleOrderTypeFields.ShowMonthlyExtended = value; } }
         public bool VehicleShowPeriodDiscountAmount { get { return vehicleOrderTypeFields.ShowPeriodDiscountAmount; } set { vehicleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
-        public bool VehicleShowPeriodExtended { get { return vehicleOrderTypeFields.ShowPeriodDiscountAmount; } set { vehicleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
+        public bool VehicleShowPeriodExtended { get { return vehicleOrderTypeFields.ShowPeriodExtended; } set { vehicleOrderTypeFields.ShowPeriodExtended = value; } }
         //public bool VehicleShowVariancePercent { get { return vehicleOrderTypeFields.ShowVariancePercent; } set { vehicleOrderTypeFields.ShowVariancePercent = value; } }
         //public bool VehicleShowVarianceExtended { get { return vehicleOrderTypeFields.ShowVarianceExtended; } set { vehicleOrderTypeFields.ShowVarianceExtended = value; } }
         //public bool VehicleShowCountryOfOrigin { get { return vehicleOrderTypeFields.ShowCountryOfOrigin; } set { vehicleOrderTypeFields.ShowCountryOfOrigin = value; } }
@@ -500,7 +500,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         //public bool RentalSaleShowMonthlyDiscountAmount { get { return rentalSaleOrderTypeFields.ShowMonthlyDiscountAmount; } set { rentalSaleOrderTypeFields.ShowMonthlyDiscountAmount = value; } }
         //public bool RentalSaleShowMonthlyExtended { get { return rentalSaleOrderTypeFields.ShowMonthlyExtended; } set { rentalSaleOrderTypeFields.ShowMonthlyExtended = value; } }
         public bool RentalSaleShowPeriodDiscountAmount { get { return rentalSaleOrderTypeFields.ShowPeriodDiscountAmount; } set { rentalSaleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
-        public bool RentalSaleShowPeriodExtended { get { return rentalSaleOrderTypeFields.ShowPeriodDiscountAmount; } set { rentalSaleOrderTypeFields.ShowPeriodDiscountAmount = value; } }
+        public bool RentalSaleShowPeriodExtended { get { return rentalSaleOrderTypeFields.ShowPeriodExtended; } set { rentalSaleOrderTypeFields.ShowPeriodExtended = value; } }
         //public bool RentalSaleShowVariancePercent { get { return rentalSaleOrderTypeFields.ShowVariancePercent; } set { rentalSaleOrderTypeFields.ShowVariancePercent = value; } }
         //public bool RentalSaleShowVarianceExtended { get { return rentalSaleOrderTypeFields.ShowVariancePercent; } set { rentalSaleOrderTypeFields.ShowVariancePercent = value; } }
         //public bool RentalSaleShowCountryOfOrigin { get { return rentalSaleOrderTypeFields.ShowCountryOfOrigin; } set { rentalSaleOrderTypeFields.ShowCountryOfOrigin = value; } }

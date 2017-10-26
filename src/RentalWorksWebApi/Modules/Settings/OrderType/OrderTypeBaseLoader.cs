@@ -361,6 +361,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "salesdescwidth", modeltype: FwDataTypes.Integer)]
         public int? SalesDescriptionWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesshowmfgpartno", modeltype: FwDataTypes.Boolean)]
+        public bool SalesShowManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesemfgpartnowidth", modeltype: FwDataTypes.Integer)]
+        public int? SalesManufacturerPartNumberWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesshowpickdate", modeltype: FwDataTypes.Boolean)]
         public bool SalesShowPickDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -2293,8 +2299,8 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "vehicleshoworderno", modeltype: FwDataTypes.Boolean)]
         public bool VehicleShowOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vehicleshowrepairno", modeltype: FwDataTypes.Boolean)]
-        public bool VehicleShowRepairOrderNumber { get; set; }
+        [FwSqlDataField(column: "vehicleshowvehicleno", modeltype: FwDataTypes.Boolean)]
+        public bool VehicleShowVehicleNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vehicleshowmasterno", modeltype: FwDataTypes.Boolean)]
         public bool VehicleShowICode { get; set; }
@@ -2524,6 +2530,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "rentalsaledescwidth", modeltype: FwDataTypes.Integer)]
         public int? RentalSaleDescriptionWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsaleshowbarcode", modeltype: FwDataTypes.Boolean)]
+        public bool RentalSaleShowBarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalsaleshowserialno", modeltype: FwDataTypes.Boolean)]
+        public bool RentalSaleShowSerialNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalsaleshowpickdate", modeltype: FwDataTypes.Boolean)]
         public bool RentalSaleShowPickDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -2741,6 +2753,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lddescwidth", modeltype: FwDataTypes.Integer)]
         public int? FinalLandDDescriptionWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldshowbarcode", modeltype: FwDataTypes.Boolean)]
+        public bool FinalLandDShowBarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldshowserialno", modeltype: FwDataTypes.Boolean)]
+        public bool FinalLandDShowSerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowpickdate", modeltype: FwDataTypes.Boolean)]
         public bool FinalLandDShowPickDate { get; set; }
