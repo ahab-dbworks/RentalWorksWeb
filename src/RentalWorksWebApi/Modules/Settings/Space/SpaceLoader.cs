@@ -55,10 +55,10 @@ namespace RentalWorksWebApi.Modules.Settings.Space
         [FwSqlDataField(column: "spacesqft", modeltype: FwDataTypes.Decimal)]
         public decimal? SquareFeet { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spacefromdate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "spacefromdate", modeltype: FwDataTypes.Date)]
         public string SpaceFromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "spacetodate", modeltype: FwDataTypes.UTCDateTime)]
+        [FwSqlDataField(column: "spacetodate", modeltype: FwDataTypes.Date)]
         public string SpaceToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "commonsqftflg", modeltype: FwDataTypes.Boolean)]
