@@ -364,7 +364,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "salesshowmfgpartno", modeltype: FwDataTypes.Boolean)]
         public bool SalesShowManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salesemfgpartnowidth", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(column: "salesmfgpartnowidth", modeltype: FwDataTypes.Integer)]
         public int? SalesManufacturerPartNumberWidth { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesshowpickdate", modeltype: FwDataTypes.Boolean)]
@@ -2656,21 +2656,21 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "rentalsaleshowtotime", modeltype: FwDataTypes.Boolean)]
         public bool RentalSaleShowToTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleshowvehicleno", modeltype: FwDataTypes.Boolean)]
-        public bool RentalSaleShowvehicleno { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleshowbarcode", modeltype: FwDataTypes.Boolean)]
-        public bool RentalSaleShowbarcode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleshowserialno", modeltype: FwDataTypes.Boolean)]
-        public bool RentalSaleShowserialno { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleshowcrewname", modeltype: FwDataTypes.Boolean)]
-        public bool RentalSaleShowcrewname { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalsaleshowhours", modeltype: FwDataTypes.Boolean)]
-        public bool RentalSaleShowhours { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalsaleshowvehicleno", modeltype: FwDataTypes.Boolean)]
+        //public bool RentalSaleShowvehicleno { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalsaleshowbarcode", modeltype: FwDataTypes.Boolean)]
+        //public bool RentalSaleShowbarcode { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalsaleshowserialno", modeltype: FwDataTypes.Boolean)]
+        //public bool RentalSaleShowserialno { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalsaleshowcrewname", modeltype: FwDataTypes.Boolean)]
+        //public bool RentalSaleShowcrewname { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "rentalsaleshowhours", modeltype: FwDataTypes.Boolean)]
+        //public bool RentalSaleShowhours { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalsaleshowpicktime", modeltype: FwDataTypes.Boolean)]
         public bool RentalSaleShowPickTime { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -2880,20 +2880,20 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "ldshowtotime", modeltype: FwDataTypes.Boolean)]
         public bool FinalLandDShowToTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldshowvehicleno", modeltype: FwDataTypes.Boolean)]
-        public bool FinalLandDShowvehicleno { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldshowbarcode", modeltype: FwDataTypes.Boolean)]
-        public bool FinalLandDShowbarcode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldshowserialno", modeltype: FwDataTypes.Boolean)]
-        public bool FinalLandDShowserialno { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldshowcrewname", modeltype: FwDataTypes.Boolean)]
-        public bool FinalLandDShowcrewname { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ldshowhours", modeltype: FwDataTypes.Boolean)]
-        public bool FinalLandDShowhours { get; set; }
+        //[FwSqlDataField(column: "ldshowvehicleno", modeltype: FwDataTypes.Boolean)]
+        //public bool FinalLandDShowvehicleno { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ldshowbarcode", modeltype: FwDataTypes.Boolean)]
+        //public bool FinalLandDShowbarcode { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ldshowserialno", modeltype: FwDataTypes.Boolean)]
+        //public bool FinalLandDShowserialno { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ldshowcrewname", modeltype: FwDataTypes.Boolean)]
+        //public bool FinalLandDShowcrewname { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ldshowhours", modeltype: FwDataTypes.Boolean)]
+        //public bool FinalLandDShowhours { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ldshowpicktime", modeltype: FwDataTypes.Boolean)]
         public bool FinalLandDShowPickTime { get; set; }
