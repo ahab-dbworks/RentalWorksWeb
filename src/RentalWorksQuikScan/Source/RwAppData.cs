@@ -411,6 +411,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@mfgserial",       SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@rfid",            SqlDbType.VarChar,  ParameterDirection.Output);
             sp.AddParameter("@itemclass",       SqlDbType.VarChar,  ParameterDirection.Output);
+            sp.AddParameter("@conditionid",     SqlDbType.Char,     ParameterDirection.Output);
             sp.AddParameter("@status",          SqlDbType.Int,      ParameterDirection.Output);
             sp.AddParameter("@msg",             SqlDbType.NVarChar, ParameterDirection.Output);
             sp.Execute();
@@ -452,6 +453,7 @@ namespace RentalWorksQuikScan.Source
             result.mfgserial    = sp.GetParameter("@mfgserial").ToString().TrimEnd();
             result.rfid         = sp.GetParameter("@rfid").ToString().TrimEnd();
             result.itemclass    = sp.GetParameter("@itemclass").ToString().TrimEnd();
+            result.conditionid  = sp.GetParameter("@conditionid").ToString().TrimEnd();
             result.status       = sp.GetParameter("@status").ToInt32();
             result.msg          = sp.GetParameter("@msg").ToString().TrimEnd();
 
@@ -1116,77 +1118,6 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCompleteQCItem(FwSqlConnection conn, string code, string usersId)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webcompleteqcitem");
-            sp.AddParameter("@code",           code);
-            sp.AddParameter("@usersid",        usersId);
-            sp.AddParameter("@masterno",       SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@rentalitemid",   SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@rentalitemqcid", SqlDbType.Char,     ParameterDirection.Output);
-            sp.AddParameter("@description",    SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.AddParameter("@status",         SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@msg",            SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.masterNo       = sp.GetParameter("@masterno").ToString().Trim();
-            result.rentalitemid   = sp.GetParameter("@rentalitemid").ToString().Trim();
-            result.rentalitemqcid = sp.GetParameter("@rentalitemqcid").ToString().Trim();
-            result.description    = sp.GetParameter("@description").ToString().Trim();
-            result.status         = sp.GetParameter("@status").ToInt32();
-            result.msg            = sp.GetParameter("@msg").ToString().Trim();
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic GetRentalItemCondition(FwSqlConnection conn, string rentalItemId)
-        {
-            dynamic result;
-            FwSqlCommand qry = new FwSqlCommand(conn);
-            qry.Add("select conditionid");
-            qry.Add("from   rentalitem with (nolock)");
-            qry.Add("where  rentalitemid = @rentalitemid");
-            qry.AddParameter("@rentalitemid", rentalItemId);
-            qry.Execute();
-            result = new ExpandoObject();
-            result.conditionid = qry.GetField("conditionid").ToString().TrimEnd();
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic GetRentalConditions(FwSqlConnection conn)
-        {
-            dynamic result;
-            FwSqlCommand qry;
-            qry = new FwSqlCommand(conn);
-            qry.AddColumn("conditionid", false);
-            qry.AddColumn("condition", false);
-            qry.Add("select c.conditionid, c.condition");
-            qry.Add("from   condition c");
-            qry.Add("where  conditiontype = 'R'");
-            qry.Execute();
-            result = qry.QueryToFwJsonTable();
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
-        public static dynamic UpdateRentalItemQC(FwSqlConnection conn, string rentalItemId, string rentalItemQCId, string conditionId, string note)
-        {
-            dynamic result;
-            FwSqlCommand sp;
-            sp = new FwSqlCommand(conn, "dbo.webupdaterentalitemqc");
-            sp.AddParameter("@rentalitemid",    rentalItemId);
-            sp.AddParameter("@rentalitemqcid",  rentalItemQCId);
-            sp.AddParameter("@conditionid",     conditionId);
-            sp.AddParameter("@note",            note);
-            sp.AddParameter("@errno",           SqlDbType.Int,      ParameterDirection.Output);
-            sp.AddParameter("@errmsg",          SqlDbType.NVarChar, ParameterDirection.Output);
-            sp.Execute();
-            result = new ExpandoObject();
-            result.errno  = sp.GetParameter("@errno").ToInt32();
-            result.errmsg = sp.GetParameter("@errmsg").ToString().Trim();
-            return result;
-        }
-        //----------------------------------------------------------------------------------------------------
         public static dynamic UpdateResponsiblePerson(FwSqlConnection conn, string responsiblePersonId, string orderId)
         {
             dynamic result;
@@ -1639,18 +1570,19 @@ namespace RentalWorksQuikScan.Source
             return sessionNo;
         } 
         //----------------------------------------------------------------------------------------------------
-        public static dynamic FuncMasterWh(FwSqlConnection conn, string masterId, string usersWarehouseId, string filterWarehouseId)
+        public static dynamic FuncMasterWh(FwSqlConnection conn, string masterid, string userswarehouseid, string filterwarehouseid, string currencyid)
         {
             dynamic result;
             FwSqlCommand qry;
 
             qry = new FwSqlCommand(conn);
             qry.Add("select *");
-            qry.Add("from funcmasterwh(@masterid, @userswarehouseid, @filterwareouseid)");
+            qry.Add("from funcmasterwh(@masterid, @userswarehouseid, @filterwareouseid, @currencyid)");
             qry.Add("order by orderby");
-            qry.AddParameter("@masterid", masterId);
-            qry.AddParameter("@userswarehouseid", usersWarehouseId);
-            qry.AddParameter("@filterwareouseid", filterWarehouseId);  // you can pass null if you want all warehouses
+            qry.AddParameter("@masterid",         masterid);
+            qry.AddParameter("@userswarehouseid", userswarehouseid);
+            qry.AddParameter("@filterwareouseid", filterwarehouseid);  // you can pass null if you want all warehouses
+            qry.AddParameter("@currencyid",       currencyid);
             result = qry.QueryToDynamicList2();
             
             return result;

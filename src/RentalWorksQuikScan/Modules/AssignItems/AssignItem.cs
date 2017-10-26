@@ -135,6 +135,9 @@ namespace RentalWorksQuikScan.Modules
             mfgserial = (request.recorddata.mfgserial != request.mfgserial) ? request.mfgserial : "";
             rfid      = (request.recorddata.rfid      != request.rfid)      ? request.rfid      : "";
 
+            barcode   = barcode.ToUpper();
+            mfgserial = (request.recorddata.mixedcaseserialno == "T") ? mfgserial : mfgserial.ToUpper();
+
             if (request.selectedrecord.rowtype == "I-CODE")
             {
                 response.updateitem = UpdateAssignableItemAsset(request.recorddata.rentalitemid, request.selectedrecord.masterid, barcode, mfgserial, rfid, request.mfgdate);
@@ -153,8 +156,8 @@ namespace RentalWorksQuikScan.Modules
             sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "webupdaterentalitem");
             sp.AddParameter("@rentalitemid", rentalitemid);
             sp.AddParameter("@masterid",     masterid);
-            sp.AddParameter("@barcode",      barcode.ToUpper());
-            sp.AddParameter("@mfgserial",    mfgserial.ToUpper());
+            sp.AddParameter("@barcode",      barcode);
+            sp.AddParameter("@mfgserial",    mfgserial);
             sp.AddParameter("@rfid",         rfid);
             sp.AddParameter("@mfgdate",      mfgdate.GetSqlDate());
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
@@ -179,8 +182,8 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@internalchar",      data.internalchar);
             sp.AddParameter("@barcodeholdingid",  data.barcodeholdingid);
             sp.AddParameter("@masterid",          masterid);
-            sp.AddParameter("@barcode",           barcode.ToUpper());
-            sp.AddParameter("@mfgserial",         mfgserial.ToUpper());
+            sp.AddParameter("@barcode",           barcode);
+            sp.AddParameter("@mfgserial",         mfgserial);
             sp.AddParameter("@rfid",              rfid);
             sp.AddParameter("@mfgdate",           mfgdate);
             sp.AddParameter("@status",            SqlDbType.Int,     ParameterDirection.Output);

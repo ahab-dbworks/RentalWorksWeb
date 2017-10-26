@@ -358,6 +358,10 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             RwRFID.registerEvents($itemassign.rfidscan);
         }
 
+        if (recorddata.mixedcaseserialno === 'T') {
+            $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', true);
+        }
+
         if (selectedrecord.rowtype == 'I-CODE') {
             if (recorddata.barcode !== '') {
                 FwFormField.setValue($itemassign, 'div[data-datafield="barcode"]', (recorddata.rentalitemid == recorddata.barcode) ? '' : recorddata.barcode);
@@ -406,6 +410,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         FwFormField.setValue($itemassign, 'div[data-datafield="mfgserial"]', '');
         FwFormField.setValue($itemassign, 'div[data-datafield="rfid"]', '');
         FwFormField.setValue($itemassign, 'div[data-datafield="mfgdate"]', '');
+        $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', false);
         if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterEvents();
         $itemlist.showscreen();
     };
@@ -712,6 +717,10 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             RwRFID.registerEvents($itemassign.rfidscan);
         }
 
+        if (recorddata.mixedcaseserialno === 'T') {
+            $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', true);
+        }
+
         if (recorddata.barcode !== '') {
             FwFormField.setValue($itemassign, 'div[data-datafield="barcode"]', (recorddata.rentalitemid == recorddata.barcode) ? '' : recorddata.barcode);
         }
@@ -748,6 +757,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
         FwFormField.setValue($itemassign, 'div[data-datafield="mfgserial"]', '');
         FwFormField.setValue($itemassign, 'div[data-datafield="rfid"]', '');
         FwFormField.setValue($itemassign, 'div[data-datafield="mfgdate"]', '');
+        $itemassign.find('div[data-datafield="mfgserial"]').attr('data-mixedcase', false);
         if (selectedrecord.trackedby == 'RFID') RwRFID.unregisterEvents();
         $scan.showscreen();
     };

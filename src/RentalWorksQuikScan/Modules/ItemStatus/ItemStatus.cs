@@ -15,9 +15,10 @@ namespace RentalWorksQuikScan.Modules
                                                            usersId: session.security.webUser.usersid,
                                                            barcode: request.barcode);
             response.itemdata.warehousedata = RwAppData.FuncMasterWh(conn:              FwSqlConnection.RentalWorks,
-                                                                     masterId:          response.itemdata.masterId,
-                                                                     usersWarehouseId:  userLocation.warehouseId,
-                                                                     filterWarehouseId: string.Empty);
+                                                                     masterid:          response.itemdata.masterId,
+                                                                     userswarehouseid:  userLocation.warehouseId,
+                                                                     filterwarehouseid: string.Empty,
+                                                                     currencyid:        string.Empty);
             // Telemundo asked to change this to only show the primary image thumbnail
             response.itemdata.images = null;
             if (response.itemdata.trackedby == "BARCODE")

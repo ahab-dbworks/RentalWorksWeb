@@ -432,6 +432,7 @@
     <Compile Include="Modules\Exchange\ExchangeDm.cs" />
     <Compile Include="Modules\Exchange\ExchangeModels.cs" />
     <Compile Include="Modules\Exchange\ExchangeValidDlg.cs" />
+    <Compile Include="Modules\QC\QC.cs" />
     <Compile Include="Modules\TransferInMenu\TransferInMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\AssetDisposition\AssetDisposition.cs" />

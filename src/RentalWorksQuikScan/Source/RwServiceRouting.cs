@@ -145,26 +145,6 @@ namespace RentalWorksQuikScan.Source
                 ),
                 new FwJsonRequestAction(
                     roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/completeqcitem", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.CompleteQCItem(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/getrentalitemcondition", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetRentalItemCondition(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/getrentalconditions", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetRentalConditions(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
-                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/updaterentalitemqc", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.UpdateRentalItemQC(request, response, session); }
-                ),
-                new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.RentalWorksUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/inventory/addinventorywebimage", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.AddInventoryWebImage(request, response, session); }
                 ),

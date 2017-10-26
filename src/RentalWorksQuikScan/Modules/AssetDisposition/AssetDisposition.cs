@@ -184,9 +184,10 @@ namespace RentalWorksQuikScan.Modules
                 //                                                       barcode: request.barcode);
             dynamic userLocation = RwAppData.GetUserLocation(FwSqlConnection.RentalWorks,session.security.webUser.usersid);
             response.funcMasterWh = RwAppData.FuncMasterWh(conn:              FwSqlConnection.RentalWorks,
-                                                           masterId:          masterid,
-                                                           usersWarehouseId:  userLocation.warehouseId,
-                                                           filterWarehouseId: string.Empty);
+                                                           masterid:          masterid,
+                                                           userswarehouseid:  userLocation.warehouseId,
+                                                           filterwarehouseid: string.Empty,
+                                                           currencyid:        string.Empty);
 
             if (response.webGetItemStatus.trackedby != "QUANTITY")
             {

@@ -417,112 +417,6 @@ namespace RentalWorksQuikScan.Source
                                                            , qty:        request.qty);
         }
         //---------------------------------------------------------------------------------------------
-        public static void CompleteQCItem(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "CompleteQCItem";
-            string[] images;
-            bool hasRentalItemId , hasRentalItemQCId, hasConditionId, hasNote, hasImages, autoreleaseqc, hasWebCompleteQCItem;
-            string usersid, code, rentalitemid, rentalitemqcid, action, conditionid, note,
-                uniqueid1, uniqueid2, uniqueid3, description, rectype, extension;
-            FwSqlConnection conn;
-            byte[] image;
-            dynamic webCompleteQCItem;
-
-            FwValidate.TestIsNullOrEmpty(METHOD_NAME, "usersid", session.security.webUser.usersid);
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "code");
-
-            usersid       = session.security.webUser.usersid;
-            conn          = FwSqlConnection.RentalWorks;
-            code          = request.code;
-            action        = request.action;
-            autoreleaseqc = true; // MV 2015-07-07 it used to not autocomplete the QC when you scanned the barcode, which differed from the application and RWMobile.  Only leaving this option here incase someone asks for this back.  If this is still here after a year please remove the option.
-
-            if (request.isconditionsloaded == "F")
-            {
-                response.rentalconditions = RwAppData.GetRentalConditions(conn: FwSqlConnection.RentalWorks);
-            }
-
-            if (action == "scanbarcode")
-            {
-                if (autoreleaseqc)
-                {
-                    response.webCompleteQCItem      = RwAppData.WebCompleteQCItem(conn, code, usersid);
-                    rentalitemid                    = response.webCompleteQCItem.rentalitemid;
-                    response.getRentalItemCondition = RwAppData.GetRentalItemCondition(conn, rentalitemid);
-                }
-                response.webGetItemStatus = RwAppData.WebGetItemStatus(conn, usersid, code);
-            }
-            else if (action == "completeqc")
-            {
-                hasWebCompleteQCItem = FwValidate.IsPropertyDefined(request, "webCompleteQCItem");
-                if (hasWebCompleteQCItem)
-                {
-                    webCompleteQCItem = request.webCompleteQCItem;
-                }
-                else
-                {
-                    webCompleteQCItem = RwAppData.WebCompleteQCItem(conn, code, usersid);
-                }
-                rentalitemid      = webCompleteQCItem.rentalitemid;
-                rentalitemqcid    = webCompleteQCItem.rentalitemqcid;
-                conditionid       = request.conditionid;
-                note              = request.note;
-                hasRentalItemId   = FwValidate.IsPropertyDefined(webCompleteQCItem, "rentalitemid");
-                hasRentalItemQCId = FwValidate.IsPropertyDefined(webCompleteQCItem, "rentalitemqcid");
-                hasConditionId    = FwValidate.IsPropertyDefined(request, "conditionid") && !string.IsNullOrEmpty(request.conditionid);
-                hasNote           = FwValidate.IsPropertyDefined(request, "note")        && !string.IsNullOrEmpty(request.note);
-                hasImages         = FwValidate.IsPropertyDefined(request, "images");
-                if (hasRentalItemId && hasRentalItemQCId && (hasConditionId || hasNote))
-                {
-                    RwAppData.UpdateRentalItemQC(conn, rentalitemid, rentalitemqcid, conditionid, note);
-                }
-                if (hasRentalItemId && hasRentalItemQCId && hasImages && (request.images.Length > 0))
-                {
-                    images = (string[])request.images;
-                    uniqueid1         = rentalitemqcid;
-                    uniqueid2         = string.Empty;
-                    uniqueid3         = string.Empty;
-                    description       = string.Empty;
-                    rectype           = string.Empty;
-                    extension         = "JPG";
-                    for (int i = 0; i < images.Length; i++)
-                    {
-                        image = Convert.FromBase64String(images[i]);
-                        FwSqlData.InsertAppImage(conn, uniqueid1, uniqueid2, uniqueid3, description, rectype, extension, image);
-                    }
-                }
-            }
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void GetRentalItemCondition(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "GetRentalItemCondition";
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "rentalitemid");
-            response.getRentalItemCondition = RwAppData.GetRentalItemCondition(conn:         FwSqlConnection.RentalWorks
-                                                                             , rentalItemId: request.rentalitemid);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void GetRentalConditions(dynamic request, dynamic response, dynamic session)
-        {
-            //const string METHOD_NAME = "GetRentalConditions";
-            response.getRentalConditions = RwAppData.GetRentalConditions(conn: FwSqlConnection.RentalWorks);
-        }
-        //---------------------------------------------------------------------------------------------
-        public static void UpdateRentalItemQC(dynamic request, dynamic response, dynamic session)
-        {
-            const string METHOD_NAME = "UpdateRentalItemQC";
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "rentalitemid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "rentalitemqcid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "conditionid");
-            FwValidate.TestPropertyDefined(METHOD_NAME, request, "note");
-            response.updateRentalItemQC = RwAppData.UpdateRentalItemQC(conn:            FwSqlConnection.RentalWorks
-                                                                     , rentalItemId:    request.rentalitemid
-                                                                     , rentalItemQCId:  request.rentalitemqcid
-                                                                     , conditionId:     request.conditionid
-                                                                     , note:            request.note);
-        }
-        
-        //---------------------------------------------------------------------------------------------
         public static void CreateOutContract(dynamic request, dynamic response, dynamic session)
         {
             const string METHOD_NAME = "CreateOutContract";
@@ -943,10 +837,10 @@ namespace RentalWorksQuikScan.Source
             response.items = RwAppData.QCStatusRFID(conn: FwSqlConnection.RentalWorks,
                                                     tags: request.tags);
 
-            if (request.isconditionsloaded == "F")
-            {
-                response.rentalconditions = RwAppData.GetRentalConditions(conn: FwSqlConnection.RentalWorks);
-            }
+            //if (request.isconditionsloaded == "F")
+            //{
+            //    response.rentalconditions = RwAppData.GetRentalConditions(conn: FwSqlConnection.RentalWorks);
+            //}
         }
         //---------------------------------------------------------------------------------------------
         public static void TimeLogSearch(dynamic request, dynamic response, dynamic session)

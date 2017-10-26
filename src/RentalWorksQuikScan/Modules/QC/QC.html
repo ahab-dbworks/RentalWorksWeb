@@ -1,53 +1,17 @@
 ﻿<div id="qc" class="view">
-  <div class="qc-Scan">
-    {{{htmlScanBarcode}}}
-    <div id="qc-response">
+  <div id="qccontrol"></div>
 
-      <div id="qc-msg" class="panel qserror">
-        <div id="qc-txtGenericError" class="genericError"></div>
-        <div id="qc-txtMsg" class="msg"></div>
-      </div>
-
-      <div id="qc-complete" class="panel">
-        <div class="field">
-          <div class="caption"><div class="label">{{captionICodeDesc}}</div><div class="number"><span id="qc-masterNo"></span></div></div>
-          <div class="value"><div class="readonlytextbox"><span id="qc-description"></span></div></div>
-        </div>
-        <div class="field">
-          <div class="caption">{{captionCondition}}</div>
-          <div class="value"><select id="qc-rentalConditions"></select></div>
-        </div>
-        <div class="field">
-          <div class="caption">{{captionNote}}</div>
-          <div class="value note"><textarea id="qc-txtNotes"></textarea></div>
-        </div>
-        <div id="qc-pnlPictures" class="center">
-          <div>
-            <span id="qc-btnTakePicture" class="button default"><img src="[appbaseurl][appvirtualdirectory]theme/images/icons/128/iphone-camera.002.png" alt="{{captionTakePicture}}" />{{captionTakePicture}}</span>
-          </div>
-          <div id="qc-images"></div>
-        </div>
-        <div id="qc-pnlCompleteQC" class="field center">
-          <span id="qc-btnCompleteQC" class="button default">Submit</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="qc-RFID" style="display:none;">
-    <div class="qc-qcreq panel">
-      <div class="rfid-sectiontitle">QC Required</div>
-      <div class="rfid-placeholder">0 tags scanned.</div>
-      <div class="rfid-items"></div>
-    </div>
-    <div class="qc-noqcreq panel">
-      <div class="rfid-sectiontitle">QC Not Required</div>
-      <div class="rfid-placeholder">0 tags scanned.</div>
-      <div class="rfid-items"></div>
+  <div class="qc-search">
+    <div class="fwmobilecontrol-control">
+      <input class="fwmobilecontrol-value" type="text" placeholder="Barcode / Serial / RFID" />
     </div>
   </div>
 
-  <div class="modeSelector" style="display:none;">
-    <div class="modebtn btnScan selected">{{captionScanButton}}</div>
-    <div class="modebtn btnRFID">{{captionRFIDButton}}</div>
+  <div class="qc-item-status">
+    <div class="qc-item-statusmessage"></div>
+  </div>
+  <div class="qc-item">
+    <div class="qc-item-details"></div>
+    <div class="qc-fields"></div>
   </div>
 </div>

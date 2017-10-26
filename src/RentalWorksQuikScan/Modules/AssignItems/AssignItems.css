@@ -23,7 +23,7 @@
 #assignItems .ui-itemassign .itemassign-title {background-color:#546e7a;text-align:center;font-size:18px;padding:4px;}
 #assignItems .ui-itemassign .itemassign-item {background-color:#212121;padding:10px;}
 #assignItems .ui-itemassign .itemassign-item div[data-datafield="barcode"] input {text-transform: uppercase;}
-#assignItems .ui-itemassign .itemassign-item div[data-datafield="mfgserial"] input {text-transform: uppercase;}
+#assignItems .ui-itemassign .itemassign-item div[data-datafield="mfgserial"][data-mixedcase="false"] input {text-transform: uppercase;}
 
 #assignItems .ui-multiscan {display:none;} 
 #assignItems .ui-multiscan .multiscan-title {background-color:#546e7a;text-align:center;font-size:18px;padding:4px;}
