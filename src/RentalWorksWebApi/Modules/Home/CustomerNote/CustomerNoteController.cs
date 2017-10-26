@@ -38,8 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.CustomerNote
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]CustomerNoteLogic l)
         {
-            l.NoteDate = FwConvert.ToUSShortDate(DateTime.Today);
-            l.NotesById = UsersId;
             return await DoPostAsync<CustomerNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
