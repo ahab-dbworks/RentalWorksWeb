@@ -310,6 +310,7 @@ class RentalInventory {
         var $inventoryVendorGrid: any;
         var $inventoryPrepGrid: any;
         var $inventoryContainerGrid: any;
+        var $inventoryCompleteGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -335,6 +336,8 @@ class RentalInventory {
         FwBrowse.search($inventoryPrepGrid);
         $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
         FwBrowse.search($inventoryContainerGrid);
+        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+        FwBrowse.search($inventoryCompleteGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();

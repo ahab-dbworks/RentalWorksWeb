@@ -265,6 +265,7 @@ var RentalInventory = (function () {
         var $inventoryVendorGrid;
         var $inventoryPrepGrid;
         var $inventoryContainerGrid;
+        var $inventoryCompleteGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
@@ -289,6 +290,8 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryPrepGrid);
         $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
         FwBrowse.search($inventoryContainerGrid);
+        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+        FwBrowse.search($inventoryCompleteGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
             $form.find('.completeskitstab').hide();
