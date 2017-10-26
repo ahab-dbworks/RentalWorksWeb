@@ -313,7 +313,7 @@
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFieldsController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />

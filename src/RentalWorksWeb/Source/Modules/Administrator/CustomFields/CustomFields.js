@@ -12,15 +12,7 @@ var CustomFields = (function () {
         $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Custom Fields', false, 'BROWSE', true);
-            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
-            var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-            console.log(modules);
-            for (var i = 0; i < modules.length; i++) {
-                var moduleName = modules[i].properties.controller.slice(0, -10);
-                console.log(moduleName, "Module Name");
-            }
-            ;
-            FwBrowse.databind($browse, moduleName);
+            FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
         screen.unload = function () {
@@ -36,15 +28,30 @@ var CustomFields = (function () {
         return $browse;
     };
     CustomFields.prototype.openForm = function (mode) {
-        var $form;
+        var $form, $moduleSelect;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true');
+        }
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        var allModules = [];
+        for (var i = 0; i < modules.length; i++) {
+            var moduleNav = modules[i].properties.controller.slice(0, -10);
+            var moduleCaption = modules[i].properties.caption;
+            allModules.push({ value: moduleNav, text: moduleCaption });
+        }
+        ;
+        console.log(allModules);
+        $moduleSelect = $form.find('.modules');
+        FwFormField.loadItems($moduleSelect, allModules);
         return $form;
     };
     CustomFields.prototype.loadForm = function (uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val(uniqueids.CustomFieldsId);
+        $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val(uniqueids.CustomFieldId);
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
@@ -53,7 +60,7 @@ var CustomFields = (function () {
     };
     CustomFields.prototype.loadAudit = function ($form) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldsId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
     CustomFields.prototype.afterLoad = function ($form) {

@@ -23,21 +23,9 @@ class CustomFields {
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Custom Fields', false, 'BROWSE', true);
-            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
-            var modules = FwApplicationTree.getChildrenByType(node, 'Module');
-
-            for (var i = 0; i < modules.length; i++) {
-                var moduleName = modules[i].properties.controller.slice(0, -10)
-                console.log(moduleName, "Module Name");
- 
-
-            };
-
-         
-
-            FwBrowse.databind($browse, moduleName);
+            FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
-     
+
         };
         screen.unload = function () {
             FwBrowse.screenunload($browse);
@@ -57,12 +45,30 @@ class CustomFields {
     }
 
     openForm(mode: string) {
-        var $form;
+        var $form
+            , $moduleSelect;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true')
+        }
 
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
+        var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+        var allModules = [];
+
+        for (var i = 0; i < modules.length; i++) {
+            var moduleNav = modules[i].properties.controller.slice(0, -10);
+            var moduleCaption = modules[i].properties.caption
+            allModules.push({ value: moduleNav, text: moduleCaption });
+        };
+        console.log(allModules);
+
+        $moduleSelect = $form.find('.modules');
+        FwFormField.loadItems($moduleSelect, allModules);
+ 
         return $form;
     }
 
@@ -70,7 +76,7 @@ class CustomFields {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val(uniqueids.CustomFieldsId);
+        $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val(uniqueids.CustomFieldId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -82,12 +88,12 @@ class CustomFields {
 
     loadAudit($form: any) {
         var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldsId"] input').val();
+        uniqueid = $form.find('div.fwformfield[data-datafield="CustomFieldId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
     afterLoad($form: any) {
-       
+
     }
 }
 
