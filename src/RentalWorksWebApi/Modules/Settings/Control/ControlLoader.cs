@@ -262,33 +262,33 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "migrateuseeststart", modeltype: FwDataTypes.Boolean)]
         public bool Migrateuseeststart { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean)]
-        public bool Requirecontactconfirmation { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "enableunconfirmationworkflow", modeltype: FwDataTypes.Boolean)]
-        public bool Enableunconfirmationworkflow { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowamountchanged", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowamountchanged { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowamountchangeddiff", modeltype: FwDataTypes.Decimal)]
-        public decimal? Workflowamountchangeddiff { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowequipchanged", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowequipchanged { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowzerodallor", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowzerodallor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowloadpickchanged", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowloadpickchanged { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowbillingperiodchanged", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowbillingperiodchanged { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "disableconfirmation", modeltype: FwDataTypes.Boolean)]
-        public bool Disableconfirmation { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean)]
+        //public bool Requirecontactconfirmation { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "enableunconfirmationworkflow", modeltype: FwDataTypes.Boolean)]
+        //public bool Enableunconfirmationworkflow { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowamountchanged", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowamountchanged { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowamountchangeddiff", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Workflowamountchangeddiff { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowequipchanged", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowequipchanged { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowzerodallor", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowzerodallor { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowloadpickchanged", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowloadpickchanged { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowbillingperiodchanged", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowbillingperiodchanged { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "disableconfirmation", modeltype: FwDataTypes.Boolean)]
+        //public bool Disableconfirmation { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "flowsheetformat", modeltype: FwDataTypes.Text)]
         public string Flowsheetformat { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -298,9 +298,9 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "availcalculatepackages", modeltype: FwDataTypes.Boolean)]
         public bool Availcalculatepackages { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "workflowapprovalamountchanged", modeltype: FwDataTypes.Boolean)]
-        public bool Workflowapprovalamountchanged { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "workflowapprovalamountchanged", modeltype: FwDataTypes.Boolean)]
+        //public bool Workflowapprovalamountchanged { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availpromptconflicts", modeltype: FwDataTypes.Boolean)]
         public bool Availpromptconflicts { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -322,15 +322,15 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "poccprimarywhenemailbackup", modeltype: FwDataTypes.Boolean)]
         public bool Poccprimarywhenemailbackup { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noorderscustomerstatus", modeltype: FwDataTypes.Boolean)]
-        public bool Noorderscustomerstatus { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noorderscustomerstatusid", modeltype: FwDataTypes.Text)]
-        public string NoorderscustomerstatusId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noorderscustomerstatusdays", modeltype: FwDataTypes.Integer)]
-        public int? Noorderscustomerstatusdays { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noorderscustomerstatus", modeltype: FwDataTypes.Boolean)]
+        //public bool Noorderscustomerstatus { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noorderscustomerstatusid", modeltype: FwDataTypes.Text)]
+        //public string NoorderscustomerstatusId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noorderscustomerstatusdays", modeltype: FwDataTypes.Integer)]
+        //public int? Noorderscustomerstatusdays { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availexcludeconsigned", modeltype: FwDataTypes.Boolean)]
         public bool Availexcludeconsigned { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -346,27 +346,27 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "enableoldavaildetail", modeltype: FwDataTypes.Boolean)]
         public bool Enableoldavaildetail { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "previewinvoicetitle", modeltype: FwDataTypes.Text)]
-        public string Previewinvoicetitle { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "estimateinvoicetitle", modeltype: FwDataTypes.Text)]
-        public string Estimateinvoicetitle { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noinvoicedays", modeltype: FwDataTypes.Integer)]
-        public int? Noinvoicedays { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noinvoicecustomerstatus", modeltype: FwDataTypes.Boolean)]
-        public bool Noinvoicecustomerstatus { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noinvoicecustomerstatusid", modeltype: FwDataTypes.Text)]
-        public string NoinvoicecustomerstatusId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noinvoicedealstatus", modeltype: FwDataTypes.Boolean)]
-        public bool Noinvoicedealstatus { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "noinvoicedealstatusid", modeltype: FwDataTypes.Text)]
-        public string NoinvoicedealstatusId { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "previewinvoicetitle", modeltype: FwDataTypes.Text)]
+        //public string Previewinvoicetitle { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "estimateinvoicetitle", modeltype: FwDataTypes.Text)]
+        //public string Estimateinvoicetitle { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noinvoicedays", modeltype: FwDataTypes.Integer)]
+        //public int? Noinvoicedays { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noinvoicecustomerstatus", modeltype: FwDataTypes.Boolean)]
+        //public bool Noinvoicecustomerstatus { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noinvoicecustomerstatusid", modeltype: FwDataTypes.Text)]
+        //public string NoinvoicecustomerstatusId { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noinvoicedealstatus", modeltype: FwDataTypes.Boolean)]
+        //public bool Noinvoicedealstatus { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "noinvoicedealstatusid", modeltype: FwDataTypes.Text)]
+        //public string NoinvoicedealstatusId { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pendingexchangecolor", modeltype: FwDataTypes.Integer)]
         public int? Pendingexchangecolor { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -394,18 +394,18 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "physicalshowcounted", modeltype: FwDataTypes.Boolean)]
         public bool Physicalshowcounted { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderconfhidepayment", modeltype: FwDataTypes.Boolean)]
-        public bool Orderconfhidepayment { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderconfdisablepo", modeltype: FwDataTypes.Boolean)]
-        public bool Orderconfdisablepo { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderconfdisablenote", modeltype: FwDataTypes.Boolean)]
-        public bool Orderconfdisablenote { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderconfrequiredeclinereason", modeltype: FwDataTypes.Boolean)]
-        public bool Orderconfrequiredeclinereason { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "orderconfhidepayment", modeltype: FwDataTypes.Boolean)]
+        //public bool Orderconfhidepayment { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "orderconfdisablepo", modeltype: FwDataTypes.Boolean)]
+        //public bool Orderconfdisablepo { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "orderconfdisablenote", modeltype: FwDataTypes.Boolean)]
+        //public bool Orderconfdisablenote { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "orderconfrequiredeclinereason", modeltype: FwDataTypes.Boolean)]
+        //public bool Orderconfrequiredeclinereason { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availcacheallwarehouses", modeltype: FwDataTypes.Boolean)]
         public bool Availcacheallwarehouses { get; set; }
         //------------------------------------------------------------------------------------ 
