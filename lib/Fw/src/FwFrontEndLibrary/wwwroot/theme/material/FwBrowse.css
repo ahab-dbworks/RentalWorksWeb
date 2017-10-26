@@ -141,6 +141,22 @@ html.theme-material .fwbrowse .fwbrowsebutton:hover {cursor:pointer;}
 /* FwBrowse Fields*/
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="text"] input.value {width:100%;box-sizing:border-box;height:22px;line-height:22px;border:0;padding:0 10px;font-size:14px;}
 
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] {text-align:center;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] .checkboxwrapper {position:relative;display:inline-block;width:25px;height:25px;padding:10px;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value {box-sizing:border-box;opacity:0;padding:0;position: absolute;top:4px;left:12px;z-index:2;width:25px;height:25px;z-index:2;cursor:pointer;}
+html.theme-material .fwbrowse table tbody tr.viewmode .field[data-formdatatype="checkbox"] input.value + label {cursor:cell;}
+html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="checkbox"] input.value + label {cursor:pointer;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value + label {position: absolute;top:4px;left:12px;display: inline-block;width:25px;height: 25px;line-height: 25px;/*font-size: 1rem;*/-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value + label:after {border-radius:2px;box-sizing:border-box;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value + label:before,
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value + label:after {content: '';left: 0;position: absolute;transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;z-index: 1;box-sizing:border-box;/*border-radius: 5px;*/margin-top: 2px;width: 18px;height: 18px;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value:not(:checked) + label:before {width: 0;height: 0;border: 3px solid transparent;left: 6px;top: 10px;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 20% 40%;transform-origin: 100% 100%;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value:not(:checked) + label:after {top:8px;height: 20px;width: 20px;border: 2px solid #5a5a5a;z-index: 0;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] thead input.value:not(:checked) + label:after {background-color: #FFFFFF;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] tbody input.value:not(:checked) + label:after {background-color: #FFFFFF;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value:checked + label:before {top: 10px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
+html.theme-material .fwbrowse table tbody .field[data-formdatatype="checkbox"] input.value:checked + label:after {top: 8px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
+
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] {position:relative;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] input.value {box-sizing:border-box;line-height:24px;height:24px;width:100%;padding:0px 24px 0 5px;border:0;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="date"] .add-on {box-sizing:border-box;width:24px;height:24px;line-height:24px;position:absolute;top:0;right:0;bottom:0;cursor:pointer;}
@@ -229,11 +245,13 @@ html.theme-material .fwbrowse[data-type="Grid"][data-mode="EDIT"] .browsecaption
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .editablefield {/*background-color:#FFFFFF;*/}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow {background: #F5F5F5;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell {background: #F5F5F5;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell .divcancelsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell .divcancelsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .divsaverow .material-icons {color:#ffffff;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .browsecontextmenucell .divcancelsaverow .material-icons {color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.btnRefresh:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.count {color:#000000;}
@@ -305,7 +323,7 @@ html.theme-material .fwbrowse table tbody tr.editrow td .field.error input {back
 html.theme-material .fwbrowse table tbody tr.editrow td .field.error text {background-color:rgba(255, 0, 0, .3);border:1px solid red !important;}
 html.theme-material .fwbrowse table tbody tr.selected.rowbackgroundcolor,
 html.theme-material .fwbrowse table tbody tr.selected.rowtextcolor {outline:2px solid #03A9F4;}
-html.theme-material .fwbrowse table tbody tr.selected:not(.editmode):not(.newmode):not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#0d47a1 !important;color:#ffffff !important;}
+html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
 
 html.theme-material .fwbrowse .field[data-formdatatype="date"] .add-on {border-left: 1px solid #bdbdbd;background:#e9e9e9}
 html.theme-material .fwbrowse .field[data-formdatatype="date"] .control:hover .add-on {background-color:#bcb4b0;}

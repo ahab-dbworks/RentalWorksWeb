@@ -228,11 +228,11 @@ html.theme-default .fwbrowse[data-type="Grid"][data-mode="EDIT"] .browsecaption 
 html.theme-default .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;}
 html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .editablefield {/*background-color:#FFFFFF;*/}
 html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow {background: #F5F5F5;}
-html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
-html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
 html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell {background: #F5F5F5;}
-html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell .divcancelsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
-html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell .divcancelsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .divsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
+html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:44px;height:44px;line-height:44px;text-align:center;cursor:pointer;}
+html.theme-default .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {vertical-align:middle;color:#607D8B;}
 html.theme-default .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-default .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.btnRefresh:hover {background-color:rgba(0,0,0,.2);}
 html.theme-default .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.count {color:#000000;}
