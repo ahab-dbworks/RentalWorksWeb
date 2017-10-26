@@ -35,7 +35,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryType
         public bool Wardrobe { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
-        public bool Vehicle { get; set; }
+        public bool Transportation { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availabilitygrace", modeltype: FwDataTypes.Integer)]
         public int? LowAvailabilityPercent { get; set; }

@@ -44,7 +44,7 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public bool Facilities { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
-        public bool Transporation { get; set; }
+        public bool Transportation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "linecount", modeltype: FwDataTypes.Integer)]
         public int? Lines { get; set; }
