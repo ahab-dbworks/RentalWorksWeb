@@ -26,7 +26,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryCompatible
         public string CompatibleWithInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "compatiblewithno", modeltype: FwDataTypes.Text)]
-        public string CompatibleWithIcode { get; set; }
+        public string CompatibleWithICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "compatiblewith", modeltype: FwDataTypes.Text)]
         public string CompatibleWithDescription { get; set; }

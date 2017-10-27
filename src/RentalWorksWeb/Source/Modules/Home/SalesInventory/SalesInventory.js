@@ -160,6 +160,9 @@ var SalesInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryCompatibilityGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
         $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
@@ -180,6 +183,9 @@ var SalesInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
         $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
@@ -187,8 +193,11 @@ var SalesInventory = (function () {
         $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
         $inventoryVendorGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryVendorGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
@@ -199,6 +208,9 @@ var SalesInventory = (function () {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryPrepGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);

@@ -192,6 +192,9 @@ class SalesInventory {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryCompatibilityGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
         FwBrowse.init($inventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
 
@@ -214,6 +217,9 @@ class SalesInventory {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
 
@@ -222,8 +228,11 @@ class SalesInventory {
         $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
         $inventoryVendorGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryTypeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryVendorGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
@@ -235,6 +244,9 @@ class SalesInventory {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
+        });
+        $inventoryPrepGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
