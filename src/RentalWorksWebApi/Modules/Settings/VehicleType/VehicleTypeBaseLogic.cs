@@ -20,6 +20,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
             dataRecords.Add(masterRecord);
             //dataLoader = vehicleTypeLoader;
             inventoryCategory.InventoryCategory = "TEMP";  //jh - temporary value because the field is required
+            inventoryCategory.BeforeValidate += OnBeforeValidateCategory;
         }
         //------------------------------------------------------------------------------------
         public string InventoryTypeId { get { return inventoryCategory.InventoryTypeId; } set { inventoryCategory.InventoryTypeId = value; } }
@@ -99,6 +100,14 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
             Classification = "V";
             AvailableFrom = "W";
             AvailFor = "V";
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeValidateCategory(object sender, SaveEventArgs e)
+        {
+            if (inventoryCategory.InventoryCategory.Equals(string.Empty))
+            {
+                inventoryCategory.InventoryCategory = masterRecord.Description;
+            }
         }
         //------------------------------------------------------------------------------------
     }
