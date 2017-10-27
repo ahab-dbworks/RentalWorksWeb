@@ -84,6 +84,9 @@ class VehicleMake {
                 VehicleMakeId: $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val()
             };
         });
+        $vehicleMakeModelGridControl.data('beforesave', function (request) {
+            request.VehicleMakeId = $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val()
+        });
         FwBrowse.init($vehicleMakeModelGridControl);
         FwBrowse.renderRuntimeHtml($vehicleMakeModelGridControl);
     }
