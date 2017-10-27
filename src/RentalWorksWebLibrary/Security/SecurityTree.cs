@@ -71,6 +71,8 @@ namespace RentalWorksWebLibrary
                                             AddModule("Contact Title", "{1b9183b2-add9-416d-a5e1-59fe68104e4a}", lv2menuContactSettings.Id, "ContactTitleController", "module/contacttitle", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
                                             AddModule("Mail List", "{255ceb68-fb87-4248-ab99-37c18a192300}", lv2menuContactSettings.Id, "MailListController", "module/maillist", settingsiconbaseurl + "placeholder.png", "", "", "", "#8b8989");
 
+            AddModule("Control", "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuSettings.Id, "ControlController", "module/control", settingsiconbaseurl + "placeholder.png");
+
             AddModule("Currency", "{672145d0-9b37-4f6f-a216-9ae1e7728168}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuCustomerSettings = AddLv2ModuleMenu("Customer Settings", "{E2D6AE9E-9131-475A-AB42-0F34356760A6}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
