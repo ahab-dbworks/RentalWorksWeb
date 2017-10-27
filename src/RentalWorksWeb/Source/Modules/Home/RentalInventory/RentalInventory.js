@@ -28,7 +28,7 @@ var RentalInventory = (function () {
         return $browse;
     };
     RentalInventory.prototype.openForm = function (mode) {
-        var $form;
+        var $form, $rank;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
@@ -57,13 +57,6 @@ var RentalInventory = (function () {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
         });
-        return $form;
-    };
-    RentalInventory.prototype.loadForm = function (uniqueids) {
-        var $form, $rank;
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
-        FwModule.loadForm(this.Module, $form);
         $rank = $form.find('.rank');
         FwFormField.loadItems($rank, [
             { value: 'A', text: 'A' },
@@ -78,6 +71,13 @@ var RentalInventory = (function () {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
+        return $form;
+    };
+    RentalInventory.prototype.loadForm = function (uniqueids) {
+        var $form;
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
+        FwModule.loadForm(this.Module, $form);
         return $form;
     };
     RentalInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
@@ -115,6 +115,8 @@ var RentalInventory = (function () {
         var $inventoryContainerGridControl;
         var $inventoryCompleteGrid;
         var $inventoryCompleteGridControl;
+        var $inventoryWarehouseStagingGrid;
+        var $inventoryWarehouseStagingGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -285,6 +287,19 @@ var RentalInventory = (function () {
         });
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
+        $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
+        $inventoryWarehouseStagingGridControl = jQuery(jQuery('#tmpl-grids-InventoryWarehouseStagingGridBrowse').html());
+        $inventoryWarehouseStagingGrid.empty().append($inventoryWarehouseStagingGridControl);
+        $inventoryWarehouseStagingGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryWarehouseStagingGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init($inventoryWarehouseStagingGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
     };
     RentalInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
@@ -300,6 +315,7 @@ var RentalInventory = (function () {
         var $inventoryPrepGrid;
         var $inventoryContainerGrid;
         var $inventoryCompleteGrid;
+        var $inventoryWarehouseStagingGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
@@ -326,6 +342,8 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryContainerGrid);
         $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
         FwBrowse.search($inventoryCompleteGrid);
+        $inventoryWarehouseStagingGrid = $form.find('[data-name="InventoryWarehouseStagingGrid"]');
+        FwBrowse.search($inventoryWarehouseStagingGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
             $form.find('.completeskitstab').hide();

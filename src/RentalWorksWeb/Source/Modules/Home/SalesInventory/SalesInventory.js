@@ -152,8 +152,8 @@ var SalesInventory = (function () {
         });
         FwBrowse.init($inventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
-        $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
-        $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompatibilityGridBrowse').html());
+        $inventoryCompatibilityGrid = $form.find('div[data-grid="SalesInventoryCompatibilityGrid"]');
+        $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryCompatibilityGridBrowse').html());
         $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
         $inventoryCompatibilityGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -239,7 +239,7 @@ var SalesInventory = (function () {
         FwBrowse.search($inventoryCompleteKitGrid);
         $inventorySubstituteGrid = $form.find('[data-name="SalesInventorySubstituteGrid"]');
         FwBrowse.search($inventorySubstituteGrid);
-        $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
+        $inventoryCompatibilityGrid = $form.find('[data-name="SalesInventoryCompatibilityGrid"]');
         FwBrowse.search($inventoryCompatibilityGrid);
         $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
         FwBrowse.search($inventoryQcGrid);

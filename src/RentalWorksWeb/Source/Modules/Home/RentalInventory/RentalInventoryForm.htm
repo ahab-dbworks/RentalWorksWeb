@@ -61,6 +61,32 @@
                 </div>
               </div>
             </div>
+            <div class="formcolumn" style="width:350px;padding-left:1px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Classification">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Class" data-datafield="Classification" data-enabled="false" style="width:280px;border:1px solid silver;">
+                    <div data-value="I" data-caption="Item"></div>
+                    <div data-value="A" data-caption="Accessory"></div>
+                    <div data-value="C" data-caption="Complete"></div>
+                    <div data-value="K" data-caption="Kit"></div>
+                    <div data-value="N" data-caption="Container"></div>
+                    <div data-value="M" data-caption="Misc."></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="formcolumn" style="width:350px;padding-left:1px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="width:280px;border:1px solid silver;">
+                    <div data-value="BARCODE" data-caption="Bar Code"></div>
+                    <div data-value="SERIALNO" data-caption="Serial No."></div>
+                    <div data-value="RFID" data-caption="RFID"></div>
+                    <div data-value="QUANTITY" data-caption="Quantity"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="formrow">
             <div class="formcolumn" style="width:1300px;">
@@ -86,34 +112,6 @@
               </div>
             </div>
           </div>
-          <div class="formrow" style="width:700px">
-            <div class="formcolumn" style="width:350px">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Classification">
-                <div class="fwcontrol fwcontainer" data-control="FwContainer">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Class" data-datafield="Classification" data-enabled="false" style="width:280px;border:1px solid silver;">
-                    <div data-value="I" data-caption="Item"></div>
-                    <div data-value="A" data-caption="Accessory"></div>
-                    <div data-value="C" data-caption="Complete"></div>
-                    <div data-value="K" data-caption="Kit"></div>
-                    <div data-value="N" data-caption="Container"></div>
-                    <div data-value="M" data-caption="Misc."></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="formcolumn" style="width:350px">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracked By">
-                <div class="fwcontrol fwcontainer" data-control="FwContainer">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Tracked By" data-datafield="TrackedBy" style="width:280px;border:1px solid silver;">
-                    <div data-value="BARCODE" data-caption="Bar Code"></div>
-                    <div data-value="SERIALNO" data-caption="Serial No."></div>
-                    <div data-value="RFID" data-caption="RFID"></div>
-                    <div data-value="QUANTITY" data-caption="Quantity"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
         </div>
       </div>
       <!-- Order History tab -->
@@ -799,19 +797,17 @@
       <div data-type="tabpage" id="availabilitytabpage" class="tabpage" data-tabid="availabilitytab">
         <div class="formpage">
           <div class="formrow">
-            <div class="formcolumn" style="width:950px;">
+            <div class="formcolumn" style="width:750px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwGrid" data-grid="InventoryAvailabilityGrid" data-securitycaption="Inventory Availability"></div>
                 </div>
               </div>
             </div>
-            <div class="formcolumn" style="width:350px;padding-left:1px;">
+            <div class="formcolumn" style="width:500px;padding-left:1px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Add to Order at Staging">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:200px;border:1px solid silver;">
-                    <p style="font-size:10pt;">Warehouse | Allow</p>
-                  </div>
+                  <div data-control="FwGrid" data-grid="InventoryWarehouseStagingGrid" data-securitycaption="Inventory Warehouse Staging"></div>
                 </div>
               </div>
             </div>
