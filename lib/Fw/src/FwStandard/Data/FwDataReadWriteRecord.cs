@@ -9,6 +9,7 @@ namespace FwStandard.DataLayer
     {
         public event EventHandler<SaveEventArgs> BeforeSaves;
         public event EventHandler<SaveEventArgs> AfterSaves;
+        public event EventHandler<SaveEventArgs> BeforeValidate;
 
         public class SaveEventArgs : EventArgs
         {
@@ -16,6 +17,7 @@ namespace FwStandard.DataLayer
         }
         public delegate void BeforeSavesEventHandler(SaveEventArgs e);
         public delegate void AfterSavesEventHandler(SaveEventArgs e);
+        public delegate void BeforeValidateEventHandler(SaveEventArgs e);
 
         protected virtual void OnBeforeSaves(SaveEventArgs e)
         {
@@ -33,6 +35,16 @@ namespace FwStandard.DataLayer
                 handler(this, e);
             }
         }
+        protected virtual void OnBeforeValidate(SaveEventArgs e)
+        {
+            EventHandler<SaveEventArgs> handler = BeforeValidate;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
@@ -47,6 +59,14 @@ namespace FwStandard.DataLayer
         {
             bool isValid = true;
             validateMsg = "";
+
+            if (BeforeValidate != null)
+            {
+                SaveEventArgs args = new SaveEventArgs();
+                args.SaveMode = saveMode;
+                BeforeValidate(this, args);
+            }
+
             if (isValid)
             {
                 isValid = AllFieldsValid(saveMode, ref validateMsg);
