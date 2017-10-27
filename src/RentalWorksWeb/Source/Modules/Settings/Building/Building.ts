@@ -77,11 +77,48 @@ class RwBuilding {
 
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
-                alert('user selected a floor.');
+                var buildingId
+                 /*, floorId*/;
+                buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+                console.log(buildingId, "BID")
+
+                //floorId = 
+                //console.log(floorId);
+
+                $control = $form.find('[data-name="SpaceGrid"]');
+
+                $control.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        BuildingId: buildingId,
+                        FloorId: "A0000N74"
+                    }
+                })
+                FwBrowse.search($control);
+          
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
+
+
+        //$form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+        //    try {
+        //        var spaceId;
+                
+
+        //        $control = $form.find('[data-name="SpaceRateGrid"]');
+
+        //        $control.data('ondatabind', function (request) {
+        //            request.uniqueids = {
+        //                SpaceId: spaceId,
+        //            }
+        //        })
+        //        FwBrowse.search($control);
+
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
 
     renderGrids($form: any) {
