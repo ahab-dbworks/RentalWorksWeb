@@ -41,7 +41,7 @@ class RwBuilding {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -78,7 +78,7 @@ class RwBuilding {
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
                 var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-                var floorId    = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+                var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
                 var $spaceGridControl: any;
                 $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
@@ -88,6 +88,10 @@ class RwBuilding {
                         FloorId: floorId
                     }
                 })
+                $spaceGridControl.data('beforesave', function (request) {
+                    request.BuildingId = buildingId;
+                    request.FloorId = floorId;
+                });
                 FwBrowse.search($spaceGridControl);
 
             } catch (ex) {
@@ -96,24 +100,37 @@ class RwBuilding {
         });
 
 
-        //$form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-        //    try {
-        //        var spaceId;
-                
+        $form.find('[data-name="SpaceGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+            try {
+                var spaceId
+                    , floorId
+                    , buildingId;
+              
 
-        //        $control = $form.find('[data-name="SpaceRateGrid"]');
+                spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+                floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
+                buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
 
-        //        $control.data('ondatabind', function (request) {
-        //            request.uniqueids = {
-        //                SpaceId: spaceId,
-        //            }
-        //        })
-        //        FwBrowse.search($control);
+                var $spaceRateGridControl: any;
+                $spaceRateGridControl = $form.find('[data-name="SpaceRateGrid"]');
+                $spaceRateGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        SpaceId: spaceId,
+                        FloorId: floorId,
+                        BuildingId: buildingId
+                    }
+                })
+                $spaceRateGridControl.data('beforesave', function (request) {
+                    request.BuildingId = buildingId;
+                    request.FloorId = floorId;
+                    request.SpaceId = spaceId;
+                });
+                FwBrowse.search($spaceRateGridControl);
 
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
 
     renderGrids($form: any) {
@@ -123,7 +140,7 @@ class RwBuilding {
         var $spaceGridControl: any;
         var $spaceRateGrid: any;
         var $spaceRateGridControl: any;
-       
+
         $floorGrid = $form.find('div[data-grid="FloorGrid"]');
         $floorGridControl = jQuery(jQuery('#tmpl-grids-FloorGridBrowse').html());
         $floorGrid.empty().append($floorGridControl);
@@ -154,10 +171,9 @@ class RwBuilding {
         $spaceRateGrid.empty().append($spaceRateGridControl);
         $spaceRateGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                SpaceId: $form.find('div.fwformfield[data-datafield="SpaceId"] input').val()
+                BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val()
             };
         })
-
         FwBrowse.init($spaceRateGridControl);
         FwBrowse.renderRuntimeHtml($spaceRateGridControl);
 
@@ -180,7 +196,7 @@ class RwBuilding {
 
     }
 
- 
+
 }
 
 (<any>window).BuildingController = new RwBuilding();
