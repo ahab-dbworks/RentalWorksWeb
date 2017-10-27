@@ -15,6 +15,10 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string SpaceRateId { get { return spaceRate.SpaceRateId; } set { spaceRate.SpaceRateId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BuildingId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FloorId { get; set; }
         public string SpaceId { get { return spaceRate.SpaceId; } set { spaceRate.SpaceId = value; } }
         public string FacilityTypeId { get { return spaceRate.FacilityTypeId; } set { spaceRate.FacilityTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]

@@ -13,6 +13,12 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         [FwSqlDataField(column: "spacerateid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string SpaceRateId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "buildingid", modeltype: FwDataTypes.Text)]
+        public string BuildingId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "floorid", modeltype: FwDataTypes.Text)]
+        public string FloorId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string SpaceId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -86,6 +92,8 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            addFilterToSelect("BuildingId", "buildingid", select, request);
+            addFilterToSelect("FloorId", "floorid", select, request);
             addFilterToSelect("SpaceId", "masterid", select, request); 
         }
         //------------------------------------------------------------------------------------ 

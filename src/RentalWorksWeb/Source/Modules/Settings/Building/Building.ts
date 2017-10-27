@@ -77,24 +77,19 @@ class RwBuilding {
 
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {
-                var buildingId
-                 /*, floorId*/;
-                buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-                console.log(buildingId, "BID")
+                var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+                var floorId    = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-                //floorId = 
-                //console.log(floorId);
-
-                $control = $form.find('[data-name="SpaceGrid"]');
-
-                $control.data('ondatabind', function (request) {
+                var $spaceGridControl: any;
+                $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
+                $spaceGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
                         BuildingId: buildingId,
-                        FloorId: "A0000N74"
+                        FloorId: floorId
                     }
                 })
-                FwBrowse.search($control);
-          
+                FwBrowse.search($spaceGridControl);
+
             } catch (ex) {
                 FwFunc.showError(ex);
             }
