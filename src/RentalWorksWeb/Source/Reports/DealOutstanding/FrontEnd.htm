@@ -25,32 +25,39 @@
             </div>
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="officelocation" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Office Location" data-validationname="OfficeLocationValidation" style="float:left;width:300px;margin-left:10px;"></div>
+                <!--<div data-datafield="officelocation" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Office Location" data-validationname="OfficeLocationValidation" style="float:left;width:300px;margin-left:10px;"></div>-->
+                <!--<div data-datafield="officelocation" data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-validationname="OfficeLocationValidation" style="float:left;width:300px;margin-left:10px;" data-required="true"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;width:350px;" data-required="false"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="companydepartment" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Company Department" data-validationname="CompanyDepartmentValidation" style="float:left;width:300px;margin-left:10px;"></div>
+                <!--<div data-datafield="companydepartment" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Company Department" data-validationname="CompanyDepartmentValidation" style="float:left;width:300px;margin-left:10px;"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;width:350px;" data-required="false"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="customer" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-validationname="CustomerValidation" style="float:left;width:300px;margin-left:10px;"></div>
+                <!--<div data-datafield="customer" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-validationname="CustomerValidation" style="float:left;width:300px;margin-left:10px;"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" data-required="false" style="float:left;width:350px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="deal" data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-validationname="DealValidation" style="float:left;width:300px;margin-left:10px;" data-required="true"></div>
+                <!--<div data-datafield="deal" data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-validationname="DealValidation" style="float:left;width:300px;margin-left:10px;" data-required="true"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-required="true" style="float:left;width:350px;"></div>
               </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-datafield="order" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order" data-validationname="OrderValidation" style="float:left;width:300px;margin-left:10px;"></div>
-              </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              </div>-->
+              <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-datafield="orderunit" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order Unit" data-validationname="OrderUnitValidation" style="float:left;width:300px;margin-left:10px;"></div>
+              </div>-->
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <!--<div data-datafield="inventorytype" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-validationname="InventoryTypeValidation" style="float:left;width:300px;margin-left:10px;"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="false" style="float:left;width:350px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="inventorytype" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-validationname="InventoryTypeValidation" style="float:left;width:300px;margin-left:10px;"></div>
+                <!--<div data-datafield="category" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-validationname="CategoryValidation" style="float:left;width:300px;margin-left:10px;"></div>-->
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" data-required="false" style="float:left;width:350px;"></div>
               </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-datafield="category" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-validationname="CategoryValidation" style="float:left;width:300px;margin-left:10px;"></div>
-              </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-datafield="icode" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-validationname="ICodeValidation" style="float:left;width:300px;margin-left:10px;"></div>
-              </div>
+              </div>-->
             </div>
           </div>
           <div class="formcolumn">

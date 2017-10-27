@@ -131,15 +131,15 @@ namespace RentalWorksWeb.Source.Reports
             select.AddParameter("@showresponsibleperson",   request.parameters.ShowResponsiblePerson);
             select.AddParameter("@showitemvalue",           request.parameters.IncludeValueCost);
             select.AddParameter("@returnimagemode",         "T");
-            select.AddParameter("@officelocationids",       GetCommaListDecrypt(request.parameters.officelocation));
-            select.AddParameter("@companydepartmentids",    GetCommaListDecrypt(request.parameters.companydepartment));
-            select.AddParameter("@customerids",             GetCommaListDecrypt(request.parameters.customer));
-            select.AddParameter("@dealids",                 GetCommaListDecrypt(request.parameters.deal));
-            select.AddParameter("@orderunitids",            GetCommaListDecrypt(request.parameters.order));
-            select.AddParameter("@orderids",                GetCommaListDecrypt(request.parameters.orderunit));
-            select.AddParameter("@inventorydepartmentids",  GetCommaListDecrypt(request.parameters.inventorytype));
-            select.AddParameter("@categoryids",             GetCommaListDecrypt(request.parameters.category));
-            select.AddParameter("@masterids",               GetCommaListDecrypt(request.parameters.icode));
+            select.AddParameter("@officelocationids",       GetCommaListDecrypt(request.parameters.OfficeLocationId));
+            select.AddParameter("@companydepartmentids",    GetCommaListDecrypt(request.parameters.DepartmentId));
+            select.AddParameter("@customerids",             GetCommaListDecrypt(request.parameters.CustomerId));
+            select.AddParameter("@dealids",                 GetCommaListDecrypt(request.parameters.DealId));
+            select.AddParameter("@orderunitids",            "");// GetCommaListDecrypt(request.parameters.order));
+            select.AddParameter("@orderids",                 "");// GetCommaListDecrypt(request.parameters.orderunit));
+            select.AddParameter("@inventorydepartmentids",  GetCommaListDecrypt(request.parameters.InventoryTypeId));
+            select.AddParameter("@categoryids",             GetCommaListDecrypt(request.parameters.CategoryId));
+            select.AddParameter("@masterids",               "");// GetCommaListDecrypt(request.parameters.icode));
 
             select.Parse();
 
