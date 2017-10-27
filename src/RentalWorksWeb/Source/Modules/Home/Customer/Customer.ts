@@ -80,6 +80,24 @@ class Customer {
             }
         });
 
+        $form.find('[data-datafield="BillingAddressType"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.val() === 'OTHER') {
+                FwFormField.enable($form.find('.billingaddress'));
+            } else {
+                FwFormField.disable($form.find('.billingaddress'));                
+            }
+        });
+
+        $form.find('[data-datafield="ShippingAddressType"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.val() === 'OTHER') {
+                FwFormField.enable($form.find('.shippingaddress'));
+            } else {
+                FwFormField.disable($form.find('.shippingaddress'));
+            }
+        });
+
         this.events($form);
 
         
@@ -156,6 +174,14 @@ class Customer {
 
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxGrid);
+
+        if (FwFormField.getValue($form, 'div[data-datafield="BillingAddressType"]') === 'OTHER') {
+            FwFormField.enable($form.find('.billingaddress'));
+        };
+
+        if (FwFormField.getValue($form, 'div[data-datafield="ShippingAddressType"]') === 'OTHER') {
+            FwFormField.enable($form.find('.shippingaddress'));
+        };
     }
 }
 

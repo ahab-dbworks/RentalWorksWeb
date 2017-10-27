@@ -14,6 +14,7 @@
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Home\QuoteMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\IntegrationMenu.cs" />
+    <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Settings\PresentationLayerActivityMenu.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,8 +30,8 @@
   </ItemGroup>
 
   <Target Name="AfterClean"> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin"/> 
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj"/> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" /> 
   </Target> 
 
 </Project>

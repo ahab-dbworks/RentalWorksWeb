@@ -175,8 +175,7 @@ namespace RentalWorksWebLibrary
             
             var lv2menuPresentationSettings = AddLv2ModuleMenu("Presentation Settings", "{471FF4FC-094B-4D20-B326-C2D7997F5424}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                               AddModule("Form Design", "{4DFEC75D-C33A-4358-9EF1-4D1F5F9C5D73}", lv2menuPresentationSettings.Id, "FormDesignController", "module/formdesign", settingsiconbaseurl + "placeholder.png");
-                                              AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");            
-                                              AddModule("Presentation Layer Activity", "{084E26BD-37FD-4E0E-AD65-A0824A6DC884}", lv2menuPresentationSettings.Id, "PresentationLayerActivityController", "module/presentationlayeractivity", settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Presentation Layer", "{BBEF0AFD-B46A-46B0-8046-113834736060}", lv2menuPresentationSettings.Id, "PresentationLayerController", "module/presentationlayer", settingsiconbaseurl + "placeholder.png");                                                          
 
             var lv2menuProjectSettings = AddLv2ModuleMenu("Project Settings", "{AE6366FC-48CD-496F-9DF7-B55E3EF27F63}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                          AddModule("As Build", "{A3BFF1F7-0951-4F3A-A6DE-1A62BEDF45E6}", lv2menuProjectSettings.Id, "ProjectAsBuildController", "module/projectasbuild", settingsiconbaseurl + "placeholder.png");
@@ -296,6 +295,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
             AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");
             AddGrid("Inventory Vendor",                       "{C68281F9-0FC9-4FFE-8931-A5E501577AC3}", lv1menuGrids.Id, "InventoryVendorGridController");
+            AddGrid("Sales Inventory Substitute",             "{ED6DCEB4-2BB7-4B52-915A-10E1D94B083E}", lv1menuGrids.Id, "SalesInventorySubstituteGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");

@@ -40,6 +40,10 @@ var SalesInventory = (function () {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
         });
+        if (mode === 'NEW') {
+            FwFormField.enable($form.find('[data-datafield="Classification"]'));
+        }
+        ;
         return $form;
     };
     SalesInventory.prototype.loadForm = function (uniqueids) {
@@ -138,8 +142,8 @@ var SalesInventory = (function () {
         });
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
-        $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
-        $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-InventorySubstituteGridBrowse').html());
+        $inventorySubstituteGrid = $form.find('div[data-grid="SalesInventorySubstituteGrid"]');
+        $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-SalesInventorySubstituteGridBrowse').html());
         $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
         $inventorySubstituteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -173,7 +177,7 @@ var SalesInventory = (function () {
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                AttributeId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
@@ -221,7 +225,7 @@ var SalesInventory = (function () {
         FwBrowse.search($inventoryConsignmentGrid);
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
         FwBrowse.search($inventoryCompleteKitGrid);
-        $inventorySubstituteGrid = $form.find('[data-name="InventorySubstituteGrid"]');
+        $inventorySubstituteGrid = $form.find('[data-name="SalesInventorySubstituteGrid"]');
         FwBrowse.search($inventorySubstituteGrid);
         $inventoryCompatibilityGrid = $form.find('[data-name="InventoryCompatibilityGrid"]');
         FwBrowse.search($inventoryCompatibilityGrid);
