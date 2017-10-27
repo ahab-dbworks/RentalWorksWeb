@@ -1,7 +1,7 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
 
-class ControlClass {
+class Control {
     Module: string;
     apiurl: string;
 
@@ -45,8 +45,16 @@ class ControlClass {
     openForm(mode: string) {
         var $form;
 
+
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+
+        if (mode === 'NEW') {
+            FwFormField.enable($form.find('.ifnew'))
+        } else {
+            FwFormField.disable($form.find('.ifnew'))
+        }
 
         return $form;
     }
@@ -76,5 +84,5 @@ class ControlClass {
     }
 }
 
-(<any>window).ControlController = new ControlClass();
+(<any>window).ControlController = new Control();
 
