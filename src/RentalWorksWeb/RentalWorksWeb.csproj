@@ -181,6 +181,8 @@
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
+    <Content Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridBrowse.htm" />
+    <Content Include="Source\Grids\SalesInventoryCompatibilityGrid\SalesInventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridBrowse.htm" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
@@ -227,6 +229,8 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryWarehouseStagingGrid\InventoryWarehouseStagingGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SalesInventoryCompatibilityGrid\SalesInventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />

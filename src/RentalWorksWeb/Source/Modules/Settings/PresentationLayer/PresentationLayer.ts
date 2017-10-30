@@ -90,6 +90,9 @@ renderGrids($form: any) {
             PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
         };
     });
+    $presentationLayerActivityGridControl.data('beforesave', function (request) {
+        request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
+    });
     FwBrowse.init($presentationLayerActivityGridControl);
     FwBrowse.renderRuntimeHtml($presentationLayerActivityGridControl);
 
@@ -101,6 +104,9 @@ renderGrids($form: any) {
         request.uniqueids = {
             PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
         };
+    });
+    $presentationLayerActivityOverrideGridControl.data('beforesave', function (request) {
+        request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
     });
     FwBrowse.init($presentationLayerActivityOverrideGridControl);
     FwBrowse.renderRuntimeHtml($presentationLayerActivityOverrideGridControl);
