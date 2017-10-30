@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "required", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
+        [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 3)]
         public bool Required { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 7, scale: 2)]
