@@ -28,6 +28,9 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool Rental { get; set; }
         //------------------------------------------------------------------------------------ 

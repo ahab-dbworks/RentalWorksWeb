@@ -40,6 +40,8 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------
+        public string OrderType { get { return dealOrder.OrderType; } set { dealOrder.OrderType = value; } }
+        //------------------------------------------------------------------------------------
         public decimal? MaximumCumulativeDiscount { get { return dealOrderDetail.MaximumCumulativeDiscount; } set { dealOrderDetail.MaximumCumulativeDiscount = value; } }
         //------------------------------------------------------------------------------------
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }

@@ -20,6 +20,9 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------

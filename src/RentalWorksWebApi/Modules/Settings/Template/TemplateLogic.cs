@@ -1,4 +1,5 @@
-using FwStandard.BusinessLogic.Attributes; 
+using FwStandard.BusinessLogic.Attributes;
+using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Home.DealOrder;
 
@@ -25,6 +26,8 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public string WarehouseId { get { return template.WarehouseId; } set { template.WarehouseId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Warehouse { get; set; }
+        [JsonIgnore]
+        public string OrderType { get { return template.OrderType; } set { template.OrderType = value; } }
         public bool Rental { get { return template.Rental; } set { template.Rental = value; } }
         public bool Sales { get { return template.Sales; } set { template.Sales = value; } }
         public bool Misc { get { return template.Misc; } set { template.Misc = value; } }
@@ -35,5 +38,10 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public int? Lines { get; set; }
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public override void BeforeSave()
+        {
+            OrderType = "M";
+        }
+        //------------------------------------------------------------------------------------
     }
 }
