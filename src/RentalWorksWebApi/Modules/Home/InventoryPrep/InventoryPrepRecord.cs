@@ -8,10 +8,13 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
     public class InventoryPrepRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "masterprepid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        public string InventoryPrepId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "preprateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "preprateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string PrepRateId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "preptime", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]

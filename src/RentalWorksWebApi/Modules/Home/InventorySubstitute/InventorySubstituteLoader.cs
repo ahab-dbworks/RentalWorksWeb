@@ -10,11 +10,14 @@ namespace RentalWorksWebApi.Modules.Home.InventorySubstitute
     public class InventorySubstituteLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryId { get; set; } = "";
+        [FwSqlDataField(column: "mastersubstituteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string InventorySubstituteId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "substituteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string SubstituteInventoryId { get; set; } = "";
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, required: true)]
+        public string InventoryId { get; set; } 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "substituteid", modeltype: FwDataTypes.Text, required: true)]
+        public string SubstituteInventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }

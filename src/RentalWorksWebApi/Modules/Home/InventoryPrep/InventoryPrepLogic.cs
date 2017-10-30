@@ -13,6 +13,8 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
             dataLoader = inventoryPrepLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InventoryPrepId { get { return inventoryPrep.InventoryPrepId; } set { inventoryPrep.InventoryPrepId = value; } }
         public string InventoryId { get { return inventoryPrep.InventoryId; } set { inventoryPrep.InventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }

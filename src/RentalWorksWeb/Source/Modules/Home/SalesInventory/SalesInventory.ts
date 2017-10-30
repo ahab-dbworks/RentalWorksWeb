@@ -181,6 +181,9 @@ class SalesInventory {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventorySubstituteGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
         FwBrowse.init($inventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
 

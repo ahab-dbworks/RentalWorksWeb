@@ -14,8 +14,8 @@ namespace RentalWorksWebApi.Modules.Home.InventorySubstitute
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
+        public string InventorySubstituteId { get { return inventorySubstitute.InventorySubstituteId; } set { inventorySubstitute.InventorySubstituteId = value; } }
         public string InventoryId { get { return inventorySubstitute.InventoryId; } set { inventorySubstitute.InventoryId = value; } }
-        [FwBusinessLogicField(isPrimaryKey: true)]
         public string SubstituteInventoryId { get { return inventorySubstitute.SubstituteInventoryId; } set { inventorySubstitute.SubstituteInventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }

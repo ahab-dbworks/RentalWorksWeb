@@ -10,7 +10,10 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
     public class InventoryPrepLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "masterprepid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string InventoryPrepId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, required: true)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
@@ -19,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "preprateid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "preprateid", modeltype: FwDataTypes.Text, required: true)]
         public string PrepRateId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "prepmasterno", modeltype: FwDataTypes.Text)]
