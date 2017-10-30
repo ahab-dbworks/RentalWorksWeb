@@ -37,8 +37,8 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean)]
         public bool Required { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Boolean)]
-        public bool OptionColor { get; set; }
+        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
+        public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }

@@ -26,7 +26,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public bool Charge { get { return inventoryPackageInventory.Charge; } set { inventoryPackageInventory.Charge = value; } }
         public bool Required { get { return inventoryPackageInventory.Required; } set { inventoryPackageInventory.Required = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool OptionColor { get; set; }
+        public string OptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ItemClass { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
