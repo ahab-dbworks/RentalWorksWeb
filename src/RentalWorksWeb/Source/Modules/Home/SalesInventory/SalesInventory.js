@@ -120,6 +120,9 @@ var SalesInventory = (function () {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
+        $inventoryAvailabilityGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
         $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');

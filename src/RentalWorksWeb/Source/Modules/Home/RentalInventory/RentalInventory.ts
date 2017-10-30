@@ -342,7 +342,7 @@ class RentalInventory {
             };
         });
         $inventoryWarehouseStagingGridControl.data('beforesave', function (request) {
-            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($inventoryWarehouseStagingGridControl);
         FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
