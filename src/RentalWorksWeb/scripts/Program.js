@@ -161,21 +161,25 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/template$/,                   getScreen: function () { return TemplateController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/gldistribution$/,             getScreen: function () { return GlDistributionController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/control$/,                    getScreen: function () { return ControlController.getModuleScreen({}, {}); } } 
 
 
     //Reports                                             
-  , { urlpattern: /^module\/dealoutstanding/,             getScreen: function() { return RwDealOutstandingController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/dealoutstanding/, getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }
+
+
     //Utilities Modules                                   
   , { urlpattern: /^module\/chargeprocessing/,            getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/receiptprocessing/,           getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendorinvoiceprocessing/,     getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
-    //Administrator                                       
+
+
+    //Administrator
+  , { urlpattern: /^module\/control$/,                    getScreen: function() { return ControlController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/group/,                       getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/integration/,                 getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                        getScreen: function () { return UserController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customfields/,                getScreen: function () { return CustomFieldsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/settingspage$/,               getScreen: function () { return SettingsPageController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/user/,                        getScreen: function() { return UserController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/customfields/,                getScreen: function() { return CustomFieldsController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/settingspage$/,               getScreen: function() { return SettingsPageController.getModuleScreen({}, {}); } }
     //Exports                                             
   , { urlpattern: /^module\/example/,                     getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];

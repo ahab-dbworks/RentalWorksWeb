@@ -55,9 +55,9 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text)]
         public string DealstatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salesrestockpercent", modeltype: FwDataTypes.Decimal)]
-        public decimal? Salesrestockpercent { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "salesrestockpercent", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Salesrestockpercent { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custstatusid", modeltype: FwDataTypes.Text)]
         public string CuststatusId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -100,9 +100,9 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "sharedeals", modeltype: FwDataTypes.Boolean)]
         public bool Sharedeals { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allowdecreaseorderwhenstaged", modeltype: FwDataTypes.Boolean)]
-        public bool Allowdecreaseorderwhenstaged { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "allowdecreaseorderwhenstaged", modeltype: FwDataTypes.Boolean)]
+        //public bool Allowdecreaseorderwhenstaged { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availprogressmeter", modeltype: FwDataTypes.Boolean)]
         public bool Availprogressmeter { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -178,18 +178,18 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "nonrecurbillperiodid", modeltype: FwDataTypes.Text)]
         public string NonrecurbillperiodId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "revenueforcompletes", modeltype: FwDataTypes.Boolean)]
-        public bool Revenueforcompletes { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "revenueforkits", modeltype: FwDataTypes.Boolean)]
-        public bool Revenueforkits { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "completerevenuebasedon", modeltype: FwDataTypes.Text)]
-        public string Completerevenuebasedon { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "kitrevenuebasedon", modeltype: FwDataTypes.Text)]
-        public string Kitrevenuebasedon { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "revenueforcompletes", modeltype: FwDataTypes.Boolean)]
+        //public bool Revenueforcompletes { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "revenueforkits", modeltype: FwDataTypes.Boolean)]
+        //public bool Revenueforkits { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "completerevenuebasedon", modeltype: FwDataTypes.Text)]
+        //public string Completerevenuebasedon { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "kitrevenuebasedon", modeltype: FwDataTypes.Text)]
+        //public string Kitrevenuebasedon { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "setconditionid", modeltype: FwDataTypes.Text)]
         public string SetconditionId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -202,12 +202,12 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "nocrosswhcheckin", modeltype: FwDataTypes.Boolean)]
         public bool Nocrosswhcheckin { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "markupreplacementcost", modeltype: FwDataTypes.Boolean)]
-        public bool Markupreplacementcost { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcostmarkuppct", modeltype: FwDataTypes.Decimal)]
-        public decimal? Replacementcostmarkuppct { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "markupreplacementcost", modeltype: FwDataTypes.Boolean)]
+        //public bool Markupreplacementcost { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "replacementcostmarkuppct", modeltype: FwDataTypes.Decimal)]
+        //public decimal? Replacementcostmarkuppct { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crosslocationadds", modeltype: FwDataTypes.Boolean)]
         public bool Crosslocationadds { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -223,9 +223,9 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "syncdealcreditstatus", modeltype: FwDataTypes.Boolean)]
         public bool Syncdealcreditstatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "copyinactiveitems", modeltype: FwDataTypes.Boolean)]
-        public bool Copyinactiveitems { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "copyinactiveitems", modeltype: FwDataTypes.Boolean)]
+        //public bool Copyinactiveitems { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availconflictlogdays", modeltype: FwDataTypes.Integer)]
         public int? Availconflictlogdays { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -241,9 +241,9 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "customerdefaultpaytermsid", modeltype: FwDataTypes.Text)]
         public string CustomerdefaultpaytermsId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availhourlydays", modeltype: FwDataTypes.Integer)]
-        public int? Availhourlydays { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availhourlydays", modeltype: FwDataTypes.Integer)]
+        //public int? Availhourlydays { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "treatconsignedqtyasowned", modeltype: FwDataTypes.Boolean)]
         public bool Treatconsignedqtyasowned { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -331,15 +331,15 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         //[FwSqlDataField(column: "noorderscustomerstatusdays", modeltype: FwDataTypes.Integer)]
         //public int? Noorderscustomerstatusdays { get; set; }
         ////------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availexcludeconsigned", modeltype: FwDataTypes.Boolean)]
-        public bool Availexcludeconsigned { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availexcludeconsigned", modeltype: FwDataTypes.Boolean)]
+        //public bool Availexcludeconsigned { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availreservationhistorydays", modeltype: FwDataTypes.Integer)]
         public int? Availreservationhistorydays { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availreserveconsigned", modeltype: FwDataTypes.Boolean)]
-        public bool Availreserveconsigned { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availreserveconsigned", modeltype: FwDataTypes.Boolean)]
+        //public bool Availreserveconsigned { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultorderdesc", modeltype: FwDataTypes.Boolean)]
         public bool Defaultorderdesc { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -505,27 +505,27 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwSqlDataField(column: "enablecustomeractivityrestrictions", modeltype: FwDataTypes.Boolean)]
         public bool Enablecustomeractivityrestrictions { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "updatemanifestvalue", modeltype: FwDataTypes.Boolean)]
-        public bool Updatemanifestvalue { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "updatemanifestvalue", modeltype: FwDataTypes.Boolean)]
+        //public bool Updatemanifestvalue { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "receivemisclabor", modeltype: FwDataTypes.Boolean)]
         public bool Receivemisclabor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availenableqcdelay", modeltype: FwDataTypes.Boolean)]
-        public bool Availenableqcdelay { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availqcdelayexcludeweekend", modeltype: FwDataTypes.Boolean)]
-        public bool Availqcdelayexcludeweekend { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availqcdelayexcludeholiday", modeltype: FwDataTypes.Boolean)]
-        public bool Availqcdelayexcludeholiday { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availqcdelayindefinite", modeltype: FwDataTypes.Boolean)]
-        public bool Availqcdelayindefinite { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availenableqcdelay", modeltype: FwDataTypes.Boolean)]
+        //public bool Availenableqcdelay { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availqcdelayexcludeweekend", modeltype: FwDataTypes.Boolean)]
+        //public bool Availqcdelayexcludeweekend { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availqcdelayexcludeholiday", modeltype: FwDataTypes.Boolean)]
+        //public bool Availqcdelayexcludeholiday { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availqcdelayindefinite", modeltype: FwDataTypes.Boolean)]
+        //public bool Availqcdelayindefinite { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "i035summarizesr", modeltype: FwDataTypes.Boolean)]
         public bool I035summarizesr { get; set; }
         //------------------------------------------------------------------------------------ 

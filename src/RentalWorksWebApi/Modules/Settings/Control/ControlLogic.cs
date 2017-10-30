@@ -18,6 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.Control
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string ControlId { get { return control.ControlId; } set { control.ControlId = value; } }
         public string Company { get { return control.Company; } set { control.Company = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string SystemName { get { return control.System; } set { control.System = value; } }
         //public int? Maxrows { get { return control.Maxrows; } set { control.Maxrows = value; } }
         //public string Imagepath { get { return control.Imagepath; } set { control.Imagepath = value; } }
