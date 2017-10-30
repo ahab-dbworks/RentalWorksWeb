@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Settings.OrderType;
 using RentalWorksWebApi.Modules.Settings.OrderTypeFields;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Settings.EventType
 {
@@ -28,6 +29,10 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
             dataRecords.Add(spaceOrderTypeFields);
             dataRecords.Add(finalLandDOrderTypeFields);
             dataLoader = eventTypeLoader;
+
+            eventType.AfterSaves += OnAfterSavesEventType;
+            finalLandDOrderTypeFields.AfterSaves += OnAfterSavesFinalLandDFields;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -36,6 +41,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
         public string EventType { get { return eventType.OrderType; } set { eventType.OrderType = value; } }
 
         //rental fields
+        [JsonIgnore]
         public string RentalOrderTypeFieldsId { get { return rentalOrderTypeFields.OrderTypeFieldsId; } set { rentalOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool RentalShowOrderNumber { get { return rentalOrderTypeFields.ShowOrderNumber; } set { rentalOrderTypeFields.ShowOrderNumber = value; } }
         public bool RentalShowICode { get { return rentalOrderTypeFields.ShowICode; } set { rentalOrderTypeFields.ShowICode = value; } }
@@ -99,6 +105,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
 
 
         //sales fields
+        [JsonIgnore]
         public string SalesOrderTypeFieldsId { get { return salesOrderTypeFields.OrderTypeFieldsId; } set { salesOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool SalesShowOrderNumber { get { return salesOrderTypeFields.ShowOrderNumber; } set { salesOrderTypeFields.ShowOrderNumber = value; } }
         public bool SalesShowICode { get { return salesOrderTypeFields.ShowICode; } set { salesOrderTypeFields.ShowICode = value; } }
@@ -163,6 +170,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
         public string SalesInventoryCost { get { return eventType.Selectsalescost; } set { eventType.Selectsalescost = value; } }
 
         //facilities fields
+        [JsonIgnore]
         public string FacilityOrderTypeFieldsId { get { return spaceOrderTypeFields.OrderTypeFieldsId; } set { spaceOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool FacilityShowOrderNumber { get { return spaceOrderTypeFields.ShowOrderNumber; } set { spaceOrderTypeFields.ShowOrderNumber = value; } }
         //public bool FacilityShowRepairOrderNumber { get { return spaceOrderTypeFields.ShowRepairOrderNumber; } set { spaceOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -239,6 +247,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
 
 
         //labor/crew fields
+        [JsonIgnore]
         public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { laborOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool LaborShowOrderNumber { get { return laborOrderTypeFields.ShowOrderNumber; } set { laborOrderTypeFields.ShowOrderNumber = value; } }
         //public bool LaborShowRepairOrderNumber { get { return laborOrderTypeFields.ShowRepairOrderNumber; } set { laborOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -308,6 +317,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
 
 
         //misc fields
+        [JsonIgnore]
         public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { miscOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool MiscShowOrderNumber { get { return miscOrderTypeFields.ShowOrderNumber; } set { miscOrderTypeFields.ShowOrderNumber = value; } }
         //public bool MiscShowRepairOrderNumber { get { return miscOrderTypeFields.ShowRepairOrderNumber; } set { miscOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -376,6 +386,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
         public string MiscDateStamp { get { return miscOrderTypeFields.DateStamp; } set { miscOrderTypeFields.DateStamp = value; } }
 
         //finalld
+        [JsonIgnore]
         public string FinalLandDOrderTypeFieldsId { get { return finalLandDOrderTypeFields.OrderTypeFieldsId; } set { finalLandDOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool FinalLandDShowOrderNumber { get { return finalLandDOrderTypeFields.ShowOrderNumber; } set { finalLandDOrderTypeFields.ShowOrderNumber = value; } }
         //public bool FinalLandDShowRepairOrderNumber { get { return finalLandDOrderTypeFields.ShowRepairOrderNumber; } set { finalLandDOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -463,5 +474,36 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
             OrdType = "EVENT";
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSavesEventType(object sender, SaveEventArgs e)
+        {
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            {
+                EventTypeLogic l2 = new EventTypeLogic();
+                l2.SetDbConfig(eventType.GetDbConfig());
+                string[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<EventTypeLogic>(pk).Result;
+                rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;
+                salesOrderTypeFields.OrderTypeFieldsId = l2.SalesOrderTypeFieldsId;
+                laborOrderTypeFields.OrderTypeFieldsId = l2.LaborOrderTypeFieldsId;
+                miscOrderTypeFields.OrderTypeFieldsId = l2.MiscOrderTypeFieldsId;
+                spaceOrderTypeFields.OrderTypeFieldsId = l2.FacilityOrderTypeFieldsId;
+                finalLandDOrderTypeFields.OrderTypeFieldsId = l2.FinalLandDOrderTypeFieldsId;
+            }
+        }
+        //------------------------------------------------------------------------------------   
+        public void OnAfterSavesFinalLandDFields(object sender, SaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                RentalOrderTypeFieldsId = rentalOrderTypeFields.OrderTypeFieldsId;
+                SalesOrderTypeFieldsId = salesOrderTypeFields.OrderTypeFieldsId;
+                LaborOrderTypeFieldsId = laborOrderTypeFields.OrderTypeFieldsId;
+                MiscOrderTypeFieldsId = miscOrderTypeFields.OrderTypeFieldsId;
+                FacilityOrderTypeFieldsId = spaceOrderTypeFields.OrderTypeFieldsId;
+                FinalLandDOrderTypeFieldsId = finalLandDOrderTypeFields.OrderTypeFieldsId;
+                int i = SaveAsync().Result;
+            }
+        }
+        //------------------------------------------------------------------------------------   
     }
 }

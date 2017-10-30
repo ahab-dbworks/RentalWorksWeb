@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Settings.OrderType;
 using RentalWorksWebApi.Modules.Settings.OrderTypeFields;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Settings.PoType
 {
@@ -32,6 +33,10 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
             dataRecords.Add(subMiscOrderTypeFields);
             dataRecords.Add(repairOrderTypeFields);
             dataLoader = poTypeLoader;
+
+            poType.AfterSaves += OnAfterSavesPoType;
+            repairOrderTypeFields.AfterSaves += OnAfterSavesRepairFields;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -45,6 +50,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
         public bool ProjectRequired { get { return poType.Poprojectrequired; } set { poType.Poprojectrequired = value; } }
 
         //sub rental fields
+        [JsonIgnore]
         public string SubRentalOrderTypeFieldsId { get { return subRentalOrderTypeFields.OrderTypeFieldsId; } set { subRentalOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool SubRentalShowOrderNumber { get { return subRentalOrderTypeFields.ShowOrderNumber; } set { subRentalOrderTypeFields.ShowOrderNumber = value; } }
         public bool SubRentalShowRepairOrderNumber { get { return subRentalOrderTypeFields.ShowRepairOrderNumber; } set { subRentalOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -109,6 +115,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
         public string SubRentalDateStamp { get { return subRentalOrderTypeFields.DateStamp; } set { subRentalOrderTypeFields.DateStamp = value; } }
 
         //sub sales fields
+        [JsonIgnore]
         public string SubSaleOrderTypeFieldsId { get { return subSaleOrderTypeFields.OrderTypeFieldsId; } set { subSaleOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool SubSaleShowOrderNumber { get { return subSaleOrderTypeFields.ShowOrderNumber; } set { subSaleOrderTypeFields.ShowOrderNumber = value; } }
         //public bool SubSaleShowRepairOrderNumber { get { return subSaleOrderTypeFields.ShowRepairOrderNumber; } set { subSaleOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -171,6 +178,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
 
 
         //purchase fields
+        [JsonIgnore]
         public string PurchaseOrderTypeFieldsId { get { return purchaseOrderTypeFields.OrderTypeFieldsId; } set { purchaseOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool PurchaseShowOrderNumber { get { return purchaseOrderTypeFields.ShowOrderNumber; } set { purchaseOrderTypeFields.ShowOrderNumber = value; } }
         //public bool PurchaseShowRepairOrderNumber { get { return purchaseOrderTypeFields.ShowRepairOrderNumber; } set { purchaseOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -247,6 +255,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
         public string SalesPurchaseDefaultRate { get { return poType.Salespurchasedefaultrate; } set { poType.Salespurchasedefaultrate = value; } }
 
         //labor/crew fields
+        [JsonIgnore]
         public string LaborOrderTypeFieldsId { get { return laborOrderTypeFields.OrderTypeFieldsId; } set { laborOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool LaborShowOrderNumber { get { return laborOrderTypeFields.ShowOrderNumber; } set { laborOrderTypeFields.ShowOrderNumber = value; } }
         //public bool LaborShowRepairOrderNumber { get { return laborOrderTypeFields.ShowRepairOrderNumber; } set { laborOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -315,6 +324,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
         public bool Break3Paid { get { return poType.Break3paId; } set { poType.Break3paId = value; } }
 
         //misc fields
+        [JsonIgnore]
         public string MiscOrderTypeFieldsId { get { return miscOrderTypeFields.OrderTypeFieldsId; } set { miscOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool MiscShowOrderNumber { get { return miscOrderTypeFields.ShowOrderNumber; } set { miscOrderTypeFields.ShowOrderNumber = value; } }
         //public bool MiscShowRepairOrderNumber { get { return miscOrderTypeFields.ShowRepairOrderNumber; } set { miscOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -384,6 +394,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
 
 
         //sub-crew fields
+        [JsonIgnore]
         public string SubLaborOrderTypeFieldsId { get { return subLaborOrderTypeFields.OrderTypeFieldsId; } set { subLaborOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool SubLaborShowOrderNumber { get { return subLaborOrderTypeFields.ShowOrderNumber; } set { subLaborOrderTypeFields.ShowOrderNumber = value; } }
         //public bool SubLaborShowRepairOrderNumber { get { return subLaborOrderTypeFields.ShowRepairOrderNumber; } set { subLaborOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -451,6 +462,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
 
 
         //sub-misc fields
+        [JsonIgnore]
         public string SubMiscOrderTypeFieldsId { get { return subMiscOrderTypeFields.OrderTypeFieldsId; } set { subMiscOrderTypeFields.OrderTypeFieldsId = value; } }
         public bool SubMiscShowOrderNumber { get { return subMiscOrderTypeFields.ShowOrderNumber; } set { subMiscOrderTypeFields.ShowOrderNumber = value; } }
         //public bool SubMiscShowRepairOrderNumber { get { return subMiscOrderTypeFields.ShowRepairOrderNumber; } set { subMiscOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -516,6 +528,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
 
 
         //repairfields
+        [JsonIgnore]
         public string RepairOrderTypeFieldsId { get { return repairOrderTypeFields.OrderTypeFieldsId; } set { repairOrderTypeFields.OrderTypeFieldsId = value; } }
         //public bool RepairShowOrderNumber { get { return repairOrderTypeFields.ShowOrderNumber; } set { repairOrderTypeFields.ShowOrderNumber = value; } }
         public bool RepairShowRepairOrderNumber { get { return repairOrderTypeFields.ShowRepairOrderNumber; } set { repairOrderTypeFields.ShowRepairOrderNumber = value; } }
@@ -606,5 +619,40 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
             OrdType = "PO";
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSavesPoType(object sender, SaveEventArgs e)
+        {
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            {
+                PoTypeLogic l2 = new PoTypeLogic();
+                l2.SetDbConfig(poType.GetDbConfig());
+                string[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<PoTypeLogic>(pk).Result;
+                purchaseOrderTypeFields.OrderTypeFieldsId = l2.PurchaseOrderTypeFieldsId;
+                subRentalOrderTypeFields.OrderTypeFieldsId = l2.SubRentalOrderTypeFieldsId;
+                subSaleOrderTypeFields.OrderTypeFieldsId = l2.SubSaleOrderTypeFieldsId;
+                laborOrderTypeFields.OrderTypeFieldsId = l2.LaborOrderTypeFieldsId;
+                subLaborOrderTypeFields.OrderTypeFieldsId = l2.SubLaborOrderTypeFieldsId;
+                miscOrderTypeFields.OrderTypeFieldsId = l2.MiscOrderTypeFieldsId;
+                subMiscOrderTypeFields.OrderTypeFieldsId = l2.SubMiscOrderTypeFieldsId;
+                repairOrderTypeFields.OrderTypeFieldsId = l2.RepairOrderTypeFieldsId;
+            }
+        }
+        //------------------------------------------------------------------------------------   
+        public void OnAfterSavesRepairFields(object sender, SaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                PurchaseOrderTypeFieldsId = purchaseOrderTypeFields.OrderTypeFieldsId;
+                SubRentalOrderTypeFieldsId = subRentalOrderTypeFields.OrderTypeFieldsId;
+                SubSaleOrderTypeFieldsId = subSaleOrderTypeFields.OrderTypeFieldsId;
+                LaborOrderTypeFieldsId = laborOrderTypeFields.OrderTypeFieldsId;
+                SubLaborOrderTypeFieldsId = subLaborOrderTypeFields.OrderTypeFieldsId;
+                MiscOrderTypeFieldsId = miscOrderTypeFields.OrderTypeFieldsId;
+                SubMiscOrderTypeFieldsId = subMiscOrderTypeFields.OrderTypeFieldsId;
+                RepairOrderTypeFieldsId = repairOrderTypeFields.OrderTypeFieldsId;
+                int i = SaveAsync().Result;
+            }
+        }
+        //------------------------------------------------------------------------------------   
     }
 }
