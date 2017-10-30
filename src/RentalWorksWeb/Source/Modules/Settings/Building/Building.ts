@@ -48,6 +48,12 @@ class RwBuilding {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        if (mode === 'NEW') {
+            FwFormField.enable($form.find('.ifnew'))
+        } else {
+            FwFormField.disable($form.find('.ifnew'))
+        }
+
         this.events($form);
 
         return $form;
