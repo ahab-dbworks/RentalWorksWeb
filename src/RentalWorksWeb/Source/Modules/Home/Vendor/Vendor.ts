@@ -70,10 +70,10 @@ declare var FwBrowse: any;
         togglePanels($tab: JQuery, type: string): void {
             $tab.find('.type_panels').hide();
             switch (type) {
-                case 'Company':
+                case 'COMPANY':
                     $tab.find('#company_panel').show();
                     break;
-                case 'Person':
+                case 'PERSON':
                     $tab.find('#person_panel').show();
                     break;
                 default:

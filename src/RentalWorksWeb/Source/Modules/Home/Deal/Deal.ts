@@ -54,7 +54,8 @@ class Deal {
 
         
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', (e) => {
-            this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
+            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
+            this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
 
         $form.on('change', '.billing_use_customer input[type=checkbox]', (e) => {
@@ -92,17 +93,17 @@ class Deal {
 
     }
 
-    useDiscountTemplate(isChecked: boolean): void {
-        var $temp: JQuery = jQuery('.billing_template');
-
-        if (isChecked) {
-            $temp.attr('data-enabled', 'false');
-            $temp.find('input').prop('disabled', true);
-        } else {
-            $temp.attr('data-enabled', 'true');
-            $temp.find('input').prop('disabled', false);
-        }
-    }
+    //useDiscountTemplate(isChecked: boolean): void {
+    //    var $temp: JQuery = jQuery('.billing_template');
+    //    // DiscountTemplateId
+    //    if (!isChecked) {
+    //        $temp.attr('data-enabled', 'false');
+    //        $temp.find('input').prop('disabled', true);
+    //    } else {
+    //        $temp.attr('data-enabled', 'true');
+    //        $temp.find('input').prop('disabled', false);
+    //    }
+    //}
 
     useCustomer(isChecked: boolean): void {
         var $discTemp: JQuery = jQuery('.billing_use_discount_template'),
@@ -125,8 +126,15 @@ class Deal {
         }
     }
 
+    toggleBillingUseDiscount($form: JQuery, isDiscountTemplate: boolean): void {
+        var list = ['DiscountTemplateId'];
+
+        isDiscountTemplate ? this.enableFields($form, list) : this.disableFields($form, list);
+    }
+
     toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
-        var list = ['BillToAttention1',
+        var list = [
+            'BillToAttention1',
             'BillToAttention2',
             'BillToAddress1',
             'BillToAddress2',
@@ -349,6 +357,8 @@ class Deal {
             , { value: 'MONTHLY', text: 'Monthly Rate' }
         ]);
 
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
+
         this.events($form);
 
         return $form;
@@ -360,6 +370,8 @@ class Deal {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
         FwModule.loadForm(this.Module, $form);
+
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
 
         return $form;
     }
@@ -396,7 +408,9 @@ class Deal {
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
 
-        this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
+        this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
+        //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
+        this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
         this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
         this.toggleBillingAddressInfo($form, val_bill);
