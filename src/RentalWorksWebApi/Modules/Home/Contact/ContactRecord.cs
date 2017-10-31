@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
     public class ContactRecord : RwDataReadWriteRecord
     {
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
+	    [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0, isPrimaryKey: true)]
         public string ContactId { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "salutation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, precision: 0, scale: 0)]
@@ -30,10 +30,10 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string City { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, precision: 0, scale: 0)]
-        public string Zipcode { get; set; }
+        public string ZipCode { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
-        public string Phone { get; set; }
+        public string HomePhone { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
         public string State { get; set; }
@@ -69,13 +69,13 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string DirectPhone { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "ext", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6, precision: 0, scale: 0)]
-        public string Extension { get; set; }
+        public string OfficeExtension { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "directext", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6, precision: 0, scale: 0)]
         public string DirectExtension { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string Inactive { get; set; }
+	    [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
+        public bool Inactive { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "info", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
         public string Info { get; set; }
@@ -96,13 +96,13 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string InputById { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "modbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public string ModById { get; set; }
+        public string LastModifiedByUserId { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
         public string InputDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
-        public string ModDate { get; set; }
+        public string LastModifiedDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, precision: 0, scale: 0)]
         public string Company { get; set; }

@@ -1,0 +1,129 @@
+﻿<div data-name="ContactDocumentGrid" data-control="FwBrowse" 
+     data-type="Grid" 
+     class="fwcontrol fwbrowse" 
+     data-caption="Contact Document" 
+     data-datatable="appdocumentviewweb" 
+     data-version="1" 
+     data-pageno="1" 
+     data-pagesize="20" 
+     data-rendermode="template" 
+     data-orderby="" 
+     data-showsearch="false" 
+     data-hasadd="true" 
+     data-hasedit="true" 
+     data-hasdelete="true" 
+     data-controller="ContactDocumentGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" 
+         data-isuniqueid="true" 
+         data-browsedatafield="AppDocumentId" 
+         data-browsedatatype="key" 
+         data-formsaveorder="1" 
+         data-formdatafield="AppDocumentId" 
+         data-formdatatype="key" 
+         data-formreadonly="true" 
+         data-sort="off">
+    </div>
+    <div class="field" 
+         data-browsedatafield="DocumentTypeId" 
+         data-browsedatatype="key" 
+         data-formdatafield="" 
+         data-formdatatype="key" 
+         data-sort="off">
+    </div>
+    <div class="field" 
+         data-browsedatafield="UniqueId1" 
+         data-browsedatatype="key" 
+         data-formdatafield="UniqueId1" 
+         data-formdatatype="key" 
+         data-formreadonly="true" 
+         data-sort="off">
+    </div>
+    <div class="field" 
+         data-browsedatafield="FileExtension" 
+         data-browsedatatype="text" 
+         data-formdatafield="" 
+         data-formdatatype="text">
+    </div>
+  </div>
+  <div class="column" data-width="200px" data-visible="true">
+    <div class="field" 
+         data-caption="Document" 
+         data-browsedatafield="DocumentTypeId" 
+         data-browsedisplayfield="DocumentType" 
+         data-browsedatatype="validation" 
+         data-formdatafield="DocumentTypeId" 
+         data-formdatatype="validation" 
+         data-formvalidationname="DocumentTypeValidation" 
+         data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="150px" data-visible="true">
+    <div class="field" 
+         data-caption="Input By" 
+         data-browsedatafield="InputByUserId" 
+         data-browsedisplayfield="InputBy" 
+         data-browsedatatype="validation" 
+         data-formdatafield="InputByUserId" 
+         data-formdatatype="validation" 
+         data-formreadonly="true" 
+         data-formvalidationname="UserValidation" 
+         data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="150px" data-visible="true">
+    <div class="field" 
+         data-caption="Received" 
+         data-browsedatafield="Received" 
+         data-browsedatatype="date" 
+         data-formdatafield="Received" 
+         data-formdatatype="date" 
+         data-sort="desc">
+
+    </div>
+  </div>
+  <div class="column" data-width="150px" data-visible="true">
+    <div class="field" 
+         data-caption="Reviewed" 
+         data-browsedatafield="Reviewed"
+         data-browsedatatype="date" 
+         data-formdatafield="Reviewed" 
+         data-formdatatype="date" 
+         data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="150px" data-visible="true">
+    <div class="field" 
+         data-caption="Expiration" 
+         data-browsedatafield="Expiration" 
+         data-browsedatatype="date" 
+         data-formsaveorder="1" 
+         data-formdatafield="Expiration" 
+         data-formdatatype="date" 
+         data-formreadonly="false" 
+         data-sort="off">
+    </div>
+  </div>
+  <div class="column" data-width="200px" data-visible="true">
+    <div class="field" 
+         data-caption="File" 
+         data-browsedatafield="FileAppImageId" 
+         data-browsedatatype="appdocumentimage" 
+         data-browseappdocumentidfield="AppDocumentId" 
+         data-documenttypeidfield="DocumentTypeId" 
+         data-uniqueid1field="UniqueId1" 
+         data-uniqueid2field="UniqueId2" 
+         data-browsefilenamefield="DocumentType" 
+         data-browsefileextensionfield="FileExtension" 
+         data-formsaveorder="1" 
+         data-formdatafield="" 
+         data-formdatatype="appdocumentimage" 
+         data-formreadonly="false" 
+         data-miscfield="image" 
+         data-sort="off" 
+         data-showsearch="false">
+    </div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+  </div>
+</div>
