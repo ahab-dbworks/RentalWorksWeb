@@ -117,9 +117,12 @@ class Deal {
             $discTemp.find('input').prop('disabled', true);
 
         } else {
-            if (!$discTemp.find('input[type=checkbox]').is(':checked')) {
+            if ($discTemp.find('input[type=checkbox]').is(':checked')) {
                 $temp.attr('data-enabled', 'true');
                 $temp.find('input').prop('disabled', false);
+            } else {
+                $temp.attr('data-enabled', 'false');
+                $temp.find('input').prop('disabled', true);
             }
             $discTemp.attr('data-enabled', 'true');
             $discTemp.find('input').prop('disabled', false);
