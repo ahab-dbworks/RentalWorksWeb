@@ -271,6 +271,7 @@ var RentalInventory = (function () {
         });
         $inventoryContainerGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+            request.ContainerId = $form.find('div.fwformfield[data-datafield="ContainerId"] input').val();
         });
         FwBrowse.init($inventoryContainerGridControl);
         FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
