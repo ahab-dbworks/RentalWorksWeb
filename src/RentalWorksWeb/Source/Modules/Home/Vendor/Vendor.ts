@@ -36,6 +36,7 @@ declare var FwBrowse: any;
 
         setupEvents($form: JQuery): void {
             this.toggleRequiredFields($form.find('.tabpages'));
+            this.togglePanels($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
         }
 
         events($form: JQuery): void {
