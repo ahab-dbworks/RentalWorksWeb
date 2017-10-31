@@ -71,6 +71,16 @@ class Customer {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('.discount-validation'))
+            } else {
+                FwFormField.disable($form.find('.discount-validation'))
+            }
+        });
+        
+
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -174,6 +184,10 @@ class Customer {
 
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxGrid);
+
+        if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
+            FwFormField.enable($form.find('.discount-validation'));
+        };
 
         if (FwFormField.getValue($form, 'div[data-datafield="BillingAddressType"]') === 'OTHER') {
             FwFormField.enable($form.find('.billingaddress'));
