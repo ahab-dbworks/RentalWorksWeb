@@ -161,6 +161,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            select.AddWhere("(username > '')");
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------    } 
