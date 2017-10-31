@@ -117,75 +117,75 @@ class Contact {
 
         $form
             .on('change', 'div[data-datafield="WebPassword"]', function() {
-                throw 'not implented!';
-                // need to create web service in new api
-                var $this, request;
-                $this = jQuery(this);
-                request = {
-                    method: 'CheckPasswordComplexity',
-                    value:  FwFormField.getValueByDataField($form, 'WebPassword'),
-                    first:  FwFormField.getValueByDataField($form, 'FirstName'),
-                    last:   FwFormField.getValueByDataField($form, 'LastName')
-                }
-                FwModule.getData($form, request, function(response) {
-                    try {
-                        if (response.passwordcomplexity.error == true) {
-                            $this.addClass('error');
-                            FwNotification.renderNotification('ERROR', response.passwordcomplexity.errmsg);
-                        } else {
-                            $this.removeClass('error');
-                        }
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }, $form);
+                //throw 'not implented!';
+                //// need to create web service in new api
+                //var $this, request;
+                //$this = jQuery(this);
+                //request = {
+                //    method: 'CheckPasswordComplexity',
+                //    value:  FwFormField.getValueByDataField($form, 'WebPassword'),
+                //    first:  FwFormField.getValueByDataField($form, 'FirstName'),
+                //    last:   FwFormField.getValueByDataField($form, 'LastName')
+                //}
+                //FwModule.getData($form, request, function(response) {
+                //    try {
+                //        if (response.passwordcomplexity.error == true) {
+                //            $this.addClass('error');
+                //            FwNotification.renderNotification('ERROR', response.passwordcomplexity.errmsg);
+                //        } else {
+                //            $this.removeClass('error');
+                //        }
+                //    } catch (ex) {
+                //        FwFunc.showError(ex);
+                //    }
+                //}, $form);
             })
             .on('change', 'div[data-datafield="WebAccess"]', function() {
-                this.setFormProperties($form);
+                //this.setFormProperties($form);
             })
             .on('change', 'div[data-datafield="Inactive"]', function() {
-                var $this;
-                $this = jQuery(this);
-                this.setFormProperties($form);
-                if (FwFormField.getValue2($this) === 'T') {
-                    FwFormField.setValueByDataField($form, 'InactiveDate"]', FwFunc.getDate());
-                } else {
-                    FwFormField.setValueByDataField($form, 'InactiveDate', '');
-                }
+                //var $this;
+                //$this = jQuery(this);
+                //this.setFormProperties($form);
+                //if (FwFormField.getValue2($this) === 'T') {
+                //    FwFormField.setValueByDataField($form, 'InactiveDate"]', FwFunc.getDate());
+                //} else {
+                //    FwFormField.setValueByDataField($form, 'InactiveDate', '');
+                //}
             })
             .on('change', 'div[data-datafield="PersonType"]', function() {
-                this.setFormProperties($form);
+                //this.setFormProperties($form);
             })
             .on('change', 'div[data-datafield="FirstName"], div[data-datafield="LastName"]', function() {
-                throw 'not implemented';
-                // need to add web service in api
-                var fname, lname, persontype, $request;
-                var fname      = FwFormField.getValueByDataField($form, 'FirstName');
-                var lname      = FwFormField.getValueByDataField($form, 'LastName');
-                var persontype = FwFormField.getValueByDataField($form, 'PersonType');
-                if ((persontype === 'DRIVER') && (fname !== '') && (lname !== '')) {
-                    var request = {
-                        method: 'GetDriverInfo',
-                        fname:  fname,
-                        lname:  lname
-                    }
-                    FwModule.getData($form, request, function(response) {
-                        try {
-                            if (response.getdriverinfo != null) {
-                                FwFormField.setValueByDataField($form, 'Address1',        response.getdriverinfo.add1);
-                                FwFormField.setValueByDataField($form, 'Address2',        response.getdriverinfo.add2);
-                                FwFormField.setValueByDataField($form, 'City',        response.getdriverinfo.city);
-                                FwFormField.setValueByDataField($form, 'State',       response.getdriverinfo.state);
-                                FwFormField.setValueByDataField($form, 'ZipCode',         response.getdriverinfo.zip);
-                                FwFormField.setValueByDataField($form, 'MobilePhone',    response.getdriverinfo.cellular);
-                                FwFormField.setValueByDataField($form, 'Phone',       response.getdriverinfo.phonehome);
-                                FwFormField.setValueByDataField($form, 'OfficePhone', response.getdriverinfo.officephone);
-                            }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    }, $form);
-                }
+                //throw 'not implemented';
+                //// need to add web service in api
+                //var fname, lname, persontype, $request;
+                //var fname      = FwFormField.getValueByDataField($form, 'FirstName');
+                //var lname      = FwFormField.getValueByDataField($form, 'LastName');
+                //var persontype = FwFormField.getValueByDataField($form, 'PersonType');
+                //if ((persontype === 'DRIVER') && (fname !== '') && (lname !== '')) {
+                //    var request = {
+                //        method: 'GetDriverInfo',
+                //        fname:  fname,
+                //        lname:  lname
+                //    }
+                //    FwModule.getData($form, request, function(response) {
+                //        try {
+                //            if (response.getdriverinfo != null) {
+                //                FwFormField.setValueByDataField($form, 'Address1',        response.getdriverinfo.add1);
+                //                FwFormField.setValueByDataField($form, 'Address2',        response.getdriverinfo.add2);
+                //                FwFormField.setValueByDataField($form, 'City',        response.getdriverinfo.city);
+                //                FwFormField.setValueByDataField($form, 'State',       response.getdriverinfo.state);
+                //                FwFormField.setValueByDataField($form, 'ZipCode',         response.getdriverinfo.zip);
+                //                FwFormField.setValueByDataField($form, 'MobilePhone',    response.getdriverinfo.cellular);
+                //                FwFormField.setValueByDataField($form, 'Phone',       response.getdriverinfo.phonehome);
+                //                FwFormField.setValueByDataField($form, 'OfficePhone', response.getdriverinfo.officephone);
+                //            }
+                //        } catch (ex) {
+                //            FwFunc.showError(ex);
+                //        }
+                //    }, $form);
+                //}
             })
         ;
 
@@ -206,9 +206,9 @@ class Contact {
     };
     //----------------------------------------------------------------------------------------------
     loadAudit($form: JQuery) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="contact.contactid"] input').val();
-        FwModule.loadAudit($form, uniqueid);
+        //var uniqueid;
+        //uniqueid = $form.find('div.fwformfield[data-datafield="contact.contactid"] input').val();
+        //FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
     renderGrids = function($form: JQuery) {

@@ -199,13 +199,7 @@ namespace FwStandard.DataLayer
                                     }
                                     else if (propertyValue is int)
                                     {
-                                        int val = (int)propertyValue;
-                                        int maxInt = 256 ^ dataFieldAttribute.MaxLength;
-                                        valid = (-maxInt <= val) && (val <= maxInt);
-                                        if (!valid)
-                                        {
-                                            validateMsg = property.Name + " cannot be smaller/larger than +/-" + maxInt.ToString();
-                                        }
+                                        valid = true;
                                     }
                                     else
                                     {
