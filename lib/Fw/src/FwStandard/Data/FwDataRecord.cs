@@ -197,6 +197,16 @@ namespace FwStandard.DataLayer
                                             validateMsg = property.Name + " cannot be longer than " + dataFieldAttribute.MaxLength.ToString() + " characters.";
                                         }
                                     }
+                                    else if (propertyValue is int)
+                                    {
+                                        int val = (int)propertyValue;
+                                        int maxInt = 256 ^ dataFieldAttribute.MaxLength;
+                                        valid = (-maxInt <= val) && (val <= maxInt);
+                                        if (!valid)
+                                        {
+                                            validateMsg = property.Name + " cannot be smaller/larger than +/-" + maxInt.ToString();
+                                        }
+                                    }
                                     else
                                     {
                                         throw new Exception("A test for \"MaxLength\" property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.AllFieldsValid]");

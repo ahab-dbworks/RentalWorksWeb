@@ -431,7 +431,7 @@ namespace Fw.Json.SqlServer
             return registered;
         }
         //------------------------------------------------------------------------------
-        public static string WebAuthenticate(FwSqlConnection conn, string email, string password, ref int errNo, ref string errMsg)
+        public static string WebGetUsers(FwSqlConnection conn, string email, string password, ref int errNo, ref string errMsg)
         {
             string webUsersId, webpassword, encryptedwebpassword;
             FwSqlCommand sp;
@@ -443,8 +443,7 @@ namespace Fw.Json.SqlServer
             //AG 02/11/2015 need to support mixcase on passwords
             webpassword =  password.ToUpper();
             encryptedwebpassword = FwSqlData.Encrypt(conn, webpassword);
-            //sp = new FwSqlCommand(conn, "webgetusers2"); //MY + AG 10/23/2017: Changed method to remove web access check and not effect old .net systems.
-            sp = new FwSqlCommand(conn, "webauthenticate");
+            sp = new FwSqlCommand(conn, "webgetusers2");
             sp.AddParameter("@userlogin",         email);
             sp.AddParameter("@userloginpassword", encryptedwebpassword);
             sp.AddParameter("@webusersid",        SqlDbType.NVarChar, ParameterDirection.Output);
