@@ -619,7 +619,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddColumn("subbyquantity",      false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
             select.Add("select *, ispackage = dbo.ispackage(itemclass)");
-            select.Add("  from dbo.funccheckinexception3(@contractid, @rectype, @containeritemid, @showall)");
+            select.Add("  from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
             select.Add(" where exceptionflg = 'T'");
             select.Add("   and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
             select.Add("order by orderno, itemorder, masterno");
@@ -737,7 +737,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddColumn("ispackage",          false, FwJsonDataTableColumn.DataTypes.Boolean);
             qry.Add("select *,");
             qry.Add("       ispackage = dbo.ispackage(itemclass)");
-            qry.Add("  from dbo.funccheckinexception3(@contractid, @rectype, @containeritemid, @showall)");
+            qry.Add("  from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
             qry.Add(" where exceptionflg = 'T'");
             qry.Add("   and (dbo.ispackage(itemclass) = 'T' or qtystillout > 0)");
             qry.Add("order by orderno, itemorder, masterno");

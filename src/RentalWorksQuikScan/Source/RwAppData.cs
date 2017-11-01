@@ -1411,10 +1411,12 @@ namespace RentalWorksQuikScan.Source
 
             qry = new FwSqlCommand(conn);
             qry.Add("select containercount = count(*)");
-            qry.Add("from dbo.funccheckinexception(@contractid, @rectype)");
+            qry.Add("from dbo.funccheckinexception(@contractid, @rectype, @containeritemid, @showall)");
             qry.Add("where itemclass='N'");
             qry.AddParameter("@contractid", contractid);
             qry.AddParameter("@rectype", "R");
+            qry.AddParameter("@containeritemid", "");
+            qry.AddParameter("@showall",         "F");
             qry.Execute();
             showButton = (qry.GetField("containercount").ToInt32() > 0);
 
