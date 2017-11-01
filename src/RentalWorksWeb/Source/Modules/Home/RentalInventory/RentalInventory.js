@@ -38,6 +38,7 @@ var RentalInventory = (function () {
                 $form.find('.completeskitstab').show();
                 $form.find('.containertab').hide();
                 $form.find('.completetab').hide();
+                $form.find('.kittab').hide();
                 if ($this.prop('checked') === true && $this.val() === 'N') {
                     $form.find('.containertab').show();
                     $form.find('.completeskitstab').hide();
@@ -45,6 +46,9 @@ var RentalInventory = (function () {
                 if ($this.prop('checked') === true && $this.val() === 'C') {
                     $form.find('.completetab').show();
                     $form.find('.completeskitstab').hide();
+                }
+                if ($this.prop('checked') === true && $this.val() === 'K') {
+                    $form.find('.kittab').show();
                 }
             });
         }
@@ -117,6 +121,8 @@ var RentalInventory = (function () {
         var $inventoryCompleteGridControl;
         var $inventoryWarehouseStagingGrid;
         var $inventoryWarehouseStagingGridControl;
+        var $inventoryKitGrid;
+        var $inventoryKitGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -301,6 +307,19 @@ var RentalInventory = (function () {
         });
         FwBrowse.init($inventoryWarehouseStagingGridControl);
         FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
+        $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
+        $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        $inventoryKitGrid.empty().append($inventoryKitGridControl);
+        $inventoryKitGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryKitGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init($inventoryKitGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
     };
     RentalInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
@@ -317,6 +336,7 @@ var RentalInventory = (function () {
         var $inventoryContainerGrid;
         var $inventoryCompleteGrid;
         var $inventoryWarehouseStagingGrid;
+        var $inventoryKitGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
@@ -345,6 +365,8 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryCompleteGrid);
         $inventoryWarehouseStagingGrid = $form.find('[data-name="InventoryWarehouseStagingGrid"]');
         FwBrowse.search($inventoryWarehouseStagingGrid);
+        $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
+        FwBrowse.search($inventoryKitGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
             $form.find('.completeskitstab').hide();
@@ -352,6 +374,9 @@ var RentalInventory = (function () {
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
             $form.find('.completetab').show();
             $form.find('.completeskitstab').hide();
+        }
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
+            $form.find('.kittab').show();
         }
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));

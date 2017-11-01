@@ -5,6 +5,7 @@
       <div data-type="tab" id="rentalitemtab" class="tab" data-tabpageid="rentalitemtabpage" data-caption="Rental Inventory"></div>
       <div data-type="tab" id="containerpackinglisttab" class="containertab tab" data-tabpageid="containerpackinglisttabpage" data-caption="Container" style="display:none;"></div>
       <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
+      <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
       <!--<div data-type="tab" id="orderhistorytab" class="tab" data-tabpageid="orderhistorytabpage" data-caption="> Order History"></div>
       <div data-type="tab" id="invoicehistorytab" class="tab" data-tabpageid="invoicehistorytabpage" data-caption="> Invoice History"></div>
       <div data-type="tab" id="revenuetab" class="tab" data-tabpageid="revenuetabpage" data-caption="> Revenue"></div>
@@ -492,7 +493,6 @@
           <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
         </div>
       </div>-->
-
       <!-- Out Items tab -->
       <div data-type="tabpage" id="outitemstabpage" class="tabpage" data-tabid="outitemstab">
         <div class="formpage">
@@ -1152,9 +1152,9 @@
                 <div data-control="FwGrid" data-grid="InventoryContainerGrid" data-securitycaption="Inventory Container"></div>
               </div>
             </div>
-            </div>
           </div>
-          </div>
+        </div>
+      </div>
       <div data-type="tabpage" id="completetabpage" class="tabpage" data-tabid="completetab">
         <div class="formpage">
           <div class="formrow">
@@ -1166,127 +1166,138 @@
           </div>
         </div>
       </div>
-          <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax" style="width:350px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:350px;border:1px solid silver;">
-                      <p style="font-size:10pt;">Office Location | Taxable</p>
-                    </div>
-                  </div>
-                </div>
+      <div data-type="tabpage" id="kittabpage" class="tabpage" data-tabid="kittab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Kit">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwGrid" data-grid="InventoryKitGrid" data-securitycaption="Inventory Kit"></div>
               </div>
             </div>
           </div>
-
-          <!-- Notes tab -->
-          <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Extended Note" style="width:925px;">
-                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Note" style="width:900px;"></div>
-                </div>
-              </div>
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Print On" style="width:925px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="float:left;width:100px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Order" data-datafield="PrintNoteOnOrder" style="float:left;width:125px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick List" data-datafield="PrintNoteOnPickList" style="float:left;width:150px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Out Contract" data-datafield="PrintNoteOnOutContract" style="float:left;width:150px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnReturnList" style="float:left;width:125px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Contract" data-datafield="PrintNoteOnInContract" style="float:left;width:125px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:125px;"></div>
-                  </div>
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="PO" data-datafield="PrintNoteOnPO" style="float:left;width:100px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive List" data-datafield="PrintNoteOnPoReceiveList" style="float:left;width:125px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive Contract" data-datafield="PrintNoteOnReceiveContract" style="float:left;width:150px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnPoReturnList" style="float:left;width:150px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return Contract" data-datafield="PrintNoteOnReturnContract" style="float:left;width:125px;"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Copy Notes" style="width:375px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Copy Inventory Notes to Quote/Order" data-datafield="AutoCopyNotesToQuoteOrder" style="width:350px;margin-top:0px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Access tab -->
-          <div data-type="tabpage" id="accesstabpage" class="tabpage" data-tabid="accesstab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="formcolumn" style="width:350px;">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Department Access">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:500px;border:1px solid silver;">
-                        <p style="font-size:10pt;">Company Department</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="formcolumn" style="width:350px;padding-left:1px;">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Department Access Override">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                      <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="" style="min-height:500px;border:1px solid silver;">
-                        <p style="font-size:10pt;">Company Department Override</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Profit &amp; Loss tab -->
-          <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit &amp; Loss Report" style="width:500px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit &amp; Loss Report" data-datafield="OverrideProfitAndLossCategory" style="width:350px;margin-top:0px;"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield category" data-caption="Category" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategoryValidation" data-enabled="false" style="width:350px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- RentalWorks.NET tab -->
-          <div data-type="tabpage" id="rentalworksnettabpage" class="tabpage" data-tabid="rentalworksnettab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Web Description" style="width:775px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:750px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Audit tab -->
-          <!--<div data-type="tabpage" id="audittabpage" class="tabpage" data-tabid="audittab">
-            <div class="formpage">
-              <div class="formrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update" style="width:500px;">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Opened" data-datafield="" data-enabled="false" style="float:left;width:120px;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:350px;"></div>
-                  </div>
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Modified Last" data-datafield="" data-enabled="false" style="float:left;width:120px;"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:350px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>-->
         </div>
+      </div>
+      <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax" style="width:350px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:350px;border:1px solid silver;">
+                  <p style="font-size:10pt;">Office Location | Taxable</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes tab -->
+      <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Extended Note" style="width:925px;">
+              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Note" style="width:900px;"></div>
+            </div>
+          </div>
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Print On" style="width:925px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="PrintNoteOnQuote" style="float:left;width:100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Order" data-datafield="PrintNoteOnOrder" style="float:left;width:125px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pick List" data-datafield="PrintNoteOnPickList" style="float:left;width:150px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Out Contract" data-datafield="PrintNoteOnOutContract" style="float:left;width:150px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnReturnList" style="float:left;width:125px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="In Contract" data-datafield="PrintNoteOnInContract" style="float:left;width:125px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Invoice" data-datafield="PrintNoteOnInvoice" style="float:left;width:125px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="PO" data-datafield="PrintNoteOnPO" style="float:left;width:100px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive List" data-datafield="PrintNoteOnPoReceiveList" style="float:left;width:125px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Receive Contract" data-datafield="PrintNoteOnReceiveContract" style="float:left;width:150px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return List" data-datafield="PrintNoteOnPoReturnList" style="float:left;width:150px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Return Contract" data-datafield="PrintNoteOnReturnContract" style="float:left;width:125px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Copy Notes" style="width:375px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Copy Inventory Notes to Quote/Order" data-datafield="AutoCopyNotesToQuoteOrder" style="width:350px;margin-top:0px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Access tab -->
+      <div data-type="tabpage" id="accesstabpage" class="tabpage" data-tabid="accesstab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="formcolumn" style="width:350px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Department Access">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="Customer Notes" style="min-height:500px;border:1px solid silver;">
+                    <p style="font-size:10pt;">Company Department</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="formcolumn" style="width:350px;padding-left:1px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Department Access Override">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwGrid" data-grid="CustomerNotes" data-securitycaption="" style="min-height:500px;border:1px solid silver;">
+                    <p style="font-size:10pt;">Company Department Override</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profit &amp; Loss tab -->
+      <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit &amp; Loss Report" style="width:500px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit &amp; Loss Report" data-datafield="OverrideProfitAndLossCategory" style="width:350px;margin-top:0px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield category" data-caption="Category" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategoryValidation" data-enabled="false" style="width:350px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RentalWorks.NET tab -->
+      <div data-type="tabpage" id="rentalworksnettabpage" class="tabpage" data-tabid="rentalworksnettab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Web Description" style="width:775px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="float:left;width:750px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit tab -->
+      <!--<div data-type="tabpage" id="audittabpage" class="tabpage" data-tabid="audittab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Update" style="width:500px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Opened" data-datafield="" data-enabled="false" style="float:left;width:120px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:350px;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Modified Last" data-datafield="" data-enabled="false" style="float:left;width:120px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="By" data-datafield="vendor.modifieddate" data-enabled="false" style="float:left;width:350px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+    </div>
   </div>
 </div>

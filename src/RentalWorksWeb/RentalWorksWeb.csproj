@@ -205,6 +205,7 @@
     <Content Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteKitGrid\InventoryCompleteKitGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryConsignmentGrid\InventoryConsignmentGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryKitGrid\InventoryKitGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryPrepGrid\InventoryPrepGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryQcGrid\InventoryQcGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
@@ -252,6 +253,7 @@
     <TypeScriptCompile Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteKitGrid\InventoryCompleteKitGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryConsignmentGrid\InventoryConsignmentGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryKitGrid\InventoryKitGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryPrepGrid\InventoryPrepGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryQcGrid\InventoryQcGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
