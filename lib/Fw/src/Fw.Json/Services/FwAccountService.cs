@@ -48,7 +48,7 @@ namespace Fw.Json.Services
                     string email, password;
                     email      = request.email;
                     password   = request.password;
-                    webUsersId = FwSqlData.WebGetUsers(conn, email, password, ref errNo, ref errMsg);
+                    webUsersId = FwSqlData.WebAuthenticate(conn, email, password, ref errNo, ref errMsg);
                 }
             }
             if (!string.IsNullOrEmpty(webUsersId) && (errNo.Equals(0)))
@@ -243,7 +243,7 @@ namespace Fw.Json.Services
             {
                 email      = request.email;
                 password   = request.password;
-                webUsersId = FwSqlData.WebGetUsers(conn, email, password, ref errNo, ref errMsg);
+                webUsersId = FwSqlData.WebAuthenticate(conn, email, password, ref errNo, ref errMsg);
             }
             response.errNo  = errNo;
             response.errMsg = errMsg;

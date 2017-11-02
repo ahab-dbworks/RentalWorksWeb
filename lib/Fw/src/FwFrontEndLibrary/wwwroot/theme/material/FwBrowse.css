@@ -1,11 +1,10 @@
 html.theme-material .fwbrowse td{vertical-align:top;}
 
-html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;}
+html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color:#FAFAFA;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager {font-size:16px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;width:44px;height:44px;line-height:44px;text-align:center;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh .material-icons {vertical-align:middle;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:8px;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:4px;height: 24px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .firsticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_first.001.png);}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .previousicon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_previous.001.png);}
@@ -15,10 +14,10 @@ html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page .txtPageNo {float:left;width:48px;height:24px;margin-top:4px;padding:0 5px;font-size:16px;border-radius:4px;box-sizing:border-box;border:1px solid #cccccc;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page .of {float:left;line-height:30px;margin-left:5px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page .txtTotalPages {float:left;line-height:30px;margin:0 5px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.pagesize {float:right; margin-right:6px; height: 44px; line-height: 44px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.pagesize select.pagesize {float:left;margin-top:4px;padding:5px;font-size:16px;border-radius:4px;box-sizing:border-box;border:1px solid #cccccc;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.pagesize {float:right;margin-right:6px;height:32px;line-height:32px;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.pagesize select.pagesize {float:left;height: 24px;margin-top:4px;padding:0 5px;font-size:16px;border-radius:4px;box-sizing:border-box;border:1px solid #cccccc;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.pagesize .caption {line-height:32px;margin-left:5px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager .count {float:left;height:44px;line-height:44px;margin:0 6px;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager .count {float:left;height:32px;line-height:32px;margin:0 6px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager .activeinactiveview {margin:1px 5px 0 0;}
 
 html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
@@ -88,14 +87,13 @@ html.theme-material:not(.flexbox) .fwbrowse table thead tr td .field .fieldcapti
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .sort .sort-icon {display:inline-block;width:16px;height:16px;background-size:cover;background-repeat:no-repeat;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .sort .material-icons {color:#546E7A; vertical-align:middle;}
 
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions {display:none;position:absolute;left:0;top:32px;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions {display:none;position:absolute;left:0;top:32px;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);width:190px;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption.active .columnoptions {display:block;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptionshr {width:100%;height:1px;margin:3px 0;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptionshr {width:100%;height:1px;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button {overflow:hidden;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon {float:left;height:44px;width:44px;line-height:44px;text-align:center;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon .material-icons {vertical-align:middle;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon {float:left;height:24px;width:24px;padding:4px;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon .icon {height:16px;width:16px;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {float:left;white-space:nowrap;height: 44px;line-height: 44px;padding: 0 15px;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {float:left;white-space:nowrap;height:32px;line-height:32px;padding: 0 15px;}
 
 html.theme-material .fwbrowse table thead tr td .field .search {position:relative;padding:2px 1px;}
 html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing:border-box;height:24px;width:100%;vertical-align:top;padding:0 15px 0 3px;border-radius:4px;font-size:12px;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
