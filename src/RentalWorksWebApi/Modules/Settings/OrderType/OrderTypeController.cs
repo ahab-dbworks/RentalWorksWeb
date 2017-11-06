@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
             return await DoPostAsync<OrderTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/ordertype 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<OrderTypeLogic>(request, typeof(OrderTypeLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/ordertype/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

@@ -42,13 +42,6 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
             return await DoPostAsync<CompanyTaxOptionLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/companytaxoption
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<CompanyTaxOptionLogic>(request, typeof(CompanyTaxOptionLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/companytaxoption/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(string id)

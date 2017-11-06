@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.ItemQc
             return await DoPostAsync<ItemQcLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/itemqc 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<ItemQcLogic>(request, typeof(ItemQcLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/itemqc/A0000001 
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteAsync([FromRoute]string id)

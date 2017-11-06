@@ -38,13 +38,6 @@ public async Task<IActionResult> PostAsync([FromBody]DiscountItemLogic l)
 return await DoPostAsync<DiscountItemLogic>(l); 
 } 
 //------------------------------------------------------------------------------------ 
-//// POST api/v1/discountitem 
-//[HttpPost("saveform")] 
-//public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-//{ 
-//    return await DoSaveFormAsync<DiscountItemLogic>(request, typeof(DiscountItemLogic)); 
-//} 
-//------------------------------------------------------------------------------------ 
 // DELETE api/v1/discountitem/A0000001 
 [HttpDelete("{id}")] 
 public async Task<IActionResult> DeleteAsync([FromRoute]string id) 

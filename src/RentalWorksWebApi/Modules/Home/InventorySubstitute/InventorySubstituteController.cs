@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.InventorySubstitute
             return await DoPostAsync<InventorySubstituteLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorysubstitute
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<InventorySubstituteLogic>(request, typeof(InventorySubstituteLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/inventorysubstitute/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

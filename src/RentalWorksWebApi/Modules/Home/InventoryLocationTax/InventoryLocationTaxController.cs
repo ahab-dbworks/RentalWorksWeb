@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.InventoryLocationTax
             return await DoPostAsync<InventoryLocationTaxLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorylocationtax
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<InventoryLocationTaxLogic>(request, typeof(InventoryLocationTaxLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/inventorylocationtax/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

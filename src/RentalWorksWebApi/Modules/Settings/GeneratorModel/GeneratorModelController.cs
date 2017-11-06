@@ -39,13 +39,6 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorModel
             return await DoPostAsync<GeneratorModelLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/generatormodel/saveform
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<GeneratorModelLogic>(request, typeof(GeneratorModelLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/generatormodel/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

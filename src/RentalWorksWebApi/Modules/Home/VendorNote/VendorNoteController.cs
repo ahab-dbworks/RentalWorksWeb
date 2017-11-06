@@ -39,13 +39,6 @@ namespace RentalWorksWebApi.Modules.Home.VendorNote
             return await DoPostAsync<VendorNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/vendornote
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<VendorNoteLogic>(request, typeof(VendorNoteLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/vendornote/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

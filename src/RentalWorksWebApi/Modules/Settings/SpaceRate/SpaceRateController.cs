@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
             return await DoPostAsync<SpaceRateLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/spacerate
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<SpaceRateLogic>(request, typeof(SpaceRateLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/spacerate/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

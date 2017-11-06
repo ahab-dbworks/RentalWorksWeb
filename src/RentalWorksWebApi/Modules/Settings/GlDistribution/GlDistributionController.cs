@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.GlDistribution
             return await DoPostAsync<GlDistributionLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/gldistribution 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<GlDistributionLogic>(request, typeof(GlDistributionLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/gldistribution/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

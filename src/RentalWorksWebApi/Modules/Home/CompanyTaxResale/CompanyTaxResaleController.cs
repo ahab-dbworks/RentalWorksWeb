@@ -70,13 +70,6 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxResale
             return await DoPostAsync<CompanyTaxResaleLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/companytaxresale/saveform
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<CompanyTaxResaleLogic>(request, typeof(CompanyTaxResaleLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/companytaxresale/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "{CDA85B7B-F766-410C-9B8E-D0DEFA313341}")]

@@ -39,13 +39,6 @@ namespace RentalWorksWebApi.Modules.Home.InventoryCompatible
             return await DoPostAsync<InventoryCompatibleLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorycompatible
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<InventoryCompatibleLogic>(request, typeof(InventoryCompatibleLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/inventorycompatible/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivity
             return await DoPostAsync<PresentationLayerActivityLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/presentationlayeractivity
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<PresentationLayerActivityLogic>(request, typeof(PresentationLayerActivityLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/presentationlayeractivity/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

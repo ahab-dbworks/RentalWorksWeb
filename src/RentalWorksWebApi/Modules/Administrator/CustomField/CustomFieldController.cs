@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Administration.CustomField
             return await DoPostAsync<CustomFieldLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/customfield 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<CustomFieldLogic>(request, typeof(CustomFieldLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/customfield/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

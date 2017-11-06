@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.PoType
             return await DoPostAsync<PoTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/potype 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<PoTypeLogic>(request, typeof(PoTypeLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/potype/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

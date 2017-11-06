@@ -38,13 +38,6 @@ public async Task<IActionResult> PostAsync([FromBody]AppReportDesignerLogic l)
 return await DoPostAsync<AppReportDesignerLogic>(l); 
 } 
 //------------------------------------------------------------------------------------ 
-//// POST api/v1/appreportdesigner 
-//[HttpPost("saveform")] 
-//public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-//{ 
-//    return await DoSaveFormAsync<AppReportDesignerLogic>(request, typeof(AppReportDesignerLogic)); 
-//} 
-//------------------------------------------------------------------------------------ 
 // DELETE api/v1/appreportdesigner/A0000001 
 [HttpDelete("{id}")] 
 public async Task<IActionResult> DeleteAsync([FromRoute]string id) 

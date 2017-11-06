@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
             return await DoPostAsync<ItemAttributeValueLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/itemattributevalue 
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<ItemAttributeValueLogic>(request, typeof(ItemAttributeValueLogic));
-        }
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/itemattributevalue/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

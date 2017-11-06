@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Home.Item
             return await DoPostAsync<ItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/item 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<ItemLogic>(request, typeof(ItemLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/item/A0000001 
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteAsync([FromRoute]string id)

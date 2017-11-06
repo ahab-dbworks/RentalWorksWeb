@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.EventType
             return await DoPostAsync<EventTypeLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/eventtype 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<EventTypeLogic>(request, typeof(EventTypeLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/eventtype/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

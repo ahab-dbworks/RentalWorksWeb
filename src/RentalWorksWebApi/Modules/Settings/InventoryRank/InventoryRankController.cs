@@ -38,13 +38,6 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryRank
             return await DoPostAsync<InventoryRankLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/inventoryrank 
-        //[HttpPost("saveform")] 
-        //public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request) 
-        //{ 
-        //    return await DoSaveFormAsync<InventoryRankLogic>(request, typeof(InventoryRankLogic)); 
-        //} 
-        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventoryrank/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)

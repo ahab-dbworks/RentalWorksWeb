@@ -45,13 +45,6 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
             return await DoPostAsync<BillingCycleEventLogic>(l);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/inventoryattributevalue
-        [HttpPost("saveform")]
-        public async Task<IActionResult> SaveFormAsync([FromBody]SaveFormRequest request)
-        {
-            return await DoSaveFormAsync<BillingCycleEventLogic>(request, typeof(BillingCycleEventLogic));
-        }
-        //------------------------------------------------------------------------------------
         // DELETE api/v1/billingcycleevent/A0000001
         [HttpDelete("{id}")]
         [Authorize(Policy = "{A2EC754D-B1AB-4355-8803-30DF1D42B49D}")]
