@@ -147,6 +147,7 @@ html.theme-classic .fwbrowse table tbody tr.editrow .field[data-formdatatype="da
 
 html.theme-classic .fwbrowse table tbody tr.editrow .field[data-formdatatype="phone"] input.value {box-sizing:border-box;height:24px;line-height:24px;display:block;border:0;padding:0 5px;width:100%;}
 
+html.theme-classic .fwbrowse table tbody tr .field[data-browsedatatype="number"] {text-align:right;}
 html.theme-classic .fwbrowse table tbody tr.editrow .field[data-formdatatype="number"] input.value {box-sizing:border-box;height:24px;line-height:24px;display:block;border:0;padding:0 5px;width:100%;}
 
 html.theme-classic .fwbrowse table tbody tr .field[data-browsedatatype="money"] {text-align:right;}
