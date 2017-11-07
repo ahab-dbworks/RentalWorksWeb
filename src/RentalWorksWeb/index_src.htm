@@ -62,7 +62,7 @@
       jQuery.ajax(
         jQuery(this).attr("src"),
         {
-          async: false,
+          async: true,
           context: this,
           success: function (data) { jQuery(this).html(data); }
         }
