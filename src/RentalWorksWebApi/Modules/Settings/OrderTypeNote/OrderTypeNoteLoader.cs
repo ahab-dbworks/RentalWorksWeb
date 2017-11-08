@@ -1,0 +1,43 @@
+using FwStandard.DataLayer; 
+using FwStandard.Models; 
+using FwStandard.SqlServer; 
+using FwStandard.SqlServer.Attributes; 
+using RentalWorksWebApi.Data; 
+using System.Collections.Generic;
+namespace RentalWorksWebApi.Modules.Settings.OrderTypeNote
+{
+    [FwSqlTable("ordertypenotesview")]
+    public class OrderTypeNoteLoader : RwDataLoadRecord
+    {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypenotesid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string OrderTypeNoteId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
+        public string OrderTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
+        public string Description { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billing", modeltype: FwDataTypes.Boolean)]
+        public bool Billing { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printonorder", modeltype: FwDataTypes.Boolean)]
+        public bool PrintOnOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
+        public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            addFilterToSelect("OrderTypeId", "ordertypeid", select, request); 
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
