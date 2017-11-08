@@ -32,25 +32,6 @@ class OrderType {
         return screen;
     }
 
-    renderGrids($form: any) {
-        var $resaleGrid,
-            $resaleControl;
-
-        $resaleGrid = $form.find('div[data-grid="ContactTitleGrid"]');
-        $resaleControl = jQuery(jQuery('#tmpl-grids-ContactTitleGridBrowse').html());
-        $resaleGrid.empty().append($resaleControl);
-        $resaleControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderTypeContactTitleId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
-            }
-        });
-        $resaleControl.data('beforesave', function (request) {
-            request.OrderTypeContactTitleId = FwFormField.getValueByDataField($form, 'OrderTypeId')
-        });
-        FwBrowse.init($resaleControl);
-        FwBrowse.renderRuntimeHtml($resaleControl);
-    }
-
     openBrowse() {
         var $browse;
 
@@ -188,6 +169,22 @@ class OrderType {
         FwBrowse.init($termsAndConditionsGridControl);
         FwBrowse.renderRuntimeHtml($termsAndConditionsGridControl);
         //----------
+        var $resaleGrid,
+            $resaleControl;
+
+        $resaleGrid = $form.find('div[data-grid="ContactTitleGrid"]');
+        $resaleControl = jQuery(jQuery('#tmpl-grids-ContactTitleGridBrowse').html());
+        $resaleGrid.empty().append($resaleControl);
+        $resaleControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeContactTitleId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
+            }
+        });
+        $resaleControl.data('beforesave', function (request) {
+            request.OrderTypeContactTitleId = FwFormField.getValueByDataField($form, 'OrderTypeId')
+        });
+        FwBrowse.init($resaleControl);
+        FwBrowse.renderRuntimeHtml($resaleControl);
     }
 
 
