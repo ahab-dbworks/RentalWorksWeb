@@ -183,6 +183,7 @@
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.js" />
+    <Content Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridController.js" />
     <Content Include="Source\Grids\ContactEmailHistoryGrid\ContactEmailHistoryGridBrowse.htm" />
@@ -239,6 +240,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />

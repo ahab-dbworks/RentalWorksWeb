@@ -118,11 +118,30 @@ class OrderType {
         });
         FwBrowse.init($orderTypeInvoiceExportGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
+        // ----------
+        var nameOrderTypeNoteGrid: string = 'OrderTypeNoteGrid';
+        var $orderTypeNoteGrid: any = $orderTypeNoteGrid = $form.find('div[data-grid="' + nameOrderTypeNoteGrid + '"]');
+        var $orderTypeNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypeNoteGrid);
+
+        $orderTypeNoteGrid.empty().append($orderTypeNoteGridControl);
+        $orderTypeNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
+            };
+        });
+        $orderTypeNoteGridControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId')
+        });
+        FwBrowse.init($orderTypeNoteGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeNoteGridControl);
     }
 
     afterLoad($form: any) {
         var $orderTypeInvoiceExportGrid: any = $form.find('[data-name="OrderTypeInvoiceExportGrid"]');
         FwBrowse.search($orderTypeInvoiceExportGrid);
+
+        var $orderTypeNoteGrid: any = $form.find('[data-name="OrderTypeNoteGrid"]');
+        FwBrowse.search($orderTypeNoteGrid);
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.discount'))
