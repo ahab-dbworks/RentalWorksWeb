@@ -629,10 +629,18 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
 
         public bool AddInstallationAndStrikeFee { get { return orderType.Installstrikefee; } set { orderType.Installstrikefee = value; } }
         public string InstallationAndStrikeFeeRateId { get { return orderType.InstallstrikemasterId; } set { orderType.InstallstrikemasterId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InstallationAndStrikeFeeICode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InstallationAndStrikeFeeDescription { get; set; }
         public decimal? InstallationAndStrikeFeePercent { get { return orderType.Installstrikepct; } set { orderType.Installstrikepct = value; } }
         public string InstallationAndStrikeFeeBasedOn { get { return orderType.Installstrikebasedon; } set { orderType.Installstrikebasedon = value; } }
         public bool AddManagementAndServiceFee { get { return orderType.Managementservicefee; } set { orderType.Managementservicefee = value; } }
         public string ManagementAndServiceFeeRateId { get { return orderType.ManagementservicemasterId; } set { orderType.ManagementservicemasterId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ManagementAndServiceFeeICode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ManagementAndServiceFeeDescription { get; set; }
         public decimal? ManagementAndServiceFeePercent { get { return orderType.Managementservicepct; } set { orderType.Managementservicepct = value; } }
         public string ManagementAndServiceFeeBasedOn { get { return orderType.Managementservicebasedon; } set { orderType.Managementservicebasedon = value; } }
 

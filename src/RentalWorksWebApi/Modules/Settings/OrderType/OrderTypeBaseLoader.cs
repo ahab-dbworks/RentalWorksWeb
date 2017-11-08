@@ -16,6 +16,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         [FwSqlDataField(column: "installstrikemasterid", modeltype: FwDataTypes.Text)]
         public string InstallationAndStrikeFeeRateId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "installstrikemasterno", modeltype: FwDataTypes.Text)]
+        public string InstallationAndStrikeFeeICode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "installstrikemaster", modeltype: FwDataTypes.Text)]
+        public string InstallationAndStrikeFeeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "installstrikepct", modeltype: FwDataTypes.Decimal)]
         public decimal? InstallationAndStrikeFeePercent { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -27,6 +33,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "managementservicemasterid", modeltype: FwDataTypes.Text)]
         public string ManagementAndServiceFeeRateId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "managementservicemasterno", modeltype: FwDataTypes.Text)]
+        public string ManagementAndServiceFeeICode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "managementservicemaster", modeltype: FwDataTypes.Text)]
+        public string ManagementAndServiceFeeDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "managementservicepct", modeltype: FwDataTypes.Decimal)]
         public decimal? ManagementAndServiceFeePercent { get; set; }
