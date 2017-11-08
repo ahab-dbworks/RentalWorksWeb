@@ -179,11 +179,11 @@ class OrderType {
         $termsAndConditionsGrid.empty().append($termsAndConditionsGridControl);
         $termsAndConditionsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderTypeId: $form.find('div.fwformfield[data-datafield="PoTypeId"] input').val()
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
             };
         })
         $termsAndConditionsGridControl.data('beforesave', function (request) {
-            request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
         });
         FwBrowse.init($termsAndConditionsGridControl);
         FwBrowse.renderRuntimeHtml($termsAndConditionsGridControl);
