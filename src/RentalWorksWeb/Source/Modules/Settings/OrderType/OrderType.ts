@@ -153,7 +153,26 @@ class OrderType {
         });
         FwBrowse.init($orderTypeNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeNoteGridControl);
+
+
+        var $coverLetterGrid: any;
+        var $coverLetterGridControl: any;
+
+        $coverLetterGrid = $form.find('div[data-grid="CoverLetterGrid"]');
+        $coverLetterGridControl = jQuery(jQuery('#tmpl-grids-CoverLetterGridBrowse').html());
+        $coverLetterGrid.empty().append($coverLetterGridControl);
+        $coverLetterGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
+            };
+        })
+        $coverLetterGridControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        });
+        FwBrowse.init($coverLetterGridControl);
+        FwBrowse.renderRuntimeHtml($coverLetterGridControl);
     }
+
 
     afterLoad($form: any) {
         var $orderTypeInvoiceExportGrid: any = $form.find('[data-name="OrderTypeInvoiceExportGrid"]');
@@ -161,6 +180,12 @@ class OrderType {
 
         var $orderTypeNoteGrid: any = $form.find('[data-name="OrderTypeNoteGrid"]');
         FwBrowse.search($orderTypeNoteGrid);
+
+        var $coverLetterGrid: any;
+
+        $coverLetterGrid = $form.find('[data-name="CoverLetterGrid"]');
+        FwBrowse.search($coverLetterGrid);
+
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('.discount'))

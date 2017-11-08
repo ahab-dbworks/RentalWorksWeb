@@ -72,8 +72,30 @@ class POType {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $coverLetterGrid: any;
+        var $coverLetterGridControl: any;
+
+        $coverLetterGrid = $form.find('div[data-grid="CoverLetterGrid"]');
+        $coverLetterGridControl = jQuery(jQuery('#tmpl-grids-CoverLetterGridBrowse').html());
+        $coverLetterGrid.empty().append($coverLetterGridControl);
+        $coverLetterGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="PoTypeId"] input').val()
+            };
+        })
+        $coverLetterGridControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'PoTypeId');
+        });
+        FwBrowse.init($coverLetterGridControl);
+        FwBrowse.renderRuntimeHtml($coverLetterGridControl);
+    }
+
     afterLoad($form: any) {
-     
+        var $coverLetterGrid: any;
+
+        $coverLetterGrid = $form.find('[data-name="CoverLetterGrid"]');
+        FwBrowse.search($coverLetterGrid);
     }
 }
 
