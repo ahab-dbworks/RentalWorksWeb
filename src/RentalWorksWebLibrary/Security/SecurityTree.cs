@@ -334,6 +334,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
             AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
             AddGrid("Discount Item",                          "{2EB32722-33D0-43C4-B799-ECD81EDF9C99}", lv1menuGrids.Id, "DiscountItemGridController");
+            AddGrid("Contact Title",                          "{E104C48C-2579-4674-9BD1-41069AC6968B}", lv1menuGrids.Id, "ContactTitleGridController");
         }
 
         //---------------------------------------------------------------------------------------------
