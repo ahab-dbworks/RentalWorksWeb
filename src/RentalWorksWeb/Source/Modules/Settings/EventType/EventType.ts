@@ -40,14 +40,14 @@ class EventType {
         $orderTypeInvoiceExportGrid.empty().append($orderTypeInvoiceExportGridControl);
         $orderTypeInvoiceExportGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                EventTypePersonnelTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
+                EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
             };
         });
         $orderTypeInvoiceExportGridControl.data('beforesave', function (request) {
-            request.EventTypePersonnelTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
+            request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
         });
         FwBrowse.init($orderTypeInvoiceExportGridControl);
-        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);        
     }
 
     openBrowse() {

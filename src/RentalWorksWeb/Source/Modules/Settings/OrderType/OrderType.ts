@@ -116,7 +116,7 @@ class OrderType {
         $orderTypeInvoiceExportGridControl.data('beforesave', function (request) {
             request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId')
         });
-        FwBrowse.init($orderTypeInvoiceExportGridControl);
+        FwBrowse.init($orderTypeInvoiceExportGridControl);;
         FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
         // ----------
         var nameOrderTypeNoteGrid: string = 'OrderTypeNoteGrid';
@@ -194,11 +194,11 @@ class OrderType {
         $resaleGrid.empty().append($resaleControl);
         $resaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderTypeContactTitleId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
             }
         });
         $resaleControl.data('beforesave', function (request) {
-            request.OrderTypeContactTitleId = FwFormField.getValueByDataField($form, 'OrderTypeId')
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId')
         });
         FwBrowse.init($resaleControl);
         FwBrowse.renderRuntimeHtml($resaleControl);
