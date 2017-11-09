@@ -187,7 +187,7 @@
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.js" />
     <Content Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridBrowse.htm" />
-    <Content Include="Source\Grids\ContactTitleGrid\ContactTitleGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderTypeContactTitleGrid\OrderTypeContactTitleGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridController.js" />
     <Content Include="Source\Grids\ContactEmailHistoryGrid\ContactEmailHistoryGridBrowse.htm" />
@@ -248,7 +248,7 @@
     <TypeScriptCompile Include="Source\Grids\ActivityDatesGrid\ActivityDatesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\ContactTitleGrid\ContactTitleGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderTypeContactTitleGrid\OrderTypeContactTitleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />

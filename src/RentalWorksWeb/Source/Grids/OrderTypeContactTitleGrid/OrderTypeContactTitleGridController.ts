@@ -1,12 +1,12 @@
-﻿class ContactTitleGrid {
+﻿class OrderTypeContactTitleGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'Contact Title Grid';
+        this.Module = 'Order Type Contact Title Grid';
         this.apiurl = 'api/v1/ordertypecontacttitle';
     }
 }
 
-(<any>window).ContactTitleGridController = new ContactTitleGrid();
+(<any>window).OrderTypeContactTitleGridController = new OrderTypeContactTitleGrid();
 //----------------------------------------------------------------------------------------------
