@@ -179,8 +179,8 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
-    <Content Include="Source\Grids\TermsAndConditionsGrid\TermsAndConditionsGridBrowse.htm" />
-    <Content Include="Source\Grids\CoverLetterGrid\CoverLetterGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridBrowse.htm" />
     <Content Include="Source\Grids\ActivityDatesGrid\ActivityDatesGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
@@ -243,8 +243,8 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
-    <TypeScriptCompile Include="Source\Grids\TermsAndConditionsGrid\TermsAndConditionsGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\CoverLetterGrid\CoverLetterGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ActivityDatesGrid\ActivityDatesGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridController.ts" />

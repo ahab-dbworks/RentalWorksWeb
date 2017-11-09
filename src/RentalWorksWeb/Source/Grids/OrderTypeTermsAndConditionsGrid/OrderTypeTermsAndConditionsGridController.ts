@@ -1,12 +1,12 @@
-﻿class CoverLetterGrid {
+﻿class OrderTypeTermsAndConditionsGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'CoverLetter';
+        this.Module = 'OrderTypeTermsAndConditions';
         this.apiurl = 'api/v1/ordertypelocation';
     }
 }
 
-(<any>window).CoverLetterGridController = new CoverLetterGrid();
+(<any>window).OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
 //----------------------------------------------------------------------------------------------

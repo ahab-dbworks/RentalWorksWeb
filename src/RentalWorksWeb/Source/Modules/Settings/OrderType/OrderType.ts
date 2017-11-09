@@ -135,39 +135,39 @@ class OrderType {
         FwBrowse.init($orderTypeNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeNoteGridControl);
         //----------
-        var $coverLetterGrid: any;
-        var $coverLetterGridControl: any;
+        var $orderTypeCoverLetterGrid: any;
+        var $orderTypeCoverLetterGridControl: any;
 
-        $coverLetterGrid = $form.find('div[data-grid="CoverLetterGrid"]');
-        $coverLetterGridControl = jQuery(jQuery('#tmpl-grids-CoverLetterGridBrowse').html());
-        $coverLetterGrid.empty().append($coverLetterGridControl);
-        $coverLetterGridControl.data('ondatabind', function (request) {
+        $orderTypeCoverLetterGrid = $form.find('div[data-grid="OrderTypeCoverLetterGrid"]');
+        $orderTypeCoverLetterGridControl = jQuery(jQuery('#tmpl-grids-OrderTypeCoverLetterGridBrowse').html());
+        $orderTypeCoverLetterGrid.empty().append($orderTypeCoverLetterGridControl);
+        $orderTypeCoverLetterGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
             };
         })
-        $coverLetterGridControl.data('beforesave', function (request) {
+        $orderTypeCoverLetterGridControl.data('beforesave', function (request) {
             request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
         });
-        FwBrowse.init($coverLetterGridControl);
-        FwBrowse.renderRuntimeHtml($coverLetterGridControl);
+        FwBrowse.init($orderTypeCoverLetterGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeCoverLetterGridControl);
         //----------
-        var $termsAndConditionsGrid: any;
-        var $termsAndConditionsGridControl: any;
+        var $orderTypeTermsAndConditionsGrid: any;
+        var $orderTypeTermsAndConditionsGridControl: any;
 
-        $termsAndConditionsGrid = $form.find('div[data-grid="TermsAndConditionsGrid"]');
-        $termsAndConditionsGridControl = jQuery(jQuery('#tmpl-grids-TermsAndConditionsGridBrowse').html());
-        $termsAndConditionsGrid.empty().append($termsAndConditionsGridControl);
-        $termsAndConditionsGridControl.data('ondatabind', function (request) {
+        $orderTypeTermsAndConditionsGrid = $form.find('div[data-grid="OrderTypeTermsAndConditionsGrid"]');
+        $orderTypeTermsAndConditionsGridControl = jQuery(jQuery('#tmpl-grids-OrderTypeTermsAndConditionsGridBrowse').html());
+        $orderTypeTermsAndConditionsGrid.empty().append($orderTypeTermsAndConditionsGridControl);
+        $orderTypeTermsAndConditionsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
             };
         })
-        $termsAndConditionsGridControl.data('beforesave', function (request) {
+        $orderTypeTermsAndConditionsGridControl.data('beforesave', function (request) {
             request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
         });
-        FwBrowse.init($termsAndConditionsGridControl);
-        FwBrowse.renderRuntimeHtml($termsAndConditionsGridControl);
+        FwBrowse.init($orderTypeTermsAndConditionsGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeTermsAndConditionsGridControl);
         //----------
         var $resaleGrid,
             $resaleControl;
@@ -212,13 +212,13 @@ class OrderType {
         var $orderTypeNoteGrid: any = $form.find('[data-name="OrderTypeNoteGrid"]');
         FwBrowse.search($orderTypeNoteGrid);
 
-        var $coverLetterGrid: any;
-        $coverLetterGrid = $form.find('[data-name="CoverLetterGrid"]');
-        FwBrowse.search($coverLetterGrid);
+        var $orderTypeCoverLetterGrid: any;
+        $orderTypeCoverLetterGrid = $form.find('[data-name="OrderTypeCoverLetterGrid"]');
+        FwBrowse.search($orderTypeCoverLetterGrid);
 
-        var $termsAndConditionsGrid: any;
-        $termsAndConditionsGrid = $form.find('[data-name="TermsAndConditionsGrid"]');
-        FwBrowse.search($termsAndConditionsGrid);
+        var $orderTypeTermsAndConditionsGrid: any;
+        $orderTypeTermsAndConditionsGrid = $form.find('[data-name="OrderTypeTermsAndConditionsGrid"]');
+        FwBrowse.search($orderTypeTermsAndConditionsGrid);
 
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {
