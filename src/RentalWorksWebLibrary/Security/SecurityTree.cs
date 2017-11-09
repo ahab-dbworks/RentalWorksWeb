@@ -263,7 +263,6 @@ namespace RentalWorksWebLibrary
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
 
             // Add Grids
-            AddGrid("Activity Dates",                         "{0C7E7F68-50C8-45A0-B6CA-BE11223D7806}", lv1menuGrids.Id, "ActivityDatesGridController");
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
@@ -306,6 +305,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
             AddGrid("Order Dates",                            "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
             AddGrid("Order Note",                             "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
+            AddGrid("Order Type Activity Dates",              "{0C7E7F68-50C8-45A0-B6CA-BE11223D7806}", lv1menuGrids.Id, "OrderTypeActivityDatesGridController");
             AddGrid("Order Type Cover Letter",                "{7521D3CC-FF1C-44F5-8F93-9272B6CADC64}", lv1menuGrids.Id, "OrderTypeCoverLetterGridController");
             AddGrid("Order Type Invoice Export",              "{B24187E9-6B1D-4717-B9C2-F95C5543AE45}", lv1menuGrids.Id, "OrderTypeInvoiceExportGridController");
             AddGrid("Order Type Note",                        "{DD3B6D98-DBAC-467D-A3A8-244FCD4E750A}", lv1menuGrids.Id, "OrderTypeNoteGridController");

@@ -152,6 +152,23 @@ class OrderType {
         FwBrowse.init($orderTypeCoverLetterGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeCoverLetterGridControl);
         //----------
+        var $orderTypeActivityDatesGrid: any;
+        var $orderTypeActivityDatesGridControl: any;
+
+        $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');
+        $orderTypeActivityDatesGridControl = jQuery(jQuery('#tmpl-grids-OrderTypeActivityDatesGridBrowse').html());
+        $orderTypeActivityDatesGrid.empty().append($orderTypeActivityDatesGridControl);
+        $orderTypeActivityDatesGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
+            };
+        })
+        $orderTypeActivityDatesGridControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        });
+        FwBrowse.init($orderTypeActivityDatesGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeActivityDatesGridControl);
+        // -----------
         var $orderTypeTermsAndConditionsGrid: any;
         var $orderTypeTermsAndConditionsGridControl: any;
 
@@ -202,6 +219,8 @@ class OrderType {
         });
         FwBrowse.init($resaleControl);
         FwBrowse.renderRuntimeHtml($resaleControl);
+        // -----------
+
     }
 
 
@@ -219,6 +238,10 @@ class OrderType {
         var $orderTypeTermsAndConditionsGrid: any;
         $orderTypeTermsAndConditionsGrid = $form.find('[data-name="OrderTypeTermsAndConditionsGrid"]');
         FwBrowse.search($orderTypeTermsAndConditionsGrid);
+
+        var $orderTypeActivityDatesGrid: any;
+        $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
+        FwBrowse.search($orderTypeActivityDatesGrid);
 
 
         if ($form.find('[data-datafield="QuikPayDiscount"] .fwformfield-value').prop('checked')) {

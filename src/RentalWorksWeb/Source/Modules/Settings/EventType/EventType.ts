@@ -47,7 +47,24 @@ class EventType {
             request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
         });
         FwBrowse.init($orderTypeInvoiceExportGridControl);
-        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);        
+        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
+        // --------------
+        var $orderTypeActivityDatesGrid: any;
+        var $orderTypeActivityDatesGridControl: any;
+
+        $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');
+        $orderTypeActivityDatesGridControl = jQuery(jQuery('#tmpl-grids-OrderTypeActivityDatesGridBrowse').html());
+        $orderTypeActivityDatesGrid.empty().append($orderTypeActivityDatesGridControl);
+        $orderTypeActivityDatesGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="EventTypeId"] input').val()
+            };
+        })
+        $orderTypeActivityDatesGridControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'EventTypeId');
+        });
+        FwBrowse.init($orderTypeActivityDatesGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeActivityDatesGridControl);
     }
 
     openBrowse() {
@@ -94,6 +111,10 @@ class EventType {
 
         $resaleGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
         FwBrowse.search($resaleGrid);
+
+        var $orderTypeActivityDatesGrid: any;
+        $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
+        FwBrowse.search($orderTypeActivityDatesGrid);
     }
 }
 
