@@ -5,10 +5,10 @@ using System.Text;
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    class ContactTitleGridMenu : FwSecurityTreeBranch
+    class OrderTypeContactTitleGridGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ContactTitleGridMenu() : base("{E104C48C-2579-4674-9BD1-41069AC6968B}") { }
+        public OrderTypeContactTitleGridGridMenu() : base("{E104C48C-2579-4674-9BD1-41069AC6968B}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

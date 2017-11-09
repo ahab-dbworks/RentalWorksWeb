@@ -32,6 +32,24 @@ class EventType {
         return screen;
     }
 
+    renderGrids($form: any) {        
+        var nameOrderTypeInvoiceExportGrid: string = 'EventTypePersonnelTypeGrid';
+        var $orderTypeInvoiceExportGrid: any = $orderTypeInvoiceExportGrid = $form.find('div[data-grid="' + nameOrderTypeInvoiceExportGrid + '"]');
+        var $orderTypeInvoiceExportGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypeInvoiceExportGrid);
+
+        $orderTypeInvoiceExportGrid.empty().append($orderTypeInvoiceExportGridControl);
+        $orderTypeInvoiceExportGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                EventTypePersonnelTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
+            };
+        });
+        $orderTypeInvoiceExportGridControl.data('beforesave', function (request) {
+            request.EventTypePersonnelTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
+        });
+        FwBrowse.init($orderTypeInvoiceExportGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
+    }
+
     openBrowse() {
         var $browse;
 
@@ -72,7 +90,10 @@ class EventType {
     }
 
     afterLoad($form: any) {
+        var $resaleGrid;
 
+        $resaleGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
+        FwBrowse.search($resaleGrid);
     }
 }
 
