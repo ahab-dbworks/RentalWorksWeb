@@ -184,6 +184,9 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
             var valid = true, request, location, warehouse;
             location  = $confirmation.find('div[data-datafield="location"] .fwformfield-value').val();
             warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
+            warehouseObj = {
+                "warehouseId": warehouse
+            }
             if (location == '') {
                 $confirmation.find('div[data-datafield="location"]').addClass('error');
                 valid = false;
@@ -199,7 +202,8 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
                 };
                 RwServices.session.updatelocation(request, function(response) {
                     sessionStorage.setItem('authToken', response.authToken);
-                    sessionStorage.setItem('location',  JSON.stringify(response.location));
+                    sessionStorage.setItem('location', JSON.stringify(response.location));
+                    sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
                     $officelocation.find('.value').html(response.location.location);
                     $officelocation.css('background-color', response.location.locationcolor);
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -350,6 +354,9 @@ RwMasterController.buildOfficeLocation = function($view) {
             var valid = true, request, location, warehouse;
             location  = $confirmation.find('div[data-datafield="location"] .fwformfield-value').val();
             warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
+            warehouseObj = {
+                "warehouseId": warehouse
+            }
             if (location == '') {
                 $confirmation.find('div[data-datafield="location"]').addClass('error');
                 valid = false;
@@ -365,7 +372,8 @@ RwMasterController.buildOfficeLocation = function($view) {
                 };
                 RwServices.session.updatelocation(request, function(response) {
                     sessionStorage.setItem('authToken', response.authToken);
-                    sessionStorage.setItem('location',  JSON.stringify(response.location));
+                    sessionStorage.setItem('location', JSON.stringify(response.location));
+                    sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
                     FwConfirmation.destroyConfirmation($confirmation);
                     program.navigate('home');
                 });
