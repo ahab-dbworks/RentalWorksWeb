@@ -14,6 +14,7 @@ namespace RentalWorksWeb.Source
             tokenData.webUser.warehouseid = (FwValidate.IsPropertyDefined(webUserData, "warehouseid")) ? webUserData.warehouseid : string.Empty;
 
             response.webUser.location  = RwAppData.GetLocationInfo(conn, webUserData.locationid);
+            response.webUser.warehouse = RwAppData.GetWarehouseInfo(conn, webUserData.warehouseid);
 
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "quickbooks")) response.applicationOptions.quickbooks = session.applicationOptions.quickbooks;
         }

@@ -293,6 +293,25 @@ namespace RentalWorksWeb.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetWarehouseInfo(FwSqlConnection conn, string warehouseid)
+        {
+            FwSqlCommand qry;
+            dynamic result;
+
+            qry = new FwSqlCommand(conn);
+            qry.Add("select warehouseid, warehouse");
+            qry.Add("  from warehouse with (nolock)");
+            qry.Add(" where warehouseid = @warehouseid");
+            qry.AddParameter("@warehouseid", warehouseid);
+            result = qry.QueryToDynamicObject2();
+
+            result.warehouseid = FwCryptography.AjaxEncrypt(result.warehouseid);
+            result.warehouse   = FwCryptography.AjaxEncrypt(result.warehouse);
+            //result.warehousecolor = FwConvert.OleToHex((int)result.warehousecolor);
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
         public static bool HasAppOption(string option)
         {
             FwSqlCommand qry;
