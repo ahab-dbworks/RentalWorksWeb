@@ -115,6 +115,8 @@ class EventType {
         var $orderTypeActivityDatesGrid: any;
         $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
         FwBrowse.search($orderTypeActivityDatesGrid);
+
+        $orderTypeActivityDatesGrid.find('.eventType').remove();
     }
 }
 
