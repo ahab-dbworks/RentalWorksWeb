@@ -42,11 +42,12 @@ class Contact {
 
     //----------------------------------------------------------------------------------------------
     openBrowse() {
+        var self = this;
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         $browse.data('ondatabind', function(request) {
-            request.activeview = this.ActiveView;
+            request.activeview = self.ActiveView;
         });
         FwBrowse.addLegend($browse, 'Customer', '#ffff80');
         FwBrowse.addLegend($browse, 'Project',  '#03de3a');
@@ -56,6 +57,7 @@ class Contact {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
+        var self = this;
         var $all: JQuery      = FwMenu.generateDropDownViewBtn('All Contacts', true);
         var $customer: JQuery = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
         var $project: JQuery  = FwMenu.generateDropDownViewBtn('Project Contacts', false);
@@ -65,25 +67,25 @@ class Contact {
         $all.on('click', function() {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'ALL';
+            self.ActiveView = 'ALL';
             FwBrowse.databind($browse);
         });
         $customer.on('click', function() {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'CUSTOMER';
+            self.ActiveView = 'CUSTOMER';
             FwBrowse.databind($browse);
         });
         $project.on('click', function() {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'DEAL';
+            self.ActiveView = 'DEAL';
             FwBrowse.databind($browse);
         });
         $vendor.on('click', function() {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'VENDOR';
+            self.ActiveView = 'VENDOR';
             FwBrowse.databind($browse);
         });
         //$signup.on('click', function() {
@@ -101,7 +103,8 @@ class Contact {
         viewSubitems.push($project);
         viewSubitems.push($vendor);
         //viewSubitems.push($signup);
-        var $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
         return $menuObject;
     };
