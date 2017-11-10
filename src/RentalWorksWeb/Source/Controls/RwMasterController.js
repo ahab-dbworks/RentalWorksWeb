@@ -200,7 +200,8 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
                     location:  location,
                     warehouse: warehouse
                 };
-                RwServices.session.updatelocation(request, function(response) {
+                RwServices.session.updatelocation(request, function (response) {
+                    //-- Updates session storage
                     sessionStorage.setItem('authToken', response.authToken);
                     sessionStorage.setItem('location', JSON.stringify(response.location));
                     sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));

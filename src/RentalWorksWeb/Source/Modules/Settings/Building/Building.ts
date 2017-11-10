@@ -172,12 +172,15 @@ class RwBuilding {
         FwBrowse.init($spaceGridControl);
         FwBrowse.renderRuntimeHtml($spaceGridControl);
 
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
         $spaceRateGrid = $form.find('div[data-grid="SpaceRateGrid"]');
         $spaceRateGridControl = jQuery(jQuery('#tmpl-grids-SpaceRateGridBrowse').html());
         $spaceRateGrid.empty().append($spaceRateGridControl);
         $spaceRateGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val()
+                BuildingId: $form.find('div.fwformfield[data-datafield="BuildingId"] input').val(),
+                WarehouseId: warehouse.warehouseid
             };
         })
         FwBrowse.init($spaceRateGridControl);
