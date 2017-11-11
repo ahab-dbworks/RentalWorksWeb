@@ -97,6 +97,7 @@ namespace RentalWorksWeb.Source
 
             response.authToken         = AccountService.Current.GetAuthToken(token.Name, authTokenData);
             response.location          = RwAppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
+            response.warehouse         = RwAppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
         }
         //---------------------------------------------------------------------------------------------
         public static void ModuleRouting(dynamic request, dynamic response, dynamic session)
