@@ -116,6 +116,7 @@ class RwBuilding {
                 spaceId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
                 floorId = jQuery($tr.find('.column > .field')[1]).attr('data-originalvalue');
                 buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+                var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
                 var $spaceRateGridControl: any;
                 $spaceRateGridControl = $form.find('[data-name="SpaceRateGrid"]');
@@ -123,7 +124,8 @@ class RwBuilding {
                     request.uniqueids = {
                         SpaceId: spaceId,
                         FloorId: floorId,
-                        BuildingId: buildingId
+                        BuildingId: buildingId,
+                        WarehouseId: warehouse.warehouseid
                     }
                 })
                 $spaceRateGridControl.data('beforesave', function (request) {
