@@ -94,7 +94,8 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
             select.Parse();
             addFilterToSelect("BuildingId", "buildingid", select, request);
             addFilterToSelect("FloorId", "floorid", select, request);
-            addFilterToSelect("SpaceId", "masterid", select, request); 
+            addFilterToSelect("SpaceId", "masterid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }
