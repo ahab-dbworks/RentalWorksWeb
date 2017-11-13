@@ -3,49 +3,49 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using RentalWorksWebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.CrewPosition
+namespace RentalWorksWebApi.Modules.Settings.CrewLocation
 {
     [Route("api/v1/[controller]")]
-    public class CrewPositionController : RwDataController
+    public class CrewLocationController : RwDataController
     {
-        public CrewPositionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewLocationController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/crewposition/browse 
+        // POST api/v1/crewlocation/browse 
         [HttpPost("browse")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
         {
-            return await DoBrowseAsync(browseRequest, typeof(CrewPositionLogic));
+            return await DoBrowseAsync(browseRequest, typeof(CrewLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/crewposition 
+        // GET api/v1/crewlocation 
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<CrewPositionLogic>(pageno, pagesize, sort, typeof(CrewPositionLogic));
+            return await DoGetAsync<CrewLocationLogic>(pageno, pagesize, sort, typeof(CrewLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/crewposition/A0000001 
+        // GET api/v1/crewlocation/A0000001 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
-            return await DoGetAsync<CrewPositionLogic>(id, typeof(CrewPositionLogic));
+            return await DoGetAsync<CrewLocationLogic>(id, typeof(CrewLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/crewposition 
+        // POST api/v1/crewlocation 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]CrewPositionLogic l)
+        public async Task<IActionResult> PostAsync([FromBody]CrewLocationLogic l)
         {
-            return await DoPostAsync<CrewPositionLogic>(l);
+            return await DoPostAsync<CrewLocationLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/crewposition/A0000001 
+        // DELETE api/v1/crewlocation/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id, typeof(CrewPositionLogic));
+            return await DoDeleteAsync(id, typeof(CrewLocationLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/crewposition/validateduplicate 
+        // POST api/v1/crewlocation/validateduplicate 
         [HttpPost("validateduplicate")]
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
