@@ -29,6 +29,8 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public string Classification { get { return master.Classification; } set { master.Classification = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ClassificationDescription { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ClassificationColor { get; set; }
         public string UnitId { get { return master.UnitId; } set { master.UnitId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Unit { get; set; }
