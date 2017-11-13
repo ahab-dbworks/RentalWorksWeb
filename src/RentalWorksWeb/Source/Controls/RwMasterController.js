@@ -184,9 +184,6 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
             var valid = true, request, location, warehouse;
             location  = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
             warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
-            warehouseObj = {
-                "warehouseId": warehouse
-            }
             if (location == '') {
                 $confirmation.find('div[data-datafield="Location"]').addClass('error');
                 valid = false;
@@ -204,7 +201,6 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
                     //-- Updates session storage
                     sessionStorage.setItem('authToken', response.authToken);
                     sessionStorage.setItem('location', JSON.stringify(response.location));
-                    //sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
                     sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
                     $officelocation.find('.value').html(response.location.location);
                     $officelocation.css('background-color', response.location.locationcolor);
@@ -356,9 +352,6 @@ RwMasterController.buildOfficeLocation = function($view) {
             var valid = true, request, location, warehouse;
             location  = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
             warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
-            warehouseObj = {
-                "warehouseId": warehouse
-            }
             if (location == '') {
                 $confirmation.find('div[data-datafield="Location"]').addClass('error');
                 valid = false;
@@ -375,7 +368,6 @@ RwMasterController.buildOfficeLocation = function($view) {
                 RwServices.session.updatelocation(request, function(response) {
                     sessionStorage.setItem('authToken', response.authToken);
                     sessionStorage.setItem('location', JSON.stringify(response.location));
-                    //sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
                     sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
                     FwConfirmation.destroyConfirmation($confirmation);
                     program.navigate('home');
