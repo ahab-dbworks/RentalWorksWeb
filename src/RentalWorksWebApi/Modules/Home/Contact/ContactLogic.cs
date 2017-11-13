@@ -32,6 +32,8 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string Company { get { return contact.Company; } set { contact.Company = value; } }
         public string ContactNameType { get { return contact.ContactNameType; } set { contact.ContactNameType = value; } }
         public string ContactRecordType { get { return contact.ContactRecordType; } set { contact.ContactRecordType = value; } }
+         [FwBusinessLogicField(isReadOnly: true)]
+        public string ContactRecordTypeColor { get; set; }
         public string ContactTitleId { get { return contact.ContactTitleId; } set { contact.ContactTitleId = value; } }
          [FwBusinessLogicField(isReadOnly: true)]
         public string ContactTitle { get; set; }

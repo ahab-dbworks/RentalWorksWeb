@@ -6,7 +6,7 @@ using RentalWorksWebApi.Data;
 using System.Collections.Generic;
 namespace RentalWorksWebApi.Modules.Home.Contact
 {
-    [FwSqlTable("contactwebview")]
+    [FwSqlTable("contactview")]
     public class ContactLoader : RwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -118,6 +118,9 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         [FwSqlDataField(column: "contactrecordtype", modeltype: FwDataTypes.Text)]
         public string ContactRecordType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contactrecordtypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ContactRecordTypeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
         public string InputDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -165,6 +168,38 @@ namespace RentalWorksWebApi.Modules.Home.Contact
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+
+
+            if ((request != null) && (request.activeview != null))
+            {
+                switch (request.activeview)
+                {
+                    case "CUSTOMER":
+                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
+                        select.AddParameter("@contactrecordtype", "CUSTOMER");
+                        break;
+                    case "VENDOR":
+                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
+                        select.AddParameter("@contactrecordtype", "VENDOR");
+                        break;
+                    case "DEAL":
+                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
+                        select.AddParameter("@contactrecordtype", "DEAL");
+                        break;
+                    case "LEAD":
+                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
+                        select.AddParameter("@contactrecordtype", "LEAD");
+                        break;
+                    case "PROSPECT":
+                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
+                        select.AddParameter("@contactrecordtype", "PROSPECT");
+                        break;
+                    case "ALL":
+                        break;
+                }
+            }
+
+
         }
         //------------------------------------------------------------------------------------ 
     }
