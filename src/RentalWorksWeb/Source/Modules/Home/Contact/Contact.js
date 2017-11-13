@@ -120,8 +120,10 @@ var Contact = (function () {
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
+        FwBrowse.addLegend($browse, 'Lead', '#ff8040');
+        FwBrowse.addLegend($browse, 'Prospect', '#ff0080');
         FwBrowse.addLegend($browse, 'Customer', '#ffff80');
-        FwBrowse.addLegend($browse, 'Project', '#03de3a');
+        FwBrowse.addLegend($browse, 'Deal', '#03de3a');
         FwBrowse.addLegend($browse, 'Vendor', '#20b7ff');
         return $browse;
     };
@@ -130,8 +132,10 @@ var Contact = (function () {
     Contact.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All Contacts', true);
+        var $lead = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
+        var $prospect = FwMenu.generateDropDownViewBtn('Prospect Contacts', false);
         var $customer = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
-        var $project = FwMenu.generateDropDownViewBtn('Project Contacts', false);
+        var $deal = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
         var $vendor = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
         //var $signup   = FwMenu.generateDropDownViewBtn('View Sign Up', false);
         $all.on('click', function () {
@@ -140,13 +144,25 @@ var Contact = (function () {
             self.ActiveView = 'ALL';
             FwBrowse.databind($browse);
         });
+        $lead.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LEAD';
+            FwBrowse.databind($browse);
+        });
+        $prospect.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'PROSPECT';
+            FwBrowse.databind($browse);
+        });
         $customer.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CUSTOMER';
             FwBrowse.databind($browse);
         });
-        $project.on('click', function () {
+        $deal.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'DEAL';
@@ -167,8 +183,10 @@ var Contact = (function () {
         FwMenu.addVerticleSeparator($menuObject);
         var viewSubitems = [];
         viewSubitems.push($all);
+        viewSubitems.push($lead);
+        viewSubitems.push($prospect);
         viewSubitems.push($customer);
-        viewSubitems.push($project);
+        viewSubitems.push($deal);
         viewSubitems.push($vendor);
         //viewSubitems.push($signup);
         var $view;

@@ -22,7 +22,7 @@ class Contact {
     getModuleScreen() {
         var me: Contact = this;
         var screen: any = {};
-        screen.$view      = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
@@ -46,43 +46,59 @@ class Contact {
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', function(request) {
+        $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
+        FwBrowse.addLegend($browse, 'Lead', '#ff8040');
+        FwBrowse.addLegend($browse, 'Prospect', '#ff0080');
         FwBrowse.addLegend($browse, 'Customer', '#ffff80');
-        FwBrowse.addLegend($browse, 'Project',  '#03de3a');
-        FwBrowse.addLegend($browse, 'Vendor',   '#20b7ff');
+        FwBrowse.addLegend($browse, 'Deal', '#03de3a');
+        FwBrowse.addLegend($browse, 'Vendor', '#20b7ff');
 
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery      = FwMenu.generateDropDownViewBtn('All Contacts', true);
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Contacts', true);
+        var $lead: JQuery = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
+        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect Contacts', false);
         var $customer: JQuery = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
-        var $project: JQuery  = FwMenu.generateDropDownViewBtn('Project Contacts', false);
-        var $vendor: JQuery   = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
+        var $deal: JQuery = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
+        var $vendor: JQuery = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
         //var $signup   = FwMenu.generateDropDownViewBtn('View Sign Up', false);
 
-        $all.on('click', function() {
+        $all.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
             FwBrowse.databind($browse);
         });
-        $customer.on('click', function() {
+        $lead.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LEAD';
+            FwBrowse.databind($browse);
+        });
+        $prospect.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'PROSPECT';
+            FwBrowse.databind($browse);
+        });
+        $customer.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CUSTOMER';
             FwBrowse.databind($browse);
         });
-        $project.on('click', function() {
+        $deal.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'DEAL';
             FwBrowse.databind($browse);
         });
-        $vendor.on('click', function() {
+        $vendor.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'VENDOR';
@@ -99,8 +115,10 @@ class Contact {
 
         var viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all);
+        viewSubitems.push($lead);
+        viewSubitems.push($prospect);
         viewSubitems.push($customer);
-        viewSubitems.push($project);
+        viewSubitems.push($deal);
         viewSubitems.push($vendor);
         //viewSubitems.push($signup);
         var $view;
@@ -111,6 +129,7 @@ class Contact {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var viewModel: any = {};
+
         var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
         $form = FwModule.openForm($form, mode);
 
@@ -119,7 +138,7 @@ class Contact {
         }
 
         $form
-            .on('change', 'div[data-datafield="WebPassword"]', function() {
+            .on('change', 'div[data-datafield="WebPassword"]', function () {
                 //throw 'not implented!';
                 //// need to create web service in new api
                 //var $this, request;
@@ -143,10 +162,10 @@ class Contact {
                 //    }
                 //}, $form);
             })
-            .on('change', 'div[data-datafield="WebAccess"]', function() {
+            .on('change', 'div[data-datafield="WebAccess"]', function () {
                 //this.setFormProperties($form);
             })
-            .on('change', 'div[data-datafield="Inactive"]', function() {
+            .on('change', 'div[data-datafield="Inactive"]', function () {
                 //var $this;
                 //$this = jQuery(this);
                 //this.setFormProperties($form);
@@ -156,10 +175,10 @@ class Contact {
                 //    FwFormField.setValueByDataField($form, 'InactiveDate', '');
                 //}
             })
-            .on('change', 'div[data-datafield="PersonType"]', function() {
+            .on('change', 'div[data-datafield="PersonType"]', function () {
                 //this.setFormProperties($form);
             })
-            .on('change', 'div[data-datafield="FirstName"], div[data-datafield="LastName"]', function() {
+            .on('change', 'div[data-datafield="FirstName"], div[data-datafield="LastName"]', function () {
                 //throw 'not implemented';
                 //// need to add web service in api
                 //var fname, lname, persontype, $request;
@@ -190,7 +209,7 @@ class Contact {
                 //    }, $form);
                 //}
             })
-        ;
+            ;
 
         return $form;
     };
@@ -214,7 +233,7 @@ class Contact {
         //FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids = function($form: JQuery) {
+    renderGrids = function ($form: JQuery) {
         // load ContactCompany Grid
         //var nameContactCompany = 'ContactCompany';
         //var $contactCompanyGrid: JQuery = $form.find('div[data-grid="' + nameContactCompany + '"]');
@@ -251,7 +270,7 @@ class Contact {
         //});
         //FwBrowse.init($contactPersonalEventGridControl);
         //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
-    
+
         // load ContactNote Grid
         //var nameContactNote = 'ContactNote';
         //var $contactNoteGrid: JQuery = $form.find('div[data-grid="' + nameContactNote + '"]');
@@ -325,16 +344,16 @@ class Contact {
     };
     //----------------------------------------------------------------------------------------------
     setFormProperties($form: JQuery) {
-        var $webaccess     = $form.find('div[data-datafield="WebAccess"]');
-        var $email         = $form.find('div[data-datafield="Email"]');
-        var $webpassword   = $form.find('div[data-datafield="WebPassword"]');
-        var $inactive      = $form.find('div[data-datafield="Inactive"]');
-        var $inactivedate  = $form.find('div[data-datafield="InactiveDate"]');
-        var $persontype    = $form.find('div[data-datafield="PersonType"]');
+        var $webaccess = $form.find('div[data-datafield="WebAccess"]');
+        var $email = $form.find('div[data-datafield="Email"]');
+        var $webpassword = $form.find('div[data-datafield="WebPassword"]');
+        var $inactive = $form.find('div[data-datafield="Inactive"]');
+        var $inactivedate = $form.find('div[data-datafield="InactiveDate"]');
+        var $persontype = $form.find('div[data-datafield="PersonType"]');
         var $addressfields = $form.find('div[data-type="groupbox"][data-caption="Address"] div[data-control="FwFormField"]');
-        var $cellular      = $form.find('div[data-datafield="MobilePhone"]');
-        var $phone         = $form.find('div[data-datafield="Phone"]');
-        var $officephone   = $form.find('div[data-datafield="OfficePhone"]');
+        var $cellular = $form.find('div[data-datafield="MobilePhone"]');
+        var $phone = $form.find('div[data-datafield="Phone"]');
+        var $officephone = $form.find('div[data-datafield="OfficePhone"]');
 
         if (FwFormField.getValue2($webaccess) === 'T') {
             $webpassword.attr('data-required', 'true');
