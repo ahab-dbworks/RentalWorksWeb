@@ -18,6 +18,7 @@ namespace FwStandard.Models
         public dynamic uniqueids { get; set; } = new ExpandoObject();
         public dynamic boundids { get; set; } = new ExpandoObject();
         public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();
+        public string activeview { get; set; } = string.Empty;
 
         public BrowseRequestDto()
         {
