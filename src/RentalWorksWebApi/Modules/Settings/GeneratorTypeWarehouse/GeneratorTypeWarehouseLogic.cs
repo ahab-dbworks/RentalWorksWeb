@@ -5,7 +5,7 @@ using RentalWorksWebApi.Modules.Home.Master;
 using RentalWorksWebApi.Modules.Settings.InventoryCategory;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
-using RentalWorksWebApi.Modules.Settings.MasterWarehouse;
+using RentalWorksWebApi.Modules.Home.MasterWarehouse;
 
 namespace RentalWorksWebApi.Modules.Settings.GeneratorTypeWarehouse
 {

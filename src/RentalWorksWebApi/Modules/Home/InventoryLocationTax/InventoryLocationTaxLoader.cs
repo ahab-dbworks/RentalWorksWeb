@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data; 
 using System.Collections.Generic;
-using RentalWorksWebApi.Modules.Settings.MasterLocation;
+using RentalWorksWebApi.Modules.Home.MasterLocation;
 
 namespace RentalWorksWebApi.Modules.Home.InventoryLocationTax
 {

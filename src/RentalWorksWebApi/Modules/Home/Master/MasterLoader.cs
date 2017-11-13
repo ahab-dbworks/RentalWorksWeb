@@ -34,6 +34,9 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
+        public string ClassificationDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }
         //------------------------------------------------------------------------------------ 

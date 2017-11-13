@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.MasterLocation
+namespace RentalWorksWebApi.Modules.Home.MasterLocation
 {
     [FwSqlTable("masterlocationview")]
     public abstract class MasterLocationLoader : RwDataLoadRecord

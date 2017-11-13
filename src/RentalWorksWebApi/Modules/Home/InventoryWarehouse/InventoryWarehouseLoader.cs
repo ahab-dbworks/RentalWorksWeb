@@ -3,7 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Settings.MasterWarehouse;
+using RentalWorksWebApi.Modules.Home.MasterWarehouse;
 using System.Collections.Generic;
 
 namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse

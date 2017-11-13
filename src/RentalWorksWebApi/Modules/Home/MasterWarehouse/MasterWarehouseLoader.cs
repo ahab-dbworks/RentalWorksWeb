@@ -4,7 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
+namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
     public abstract class MasterWarehouseLoader : RwDataLoadRecord
@@ -58,6 +58,9 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "qtyonpo", modeltype: FwDataTypes.Decimal)]
         public decimal? QtyOnPo { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyallocated", modeltype: FwDataTypes.Decimal)]
+        public decimal? QtyAllocated { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -70,6 +73,9 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "markup", modeltype: FwDataTypes.Decimal)]
+        public decimal? MarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retail", modeltype: FwDataTypes.Decimal)]
         public decimal? Retail { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -77,7 +83,7 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         public int? ReorderPoint { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reorderqty", modeltype: FwDataTypes.Integer)]
-        public int? ReorderQty { get; set; }
+        public int? ReorderQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hourlyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyRate { get; set; }
@@ -128,7 +134,7 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         public decimal? MonthlyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "maxdiscount", modeltype: FwDataTypes.Decimal)]
-        public decimal? MaxDiscount { get; set; }
+        public decimal? MaximumDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
         public bool QcRequired { get; set; }
@@ -138,6 +144,18 @@ namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shelfloc", modeltype: FwDataTypes.Text)]
         public string ShelfLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hastieredcost", modeltype: FwDataTypes.Boolean)]
+        public bool HasTieredCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "restockfee", modeltype: FwDataTypes.Decimal)]
+        public decimal? RestockingFee { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "restockpercent", modeltype: FwDataTypes.Decimal)]
+        public decimal? RestockingPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastphydate", modeltype: FwDataTypes.Date)]
+        public string DateOfLastPhysicalInventory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
         public bool AvailabilityByHour { get; set; }

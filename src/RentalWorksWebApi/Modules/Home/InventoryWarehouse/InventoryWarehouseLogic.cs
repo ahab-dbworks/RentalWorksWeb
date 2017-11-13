@@ -5,7 +5,7 @@ using RentalWorksWebApi.Modules.Home.Master;
 using RentalWorksWebApi.Modules.Settings.InventoryCategory;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
-using RentalWorksWebApi.Modules.Settings.MasterWarehouse;
+using RentalWorksWebApi.Modules.Home.MasterWarehouse;
 
 namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
 {
@@ -29,6 +29,20 @@ namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
         public decimal? WeeklyCost { get { return masterWarehouse.WeeklyCost; } set { masterWarehouse.WeeklyCost = value; } }
         public decimal? MonthlyRate { get { return masterWarehouse.MonthlyRate; } set { masterWarehouse.MonthlyRate = value; } }
         public decimal? MonthlyCost { get { return masterWarehouse.MonthlyCost; } set { masterWarehouse.MonthlyCost = value; } }
+        public decimal? Retail { get { return masterWarehouse.Retail; } set { masterWarehouse.Retail = value; } }
+        public decimal? Price { get { return masterWarehouse.Price; } set { masterWarehouse.Price = value; } }
+        public decimal? DefaultCost { get { return masterWarehouse.DefaultCost; } set { masterWarehouse.DefaultCost = value; } }
+        public decimal? AverageCost { get { return masterWarehouse.AverageCost; } set { masterWarehouse.AverageCost = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MarkupPercent { get; set; }
+        public int? ReorderPoint { get { return masterWarehouse.ReorderPoint; } set { masterWarehouse.ReorderPoint = value; } }
+        public int? ReorderQuantity { get { return masterWarehouse.ReorderQuantity; } set { masterWarehouse.ReorderQuantity = value; } }
+        public decimal? MaximumDiscount { get { return masterWarehouse.MaximumDiscount; } set { masterWarehouse.MaximumDiscount = value; } }
+        public bool HasTieredCost { get { return masterWarehouse.HasTieredCost; } set { masterWarehouse.HasTieredCost = value; } }
+        public decimal? RestockingFee { get { return masterWarehouse.RestockingFee; } set { masterWarehouse.RestockingFee = value; } }
+        public decimal? RestockingPercent { get { return masterWarehouse.RestockingPercent; } set { masterWarehouse.RestockingPercent = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DateOfLastPhysicalInventory { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Qty { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -47,6 +61,8 @@ namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
         public decimal? QtyInRepair { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? QtyOnPo { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? QtyAllocated { get; set; }
         public string AisleLocation { get { return masterWarehouse.AisleLocation; } set { masterWarehouse.AisleLocation = value; } }
         public string ShelfLocation { get { return masterWarehouse.ShelfLocation; } set { masterWarehouse.ShelfLocation = value; } }
         public bool AvailabilityByHour { get { return masterWarehouse.AvailabilityByHour; } set { masterWarehouse.AvailabilityByHour = value; } }

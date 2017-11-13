@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.MasterWarehouse
+namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
 {
     public abstract class MasterWarehouseLogic : RwBusinessLogic
     {

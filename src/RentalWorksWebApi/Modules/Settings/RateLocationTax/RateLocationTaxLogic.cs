@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.MasterLocation;
+using RentalWorksWebApi.Modules.Home.MasterLocation;
 
 namespace RentalWorksWebApi.Modules.Settings.RateLocationTax
 {
