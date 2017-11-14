@@ -281,6 +281,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Discount Item Rental",                   "{FF124304-4048-4A1F-A6DA-2F79343BCE87}", lv1menuGrids.Id, "DiscountItemRentalGridController");
             AddGrid("Discount Item Sales",                    "{85AB2907-07FE-43CF-B16D-DDAE781F64ED}", lv1menuGrids.Id, "DiscountItemSalesGridController");
             AddGrid("Document Version",                       "{397FF02A-BF19-4C1F-8E5F-9DBE786D77EC}", lv1menuGrids.Id, "FwAppDocumentVersionGridController");
+            AddGrid("Duplicate Rule Field",                   "{0B65E7C7-E661-466A-BBFA-D2A32FB03FF7}", lv1menuGrids.Id, "DuplicateRuleFieldGridController");
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
             AddGrid("Inventory Group Inventory",              "{2EE8822B-F83E-4D8B-B055-4DA5853080C8}", lv1menuGrids.Id, "InventoryGroupInvGridController");

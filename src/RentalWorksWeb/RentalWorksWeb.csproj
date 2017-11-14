@@ -180,6 +180,7 @@
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
+    <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeActivityDatesGrid\OrderTypeActivityDatesGridBrowse.htm" />
@@ -246,6 +247,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeCoverLetterGrid\OrderTypeCoverLetterGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeActivityDatesGrid\OrderTypeActivityDatesGridController.ts" />
