@@ -323,6 +323,8 @@
     <Content Include="Source\Grids\Contact\RwContactGridController.js" />
     <Content Include="Source\Grids\MasterItem\RwMasterItemGridController.js" />
     <Content Include="Source\Grids\MasterItem\MasterItemBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupForm.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupController.js" />
@@ -344,6 +346,7 @@
     <TypeScriptCompile Include="Source\Grids\BillingCycleEventsGrid\BillingCycleEventsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleMakeModelGrid\VehicleMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
