@@ -324,6 +324,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Rate Warehouse",                         "{2EC39399-B731-4B22-A5F3-1919A275AA56}", lv1menuGrids.Id, "RateWarehouseGridController");
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");
+            AddGrid("Sales Inventory Warehouse",              "{85ED5C98-37AF-4A68-B97B-68EE253A1FD4}", lv1menuGrids.Id, "SalesInventoryWarehouseGridController");
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
             AddGrid("Space Rate",                             "{F0A6AFE7-3A31-4D2D-BC37-702D785C3734}", lv1menuGrids.Id, "SpaceRateGridController");
             AddGrid("Space Warehouse Rate",                   "{0F264871-A72C-48F7-9A6C-891208F52AD1}", lv1menuGrids.Id, "SpaceWarehouseRateGridController");

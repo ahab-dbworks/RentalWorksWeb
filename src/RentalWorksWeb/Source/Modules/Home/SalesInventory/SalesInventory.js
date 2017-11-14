@@ -71,8 +71,8 @@ var SalesInventory = (function () {
     SalesInventory.prototype.renderGrids = function ($form) {
         var $itemLocationTaxGrid;
         var $itemLocationTaxGridControl;
-        var $rentalInventoryWarehouseGrid;
-        var $rentalInventoryWarehouseGridControl;
+        var $salesInventoryWarehouseGrid;
+        var $salesInventoryWarehouseGridControl;
         var $inventoryAvailabilityGrid;
         var $inventoryAvailabilityGridControl;
         var $inventoryConsignmentGrid;
@@ -102,16 +102,16 @@ var SalesInventory = (function () {
         });
         FwBrowse.init($itemLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
-        $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
-        $rentalInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RentalInventoryWarehouseGridBrowse').html());
-        $rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
-        $rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
+        $salesInventoryWarehouseGrid = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
+        $salesInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryWarehouseGridBrowse').html());
+        $salesInventoryWarehouseGrid.empty().append($salesInventoryWarehouseGridControl);
+        $salesInventoryWarehouseGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        FwBrowse.init($rentalInventoryWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
+        FwBrowse.init($salesInventoryWarehouseGridControl);
+        FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridControl);
         $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -223,7 +223,7 @@ var SalesInventory = (function () {
     };
     SalesInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
-        var $rentalInventoryWarehouseGrid;
+        var $salesInventoryWarehouseGrid;
         var $inventoryAvailabilityGrid;
         var $inventoryConsignmentGrid;
         var $inventoryCompleteKitGrid;
@@ -235,8 +235,8 @@ var SalesInventory = (function () {
         var $inventoryPrepGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
-        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
-        FwBrowse.search($rentalInventoryWarehouseGrid);
+        $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
+        FwBrowse.search($salesInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
         FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
