@@ -4,10 +4,12 @@ declare var FwBrowse: any;
 class RentalInventory {
     Module: string;
     apiurl: string;
+    ActiveView: string;
 
     constructor() {
         this.Module = 'RentalInventory';
         this.apiurl = 'api/v1/rentalinventory';
+        this.ActiveView = 'ALL';
     }
 
     getModuleScreen() {
@@ -33,14 +35,82 @@ class RentalInventory {
     }
 
     openBrowse() {
-        var $browse;
-
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        var self = this;
+        var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
+
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+        FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
+        FwBrowse.addLegend($browse, 'Complete', '#0080ff');
+        FwBrowse.addLegend($browse, 'Kit/Set', '#00c400');
+        FwBrowse.addLegend($browse, 'Misc', '#ff0080');
+        FwBrowse.addLegend($browse, 'Container', '#ff8040');
 
         return $browse;
     }
+
+    addBrowseMenuItems($menuObject: any) {
+        var self = this;
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
+        var $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
+        var $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
+        var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit/Set', false);
+        var $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
+        var $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
+
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $accessory.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ACCESSORY';
+            FwBrowse.databind($browse);
+        });
+        $complete.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'COMPLETE';
+            FwBrowse.databind($browse);
+        });
+        $kitset.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'KITSET';
+            FwBrowse.databind($browse);
+        });
+        $misc.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'MISC';
+            FwBrowse.databind($browse);
+        });
+        $container.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'CONTAINER';
+            FwBrowse.databind($browse);
+        });
+
+        FwMenu.addVerticleSeparator($menuObject);
+
+        var viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all);
+        viewSubitems.push($accessory);
+        viewSubitems.push($complete);
+        viewSubitems.push($kitset);
+        viewSubitems.push($misc);
+        viewSubitems.push($container);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+        return $menuObject;
+    };
 
     openForm(mode: string) {
         var $form, $rank;
