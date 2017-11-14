@@ -2,6 +2,7 @@ var SalesInventory = (function () {
     function SalesInventory() {
         this.Module = 'SalesInventory';
         this.apiurl = 'api/v1/salesinventory';
+        this.ActiveView = 'ALL';
     }
     SalesInventory.prototype.getModuleScreen = function () {
         var screen, $browse;
@@ -21,12 +22,77 @@ var SalesInventory = (function () {
         return screen;
     };
     SalesInventory.prototype.openBrowse = function () {
-        var $browse;
-        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        var self = this;
+        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+        FwBrowse.addLegend($browse, 'Item', '#ffffff');
+        FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
+        FwBrowse.addLegend($browse, 'Complete', '#0080ff');
+        FwBrowse.addLegend($browse, 'Kit/Set', '#00c400');
+        FwBrowse.addLegend($browse, 'Misc', '#ff0080');
+        FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
     };
+    SalesInventory.prototype.addBrowseMenuItems = function ($menuObject) {
+        var self = this;
+        var $all = FwMenu.generateDropDownViewBtn('All Items', true);
+        var $accessory = FwMenu.generateDropDownViewBtn('Accessory', false);
+        var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
+        var $kitset = FwMenu.generateDropDownViewBtn('Kit/Set', false);
+        var $misc = FwMenu.generateDropDownViewBtn('Misc', false);
+        var $container = FwMenu.generateDropDownViewBtn('Container', false);
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $accessory.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ACCESSORY';
+            FwBrowse.databind($browse);
+        });
+        $complete.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'COMPLETE';
+            FwBrowse.databind($browse);
+        });
+        $kitset.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'KITSET';
+            FwBrowse.databind($browse);
+        });
+        $misc.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'MISC';
+            FwBrowse.databind($browse);
+        });
+        $container.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'CONTAINER';
+            FwBrowse.databind($browse);
+        });
+        FwMenu.addVerticleSeparator($menuObject);
+        var viewSubitems = [];
+        viewSubitems.push($all);
+        viewSubitems.push($accessory);
+        viewSubitems.push($complete);
+        viewSubitems.push($kitset);
+        viewSubitems.push($misc);
+        viewSubitems.push($container);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        return $menuObject;
+    };
+    ;
     SalesInventory.prototype.openForm = function (mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());

@@ -28,6 +28,7 @@ var RentalInventory = (function () {
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
+        FwBrowse.addLegend($browse, 'Item', '#ffffff');
         FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
         FwBrowse.addLegend($browse, 'Complete', '#0080ff');
         FwBrowse.addLegend($browse, 'Kit/Set', '#00c400');
