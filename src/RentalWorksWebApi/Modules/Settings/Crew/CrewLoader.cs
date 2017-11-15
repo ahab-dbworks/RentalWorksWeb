@@ -64,14 +64,44 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         [FwSqlDataField(column: "position", modeltype: FwDataTypes.Text)]
         public string Position { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "officephone", modeltype: FwDataTypes.Text)]
+        public string OfficePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ext", modeltype: FwDataTypes.Text)]
+        public string OfficeExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "directphone", modeltype: FwDataTypes.Text)]
+        public string DirectPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "directext", modeltype: FwDataTypes.Text)]
+        public string DirectExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "faxext", modeltype: FwDataTypes.Text)]
+        public string FaxExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pager", modeltype: FwDataTypes.Text)]
+        public string Pager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pagerpin", modeltype: FwDataTypes.Text)]
+        public string PagerPin { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cellular", modeltype: FwDataTypes.Text)]
         public string MobilePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
+        public string HomePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text)]
         public string Email { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "phone", modeltype: FwDataTypes.Text)]
-        public string HomePhone { get; set; }
+        [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text)]
+        public string ContactTitleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text)]
+        public string ContactTitle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractemployee", modeltype: FwDataTypes.Boolean)]
         public bool ContractEmployee { get; set; }
@@ -81,6 +111,12 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "activedate", modeltype: FwDataTypes.Date)]
+        public string ActiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.Date)]
+        public string InactiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

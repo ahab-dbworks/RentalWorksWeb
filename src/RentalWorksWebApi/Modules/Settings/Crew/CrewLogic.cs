@@ -24,6 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         public bool IsUser { get; set; }
         public string Salutation { get { return crew.Salutation; } set { crew.Salutation = value; } }
         public string NameFirstMiddleLast { get { return crew.NameFirstMiddleLast; } set { crew.NameFirstMiddleLast = value; } }
+        [FwBusinessLogicField(isRecordTitle: true)]
         public string Person { get { return crew.Person; } set { crew.Person = value; } }
         public string LastName { get { return crew.LastName; } set { crew.LastName = value; } }
         public string FirstName { get { return crew.FirstName; } set { crew.FirstName = value; } }
@@ -40,9 +41,22 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         public string Location { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Position { get; set; }
+        public string OfficePhone { get { return crew.OfficePhone; } set { crew.OfficePhone = value; } }
+        public string OfficeExtension { get { return crew.OfficeExtension; } set { crew.OfficeExtension = value; } }
+        public string DirectPhone { get { return crew.DirectPhone; } set { crew.DirectPhone = value; } }
+        public string DirectExtension { get { return crew.DirectExtension; } set { crew.DirectExtension = value; } }
+        public string Fax { get { return crew.Fax; } set { crew.Fax = value; } }
+        public string FaxExtension { get { return crew.FaxExtension; } set { crew.FaxExtension = value; } }
+        public string Pager { get { return crew.Pager; } set { crew.Pager = value; } }
+        public string PagerPin { get { return crew.PagerPin; } set { crew.PagerPin = value; } }
         public string MobilePhone { get { return crew.MobilePhone; } set { crew.MobilePhone = value; } }
-        public string Email { get { return crew.Email; } set { crew.Email = value; } }
         public string HomePhone { get { return crew.HomePhone; } set { crew.HomePhone = value; } }
+        public string Email { get { return crew.Email; } set { crew.Email = value; } }
+        public string ContactTitleId { get { return crew.ContactTitleId; } set { crew.ContactTitleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ContactTitle { get; set; }
+        public string ActiveDate { get { return crew.ActiveDate; } set { crew.ActiveDate = value; } }
+        public string InactiveDate { get { return crew.InactiveDate; } set { crew.InactiveDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool ContractEmployee { get; set; }
         [JsonIgnore]
