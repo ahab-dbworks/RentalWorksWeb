@@ -39,6 +39,8 @@ class RentalInventory {
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        self.ActiveView = 'ALL'; // Resets view to all when revisting module page
+
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
