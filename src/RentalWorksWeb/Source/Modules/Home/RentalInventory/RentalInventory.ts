@@ -66,42 +66,49 @@ class RentalInventory {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $item.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ITEM';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $accessory.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ACCESSORY';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $complete.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'COMPLETE';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $kitset.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'KIT';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $misc.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'MISC';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
         $container.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CONTAINER';
+            FwBrowse.setPageNo($browse, 1);
             FwBrowse.databind($browse);
         });
 
