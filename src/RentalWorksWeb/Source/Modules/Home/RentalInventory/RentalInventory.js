@@ -38,7 +38,8 @@ var RentalInventory = (function () {
     };
     RentalInventory.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
-        var $all = FwMenu.generateDropDownViewBtn('All Items', true);
+        var $all = FwMenu.generateDropDownViewBtn('All', true);
+        var $item = FwMenu.generateDropDownViewBtn('Item', true);
         var $accessory = FwMenu.generateDropDownViewBtn('Accessory', false);
         var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
         var $kitset = FwMenu.generateDropDownViewBtn('Kit/Set', false);
@@ -48,6 +49,12 @@ var RentalInventory = (function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $item.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ITEM';
             FwBrowse.databind($browse);
         });
         $accessory.on('click', function () {
@@ -65,7 +72,7 @@ var RentalInventory = (function () {
         $kitset.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'KITSET';
+            self.ActiveView = 'KIT';
             FwBrowse.databind($browse);
         });
         $misc.on('click', function () {
@@ -83,6 +90,7 @@ var RentalInventory = (function () {
         FwMenu.addVerticleSeparator($menuObject);
         var viewSubitems = [];
         viewSubitems.push($all);
+        viewSubitems.push($item);
         viewSubitems.push($accessory);
         viewSubitems.push($complete);
         viewSubitems.push($kitset);

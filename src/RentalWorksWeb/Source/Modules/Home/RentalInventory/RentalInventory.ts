@@ -54,7 +54,8 @@ class RentalInventory {
 
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
+        var $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true);
         var $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
         var $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
         var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit/Set', false);
@@ -65,6 +66,12 @@ class RentalInventory {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $item.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ITEM';
             FwBrowse.databind($browse);
         });
         $accessory.on('click', function () {
@@ -82,7 +89,7 @@ class RentalInventory {
         $kitset.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'KITSET';
+            self.ActiveView = 'KIT';
             FwBrowse.databind($browse);
         });
         $misc.on('click', function () {
@@ -102,6 +109,7 @@ class RentalInventory {
 
         var viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all);
+        viewSubitems.push($item);
         viewSubitems.push($accessory);
         viewSubitems.push($complete);
         viewSubitems.push($kitset);
