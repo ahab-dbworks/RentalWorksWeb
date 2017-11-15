@@ -140,6 +140,7 @@ namespace RentalWorksWebLibrary
                                               AddModule("Warehouse Catalog", "{9045B118-A790-44FB-9867-3E8035EFEE69}", lv2menuInventorySettings.Id, "WarehouseCatalogController", "module/warehousecatalog", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuLaborSettings = AddLv2ModuleMenu("Labor Settings", "{EE5CF882-B484-41C9-AE82-53D6AFFB3F25}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                                              AddModule("Crew", "{FF4C0AF2-0984-48FD-A108-68D93CB8FFE6}", lv2menuLaborSettings.Id, "CrewController", "module/crew", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Labor Rate", "{650305EC-0A53-490B-A8FB-E1AF636DA89B}", lv2menuLaborSettings.Id, "LaborRateController", "module/laborrate", settingsiconbaseurl + "placeholder.png");
                                               AddModule("Position", "{6D3B3D4F-2DD8-436F-8942-8FF68B73F3B6}", lv2menuLaborSettings.Id, "LaborPositionController", "module/laborposition", settingsiconbaseurl + "placeholder.png");       
                                               AddModule("Labor Type", "{6757DFC2-360A-450A-B2E8-0B8232E87D6A}", lv2menuLaborSettings.Id, "LaborTypeController", "module/labortype", settingsiconbaseurl + "placeholder.png");
@@ -274,6 +275,8 @@ namespace RentalWorksWebLibrary
             AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
             AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
+            AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
+            AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");
             AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
             AddGrid("Company Resale",                         "{571F090C-D7EC-4D95-BA7B-84D09B609F39}", lv1menuGrids.Id, "CompanyResaleGridController");
             AddGrid("Discount Item Labor",                    "{B65A5839-0226-4BAD-99F9-64FA9D1C1E33}", lv1menuGrids.Id, "DiscountItemLaborGridController");

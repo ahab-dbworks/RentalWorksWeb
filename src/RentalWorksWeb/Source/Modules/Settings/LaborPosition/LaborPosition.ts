@@ -7,7 +7,7 @@ class RwLaborPosition {
 
     constructor() {
         this.Module = 'LaborPosition';
-        this.apiurl = 'api/v1/crewposition';
+        this.apiurl = 'api/v1/position';
     }
 
     getModuleScreen() {

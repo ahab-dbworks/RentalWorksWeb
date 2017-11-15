@@ -179,6 +179,7 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
@@ -217,6 +218,7 @@
     <Content Include="Source\Grids\InventoryQcGrid\InventoryQcGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridBrowse.htm" />
+    <Content Include="Source\Grids\CrewLocationGrid\CrewLocationGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridBrowse.htm" />
@@ -246,6 +248,7 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />
@@ -274,6 +277,7 @@
     <TypeScriptCompile Include="Source\Grids\InventoryQcGrid\InventoryQcGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CrewLocationGrid\CrewLocationGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridController.ts" />
@@ -366,6 +370,8 @@
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
+    <Content Include="Source\Modules\Settings\Crew\CrewBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Crew\CrewForm.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionForm.htm" />
     <Content Include="Source\Modules\Settings\InventoryAttribute\InventoryAttribute.js" />
@@ -654,6 +660,7 @@
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDefinitionValidation\ReportDefinitionValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDesignerValidation\ReportDesignerValidationBrowse.htm" />
@@ -944,6 +951,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\OrderStatus\OrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Crew\Crew.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\GlDistribution\GlDistribution.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\OrderType\OrderType.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\EventType\EventType.ts" />

@@ -162,6 +162,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/template$/,                   getScreen: function () { return TemplateController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/gldistribution$/,             getScreen: function () { return GlDistributionController.getModuleScreen({}, {}); } } 
+  , { urlpattern: /^module\/crew$/,                       getScreen: function () { return CrewController.getModuleScreen({}, {}); } } 
 
 
     //Reports                                             
