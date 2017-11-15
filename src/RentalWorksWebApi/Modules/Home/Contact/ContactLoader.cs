@@ -159,8 +159,15 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string Company { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "companyid", modeltype: FwDataTypes.Text)]
+        public string CompanyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text)]
+        public string CompanyContactId { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {

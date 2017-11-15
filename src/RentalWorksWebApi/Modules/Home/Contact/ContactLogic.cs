@@ -23,12 +23,15 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string ContactId { get { return contact.ContactId; } set { contact.ContactId = value; } }
-
         public string ActiveDate { get { return contact.ActiveDate; } set { contact.ActiveDate = value; } }
         public string Address1 { get { return contact.Address1; } set { contact.Address1 = value; } }
         public string Address2 { get { return contact.Address2; } set { contact.Address2 = value; } }
         public string Barcode { get { return contact.Barcode; } set { contact.Barcode = value; } }
         public string City { get { return contact.City; } set { contact.City = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompanyContactId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompanyId { get; set; }
         public string Company { get { return contact.Company; } set { contact.Company = value; } }
         public string ContactNameType { get { return contact.ContactNameType; } set { contact.ContactNameType = value; } }
         public string ContactRecordType { get { return contact.ContactRecordType; } set { contact.ContactRecordType = value; } }
