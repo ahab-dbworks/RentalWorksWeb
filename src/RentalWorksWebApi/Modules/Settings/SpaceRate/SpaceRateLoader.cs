@@ -91,7 +91,7 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             addFilterToSelect("BuildingId", "buildingid", select, request);
             addFilterToSelect("FloorId", "floorid", select, request);
             addFilterToSelect("SpaceId", "masterid", select, request);

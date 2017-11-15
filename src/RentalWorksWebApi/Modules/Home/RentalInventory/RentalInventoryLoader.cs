@@ -14,7 +14,7 @@ namespace RentalWorksWebApi.Modules.Home.RentalInventory
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
+            //select.Parse();
             select.AddWhere("(availfor='R')");
         }
         //------------------------------------------------------------------------------------

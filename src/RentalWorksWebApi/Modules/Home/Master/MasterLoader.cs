@@ -103,22 +103,54 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean)]
         public bool PrintNoteOnPoReturnList { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
-
-
-
-
-
-
-
-
-
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+
+            if ((request != null) && (request.activeview != null))
+            {
+                switch (request.activeview)
+                {
+                    case "ITEM":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "I");
+                        break;
+                    case "ACCESSORY":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "A");
+                        break;
+                    case "COMPLETE":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "C");
+                        break;
+                    case "KIT":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "K");
+                        break;
+                    case "MISC":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "M");
+                        break;
+                    case "CONTAINER":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "N");
+                        break;
+                    case "ALL":
+                        break;
+                }
+            }
+
+
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
