@@ -21,7 +21,7 @@ class RwLaborPosition {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Labor Position', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, 'Position', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
