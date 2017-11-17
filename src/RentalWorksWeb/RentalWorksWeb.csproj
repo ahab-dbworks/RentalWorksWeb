@@ -333,7 +333,6 @@
     <Content Include="Source\Modules\Administrator\DuplicateRules\DuplicateRulesForm.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Group\GroupForm.htm" />
-    <Content Include="Source\Modules\Administrator\Group\GroupController.js" />
     <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
     <Content Include="Source\Modules\Administrator\Integration\RwIntegrationController.js" />
     <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
@@ -355,6 +354,7 @@
     <TypeScriptCompile Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
