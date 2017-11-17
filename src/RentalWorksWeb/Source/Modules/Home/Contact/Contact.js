@@ -197,8 +197,8 @@ var Contact = (function () {
     //----------------------------------------------------------------------------------------------
     Contact.prototype.openForm = function (mode) {
         var viewModel = {};
-        var companyId = null;
-        if (companyId == undefined || null) {
+        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > .field:eq(1)').text();
+        if (companyContactId == "" || undefined || null) {
             this.apiurl = 'api/v1/contact';
             var $form = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
         }
@@ -288,8 +288,8 @@ var Contact = (function () {
     //----------------------------------------------------------------------------------------------
     Contact.prototype.loadForm = function (uniqueids) {
         var $form = this.openForm('EDIT');
-        var CompanyContactId = null;
-        if (CompanyContactId == undefined || null) {
+        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > .field:eq(1)').text();
+        if (companyContactId == "" || undefined || null) {
             FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
         }
         else {
@@ -324,36 +324,6 @@ var Contact = (function () {
         //FwBrowse.search($contactDocumentGrid);
         //var $contactEmailHistoryGrid: JQuery = $form.find('#emailHistoryBrowse');
         //FwBrowse.search($contactEmailHistoryGrid);
-    };
-    ;
-    //----------------------------------------------------------------------------------------------
-    Contact.prototype.setFormProperties = function ($form) {
-        var $webaccess = $form.find('div[data-datafield="WebAccess"]');
-        var $email = $form.find('div[data-datafield="Email"]');
-        var $webpassword = $form.find('div[data-datafield="WebPassword"]');
-        var $inactive = $form.find('div[data-datafield="Inactive"]');
-        var $inactivedate = $form.find('div[data-datafield="InactiveDate"]');
-        var $persontype = $form.find('div[data-datafield="PersonType"]');
-        var $addressfields = $form.find('div[data-type="groupbox"][data-caption="Address"] div[data-control="FwFormField"]');
-        var $cellular = $form.find('div[data-datafield="MobilePhone"]');
-        var $phone = $form.find('div[data-datafield="Phone"]');
-        var $officephone = $form.find('div[data-datafield="OfficePhone"]');
-        if (FwFormField.getValue2($webaccess) === 'T') {
-            $webpassword.attr('data-required', 'true');
-            $email.attr('data-required', 'true');
-        }
-        else {
-            $webpassword.removeClass('error');
-            $email.removeClass('error');
-            $webpassword.attr('data-required', 'false');
-            $email.attr('data-required', 'false');
-        }
-        if (FwFormField.getValue2($inactive) === 'T') {
-            FwFormField.enable($inactivedate);
-        }
-        else {
-            FwFormField.disable($inactivedate);
-        }
     };
     ;
     return Contact;
