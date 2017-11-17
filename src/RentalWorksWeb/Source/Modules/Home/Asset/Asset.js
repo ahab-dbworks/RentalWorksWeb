@@ -41,23 +41,24 @@ var RwAsset = (function () {
     };
     RwAsset.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
-        var $all = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
-        var $toronto = FwMenu.generateDropDownViewBtn('TORONTO Warehouse', false);
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $all = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse + ' Warehouse', true);
         $all.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
             FwBrowse.databind($browse);
         });
-        $toronto.on('click', function () {
+        $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TORONTO';
+            self.ActiveView = warehouse.warehouse;
             FwBrowse.databind($browse);
         });
         var viewSubitems = [];
+        viewSubitems.push($userWarehouse);
         viewSubitems.push($all);
-        viewSubitems.push($toronto);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
         return $menuObject;

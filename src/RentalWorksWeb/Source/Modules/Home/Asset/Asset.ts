@@ -66,9 +66,9 @@ class RwAsset {
 
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
-        var $toronto: JQuery = FwMenu.generateDropDownViewBtn('TORONTO Warehouse', false);
- 
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse + ' Warehouse', true);
 
         $all.on('click', function () {
             var $browse;
@@ -76,18 +76,18 @@ class RwAsset {
             self.ActiveView = 'ALL';
             FwBrowse.databind($browse);
         });
-        $toronto.on('click', function () {
+        $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TORONTO';
+            self.ActiveView = warehouse.warehouse;
             FwBrowse.databind($browse);
         });
       
 
         var viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($userWarehouse);
         viewSubitems.push($all);
-        viewSubitems.push($toronto);
- 
+
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
