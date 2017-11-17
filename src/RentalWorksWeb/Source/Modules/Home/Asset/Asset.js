@@ -5,6 +5,7 @@ var RwAsset = (function () {
         this.caption = 'Asset';
         this.nameItemAttributeValueGrid = 'ItemAttributeValueGrid';
         this.nameItemQcGrid = 'ItemQcGrid';
+        this.ActiveView = 'ALL';
     }
     RwAsset.prototype.getModuleScreen = function () {
         var self = this;
@@ -24,11 +25,44 @@ var RwAsset = (function () {
         return screen;
     };
     RwAsset.prototype.openBrowse = function () {
+        var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var i = 0; i <= response.length; i++) {
+                FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
+            }
+        });
         return $browse;
     };
+    RwAsset.prototype.addBrowseMenuItems = function ($menuObject) {
+        var self = this;
+        var $all = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
+        var $toronto = FwMenu.generateDropDownViewBtn('TORONTO Warehouse', false);
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $toronto.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TORONTO';
+            FwBrowse.databind($browse);
+        });
+        var viewSubitems = [];
+        viewSubitems.push($all);
+        viewSubitems.push($toronto);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        return $menuObject;
+    };
+    ;
     RwAsset.prototype.openForm = function (mode) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);

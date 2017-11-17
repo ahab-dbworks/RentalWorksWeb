@@ -1,5 +1,10 @@
 declare var FwModule: any;
 declare var FwBrowse: any;
+declare var FwServices: any;
+declare var FwMenu: any;
+declare var Mustache: any;
+declare var FwFunc: any;
+declare var FwNotification: any;
 
 class RwAsset {
     Module: string;
@@ -7,6 +12,7 @@ class RwAsset {
     caption: string;
     nameItemAttributeValueGrid: string;
     nameItemQcGrid: string;
+    ActiveView: string;
 
     constructor() {
         this.Module = 'Asset';
@@ -14,6 +20,7 @@ class RwAsset {
         this.caption = 'Asset';
         this.nameItemAttributeValueGrid = 'ItemAttributeValueGrid';
         this.nameItemQcGrid = 'ItemQcGrid';
+        this.ActiveView = 'ALL';
     }
 
     getModuleScreen() {
@@ -23,7 +30,7 @@ class RwAsset {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse = this.openBrowse();
+        var $browse: JQuery = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
@@ -38,13 +45,55 @@ class RwAsset {
     }
 
     openBrowse() {
-        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        var self = this;
+        var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
 
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+
+        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var i = 0; i <= response.length; i++) {
+                FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
+            }
+        });
+            
         return $browse;
+       
     }
-     
+
+    addBrowseMenuItems($menuObject: any) {
+        var self = this;
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
+        var $toronto: JQuery = FwMenu.generateDropDownViewBtn('TORONTO Warehouse', false);
+ 
+
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $toronto.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TORONTO';
+            FwBrowse.databind($browse);
+        });
+      
+
+        var viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all);
+        viewSubitems.push($toronto);
+ 
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+        return $menuObject;
+    };
+
     openForm(mode: string) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
