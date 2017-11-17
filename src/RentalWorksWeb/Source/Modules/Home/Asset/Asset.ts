@@ -50,6 +50,9 @@ class RwAsset {
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
 
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
