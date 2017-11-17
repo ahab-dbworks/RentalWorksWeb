@@ -472,7 +472,22 @@ namespace RentalWorksWebApi.Modules.Home.Item
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("InventoryId", "masterid", select, request);
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+
+
+            if ((request != null) && (request.activeview != null))
+            {
+                if (request.activeview.Contains("WarehouseId="))
+                {
+                    string whId = request.activeview.Replace("WarehouseId=", "");
+                    if (!whId.Equals("ALL"))
+                    {
+                        select.AddWhere("(warehouseid = @whid)");
+                        select.AddParameter("@whid", whId);
+                    }
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------ 
     }

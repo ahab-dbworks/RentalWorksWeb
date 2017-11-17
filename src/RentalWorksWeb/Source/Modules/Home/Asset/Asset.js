@@ -47,13 +47,13 @@ var RwAsset = (function () {
         $all.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+            self.ActiveView = 'WarehouseId=ALL';
             FwBrowse.databind($browse);
         });
         $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = warehouse.warehouseid;
+            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
             FwBrowse.databind($browse);
         });
         var viewSubitems = [];
