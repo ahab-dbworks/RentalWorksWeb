@@ -49,7 +49,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryStatusId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public int? Color { get; set; }
+        public string Color { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool TextColor { get; set; }
         public string BarCode { get { return item.BarCode; } set { item.BarCode = value; } }

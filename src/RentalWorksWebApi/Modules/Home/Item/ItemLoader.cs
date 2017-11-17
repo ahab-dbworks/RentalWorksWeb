@@ -61,8 +61,8 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text)]
         public string InventoryStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
-        public int? Color { get; set; }
+        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
         public bool TextColor { get; set; }
