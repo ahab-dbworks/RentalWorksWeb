@@ -662,6 +662,7 @@
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
+    <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDefinitionValidation\ReportDefinitionValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDesignerValidation\ReportDesignerValidationBrowse.htm" />
