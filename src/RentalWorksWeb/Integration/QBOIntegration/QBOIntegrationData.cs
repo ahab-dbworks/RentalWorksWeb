@@ -978,20 +978,21 @@ namespace RentalWorksWeb.Integration
 
             //jh 06/22/2017 CAS-20810-L6T5
             //if (invoice.taxcountry == "C") // if Canada
-            if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
+            //if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK
+            //jh 11/16/2017 CAS-21973-PUHU (needs to do this check for all invoices)
+            //{
+            decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
+            if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
             {
-                decimal taxAmount = _invoice.TxnTaxDetail.TotalTax; // determine the tax amount that QBO calculated for this invoice
-                if (invoice.invoicetax != taxAmount)                // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
-                {
-                    dynamic newInvoice2                        = new ExpandoObject();
-                    dynamic _invoice2                          = new ExpandoObject();
-                    newInvoice2                                = _invoice;
-                    newInvoice2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
-                    newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                    qbopost                                    = PostToQBO("invoice", newInvoice2);
-                    _invoice2                                  = qbopost.JSONResponse.Invoice;
-                }
+                dynamic newInvoice2 = new ExpandoObject();
+                dynamic _invoice2 = new ExpandoObject();
+                newInvoice2 = _invoice;
+                newInvoice2.TxnTaxDetail.TotalTax = invoice.invoicetax; // need to change it here
+                newInvoice2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                qbopost = PostToQBO("invoice", newInvoice2);
+                _invoice2 = qbopost.JSONResponse.Invoice;
             }
+            //}
 
             return _invoice;
         }
@@ -1139,20 +1140,24 @@ namespace RentalWorksWeb.Integration
 
             //jh 07/05/2017 CAS-20810-L6T5
             //if (invoice.taxcountry == "C") // if Canada
-            if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
+            //if ((invoice.taxcountry == "C") || (invoice.taxcountry == "UK"))  //jh 08/16/2017 CAS-21271-VIGE Canada or UK 
+            //jh 11/16/2017 CAS-21973-PUHU (needs to do this check for all invoices)
+            //{
+            decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
+                                                                     //if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
+            if (((-1) * invoice.invoicetax) != taxAmount) // jh 11/16/2017 CAS-21999-UITX
             {
-                decimal taxAmount = creditmemo.TxnTaxDetail.TotalTax;    // determine the tax amount that QBO calculated for this invoice
-                if (invoice.invoicetax != taxAmount) // if RW tax amuont is different than QBO tax for this invoice, force the RW tax amount up to QBO
-                {
-                    dynamic newCreditMemo2                        = new ExpandoObject();
-                    dynamic creditmemo2                           = new ExpandoObject();
-                    newCreditMemo2                                = creditmemo;
-                    newCreditMemo2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
-                    newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
-                    qbopost                                       = PostToQBO("creditmemo", newCreditMemo2);
-                    creditmemo2                                   = qbopost.JSONResponse.CreditMemo;
-                }
+                dynamic newCreditMemo2 = new ExpandoObject();
+                dynamic creditmemo2 = new ExpandoObject();
+                newCreditMemo2 = creditmemo;
+                //newCreditMemo2.TxnTaxDetail.TotalTax          = invoice.invoicetax; // need to change it here
+                //newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = invoice.invoicetax;  // and here, too (both)
+                newCreditMemo2.TxnTaxDetail.TotalTax = ((-1) * invoice.invoicetax); // jh 11/16/2017 CAS-21999-UITX
+                newCreditMemo2.TxnTaxDetail.TaxLine[0].Amount = ((-1) * invoice.invoicetax);  // jh 11/16/2017 CAS-21999-UITX
+                qbopost = PostToQBO("creditmemo", newCreditMemo2);
+                creditmemo2 = qbopost.JSONResponse.CreditMemo;
             }
+            //}
 
             return creditmemo;
         }
