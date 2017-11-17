@@ -68,7 +68,7 @@ class RwAsset {
         var self = this;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse + ' Warehouse', true);
+        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
 
         $all.on('click', function () {
             var $browse;
@@ -79,7 +79,7 @@ class RwAsset {
         $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = warehouse.warehouse;
+            self.ActiveView = warehouse.warehouseid;
             FwBrowse.databind($browse);
         });
       

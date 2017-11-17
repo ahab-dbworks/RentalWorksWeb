@@ -43,7 +43,7 @@ var RwAsset = (function () {
         var self = this;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $all = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse + ' Warehouse', true);
+        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
         $all.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
@@ -53,7 +53,7 @@ var RwAsset = (function () {
         $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = warehouse.warehouse;
+            self.ActiveView = warehouse.warehouseid;
             FwBrowse.databind($browse);
         });
         var viewSubitems = [];
