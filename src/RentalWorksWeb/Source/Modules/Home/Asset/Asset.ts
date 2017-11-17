@@ -55,7 +55,7 @@ class RwAsset {
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-            for (var i = 0; i <= response.length; i++) {
+            for (var i = 0; i < response.length; i++) {
                 FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
             }
         });
