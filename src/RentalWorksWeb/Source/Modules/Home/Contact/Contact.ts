@@ -130,8 +130,17 @@ class Contact {
     openForm(mode: string) {
         var viewModel: any = {};
 
-        var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
+        var companyId = null;
+
+        if (companyId == undefined || null) {
+            this.apiurl = 'api/v1/contact';
+            var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
+        } else {
+            this.apiurl = 'api/v1/companycontact';
+            var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-CompanyContactForm').html(), viewModel));
+        }
         $form = FwModule.openForm($form, mode);
+
 
         if (mode == 'NEW') {
             FwFormField.setValueByDataField($form, 'ActiveDate', FwFunc.getDate());
@@ -208,15 +217,21 @@ class Contact {
                 //        }
                 //    }, $form);
                 //}
-            })
-            ;
+            });
 
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form: JQuery = this.openForm('EDIT');
-        FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
+
+        var CompanyContactId = null;
+        if (CompanyContactId == undefined || null) {
+            FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
+        } else {
+            FwFormField.setValueByDataField($form, 'CompanyContactId', uniqueids.CompanyContactId);
+        }
+
         FwModule.loadForm(this.Module, $form);
         //$form.find('.contactphoto > .runtime > .image > img').attr('src', 'fwappimage.ashx?uniqueid1=' + uniqueids.contactid + '&uniqueid2=&uniqueid3=&orderby=0');
 

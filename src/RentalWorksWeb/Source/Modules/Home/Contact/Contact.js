@@ -197,7 +197,15 @@ var Contact = (function () {
     //----------------------------------------------------------------------------------------------
     Contact.prototype.openForm = function (mode) {
         var viewModel = {};
-        var $form = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
+        var companyId = null;
+        if (companyId == undefined || null) {
+            this.apiurl = 'api/v1/contact';
+            var $form = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
+        }
+        else {
+            this.apiurl = 'api/v1/companycontact';
+            var $form = jQuery(Mustache.render(jQuery('#tmpl-modules-CompanyContactForm').html(), viewModel));
+        }
         $form = FwModule.openForm($form, mode);
         if (mode == 'NEW') {
             FwFormField.setValueByDataField($form, 'ActiveDate', FwFunc.getDate());
@@ -280,7 +288,13 @@ var Contact = (function () {
     //----------------------------------------------------------------------------------------------
     Contact.prototype.loadForm = function (uniqueids) {
         var $form = this.openForm('EDIT');
-        FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
+        var CompanyContactId = null;
+        if (CompanyContactId == undefined || null) {
+            FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
+        }
+        else {
+            FwFormField.setValueByDataField($form, 'CompanyContactId', uniqueids.CompanyContactId);
+        }
         FwModule.loadForm(this.Module, $form);
         //$form.find('.contactphoto > .runtime > .image > img').attr('src', 'fwappimage.ashx?uniqueid1=' + uniqueids.contactid + '&uniqueid2=&uniqueid3=&orderby=0');
         return $form;
