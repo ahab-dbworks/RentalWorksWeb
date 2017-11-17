@@ -59,7 +59,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
 	    [FwSqlDataField(column: "cellular", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
         public string MobilePhone { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime", maxlength: 8, precision: 23, scale: 3)]
+	    [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
@@ -83,10 +83,10 @@ namespace RentalWorksWebApi.Modules.Home.Contact
 	    [FwSqlDataField(column: "website", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100, precision: 0, scale: 0)]
         public string Website { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "activedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
+	    [FwSqlDataField(column: "activedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ActiveDate { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
+	    [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string InactiveDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "rowguid", modeltype: FwDataTypes.Text, sqltype: "uniqueidentifier", maxlength: 16, precision: 0, scale: 0)]
@@ -98,10 +98,10 @@ namespace RentalWorksWebApi.Modules.Home.Contact
 	    [FwSqlDataField(column: "modbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
         public string LastModifiedByUserId { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
+	    [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string InputDate { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime", maxlength: 4, precision: 16, scale: 0)]
+	    [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string LastModifiedDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, precision: 0, scale: 0)]
@@ -131,7 +131,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
 	    [FwSqlDataField(column: "webstatus", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
         public string WebStatus { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "webstatusasof", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime", maxlength: 8, precision: 23, scale: 3)]
+	    [FwSqlDataField(column: "webstatusasof", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string WebStatusAsOf { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "webstatusupdatebyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
