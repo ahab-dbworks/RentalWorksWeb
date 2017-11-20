@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FwStandard.Models
+namespace RentalWorksWebApi.Models
 {
     public class ApplicationUser
     {
