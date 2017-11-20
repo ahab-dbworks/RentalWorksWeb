@@ -19,6 +19,24 @@ namespace RentalWorksWebApi.Modules.Home.CompanyContact
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salutation", modeltype: FwDataTypes.Text)]
+        public string Salutation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "namefml", modeltype: FwDataTypes.Text)]
+        public string NameFirstMiddleLast { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "person", modeltype: FwDataTypes.Text)]
+        public string Person { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lname", modeltype: FwDataTypes.Text)]
+        public string LastName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fname", modeltype: FwDataTypes.Text)]
+        public string FirstName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mi", modeltype: FwDataTypes.Text)]
+        public string MiddleInitial { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "jobtitle", modeltype: FwDataTypes.Text)]
         public string JobTitle { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -46,6 +46,8 @@ namespace RentalWorksWebApi.Modules.Home.ContactNote
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("ContactId", "contactid", select, request); 
+            addFilterToSelect("CompanyId", "companyid", select, request); 
+            addFilterToSelect("CompanyContactId", "compcontactid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }

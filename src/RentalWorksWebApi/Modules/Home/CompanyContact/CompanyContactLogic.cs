@@ -17,6 +17,18 @@ namespace RentalWorksWebApi.Modules.Home.CompanyContact
         public string CompanyContactId { get { return companyContact.CompanyContactId; } set { companyContact.CompanyContactId = value; } }
         public string CompanyId { get { return companyContact.CompanyId; } set { companyContact.CompanyId = value; } }
         public string ContactId { get { return companyContact.ContactId; } set { companyContact.ContactId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Salutation { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string NameFirstMiddleLast { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Person { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LastName { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FirstName { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MiddleInitial { get; set; }
         public string JobTitle { get { return companyContact.JobTitle; } set { companyContact.JobTitle = value; } }
         public string ContactTitleId { get { return companyContact.ContactTitleId; } set { companyContact.ContactTitleId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
