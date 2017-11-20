@@ -14,7 +14,10 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         public string CrewId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
-        public string UsersId { get; set; }
+        public string UserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
+        public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isuser", modeltype: FwDataTypes.Boolean)]
         public bool IsUser { get; set; }
@@ -117,6 +120,30 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactivedate", modeltype: FwDataTypes.Date)]
         public string InactiveDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean)]
+        public bool WebAccess { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
+        public bool LockAccount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webpassword", modeltype: FwDataTypes.Text)]
+        public string WebPassword { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
+        public bool WebAdministrator { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean)]
+        public bool ChangePasswordAtLogin { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]
+        public bool ExpirePassword { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer)]
+        public int? ExpireDays { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.Date)]
+        public string PasswordLastUpdated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

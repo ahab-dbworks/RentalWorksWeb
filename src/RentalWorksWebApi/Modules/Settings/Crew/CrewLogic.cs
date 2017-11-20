@@ -1,25 +1,33 @@
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using RentalWorksWebApi.Logic;
+using RentalWorksWebApi.Modules.Administrator.User;
 using RentalWorksWebApi.Modules.Home.Contact;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace RentalWorksWebApi.Modules.Settings.Crew
 {
-    public class CrewLogic : RwBusinessLogic
+    public class CrewLogic : RwBusinessLogic //ContactLogic
     {
         //------------------------------------------------------------------------------------ 
         ContactRecord crew = new ContactRecord();
+        WebUserRecord webUser = new WebUserRecord();
         CrewLoader crewLoader = new CrewLoader();
+
         public CrewLogic()
         {
             dataRecords.Add(crew);
+            dataRecords.Add(webUser);
             dataLoader = crewLoader;
+            crew.AfterSaves += Crew_AfterSaves;
+            webUser.AfterSaves += WebUser_AfterSaves;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string CrewId { get { return crew.ContactId; } set { crew.ContactId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string UsersId { get; set; }
+        public string UserId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool IsUser { get; set; }
         public string Salutation { get { return crew.Salutation; } set { crew.Salutation = value; } }
@@ -62,6 +70,22 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         [JsonIgnore]
         public string ContactRecordType { get { return crew.ContactRecordType; } set { crew.ContactRecordType = value; } }
         public bool Inactive { get { return crew.Inactive; } set { crew.Inactive = value; } }
+
+
+        //// WebUserRecord
+        public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
+        public bool WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
+        public bool LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
+        public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
+        public bool ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
+        public int ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
+
+        public bool WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
+        public bool ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
+        public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
+
+
+
         public string DateStamp { get { return crew.DateStamp; } set { crew.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public override void BeforeSave()
@@ -69,5 +93,34 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
             base.BeforeSave();
             ContactRecordType = "CREW";
         }
+        //------------------------------------------------------------------------------------
+
+        private void Crew_AfterSaves(object sender, SaveEventArgs e)
+        {
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (string.IsNullOrEmpty(webUser.WebUserId)))
+            {
+                CrewLogic crew2 = new CrewLogic();
+                var dbConfig = this.crew.GetDbConfig();
+                crew2.SetDbConfig(dbConfig);
+                string[] pk = GetPrimaryKeys();
+                bool b = crew2.LoadAsync<CrewLogic>(pk).Result;
+                using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+                {
+                    string webusersid = FwSqlCommand.GetDataAsync(conn, dbConfig.QueryTimeout, "webusers", "contactid", crew2.CrewId, "webusersid").Result.ToString().TrimEnd();
+                    this.webUser.WebUserId = webusersid;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private void WebUser_AfterSaves(object sender, SaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                this.WebUserId = webUser.WebUserId;
+                int i = SaveAsync().Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
+
     }
 }
