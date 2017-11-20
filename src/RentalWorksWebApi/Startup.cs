@@ -12,8 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
-using RentalWorksWebApi.Options;
-using RentalWorksWebApi.Policies;
+using RentalWorksWebApi.Security;
 using RentalWorksWebLibrary;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -179,6 +178,12 @@ namespace RentalWorksWebApi
             //}
 
             ApplicationLogging.LoggerFactory = loggerFactory;
+
+            // shows an exception page in dev mode
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>
