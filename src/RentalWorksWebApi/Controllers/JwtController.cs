@@ -1,13 +1,9 @@
 ﻿using FwStandard.Models;
-using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RentalWorksWebApi;
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Models;
 using RentalWorksWebApi.Options;
 using RentalWorksWebApi.Security;
 using System;
@@ -15,10 +11,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace RentalWorksApi.Controllers
+namespace RentalWorksWebApi.Controllers
 {
     [Route("api/v1/jwt")]
     public class JwtController : Controller

@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using RentalWorksWebApi.Options;
+using RentalWorksWebApi.Policies;
 using RentalWorksWebApi.Security;
 using RentalWorksWebLibrary;
 using Swashbuckle.AspNetCore.Swagger;
