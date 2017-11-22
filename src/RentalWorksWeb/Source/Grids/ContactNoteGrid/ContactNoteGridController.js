@@ -1,16 +1,10 @@
-﻿//----------------------------------------------------------------------------------------------
-var ContactNoteGridController = {
-    Module: 'ContactNoteGrid'
-};
-//----------------------------------------------------------------------------------------------
-ContactNoteGridController.beforeValidateContactCompany = function($browse, $grid, request) {
-    var $form;
-    $form = $grid.closest('.fwform');
-    if (typeof request.miscfields !== 'object') {
-        request.miscfields = {};
+var ContactNoteGrid = (function () {
+    function ContactNoteGrid() {
+        this.Module = 'ContactNoteGrid';
+        this.apiurl = 'api/v1/contactnote';
     }
-    request.miscfields['contact.contactid'] = {
-        value: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
-    };
-};
-//----------------------------------------------------------------------------------------------
+    return ContactNoteGrid;
+}());
+window.ContactNoteGridController = new ContactNoteGrid();
+//---------------------------------------------------------------------------------------------- 
+//# sourceMappingURL=ContactNoteGridController.js.map

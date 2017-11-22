@@ -1,9 +1,9 @@
 ﻿namespace FwStandard.Security.Tree.Grids
 {
-    public class ContactNoteMenu : FwSecurityTreeBranch
+    public class ContactNoteGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ContactNoteMenu() : base("{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}") { }
+        public ContactNoteGridMenu() : base("{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
