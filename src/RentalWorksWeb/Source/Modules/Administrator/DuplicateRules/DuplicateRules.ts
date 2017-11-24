@@ -80,6 +80,8 @@ class DuplicateRules {
 
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
+
+        this.events($form);
  
         return $form;
     }
@@ -115,6 +117,22 @@ class DuplicateRules {
         });
         FwBrowse.init($duplicateRuleFieldGridControl);
         FwBrowse.renderRuntimeHtml($duplicateRuleFieldGridControl);
+    }
+
+    events($form: JQuery): void {
+        $form.find('div.modules').on("change", function () {
+            var moduleName = jQuery(this).find(':selected').val();
+            var request = {
+                module: moduleName
+            };
+            
+            FwAppData.apiMethod(true, 'POST', "api/v1/" + moduleName + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                //for (var i = 0; i < response.length; i++) {
+                //    console.log(response[i], "R")
+                //}
+            });
+        });
+
     }
 
     afterLoad($form: any) {

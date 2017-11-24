@@ -57,6 +57,7 @@ var DuplicateRules = (function () {
         allModules.sort(compare);
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
+        this.events($form);
         return $form;
     };
     DuplicateRules.prototype.loadForm = function (uniqueids) {
@@ -85,6 +86,19 @@ var DuplicateRules = (function () {
         });
         FwBrowse.init($duplicateRuleFieldGridControl);
         FwBrowse.renderRuntimeHtml($duplicateRuleFieldGridControl);
+    };
+    DuplicateRules.prototype.events = function ($form) {
+        $form.find('div.modules').on("change", function () {
+            var moduleName = jQuery(this).find(':selected').val();
+            var request = {
+                module: moduleName
+            };
+            FwAppData.apiMethod(true, 'POST', "api/v1/" + moduleName + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                //for (var i = 0; i < response.length; i++) {
+                //    console.log(response[i], "R")
+                //}
+            });
+        });
     };
     DuplicateRules.prototype.afterLoad = function ($form) {
         var $duplicateRuleFieldGrid;
