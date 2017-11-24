@@ -130,7 +130,7 @@ class Contact {
     openForm(mode: string) {
         var viewModel: any = {};
   
-        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > .field:eq(1)').text();
+        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > [data-formdatafield="CompanyContactId"]').text();
 
         if (companyContactId == "" || undefined || null) {
             this.apiurl = 'api/v1/contact';
@@ -288,22 +288,45 @@ class Contact {
         //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
 
         // load ContactNote Grid
-        var $contactNoteGrid: any;
-        var $contactNoteGridControl: any;
+        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > [data-formdatafield="CompanyContactId"]').text();
+        if (companyContactId == "" || undefined || null) {
+            var $contactNoteGrid: any;
+            var $contactNoteGridControl: any;
 
-        $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-        $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
-        $contactNoteGrid.empty().append($contactNoteGridControl);
-        $contactNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
-            };
-        })
-        $contactNoteGridControl.data('beforesave', function (request) {
-            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-        });
-        FwBrowse.init($contactNoteGridControl);
-        FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+            $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+            $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+            $contactNoteGrid.empty().append($contactNoteGridControl);
+            $contactNoteGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+                };
+            })
+            $contactNoteGridControl.data('beforesave', function (request) {
+                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+            });
+            FwBrowse.init($contactNoteGridControl);
+            FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+        } else {
+            var $contactNoteGrid: any;
+            var $contactNoteGridControl: any;
+
+            $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+            $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+            $contactNoteGrid.empty().append($contactNoteGridControl);
+            $contactNoteGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val(),
+                    CompanyContactId: $form.find('div.fwformfield[data-datafield="CompanyContactId"] input').val()
+                };
+            })
+            $contactNoteGridControl.data('beforesave', function (request) {
+                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+                request.CompanyContactId = FwFormField.getValueByDataField($form, 'CompanyContactId');
+            });
+            FwBrowse.init($contactNoteGridControl);
+            FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+        }
+       
 
         // load ContactDocument Grid
         //var nameContactDocument = 'ContactDocument';

@@ -273,7 +273,7 @@ namespace RentalWorksWebLibrary
             AddGrid("Contact Company",                        "{7E1840AE-9832-4E0E-9B1F-A2A115575852}", lv1menuGrids.Id, "FwContactCompanyGridController");
             AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
             AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
-            AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "FwContactNoteGridController");
+            AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
             AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
             AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");

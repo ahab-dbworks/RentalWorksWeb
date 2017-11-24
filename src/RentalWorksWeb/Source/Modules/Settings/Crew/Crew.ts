@@ -103,6 +103,23 @@ class Crew {
         });
         FwBrowse.init($crewLocationGridControl);
         FwBrowse.renderRuntimeHtml($crewLocationGridControl);
+
+        var $contactNoteGrid: any;
+        var $contactNoteGridControl: any;
+
+        $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+        $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+        $contactNoteGrid.empty().append($contactNoteGridControl);
+        $contactNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="CrewId"] input').val(),
+            };
+        })
+        $contactNoteGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'CrewId');
+        });
+        FwBrowse.init($contactNoteGridControl);
+        FwBrowse.renderRuntimeHtml($contactNoteGridControl);
     }
 
     afterLoad($form: any) {
@@ -112,6 +129,10 @@ class Crew {
         var $crewLocationGrid: any = $form.find('[data-name="CrewLocationGrid"]');
         FwBrowse.search($crewLocationGrid);
 
+        var $contactNoteGrid: any;
+
+        $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
+        FwBrowse.search($contactNoteGrid);
     }
 }
 
