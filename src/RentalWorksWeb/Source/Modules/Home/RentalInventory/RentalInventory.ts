@@ -47,7 +47,7 @@ class RentalInventory {
         FwBrowse.addLegend($browse, 'Item', '#ffffff');
         FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
         FwBrowse.addLegend($browse, 'Complete', '#0080ff');
-        FwBrowse.addLegend($browse, 'Kit/Set', '#00c400');
+        FwBrowse.addLegend($browse, 'Kit', '#00c400');
         FwBrowse.addLegend($browse, 'Misc', '#ff0080');
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
 
@@ -60,7 +60,7 @@ class RentalInventory {
         var $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true);
         var $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
         var $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit/Set', false);
+        var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit', false);
         var $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
         var $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
 

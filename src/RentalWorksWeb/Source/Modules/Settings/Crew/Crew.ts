@@ -48,6 +48,16 @@ class Crew {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="ExpirePassword"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="ExpireDays"]'))
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="ExpireDays"]'))
+            }
+        });
+
         return $form;
     }
 
@@ -133,6 +143,12 @@ class Crew {
 
         $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
         FwBrowse.search($contactNoteGrid);
+
+        if ($form.find('[data-datafield="ExpirePassword"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="ExpireDays"]'))
+        } else {
+            FwFormField.disable($form.find('[data-datafield="ExpireDays"]'))
+        }
     }
 }
 
