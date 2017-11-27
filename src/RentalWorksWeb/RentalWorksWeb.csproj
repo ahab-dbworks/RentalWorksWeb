@@ -899,7 +899,6 @@
     <Compile Include="Source\Validations\GroupValidation\GroupValidation.cs" />
     <Compile Include="Source\Validations\LanguageValidation\LanguageValidation.cs" />
     <Compile Include="Source\Validations\OrderTypeValidation\OrderTypeValidation.cs" />
-    <Compile Include="Source\Validations\OrderValidation\OrderValidation.cs" />
     <Compile Include="Source\Validations\PayTypeValidation\PayTypeValidation.cs" />
     <Compile Include="Source\Validations\RateTypeValidation\RateTypeValidation.cs" />
     <Compile Include="Source\Validations\UserOfficeLocationValidation\UserOfficeLocationValidation.cs" />
