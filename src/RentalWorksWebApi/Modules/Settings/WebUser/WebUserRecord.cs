@@ -54,7 +54,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public bool HasWebReports { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer, sqltype: "int", maxlength: 4, precision: 10, scale: 0)]
-        public int ExpireDays { get; set; }
+        public int? ExpireDays { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool ExpirePassword { get; set; }

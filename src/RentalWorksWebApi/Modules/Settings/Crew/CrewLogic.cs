@@ -78,7 +78,7 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         public bool LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
         public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
         public bool ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
-        public int ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
+        public int? ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
 
         public bool WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
         public bool ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
