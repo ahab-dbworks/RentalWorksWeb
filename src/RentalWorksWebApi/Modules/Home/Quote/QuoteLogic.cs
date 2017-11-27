@@ -4,31 +4,31 @@ using RentalWorksWebApi.Logic;
 using RentalWorksWebApi.Modules.Home.DealOrder;
 using RentalWorksWebApi.Modules.Home.DealOrderDetail;
 
-namespace RentalWorksWebApi.Modules.Home.Order
+namespace RentalWorksWebApi.Modules.Home.Quote
 {
-    public class OrderLogic : RwBusinessLogic
+    public class QuoteLogic : RwBusinessLogic
     {
         DealOrderRecord dealOrder = new DealOrderRecord();
         DealOrderDetailRecord dealOrderDetail = new DealOrderDetailRecord();
-        OrderLoader orderLoader = new OrderLoader();
+        QuoteLoader quoteLoader = new QuoteLoader();
         //------------------------------------------------------------------------------------
-        public OrderLogic()
+        public QuoteLogic()
         {
             dataRecords.Add(dealOrder);
             dataRecords.Add(dealOrderDetail);
-            dataLoader = orderLoader;
+            dataLoader = quoteLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string OrderId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
+        public string QuoteId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
-        public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
+        public string QuoteNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Description { get { return dealOrder.Description; } set { dealOrder.Description = value; } }
         //------------------------------------------------------------------------------------
-        public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
+        public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         //------------------------------------------------------------------------------------
         public string OfficeLocationId { get { return dealOrder.OfficeLocationId; } set { dealOrder.OfficeLocationId = value; } }
         //------------------------------------------------------------------------------------

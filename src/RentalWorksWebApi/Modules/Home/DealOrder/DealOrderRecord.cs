@@ -29,6 +29,9 @@ namespace RentalWorksWebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------
