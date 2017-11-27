@@ -163,6 +163,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/template$/,                   getScreen: function () { return TemplateController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/gldistribution$/,             getScreen: function () { return GlDistributionController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/crew$/,                       getScreen: function () { return CrewController.getModuleScreen({}, {}); } } 
+  , { urlpattern: /^module\/quote$/,                      getScreen: function () { return QuoteController.getModuleScreen({}, {}); } } 
 
 
     //Reports                                             

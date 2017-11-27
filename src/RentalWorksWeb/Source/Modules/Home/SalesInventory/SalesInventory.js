@@ -31,7 +31,7 @@ var SalesInventory = (function () {
         FwBrowse.addLegend($browse, 'Item', '#ffffff');
         FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
         FwBrowse.addLegend($browse, 'Complete', '#0080ff');
-        FwBrowse.addLegend($browse, 'Kit/Set', '#00c400');
+        FwBrowse.addLegend($browse, 'Kit', '#00c400');
         FwBrowse.addLegend($browse, 'Misc', '#ff0080');
         FwBrowse.addLegend($browse, 'Container', '#ff8040');
         return $browse;
@@ -41,7 +41,7 @@ var SalesInventory = (function () {
         var $all = FwMenu.generateDropDownViewBtn('All Items', true);
         var $accessory = FwMenu.generateDropDownViewBtn('Accessory', false);
         var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $kitset = FwMenu.generateDropDownViewBtn('Kit/Set', false);
+        var $kitset = FwMenu.generateDropDownViewBtn('Kit', false);
         var $misc = FwMenu.generateDropDownViewBtn('Misc', false);
         var $container = FwMenu.generateDropDownViewBtn('Container', false);
         $all.on('click', function () {

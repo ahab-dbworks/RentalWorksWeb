@@ -2,10 +2,10 @@ using FwStandard.Security;
 
 namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class EventCategoryMenu : FwSecurityTreeBranch
+    public class QuoteMenuRENAME : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public EventCategoryMenu() : base("{3912b3cc-b35f-434d-aeeb-c45fed537e29}") { }
+        public QuoteMenuRENAME() : base("{3912b3cc-b35f-434d-aeeb-c45fed537e29}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

@@ -360,6 +360,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
+    <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
+    <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
@@ -947,6 +949,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />

@@ -44,6 +44,7 @@ namespace RentalWorksWebLibrary
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
 
             //RentalWorks
+            AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             AddModule("Asset", "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuRentalWorks.Id, "AssetController", "module/asset", homeiconbaseurl + "placeholder.png");
             AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", homeiconbaseurl + "placeholder.png");
             AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
