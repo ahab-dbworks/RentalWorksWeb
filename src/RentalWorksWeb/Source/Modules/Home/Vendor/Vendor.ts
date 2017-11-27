@@ -144,6 +144,22 @@ declare var FwBrowse: any;
             FwBrowse.init($vendorNoteControl);
             FwBrowse.renderRuntimeHtml($vendorNoteControl);
 
+            // ----------
+            var nameCompanyContactGrid: string = 'CompanyContactGrid'
+            var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+            var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+            $companyContactGrid.empty().append($companyContactControl);
+            $companyContactControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    CompanyId: FwFormField.getValueByDataField($form, 'VendorId')
+                }
+            });
+            $companyContactControl.data('beforesave', function (request) {
+                request.CompanyId = FwFormField.getValueByDataField($form, 'VendorId');
+            });
+            FwBrowse.init($companyContactControl);
+            FwBrowse.renderRuntimeHtml($companyContactControl);
+
         }
 
         openBrowse() {
@@ -205,6 +221,9 @@ declare var FwBrowse: any;
 
             var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
+
+            var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+            FwBrowse.search($companyContactGrid);
 
             //this.events($form);
 

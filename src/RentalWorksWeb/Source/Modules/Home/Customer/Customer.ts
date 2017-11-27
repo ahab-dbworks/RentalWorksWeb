@@ -173,6 +173,22 @@ class Customer {
         });
         FwBrowse.init($companyTaxControl);
         FwBrowse.renderRuntimeHtml($companyTaxControl);
+
+        // ----------
+        var nameCompanyContactGrid: string = 'CompanyContactGrid'
+        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        $companyContactGrid.empty().append($companyContactControl);
+        $companyContactControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: FwFormField.getValueByDataField($form, 'CustomerId')
+            }
+        });
+        $companyContactControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'CustomerId');
+        });
+        FwBrowse.init($companyContactControl);
+        FwBrowse.renderRuntimeHtml($companyContactControl);
     }
 
     afterLoad($form: any) {
@@ -184,6 +200,9 @@ class Customer {
 
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxGrid);
+
+        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+        FwBrowse.search($companyContactGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));

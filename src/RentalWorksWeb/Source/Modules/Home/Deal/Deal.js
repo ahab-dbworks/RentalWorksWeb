@@ -281,6 +281,21 @@ var Deal = (function () {
         });
         FwBrowse.init($vendorControl);
         FwBrowse.renderRuntimeHtml($vendorControl);
+        // ----------
+        var nameCompanyContactGrid = 'CompanyContactGrid';
+        var $companyContactGrid = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
+        var $companyContactControl = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        $companyContactGrid.empty().append($companyContactControl);
+        $companyContactControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CompanyId: FwFormField.getValueByDataField($form, 'DealId')
+            };
+        });
+        $companyContactControl.data('beforesave', function (request) {
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        });
+        FwBrowse.init($companyContactControl);
+        FwBrowse.renderRuntimeHtml($companyContactControl);
     };
     Deal.prototype.openForm = function (mode) {
         var $form, $defaultrate;
@@ -324,6 +339,8 @@ var Deal = (function () {
         FwBrowse.search($dealNotesGrid);
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
+        var $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
+        FwBrowse.search($companyContactGrid);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
         this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
