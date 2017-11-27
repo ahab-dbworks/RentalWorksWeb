@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Home.ContactNote
         public string NotesById { get { return contactNote.NotesById; } set { contactNote.NotesById = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string NotesBy { get; set; }
-        public string Description { get; set; }
+        public string Description { get { return contactNote.Description; } set { contactNote.Description = value; } }
         public string Notes { get { return contactNote.Notes; } set { contactNote.Notes = value; } }
         public string DateStamp { get { return contactNote.DateStamp; } set { contactNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
