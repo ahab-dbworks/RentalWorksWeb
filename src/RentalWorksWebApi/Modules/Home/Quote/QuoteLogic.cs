@@ -51,10 +51,20 @@ namespace RentalWorksWebApi.Modules.Home.Quote
         [FwBusinessLogicField(isReadOnly: true)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CustomerNumber { get; set; }
+        //------------------------------------------------------------------------------------
         public string DealId { get { return dealOrder.DealId; } set { dealOrder.DealId = value; } }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public string Deal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        public string Status { get { return dealOrder.Status; } set { dealOrder.Status = value; } }
+        //------------------------------------------------------------------------------------
+        public string StatusDate { get { return dealOrder.StatusDate; } set { dealOrder.StatusDate = value; } }
         //------------------------------------------------------------------------------------
         [JsonIgnore]
         public string OrderType { get { return dealOrder.OrderType; } set { dealOrder.OrderType = value; } }

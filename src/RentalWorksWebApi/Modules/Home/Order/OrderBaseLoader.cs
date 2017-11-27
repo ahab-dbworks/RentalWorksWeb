@@ -40,11 +40,23 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
+        public string CustomerNumber { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
+        public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
+        public string Status { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
+        public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
         public decimal MaximumCumulativeDiscount { get; set; }
@@ -68,9 +80,25 @@ namespace RentalWorksWebApi.Modules.Home.Order
             {
                 switch (request.activeview)
                 {
+                    case "PROSPECT":
+                        select.AddWhere("(status = @orderstatus)");
+                        select.AddParameter("@orderstatus", "PROSPECT");
+                        break;
+                    case "RESERVED":
+                        select.AddWhere("(status = @orderstatus)");
+                        select.AddParameter("@orderstatus", "RESERVED");
+                        break;
                     case "CONFIRMED":
                         select.AddWhere("(status = @orderstatus)");
                         select.AddParameter("@orderstatus", "CONFIRMED");
+                        break;
+                    case "HOLD":
+                        select.AddWhere("(status = @orderstatus)");
+                        select.AddParameter("@orderstatus", "HOLD");
+                        break;
+                    case "ORDERED":
+                        select.AddWhere("(status = @orderstatus)");
+                        select.AddParameter("@orderstatus", "ORDERED");
                         break;
                     case "ACTIVE":
                         select.AddWhere("(status = @orderstatus)");
@@ -83,6 +111,10 @@ namespace RentalWorksWebApi.Modules.Home.Order
                     case "CLOSED":
                         select.AddWhere("(status = @orderstatus)");
                         select.AddParameter("@orderstatus", "CLOSED");
+                        break;
+                    case "CANCELLED":
+                        select.AddWhere("(status = @orderstatus)");
+                        select.AddParameter("@orderstatus", "CANCELLED");
                         break;
                     case "ALL":
                         break;
