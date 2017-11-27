@@ -50,6 +50,7 @@ namespace RentalWorksWebLibrary
             AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
             AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", homeiconbaseurl + "placeholder.png");
             AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
+            AddModule("Order", "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuRentalWorks.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
             AddModule("Order Status", "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuRentalWorks.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
