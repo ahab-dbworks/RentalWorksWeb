@@ -15,6 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventTypePersonnelType
             dataLoader = eventTypePersonnelTypeLoader;
         }
         //------------------------------------------------------------------------------------ 
+        [FwBusinessLogicField(isPrimaryKey: true)]
         public string EventTypePersonnelTypeId { get { return eventTypePersonnelType.OrderTypePersonnelTypeId; } set { eventTypePersonnelType.OrderTypePersonnelTypeId = value; } }
         public string EventTypeId { get { return eventTypePersonnelType.OrderTypeId; } set { eventTypePersonnelType.OrderTypeId = value; } }
         public string PersonnelTypeId { get { return eventTypePersonnelType.PersonnelTypeId; } set { eventTypePersonnelType.PersonnelTypeId = value; } }
