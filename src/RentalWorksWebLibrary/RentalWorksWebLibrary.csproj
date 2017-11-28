@@ -12,7 +12,6 @@
     <Compile Remove="Security\FwSecurityTreeBranch.cs" />
     <Compile Remove="Security\FwSecurityTreeNode.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
-    <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Home\QuoteMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Settings\PresentationLayerActivityMenu.cs" />
   </ItemGroup>
