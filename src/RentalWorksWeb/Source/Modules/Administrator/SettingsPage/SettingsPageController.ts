@@ -37,11 +37,16 @@ class SettingsPage {
             var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
             var modules = FwApplicationTree.getChildrenByType(node, 'Module');
             var moduleTemplates = {};
-            console.log(modules)
+            var moduleArray = [];
             for (var i = 0; i < modules.length; i++) {
-                var moduleName = modules[i].properties.controller.slice(0, -10);
-                FwSettings.renderModuleHtml($settings.find(".fwsettings"), modules[i].properties.caption, moduleName, modules[i].properties.color);
-                FwSettings.renderRecordHtml($settings, moduleName);
+                var moduleObj = [];
+                moduleObj.push(modules[i].properties.caption, modules[i].properties.controller.slice(0, -10), i)
+                moduleArray.push(moduleObj);
+            }
+            moduleArray.sort();
+            for (var j = 0; j < moduleArray.length; j++) {
+                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][2]].properties.color);
+                FwSettings.renderRecordHtml($settings, moduleArray[j][1]);
             }
             FwSettings.getCaptions(screen);
 
