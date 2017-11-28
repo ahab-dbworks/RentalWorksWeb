@@ -53,16 +53,16 @@ class SettingsPage {
             //    })
             //}, null, jQuery('html'));
 
-            $settings.on('keypress', '#moduleSearch', function (e) {                
+            $settings.on('keypress', '#settingsSearch', function (e) {                
                 if (e.which === 13) {
                     e.preventDefault();
-                    var $settings, val;
+                    var $settings, val, $control;
                     $settings = jQuery('small#description');
+                    $control = jQuery('a#title');
                     val = jQuery.trim(this.value).toUpperCase();
                     if (val === "") {
                         $settings.closest('div.panel-group').show();
-                    }
-                    if (val.length > 2) {
+                    } else {
                         var results = [];
                         $settings.closest('div.panel-group').hide();
                         for (var caption in screen.moduleCaptions) {
@@ -77,9 +77,31 @@ class SettingsPage {
                                 return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                             }).closest('div.panel-group').show()
                         }
+                        $control.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(val);
+                        }).closest('div.panel-group').show();
                     }
                 }      
-            })
+            });
+
+
+            //$control.on('keypress', '#settingsSearch', function (e) {
+            //    if (e.which === 13) {
+            //        e.preventDefault();
+            //        var $settings, val;
+            //        $settings = jQuery('a#title');
+            //        val = jQuery.trim(this.value).toUpperCase();
+            //        if (val === "") {
+            //            $settings.parent().show();
+            //        } else {
+            //            $settings.closest('div.panel-group').hide();
+            //            $settings.filter(function () {
+            //                return -1 != jQuery(this).text().toUpperCase().indexOf(val);
+            //            }).closest('div.panel-group').show();
+            //        }
+            //    }
+            //});
+
         };
         screen.unload = function () {
 
