@@ -194,23 +194,6 @@ class OrderType {
         $resaleGrid.empty().append($resaleControl);
         $resaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderTypeContactTitleId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
-            }
-        });
-        $resaleControl.data('beforesave', function (request) {
-            request.OrderTypeContactTitleId = FwFormField.getValueByDataField($form, 'OrderTypeId')
-        });
-        FwBrowse.init($resaleControl);
-        FwBrowse.renderRuntimeHtml($resaleControl);
-        // ----------
-        var $resaleGrid,
-            $resaleControl;
-
-        $resaleGrid = $form.find('div[data-grid="OrderTypeContactTitleGrid"]');
-        $resaleControl = jQuery(jQuery('#tmpl-grids-OrderTypeContactTitleGridBrowse').html());
-        $resaleGrid.empty().append($resaleControl);
-        $resaleControl.data('ondatabind', function (request) {
-            request.uniqueids = {
                 OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
             }
         });
@@ -219,6 +202,23 @@ class OrderType {
         });
         FwBrowse.init($resaleControl);
         FwBrowse.renderRuntimeHtml($resaleControl);
+        // ----------
+        var $orderTypeContactTitleGrid,
+            $orderTypeContactTitleControl;
+
+        $orderTypeContactTitleGrid = $form.find('div[data-grid="OrderTypeContactTitleGrid"]');
+        $orderTypeContactTitleControl = jQuery(jQuery('#tmpl-grids-OrderTypeContactTitleGridBrowse').html());
+        $orderTypeContactTitleGrid.empty().append($orderTypeContactTitleControl);
+        $orderTypeContactTitleControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderTypeId: $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val()
+            }
+        });
+        $orderTypeContactTitleControl.data('beforesave', function (request) {
+            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId')
+        });
+        FwBrowse.init($orderTypeContactTitleControl);
+        FwBrowse.renderRuntimeHtml($orderTypeContactTitleControl);
         // -----------
 
     }
