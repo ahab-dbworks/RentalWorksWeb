@@ -6,9 +6,11 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
     {
         //------------------------------------------------------------------------------------ 
         DuplicateRuleRecord duplicateRule = new DuplicateRuleRecord();
+        DuplicateRuleLoader duplicateRuleLoader = new DuplicateRuleLoader();
         public DuplicateRuleLogic()
         {
             dataRecords.Add(duplicateRule);
+            dataLoader = duplicateRuleLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -17,6 +19,8 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         [FwBusinessLogicField(isRecordTitle: true)]
         public string RuleName { get { return duplicateRule.RuleName; } set { duplicateRule.RuleName = value; } }
         public bool CaseSensitive { get { return duplicateRule.CaseSensitive; } set { duplicateRule.CaseSensitive = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
