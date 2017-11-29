@@ -1,5 +1,7 @@
 using FwStandard.BusinessLogic.Attributes; 
 using RentalWorksWebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
+
 namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
 {
     public class DuplicateRuleLogic : RwBusinessLogic
@@ -11,6 +13,7 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         {
             dataRecords.Add(duplicateRule);
             dataLoader = duplicateRuleLoader;
+            duplicateRule.AfterSaves += OnAfterSavesDuplicateRule;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -23,5 +26,11 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSavesDuplicateRule(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = duplicateRule.SaveFields(Fields).Result;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

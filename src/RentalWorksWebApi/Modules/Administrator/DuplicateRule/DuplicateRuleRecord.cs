@@ -2,6 +2,9 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using RentalWorksWebApi.Data;
+using System.Data;
+using System.Threading.Tasks;
+
 namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicaterule")]
@@ -23,5 +26,22 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveFields(string Fields)
+        {
+            bool saved = false;
+            if (Fields != null)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateduplicaterulefields", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@duplicateruleid", SqlDbType.NVarChar, ParameterDirection.Input, DuplicateRuleId);
+                    qry.AddParameter("@fields", SqlDbType.NVarChar, ParameterDirection.Input, Fields);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
