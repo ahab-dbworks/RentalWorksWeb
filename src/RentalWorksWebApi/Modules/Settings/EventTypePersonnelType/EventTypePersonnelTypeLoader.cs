@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventTypePersonnelType
         public string EventTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "personneltypeid", modeltype: FwDataTypes.Text)]
-        public string PersonneltypeId { get; set; }
+        public string PersonnelTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "personneltype", modeltype: FwDataTypes.Text)]
         public string PersonnelType { get; set; }
