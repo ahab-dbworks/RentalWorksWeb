@@ -43,7 +43,9 @@ var DuplicateRules = (function () {
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption;
-            allModules.push({ value: moduleNav, text: moduleCaption });
+            var moduleController = modules[i].properties.controller;
+            var moduleUrl = window[moduleController].apiurl;
+            allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
         }
         ;
         //Sort modules
@@ -71,21 +73,21 @@ var DuplicateRules = (function () {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     };
     DuplicateRules.prototype.renderGrids = function ($form) {
-        var $duplicateRuleFieldGrid;
-        var $duplicateRuleFieldGridControl;
-        $duplicateRuleFieldGrid = $form.find('div[data-grid="DuplicateRuleFieldGrid"]');
-        $duplicateRuleFieldGridControl = jQuery(jQuery('#tmpl-grids-DuplicateRuleFieldGridBrowse').html());
-        $duplicateRuleFieldGrid.empty().append($duplicateRuleFieldGridControl);
-        $duplicateRuleFieldGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                DuplicateRuleId: $form.find('div.fwformfield[data-datafield="DuplicateRuleId"] input').val()
-            };
-        });
-        $duplicateRuleFieldGridControl.data('beforesave', function (request) {
-            request.DuplicateRuleId = FwFormField.getValueByDataField($form, 'DuplicateRuleId');
-        });
-        FwBrowse.init($duplicateRuleFieldGridControl);
-        FwBrowse.renderRuntimeHtml($duplicateRuleFieldGridControl);
+        //var $duplicateRuleFieldGrid: any;
+        //var $duplicateRuleFieldGridControl: any;
+        //$duplicateRuleFieldGrid = $form.find('div[data-grid="DuplicateRuleFieldGrid"]');
+        //$duplicateRuleFieldGridControl = jQuery(jQuery('#tmpl-grids-DuplicateRuleFieldGridBrowse').html());
+        //$duplicateRuleFieldGrid.empty().append($duplicateRuleFieldGridControl);
+        //$duplicateRuleFieldGridControl.data('ondatabind', function(request) {
+        //    request.uniqueids = {
+        //        DuplicateRuleId: $form.find('div.fwformfield[data-datafield="DuplicateRuleId"] input').val()
+        //    };
+        //})
+        //$duplicateRuleFieldGridControl.data('beforesave', function(request) {
+        //    request.DuplicateRuleId = FwFormField.getValueByDataField($form, 'DuplicateRuleId');
+        //});
+        //FwBrowse.init($duplicateRuleFieldGridControl);
+        //FwBrowse.renderRuntimeHtml($duplicateRuleFieldGridControl);
     };
     DuplicateRules.prototype.events = function ($form) {
         $form.find('div.modules').on("change", function () {
@@ -93,17 +95,29 @@ var DuplicateRules = (function () {
             var request = {
                 module: moduleName
             };
-            FwAppData.apiMethod(true, 'POST', "api/v1/" + moduleName + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-                //for (var i = 0; i < response.length; i++) {
-                //    console.log(response[i], "R")
-                //}
+            var moduleUrl = jQuery(this).find(":selected").attr('data-apiurl');
+            FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var columns = response.ColumnIndex;
+                var fieldsHtml = [];
+                var $fields = $form.find('.fields');
+                for (var key in columns) {
+                    fieldsHtml.push('<div data-control="FwFormField"');
+                    fieldsHtml.push(' data-type="checkbox"');
+                    fieldsHtml.push(' class="fwcontrol fwformfield"');
+                    fieldsHtml.push(' data-caption="' + key + '"');
+                    fieldsHtml.push(' data-datafield="' + key + '"');
+                    fieldsHtml.push(' style="float:left;width:125px;"');
+                    fieldsHtml.push('>');
+                    fieldsHtml.push('</div>');
+                }
+                $fields.empty().append(fieldsHtml.join(''));
             });
         });
     };
     DuplicateRules.prototype.afterLoad = function ($form) {
-        var $duplicateRuleFieldGrid;
-        $duplicateRuleFieldGrid = $form.find('[data-name="DuplicateRuleFieldGrid"]');
-        FwBrowse.search($duplicateRuleFieldGrid);
+        //var $duplicateRuleFieldGrid: any;
+        //$duplicateRuleFieldGrid = $form.find('[data-name="DuplicateRuleFieldGrid"]');
+        //FwBrowse.search($duplicateRuleFieldGrid);
     };
     return DuplicateRules;
 }());
