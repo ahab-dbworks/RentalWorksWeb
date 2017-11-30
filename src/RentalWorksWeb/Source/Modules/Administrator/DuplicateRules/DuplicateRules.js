@@ -119,6 +119,31 @@ var DuplicateRules = (function () {
         });
     };
     DuplicateRules.prototype.afterLoad = function ($form) {
+        var moduleName = $form.find('.modules').attr('data-originalvalue');
+        var moduleUrl = $form.find("select option[value='" + moduleName + "']").attr('data-apiurl');
+        var request = {
+            module: moduleName
+        };
+        FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            var columns = response.ColumnIndex;
+            var fieldsHtml = [];
+            var $fields = $form.find('.fields');
+            for (var key in columns) {
+                var uniqueId = FwApplication.prototype.uniqueId(10);
+                fieldsHtml.push('<div data-control="FwFormField"');
+                fieldsHtml.push(' data-type="checkbox"');
+                fieldsHtml.push(' class="fwcontrol fwformfield"');
+                fieldsHtml.push(' data-caption="' + key + '"');
+                fieldsHtml.push(' data-datafield="Fields"');
+                fieldsHtml.push(' style="float:left;width:150px;"');
+                fieldsHtml.push('>');
+                fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox"');
+                fieldsHtml.push(' />');
+                fieldsHtml.push('<label class="fwformfield-caption" for="' + uniqueId + '">' + key + '</label>');
+                fieldsHtml.push('</div>');
+            }
+            $fields.empty().append(fieldsHtml.join('')).html();
+        });
         //var $duplicateRuleFieldGrid: any;
         //$duplicateRuleFieldGrid = $form.find('[data-name="DuplicateRuleFieldGrid"]');
         //FwBrowse.search($duplicateRuleFieldGrid);
