@@ -14,13 +14,13 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         public string DuplicateRuleId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text)]
-        public string Modulename { get; set; }
+        public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rulename", modeltype: FwDataTypes.Text)]
-        public string Rulename { get; set; }
+        public string RuleName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "casesensitive", modeltype: FwDataTypes.Boolean)]
-        public bool Casesensitive { get; set; }
+        public bool CaseSensitive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fields", modeltype: FwDataTypes.Text)]
         public string Fields { get; set; }
