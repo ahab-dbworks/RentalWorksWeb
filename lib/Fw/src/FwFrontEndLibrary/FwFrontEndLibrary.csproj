@@ -177,13 +177,6 @@
     <None Include="wwwroot\scripts\wnumb-1.0.2\wNumb.js" />
     <None Include="wwwroot\source\Controls\FwReport-Email.htm" />
     <None Include="wwwroot\source\Pages\Master.htm" />
-    <None Include="wwwroot\source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\ContactCompanyValidation\ContactCompanyValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\ReportDefValidation\ReportDefValidationBrowse.htm" />
-    <None Include="wwwroot\source\Validations\UsersValidation\UsersValidationBrowse.htm" />
     <None Include="wwwroot\theme\classic\FwBrowse.css" />
     <None Include="wwwroot\theme\classic\FwConfirmation.css" />
     <None Include="wwwroot\theme\classic\FwContainer.css" />

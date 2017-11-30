@@ -1,6 +1,6 @@
-html.theme-material .fwbrowse td{vertical-align:top;}
+html.theme-material .fwbrowse td {vertical-align:top;}
 
-html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color:#FAFAFA;}
+html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager {font-size:16px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
@@ -41,17 +41,11 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody input.cbselectrow:no
 html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:checked + label:before {top: 10px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
 html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:checked + label:after {top: 8px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
 
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager .material-icons {vertical-align:middle;}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height: 44px; line-height:44px; width: 44px; text-align: center;}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.btnRefresh .refreshicon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/refresh.001.png);}
+html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;height: 44px; line-height:44px; width: 44px; text-align: center;}
+html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button .firsticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_first.001.png);}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button .previousicon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_previous.001.png);}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button .nexticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_next.001.png);}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons .button .lasticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_last.001.png);}
-html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.count {float:right;height:44px;line-height:44px;margin:0 2px;padding: 0 10px; font-size:14px;}
+html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.count {float:right;height:24px;line-height:24px;margin:0 2px;padding:4px 10px;font-size:14px;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager .activeinactiveview {margin:1px 5px 0 0;}
 
 html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align:center;font-size:12px;line-height:24px;height:24px;vertical-align:middle;font-weight:bold;cursor:default;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}

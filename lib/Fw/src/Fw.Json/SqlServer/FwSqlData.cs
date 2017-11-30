@@ -443,7 +443,7 @@ namespace Fw.Json.SqlServer
             //AG 02/11/2015 need to support mixcase on passwords
             webpassword =  password.ToUpper();
             encryptedwebpassword = FwSqlData.Encrypt(conn, webpassword);
-            //sp = new FwSqlCommand(conn, "webgetusers2"); //MY + AG 10/23/2017: Changed method to remove web access check and not effect old .net systems. 
+            //sp = new FwSqlCommand(conn, "webgetusers2"); //MY + AG 10/23/2017: Changed method to remove web access check and not effect old .net systems.
             sp = new FwSqlCommand(conn, "webauthenticate");
             sp.AddParameter("@userlogin",         email);
             sp.AddParameter("@userloginpassword", encryptedwebpassword);
