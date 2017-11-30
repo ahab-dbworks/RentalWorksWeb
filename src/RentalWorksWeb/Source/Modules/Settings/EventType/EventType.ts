@@ -33,21 +33,21 @@ class EventType {
     }
 
     renderGrids($form: any) {        
-        var nameOrderTypeInvoiceExportGrid: string = 'EventTypePersonnelTypeGrid';
-        var $orderTypeInvoiceExportGrid: any = $orderTypeInvoiceExportGrid = $form.find('div[data-grid="' + nameOrderTypeInvoiceExportGrid + '"]');
-        var $orderTypeInvoiceExportGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypeInvoiceExportGrid);
+        var nameOrderTypePersonnelTypeGrid: string = 'EventTypePersonnelTypeGrid';
+        var $orderTypePersonnelTypeGrid: any = $form.find('div[data-grid="' + nameOrderTypePersonnelTypeGrid + '"]');
+        var $orderTypePersonnelTypeGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypePersonnelTypeGrid);
 
-        $orderTypeInvoiceExportGrid.empty().append($orderTypeInvoiceExportGridControl);
-        $orderTypeInvoiceExportGridControl.data('ondatabind', function (request) {
+        $orderTypePersonnelTypeGrid.empty().append($orderTypePersonnelTypeGridControl);
+        $orderTypePersonnelTypeGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
             };
         });
-        $orderTypeInvoiceExportGridControl.data('beforesave', function (request) {
+        $orderTypePersonnelTypeGridControl.data('beforesave', function (request) {
             request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
         });
-        FwBrowse.init($orderTypeInvoiceExportGridControl);
-        FwBrowse.renderRuntimeHtml($orderTypeInvoiceExportGridControl);
+        FwBrowse.init($orderTypePersonnelTypeGridControl);
+        FwBrowse.renderRuntimeHtml($orderTypePersonnelTypeGridControl);
         // --------------
         var $orderTypeActivityDatesGrid: any;
         var $orderTypeActivityDatesGridControl: any;
@@ -107,10 +107,10 @@ class EventType {
     }
 
     afterLoad($form: any) {
-        var $resaleGrid;
+        var $personnelTypeGrid: any;
 
-        $resaleGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
-        FwBrowse.search($resaleGrid);
+        $personnelTypeGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
+        FwBrowse.search($personnelTypeGrid);
 
         var $orderTypeActivityDatesGrid: any;
         $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
