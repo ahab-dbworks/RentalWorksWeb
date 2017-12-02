@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         // POST api/v1/billingcycle/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{652BA08D-4136-42FC-84C5-FE89898E3517}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BillingCycleLogic));
         }

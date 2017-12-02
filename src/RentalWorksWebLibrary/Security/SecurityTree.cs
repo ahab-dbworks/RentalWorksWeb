@@ -1,7 +1,6 @@
-using FwStandard.Options;
+using FwStandard.Models;
 using FwStandard.Security;
 using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +9,7 @@ namespace RentalWorksWebLibrary
     public class SecurityTree : FwSecurityTree
     {
         //---------------------------------------------------------------------------------------------
-        public SecurityTree(SqlServerOptions sqlServerOptions, string currentApplicationId) : base(sqlServerOptions, currentApplicationId)
+        public SecurityTree(SqlServerConfig sqlServerConfig, string currentApplicationId) : base(sqlServerConfig, currentApplicationId)
         {
             var system = AddSystem("RentalWorks", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
             BuildRentalWorksWebTree(system);

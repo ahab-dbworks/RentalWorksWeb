@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalYear
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalyear/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(FiscalYearLogic));
         }

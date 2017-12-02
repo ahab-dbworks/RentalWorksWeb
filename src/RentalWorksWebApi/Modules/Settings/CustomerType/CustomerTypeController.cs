@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerType
         // POST api/v1/customertype/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{A681A1CC-5F38-4C6A-A96A-9B72EC884EB4}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerTypeLogic));
         }

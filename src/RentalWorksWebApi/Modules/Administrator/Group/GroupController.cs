@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Administrator.Group
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GroupLogic));
         }

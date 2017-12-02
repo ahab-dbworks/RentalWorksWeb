@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryconsignor/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(InventoryConsignorLogic));
         }

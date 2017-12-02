@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.DealClassification
         // POST api/v1/customerstatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{16457FA2-FB52-4FA9-A94D-3DAB697D6B21}")]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealClassificationLogic));
         }

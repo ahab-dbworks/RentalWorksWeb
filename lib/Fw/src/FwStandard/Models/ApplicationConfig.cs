@@ -1,6 +1,11 @@
-﻿namespace FwStandard.Options
+﻿namespace FwStandard.Models
 {
-    public class SqlServerOptions
+    public class ApplicationConfig
+    {
+        public SqlServerConfig DatabaseSettings { get; set; }
+    }
+
+    public class SqlServerConfig
     {
         public string ConnectionString { get; set; } = string.Empty;
         public int QueryTimeout { get; set; } = 30;

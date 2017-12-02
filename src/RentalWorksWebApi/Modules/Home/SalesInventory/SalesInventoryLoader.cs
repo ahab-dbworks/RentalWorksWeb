@@ -11,7 +11,7 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
     public class SalesInventoryLoader : InventoryLoader
     {
         //------------------------------------------------------------------------------------
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();

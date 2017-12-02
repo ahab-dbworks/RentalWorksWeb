@@ -1,4 +1,4 @@
-﻿using FwStandard.Options;
+﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -8,7 +8,7 @@ namespace FwStandard.Security
 {
     public class FwUserClaimsProvider
     {
-        public static async Task<ClaimsIdentity> GetClaimsIdentityAsync(SqlServerOptions dbConfig, string username, string password)
+        public static async Task<ClaimsIdentity> GetClaimsIdentityAsync(SqlServerConfig dbConfig, string username, string password)
         {
             ClaimsIdentity identity = null;
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))

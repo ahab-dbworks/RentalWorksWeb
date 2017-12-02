@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.FacilityRate
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string FacilityType { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();

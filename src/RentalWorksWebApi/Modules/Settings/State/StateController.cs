@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.State
         //------------------------------------------------------------------------------------
         // POST api/v1/State/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(StateLogic));
         }

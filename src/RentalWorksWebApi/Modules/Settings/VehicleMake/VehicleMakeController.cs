@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleMake
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclemake/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VehicleMakeLogic));
         }

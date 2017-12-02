@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FwStandard.BusinessLogic.Attributes;
-using FwStandard.Options;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -26,7 +25,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
-        public void SetDbConfig(SqlServerOptions dbConfig)
+        public void SetDbConfig(SqlServerConfig dbConfig)
         {
             foreach (FwDataReadWriteRecord rec in dataRecords)
             {
@@ -39,7 +38,7 @@ namespace FwStandard.BusinessLogic
             _Custom.SetDbConfig(dbConfig);
         }
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request)
+        public async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request)
         {
             FwJsonDataTable browse = null;
 
@@ -60,7 +59,7 @@ namespace FwStandard.BusinessLogic
 
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequestDto request)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request)
         {
             await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
@@ -71,7 +70,7 @@ namespace FwStandard.BusinessLogic
                 {
                     MethodInfo method = dataRecords[0].GetType().GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(dataRecords[0].GetType());
-                    BrowseRequestDto browseRequest = request;
+                    BrowseRequest browseRequest = request;
                     FwCustomFields customFields = _Custom.CustomFields;
                     dynamic result = generic.Invoke(dataRecords[0], new object[] { browseRequest, customFields });
                     dynamic dataRecordsResults = await result;
@@ -83,7 +82,7 @@ namespace FwStandard.BusinessLogic
             {
                 MethodInfo method = dataLoader.GetType().GetMethod("SelectAsync");
                 MethodInfo generic = method.MakeGenericMethod(dataLoader.GetType());
-                BrowseRequestDto browseRequest = request;
+                BrowseRequest browseRequest = request;
                 FwCustomFields customFields = _Custom.CustomFields;
                 dynamic result = generic.Invoke(dataLoader, new object[] { browseRequest, customFields });
                 dynamic dataLoaderResults = await result;

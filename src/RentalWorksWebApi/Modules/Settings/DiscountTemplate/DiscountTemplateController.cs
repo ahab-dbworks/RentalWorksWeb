@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountTemplate
         //------------------------------------------------------------------------------------ 
         // POST api/v1/discounttemplate/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DiscountTemplateLogic));
         }

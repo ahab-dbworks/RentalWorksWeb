@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeCare
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecare/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WardrobeCareLogic));
         }

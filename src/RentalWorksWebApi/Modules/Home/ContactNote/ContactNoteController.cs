@@ -12,7 +12,7 @@ public ContactNoteController(IOptions<ApplicationConfig> appConfig) : base(appCo
 //------------------------------------------------------------------------------------ 
 // POST api/v1/contactnote/browse 
 [HttpPost("browse")] 
-public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest) 
+public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest) 
 { 
 return await DoBrowseAsync(browseRequest, typeof(ContactNoteLogic)); 
 } 

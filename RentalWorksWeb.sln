@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWeb", "src\RentalWorksWeb\RentalWorksWeb.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 EndProject
@@ -27,6 +27,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebLibrary", "src\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwFrontEndLibrary", "lib\Fw\src\FwFrontEndLibrary\FwFrontEndLibrary.csproj", "{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwCore", "lib\Fw\src\FwCore\FwCore.csproj", "{727C09EB-27BD-4657-A43E-7CA436679403}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -218,6 +220,28 @@ Global
 		{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
 		{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug API|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release API|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release API|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727C09EB-27BD-4657-A43E-7CA436679403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

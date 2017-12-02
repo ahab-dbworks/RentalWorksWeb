@@ -26,7 +26,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerStatus
         [HttpPost("browse")]
         [Authorize(Policy = "{33F721F5-0D91-464C-AFA7-FA46622CE3C0}")]
         //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CustomerStatusLogic));
         }

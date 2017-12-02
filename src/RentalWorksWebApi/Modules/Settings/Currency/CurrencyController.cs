@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.Currency
         // POST api/v1/currency/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CurrencyLogic));
         }

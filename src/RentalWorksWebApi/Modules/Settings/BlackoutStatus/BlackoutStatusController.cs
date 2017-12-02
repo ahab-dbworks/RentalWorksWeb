@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.BlackoutStatus
         // POST api/v1/blackoutstatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{3EC1D66D-A977-4A7F-8D24-5930A002E63E}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BlackoutStatusLogic));
         }

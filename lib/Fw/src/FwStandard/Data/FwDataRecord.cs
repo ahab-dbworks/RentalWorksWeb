@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FwStandard.Options;
+using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
@@ -7,17 +7,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Reflection.Emit;
-using System.Threading;
 using System.Text;
-using FwStandard.BusinessLogic;
+using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
     public class FwDataRecord : FwBaseRecord
     {
-        protected SqlServerOptions _dbConfig { get; set; }
+        protected SqlServerConfig _dbConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
 
         //------------------------------------------------------------------------------------
@@ -32,12 +29,12 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual void SetDbConfig(SqlServerOptions dbConfig)
+        public virtual void SetDbConfig(SqlServerConfig dbConfig)
         {
             _dbConfig = dbConfig;
         }
         //------------------------------------------------------------------------------------
-        public virtual SqlServerOptions GetDbConfig()
+        public virtual SqlServerConfig GetDbConfig()
         {
             return _dbConfig;
         }
@@ -239,7 +236,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected virtual void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             select.Add("select");
             PropertyInfo[] properties = this.GetType().GetTypeInfo().GetProperties();
@@ -463,7 +460,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequestDto request, FwCustomFields customFields = null)
+        public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -480,7 +477,7 @@ namespace FwStandard.DataLayer
             return dt;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequestDto request, FwCustomFields customFields = null)
+        public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
         {
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
@@ -584,7 +581,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected void addFilterToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequestDto request = null)
+        protected void addFilterToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
             if ((request != null) && (request.uniqueids != null))
             {
@@ -603,7 +600,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected void AddFilterFieldToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequestDto request = null)
+        protected void AddFilterFieldToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
             if ((request != null) && (request.uniqueids != null))
             {

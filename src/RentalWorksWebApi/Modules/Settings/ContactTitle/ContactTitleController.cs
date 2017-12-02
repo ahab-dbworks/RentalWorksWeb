@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.ContactTitle
         // POST api/v1/contacttitle/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{ADCFFDE3-E33B-4BE8-9B9C-B040617A332E}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactTitleLogic));
         }

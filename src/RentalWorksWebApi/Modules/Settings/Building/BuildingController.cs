@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Settings.Building
         //------------------------------------------------------------------------------------ 
         // POST api/v1/building/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(BuildingLogic));
         }

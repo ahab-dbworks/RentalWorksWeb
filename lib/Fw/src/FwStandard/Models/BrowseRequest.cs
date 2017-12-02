@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace FwStandard.Models
 {
-    public class BrowseRequestDto
+    public class BrowseRequest
     {
         public dynamic miscfields { get; set; } = new ExpandoObject();
         public string module { get; set; } = string.Empty;
@@ -20,7 +20,7 @@ namespace FwStandard.Models
         public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();
         public string activeview { get; set; } = string.Empty;
 
-        public BrowseRequestDto()
+        public BrowseRequest()
         {
 
         }

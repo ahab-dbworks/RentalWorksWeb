@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.DealStatus
         // POST api/v1/dealstatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{051A9D01-5B55-4805-931A-75937FA04F33}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(DealStatusLogic));
         }

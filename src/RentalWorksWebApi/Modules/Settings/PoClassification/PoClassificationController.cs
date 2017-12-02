@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoClassification
         //------------------------------------------------------------------------------------
         // POST api/v1/poclassification/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PoClassificationLogic));
         }

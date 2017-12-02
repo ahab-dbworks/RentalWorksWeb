@@ -1,4 +1,4 @@
-﻿using FwStandard.Options;
+﻿using FwStandard.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +12,7 @@ namespace FwStandard.SqlServer
     public class FwSqlData
     {
         //-----------------------------------------------------------------------------
-        static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string data)
+        static public async Task<String> DecryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
@@ -24,7 +24,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> EncryptAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string data)
+        static public async Task<String> EncryptAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string data)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -36,7 +36,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<dynamic> GetWebControlAsync(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<dynamic> GetWebControlAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -48,7 +48,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, SqlServerOptions dbConfig) 
+        static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, SqlServerConfig dbConfig) 
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -59,7 +59,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlServerOptions dbConfig)
+        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
             { 
@@ -70,7 +70,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, SqlServerOptions dbConfig)
+        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
             {
@@ -83,7 +83,7 @@ namespace FwStandard.SqlServer
         }
         //-----------------------------------------------------------------------------
         public enum SQLVersions {NotLoaded, Unknown, SQL2000, SQL2005, SQL2008}
-        static async Task<SQLVersions> GetSqlVersionAsync(FwSqlConnection conn, SqlServerOptions dbConfig)
+        static async Task<SQLVersions> GetSqlVersionAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
@@ -113,7 +113,7 @@ namespace FwStandard.SqlServer
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static async Task<string> GetUsersIdAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string webUsersId)
+        public static async Task<string> GetUsersIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webUsersId)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -127,7 +127,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<string> GetWebUsersIdAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string email)
+        public static async Task<string> GetWebUsersIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string email)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -141,7 +141,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<byte[]> GetAppImageAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string rowGuid)
+        public static async Task<byte[]> GetAppImageAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string rowGuid)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -159,7 +159,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<string> InsertSecurityAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string secDesc, string parentId, int itemType)
+        public static async Task<string> InsertSecurityAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string secDesc, string parentId, int itemType)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "insertsecurity", dbConfig.QueryTimeout))
             { 
@@ -173,21 +173,21 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<bool> IsMSSQL2000Async(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<bool> IsMSSQL2000Async(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             SQLVersions version = await GetSqlVersionAsync(conn, dbConfig);
             bool result = (version == SQLVersions.SQL2000);
             return result;
         }
         //-----------------------------------------------------------------------------
-        public static async Task<bool> IsMSSQL2005Async(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<bool> IsMSSQL2005Async(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             SQLVersions version = await GetSqlVersionAsync(conn, dbConfig);
             bool result = (version == SQLVersions.SQL2005);
             return result;
         }
         //-----------------------------------------------------------------------------
-        public static async Task<bool> IsMSSQL2008Async(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<bool> IsMSSQL2008Async(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             bool result = false;
             var version = await GetSqlVersionAsync(conn, dbConfig);
@@ -195,7 +195,7 @@ namespace FwStandard.SqlServer
             return result;
         }
         //-----------------------------------------------------------------------------
-        public static async Task LockOutWebUserAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string webUsersId) 
+        public static async Task LockOutWebUserAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webUsersId) 
         {
             FwSqlCommand qry;
             
@@ -211,7 +211,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<bool> WebEmailRegisteredAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string email)
+        public static async Task<bool> WebEmailRegisteredAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string email)
         {
             bool registered = false;
             FwSqlCommand sp;
@@ -233,7 +233,7 @@ namespace FwStandard.SqlServer
             public string ErrorMessage { get; set; } = string.Empty;
             public string WebUsersId = string.Empty;
         }
-        public static async Task<WebGetUsersResult> WebGetUsersAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string email, string password)
+        public static async Task<WebGetUsersResult> WebGetUsersAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string email, string password)
         {
             string webpassword, encryptedwebpassword;
             webpassword =  password.ToUpper();
@@ -254,7 +254,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<string> WebGetUserTmpPasswordAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string usersEmail, string webPassword)
+        public static async Task<string> WebGetUserTmpPasswordAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string usersEmail, string webPassword)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "webgetuserstmppassword", dbConfig.QueryTimeout))
             {
@@ -267,7 +267,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<string> WebRegisterUserAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string usersEmail)
+        public static async Task<string> WebRegisterUserAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string usersEmail)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "webregisteruser", dbConfig.QueryTimeout))
             {
@@ -280,7 +280,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<string> WebUserResetPasswordAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string usersEmail)
+        public static async Task<string> WebUserResetPasswordAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string usersEmail)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "webuserresetpassword", dbConfig.QueryTimeout))
             {
@@ -293,7 +293,7 @@ namespace FwStandard.SqlServer
             }
         }
         //------------------------------------------------------------------------------
-        public static async Task<string> WebUsersSetPasswordAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string webUsersId, string webPassword, string clearTmpPassword)
+        public static async Task<string> WebUsersSetPasswordAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webUsersId, string webPassword, string clearTmpPassword)
         {
             webPassword = webPassword.ToUpper().Trim();
             webPassword = await FwSqlData.EncryptAsync(conn, dbConfig, webPassword);
@@ -317,7 +317,7 @@ namespace FwStandard.SqlServer
             public bool IsValid { get; set; } = false;
         }
         //------------------------------------------------------------------------------
-        public static async Task<WebValidatePasswordResult> WebValidatePasswordAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string webPassword)
+        public static async Task<WebValidatePasswordResult> WebValidatePasswordAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webPassword)
         {
             WebValidatePasswordResult result = new WebValidatePasswordResult();
             webPassword = webPassword.ToUpper().Trim();
@@ -347,7 +347,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task UpdateAppNoteAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string note)
+        public static async Task UpdateAppNoteAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string uniqueid1, string uniqueid2, string uniqueid3, string note)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "updateappnote", dbConfig.QueryTimeout))
             {
@@ -359,7 +359,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<dynamic> GetApplicationOptionsAsync(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<dynamic> GetApplicationOptionsAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             dynamic result, option;
             List<string> encryptedOptions;
@@ -403,7 +403,7 @@ namespace FwStandard.SqlServer
             public bool Enabled { get;set; } = false;
             public  int Value { get;set; } = 0; 
         }
-        public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2Async(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<Dictionary<string, ApplicationOption>> GetApplicationOptions2Async(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             List<string> encryptedOptions;
             string optionsStr, decryptedOption, key;
@@ -432,7 +432,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<string> GetDocumentTypeIdAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string documenttype)
+        public static async Task<string> GetDocumentTypeIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string documenttype)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
@@ -450,7 +450,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task InsertDocumentTypeAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string documenttypeid, string documenttype, string rowtype, bool floorplan, bool videos, bool panoramic, bool autoattachtoemail)
+        public static async Task InsertDocumentTypeAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string documenttypeid, string documenttype, string rowtype, bool floorplan, bool videos, bool panoramic, bool autoattachtoemail)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             {
@@ -467,7 +467,7 @@ namespace FwStandard.SqlServer
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static async Task InsertWebAuditAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string uniqueid, string webusersid, string createdflag)
+        public static async Task InsertWebAuditAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string uniqueid, string webusersid, string createdflag)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -479,7 +479,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task SetCompanyContactStatusAwait(FwSqlConnection conn, SqlServerOptions dbConfig, string compcontactid, bool active)
+        public static async Task SetCompanyContactStatusAwait(FwSqlConnection conn, SqlServerConfig dbConfig, string compcontactid, bool active)
         {
             string inactive;
             object activedate=null, inactivedate;
@@ -522,7 +522,7 @@ namespace FwStandard.SqlServer
             public string pdfpath {get;set;}
             public int port {get;set;}
         }
-        public static async Task<GetEmailReportControlResponse> GetEmailReportControlAsync(FwSqlConnection conn, SqlServerOptions dbConfig)
+        public static async Task<GetEmailReportControlResponse> GetEmailReportControlAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 
@@ -541,7 +541,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task ToggleAppdocumentInactiveAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string appdocumentid)
+        public static async Task ToggleAppdocumentInactiveAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string appdocumentid)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.toggleappdocumentinactive", dbConfig.QueryTimeout))
             { 
@@ -550,7 +550,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task ToggleAppNoteInactiveAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string appnoteid)
+        public static async Task ToggleAppNoteInactiveAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string appnoteid)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.toggleappnoteinactive", dbConfig.QueryTimeout))
             { 
@@ -559,7 +559,7 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        public static async Task<string> CheckDatabaseVersionAsync(FwSqlConnection conn, SqlServerOptions dbConfig, string requireddbversion, string requiredhotfixfilename)
+        public static async Task<string> CheckDatabaseVersionAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string requireddbversion, string requiredhotfixfilename)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
             { 

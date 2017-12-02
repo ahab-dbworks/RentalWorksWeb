@@ -12,7 +12,7 @@ public DealController(IOptions<ApplicationConfig> appConfig) : base(appConfig) {
 //------------------------------------------------------------------------------------ 
 // POST api/v1/deal/browse 
 [HttpPost("browse")] 
-public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest) 
+public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest) 
 { 
 return await DoBrowseAsync(browseRequest, typeof(DealLogic)); 
 } 

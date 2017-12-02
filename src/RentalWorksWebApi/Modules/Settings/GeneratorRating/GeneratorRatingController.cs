@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorRating
         // POST api/v1/generatorrating/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{915BC77B-88C6-4DF7-9AC8-9B2CC0B2ECDB}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorRatingLogic));
         }

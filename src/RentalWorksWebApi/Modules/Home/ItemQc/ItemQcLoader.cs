@@ -64,7 +64,7 @@ namespace RentalWorksWebApi.Modules.Home.ItemQc
         [FwSqlDataField(column: "datstamp", modeltype: FwDataTypes.UTCDateTime)]
         public string Datstamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

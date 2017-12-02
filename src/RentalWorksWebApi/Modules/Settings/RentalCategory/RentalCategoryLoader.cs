@@ -8,7 +8,7 @@ namespace RentalWorksWebApi.Modules.Settings.RentalCategory
     public class RentalCategoryLoader: InventoryCategoryLoader
     {
         //------------------------------------------------------------------------------------
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequestDto request = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();

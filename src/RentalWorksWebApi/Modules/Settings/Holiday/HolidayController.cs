@@ -12,7 +12,7 @@ namespace RentalWorksWebApi.Modules.Settings.Holiday
         //------------------------------------------------------------------------------------ 
         // POST api/v1/holiday/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(HolidayLogic));
         }

@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventCategory
         // POST api/v1/eventcategory/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{C9D7D24A-2CD3-4979-B6BC-B9DDF4070AAF}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(EventCategoryLogic));
         }

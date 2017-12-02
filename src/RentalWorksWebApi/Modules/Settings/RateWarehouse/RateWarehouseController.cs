@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.RateWarehouse
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(RateWarehouseLogic));
         }

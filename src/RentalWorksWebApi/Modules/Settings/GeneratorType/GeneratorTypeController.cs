@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorType
         //------------------------------------------------------------------------------------
         // POST api/v1/generatortype/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorTypeLogic));
         }

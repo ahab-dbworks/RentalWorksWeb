@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeCondition
         // POST api/v1/wardrobecondition/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(WardrobeConditionLogic));
         }

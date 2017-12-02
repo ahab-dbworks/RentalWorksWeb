@@ -28,7 +28,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         [SwaggerResponse(200, Type = typeof(FwJsonDataTable))]
         [SwaggerResponse(500, Type = typeof(ApiException))]
         //[ApiExplorerSettings(IgnoreApi=true)]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(ContactLogic));
         }

@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesinventory/browse 
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(SalesInventoryLogic));
         }

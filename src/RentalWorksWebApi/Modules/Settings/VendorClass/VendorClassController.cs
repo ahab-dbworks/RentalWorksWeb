@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.VendorClass
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorclass/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VendorClassLogic));
         }

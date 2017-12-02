@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Controllers
             return (FwBusinessLogic)Activator.CreateInstance(type);
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequestDto browseRequest, Type type)
+        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +55,7 @@ namespace RentalWorksWebApi.Controllers
             }
             try
             {
-                BrowseRequestDto request = new BrowseRequestDto();
+                BrowseRequest request = new BrowseRequest();
                 request.pageno = 0;
                 request.pagesize = 0;
                 request.orderby = string.Empty;

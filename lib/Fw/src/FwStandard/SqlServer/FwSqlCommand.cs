@@ -1,6 +1,4 @@
 //using Dapper;
-using FwStandard.BusinessLogic;
-using FwStandard.Options;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer.Attributes;
@@ -11,7 +9,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -1737,7 +1734,7 @@ namespace FwStandard.SqlServer
             return data;
         }
         //------------------------------------------------------------------------------------
-        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, SqlServerOptions dbConfig)
+        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, SqlServerConfig dbConfig)
         {
             try
             {

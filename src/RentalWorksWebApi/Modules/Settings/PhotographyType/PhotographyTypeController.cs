@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.PhotographyType
         //------------------------------------------------------------------------------------
         // POST api/v1/photographytype/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(PhotographyTypeLogic));
         }

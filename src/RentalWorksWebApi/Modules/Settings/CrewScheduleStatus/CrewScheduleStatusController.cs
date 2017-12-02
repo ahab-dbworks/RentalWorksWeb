@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.CrewScheduleStatus
         // POST api/v1/crewschedulestatus/browse
         [HttpPost("browse")]
         [Authorize(Policy = "")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(CrewScheduleStatusLogic));
         }

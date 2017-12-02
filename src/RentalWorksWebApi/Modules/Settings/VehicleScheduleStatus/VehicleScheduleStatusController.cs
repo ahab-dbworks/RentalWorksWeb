@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleScheduleStatus
         //------------------------------------------------------------------------------------
         // POST api/v1/vehicleschedulestatus/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(VehicleScheduleStatusLogic));
         }

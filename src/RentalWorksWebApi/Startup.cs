@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FwStandard.Options;
+using FwStandard.Models;
 using FwStandard.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using RentalWorksWebApi.Options;
 using RentalWorksWebApi.Policies;
-using RentalWorksWebApi.Security;
 using RentalWorksWebLibrary;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -53,11 +52,11 @@ namespace RentalWorksWebApi
         {
             ApplicationConfig appConfig = Configuration.GetSection("ApplicationConfig").Get<ApplicationConfig>();
 
-            SqlServerOptions sqlServerOptions = new SqlServerOptions();
-            sqlServerOptions.ConnectionString = appConfig.DatabaseSettings.ConnectionString;
-            sqlServerOptions.QueryTimeout = appConfig.DatabaseSettings.QueryTimeout;
-            sqlServerOptions.ReportTimeout = appConfig.DatabaseSettings.ReportTimeout;
-            FwSecurityTree.Tree = new SecurityTree(sqlServerOptions, "{94FBE349-104E-420C-81E9-1636EBAE2836}");
+            SqlServerConfig sqlServerConfig = new SqlServerConfig();
+            sqlServerConfig.ConnectionString = appConfig.DatabaseSettings.ConnectionString;
+            sqlServerConfig.QueryTimeout = appConfig.DatabaseSettings.QueryTimeout;
+            sqlServerConfig.ReportTimeout = appConfig.DatabaseSettings.ReportTimeout;
+            FwSecurityTree.Tree = new SecurityTree(sqlServerConfig, "{94FBE349-104E-420C-81E9-1636EBAE2836}");
 
             services
                 .AddCors()

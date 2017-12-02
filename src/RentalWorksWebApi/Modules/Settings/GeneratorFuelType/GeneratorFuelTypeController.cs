@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorFuelType
         // POST api/v1/generatorfueltype/browse
         [HttpPost("browse")]
         [Authorize(Policy = "{A159EF71-9F4D-40F6-8027-0AB1FC7A7CE0}")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(GeneratorFuelTypeLogic));
         }

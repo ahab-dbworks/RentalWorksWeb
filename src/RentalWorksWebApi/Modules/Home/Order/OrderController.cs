@@ -13,7 +13,7 @@ namespace RentalWorksWebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]
-        public async Task<IActionResult> Browse([FromBody]BrowseRequestDto browseRequest)
+        public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
         }
