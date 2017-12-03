@@ -41,7 +41,7 @@ namespace RentalWorksWebApi.Modules.Settings.Space
         public decimal? SquareFeet { get { return space.SquareFeet; } set { space.SquareFeet = value; } }
         public string SpaceFromDate { get { return space.SpaceFromDate; } set { space.SpaceFromDate = value; } }
         public string SpaceToDate { get { return space.SpaceToDate; } set { space.SpaceToDate = value; } }
-        public bool CommonSquareFeet { get { return space.CommonSquareFeet; } set { space.CommonSquareFeet = value; } }
+        public bool? CommonSquareFeet { get { return space.CommonSquareFeet; } set { space.CommonSquareFeet = value; } }
         public string PrimaryDimensionId { get { return space.PrimaryDimensionId; } set { space.PrimaryDimensionId = value; } }
         public int? WidthFt { get { return primaryDimension.WidthFt; } set { primaryDimension.WidthFt = value; } }
         public int? HeightFt { get { return primaryDimension.HeightFt; } set { primaryDimension.HeightFt = value; } }
@@ -73,7 +73,7 @@ namespace RentalWorksWebApi.Modules.Settings.Space
         //public int? Orderbyfloor { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public int? Orderbyroom { get; set; }
-        public bool Inactive { get { return space.Inactive; } set { space.Inactive = value; } }
+        public bool? Inactive { get { return space.Inactive; } set { space.Inactive = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

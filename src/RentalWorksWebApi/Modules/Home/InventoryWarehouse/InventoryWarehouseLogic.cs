@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
         public int? ReorderPoint { get { return masterWarehouse.ReorderPoint; } set { masterWarehouse.ReorderPoint = value; } }
         public int? ReorderQuantity { get { return masterWarehouse.ReorderQuantity; } set { masterWarehouse.ReorderQuantity = value; } }
         public decimal? MaximumDiscount { get { return masterWarehouse.MaximumDiscount; } set { masterWarehouse.MaximumDiscount = value; } }
-        public bool HasTieredCost { get { return masterWarehouse.HasTieredCost; } set { masterWarehouse.HasTieredCost = value; } }
+        public bool? HasTieredCost { get { return masterWarehouse.HasTieredCost; } set { masterWarehouse.HasTieredCost = value; } }
         public decimal? RestockingFee { get { return masterWarehouse.RestockingFee; } set { masterWarehouse.RestockingFee = value; } }
         public decimal? RestockingPercent { get { return masterWarehouse.RestockingPercent; } set { masterWarehouse.RestockingPercent = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -65,12 +65,12 @@ namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
         public decimal? QtyAllocated { get; set; }
         public string AisleLocation { get { return masterWarehouse.AisleLocation; } set { masterWarehouse.AisleLocation = value; } }
         public string ShelfLocation { get { return masterWarehouse.ShelfLocation; } set { masterWarehouse.ShelfLocation = value; } }
-        public bool AvailabilityByHour { get { return masterWarehouse.AvailabilityByHour; } set { masterWarehouse.AvailabilityByHour = value; } }
-        public bool AvailabilityByDeal { get { return masterWarehouse.AvailabilityByDeal; } set { masterWarehouse.AvailabilityByDeal = value; } }
-        public bool AvailabilityByAsset { get { return masterWarehouse.AvailabilityByAsset; } set { masterWarehouse.AvailabilityByAsset = value; } }
-        public bool QcRequired { get { return masterWarehouse.QcRequired; } set { masterWarehouse.QcRequired = value; } }
+        public bool? AvailabilityByHour { get { return masterWarehouse.AvailabilityByHour; } set { masterWarehouse.AvailabilityByHour = value; } }
+        public bool? AvailabilityByDeal { get { return masterWarehouse.AvailabilityByDeal; } set { masterWarehouse.AvailabilityByDeal = value; } }
+        public bool? AvailabilityByAsset { get { return masterWarehouse.AvailabilityByAsset; } set { masterWarehouse.AvailabilityByAsset = value; } }
+        public bool? QcRequired { get { return masterWarehouse.QcRequired; } set { masterWarehouse.QcRequired = value; } }
         public int? AvailabilityQcDelay { get { return masterWarehouse.AvailabilityQcDelay; } set { masterWarehouse.AvailabilityQcDelay = value; } }
-        public bool AllowAllUsersAddToOrder { get { return masterWarehouse.AllowAllUsersAddToOrder; } set { masterWarehouse.AllowAllUsersAddToOrder = value; } }
+        public bool? AllowAllUsersAddToOrder { get { return masterWarehouse.AllowAllUsersAddToOrder; } set { masterWarehouse.AllowAllUsersAddToOrder = value; } }
 
 
         //------------------------------------------------------------------------------------

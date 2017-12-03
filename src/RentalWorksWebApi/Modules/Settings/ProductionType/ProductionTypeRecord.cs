@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.ProductionType
         public string ProductionTypeCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -30,10 +30,10 @@ namespace RentalWorksWebApi.Modules.Settings.AttributeValue
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "numericonly", modeltype: FwDataTypes.Boolean)]
-        public bool NumericOnly { get; set; }
+        public bool? NumericOnly { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrganizationType
         public string OrganizationTypeCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -30,8 +30,8 @@ namespace RentalWorksWebApi.Modules.Settings.PoApprover
         public string AppRole { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PoApproverType { get; set; }
-        public bool IsBackup { get { return poApprover.IsBackup; } set { poApprover.IsBackup = value; } }
-        public bool HasLimit { get { return poApprover.HasLimit; } set { poApprover.HasLimit = value; } }
+        public bool? IsBackup { get { return poApprover.IsBackup; } set { poApprover.IsBackup = value; } }
+        public bool? HasLimit { get { return poApprover.HasLimit; } set { poApprover.HasLimit = value; } }
         public decimal? LimitRental { get { return poApprover.LimitRental; } set { poApprover.LimitRental = value; } }
         public decimal? LimitSales { get { return poApprover.LimitSales; } set { poApprover.LimitSales = value; } }
         public decimal? LimitParts { get { return poApprover.LimitParts; } set { poApprover.LimitParts = value; } }

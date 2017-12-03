@@ -30,23 +30,23 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxRule { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal RentalTaxRate1 { get; set; }
+        public decimal? RentalTaxRate1 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal RentalTaxRate2 { get; set; }
+        public decimal? RentalTaxRate2 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool RentalExempt { get; set; }
+        public bool? RentalExempt { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal SalesTaxRate1 { get; set; }
+        public decimal? SalesTaxRate1 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal SalesTaxRate2 { get; set; }
+        public decimal? SalesTaxRate2 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool SalesExempt { get; set; }
+        public bool? SalesExempt { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal LaborTaxRate1 { get; set; }
+        public decimal? LaborTaxRate1 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal LaborTaxRate2 { get; set; }
+        public decimal? LaborTaxRate2 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool LaborExempt { get; set; }
+        public bool? LaborExempt { get; set; }
         public string DateStamp { get { return dealLocation.DateStamp; } set { dealLocation.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

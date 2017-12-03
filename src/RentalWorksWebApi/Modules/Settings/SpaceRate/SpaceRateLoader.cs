@@ -74,7 +74,7 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "stagescheduling", modeltype: FwDataTypes.Boolean)]
-        public bool StageScheduling { get; set; }
+        public bool? StageScheduling { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         public string UnitId { get; set; }

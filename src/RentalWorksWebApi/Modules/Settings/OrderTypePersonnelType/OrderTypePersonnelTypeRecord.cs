@@ -21,13 +21,13 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypePersonnelType
         public string PersonnelTypeRename { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showofficephone", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowOfficePhone { get; set; }
+        public bool? ShowOfficePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showofficeext", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowOfficeExtension { get; set; }
+        public bool? ShowOfficeExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showcellular", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ShowCellular { get; set; }
+        public bool? ShowCellular { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }

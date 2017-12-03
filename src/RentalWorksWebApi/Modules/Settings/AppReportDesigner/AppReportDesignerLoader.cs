@@ -20,7 +20,7 @@ public string Category { get; set; }
 public string Description { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)] 
-public bool Inactive { get; set; } 
+public bool? Inactive { get; set; } 
 //------------------------------------------------------------------------------------ 
 protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null) 
 { 

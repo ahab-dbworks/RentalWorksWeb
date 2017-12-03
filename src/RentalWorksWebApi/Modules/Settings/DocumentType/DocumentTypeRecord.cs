@@ -15,19 +15,19 @@ namespace RentalWorksWebApi.Modules.Settings.DocumentType
         public string DocumentType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "floorplan", modeltype: FwDataTypes.Boolean)]
-        public bool Floorplan { get; set; }
+        public bool? Floorplan { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "videos", modeltype: FwDataTypes.Boolean)]
-        public bool Videos { get; set; }
+        public bool? Videos { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "panoramic", modeltype: FwDataTypes.Boolean)]
-        public bool Panoramic { get; set; }
+        public bool? Panoramic { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "autoattachtoemail", modeltype: FwDataTypes.Boolean)]
-        public bool AutomaticallyAttachToEmail { get; set; }
+        public bool? AutomaticallyAttachToEmail { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

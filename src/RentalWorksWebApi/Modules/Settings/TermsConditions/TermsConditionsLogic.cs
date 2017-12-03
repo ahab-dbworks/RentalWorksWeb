@@ -17,8 +17,8 @@ namespace RentalWorksWebApi.Modules.Settings.TermsConditions
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Description { get { return termsConditions.Description; } set { termsConditions.Description = value; } }
         public string FileName { get { return termsConditions.FileName; } set { termsConditions.FileName = value; } }
-        public bool StartOnNewPage { get { return termsConditions.StartOnNewPage; } set { termsConditions.StartOnNewPage = value; } }
-        public bool Inactive { get { return termsConditions.Inactive; } set { termsConditions.Inactive = value; } }
+        public bool? StartOnNewPage { get { return termsConditions.StartOnNewPage; } set { termsConditions.StartOnNewPage = value; } }
+        public bool? Inactive { get { return termsConditions.Inactive; } set { termsConditions.Inactive = value; } }
         public string DateStamp { get { return termsConditions.DateStamp; } set { termsConditions.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

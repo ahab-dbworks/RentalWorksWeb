@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeSource
         public string WardrobeSourceId { get { return wardrobeSource.WardrobeSourceId; } set { wardrobeSource.WardrobeSourceId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WardrobeSource { get { return wardrobeSource.WardrobeSource; } set { wardrobeSource.WardrobeSource = value; } }
-        public bool Inactive { get { return wardrobeSource.Inactive; } set { wardrobeSource.Inactive = value; } }
+        public bool? Inactive { get { return wardrobeSource.Inactive; } set { wardrobeSource.Inactive = value; } }
         public string DateStamp { get { return wardrobeSource.DateStamp; } set { wardrobeSource.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

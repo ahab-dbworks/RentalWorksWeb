@@ -17,25 +17,25 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryType
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
-        public bool Rental { get; set; }
+        public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
-        public bool Sales { get; set; }
+        public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "parts", modeltype: FwDataTypes.Boolean)]
-        public bool Parts { get; set; }
+        public bool? Parts { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sets", modeltype: FwDataTypes.Boolean)]
-        public bool Sets { get; set; }
+        public bool? Sets { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "props", modeltype: FwDataTypes.Boolean)]
-        public bool Props { get; set; }
+        public bool? Props { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "wardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool Wardrobe { get; set; }
+        public bool? Wardrobe { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
-        public bool Transportation { get; set; }
+        public bool? Transportation { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availabilitygrace", modeltype: FwDataTypes.Integer)]
         public int? LowAvailabilityPercent { get; set; }
@@ -44,13 +44,13 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryType
         public int? BarCodePrintQty { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
-        public bool BarCodePrintUseDesigner { get; set; }
+        public bool? BarCodePrintUseDesigner { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
-        public bool GroupProfitLoss { get; set; }
+        public bool? GroupProfitLoss { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

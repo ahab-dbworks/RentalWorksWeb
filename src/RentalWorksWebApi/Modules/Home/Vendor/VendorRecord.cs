@@ -95,49 +95,49 @@ TODO:
         public string InactiveDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subrent", modeltype: FwDataTypes.Boolean)]
-        public bool SubRent { get; set; }
+        public bool? SubRent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subsales", modeltype: FwDataTypes.Boolean)]
-        public bool SubSales { get; set; }
+        public bool? SubSales { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "submisc", modeltype: FwDataTypes.Boolean)]
-        public bool SubMisc { get; set; }
+        public bool? SubMisc { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sublabor", modeltype: FwDataTypes.Boolean)]
-        public bool SubLabor { get; set; }
+        public bool? SubLabor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subvehicle", modeltype: FwDataTypes.Boolean)]
-        public bool SubVehicle { get; set; }
+        public bool? SubVehicle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "repair", modeltype: FwDataTypes.Boolean)]
-        public bool Repair { get; set; }
+        public bool? Repair { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalinventory", modeltype: FwDataTypes.Boolean)]
-        public bool RentalInventory { get; set; }
+        public bool? RentalInventory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesinventory", modeltype: FwDataTypes.Boolean)]
-        public bool SalesPartsInventory { get; set; }
+        public bool? SalesPartsInventory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Boolean)]
-        public bool Manufacturer { get; set; }
+        public bool? Manufacturer { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "freight", modeltype: FwDataTypes.Boolean)]
-        public bool Freight { get; set; }
+        public bool? Freight { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "insurance", modeltype: FwDataTypes.Boolean)]
-        public bool Insurance { get; set; }
+        public bool? Insurance { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "consignment", modeltype: FwDataTypes.Boolean)]
-        public bool Consignment { get; set; }
+        public bool? Consignment { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "daysinweek", modeltype: FwDataTypes.Decimal, precision: 5, scale: 3)]
-        public decimal DefaultSubRentDaysInWeek { get; set; }
+        public decimal? DefaultSubRentDaysInWeek { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "discountrate", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal DefaultSubRentDiscountPercent { get; set; }
+        public decimal? DefaultSubRentDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ssdiscountrate", modeltype: FwDataTypes.Decimal, precision: 5, scale: 2)]
-        public decimal DefaultSubSaleDiscountPercent { get; set; }
+        public decimal? DefaultSubSaleDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DefaultRate { get; set; }
@@ -185,7 +185,7 @@ TODO:
         public string ExternalId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "adjustcontractdate", modeltype: FwDataTypes.Boolean)]
-        public bool AutomaticallyAdjustContractDates { get; set; }
+        public bool? AutomaticallyAdjustContractDates { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "trackingnolink", modeltype: FwDataTypes.Text, maxlength: 255)]
         public string ShippingTrackingLink { get; set; }
@@ -206,7 +206,7 @@ TODO:
         public string LastModifiedDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

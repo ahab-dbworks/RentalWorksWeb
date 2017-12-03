@@ -17,9 +17,9 @@ namespace RentalWorksWebApi.Modules.Settings.ContactEvent
         [FwBusinessLogicField(isRecordTitle: true)]
         public string ContactEvent { get { return contactEvent.ContactEvent; } set { contactEvent.ContactEvent = value; } }
         public string Color { get { return contactEvent.Color;  } set { contactEvent.Color = value; } }
-        public bool WhiteText { get { return contactEvent.WhiteText;  } set { contactEvent.WhiteText = value; } }
-        public bool Recurring { get { return contactEvent.Recurring; } set { contactEvent.Recurring = value; } }
-        public bool Inactive { get { return contactEvent.Inactive; } set { contactEvent.Inactive = value; } }
+        public bool? WhiteText { get { return contactEvent.WhiteText;  } set { contactEvent.WhiteText = value; } }
+        public bool? Recurring { get { return contactEvent.Recurring; } set { contactEvent.Recurring = value; } }
+        public bool? Inactive { get { return contactEvent.Inactive; } set { contactEvent.Inactive = value; } }
         public string DateStamp { get { return contactEvent.DateStamp; } set { contactEvent.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

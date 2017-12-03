@@ -26,13 +26,13 @@ namespace RentalWorksWebApi.Modules.Settings.EventTypePersonnelType
         public string PersonnelTypeRename { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showofficephone", modeltype: FwDataTypes.Boolean)]
-        public bool ShowOfficePhone { get; set; }
+        public bool? ShowOfficePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showofficeext", modeltype: FwDataTypes.Boolean)]
-        public bool ShowOfficeExtension { get; set; }
+        public bool? ShowOfficeExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "showcellular", modeltype: FwDataTypes.Boolean)]
-        public bool ShowCellular { get; set; }
+        public bool? ShowCellular { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderBy { get; set; }

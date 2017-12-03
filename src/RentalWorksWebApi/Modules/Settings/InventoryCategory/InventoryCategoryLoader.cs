@@ -24,19 +24,19 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventory", modeltype: FwDataTypes.Boolean)]
-        public bool WarehouseCategory { get; set; }
+        public bool? WarehouseCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "catalog", modeltype: FwDataTypes.Boolean)]
-        public bool CatalogCategory { get; set; }
+        public bool? CatalogCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "qcsubrent", modeltype: FwDataTypes.Boolean)]
-        public bool SubsRequireQc { get; set; }
+        public bool? SubsRequireQc { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "substituteall", modeltype: FwDataTypes.Boolean)]
-        public bool AllCategoryItemsAreSubstitutes { get; set; }
+        public bool? AllCategoryItemsAreSubstitutes { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
-        public bool BarCodePrintUseDesigner { get; set; }
+        public bool? BarCodePrintUseDesigner { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventoryappreportdesignerid", modeltype: FwDataTypes.Text)]
         public string InventoryBarCodeDesignerId { get; set; }
@@ -54,16 +54,16 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string BarCodeType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "autodiscount100", modeltype: FwDataTypes.Boolean)]
-        public bool DiscountCategoryItems100PercentByDefault { get; set; }
+        public bool? DiscountCategoryItems100PercentByDefault { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donotinvoice", modeltype: FwDataTypes.Boolean)]
-        public bool ExcludeCategoryItemsFromInvoicing { get; set; }
+        public bool? ExcludeCategoryItemsFromInvoicing { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "schedule", modeltype: FwDataTypes.Boolean)]
-        public bool ScheduleItems { get; set; }
+        public bool? ScheduleItems { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maintenance", modeltype: FwDataTypes.Boolean)]
-        public bool HasMaintenance { get; set; }
+        public bool? HasMaintenance { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pmcycle", modeltype: FwDataTypes.Text)]
         public string PreventiveMaintenanceCycle { get; set; }
@@ -75,7 +75,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public int? DepreciationMonths { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
-        public bool OverrideProfitAndLossCategory { get; set; }
+        public bool? OverrideProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text)]
         public string ProfitAndLossCategoryId { get; set; }
@@ -84,7 +84,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string ProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossismiscexpense", modeltype: FwDataTypes.Boolean)]
-        public bool ProfitAndLossIncludeAsMiscExpense { get; set; }
+        public bool? ProfitAndLossIncludeAsMiscExpense { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text)]
         public string AssetAccountId { get; set; }
@@ -165,7 +165,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public int? PickListOrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

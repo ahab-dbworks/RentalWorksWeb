@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.UnretiredReason
         [FwBusinessLogicField(isRecordTitle: true)]
         public string UnretiredReason { get { return unretiredReason.UnretiredReason; } set { unretiredReason.UnretiredReason = value; } }
         public string ReasonType { get { return unretiredReason.ReasonType; } set { unretiredReason.ReasonType = value; } }
-        public bool Inactive { get { return unretiredReason.Inactive; } set { unretiredReason.Inactive = value; } }
+        public bool? Inactive { get { return unretiredReason.Inactive; } set { unretiredReason.Inactive = value; } }
         public string DateStamp { get { return unretiredReason.DateStamp; } set { unretiredReason.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

@@ -36,7 +36,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string PurchaseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isneginv", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsNegativeInventory { get; set; }
+        public bool? IsNegativeInventory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inspectionvendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InspectionVendorId { get; set; }
@@ -90,7 +90,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairtransferflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsRepairTransfer { get; set; }
+        public bool? IsRepairTransfer { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ConditionId { get; set; }
@@ -102,7 +102,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string OriginalShowId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool QcRequired { get; set; }
+        public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "widthft", modeltype: FwDataTypes.Integer, sqltype: "tinyint")]
         public int? WidthFt { get; set; }

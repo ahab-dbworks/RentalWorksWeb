@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.EventCategory
         [FwBusinessLogicField(isRecordTitle: true)]
         public string EventCategory { get { return eventCategory.EventCategory; } set { eventCategory.EventCategory = value; } }
         public string EventCategoryCode { get { return eventCategory.EventCategoryCode; } set { eventCategory.EventCategoryCode = value; } }
-        public bool Inactive { get { return eventCategory.Inactive; } set { eventCategory.Inactive = value; } }
+        public bool? Inactive { get { return eventCategory.Inactive; } set { eventCategory.Inactive = value; } }
         public string DateStamp { get { return eventCategory.DateStamp; } set { eventCategory.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

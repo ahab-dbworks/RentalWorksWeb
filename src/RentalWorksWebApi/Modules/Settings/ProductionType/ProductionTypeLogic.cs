@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.ProductionType
         [FwBusinessLogicField(isRecordTitle: true)]
         public string ProductionType { get { return productionType.ProductionType; } set { productionType.ProductionType = value; } }
         public string ProductionTypeCode { get { return productionType.ProductionTypeCode; } set { productionType.ProductionTypeCode = value; } }
-        public bool Inactive { get { return productionType.Inactive; } set { productionType.Inactive = value; } }
+        public bool? Inactive { get { return productionType.Inactive; } set { productionType.Inactive = value; } }
         public string DateStamp { get { return productionType.DateStamp; } set { productionType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

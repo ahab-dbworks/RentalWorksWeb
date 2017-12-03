@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         public string LicenseClassId { get { return inventoryCategory.LicenseClassId; } set { inventoryCategory.LicenseClassId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string LicenseClass { get; set; }
-        public bool Regulated { get { return inventoryCategory.Regulated; } set { inventoryCategory.Regulated = value; } }
+        public bool? Regulated { get { return inventoryCategory.Regulated; } set { inventoryCategory.Regulated = value; } }
         [JsonIgnore]
         public string InventoryCategoryId { get { return VehicleTypeId; } set { VehicleTypeId = value; } }
         //------------------------------------------------------------------------------------

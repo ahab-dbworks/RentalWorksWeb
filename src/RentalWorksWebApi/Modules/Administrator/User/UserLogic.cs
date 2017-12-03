@@ -25,16 +25,16 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         [FwBusinessLogicField(isRecordTitle: true, isReadOnly: true)]
         public string Fullname { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        //public bool Webaccess { get; set; }
+        //public bool? Webaccess { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Webadministrator { get; set; }
+        //public bool? Webadministrator { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Webadministratortext { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Webpassword { get; set; }
-        //public bool Lockaccount { get { return user.Lockaccount; } set { user.Lockaccount = value; } }
+        //public bool? Lockaccount { get { return user.Lockaccount; } set { user.Lockaccount = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Registered { get; set; }
+        //public bool? Registered { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Registerdate { get; set; }
         //public string Email { get { return user.Email; } set { user.Email = value; } }
@@ -45,9 +45,9 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Tmppassword { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Changepasswordatlogin { get; set; }
+        //public bool? Changepasswordatlogin { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Resetpassword { get; set; }
+        //public bool? Resetpassword { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string PrimarydepartmentId { get; set; }
         //public string RentaldepartmentId { get { return user.RentaldepartmentId; } set { user.RentaldepartmentId = value; } }
@@ -76,9 +76,9 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Warehouse { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Webreports { get; set; }
+        //public bool? Webreports { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Webquoterequest { get; set; }
+        //public bool? Webquoterequest { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string DefaultpoordertypeId { get; set; }
         //public string WebcatalogId { get { return user.WebcatalogId; } set { user.WebcatalogId = value; } }
@@ -86,12 +86,12 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Phoneextension { get { return user.Phoneextension; } set { user.Phoneextension = value; } }
         //public string Fax { get { return user.Fax; } set { user.Fax = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool Iscrew { get; set; }
+        //public bool? Iscrew { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Usertype { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string WebusersId { get; set; }
-        public bool Inactive { get { return user.Inactive; } set { user.Inactive = value; } }
+        public bool? Inactive { get { return user.Inactive; } set { user.Inactive = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

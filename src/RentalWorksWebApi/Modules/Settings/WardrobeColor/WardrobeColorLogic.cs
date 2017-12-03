@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeColor
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WardrobeColor { get { return wardrobeColor.Color; } set { wardrobeColor.Color = value; } }
         public string ColorType { get { return wardrobeColor.ColorType; } set { wardrobeColor.ColorType = value; } }
-        public bool Inactive { get { return wardrobeColor.Inactive; } set { wardrobeColor.Inactive = value; } }
+        public bool? Inactive { get { return wardrobeColor.Inactive; } set { wardrobeColor.Inactive = value; } }
         public string DateStamp { get { return wardrobeColor.DateStamp; } set { wardrobeColor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

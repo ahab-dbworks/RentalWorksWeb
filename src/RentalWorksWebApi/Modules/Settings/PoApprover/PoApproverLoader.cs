@@ -44,10 +44,10 @@ namespace RentalWorksWebApi.Modules.Settings.PoApprover
         public string PoApproverType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "backupflg", modeltype: FwDataTypes.Boolean)]
-        public bool IsBackup { get; set; }
+        public bool? IsBackup { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitflg", modeltype: FwDataTypes.Boolean)]
-        public bool HasLimit { get; set; }
+        public bool? HasLimit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitrental", modeltype: FwDataTypes.Decimal)]
         public decimal? LimitRental { get; set; }

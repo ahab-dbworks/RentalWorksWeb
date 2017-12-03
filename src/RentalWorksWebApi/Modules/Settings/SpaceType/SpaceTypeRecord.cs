@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         public string SpaceType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "addtodescription", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool AddToDescription { get; set; }
+        public bool? AddToDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ratemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RateId { get; set; }
@@ -27,22 +27,22 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "forreportsonly", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ForReportsOnly { get; set; }
+        public bool? ForReportsOnly { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacetypeclassification", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string SpaceTypeClassification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool WhiteText { get; set; }
+        public bool? WhiteText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool NonBillable { get; set; }
+        public bool? NonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

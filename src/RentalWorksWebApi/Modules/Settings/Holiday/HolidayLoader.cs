@@ -23,10 +23,10 @@ namespace RentalWorksWebApi.Modules.Settings.Holiday
         public string Country { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custom", modeltype: FwDataTypes.Boolean)]
-        public bool Custom { get; set; }
+        public bool? Custom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "observed", modeltype: FwDataTypes.Boolean)]
-        public bool Observed { get; set; }
+        public bool? Observed { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "type", modeltype: FwDataTypes.Text)]
         public string Type { get; set; }
@@ -56,7 +56,7 @@ namespace RentalWorksWebApi.Modules.Settings.Holiday
         public string OffsetHoliday { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -17,22 +17,22 @@ namespace RentalWorksWebApi.Modules.Settings.FacilityType
         public string FacilityType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
-        public bool Facilities { get; set; }
+        public bool? Facilities { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "stagescheduling", modeltype: FwDataTypes.Boolean)]
-        public bool StageScheduling { get; set; }
+        public bool? StageScheduling { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "defaultdw", modeltype: FwDataTypes.Decimal, precision: 5, scale: 3)]
-        public decimal FacilitiesDefaultDw { get; set; }
+        public decimal? FacilitiesDefaultDw { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donotdefaultrate", modeltype: FwDataTypes.Boolean)]
-        public bool FacilitiesDoNotDefaultRateOnBooking { get; set; }
+        public bool? FacilitiesDoNotDefaultRateOnBooking { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
-        public bool GroupProfitLoss { get; set; }
+        public bool? GroupProfitLoss { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

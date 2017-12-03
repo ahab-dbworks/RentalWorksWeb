@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Home.DealShipper
         public string ShipperAcct { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean)]
-        public bool IsPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "shipviaid", modeltype: FwDataTypes.Text)]
         public string ShipViaId { get; set; }

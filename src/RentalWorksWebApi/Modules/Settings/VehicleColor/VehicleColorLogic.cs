@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleColor
         [FwBusinessLogicField(isRecordTitle: true)]
         public string VehicleColor { get { return vehicleColor.Color; } set { vehicleColor.Color = value; } }
         public string ColorType { get { return vehicleColor.ColorType; } set { vehicleColor.ColorType = value; } }
-        public bool Inactive { get { return vehicleColor.Inactive; } set { vehicleColor.Inactive = value; } }
+        public bool? Inactive { get { return vehicleColor.Inactive; } set { vehicleColor.Inactive = value; } }
         public string DateStamp { get { return vehicleColor.DateStamp; } set { vehicleColor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

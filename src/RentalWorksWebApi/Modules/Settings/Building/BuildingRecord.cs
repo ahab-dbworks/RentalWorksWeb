@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.Building
         public string BuildingCode { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Orderlocation { get; set; }
+        //public bool? Orderlocation { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string TaxOptionId { get; set; }
@@ -48,7 +48,7 @@ namespace RentalWorksWebApi.Modules.Settings.Building
         //public string Webaddress { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

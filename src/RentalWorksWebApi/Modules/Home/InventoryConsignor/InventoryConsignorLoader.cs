@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "treatconsignedqtyasowned", modeltype: FwDataTypes.Boolean)]
-        public bool TreatConsignedQtyAsOwned { get; set; }
+        public bool? TreatConsignedQtyAsOwned { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyconsigned", modeltype: FwDataTypes.Integer)]
         public int? QtyConsigned { get; set; }
@@ -50,7 +50,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         public int? HousePercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "flatrate", modeltype: FwDataTypes.Boolean)]
-        public bool FlatRate { get; set; }
+        public bool? FlatRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "flatrateamount", modeltype: FwDataTypes.Decimal)]
         public decimal? FlatRateAmount { get; set; }
@@ -83,7 +83,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool TextColor { get; set; }
+        public bool? TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
         public int? Color { get; set; }

@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoApproverRole
         [JsonIgnore]
         public string RoleType { get { return poApproverRole.RoleType; } set { poApproverRole.RoleType = value; } }
         public string PoApproverType { get { return poApproverRole.PoApproverType; } set { poApproverRole.PoApproverType = value; } }
-        public bool Inactive { get { return poApproverRole.Inactive; } set { poApproverRole.Inactive = value; } }
+        public bool? Inactive { get { return poApproverRole.Inactive; } set { poApproverRole.Inactive = value; } }
         public string DateStamp { get { return poApproverRole.DateStamp; } set { poApproverRole.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

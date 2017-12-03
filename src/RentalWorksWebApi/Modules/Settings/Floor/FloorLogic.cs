@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.Floor
         public decimal? CommonSquareFeet { get; set; }
         public string FloorPlanId { get { return floor.FloorPlanId; } set { floor.FloorPlanId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool HasFloorPlan { get; set; }
+        public bool? HasFloorPlan { get; set; }
         public int? OrderBy { get { return floor.OrderBy; } set { floor.OrderBy = value; } }
         public string DateStamp { get { return floor.DateStamp; } set { floor.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

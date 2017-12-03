@@ -17,13 +17,13 @@ namespace RentalWorksWebApi.Modules.Settings.MiscType
         public string MiscType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
-        public bool Misc { get; set; }
+        public bool? Misc { get; set; }
         ////------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
-        public bool GroupProfitLoss { get; set; }
+        public bool? GroupProfitLoss { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

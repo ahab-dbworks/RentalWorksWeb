@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillPeriodEventPercent
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "revenue", modeltype: FwDataTypes.Boolean)]
-        public bool Revenue { get; set; }
+        public bool? Revenue { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

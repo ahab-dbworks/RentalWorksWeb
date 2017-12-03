@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.PhotographyType
         public string PhotographyTypeId { get { return photographyType.PhotographyTypeId; } set { photographyType.PhotographyTypeId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PhotographyType { get { return photographyType.PhotographyType; } set { photographyType.PhotographyType = value; } }
-        public bool Inactive { get { return photographyType.Inactive; } set { photographyType.Inactive = value; } }
+        public bool? Inactive { get { return photographyType.Inactive; } set { photographyType.Inactive = value; } }
         public string DateStamp { get { return photographyType.DateStamp; } set { photographyType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

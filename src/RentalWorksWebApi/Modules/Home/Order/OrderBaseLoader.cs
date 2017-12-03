@@ -59,7 +59,7 @@ namespace RentalWorksWebApi.Modules.Home.Order
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
-        public decimal MaximumCumulativeDiscount { get; set; }
+        public decimal? MaximumCumulativeDiscount { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text)]
         public string PoApprovalStatusId { get; set; }

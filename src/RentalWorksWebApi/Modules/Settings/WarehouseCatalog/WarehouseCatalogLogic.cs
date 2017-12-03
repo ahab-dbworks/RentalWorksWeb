@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.WarehouseCatalog
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WarehouseCatalog { get { return warehouseCatalog.WarehouseCatalog; } set { warehouseCatalog.WarehouseCatalog = value; } }
         public string CatalogType { get { return warehouseCatalog.CatalogType; } set { warehouseCatalog.CatalogType = value; } }
-        public bool Inactive { get { return warehouseCatalog.Inactive; } set { warehouseCatalog.Inactive = value; } }
+        public bool? Inactive { get { return warehouseCatalog.Inactive; } set { warehouseCatalog.Inactive = value; } }
         public string DateStamp { get { return warehouseCatalog.DateStamp; } set { warehouseCatalog.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

@@ -24,8 +24,8 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleScheduleStatus
         [JsonIgnore]
         public string RecType { get { return scheduleStatus.RecType; } set { scheduleStatus.RecType = value; } }
         public string Color { get { return scheduleStatus.Color; } set { scheduleStatus.Color = value; } }
-        public bool WhiteText { get { return scheduleStatus.WhiteText; } set { scheduleStatus.WhiteText = value; } }
-        public bool Inactive { get { return scheduleStatus.Inactive; } set { scheduleStatus.Inactive = value; } }
+        public bool? WhiteText { get { return scheduleStatus.WhiteText; } set { scheduleStatus.WhiteText = value; } }
+        public bool? Inactive { get { return scheduleStatus.Inactive; } set { scheduleStatus.Inactive = value; } }
         public string DateStamp { get { return scheduleStatus.DateStamp; } set { scheduleStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

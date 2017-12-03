@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterLocation
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Taxable { get; set; }
+        public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "modbyusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ModByUsersId { get; set; }

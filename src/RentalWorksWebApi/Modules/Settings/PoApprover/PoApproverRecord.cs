@@ -21,10 +21,10 @@ namespace RentalWorksWebApi.Modules.Settings.PoApprover
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "backupflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsBackup { get; set; }
+        public bool? IsBackup { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "limitflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool HasLimit { get; set; }
+        public bool? HasLimit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string AppRoleId { get; set; }

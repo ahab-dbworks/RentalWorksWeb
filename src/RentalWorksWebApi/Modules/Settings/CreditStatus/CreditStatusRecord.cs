@@ -15,10 +15,10 @@ namespace RentalWorksWebApi.Modules.Settings.CreditStatus
         public string CreditStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderallow", modeltype: FwDataTypes.Boolean)]
-        public bool CreateContractAllowed { get; set; }
+        public bool? CreateContractAllowed { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -25,10 +25,10 @@ namespace RentalWorksWebApi.Modules.Settings.ScheduleStatus
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean)]
-        public bool WhiteText { get; set; }
+        public bool? WhiteText { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

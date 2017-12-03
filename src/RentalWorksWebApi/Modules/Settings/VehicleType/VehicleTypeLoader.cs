@@ -31,7 +31,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         public string LicenseClass { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "regulated", modeltype: FwDataTypes.Boolean)]
-        public bool Regulated { get; set; }
+        public bool? Regulated { get; set; }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

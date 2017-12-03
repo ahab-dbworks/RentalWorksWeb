@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         public string ModuleName { get { return duplicateRule.ModuleName; } set { duplicateRule.ModuleName = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string RuleName { get { return duplicateRule.RuleName; } set { duplicateRule.RuleName = value; } }
-        public bool CaseSensitive { get { return duplicateRule.CaseSensitive; } set { duplicateRule.CaseSensitive = value; } }
+        public bool? CaseSensitive { get { return duplicateRule.CaseSensitive; } set { duplicateRule.CaseSensitive = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }

@@ -24,12 +24,12 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
         [FwBusinessLogicField(isReadOnly: true)]
         public string DescriptionDisplay { get; set; }
         [JsonIgnore]
-        public bool SystemType { get { return orderTypeDateType.SystemType; } set { orderTypeDateType.SystemType = value; } }
-        public bool Enabled { get { return orderTypeDateType.Enabled; } set { orderTypeDateType.Enabled = value; } }
-        public bool Milestone { get { return orderTypeDateType.Milestone; } set { orderTypeDateType.Milestone = value; } }
-        public bool ProductionActivity { get { return orderTypeDateType.ProductionActivity; } set { orderTypeDateType.ProductionActivity = value; } }
-        public bool RequiredOnQuote { get { return orderTypeDateType.RequiredOnQuote; } set { orderTypeDateType.RequiredOnQuote = value; } }
-        public bool RequiredOnOrder { get { return orderTypeDateType.RequiredOnOrder; } set { orderTypeDateType.RequiredOnOrder = value; } }
+        public bool? SystemType { get { return orderTypeDateType.SystemType; } set { orderTypeDateType.SystemType = value; } }
+        public bool? Enabled { get { return orderTypeDateType.Enabled; } set { orderTypeDateType.Enabled = value; } }
+        public bool? Milestone { get { return orderTypeDateType.Milestone; } set { orderTypeDateType.Milestone = value; } }
+        public bool? ProductionActivity { get { return orderTypeDateType.ProductionActivity; } set { orderTypeDateType.ProductionActivity = value; } }
+        public bool? RequiredOnQuote { get { return orderTypeDateType.RequiredOnQuote; } set { orderTypeDateType.RequiredOnQuote = value; } }
+        public bool? RequiredOnOrder { get { return orderTypeDateType.RequiredOnOrder; } set { orderTypeDateType.RequiredOnOrder = value; } }
         public int? Color { get { return orderTypeDateType.Color; } set { orderTypeDateType.Color = value; } }
         public decimal? OrderBy { get { return orderTypeDateType.OrderBy; } set { orderTypeDateType.OrderBy = value; } }
         public string DateStamp { get { return orderTypeDateType.DateStamp; } set { orderTypeDateType.DateStamp = value; } }

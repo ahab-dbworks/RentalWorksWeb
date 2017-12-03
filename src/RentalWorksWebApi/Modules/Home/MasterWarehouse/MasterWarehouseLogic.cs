@@ -51,8 +51,8 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         //public decimal? Maxdiscount { get { return masterWarehouse.Maxdiscount; } set { masterWarehouse.Maxdiscount = value; } }
         //public string Aisleloc { get { return masterWarehouse.Aisleloc; } set { masterWarehouse.Aisleloc = value; } }
         //public string Shelfloc { get { return masterWarehouse.Shelfloc; } set { masterWarehouse.Shelfloc = value; } }
-        //public bool Availbyhour { get { return masterWarehouse.Availbyhour; } set { masterWarehouse.Availbyhour = value; } }
-        //public bool Availbydeal { get { return masterWarehouse.Availbydeal; } set { masterWarehouse.Availbydeal = value; } }
+        //public bool? Availbyhour { get { return masterWarehouse.Availbyhour; } set { masterWarehouse.Availbyhour = value; } }
+        //public bool? Availbydeal { get { return masterWarehouse.Availbydeal; } set { masterWarehouse.Availbydeal = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

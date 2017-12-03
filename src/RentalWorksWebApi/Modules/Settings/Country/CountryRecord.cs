@@ -18,13 +18,13 @@ namespace RentalWorksWebApi.Modules.Settings.Country
         public string CountryCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isusa", modeltype: FwDataTypes.Boolean)]
-        public bool IsUSA { get; set; }
+        public bool? IsUSA { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "metric", modeltype: FwDataTypes.Boolean)]
-        public bool Metric { get; set; }
+        public bool? Metric { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

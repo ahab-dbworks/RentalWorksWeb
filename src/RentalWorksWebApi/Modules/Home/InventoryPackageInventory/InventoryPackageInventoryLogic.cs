@@ -20,11 +20,11 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public string InventoryId { get { return inventoryPackageInventory.InventoryId; } set { inventoryPackageInventory.InventoryId = value; } }
         public string ICode { get; set; }
         public string Description { get { return inventoryPackageInventory.Description; } set { inventoryPackageInventory.Description = value; } }
-        public bool IsPrimary { get { return inventoryPackageInventory.IsPrimary; } set { inventoryPackageInventory.IsPrimary = value; } }
+        public bool? IsPrimary { get { return inventoryPackageInventory.IsPrimary; } set { inventoryPackageInventory.IsPrimary = value; } }
         public decimal? DefaultQuantity { get { return inventoryPackageInventory.DefaultQuantity; } set { inventoryPackageInventory.DefaultQuantity = value; } }
-        public bool IsOption { get { return inventoryPackageInventory.IsOption; } set { inventoryPackageInventory.IsOption = value; } }
-        public bool Charge { get { return inventoryPackageInventory.Charge; } set { inventoryPackageInventory.Charge = value; } }
-        public bool Required { get { return inventoryPackageInventory.Required; } set { inventoryPackageInventory.Required = value; } }
+        public bool? IsOption { get { return inventoryPackageInventory.IsOption; } set { inventoryPackageInventory.IsOption = value; } }
+        public bool? Charge { get { return inventoryPackageInventory.Charge; } set { inventoryPackageInventory.Charge = value; } }
+        public bool? Required { get { return inventoryPackageInventory.Required; } set { inventoryPackageInventory.Required = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OptionColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -40,7 +40,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public int? OrderBy { get { return inventoryPackageInventory.OrderBy; } set { inventoryPackageInventory.OrderBy = value; } }
         public int? ItemColor { get { return inventoryPackageInventory.ItemColor; } set { inventoryPackageInventory.ItemColor = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool IsNestedComplete { get; set; }
+        public bool? IsNestedComplete { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ItemInactive { get; set; }
         public string WarehouseId { get { return inventoryPackageInventory.WarehouseId; } set { inventoryPackageInventory.WarehouseId = value; } }
@@ -48,7 +48,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string PackageItemClass { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool ItemNonDiscountable { get; set; }
+        public bool? ItemNonDiscountable { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PrimaryInventoryId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

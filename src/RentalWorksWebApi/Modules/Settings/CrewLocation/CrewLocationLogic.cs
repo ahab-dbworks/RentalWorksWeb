@@ -19,7 +19,7 @@ namespace RentalWorksWebApi.Modules.Settings.CrewLocation
         public string LocationId { get { return crewLocation.LocationId; } set { crewLocation.LocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Location { get; set; }
-        public bool IsPrimary { get { return crewLocation.IsPrimary; } set { crewLocation.IsPrimary = value; } }
+        public bool? IsPrimary { get { return crewLocation.IsPrimary; } set { crewLocation.IsPrimary = value; } }
         public string DateStamp { get { return crewLocation.DateStamp; } set { crewLocation.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

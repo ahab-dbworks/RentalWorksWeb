@@ -73,8 +73,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string PaymentType { get; set; }
         public string DefaultRate { get { return deal.DefaultRate; } set { deal.DefaultRate = value; } }
 
-        public bool UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
-        public bool UseDiscountTemplate { get { return deal.UseDiscountTemplate; } set { deal.UseDiscountTemplate = value; } }
+        public bool? UseCustomerDiscount { get { return deal.UseCustomerDiscount; } set { deal.UseCustomerDiscount = value; } }
+        public bool? UseDiscountTemplate { get { return deal.UseDiscountTemplate; } set { deal.UseDiscountTemplate = value; } }
         public string DiscountTemplateId { get { return deal.DiscountTemplateId; } set { deal.DiscountTemplateId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DiscountTemplate { get; set; }
@@ -82,8 +82,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwBusinessLogicField(isReadOnly: true)]
         public string SalesRepresentative { get; set; }
         public decimal? CommissionRate { get { return deal.CommissionRate; } set { deal.CommissionRate = value; } }
-        public bool CommissionIncludesVendorItems { get { return deal.CommissionIncludesVendorItems; } set { deal.CommissionIncludesVendorItems = value; } }
-        public bool PoRequired { get { return deal.PoRequired; } set { deal.PoRequired = value; } }
+        public bool? CommissionIncludesVendorItems { get { return deal.CommissionIncludesVendorItems; } set { deal.CommissionIncludesVendorItems = value; } }
+        public bool? PoRequired { get { return deal.PoRequired; } set { deal.PoRequired = value; } }
         public string PoType { get { return deal.PoType; } set { deal.PoType = value; } }
         public string BillToAddressType { get { return deal.BillToAddressType; } set { deal.BillToAddressType = value; } }
         public string BillToAttention1 { get { return deal.BillToAttention1; } set { deal.BillToAttention1 = value; } }
@@ -96,24 +96,24 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwBusinessLogicField(isReadOnly: true)]
         public string BillToCountry { get; set; }
         public string BillToZipCode { get { return deal.BillToZipCode; } set { deal.BillToZipCode = value; } }
-        public bool AssessFinanceCharge { get { return deal.AssessFinanceCharge; } set { deal.AssessFinanceCharge = value; } }
-        public bool AllowBillingScheduleOverride { get { return deal.AllowBillingScheduleOverride; } set { deal.AllowBillingScheduleOverride = value; } }
-        public bool AllowRebateCreditInvoices { get { return deal.AllowRebateCreditInvoices; } set { deal.AllowRebateCreditInvoices = value; } }
-        public bool UseCustomerCredit { get { return deal.UseCustomerCredit; } set { deal.UseCustomerCredit = value; } }
+        public bool? AssessFinanceCharge { get { return deal.AssessFinanceCharge; } set { deal.AssessFinanceCharge = value; } }
+        public bool? AllowBillingScheduleOverride { get { return deal.AllowBillingScheduleOverride; } set { deal.AllowBillingScheduleOverride = value; } }
+        public bool? AllowRebateCreditInvoices { get { return deal.AllowRebateCreditInvoices; } set { deal.AllowRebateCreditInvoices = value; } }
+        public bool? UseCustomerCredit { get { return deal.UseCustomerCredit; } set { deal.UseCustomerCredit = value; } }
         public string CreditStatusId { get { return deal.CreditStatusId; } set { deal.CreditStatusId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CreditStatus { get; set; }
         public string CreditStatusThrough { get { return deal.CreditStatusThrough; } set { deal.CreditStatusThrough = value; } }
-        public bool CreditApplicationOnFile { get { return deal.CreditApplicationOnFile; } set { deal.CreditApplicationOnFile = value; } }
-        public bool UnlimitedCredit { get { return deal.UnlimitedCredit; } set { deal.UnlimitedCredit = value; } }
+        public bool? CreditApplicationOnFile { get { return deal.CreditApplicationOnFile; } set { deal.CreditApplicationOnFile = value; } }
+        public bool? UnlimitedCredit { get { return deal.UnlimitedCredit; } set { deal.UnlimitedCredit = value; } }
         public int? CreditLimit { get { return deal.CreditLimit; } set { deal.CreditLimit = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? CreditBalance { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? CreditAvailable { get; set; }
-        public bool CreditResponsiblePartyOnFile { get { return deal.CreditResponsiblePartyOnFile; } set { deal.CreditResponsiblePartyOnFile = value; } }
+        public bool? CreditResponsiblePartyOnFile { get { return deal.CreditResponsiblePartyOnFile; } set { deal.CreditResponsiblePartyOnFile = value; } }
         public string CreditResponsibleParty { get { return deal.CreditResponsibleParty; } set { deal.CreditResponsibleParty = value; } }
-        public bool TradeReferencesVerified { get { return deal.TradeReferencesVerified; } set { deal.TradeReferencesVerified = value; } }
+        public bool? TradeReferencesVerified { get { return deal.TradeReferencesVerified; } set { deal.TradeReferencesVerified = value; } }
         public string TradeReferencesVerifiedBy { get { return deal.TradeReferencesVerifiedBy; } set { deal.TradeReferencesVerifiedBy = value; } }
         public string TradeReferencesVerifiedOn { get { return deal.TradeReferencesVerifiedOn; } set { deal.TradeReferencesVerifiedOn = value; } }
         public string CreditCardTypeId { get { return deal.CreditCardTypeId; } set { deal.CreditCardTypeId = value; } }
@@ -125,7 +125,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string CreditCardName { get { return deal.CreditCardName; } set { deal.CreditCardName = value; } }
         public int? CreditCardExpirationMonth { get { return deal.CreditCardExpirationMonth; } set { deal.CreditCardExpirationMonth = value; } }
         public int? CreditCardExpirationYear { get { return deal.CreditCardExpirationYear; } set { deal.CreditCardExpirationYear = value; } }
-        public bool CreditCardAuthorizationFormOnFile { get { return deal.CreditCardAuthorizationFormOnFile; } set { deal.CreditCardAuthorizationFormOnFile = value; } }
+        public bool? CreditCardAuthorizationFormOnFile { get { return deal.CreditCardAuthorizationFormOnFile; } set { deal.CreditCardAuthorizationFormOnFile = value; } }
         public decimal? DepletingDepositThresholdAmount { get { return deal.DepletingDepositThresholdAmount; } set { deal.DepletingDepositThresholdAmount = value; } }
         public int? DepletingDepositThresholdPercent { get { return deal.DepletingDepositThresholdPercent; } set { deal.DepletingDepositThresholdPercent = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -134,8 +134,8 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public decimal? DepletingDepositApplied { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? DepletingDepositRemaining { get; set; }
-        public bool UseCustomerInsurance { get { return deal.UseCustomerInsurance; } set { deal.UseCustomerInsurance = value; } }
-        public bool InsuranceCertification { get { return deal.InsuranceCertification; } set { deal.InsuranceCertification = value; } }
+        public bool? UseCustomerInsurance { get { return deal.UseCustomerInsurance; } set { deal.UseCustomerInsurance = value; } }
+        public bool? InsuranceCertification { get { return deal.InsuranceCertification; } set { deal.InsuranceCertification = value; } }
         public string InsuranceCertificationValidThrough { get { return deal.InsuranceCertificationValidThrough; } set { deal.InsuranceCertificationValidThrough = value; } }
         public int? InsuranceCoverageLiability { get { return deal.InsuranceCoverageLiability; } set { deal.InsuranceCoverageLiability = value; } }
         public int? InsuranceCoverageLiabilityDeductible { get { return deal.InsuranceCoverageLiabilityDeductible; } set { deal.InsuranceCoverageLiabilityDeductible = value; } }
@@ -165,9 +165,9 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public string InsuranceCompanyPhone { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InsuranceCompanyFax { get; set; }
-        public bool VehicleInsuranceCertification { get { return deal.VehicleInsuranceCertification; } set { deal.VehicleInsuranceCertification = value; } }
-        public bool UseCustomerTax { get { return deal.UseCustomerTax; } set { deal.UseCustomerTax = value; } }
-        public bool Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
+        public bool? VehicleInsuranceCertification { get { return deal.VehicleInsuranceCertification; } set { deal.VehicleInsuranceCertification = value; } }
+        public bool? UseCustomerTax { get { return deal.UseCustomerTax; } set { deal.UseCustomerTax = value; } }
+        public bool? Taxable { get { return deal.Taxable; } set { deal.Taxable = value; } }
         public string TaxStateOfIncorporationId { get { return deal.TaxStateOfIncorporationId; } set { deal.TaxStateOfIncorporationId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxStateOfIncorporation { get; set; }
@@ -175,19 +175,19 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         public int? NonTaxableYear { get { return deal.NonTaxableYear; } set { deal.NonTaxableYear = value; } }
         public string NonTaxableCertificateNo { get { return deal.NonTaxableCertificateNo; } set { deal.NonTaxableCertificateNo = value; } }
         public string NonTaxableCertificateValidThrough { get { return deal.NonTaxableCertificateValidThrough; } set { deal.NonTaxableCertificateValidThrough = value; } }
-        public bool NonTaxableCertificateOnFile { get { return deal.NonTaxableCertificateOnFile; } set { deal.NonTaxableCertificateOnFile = value; } }
-        public bool DisableQuoteOrderActivity { get { return deal.DisableQuoteOrderActivity; } set { deal.DisableQuoteOrderActivity = value; } }
-        public bool DisableRental { get { return deal.DisableRental; } set { deal.DisableRental = value; } }
-        public bool DisableSales { get { return deal.DisableSales; } set { deal.DisableSales = value; } }
-        public bool DisableFacilities { get { return deal.DisableFacilities; } set { deal.DisableFacilities = value; } }
-        public bool DisableTransportation { get { return deal.DisableTransportation; } set { deal.DisableTransportation = value; } }
-        public bool DisableLabor { get { return deal.DisableLabor; } set { deal.DisableLabor = value; } }
-        public bool DisableMisc { get { return deal.DisableMisc; } set { deal.DisableMisc = value; } }
-        public bool DisableRentalSale { get { return deal.DisableRentalSale; } set { deal.DisableRentalSale = value; } }
-        public bool DisableSubRental { get { return deal.DisableSubRental; } set { deal.DisableSubRental = value; } }
-        public bool DisableSubSale { get { return deal.DisableSubSale; } set { deal.DisableSubSale = value; } }
-        public bool DisableSubLabor { get { return deal.DisableSubLabor; } set { deal.DisableSubLabor = value; } }
-        public bool DisableSubMisc { get { return deal.DisableSubMisc; } set { deal.DisableSubMisc = value; } }
+        public bool? NonTaxableCertificateOnFile { get { return deal.NonTaxableCertificateOnFile; } set { deal.NonTaxableCertificateOnFile = value; } }
+        public bool? DisableQuoteOrderActivity { get { return deal.DisableQuoteOrderActivity; } set { deal.DisableQuoteOrderActivity = value; } }
+        public bool? DisableRental { get { return deal.DisableRental; } set { deal.DisableRental = value; } }
+        public bool? DisableSales { get { return deal.DisableSales; } set { deal.DisableSales = value; } }
+        public bool? DisableFacilities { get { return deal.DisableFacilities; } set { deal.DisableFacilities = value; } }
+        public bool? DisableTransportation { get { return deal.DisableTransportation; } set { deal.DisableTransportation = value; } }
+        public bool? DisableLabor { get { return deal.DisableLabor; } set { deal.DisableLabor = value; } }
+        public bool? DisableMisc { get { return deal.DisableMisc; } set { deal.DisableMisc = value; } }
+        public bool? DisableRentalSale { get { return deal.DisableRentalSale; } set { deal.DisableRentalSale = value; } }
+        public bool? DisableSubRental { get { return deal.DisableSubRental; } set { deal.DisableSubRental = value; } }
+        public bool? DisableSubSale { get { return deal.DisableSubSale; } set { deal.DisableSubSale = value; } }
+        public bool? DisableSubLabor { get { return deal.DisableSubLabor; } set { deal.DisableSubLabor = value; } }
+        public bool? DisableSubMisc { get { return deal.DisableSubMisc; } set { deal.DisableSubMisc = value; } }
         public string DefaultOutgoingDeliveryType { get { return deal.DefaultOutgoingDeliveryType; } set { deal.DefaultOutgoingDeliveryType = value; } }
         public string DefaultIncomingDeliveryType { get { return deal.DefaultIncomingDeliveryType; } set { deal.DefaultIncomingDeliveryType = value; } }
         public string ShippingAddressType { get { return deal.ShippingAddressType; } set { deal.ShippingAddressType = value; } }
@@ -200,7 +200,7 @@ namespace RentalWorksWebApi.Modules.Home.Deal
         [FwBusinessLogicField(isReadOnly: true)]
         public string ShipCountry { get; set; }
         public string ShipZipCode { get { return deal.ShipZipCode; } set { deal.ShipZipCode = value; } }
-        public bool RebateRental { get { return deal.RebateRental; } set { deal.RebateRental = value; } }
+        public bool? RebateRental { get { return deal.RebateRental; } set { deal.RebateRental = value; } }
         public string RebateCustomerId { get { return deal.RebateCustomerId; } set { deal.RebateCustomerId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RebateCustomer { get; set; }

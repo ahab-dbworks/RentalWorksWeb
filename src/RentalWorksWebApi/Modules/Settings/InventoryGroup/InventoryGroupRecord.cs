@@ -21,22 +21,22 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryGroup
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "includeconsigned", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IncludeConsigned { get; set; }
+        public bool? IncludeConsigned { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "includeowned", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IncludeOwned { get; set; }
+        public bool? IncludeOwned { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ranka", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RankA { get; set; }
+        public bool? RankA { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rankb", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RankB { get; set; }
+        public bool? RankB { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rankc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RankC { get; set; }
+        public bool? RankC { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rankd", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RankD { get; set; }
+        public bool? RankD { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string TrackedBy { get; set; }
@@ -48,7 +48,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryGroup
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

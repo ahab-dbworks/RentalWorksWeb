@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         [FwBusinessLogicField(isReadOnly: true)]
         public string TrackedBy { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TreatConsignedQtyAsOwned { get; set; }
+        public bool? TreatConsignedQtyAsOwned { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? QtyConsigned { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         [FwBusinessLogicField(isReadOnly: true)]
         public int? HousePercent { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool FlatRate { get; set; }
+        public bool? FlatRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? FlatRateAmount { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -60,7 +60,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
         [FwBusinessLogicField(isReadOnly: true)]
         public string WarehouseCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TextColor { get; set; }
+        public bool? TextColor { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? Color { get; set; }
         //------------------------------------------------------------------------------------ 

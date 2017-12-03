@@ -78,7 +78,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hastieredcost", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool HasTieredCost { get; set; }
+        public bool? HasTieredCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "restockfee", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
         public decimal? RestockingFee { get; set; }
@@ -87,22 +87,22 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         public decimal? RestockingPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool AvailabilityByHour { get; set; }
+        public bool? AvailabilityByHour { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbydeal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool AvailabilityByDeal { get; set; }
+        public bool? AvailabilityByDeal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool AvailabilityByAsset { get; set; }
+        public bool? AvailabilityByAsset { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool QcRequired { get; set; }
+        public bool? QcRequired { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? AvailabilityQcDelay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool AllowAllUsersAddToOrder { get; set; }
+        public bool? AllowAllUsersAddToOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
         public string DefaultStartTime { get; set; }

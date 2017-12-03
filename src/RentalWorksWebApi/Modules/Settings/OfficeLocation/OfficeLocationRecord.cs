@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.OfficeLocation
         public string Location { get; set; } = "";
         //------------------------------------------------------------------------------------        
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
 
     }
 }

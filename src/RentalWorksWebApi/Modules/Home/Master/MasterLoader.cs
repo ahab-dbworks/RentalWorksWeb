@@ -50,10 +50,10 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public string UnitType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nodiscount", modeltype: FwDataTypes.Boolean)]
-        public bool NonDiscountable { get; set; }
+        public bool? NonDiscountable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
-        public bool OverrideProfitAndLossCategory { get; set; }
+        public bool? OverrideProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text)]
         public string ProfitAndLossCategoryId { get; set; }
@@ -62,49 +62,49 @@ namespace RentalWorksWebApi.Modules.Home.Master
         public string ProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "copynotes", modeltype: FwDataTypes.Boolean)]
-        public bool AutoCopyNotesToQuoteOrder { get; set; }
+        public bool? AutoCopyNotesToQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
         public string Note { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnInContract { get; set; }
+        public bool? PrintNoteOnInContract { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnOutContract { get; set; }
+        public bool? PrintNoteOnOutContract { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReceiveContract { get; set; }
+        public bool? PrintNoteOnReceiveContract { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReturnContract { get; set; }
+        public bool? PrintNoteOnReturnContract { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnInvoice { get; set; }
+        public bool? PrintNoteOnInvoice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnOrder { get; set; }
+        public bool? PrintNoteOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPickList { get; set; }
+        public bool? PrintNoteOnPickList { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPO { get; set; }
+        public bool? PrintNoteOnPO { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnQuote { get; set; }
+        public bool? PrintNoteOnQuote { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnReturnList { get; set; }
+        public bool? PrintNoteOnReturnList { get; set; }
         //------------------------------------------------------------------------------------                 
         [FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPoReceiveList { get; set; }
+        public bool? PrintNoteOnPoReceiveList { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean)]
-        public bool PrintNoteOnPoReturnList { get; set; }
+        public bool? PrintNoteOnPoReturnList { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

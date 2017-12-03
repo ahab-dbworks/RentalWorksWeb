@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "revenue", modeltype: FwDataTypes.Boolean)]
-        public bool ActualRevenue { get; set; }
+        public bool? ActualRevenue { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

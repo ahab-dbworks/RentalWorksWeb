@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.DealType
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean)]
-        public bool WhiteText { get; set; }
+        public bool? WhiteText { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "glprefix", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string GlPrefix { get; set; }
@@ -27,13 +27,13 @@ namespace RentalWorksWebApi.Modules.Settings.DealType
         public string GlSuffix { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "theatricalproduction", modeltype: FwDataTypes.Boolean)]
-        public bool TheatricalProduction { get; set; }
+        public bool? TheatricalProduction { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "theatricalautocheckout", modeltype: FwDataTypes.Boolean)]
-        public bool TheatricalAutoCheckout { get; set; }
+        public bool? TheatricalAutoCheckout { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

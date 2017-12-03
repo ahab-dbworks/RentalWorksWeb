@@ -39,10 +39,10 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public decimal? Cost { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Taxable { get; set; }
+        //public bool? Taxable { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Locked { get; set; }
+        //public bool? Locked { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string ParentId { get; set; }
@@ -54,25 +54,25 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public string OrgmasteritemId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "quoteprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Quoteprint { get; set; }
+        //public bool? Quoteprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orderprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Orderprint { get; set; }
+        //public bool? Orderprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "picklistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Picklistprint { get; set; }
+        //public bool? Picklistprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "contractoutprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Contractoutprint { get; set; }
+        //public bool? Contractoutprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "invoiceprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Invoiceprint { get; set; }
+        //public bool? Invoiceprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "returnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Returnlistprint { get; set; }
+        //public bool? Returnlistprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "contractinprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Contractinprint { get; set; }
+        //public bool? Contractinprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LdorderId { get; set; }
@@ -84,7 +84,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public decimal? Accratio { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "returnflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Returnflg { get; set; }
+        //public bool? Returnflg { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ratemasterid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RatemasterId { get; set; }
@@ -99,7 +99,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public int? Split { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "manualbillflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Manualbillflg { get; set; }
+        //public bool? Manualbillflg { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "meterrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Meterrate { get; set; }
@@ -120,13 +120,13 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public decimal? Subqty { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Bold { get; set; }
+        //public bool? Bold { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string CountryoforiginId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "excludefromquikpaydiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Excludefromquikpaydiscount { get; set; }
+        //public bool? Excludefromquikpaydiscount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "manufacturerid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string ManufacturerId { get; set; }
@@ -156,19 +156,19 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public string Itemorder { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "conflict", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Conflict { get; set; }
+        //public bool? Conflict { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "contractreceiveprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Contractreceiveprint { get; set; }
+        //public bool? Contractreceiveprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "contractreturnprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Contractreturnprint { get; set; }
+        //public bool? Contractreturnprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "packagecode", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         //public string Packagecode { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "poprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Poprint { get; set; }
+        //public bool? Poprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primarymasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string PrimarymasteritemId { get; set; }
@@ -222,7 +222,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public string UnitId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "forceconflictflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Forceconflictflg { get; set; }
+        //public bool? Forceconflictflg { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availsequence", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         //public string Availsequence { get; set; }
@@ -240,28 +240,28 @@ namespace RentalWorksWebApi.Modules.Home.MasterItem
         //public string NestedmasteritemId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "prorateweeks", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Prorateweeks { get; set; }
+        //public bool? Prorateweeks { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "proratemonths", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Proratemonths { get; set; }
+        //public bool? Proratemonths { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "premiumpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
         //public decimal? Premiumpct { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ismaxdayloc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Ismaxdayloc { get; set; }
+        //public bool? Ismaxdayloc { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ismaxloc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Ismaxloc { get; set; }
+        //public bool? Ismaxloc { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orderactivity", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         //public string Orderactivity { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "poreceivelistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Poreceivelistprint { get; set; }
+        //public bool? Poreceivelistprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "poreturnlistprint", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Poreturnlistprint { get; set; }
+        //public bool? Poreturnlistprint { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

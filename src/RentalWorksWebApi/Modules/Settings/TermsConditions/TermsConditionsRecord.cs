@@ -18,10 +18,10 @@ namespace RentalWorksWebApi.Modules.Settings.TermsConditions
         public string FileName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "newpageflg", modeltype: FwDataTypes.Boolean)]
-        public bool StartOnNewPage { get; set; }
+        public bool? StartOnNewPage { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

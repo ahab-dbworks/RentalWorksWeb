@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.CrewLocation
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

@@ -44,7 +44,7 @@ namespace RentalWorksWebApi.Modules.Settings.Building
         //public string TaxoptionId { get { return building.TaxoptionId; } set { building.TaxoptionId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Primarycontact { get; set; }
-        public bool Inactive { get { return building.Inactive; } set { building.Inactive = value; } }
+        public bool? Inactive { get { return building.Inactive; } set { building.Inactive = value; } }
         //------------------------------------------------------------------------------------ 
         public override void BeforeSave()
         {

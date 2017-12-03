@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorRating
         public string GeneratorRating { get { return generatorRating.VehicleRating; } set { generatorRating.VehicleRating = value; } }
         [JsonIgnore]
         public string RowType { get { return generatorRating.RowType; } set { generatorRating.RowType = value; } }
-        public bool Inactive { get { return generatorRating.Inactive; } set { generatorRating.Inactive = value; } }
+        public bool? Inactive { get { return generatorRating.Inactive; } set { generatorRating.Inactive = value; } }
         public string DateStamp { get { return generatorRating.DateStamp; } set { generatorRating.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

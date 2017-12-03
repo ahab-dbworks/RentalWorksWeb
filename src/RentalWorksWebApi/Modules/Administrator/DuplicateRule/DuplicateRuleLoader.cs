@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
         public string RuleName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "casesensitive", modeltype: FwDataTypes.Boolean)]
-        public bool CaseSensitive { get; set; }
+        public bool? CaseSensitive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fields", modeltype: FwDataTypes.Text)]
         public string Fields { get; set; }

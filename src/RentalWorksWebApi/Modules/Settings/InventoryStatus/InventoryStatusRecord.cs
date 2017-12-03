@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Settings.RentalStatus
         public string Color { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool WhiteText { get; set; }
+        public bool? WhiteText { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

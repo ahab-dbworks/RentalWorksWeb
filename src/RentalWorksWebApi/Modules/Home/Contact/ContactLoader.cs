@@ -98,10 +98,10 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string InactiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflag", modeltype: FwDataTypes.Boolean)]
-        public bool PrimaryFlag { get; set; }
+        public bool? PrimaryFlag { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "authorized", modeltype: FwDataTypes.Boolean)]
-        public bool Authorized { get; set; }
+        public bool? Authorized { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text)]
         public string ContactTitleId { get; set; }
@@ -110,7 +110,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string ContactTitle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean)]
-        public bool WebAccess { get; set; }
+        public bool? WebAccess { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webstatus", modeltype: FwDataTypes.Text)]
         public string WebStatus { get; set; }
@@ -134,7 +134,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string Id { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
-        public bool LockAccount { get; set; }
+        public bool? LockAccount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
         public string GroupId { get; set; }
@@ -143,10 +143,10 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string WebPassword { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean)]
-        public bool ChangePasswordAtLogin { get; set; }
+        public bool? ChangePasswordAtLogin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]
-        public bool ExpirePassword { get; set; }
+        public bool? ExpirePassword { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer)]
         public int? ExpireDays { get; set; }
@@ -158,7 +158,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string Password { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string Company { get; set; }

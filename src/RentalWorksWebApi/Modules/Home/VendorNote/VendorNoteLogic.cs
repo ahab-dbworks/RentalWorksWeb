@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Home.VendorNote
         public string NoteDate { get { return vendorNoteRecord.NoteDate; } set { vendorNoteRecord.NoteDate = value; } }
         public string Description { get { return vendorNoteRecord.Description; } set { vendorNoteRecord.Description = value; } }
         public string Notes { get { return vendorNoteRecord.Notes; } set { vendorNoteRecord.Notes = value; } }
-        public bool Notify { get { return vendorNoteRecord.Notify; } set { vendorNoteRecord.Notify = value; } }
+        public bool? Notify { get { return vendorNoteRecord.Notify; } set { vendorNoteRecord.Notify = value; } }
         public string NotesById { get { return vendorNoteRecord.NotesById; } set { vendorNoteRecord.NotesById = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string NotesBy { get; set; }

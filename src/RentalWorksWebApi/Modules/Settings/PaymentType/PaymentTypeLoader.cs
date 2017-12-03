@@ -30,7 +30,7 @@ namespace RentalWorksWebApi.Data.Settings
         public string GlAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "accttran", modeltype: FwDataTypes.Boolean)]
-        public bool AccountingTransaction { get; set; }
+        public bool? AccountingTransaction { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "exportpaymentmethod", modeltype: FwDataTypes.Text)]
         public string ExportPaymentMethod { get; set; }
@@ -39,13 +39,13 @@ namespace RentalWorksWebApi.Data.Settings
         public string ExportPaymentType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "includeinrwnet", modeltype: FwDataTypes.Boolean)]
-        public bool IncludeInRentalWorksNet { get; set; }
+        public bool? IncludeInRentalWorksNet { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rwnetcaption", modeltype: FwDataTypes.Text)]
         public string RentalWorksNetCaption { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

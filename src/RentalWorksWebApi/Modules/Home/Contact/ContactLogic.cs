@@ -53,7 +53,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string FaxExtension { get { return contact.FaxExtension; } set { contact.FaxExtension = value; } }
         public string FirstName { get { return contact.FirstName; } set { contact.FirstName = value; } }
         public string HomePhone { get { return contact.HomePhone; } set { contact.HomePhone = value; } }
-        public bool Inactive { get { return contact.Inactive; } set { contact.Inactive = value; } }
+        public bool? Inactive { get { return contact.Inactive; } set { contact.Inactive = value; } }
         public string InactiveDate { get { return contact.InactiveDate; } set { contact.InactiveDate = value; } }
         public string Info { get { return contact.Info; } set { contact.Info = value; } }
         public string InputById { get { return contact.InputById; } set { contact.InputById = value; } }
@@ -90,14 +90,14 @@ namespace RentalWorksWebApi.Modules.Home.Contact
 
         // WebUserRecord
         public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
-        public bool WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
-        public bool LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
+        public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
+        public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
         public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
-        public bool ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
+        public bool? ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
         public int? ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
 
-        public bool WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
-        public bool ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
+        public bool? WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
+        public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
         public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
 
         //public string GroupId { get { return webUser.GroupId; } set { webUser.GroupId = value; } }

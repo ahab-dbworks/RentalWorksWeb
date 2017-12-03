@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerCategory
         [FwBusinessLogicField(isRecordTitle: true)]
         public string CustomerCategory { get { return customerCat.CustomerCategory; } set { customerCat.CustomerCategory = value; } }
         public string DateStamp { get { return customerCat.DateStamp; } set { customerCat.DateStamp = value; } }
-        public bool Inactive { get { return customerCat.Inactive; } set { customerCat.Inactive = value; } }
+        public bool? Inactive { get { return customerCat.Inactive; } set { customerCat.Inactive = value; } }
 
 
     }

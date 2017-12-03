@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         public string PrepUnit { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PrepUnitType { get; set; }
-        public bool IsDefault { get { return inventoryPrep.IsDefault; } set { inventoryPrep.IsDefault = value; } }
+        public bool? IsDefault { get { return inventoryPrep.IsDefault; } set { inventoryPrep.IsDefault = value; } }
         public decimal? PrepRate { get { return inventoryPrep.PrepRate; } set { inventoryPrep.PrepRate = value; } }
         public string PrepTime { get { return inventoryPrep.PrepTime; } set { inventoryPrep.PrepTime = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -39,9 +39,9 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Price { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool OrderId { get; set; }
+        public bool? OrderId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool MasteritemId { get; set; }
+        public bool? MasteritemId { get; set; }
         public string DateStamp { get { return inventoryPrep.DateStamp; } set { inventoryPrep.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Settings.CrewPosition
         public string RateId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "costdaily", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
         public decimal? CostDaily { get; set; }

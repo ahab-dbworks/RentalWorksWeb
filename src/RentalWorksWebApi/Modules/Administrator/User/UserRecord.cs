@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public string FirstName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "middleinitial", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool MiddleInitial { get; set; }
+        public bool? MiddleInitial { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string LastName { get; set; }
@@ -117,13 +117,13 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public string PasswordUpdatedDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool PasswordExpires { get; set; }
+        public bool? PasswordExpires { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "pwignore", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Pwignore { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mustchangepwflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool UserMustChangePassword { get; set; }
+        public bool? UserMustChangePassword { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Email { get; set; }
@@ -132,7 +132,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "searchpref", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool SearchPreference { get; set; }
+        //public bool? SearchPreference { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "userstitleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string UsersTitleId { get; set; }
@@ -153,7 +153,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string SalesDepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoprintcontract", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoprintcontract { get; set; }
+        //public bool? Autoprintcontract { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "defaultdepttype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
         //public string Defaultdepttype { get; set; }
@@ -168,22 +168,22 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string SpacedepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "alloworderedqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Alloworderedqty { get; set; }
+        //public bool? Alloworderedqty { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcancelcontract", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcancelcontract { get; set; }
+        //public bool? Allowcancelcontract { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageonunapprovedcredit", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageonunapprovedcredit { get; set; }
+        //public bool? Allowstageonunapprovedcredit { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageoncreditlimit", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageoncreditlimit { get; set; }
+        //public bool? Allowstageoncreditlimit { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageoninvalidinsurance", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageoninvalidinsurance { get; set; }
+        //public bool? Allowstageoninvalidinsurance { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageoninsurancecoverage", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageoninsurancecoverage { get; set; }
+        //public bool? Allowstageoninsurancecoverage { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "sso", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Sso { get; set; }
@@ -195,16 +195,16 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public decimal? Discountto { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcreditlimitoverride", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcreditlimitoverride { get; set; }
+        //public bool? Allowcreditlimitoverride { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcrosseditlocation", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcrosseditlocation { get; set; }
+        //public bool? Allowcrosseditlocation { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageonpendingpo", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageonpendingpo { get; set; }
+        //public bool? Allowstageonpendingpo { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageunavailable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageunavailable { get; set; }
+        //public bool? Allowstageunavailable { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "labordepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LabordepartmentId { get; set; }
@@ -237,19 +237,19 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string SalesinventorydepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "showalllocations", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Showalllocations { get; set; }
+        //public bool? Showalllocations { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "spaceinventorydepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string SpaceinventorydepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qedisbaledblclickinc", modeltype: FwDataTypes.Boolean, sqltype: "varchar")]
-        //public bool Qedisbaledblclickinc { get; set; }
+        //public bool? Qedisbaledblclickinc { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "defaulttogrid", modeltype: FwDataTypes.Boolean, sqltype: "varchar")]
-        //public bool DefaulttogrId { get; set; }
+        //public bool? DefaulttogrId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "printbyuserdeal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Printbyuserdeal { get; set; }
+        //public bool? Printbyuserdeal { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "soundpatherror", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
         //public string Soundpatherror { get; set; }
@@ -273,31 +273,31 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Emailapp { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "quikactivityprintdollar", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Quikactivityprintdollar { get; set; }
+        //public bool? Quikactivityprintdollar { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "showallinventory", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Showallinventory { get; set; }
+        //public bool? Showallinventory { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ccmyself", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Ccmyself { get; set; }
+        //public bool? Ccmyself { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ccagent", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Ccagent { get; set; }
+        //public bool? Ccagent { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "alwaysshowsplitdetails", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Alwaysshowsplitdetails { get; set; }
+        //public bool? Alwaysshowsplitdetails { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcontractwithexceptions", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcontractwithexceptions { get; set; }
+        //public bool? Allowcontractwithexceptions { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qeshowdeptpane", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qeshowdeptpane { get; set; }
+        //public bool? Qeshowdeptpane { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "applanguageid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string ApplanguageId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qeshowimagepane", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qeshowimagepane { get; set; }
+        //public bool? Qeshowimagepane { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "transportationdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string TransportationdepartmentId { get; set; }
@@ -306,106 +306,106 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string TransportationinvdepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Lockaccount { get; set; }
+        //public bool? Lockaccount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageoninvalidnontax", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageoninvalidnontax { get; set; }
+        //public bool? Allowstageoninvalidnontax { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "discountrule", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         //public string Discountrule { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "limitdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Limitdiscount { get; set; }
+        //public bool? Limitdiscount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "limitdw", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Limitdw { get; set; }
+        //public bool? Limitdw { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "limitsubdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Limitsubdiscount { get; set; }
+        //public bool? Limitsubdiscount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "subdiscountto", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 2)]
         //public decimal? Subdiscountto { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcumulativediscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcumulativediscount { get; set; }
+        //public bool? Allowcumulativediscount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "cumulativediscountoverride", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Cumulativediscountoverride { get; set; }
+        //public bool? Cumulativediscountoverride { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
         //public decimal? Maxcumulativediscount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "dashboardaccess", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Dashboardaccess { get; set; }
+        //public bool? Dashboardaccess { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "basedataapplanguageid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string BasedataapplanguageId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qeusecompanydepartment", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qeusecompanydepartment { get; set; }
+        //public bool? Qeusecompanydepartment { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "summarybydefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Summarybydefault { get; set; }
+        //public bool? Summarybydefault { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "nomisconquote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Nomisconquote { get; set; }
+        //public bool? Nomisconquote { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "nomisconorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Nomisconorder { get; set; }
+        //public bool? Nomisconorder { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcrossicodeexchange", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcrossicodeexchange { get; set; }
+        //public bool? Allowcrossicodeexchange { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "hidebilleditems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Hidebilleditems { get; set; }
+        //public bool? Hidebilleditems { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "topsalesbypmagent", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Topsalesbypmagent { get; set; }
+        //public bool? Topsalesbypmagent { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "customerrevenuedetail", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Customerrevenuedetail { get; set; }
+        //public bool? Customerrevenuedetail { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "customerrevenuebyyear", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Customerrevenuebyyear { get; set; }
+        //public bool? Customerrevenuebyyear { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "dailyactivity", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Dailyactivity { get; set; }
+        //public bool? Dailyactivity { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "maximizescrollers", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Maximizescrollers { get; set; }
+        //public bool? Maximizescrollers { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "maximizeupdates", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Maximizeupdates { get; set; }
+        //public bool? Maximizeupdates { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "openupdateineditmode", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Openupdateineditmode { get; set; }
+        //public bool? Openupdateineditmode { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowreceivepositiveconflict", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowreceivepositiveconflict { get; set; }
+        //public bool? Allowreceivepositiveconflict { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "enablecrosshairorderactivity", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Enablecrosshairorderactivity { get; set; }
+        //public bool? Enablecrosshairorderactivity { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "disablesound", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Disablesound { get; set; }
+        //public bool? Disablesound { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "enablecreatecontract", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Enablecreatecontract { get; set; }
+        //public bool? Enablecreatecontract { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowchangeavailpriority", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowchangeavailpriority { get; set; }
+        //public bool? Allowchangeavailpriority { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowcrossicodependingexchange", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowcrossicodependingexchange { get; set; }
+        //public bool? Allowcrossicodependingexchange { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "crosshairhorizontal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Crosshairhorizontal { get; set; }
+        //public bool? Crosshairhorizontal { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "crosshairvertical", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Crosshairvertical { get; set; }
+        //public bool? Crosshairvertical { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qsallowapplyallqtyitems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qsallowapplyallqtyitems { get; set; }
+        //public bool? Qsallowapplyallqtyitems { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "soundpathduplicatescan", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
         //public string Soundpathduplicatescan { get; set; }
@@ -417,61 +417,61 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string PoordertypeId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageunreservedconsigned", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageunreservedconsigned { get; set; }
+        //public bool? Allowstageunreservedconsigned { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "nomisconpo", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Nomisconpo { get; set; }
+        //public bool? Nomisconpo { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowinstallhotfixes", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowinstallhotfixes { get; set; }
+        //public bool? Allowinstallhotfixes { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowstageunapproveditem", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowstageunapproveditem { get; set; }
+        //public bool? Allowstageunapproveditem { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "schedulecolor", modeltype: FwDataTypes.Integer, sqltype: "int")]
         //public int? Schedulecolor { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowsubstitute", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Allowsubstitute { get; set; }
+        //public bool? Allowsubstitute { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "substitutedeletesoriginal", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Substitutedeletesoriginal { get; set; }
+        //public bool? Substitutedeletesoriginal { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenmode", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenmode { get; set; }
+        //public bool? Autoopenmode { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenorder { get; set; }
+        //public bool? Autoopenorder { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenquote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenquote { get; set; }
+        //public bool? Autoopenquote { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenrepairorders", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenrepairorders { get; set; }
+        //public bool? Autoopenrepairorders { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenactivityscroller", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenactivityscroller { get; set; }
+        //public bool? Autoopenactivityscroller { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoopenavailabilityconflicts", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Autoopenavailabilityconflicts { get; set; }
+        //public bool? Autoopenavailabilityconflicts { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "prodschedfulldetails", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Prodschedfulldetails { get; set; }
+        //public bool? Prodschedfulldetails { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "prodschedshowcrewname", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Prodschedshowcrewname { get; set; }
+        //public bool? Prodschedshowcrewname { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availshowallwh", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Availshowallwh { get; set; }
+        //public bool? Availshowallwh { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availpreference", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         //public string Availpreference { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "availscheduleviewmode", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Availscheduleviewmode { get; set; }
+        //public bool? Availscheduleviewmode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         //    [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         //    public string DateStamp { get; set; }

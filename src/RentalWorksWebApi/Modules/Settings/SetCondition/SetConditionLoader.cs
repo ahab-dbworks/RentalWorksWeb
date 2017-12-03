@@ -17,22 +17,22 @@ namespace RentalWorksWebApi.Modules.Settings.SetCondition
         public string SetCondition { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
-        public bool Rental { get; set; }
+        public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
-        public bool Sales { get; set; }
+        public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sets", modeltype: FwDataTypes.Boolean)]
-        public bool Sets { get; set; }
+        public bool? Sets { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "props", modeltype: FwDataTypes.Boolean)]
-        public bool Props { get; set; }
+        public bool? Props { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "wardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool Wardrobe { get; set; }
+        public bool? Wardrobe { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

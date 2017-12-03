@@ -18,16 +18,16 @@ namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
         public string InvoiceMessage { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "days", modeltype: FwDataTypes.Integer)]
-        public int DueInDays { get; set; }
+        public int? DueInDays { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "cod", modeltype: FwDataTypes.Boolean)]
-        public bool COD { get; set; }
+        public bool? COD { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermscode", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string PaymentTermsCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

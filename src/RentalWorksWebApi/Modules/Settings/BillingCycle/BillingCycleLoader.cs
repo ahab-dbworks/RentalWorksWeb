@@ -24,10 +24,10 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         public string NextBillingCycle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "proratemonthly", modeltype: FwDataTypes.Boolean)]
-        public bool ProrateMonthly { get; set; }
+        public bool? ProrateMonthly { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

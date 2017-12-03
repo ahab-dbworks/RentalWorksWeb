@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleFuelType
         public string VehicleFuelType { get { return fuelType.FuelType; } set { fuelType.FuelType = value; } }
         [JsonIgnore]
         public string RowType { get { return fuelType.RowType; } set { fuelType.RowType = value; } }
-        public bool Inactive { get { return fuelType.Inactive; } set { fuelType.Inactive = value; } }
+        public bool? Inactive { get { return fuelType.Inactive; } set { fuelType.Inactive = value; } }
         public string DateStamp { get { return fuelType.DateStamp; } set { fuelType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

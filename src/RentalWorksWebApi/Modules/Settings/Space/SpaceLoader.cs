@@ -62,7 +62,7 @@ namespace RentalWorksWebApi.Modules.Settings.Space
         public string SpaceToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "commonsqftflg", modeltype: FwDataTypes.Boolean)]
-        public bool CommonSquareFeet { get; set; }
+        public bool? CommonSquareFeet { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionid", modeltype: FwDataTypes.Text)]
         public string PrimaryDimensionId { get; set; }
@@ -119,7 +119,7 @@ namespace RentalWorksWebApi.Modules.Settings.Space
         //public int? Orderbyroom { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
         public string BillingCycleEvent { get { return billPeriodEventPercent.BillPeriodEvent; } set { billPeriodEventPercent.BillPeriodEvent = value; } }
         public int? BillPercent { get { return billPeriodEventPercent.BillPercent;  } set { billPeriodEventPercent.BillPercent = value; } }
         public int? OrderBy { get { return billPeriodEventPercent.OrderBy;  } set { billPeriodEventPercent.OrderBy = value; } }
-        public bool ActualRevenue { get { return billPeriodEventPercent.Revenue;  } set { billPeriodEventPercent.Revenue = value; } }
+        public bool? ActualRevenue { get { return billPeriodEventPercent.Revenue;  } set { billPeriodEventPercent.Revenue = value; } }
         public string DateStamp { get { return billPeriodEventPercent.DateStamp; } set { billPeriodEventPercent.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

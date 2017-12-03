@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.RepairItemStatus
         public string RepairItemStatusId { get { return repairItemStatus.RepairItemStatusId; } set { repairItemStatus.RepairItemStatusId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string RepairItemStatus { get { return repairItemStatus.RepairItemStatus; } set { repairItemStatus.RepairItemStatus = value; } }
-        public bool Inactive { get { return repairItemStatus.Inactive; } set { repairItemStatus.Inactive = value; } }
+        public bool? Inactive { get { return repairItemStatus.Inactive; } set { repairItemStatus.Inactive = value; } }
         public string DateStamp { get { return repairItemStatus.DateStamp; } set { repairItemStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

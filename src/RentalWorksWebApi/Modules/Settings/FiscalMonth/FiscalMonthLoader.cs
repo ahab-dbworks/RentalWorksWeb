@@ -41,7 +41,7 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         public string FiscalOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "closed", modeltype: FwDataTypes.Boolean)]
-        public bool Closed { get; set; }
+        public bool? Closed { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

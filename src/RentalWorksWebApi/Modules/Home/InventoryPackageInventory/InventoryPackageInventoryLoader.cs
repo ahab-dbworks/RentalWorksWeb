@@ -23,19 +23,19 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean)]
-        public bool isPrimary { get; set; }
+        public bool? isPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isoption", modeltype: FwDataTypes.Boolean)]
-        public bool IsOption { get; set; }
+        public bool? IsOption { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "charge", modeltype: FwDataTypes.Boolean)]
-        public bool Charge { get; set; }
+        public bool? Charge { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean)]
-        public bool Required { get; set; }
+        public bool? Required { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
@@ -62,7 +62,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public int? ItemColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isnestedcomplete", modeltype: FwDataTypes.Boolean)]
-        public bool IsNestedComplete { get; set; }
+        public bool? IsNestedComplete { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "iteminactive", modeltype: FwDataTypes.Text)]
         public string ItemInactive { get; set; }
@@ -77,7 +77,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public string PackageItemClass { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemnodiscount", modeltype: FwDataTypes.Boolean)]
-        public bool ItemNonDiscountable { get; set; }
+        public bool? ItemNonDiscountable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarymasterid", modeltype: FwDataTypes.Text)]
         public string PrimaryInventoryId { get; set; }

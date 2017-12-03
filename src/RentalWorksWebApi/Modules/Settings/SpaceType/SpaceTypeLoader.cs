@@ -44,22 +44,22 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whitetext", modeltype: FwDataTypes.Boolean)]
-        public bool WhiteText { get; set; }
+        public bool? WhiteText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer)]
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
-        public bool NonBillable { get; set; }
+        public bool? NonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "forreportsonly", modeltype: FwDataTypes.Boolean)]
-        public bool ForReportsOnly { get; set; }
+        public bool? ForReportsOnly { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "addtodescription", modeltype: FwDataTypes.Boolean)]
-        public bool AddToDescription { get; set; }
+        public bool? AddToDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

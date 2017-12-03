@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoRejectReason
         public string PoRejectReasonId { get { return poRejectReason.PoRejectReasonId; } set { poRejectReason.PoRejectReasonId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PoRejectReason { get { return poRejectReason.PoRejectReason; } set { poRejectReason.PoRejectReason = value; } }
-        public bool Inactive { get { return poRejectReason.Inactive; } set { poRejectReason.Inactive = value; } }
+        public bool? Inactive { get { return poRejectReason.Inactive; } set { poRejectReason.Inactive = value; } }
         public string DateStamp { get { return poRejectReason.DateStamp; } set { poRejectReason.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

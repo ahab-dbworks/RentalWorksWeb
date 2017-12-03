@@ -20,7 +20,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderLocation
         [FwBusinessLogicField(isReadOnly: true)]
         public string Location { get; set; }
         public string LocationId { get { return orderLocation.LocationId; } set { orderLocation.LocationId = value; } }
-        public bool Inactive { get { return orderLocation.Inactive; } set { orderLocation.Inactive = value; } }
+        public bool? Inactive { get { return orderLocation.Inactive; } set { orderLocation.Inactive = value; } }
         public string DateStamp { get { return orderLocation.DateStamp; } set { orderLocation.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

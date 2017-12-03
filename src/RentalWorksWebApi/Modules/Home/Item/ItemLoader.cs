@@ -41,13 +41,13 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "container", modeltype: FwDataTypes.Boolean)]
-        public bool Container { get; set; }
+        public bool? Container { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
-        public bool FixedAsset { get; set; }
+        public bool? FixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool Rank { get; set; }
+        public bool? Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Text)]
         public string StatusType { get; set; }
@@ -65,7 +65,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool TextColor { get; set; }
+        public bool? TextColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
@@ -101,7 +101,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public int? AvailOwnershipSort { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isneginv", modeltype: FwDataTypes.Boolean)]
-        public bool IsNegativeInventory { get; set; }
+        public bool? IsNegativeInventory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inspectionno", modeltype: FwDataTypes.Text)]
         public string InspectionNo { get; set; }
@@ -299,7 +299,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string RepairNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
-        public bool QcRequired { get; set; }
+        public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "widthft", modeltype: FwDataTypes.Integer)]
         public int? WidthFt { get; set; }
@@ -323,16 +323,16 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public decimal? CurrentMeter { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackassetusageflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackAssetUsage { get; set; }
+        public bool? TrackAssetUsage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tracklampusageflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackLampUsage { get; set; }
+        public bool? TrackLampUsage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackstrikesflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackStrikes { get; set; }
+        public bool? TrackStrikes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackcandlesflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackCandles { get; set; }
+        public bool? TrackCandles { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assethours", modeltype: FwDataTypes.Integer)]
         public int? AssetHours { get; set; }
@@ -380,10 +380,10 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public int? WardrobePieceCount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invdeptisprops", modeltype: FwDataTypes.Boolean)]
-        public bool InventoryTypeIsProps { get; set; }
+        public bool? InventoryTypeIsProps { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invdeptiswardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool InventoryTypeIsWardrobe { get; set; }
+        public bool? InventoryTypeIsWardrobe { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealorderlocationid", modeltype: FwDataTypes.Text)]
         public string OrderLocationId { get; set; }
@@ -392,10 +392,10 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string ContainerNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "iswardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool IsWardrobe { get; set; }
+        public bool? IsWardrobe { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isprops", modeltype: FwDataTypes.Boolean)]
-        public bool IsProps { get; set; }
+        public bool? IsProps { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyRate { get; set; }
@@ -461,7 +461,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string CurrentOrderToDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

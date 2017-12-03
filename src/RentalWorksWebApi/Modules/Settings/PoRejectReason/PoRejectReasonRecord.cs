@@ -14,7 +14,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoRejectReason
         public string PoRejectReason { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactiveflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

@@ -18,10 +18,10 @@ namespace RentalWorksWebApi.Modules.Settings.LicenseClass
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "regulated", modeltype: FwDataTypes.Boolean)]
-        public bool Regulated { get; set; }
+        public bool? Regulated { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

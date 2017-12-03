@@ -30,13 +30,13 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean)]
-        public bool NoAvailabilityCheck { get; set; }
+        public bool? NoAvailabilityCheck { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availmanuallyresolveconflict", modeltype: FwDataTypes.Boolean)]
-        public bool AvailabilityManuallyResolveConflicts { get; set; }
+        public bool? AvailabilityManuallyResolveConflicts { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SendAvailabilityAlert { get; set; }
+        public bool? SendAvailabilityAlert { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionshipweightlbs", modeltype: FwDataTypes.Integer)]
         public int? PrimaryDimensionShipWeightLbs { get; set; }
@@ -159,28 +159,28 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public int? SecondaryDimensionLengthCm { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "displaywhenrateiszero", modeltype: FwDataTypes.Boolean)]
-        public bool DisplayInSummaryModeWhenRateIsZero { get; set; }
+        public bool? DisplayInSummaryModeWhenRateIsZero { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
-        public bool QcRequired { get; set; }
+        public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qctime", modeltype: FwDataTypes.Text)]
         public string QcTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "copyattributesasnote", modeltype: FwDataTypes.Boolean)]
-        public bool CopyAttributesAsNote { get; set; }
+        public bool? CopyAttributesAsNote { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackassetusageflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackAssetUsage { get; set; }
+        public bool? TrackAssetUsage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tracklampusageflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackLampUsage { get; set; }
+        public bool? TrackLampUsage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackstrikesflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackStrikes { get; set; }
+        public bool? TrackStrikes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackcandlesflg", modeltype: FwDataTypes.Boolean)]
-        public bool TrackCandles { get; set; }
+        public bool? TrackCandles { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lampcount", modeltype: FwDataTypes.Integer)]
         public int? LampCount { get; set; }
@@ -189,7 +189,7 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public int? MinimumFootCandles { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tracksoftware", modeltype: FwDataTypes.Boolean)]
-        public bool TrackSoftware { get; set; }
+        public bool? TrackSoftware { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "softwareversion", modeltype: FwDataTypes.Text)]
         public string SoftwareVersion { get; set; }
@@ -198,13 +198,13 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public string SoftwareEffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehousespecific", modeltype: FwDataTypes.Boolean)]
-        public bool WarehouseSpecificPackage { get; set; }
+        public bool? WarehouseSpecificPackage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageprice", modeltype: FwDataTypes.Text)]
         public string PackagePrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean)]
-        public bool SeparatePackageOnQuoteOrder { get; set; }
+        public bool? SeparatePackageOnQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text)]
         public string ContainerId { get; set; }

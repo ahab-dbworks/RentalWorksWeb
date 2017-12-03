@@ -39,7 +39,7 @@ namespace RentalWorksWebApi.Modules.Home.ItemQc
         [FwBusinessLogicField(isReadOnly: true)]
         public string Note { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool HasImage { get; set; }
+        public bool? HasImage { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Datstamp { get; set; }
         //------------------------------------------------------------------------------------ 

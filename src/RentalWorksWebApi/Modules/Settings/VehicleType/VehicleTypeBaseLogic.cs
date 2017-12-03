@@ -39,7 +39,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         [JsonIgnore]
         public string AvailFor { get { return masterRecord.AvailFor; } set { masterRecord.AvailFor = value; } }
         [JsonIgnore]
-        public bool HasMaintenance { get { return inventoryCategory.HasMaintenance; } set { inventoryCategory.HasMaintenance = value; } }
+        public bool? HasMaintenance { get { return inventoryCategory.HasMaintenance; } set { inventoryCategory.HasMaintenance = value; } }
         [JsonIgnore]
         public string InternalVehicleType { get { return inventoryCategory.VehicleType; } set { inventoryCategory.VehicleType = value; } }
         public string UnitId { get { return masterRecord.UnitId; } set { masterRecord.UnitId = value; } }
@@ -89,7 +89,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         public decimal? OrderBy { get { return inventoryCategory.OrderBy; } set { inventoryCategory.OrderBy = value; } }
         public int? PickListOrderBy { get { return inventoryCategory.PickListOrderBy; } set { inventoryCategory.PickListOrderBy = value; } }
-        public bool Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
+        public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

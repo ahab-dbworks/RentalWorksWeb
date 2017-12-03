@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
         public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SystemType { get; set; }
+        public bool? SystemType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         public string Description { get; set; }
@@ -27,19 +27,19 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
         public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Enabled { get; set; }
+        public bool? Enabled { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requiredquote", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RequiredOnQuote { get; set; }
+        public bool? RequiredOnQuote { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requiredorder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool RequiredOnOrder { get; set; }
+        public bool? RequiredOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "milestone", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Milestone { get; set; }
+        public bool? Milestone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "productionactivity", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool ProductionActivity { get; set; }
+        public bool? ProductionActivity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? Color { get; set; }

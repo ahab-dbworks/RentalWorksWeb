@@ -19,7 +19,7 @@ namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
         public string GeneratorWatts { get { return generatorWatts.GeneratorWatts; } set { generatorWatts.GeneratorWatts = value; } }
         [JsonIgnore]
         public string RowType { get { return generatorWatts.RowType; } set { generatorWatts.RowType = value; } }
-        public bool Inactive { get { return generatorWatts.Inactive; } set { generatorWatts.Inactive = value; } }
+        public bool? Inactive { get { return generatorWatts.Inactive; } set { generatorWatts.Inactive = value; } }
         public string DateStamp { get { return generatorWatts.DateStamp; } set { generatorWatts.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

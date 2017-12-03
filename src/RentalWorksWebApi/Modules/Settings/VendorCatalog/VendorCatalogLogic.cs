@@ -36,7 +36,7 @@ namespace RentalWorksWebApi.Modules.Settings.VendorCatalog
         public string ShipViaId { get { return vendorCatalog.ShipViaId; } set { vendorCatalog.ShipViaId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ShipVia { get; set; }
-        public bool Inactive { get { return vendorCatalog.Inactive; } set { vendorCatalog.Inactive = value; } }
+        public bool? Inactive { get { return vendorCatalog.Inactive; } set { vendorCatalog.Inactive = value; } }
         public string DateStamp { get { return vendorCatalog.DateStamp; } set { vendorCatalog.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerStatus
         public string CreditStatusId { get { return customerStatus.CreditStatusId; } set { customerStatus.CreditStatusId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CreditStatus { get; set; }
-        public bool Inactive { get { return customerStatus.Inactive; } set { customerStatus.Inactive = value; } }
+        public bool? Inactive { get { return customerStatus.Inactive; } set { customerStatus.Inactive = value; } }
         public string DateStamp { get { return customerStatus.DateStamp; } set { customerStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

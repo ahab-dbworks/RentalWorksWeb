@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.CustomerCategory
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
 
     }
 }

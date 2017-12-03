@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.Rate
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IncludeAsProfitAndLossCategory { get; set; }
+        public bool? IncludeAsProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

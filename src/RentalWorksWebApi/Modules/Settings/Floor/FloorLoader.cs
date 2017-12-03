@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Settings.Floor
         public string FloorPlanId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasfloorplan", modeltype: FwDataTypes.Boolean)]
-        public bool HasFloorPlan { get; set; }
+        public bool? HasFloorPlan { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer)]
         public int? OrderBy { get; set; }

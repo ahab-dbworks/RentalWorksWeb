@@ -29,22 +29,22 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
         public string DescriptionDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "systemtype", modeltype: FwDataTypes.Boolean)]
-        public bool SystemType { get; set; }
+        public bool? SystemType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "enabled", modeltype: FwDataTypes.Boolean)]
-        public bool Enabled { get; set; }
+        public bool? Enabled { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "milestone", modeltype: FwDataTypes.Boolean)]
-        public bool Milestone { get; set; }
+        public bool? Milestone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "productionactivity", modeltype: FwDataTypes.Boolean)]
-        public bool ProductionActivity { get; set; }
+        public bool? ProductionActivity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requiredquote", modeltype: FwDataTypes.Boolean)]
-        public bool RequiredOnQuote { get; set; }
+        public bool? RequiredOnQuote { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "requiredorder", modeltype: FwDataTypes.Boolean)]
-        public bool RequiredOnOrder { get; set; }
+        public bool? RequiredOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "color", modeltype: FwDataTypes.Integer)]
         public int? Color { get; set; }

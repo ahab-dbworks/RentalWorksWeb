@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Home.CompanyContact
         public string ContactTitleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflag", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "activedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string ActiveDate { get; set; }
@@ -33,10 +33,10 @@ namespace RentalWorksWebApi.Modules.Home.CompanyContact
         public string InactiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "authorized", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Authorized { get; set; }
+        public bool? Authorized { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordernotify", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool OrderNotify { get; set; }
+        public bool? OrderNotify { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "officephone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string OfficePhone { get; set; }
@@ -66,13 +66,13 @@ namespace RentalWorksWebApi.Modules.Home.CompanyContact
         public string PagerPin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "printflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Printable { get; set; }
+        public bool? Printable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mobilephone", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 15)]
         public string MobilePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

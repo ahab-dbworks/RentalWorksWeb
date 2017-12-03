@@ -15,10 +15,10 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availforsales", modeltype: FwDataTypes.Boolean)]
-        public bool AvailableForSales { get; set; }
+        public bool? AvailableForSales { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "availforpurchase", modeltype: FwDataTypes.Boolean)]
-        public bool AvailableForPurchases { get; set; }
+        public bool? AvailableForPurchases { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, required: true)]
         public string TaxCountry { get; set; }
@@ -33,7 +33,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public decimal? RentalTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxrental", modeltype: FwDataTypes.Boolean)]
-        public bool RentalExempt { get; set; }
+        public bool? RentalExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesTaxRate1 { get; set; }
@@ -42,7 +42,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public decimal? SalesTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxsales", modeltype: FwDataTypes.Boolean)]
-        public bool SalesExempt { get; set; }
+        public bool? SalesExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborTaxRate1 { get; set; }
@@ -51,10 +51,10 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public decimal? LaborTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxlabor", modeltype: FwDataTypes.Boolean)]
-        public bool LaborExempt { get; set; }
+        public bool? LaborExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxontax", modeltype: FwDataTypes.Boolean)]
-        public bool TaxOnTax { get; set; }
+        public bool? TaxOnTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxontaxaccountid", modeltype: FwDataTypes.Text)]
         public string TaxOnTaxAccountId { get; set; }
@@ -93,7 +93,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public string QuickBooksTaxVendor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxgroup", modeltype: FwDataTypes.Boolean)]
-        public bool QuickBooksTaxGroup { get; set; }
+        public bool? QuickBooksTaxGroup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "gstexportcode", modeltype: FwDataTypes.Text)]
         public string GstExportCode { get; set; }
@@ -102,7 +102,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public string PstExportCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

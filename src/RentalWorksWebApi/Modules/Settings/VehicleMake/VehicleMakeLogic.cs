@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleMake
         public string VehicleMake { get { return vehicleMake.VehicleMake; } set { vehicleMake.VehicleMake = value; } }
         [JsonIgnore]
         public string RowType { get { return vehicleMake.RowType; } set { vehicleMake.RowType = value; } }
-        public bool Inactive { get { return vehicleMake.Inactive; } set { vehicleMake.Inactive = value; } }
+        public bool? Inactive { get { return vehicleMake.Inactive; } set { vehicleMake.Inactive = value; } }
         public string DateStamp { get { return vehicleMake.DateStamp; } set { vehicleMake.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

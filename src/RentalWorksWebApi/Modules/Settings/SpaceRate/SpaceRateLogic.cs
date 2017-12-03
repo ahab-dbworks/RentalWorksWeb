@@ -52,7 +52,7 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceRate
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? MonthlyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool StageScheduling { get; set; }
+        public bool? StageScheduling { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string UnitId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]

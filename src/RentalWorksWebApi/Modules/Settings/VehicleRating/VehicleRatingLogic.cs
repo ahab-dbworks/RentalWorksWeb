@@ -21,7 +21,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleRating
         public string VehicleRating { get { return vehicleRating.VehicleRating; } set { vehicleRating.VehicleRating = value; } }
         [JsonIgnore]
         public string RowType { get { return vehicleRating.RowType; } set { vehicleRating.RowType = value; } }
-        public bool Inactive { get { return vehicleRating.Inactive; } set { vehicleRating.Inactive = value; } }
+        public bool? Inactive { get { return vehicleRating.Inactive; } set { vehicleRating.Inactive = value; } }
         public string DateStamp { get { return vehicleRating.DateStamp; } set { vehicleRating.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

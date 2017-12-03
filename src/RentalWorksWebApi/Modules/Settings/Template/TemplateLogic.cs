@@ -28,12 +28,12 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public string Warehouse { get; set; }
         [JsonIgnore]
         public string OrderType { get { return template.OrderType; } set { template.OrderType = value; } }
-        public bool Rental { get { return template.Rental; } set { template.Rental = value; } }
-        public bool Sales { get { return template.Sales; } set { template.Sales = value; } }
-        public bool Misc { get { return template.Misc; } set { template.Misc = value; } }
-        public bool Labor { get { return template.Labor; } set { template.Labor = value; } }
-        public bool Facilities { get { return template.Facilities; } set { template.Facilities = value; } }
-        public bool Transportation { get { return template.Transportation; } set { template.Transportation = value; } }
+        public bool? Rental { get { return template.Rental; } set { template.Rental = value; } }
+        public bool? Sales { get { return template.Sales; } set { template.Sales = value; } }
+        public bool? Misc { get { return template.Misc; } set { template.Misc = value; } }
+        public bool? Labor { get { return template.Labor; } set { template.Labor = value; } }
+        public bool? Facilities { get { return template.Facilities; } set { template.Facilities = value; } }
+        public bool? Transportation { get { return template.Transportation; } set { template.Transportation = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? Lines { get; set; }
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }

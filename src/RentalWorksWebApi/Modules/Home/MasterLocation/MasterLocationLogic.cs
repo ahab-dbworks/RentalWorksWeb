@@ -19,7 +19,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterLocation
         public string LocationId { get { return masterLocation.LocationId; } set { masterLocation.LocationId = value; } }
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
         public string Location { get; set; }
-        public bool Taxable { get { return masterLocation.Taxable; } set { masterLocation.Taxable = value; } }
+        public bool? Taxable { get { return masterLocation.Taxable; } set { masterLocation.Taxable = value; } }
         public string ModByUsersId { get { return masterLocation.ModByUsersId; } set { masterLocation.ModByUsersId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ModByUser { get; set; }

@@ -21,16 +21,16 @@ namespace RentalWorksWebApi.Modules.Settings.PropsCondition
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PropsCondition { get { return propsCondition.InventoryCondition; } set { propsCondition.InventoryCondition = value; } }
         [JsonIgnore]
-        public bool Rental { get { return propsCondition.Rental; } set { propsCondition.Rental = value; } }
+        public bool? Rental { get { return propsCondition.Rental; } set { propsCondition.Rental = value; } }
         [JsonIgnore]
-        public bool Sales { get { return propsCondition.Sales; } set { propsCondition.Sales = value; } }
+        public bool? Sales { get { return propsCondition.Sales; } set { propsCondition.Sales = value; } }
         [JsonIgnore]
-        public bool Sets { get { return propsCondition.Sets; } set { propsCondition.Sets = value; } }
+        public bool? Sets { get { return propsCondition.Sets; } set { propsCondition.Sets = value; } }
         [JsonIgnore]
-        public bool Props { get { return propsCondition.Props; } set { propsCondition.Props = value; } }
+        public bool? Props { get { return propsCondition.Props; } set { propsCondition.Props = value; } }
         [JsonIgnore]
-        public bool Wardrobe { get { return propsCondition.Wardrobe; } set { propsCondition.Wardrobe = value; } }
-        public bool Inactive { get { return propsCondition.Inactive; } set { propsCondition.Inactive = value; } }
+        public bool? Wardrobe { get { return propsCondition.Wardrobe; } set { propsCondition.Wardrobe = value; } }
+        public bool? Inactive { get { return propsCondition.Inactive; } set { propsCondition.Inactive = value; } }
         public string DateStamp { get { return propsCondition.DateStamp; } set { propsCondition.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

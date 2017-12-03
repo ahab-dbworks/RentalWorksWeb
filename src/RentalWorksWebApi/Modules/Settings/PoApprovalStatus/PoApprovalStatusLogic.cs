@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.PoApprovalStatus
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PoApprovalStatus { get { return poApprovalStatus.PoApprovalStatus; } set { poApprovalStatus.PoApprovalStatus = value; } }
         public string PoApprovalStatusType { get { return poApprovalStatus.PoApprovalStatusType; } set { poApprovalStatus.PoApprovalStatusType = value; } }
-        public bool Inactive { get { return poApprovalStatus.Inactive; } set { poApprovalStatus.Inactive = value; } }
+        public bool? Inactive { get { return poApprovalStatus.Inactive; } set { poApprovalStatus.Inactive = value; } }
         public string DateStamp { get { return poApprovalStatus.DateStamp; } set { poApprovalStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

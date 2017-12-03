@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Home.DealNote
         public string Description { get { return dealNote.Description; } set { dealNote.Description = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Notes { get; set; }
-        public bool Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
+        public bool? Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public void OnAfterSavesDealNote(object sender, SaveEventArgs e)

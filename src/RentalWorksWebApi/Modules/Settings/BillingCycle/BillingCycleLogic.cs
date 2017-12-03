@@ -23,8 +23,8 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         public string NextBillingCycleId { get { return billPeriod.NextBillPeriodId; } set { billPeriod.NextBillPeriodId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string NextBillingCycle { get; set; }
-        public bool ProrateMonthly { get { return billPeriod.ProrateMonthly; } set { billPeriod.ProrateMonthly = value; } }
-        public bool Inactive { get { return billPeriod.Inactive; } set { billPeriod.Inactive = value; } }
+        public bool? ProrateMonthly { get { return billPeriod.ProrateMonthly; } set { billPeriod.ProrateMonthly = value; } }
+        public bool? Inactive { get { return billPeriod.Inactive; } set { billPeriod.Inactive = value; } }
         public string DateStamp { get { return billPeriod.DateStamp; } set { billPeriod.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

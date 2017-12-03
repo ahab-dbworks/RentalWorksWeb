@@ -137,7 +137,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         public decimal? MaximumDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequired", modeltype: FwDataTypes.Boolean)]
-        public bool QcRequired { get; set; }
+        public bool? QcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "aisleloc", modeltype: FwDataTypes.Text)]
         public string AisleLocation { get; set; }
@@ -146,7 +146,7 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         public string ShelfLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hastieredcost", modeltype: FwDataTypes.Boolean)]
-        public bool HasTieredCost { get; set; }
+        public bool? HasTieredCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "restockfee", modeltype: FwDataTypes.Decimal)]
         public decimal? RestockingFee { get; set; }
@@ -158,19 +158,19 @@ namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
         public string DateOfLastPhysicalInventory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
-        public bool AvailabilityByHour { get; set; }
+        public bool? AvailabilityByHour { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbydeal", modeltype: FwDataTypes.Boolean)]
-        public bool AvailabilityByDeal { get; set; }
+        public bool? AvailabilityByDeal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyasset", modeltype: FwDataTypes.Boolean)]
-        public bool AvailabilityByAsset { get; set; }
+        public bool? AvailabilityByAsset { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer)]
         public int? AvailabilityQcDelay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "allowallusersaddtoorder", modeltype: FwDataTypes.Boolean)]
-        public bool AllowAllUsersAddToOrder { get; set; }
+        public bool? AllowAllUsersAddToOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "starttime", modeltype: FwDataTypes.Text)]
         public string DefaultStartTime { get; set; }

@@ -20,10 +20,10 @@ namespace RentalWorksWebApi.Modules.Settings.OrderTypeNote
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billing", modeltype: FwDataTypes.Boolean)]
-        public bool Billing { get; set; }
+        public bool? Billing { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "printonorder", modeltype: FwDataTypes.Boolean)]
-        public bool PrintOnOrder { get; set; }
+        public bool? PrintOnOrder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }

@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Administrator.Group
         public string Memo { get; set; }
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "hidesecitems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Hidesecitems { get; set; }
+        //public bool? Hidesecitems { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "components", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         //public string Components { get; set; }
@@ -27,19 +27,19 @@ namespace RentalWorksWebApi.Modules.Administrator.Group
         //public string Menuitem { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "disablevalidationoptions", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Disablevalidationoptions { get; set; }
+        //public bool? Disablevalidationoptions { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "security", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Security { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hidenewmenuoptionsbydefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool HideNewMenuOptionsByDefault { get; set; }
+        public bool? HideNewMenuOptionsByDefault { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qehideaccessories", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Qehideaccessories { get; set; }
+        //public bool? Qehideaccessories { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "securitydefaultoff", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool Securitydefaultoff { get; set; }
+        //public bool? Securitydefaultoff { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

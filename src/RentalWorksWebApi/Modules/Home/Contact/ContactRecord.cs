@@ -75,7 +75,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         public string DirectExtension { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "info", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, precision: 0, scale: 0)]
         public string Info { get; set; }

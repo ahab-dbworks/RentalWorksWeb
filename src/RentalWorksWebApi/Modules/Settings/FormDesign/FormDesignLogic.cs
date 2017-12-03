@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.FormDesign
         [FwBusinessLogicField(isRecordTitle: true)]
         public string FormDesign { get { return formDesign.FormDesign; } set { formDesign.FormDesign = value; } }
         public string FormType { get { return formDesign.FormType; } set { formDesign.FormType = value; } }
-        public bool Inactive { get { return formDesign.Inactive; } set { formDesign.Inactive = value; } }
+        public bool? Inactive { get { return formDesign.Inactive; } set { formDesign.Inactive = value; } }
         public string DateStamp { get { return formDesign.DateStamp; } set { formDesign.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

@@ -20,8 +20,8 @@ namespace RentalWorksWebApi.Modules.Settings.Holiday
         public string CountryId { get { return holiday.CountryId; } set { holiday.CountryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Country { get; set; }
-        public bool Custom { get { return holiday.Custom; } set { holiday.Custom = value; } }
-        public bool Observed { get { return holiday.Observed; } set { holiday.Observed = value; } }
+        public bool? Custom { get { return holiday.Custom; } set { holiday.Custom = value; } }
+        public bool? Observed { get { return holiday.Observed; } set { holiday.Observed = value; } }
         public string Type { get { return holiday.Type; } set { holiday.Type = value; } }
         public int? FixedMonth { get { return holiday.FixedMonth; } set { holiday.FixedMonth = value; } }
         public int? FixedDay { get { return holiday.FixedDay; } set { holiday.FixedDay = value; } }
@@ -32,7 +32,7 @@ namespace RentalWorksWebApi.Modules.Settings.Holiday
         public string OffsetHolidayId { get { return holiday.OffsetHolidayId; } set { holiday.OffsetHolidayId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OffsetHoliday { get; set; }
-        public bool Inactive { get { return holiday.Inactive; } set { holiday.Inactive = value; } }
+        public bool? Inactive { get { return holiday.Inactive; } set { holiday.Inactive = value; } }
         public string DateStamp { get { return holiday.DateStamp; } set { holiday.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

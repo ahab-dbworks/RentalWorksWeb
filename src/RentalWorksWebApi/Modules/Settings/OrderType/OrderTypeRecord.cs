@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "installstrikefee", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Installstrikefee { get; set; }
+        public bool? Installstrikefee { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "installstrikemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InstallstrikemasterId { get; set; }
@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Installstrikebasedon { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "managementservicefee", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Managementservicefee { get; set; }
+        public bool? Managementservicefee { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "managementservicemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ManagementservicemasterId { get; set; }
@@ -39,13 +39,13 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Managementservicebasedon { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "combineactivitytabs", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Combineactivitytabs { get; set; }
+        public bool? Combineactivitytabs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "combinetabseparateitems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Combinetabseparateitems { get; set; }
+        public bool? Combinetabseparateitems { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikconfirmdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Quikconfirmdiscount { get; set; }
+        public bool? Quikconfirmdiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikconfirmdiscountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 9)]
         public decimal? Quikconfirmdiscountpct { get; set; }
@@ -54,7 +54,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public int? Quikconfirmdiscountdays { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ismastersuborder", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Ismastersuborder { get; set; }
+        public bool? Ismastersuborder { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "suborderbillby", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string Suborderbillby { get; set; }
@@ -72,16 +72,16 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string SuborderordertypefieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hidecrewbreaks", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Hidecrewbreaks { get; set; }
+        public bool? Hidecrewbreaks { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "break1paid", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Break1paId { get; set; }
+        public bool? Break1paId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "break2paid", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Break2paId { get; set; }
+        public bool? Break2paId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "break3paid", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Break3paId { get; set; }
+        public bool? Break3paId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordtype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
         public string Ordtype { get; set; }
@@ -93,7 +93,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Selectsalesprice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disablecostgl", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Disablecostgl { get; set; }
+        public bool? Disablecostgl { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string Invoiceclass { get; set; }
@@ -102,7 +102,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Selectsalescost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpaydiscount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Quikpaydiscount { get; set; }
+        public bool? Quikpaydiscount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpaydiscountdays", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? Quikpaydiscountdays { get; set; }
@@ -114,7 +114,7 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Quikpaydiscounttype { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "quikpayexcludesubs", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Quikpayexcludesubs { get; set; }
+        public bool? Quikpayexcludesubs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string RentalordertypefieldsId { get; set; }
@@ -174,28 +174,28 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Defaultdaystoptime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "excludefromtopsales", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Excludefromtopsales { get; set; }
+        public bool? Excludefromtopsales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poapprovebyrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Poapprovebyrequired { get; set; }
+        public bool? Poapprovebyrequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poimportancerequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Poimportancerequired { get; set; }
+        public bool? Poimportancerequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "popaytyperequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Popaytyperequired { get; set; }
+        public bool? Popaytyperequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poprojectrequired", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Poprojectrequired { get; set; }
+        public bool? Poprojectrequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rwnetrental", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Rwnetrental { get; set; }
+        public bool? Rwnetrental { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rwnetmisc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Rwnetmisc { get; set; }
+        public bool? Rwnetmisc { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rwnetlabor", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Rwnetlabor { get; set; }
+        public bool? Rwnetlabor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalpurchasedefaultrate", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string Rentalpurchasedefaultrate { get; set; }
@@ -207,13 +207,13 @@ namespace RentalWorksWebApi.Modules.Settings.OrderType
         public string Spacedescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Roundtriprentals { get; set; }
+        public bool? Roundtriprentals { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "selectrentalsaleprice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string Selectrentalsaleprice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

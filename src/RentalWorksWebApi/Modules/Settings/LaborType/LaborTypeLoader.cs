@@ -17,13 +17,13 @@ namespace RentalWorksWebApi.Modules.Settings.LaborType
         public string LaborType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
-        public bool Labor { get; set; }
+        public bool? Labor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
-        public bool GroupProfitLoss { get; set; }
+        public bool? GroupProfitLoss { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

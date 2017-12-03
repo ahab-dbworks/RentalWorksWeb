@@ -21,8 +21,8 @@ namespace RentalWorksWebApi.Modules.Settings.Attribute
         public string InventoryTypeId { get { return attribute.InventoryTypeId; } set { attribute.InventoryTypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
-        public bool NumericOnly { get { return attribute.NumericOnly; } set { attribute.NumericOnly = value; } }
-        public bool Inactive { get { return attribute.Inactive; } set { attribute.Inactive = value; } }
+        public bool? NumericOnly { get { return attribute.NumericOnly; } set { attribute.NumericOnly = value; } }
+        public bool? Inactive { get { return attribute.Inactive; } set { attribute.Inactive = value; } }
         public string DateStamp { get { return attribute.DateStamp; } set { attribute.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

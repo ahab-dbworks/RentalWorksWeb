@@ -23,22 +23,22 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountTemplate
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "iscompany", modeltype: FwDataTypes.Boolean)]
-        public bool IsCompany { get; set; }
+        public bool? IsCompany { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
-        public bool Rental { get; set; }
+        public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
-        public bool Sales { get; set; }
+        public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
-        public bool Labor { get; set; }
+        public bool? Labor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
-        public bool Misc { get; set; }
+        public bool? Misc { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
-        public bool Space { get; set; }
+        public bool? Space { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaldiscountpct", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalDiscountPercent { get; set; }
@@ -74,10 +74,10 @@ namespace RentalWorksWebApi.Modules.Settings.DiscountTemplate
         public string CompanyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "applydiscounttocustomrate", modeltype: FwDataTypes.Boolean)]
-        public bool ApplyDiscountToCustomRate { get; set; }
+        public bool? ApplyDiscountToCustomRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 3)]
-        public bool Required { get; set; }
+        public bool? Required { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 7, scale: 2)]
         public decimal? DefaultQuantity { get; set; }
@@ -27,16 +27,16 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPackageInventory
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isoption", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsOption { get; set; }
+        public bool? IsOption { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "charge", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Charge { get; set; }
+        public bool? Charge { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemcolor", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? ItemColor { get; set; }

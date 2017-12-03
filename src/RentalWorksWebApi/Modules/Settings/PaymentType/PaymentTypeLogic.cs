@@ -27,12 +27,12 @@ namespace RentalWorksWebApi.Modules.Settings.PaymentType
         public string GlAccountNo { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string GlAccountDescription { get; set; }
-        public bool AccountingTransaction { get { return paymentType.AccountingTransaction; } set { paymentType.AccountingTransaction = value; } }
+        public bool? AccountingTransaction { get { return paymentType.AccountingTransaction; } set { paymentType.AccountingTransaction = value; } }
         public string ExportPaymentMethod { get { return paymentType.ExportPaymentMethod; } set { paymentType.ExportPaymentMethod = value; } }
         public string ExportPaymentType { get { return paymentType.ExportPaymentType; } set { paymentType.ExportPaymentType = value; } }
-        public bool IncludeInRentalWorksNet { get { return paymentType.IncludeInRentalWorksNet; } set { paymentType.IncludeInRentalWorksNet = value; } }
+        public bool? IncludeInRentalWorksNet { get { return paymentType.IncludeInRentalWorksNet; } set { paymentType.IncludeInRentalWorksNet = value; } }
         public string RentalWorksNetCaption { get { return paymentType.RentalWorksNetCaption; } set { paymentType.RentalWorksNetCaption = value; } }
-        public bool Inactive { get { return paymentType.Inactive; } set { paymentType.Inactive = value; } }
+        public bool? Inactive { get { return paymentType.Inactive; } set { paymentType.Inactive = value; } }
         public string DateStamp { get { return paymentType.DateStamp; } set { paymentType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

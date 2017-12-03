@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string TemporaryPassword { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool ChangePasswordAtNextLogin { get; set; }
+        public bool? ChangePasswordAtNextLogin { get; set; }
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "resetpassword", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         //public string resetpassword { get; set; }
@@ -39,31 +39,31 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public string RowGuid { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool WebAccess { get; set; }
+        public bool? WebAccess { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool WebAdministrator { get; set; }
+        public bool? WebAdministrator { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webpassword", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, precision: 0, scale: 0)]
         public string WebPassword { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool HasWebQuoteRequest { get; set; }
+        public bool? HasWebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webreports", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool HasWebReports { get; set; }
+        public bool? HasWebReports { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer, sqltype: "int", maxlength: 4, precision: 10, scale: 0)]
         public int? ExpireDays { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool ExpirePassword { get; set; }
+        public bool? ExpirePassword { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime", maxlength: 8, precision: 23, scale: 3)]
         public string PasswordLastUpdated { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
-        public bool LockAccount { get; set; }
+        public bool? LockAccount { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1, precision: 0, scale: 0)]
         public string Settings { get; set; }

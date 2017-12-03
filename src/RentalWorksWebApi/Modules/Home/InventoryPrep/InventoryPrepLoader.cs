@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         public string PrepUnitType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultflg", modeltype: FwDataTypes.Boolean)]
-        public bool IsDefault { get; set; }
+        public bool? IsDefault { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "preprate", modeltype: FwDataTypes.Decimal)]
         public decimal? PrepRate { get; set; }
@@ -56,10 +56,10 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Boolean)]
-        public bool OrderId { get; set; }
+        public bool? OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Boolean)]
-        public bool MasterItemId { get; set; }
+        public bool? MasterItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

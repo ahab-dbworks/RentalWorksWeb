@@ -27,7 +27,7 @@ namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
         public string MonthYear { get; set; }
         public int? WorkDays { get { return fiscalMonth.WorkDays; } set { fiscalMonth.WorkDays = value; } }
         public string FiscalOrder { get { return fiscalMonth.FiscalOrder; } set { fiscalMonth.FiscalOrder = value; } }
-        public bool Closed { get { return fiscalMonth.Closed; } set { fiscalMonth.Closed = value; } }
+        public bool? Closed { get { return fiscalMonth.Closed; } set { fiscalMonth.Closed = value; } }
         public string DateStamp { get { return fiscalMonth.DateStamp; } set { fiscalMonth.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

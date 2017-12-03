@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         public string AvailFor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maintenance", modeltype: FwDataTypes.Boolean)]
-        public bool HasMaintenance { get; set; }
+        public bool? HasMaintenance { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicletype", modeltype: FwDataTypes.Text)]
         public string InternalVehicleType { get; set; }
@@ -128,7 +128,7 @@ namespace RentalWorksWebApi.Modules.Settings.VehicleType
         public string Unit { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

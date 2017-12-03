@@ -35,11 +35,11 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public string Classification { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool Container { get; set; }
+        public bool? Container { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool FixedAsset { get; set; }
+        public bool? FixedAsset { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool Rank { get; set; }
+        public bool? Rank { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string StatusType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -51,7 +51,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public string Color { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TextColor { get; set; }
+        public bool? TextColor { get; set; }
         public string BarCode { get { return item.BarCode; } set { item.BarCode = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string BarCodeForScanning { get; set; }
@@ -66,7 +66,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string TrackedByCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? AvailOwnershipSort { get; set; }
-        public bool IsNegativeInventory { get { return item.IsNegativeInventory; } set { item.IsNegativeInventory = value; } }
+        public bool? IsNegativeInventory { get { return item.IsNegativeInventory; } set { item.IsNegativeInventory = value; } }
         public string InspectionNo { get { return item.InspectionNo; } set { item.InspectionNo = value; } }
         public string InspectionVendorId { get { return item.InspectionVendorId; } set { item.InspectionVendorId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -184,7 +184,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string RepairId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RepairNumber { get; set; }
-        public bool QcRequired { get { return item.QcRequired; } set { item.QcRequired = value; } }
+        public bool? QcRequired { get { return item.QcRequired; } set { item.QcRequired = value; } }
         public int? WidthFt { get { return item.WidthFt; } set { item.WidthFt = value; } }
         public int? WidthIn { get { return item.WidthIn; } set { item.WidthIn = value; } }
         public int? HeightFt { get { return item.HeightFt; } set { item.HeightFt = value; } }
@@ -193,13 +193,13 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public int? LengthIn { get { return item.LengthIn; } set { item.LengthIn = value; } }
         public decimal? CurrentMeter { get { return item.CurrentMeter; } set { item.CurrentMeter = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TrackAssetUsage { get; set; }
+        public bool? TrackAssetUsage { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TrackLampUsage { get; set; }
+        public bool? TrackLampUsage { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TrackStrikes { get; set; }
+        public bool? TrackStrikes { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool TrackCandles { get; set; }
+        public bool? TrackCandles { get; set; }
         public int? AssetHours { get { return item.AssetHours; } set { item.AssetHours = value; } }
         public int? LampHours1 { get { return item.LampHours1; } set { item.LampHours1 = value; } }
         public int? LampHours2 { get { return item.LampHours2; } set { item.LampHours2 = value; } }
@@ -224,15 +224,15 @@ namespace RentalWorksWebApi.Modules.Home.Item
         [FwBusinessLogicField(isReadOnly: true)]
         public int? WardrobePieceCount { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool InventoryTypeIsProps { get; set; }
+        public bool? InventoryTypeIsProps { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool InventoryTypeIsWardrobe { get; set; }
+        public bool? InventoryTypeIsWardrobe { get; set; }
         public string OrderLocationId { get { return item.OrderLocationId; } set { item.OrderLocationId = value; } }
         public string ContainerNumber { get { return item.ContainerNumber; } set { item.ContainerNumber = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool IsWardrobe { get; set; }
+        public bool? IsWardrobe { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool IsProps { get; set; }
+        public bool? IsProps { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? DailyRate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -271,7 +271,7 @@ namespace RentalWorksWebApi.Modules.Home.Item
         public string CurrentOrderFromDate { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrentOrderToDate { get; set; }
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
 
 
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }

@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.Warehouse
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Warehouse { get { return warehouse.Warehouse; } set { warehouse.Warehouse = value; } }
         public string WarehouseCode { get { return warehouse.WarehouseCode; } set { warehouse.WarehouseCode = value; } }
-        public bool Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }
+        public bool? Inactive { get { return warehouse.Inactive; } set { warehouse.Inactive = value; } }
         public string DateStamp { get { return warehouse.DateStamp; } set { warehouse.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

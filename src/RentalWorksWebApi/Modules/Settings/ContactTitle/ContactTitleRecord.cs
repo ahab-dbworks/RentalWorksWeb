@@ -18,13 +18,13 @@ namespace RentalWorksWebApi.Modules.Settings.ContactTitle
         public string TitleType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "accountspayableflg", modeltype: FwDataTypes.Boolean)]
-        public bool AccountsPayable { get; set; }
+        public bool? AccountsPayable { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "accountsreceivableflg", modeltype: FwDataTypes.Boolean)]
-        public bool AccountsReceivable { get; set; }
+        public bool? AccountsReceivable { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

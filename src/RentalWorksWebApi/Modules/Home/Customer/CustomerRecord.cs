@@ -84,7 +84,7 @@ TODO:
         public string StatusAsOf { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "termsandconditiononfile", modeltype: FwDataTypes.Boolean)]
-        public bool TermsAndConditionsOnFile { get; set; }
+        public bool? TermsAndConditionsOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billtoadd", modeltype: FwDataTypes.Text, maxlength: 20)]
         public string BillingAddressType { get; set; }
@@ -117,10 +117,10 @@ TODO:
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclerentalagreementcomplete", modeltype: FwDataTypes.Boolean)]
-        public bool VehicleRentalAgreementComplete { get; set; }
+        public bool? VehicleRentalAgreementComplete { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usediscounttemplate", modeltype: FwDataTypes.Boolean)]
-        public bool UseDiscountTemplate { get; set; }
+        public bool? UseDiscountTemplate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string DiscountTemplateId { get; set; }
@@ -132,22 +132,22 @@ TODO:
         public string CreditStatusThroughDate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditapponfile", modeltype: FwDataTypes.Boolean)]
-        public bool CreditApplicationOnFile { get; set; }
+        public bool? CreditApplicationOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditunlimited", modeltype: FwDataTypes.Boolean)]
-        public bool CreditUnlimited { get; set; }
+        public bool? CreditUnlimited { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditlimit", modeltype: FwDataTypes.Integer)]
         public int? CreditLimit { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditresponfile", modeltype: FwDataTypes.Boolean)]
-        public bool CreditResponsiblePartyOnFile { get; set; }
+        public bool? CreditResponsiblePartyOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "responsibilityparty", modeltype: FwDataTypes.Text, maxlength: 35)]
         public string CreditResponsibleParty { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditverifiedflag", modeltype: FwDataTypes.Boolean)]
-        public bool TradeReferencesVerified { get; set; }
+        public bool? TradeReferencesVerified { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditverby", modeltype: FwDataTypes.Text, maxlength: 15)]
         public string TradeReferencesVerifiedBy { get; set; }
@@ -177,10 +177,10 @@ TODO:
         public string CreditCardName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditcautonfile", modeltype: FwDataTypes.Boolean)]
-        public bool CreditCardAuthorizationOnFile { get; set; }
+        public bool? CreditCardAuthorizationOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "certofins", modeltype: FwDataTypes.Boolean)]
-        public bool InsuranceCertificationOnFile { get; set; }
+        public bool? InsuranceCertificationOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "insvalidthru", modeltype: FwDataTypes.Date)]
         public string InsuranceCertificationValidThrough { get; set; }
@@ -204,10 +204,10 @@ TODO:
         public string InsuranceAgent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicleinsurancecertification", modeltype: FwDataTypes.Boolean)]
-        public bool VehicleInsuranceCertficationOnFile { get; set; }
+        public bool? VehicleInsuranceCertficationOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
-        public bool Taxable { get; set; }
+        public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "stateofincid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string TaxStateOfIncorporationId { get; set; }
@@ -225,49 +225,49 @@ TODO:
         public string NonTaxableCertificateValidThrough { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nontaxcertificateonfile", modeltype: FwDataTypes.Boolean)]
-        public bool NonTaxableCertificateOnFile { get; set; }
+        public bool? NonTaxableCertificateOnFile { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "enableactivityoverride", modeltype: FwDataTypes.Boolean)]
-        public bool DisableQuoteOrderActivity { get; set; }
+        public bool? DisableQuoteOrderActivity { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablerental", modeltype: FwDataTypes.Boolean)]
-        public bool DisableRental { get; set; }
+        public bool? DisableRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablesales", modeltype: FwDataTypes.Boolean)]
-        public bool DisableSales { get; set; }
+        public bool? DisableSales { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablefacilities", modeltype: FwDataTypes.Boolean)]
-        public bool DisableFacilities { get; set; }
+        public bool? DisableFacilities { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disabletransportation", modeltype: FwDataTypes.Boolean)]
-        public bool DisableTransportation { get; set; }
+        public bool? DisableTransportation { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablelabor", modeltype: FwDataTypes.Boolean)]
-        public bool DisableLabor { get; set; }
+        public bool? DisableLabor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablemisc", modeltype: FwDataTypes.Boolean)]
-        public bool DisableMisc { get; set; }
+        public bool? DisableMisc { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablerentalsale", modeltype: FwDataTypes.Boolean)]
-        public bool DisableRentalSale { get; set; }
+        public bool? DisableRentalSale { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablesubrental", modeltype: FwDataTypes.Boolean)]
-        public bool DisableSubRental { get; set; }
+        public bool? DisableSubRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablesubsales", modeltype: FwDataTypes.Boolean)]
-        public bool DisableSubSale { get; set; }
+        public bool? DisableSubSale { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablesublabor", modeltype: FwDataTypes.Boolean)]
-        public bool DisableSubLabor { get; set; }
+        public bool? DisableSubLabor { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disablesubmisc", modeltype: FwDataTypes.Boolean)]
-        public bool DisableSubMisc { get; set; }
+        public bool? DisableSubMisc { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentalflg", modeltype: FwDataTypes.Boolean)]
-        public bool SplitRental { get; set; }
+        public bool? SplitRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "splitrentaltaxflg", modeltype: FwDataTypes.Boolean)]
-        public bool SplitRentalTaxCustomer { get; set; }
+        public bool? SplitRentalTaxCustomer { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedsplitrate", modeltype: FwDataTypes.Integer)]
         public int? OwnedEquipmentSplitRentalPerecent { get; set; }
@@ -276,7 +276,7 @@ TODO:
         public int? SubRentalEquipmentSplitRentalPerecent { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rebaterentalflg", modeltype: FwDataTypes.Boolean)]
-        public bool RebateRental { get; set; }
+        public bool? RebateRental { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ownedrebaterate", modeltype: FwDataTypes.Integer)]
         public int? OwnedEquipmentRebateRentalPerecent { get; set; }
@@ -318,7 +318,7 @@ TODO:
         public string ShipZipCode { get; set; }
         //------------------------------------------------------------------------------------
         //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        //public bool Inactive { get; set; }
+        //public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

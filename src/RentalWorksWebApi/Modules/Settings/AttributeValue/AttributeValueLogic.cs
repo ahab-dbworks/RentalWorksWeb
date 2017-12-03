@@ -25,9 +25,9 @@ namespace RentalWorksWebApi.Modules.Settings.AttributeValue
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool NumericOnly { get; set; }
+        public bool? NumericOnly { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         public string DateStamp { get { return attributeValue.DateStamp; } set { attributeValue.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

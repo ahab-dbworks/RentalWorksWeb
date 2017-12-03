@@ -32,10 +32,10 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         public string FullName { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean)]
-        //public bool WebAccess { get; set; }
+        //public bool? WebAccess { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
-        //public bool WebAdministrator { get; set; }
+        //public bool? WebAdministrator { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webadministratortext", modeltype: FwDataTypes.Text)]
         //public string Webadministratortext { get; set; }
@@ -44,10 +44,10 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Webpassword { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
-        //public bool Lockaccount { get; set; }
+        //public bool? Lockaccount { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "registered", modeltype: FwDataTypes.Boolean)]
-        //public bool Registered { get; set; }
+        //public bool? Registered { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "registerdate", modeltype: FwDataTypes.UTCDateTime)]
         //public string Registerdate { get; set; }
@@ -65,10 +65,10 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Tmppassword { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean)]
-        //public bool Changepasswordatlogin { get; set; }
+        //public bool? Changepasswordatlogin { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "resetpassword", modeltype: FwDataTypes.Boolean)]
-        //public bool Resetpassword { get; set; }
+        //public bool? Resetpassword { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primarydepartmentid", modeltype: FwDataTypes.Text)]
         //public string PrimarydepartmentId { get; set; }
@@ -128,10 +128,10 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Warehouse { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webreports", modeltype: FwDataTypes.Boolean)]
-        //public bool Webreports { get; set; }
+        //public bool? Webreports { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webquoterequest", modeltype: FwDataTypes.Boolean)]
-        //public bool Webquoterequest { get; set; }
+        //public bool? Webquoterequest { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "defaultpoordertypeid", modeltype: FwDataTypes.Text)]
         //public string DefaultpoordertypeId { get; set; }
@@ -149,13 +149,13 @@ namespace RentalWorksWebApi.Modules.Administrator.User
         //public string Fax { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "iscrew", modeltype: FwDataTypes.Boolean)]
-        //public bool Iscrew { get; set; }
+        //public bool? Iscrew { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "usertype", modeltype: FwDataTypes.Text)]
         //public string Usertype { get; set; }
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool Inactive { get; set; }
+        public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

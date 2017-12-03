@@ -25,7 +25,7 @@ namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
         public string AttributeValue { get; set; }
         public decimal? NumericValue { get { return itemAttribute.NumericValue; } set { itemAttribute.NumericValue = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool NumericOnly { get; set; }
+        public bool? NumericOnly { get; set; }
         public string DateStamp { get { return itemAttribute.DateStamp; } set { itemAttribute.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

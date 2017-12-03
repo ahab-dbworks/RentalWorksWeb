@@ -21,16 +21,16 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeCondition
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WardrobeCondition { get { return wardrobeCondition.InventoryCondition; } set { wardrobeCondition.InventoryCondition = value; } }
         [JsonIgnore]
-        public bool Rental { get { return wardrobeCondition.Rental; } set { wardrobeCondition.Rental = value; } }
+        public bool? Rental { get { return wardrobeCondition.Rental; } set { wardrobeCondition.Rental = value; } }
         [JsonIgnore]
-        public bool Sales { get { return wardrobeCondition.Sales; } set { wardrobeCondition.Sales = value; } }
+        public bool? Sales { get { return wardrobeCondition.Sales; } set { wardrobeCondition.Sales = value; } }
         [JsonIgnore]
-        public bool Sets { get { return wardrobeCondition.Sets; } set { wardrobeCondition.Sets = value; } }
+        public bool? Sets { get { return wardrobeCondition.Sets; } set { wardrobeCondition.Sets = value; } }
         [JsonIgnore]
-        public bool Props { get { return wardrobeCondition.Props; } set { wardrobeCondition.Props = value; } }
+        public bool? Props { get { return wardrobeCondition.Props; } set { wardrobeCondition.Props = value; } }
         [JsonIgnore]
-        public bool Wardrobe { get { return wardrobeCondition.Wardrobe; } set { wardrobeCondition.Wardrobe = value; } }
-        public bool Inactive { get { return wardrobeCondition.Inactive; } set { wardrobeCondition.Inactive = value; } }
+        public bool? Wardrobe { get { return wardrobeCondition.Wardrobe; } set { wardrobeCondition.Wardrobe = value; } }
+        public bool? Inactive { get { return wardrobeCondition.Inactive; } set { wardrobeCondition.Inactive = value; } }
         public string DateStamp { get { return wardrobeCondition.DateStamp; } set { wardrobeCondition.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()

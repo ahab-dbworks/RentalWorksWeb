@@ -39,31 +39,31 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
         public string TaxRule{ get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.Decimal)]
-        public decimal RentalTaxRate1 { get; set; }
+        public decimal? RentalTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentaltaxrate2", modeltype: FwDataTypes.Decimal)]
-        public decimal RentalTaxRate2 { get; set; }
+        public decimal? RentalTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxrental", modeltype: FwDataTypes.Boolean)]
-        public bool RentalExempt { get; set; }
+        public bool? RentalExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.Decimal)]
-        public decimal SalesTaxRate1 { get; set; }
+        public decimal? SalesTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salestaxrate2", modeltype: FwDataTypes.Decimal)]
-        public decimal SalesTaxRate2 { get; set; }
+        public decimal? SalesTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxsales", modeltype: FwDataTypes.Boolean)]
-        public bool SalesExempt { get; set; }
+        public bool? SalesExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.Decimal)]
-        public decimal LaborTaxRate1 { get; set; }
+        public decimal? LaborTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labortaxrate2", modeltype: FwDataTypes.Decimal)]
-        public decimal LaborTaxRate2 { get; set; }
+        public decimal? LaborTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "donottaxlabor", modeltype: FwDataTypes.Boolean)]
-        public bool LaborExempt { get; set; }
+        public bool? LaborExempt { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

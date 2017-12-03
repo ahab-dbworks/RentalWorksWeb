@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Home.VendorNote
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "notify", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
-        public bool Notify { get; set; }
+        public bool? Notify { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

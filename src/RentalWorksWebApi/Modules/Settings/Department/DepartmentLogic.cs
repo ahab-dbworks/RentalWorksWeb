@@ -18,7 +18,7 @@ namespace RentalWorksWebApi.Modules.Settings.Department
         public string Department { get { return department.Department; } set { department.Department = value; } }
         public string DepartmentCode { get { return department.DepartmentCode; } set { department.DepartmentCode = value; } }
         public string DivisionCode { get { return department.DivisionCode; } set { department.DivisionCode = value; } }
-        public bool Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
+        public bool? Inactive { get { return department.Inactive; } set { department.Inactive = value; } }
         public string DateStamp { get { return department.DateStamp; } set { department.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

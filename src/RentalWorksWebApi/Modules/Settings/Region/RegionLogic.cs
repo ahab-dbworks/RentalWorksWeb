@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.Region
         public string RegionId { get { return region.RegionId; } set { region.RegionId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Region { get { return region.Region; } set { region.Region = value; } }
-        public bool Inactive { get { return region.Inactive; } set { region.Inactive = value; } }
+        public bool? Inactive { get { return region.Inactive; } set { region.Inactive = value; } }
         public string DateStamp { get { return region.DateStamp; } set { region.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         [FwBusinessLogicField(isReadOnly: true)]
         public string UserId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool IsUser { get; set; }
+        public bool? IsUser { get; set; }
         public string Salutation { get { return crew.Salutation; } set { crew.Salutation = value; } }
         public string NameFirstMiddleLast { get { return crew.NameFirstMiddleLast; } set { crew.NameFirstMiddleLast = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -66,22 +66,22 @@ namespace RentalWorksWebApi.Modules.Settings.Crew
         public string ActiveDate { get { return crew.ActiveDate; } set { crew.ActiveDate = value; } }
         public string InactiveDate { get { return crew.InactiveDate; } set { crew.InactiveDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public bool ContractEmployee { get; set; }
+        public bool? ContractEmployee { get; set; }
         [JsonIgnore]
         public string ContactRecordType { get { return crew.ContactRecordType; } set { crew.ContactRecordType = value; } }
-        public bool Inactive { get { return crew.Inactive; } set { crew.Inactive = value; } }
+        public bool? Inactive { get { return crew.Inactive; } set { crew.Inactive = value; } }
 
 
         //// WebUserRecord
         public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
-        public bool WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
-        public bool LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
+        public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
+        public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
         public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
-        public bool ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
+        public bool? ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
         public int? ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
 
-        public bool WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
-        public bool ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
+        public bool? WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
+        public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
         public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
 
 

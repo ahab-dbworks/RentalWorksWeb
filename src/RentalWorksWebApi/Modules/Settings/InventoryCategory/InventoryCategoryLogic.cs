@@ -22,13 +22,13 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategory = value; } }
         [JsonIgnore]
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }
-        public bool WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
-        public bool CatalogCategory { get { return inventoryCategory.CatalogCategory; } set { inventoryCategory.CatalogCategory = value; } }
-        public bool OverrideProfitAndLossCategory { get { return inventoryCategory.OverrideProfitAndLossCategory; } set { inventoryCategory.OverrideProfitAndLossCategory = value; } }
+        public bool? WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
+        public bool? CatalogCategory { get { return inventoryCategory.CatalogCategory; } set { inventoryCategory.CatalogCategory = value; } }
+        public bool? OverrideProfitAndLossCategory { get { return inventoryCategory.OverrideProfitAndLossCategory; } set { inventoryCategory.OverrideProfitAndLossCategory = value; } }
         public string ProfitAndLossCategoryId { get { return inventoryCategory.ProfitAndLossCategoryId; } set { inventoryCategory.ProfitAndLossCategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ProfitAndLossCategory { get; set; }
-        public bool ProfitAndLossIncludeAsMiscExpense { get { return inventoryCategory.ProfitAndLossIncludeAsMiscExpense; } set { inventoryCategory.ProfitAndLossIncludeAsMiscExpense = value; } }
+        public bool? ProfitAndLossIncludeAsMiscExpense { get { return inventoryCategory.ProfitAndLossIncludeAsMiscExpense; } set { inventoryCategory.ProfitAndLossIncludeAsMiscExpense = value; } }
         public string AssetAccountId { get { return inventoryCategory.AssetAccountId; } set { inventoryCategory.AssetAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AssetAccountNo { get; set; }
@@ -71,7 +71,7 @@ namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         public decimal? OrderBy { get { return inventoryCategory.OrderBy; } set { inventoryCategory.OrderBy = value; } }
         public int? PickListOrderBy { get { return inventoryCategory.PickListOrderBy; } set { inventoryCategory.PickListOrderBy = value; } }
-        public bool Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
+        public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
     }
 

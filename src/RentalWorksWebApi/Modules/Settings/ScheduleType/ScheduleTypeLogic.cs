@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.ScheduleType
         public string ScheduleTypeId { get { return scheduleType.ScheduleTypeId; } set { scheduleType.ScheduleTypeId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string ScheduleType { get { return scheduleType.ScheduleType; } set { scheduleType.ScheduleType = value; } }
-        public bool Inactive { get { return scheduleType.Inactive; } set { scheduleType.Inactive = value; } }
+        public bool? Inactive { get { return scheduleType.Inactive; } set { scheduleType.Inactive = value; } }
         public string DateStamp { get { return scheduleType.DateStamp; } set { scheduleType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

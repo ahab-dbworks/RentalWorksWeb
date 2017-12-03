@@ -21,7 +21,7 @@ public string Description { get; set; }
 public string Reportxml { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")] 
-public bool Inactive { get; set; } 
+public bool? Inactive { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")] 
 public string DateStamp { get; set; } 

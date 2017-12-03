@@ -28,9 +28,9 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public string AvailableFrom { get { return master.AvailableFrom; } set { master.AvailableFrom = value; } }
         public string TrackedBy { get { return master.TrackedBy; } set { master.TrackedBy = value; } }
         public string Rank { get { return master.Rank; } set { master.Rank = value; } }
-        public bool NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
-        public bool AvailabilityManuallyResolveConflicts { get { return master.AvailabilityManuallyResolveConflicts; } set { master.AvailabilityManuallyResolveConflicts = value; } }
-        public bool SendAvailabilityAlert { get { return master.SendAvailabilityAlert; } set { master.SendAvailabilityAlert = value; } }
+        public bool? NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
+        public bool? AvailabilityManuallyResolveConflicts { get { return master.AvailabilityManuallyResolveConflicts; } set { master.AvailabilityManuallyResolveConflicts = value; } }
+        public bool? SendAvailabilityAlert { get { return master.SendAvailabilityAlert; } set { master.SendAvailabilityAlert = value; } }
         public string PrimaryDimensionUniqueId { get { return primaryDimension.UniqueId; } set { primaryDimension.UniqueId = value; } }
         public string PrimaryDimensionDescription { get { return primaryDimension.Description; } set { primaryDimension.Description = value; } }
         public int? PrimaryDimensionShipWeightLbs { get { return primaryDimension.ShipWeightLbs; } set { primaryDimension.ShipWeightLbs = value; } }
@@ -75,22 +75,22 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public int? SecondaryDimensionHeightCm { get { return secondaryDimension.HeightCm; } set { secondaryDimension.HeightCm = value; } }
         public int? SecondaryDimensionLengthM { get { return secondaryDimension.LengthM; } set { secondaryDimension.LengthM = value; } }
         public int? SecondaryDimensionLengthCm { get { return secondaryDimension.LengthCm; } set { secondaryDimension.LengthCm = value; } }
-        public bool DisplayInSummaryModeWhenRateIsZero { get { return master.DisplayInSummaryModeWhenRateIsZero; } set { master.DisplayInSummaryModeWhenRateIsZero = value; } }
-        public bool QcRequired { get { return master.QcRequired; } set { master.QcRequired = value; } }
+        public bool? DisplayInSummaryModeWhenRateIsZero { get { return master.DisplayInSummaryModeWhenRateIsZero; } set { master.DisplayInSummaryModeWhenRateIsZero = value; } }
+        public bool? QcRequired { get { return master.QcRequired; } set { master.QcRequired = value; } }
         public string QcTime { get { return master.QcTime; } set { master.QcTime = value; } }
-        public bool CopyAttributesAsNote { get { return master.CopyAttributesAsNote; } set { master.CopyAttributesAsNote = value; } }
-        public bool TrackAssetUsage { get { return master.TrackAssetUsage; } set { master.TrackAssetUsage = value; } }
-        public bool TrackLampUsage { get { return master.TrackLampUsage; } set { master.TrackLampUsage = value; } }
-        public bool TrackStrikes { get { return master.TrackStrikes; } set { master.TrackStrikes = value; } }
-        public bool TrackCandles { get { return master.TrackCandles; } set { master.TrackCandles = value; } }
+        public bool? CopyAttributesAsNote { get { return master.CopyAttributesAsNote; } set { master.CopyAttributesAsNote = value; } }
+        public bool? TrackAssetUsage { get { return master.TrackAssetUsage; } set { master.TrackAssetUsage = value; } }
+        public bool? TrackLampUsage { get { return master.TrackLampUsage; } set { master.TrackLampUsage = value; } }
+        public bool? TrackStrikes { get { return master.TrackStrikes; } set { master.TrackStrikes = value; } }
+        public bool? TrackCandles { get { return master.TrackCandles; } set { master.TrackCandles = value; } }
         public int? LampCount { get { return master.LampCount; } set { master.LampCount = value; } }
         public int? MinimumFootCandles { get { return master.MinimumFootCandles; } set { master.MinimumFootCandles = value; } }
-        public bool TrackSoftware { get { return master.TrackSoftware; } set { master.TrackSoftware = value; } }
+        public bool? TrackSoftware { get { return master.TrackSoftware; } set { master.TrackSoftware = value; } }
         public string SoftwareVersion { get { return master.SoftwareVersion; } set { master.SoftwareVersion = value; } }
         public string SoftwareEffectiveDate { get { return master.SoftwareEffectiveDate; } set { master.SoftwareEffectiveDate = value; } }
-        public bool WarehouseSpecificPackage { get { return master.WarehouseSpecificPackage; } set { master.WarehouseSpecificPackage = value; } }
+        public bool? WarehouseSpecificPackage { get { return master.WarehouseSpecificPackage; } set { master.WarehouseSpecificPackage = value; } }
         public string PackagePrice { get { return master.PackagePrice; } set { master.PackagePrice = value; } }
-        public bool SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
+        public bool? SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 

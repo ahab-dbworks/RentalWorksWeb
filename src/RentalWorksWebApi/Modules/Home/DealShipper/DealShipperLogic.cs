@@ -22,7 +22,7 @@ namespace RentalWorksWebApi.Modules.Home.DealShipper
         [FwBusinessLogicField(isReadOnly: true)]
         public string Carrier { get; set; }
         public string ShipperAcct { get { return dealShipper.ShipperAcct; } set { dealShipper.ShipperAcct = value; } }
-        public bool IsPrimary { get { return dealShipper.IsPrimary; } set { dealShipper.IsPrimary = value; } }
+        public bool? IsPrimary { get { return dealShipper.IsPrimary; } set { dealShipper.IsPrimary = value; } }
         public string ShipViaId { get { return dealShipper.ShipViaId; } set { dealShipper.ShipViaId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ShipVia { get; set; }

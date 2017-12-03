@@ -24,7 +24,7 @@ namespace RentalWorksWebApi.Modules.Home.InventoryPrep
         public decimal? PrepRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool IsDefault { get; set; }
+        public bool? IsDefault { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

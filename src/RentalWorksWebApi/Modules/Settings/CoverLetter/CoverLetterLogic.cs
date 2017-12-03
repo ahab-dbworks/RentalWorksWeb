@@ -17,7 +17,7 @@ namespace RentalWorksWebApi.Modules.Settings.CoverLetter
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Description { get { return coverLetter.Description; } set { coverLetter.Description = value; } }
         public string FileName { get { return coverLetter.FileName; } set { coverLetter.FileName = value; } }
-        public bool Inactive { get { return coverLetter.Inactive; } set { coverLetter.Inactive = value; } }
+        public bool? Inactive { get { return coverLetter.Inactive; } set { coverLetter.Inactive = value; } }
         public string DateStamp { get { return coverLetter.DateStamp; } set { coverLetter.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

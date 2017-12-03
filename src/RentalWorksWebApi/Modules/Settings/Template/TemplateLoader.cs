@@ -32,22 +32,22 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
-        public bool Rental { get; set; }
+        public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
-        public bool Sales { get; set; }
+        public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
-        public bool Misc { get; set; }
+        public bool? Misc { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
-        public bool Labor { get; set; }
+        public bool? Labor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
-        public bool Facilities { get; set; }
+        public bool? Facilities { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
-        public bool Transportation { get; set; }
+        public bool? Transportation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "linecount", modeltype: FwDataTypes.Integer)]
         public int? Lines { get; set; }

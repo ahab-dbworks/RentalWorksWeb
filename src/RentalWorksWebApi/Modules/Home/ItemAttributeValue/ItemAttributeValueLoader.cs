@@ -32,7 +32,7 @@ namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
         public decimal? NumericValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "numericonly", modeltype: FwDataTypes.Boolean)]
-        public bool NumericOnly { get; set; }
+        public bool? NumericOnly { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

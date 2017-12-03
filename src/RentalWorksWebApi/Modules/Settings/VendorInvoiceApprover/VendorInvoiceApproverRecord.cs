@@ -21,40 +21,40 @@ namespace RentalWorksWebApi.Modules.Settings.VendorInvoiceApprover
         public string UsersId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Rental { get; set; }
+        public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Sales { get; set; }
+        public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "parts", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Parts { get; set; }
+        public bool? Parts { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Misc { get; set; }
+        public bool? Misc { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Labor { get; set; }
+        public bool? Labor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Vehicle { get; set; }
+        public bool? Vehicle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subrent", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SubRent { get; set; }
+        public bool? SubRent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subsale", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SubSale { get; set; }
+        public bool? SubSale { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repair", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool Repair { get; set; }
+        public bool? Repair { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "submisc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SubMisc { get; set; }
+        public bool? SubMisc { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sublabor", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SubLabor { get; set; }
+        public bool? SubLabor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subvehicle", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool SubVehicle { get; set; }
+        public bool? SubVehicle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }

@@ -45,7 +45,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string FtpFileName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ftparchive", modeltype: FwDataTypes.Boolean)]
-        public bool FtpArchive { get; set; }
+        public bool? FtpArchive { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ftparchivepath", modeltype: FwDataTypes.Text, maxlength: 100)]
         public string FtpArchivePath { get; set; }
@@ -54,13 +54,13 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string TemporaryFtpFileName { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ftpssl", modeltype: FwDataTypes.Boolean)]
-        public bool FtpSsl { get; set; }
+        public bool? FtpSsl { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean)]
-        public bool Disabled { get; set; }
+        public bool? Disabled { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "systemsource", modeltype: FwDataTypes.Boolean)]
-        public bool SystemSource { get; set; }
+        public bool? SystemSource { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "tmpsoappath", modeltype: FwDataTypes.Text, maxlength: 100)]
         public string TemporarySoapPath { get; set; }
@@ -72,7 +72,7 @@ namespace RentalWorksWebApi.Modules.Settings.Source
         public string WebServicePassword { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "useproxy", modeltype: FwDataTypes.Boolean)]
-        public bool UseProxy { get; set; }
+        public bool? UseProxy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "proxy", modeltype: FwDataTypes.Text, maxlength: 50)]
         public string Proxy { get; set; }

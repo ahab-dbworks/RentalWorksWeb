@@ -15,7 +15,7 @@ namespace RentalWorksWebApi.Modules.Settings.WallType
         public string WallTypeId { get { return wallType.WallTypeId; } set { wallType.WallTypeId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WallType { get { return wallType.WallType; } set { wallType.WallType = value; } }
-        public bool Inactive { get { return wallType.Inactive; } set { wallType.Inactive = value; } }
+        public bool? Inactive { get { return wallType.Inactive; } set { wallType.Inactive = value; } }
         public string DateStamp { get { return wallType.DateStamp; } set { wallType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

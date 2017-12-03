@@ -17,9 +17,9 @@ namespace RentalWorksWebApi.Modules.Settings.ContactTitle
         [FwBusinessLogicField(isRecordTitle: true)]
         public string ContactTitle { get { return contactTitle.ContactTitle; } set { contactTitle.ContactTitle = value; } }
         public string TitleType { get { return contactTitle.TitleType;  } set { contactTitle.TitleType = value; } }
-        public bool AccountsPayable { get { return contactTitle.AccountsPayable;  } set { contactTitle.AccountsPayable = value; } }
-        public bool AccountsReceivable { get { return contactTitle.AccountsReceivable; } set { contactTitle.AccountsReceivable = value; } }
-        public bool Inactive { get { return contactTitle.Inactive; } set { contactTitle.Inactive = value; } }
+        public bool? AccountsPayable { get { return contactTitle.AccountsPayable;  } set { contactTitle.AccountsPayable = value; } }
+        public bool? AccountsReceivable { get { return contactTitle.AccountsReceivable; } set { contactTitle.AccountsReceivable = value; } }
+        public bool? Inactive { get { return contactTitle.Inactive; } set { contactTitle.Inactive = value; } }
         public string DateStamp { get { return contactTitle.DateStamp; } set { contactTitle.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }

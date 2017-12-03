@@ -31,12 +31,12 @@ namespace RentalWorksWebApi.Modules.Settings.SpaceType
         [FwBusinessLogicField(isReadOnly: true)]
         public string RateUnit { get; set; }
         public string Color { get { return spaceType.Color; } set { spaceType.Color = value; } }
-        public bool WhiteText { get { return spaceType.WhiteText; } set { spaceType.WhiteText = value; } }
+        public bool? WhiteText { get { return spaceType.WhiteText; } set { spaceType.WhiteText = value; } }
         public int? OrderBy { get { return spaceType.OrderBy; } set { spaceType.OrderBy = value; } }
-        public bool NonBillable { get { return spaceType.NonBillable; } set { spaceType.NonBillable = value; } }
-        public bool ForReportsOnly { get { return spaceType.ForReportsOnly; } set { spaceType.ForReportsOnly = value; } }
-        public bool AddToDescription { get { return spaceType.AddToDescription; } set { spaceType.AddToDescription = value; } }
-        public bool Inactive { get { return spaceType.Inactive; } set { spaceType.Inactive = value; } }
+        public bool? NonBillable { get { return spaceType.NonBillable; } set { spaceType.NonBillable = value; } }
+        public bool? ForReportsOnly { get { return spaceType.ForReportsOnly; } set { spaceType.ForReportsOnly = value; } }
+        public bool? AddToDescription { get { return spaceType.AddToDescription; } set { spaceType.AddToDescription = value; } }
+        public bool? Inactive { get { return spaceType.Inactive; } set { spaceType.Inactive = value; } }
         public string DateStamp { get { return spaceType.DateStamp; } set { spaceType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

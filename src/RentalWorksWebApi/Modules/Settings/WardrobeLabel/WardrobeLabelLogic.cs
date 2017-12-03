@@ -16,7 +16,7 @@ namespace RentalWorksWebApi.Modules.Settings.WardrobeLabel
         public string WardrobeLabelId { get { return wardrobeLabel.WardrobeLabelId; } set { wardrobeLabel.WardrobeLabelId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string WardrobeLabel { get { return wardrobeLabel.WardrobeLabel; } set { wardrobeLabel.WardrobeLabel = value; } }
-        public bool Inactive { get { return wardrobeLabel.Inactive; } set { wardrobeLabel.Inactive = value; } }
+        public bool? Inactive { get { return wardrobeLabel.Inactive; } set { wardrobeLabel.Inactive = value; } }
         public string DateStamp { get { return wardrobeLabel.DateStamp; } set { wardrobeLabel.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
