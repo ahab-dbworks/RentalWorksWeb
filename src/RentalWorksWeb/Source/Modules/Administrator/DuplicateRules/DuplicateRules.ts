@@ -101,25 +101,6 @@ class DuplicateRules {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     }
 
-    renderGrids($form: any) {
-        //var $duplicateRuleFieldGrid: any;
-        //var $duplicateRuleFieldGridControl: any;
-
-        //$duplicateRuleFieldGrid = $form.find('div[data-grid="DuplicateRuleFieldGrid"]');
-        //$duplicateRuleFieldGridControl = jQuery(jQuery('#tmpl-grids-DuplicateRuleFieldGridBrowse').html());
-        //$duplicateRuleFieldGrid.empty().append($duplicateRuleFieldGridControl);
-        //$duplicateRuleFieldGridControl.data('ondatabind', function(request) {
-        //    request.uniqueids = {
-        //        DuplicateRuleId: $form.find('div.fwformfield[data-datafield="DuplicateRuleId"] input').val()
-        //    };
-        //})
-        //$duplicateRuleFieldGridControl.data('beforesave', function(request) {
-        //    request.DuplicateRuleId = FwFormField.getValueByDataField($form, 'DuplicateRuleId');
-        //});
-        //FwBrowse.init($duplicateRuleFieldGridControl);
-        //FwBrowse.renderRuntimeHtml($duplicateRuleFieldGridControl);
-    }
-
     events($form: JQuery): void {
         $form.find('div.modules').on("change", function () {
             var moduleName = jQuery(this).find(':selected').val();
@@ -138,10 +119,11 @@ class DuplicateRules {
                     fieldsHtml.push(' data-type="checkbox"');
                     fieldsHtml.push(' class="fwcontrol fwformfield"');
                     fieldsHtml.push(' data-caption="' + key + '"');
-                    fieldsHtml.push(' data-datafield="Fields"');
+                    //fieldsHtml.push(' data-datafield="Fields"');
+                    fieldsHtml.push(' data-value="' + key + '"');
                     fieldsHtml.push(' style="float:left;width:150px;"');
                     fieldsHtml.push('>');
-                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox"');
+                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name= "' + key + '"');
                     fieldsHtml.push(' />');
                     fieldsHtml.push('<label class="fwformfield-caption" for="' + uniqueId + '">' + key + '</label>');
                     fieldsHtml.push('</div>');
@@ -149,6 +131,19 @@ class DuplicateRules {
                 $fields.empty().append(fieldsHtml.join('')).html();
             });
         });
+
+        var fieldsArray = [];
+        $form.on('change', '[type="checkbox"]', (e) => {
+            var field = jQuery(e.currentTarget).attr('name');
+            if (fieldsArray.indexOf(field) === -1) {
+                fieldsArray.push(field);
+            } else {
+                fieldsArray = fieldsArray.filter((item) => item !== field)
+            }
+            console.log(fieldsArray, "FIELDS")
+        });
+
+        //FwFormField.setValueByDataField($form, 'Fields', fieldsArray)
     }
 
     afterLoad($form: any) {
@@ -157,6 +152,7 @@ class DuplicateRules {
         var request = {
             module: moduleName
         };
+
         FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
             var columns = response.ColumnIndex;
             var fieldsHtml = [];
@@ -165,23 +161,21 @@ class DuplicateRules {
                 var uniqueId = FwApplication.prototype.uniqueId(10);
                 fieldsHtml.push('<div data-control="FwFormField"');
                 fieldsHtml.push(' data-type="checkbox"');
-                fieldsHtml.push(' class="fwcontrol fwformfield"');
+                fieldsHtml.push(' class="fwcontrol fwformfield check"');
                 fieldsHtml.push(' data-caption="' + key + '"');
-                fieldsHtml.push(' data-datafield="Fields"');
+                //fieldsHtml.push(' data-datafield="Fields"');
+                fieldsHtml.push(' data-value="' + key + '"');
                 fieldsHtml.push(' style="float:left;width:150px;"');
                 fieldsHtml.push('>');
-                fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox"');
+                fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + key + '"');
                 fieldsHtml.push(' />');
-                fieldsHtml.push('<label class="fwformfield-caption" for="' + uniqueId + '">' + key + '</label>');
+                fieldsHtml.push('<label class="fwformfield-caption" data-value="' + key + '" for="' + uniqueId + '">' + key + '</label>');
                 fieldsHtml.push('</div>');
             }
             $fields.empty().append(fieldsHtml.join('')).html();
         });
-  
-        //var $duplicateRuleFieldGrid: any;
 
-        //$duplicateRuleFieldGrid = $form.find('[data-name="DuplicateRuleFieldGrid"]');
-        //FwBrowse.search($duplicateRuleFieldGrid);
+       
     }
 }
 
