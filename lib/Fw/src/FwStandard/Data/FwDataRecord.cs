@@ -16,6 +16,7 @@ namespace FwStandard.DataLayer
     {
         protected SqlServerConfig _dbConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
+        protected bool useWithNoLock = true;
 
         //------------------------------------------------------------------------------------
         public FwDataRecord() : base() { }
@@ -297,7 +298,13 @@ namespace FwStandard.DataLayer
                 }
             }
 
-            select.Add(" from " + TableName + " t with (nolock)");
+            //select.Add(" from " + TableName + " t with (nolock)");
+            select.Add(" from " + TableName + " t ");
+            if (useWithNoLock)
+            {
+                select.Add(" with (nolock) ");
+            }
+
 
             if ((customFields != null) && (customFields.Count > 0))
             {
