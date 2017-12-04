@@ -59,6 +59,24 @@ namespace RentalWorksWebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Transportation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text, maxlength: 5)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
+        public string EstimatedStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text, maxlength: 5)]
+        public string EstimatedStartTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
+        public string EstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text, maxlength: 5)]
+        public string EstimatedStopTime { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

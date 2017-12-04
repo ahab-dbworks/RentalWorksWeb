@@ -52,6 +52,24 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
+        public string EstimatedStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estfromtime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStartTime { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
+        public string EstimatedStopDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "esttotime", modeltype: FwDataTypes.Text)]
+        public string EstimatedStopTime { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------
