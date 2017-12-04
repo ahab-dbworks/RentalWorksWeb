@@ -8,6 +8,9 @@
 /lib/Fw/src/Fw.Json/bin/
 /lib/Fw/src/Fw.Json/scripts/_references.js
 /lib/Fw/src/Fw.Json/Fw.Json.csproj.user
+/lib/Fw/src/FwCore/obj/
+/lib/Fw/src/FwCore/bin/
+/lib/Fw/src/FwCore/FwCore.csproj.user
 /lib/Fw/src/FwFrontEndLibrary/FwFrontEndLibrary.csproj.user
 /lib/Fw/src/FwFrontEndLibrary/bin/
 /lib/Fw/src/FwFrontEndLibrary/obj/
