@@ -505,18 +505,48 @@ class RentalInventory {
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
         FwBrowse.search($inventoryKitGrid);
 
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
+            FwFormField.enable($form.find('[data-datafield="Classification"]'));
+            $form.find('.completeradio').hide();
+            $form.find('.kitradio').hide();
+            $form.find('.containerradio').hide();
+            $form.find('.miscradio').hide();
+        }
+
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
             $form.find('.containertab').show();
             $form.find('.completeskitstab').hide();
+            $form.find('.kitradio').hide();
+            $form.find('.completeradio').hide();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.miscradio').hide();
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
             $form.find('.completetab').show();
             $form.find('.completeskitstab').hide();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.containerradio').hide();
+            $form.find('.miscradio').hide();
         }
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
             $form.find('.kittab').show();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.containerradio').hide();
+            $form.find('.miscradio').hide();
+        }
+
+        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'M') {
+            $form.find('.completeradio').hide();
+            $form.find('.kitradio').hide();
+            $form.find('.itemradio').hide();
+            $form.find('.accessoryradio').hide();
+            $form.find('.containerradio').hide();
+
         }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
