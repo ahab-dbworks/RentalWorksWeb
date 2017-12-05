@@ -111,6 +111,7 @@ class DuplicateRules {
 
             FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var columns = response.ColumnIndex;
+                delete columns.DateStamp;
                 var fieldsHtml = [];
                 var $fields = $form.find('.fields');
                 for (var key in columns) {
@@ -119,7 +120,6 @@ class DuplicateRules {
                     fieldsHtml.push(' data-type="checkbox"');
                     fieldsHtml.push(' class="fwcontrol fwformfield"');
                     fieldsHtml.push(' data-caption="' + key + '"');
-                    //fieldsHtml.push(' data-datafield="Fields"');
                     fieldsHtml.push(' data-value="' + key + '"');
                     fieldsHtml.push(' style="float:left;width:150px;"');
                     fieldsHtml.push('>');
@@ -158,6 +158,7 @@ class DuplicateRules {
 
         FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
             var columns = response.ColumnIndex;
+            delete columns.DateStamp;
             var fieldsHtml = [];
             var $fields = $form.find('.fields');
             for (var key in columns) {
@@ -166,7 +167,6 @@ class DuplicateRules {
                 fieldsHtml.push(' data-type="checkbox"');
                 fieldsHtml.push(' class="fwcontrol fwformfield check"');
                 fieldsHtml.push(' data-caption="' + key + '"');
-                //fieldsHtml.push(' data-datafield="Fields"');
                 fieldsHtml.push(' data-value="' + key + '"');
                 fieldsHtml.push(' style="float:left;width:150px;"');
                 fieldsHtml.push('>');
