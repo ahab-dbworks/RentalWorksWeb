@@ -119,6 +119,7 @@ class DuplicateRules {
                     fieldsHtml.push('<div data-control="FwFormField"');
                     fieldsHtml.push(' data-type="checkbox"');
                     fieldsHtml.push(' class="fwcontrol fwformfield"');
+                    fieldsHtml.push(' data-enabled="true"');
                     fieldsHtml.push(' data-caption="' + key + '"');
                     fieldsHtml.push(' data-value="' + key + '"');
                     fieldsHtml.push(' style="float:left;width:150px;"');
@@ -166,6 +167,7 @@ class DuplicateRules {
                 fieldsHtml.push('<div data-control="FwFormField"');
                 fieldsHtml.push(' data-type="checkbox"');
                 fieldsHtml.push(' class="fwcontrol fwformfield check"');
+                fieldsHtml.push(' data-enabled="true"');
                 fieldsHtml.push(' data-caption="' + key + '"');
                 fieldsHtml.push(' data-value="' + key + '"');
                 fieldsHtml.push(' style="float:left;width:150px;"');
