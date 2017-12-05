@@ -69,14 +69,24 @@ namespace Fw.Json.Services
             //    "usnisW+pusHbsXWm8PoO5Kfq6Q==");
 
             //2017
+            //EO.Pdf.Runtime.AddLicense(
+            //    "tZf3Bg3EseftAxDyeuvBs9yua66zw9uwcZmkBxDxrODz/+ihb5mkwOmMQ5ek" + 
+            //    "scu7rODr/wzzrunpz/rUgcf4/v+yj+27CQDsce750u2xht7BzueurODr/wzz" + 
+            //    "runpz7iJdabw+g7kp+rpz7iJdePt9BDtrNzCnrWfWZekzRfonNzyBBDInbW6" + 
+            //    "yeKxb6m6wduxdabw+g7kp+rp2g+9RoGkscufdePt9BDtrNzpz+eupeDn9hny" + 
+            //    "ntzCnrWfWZekzQzrpeb7z7iJWZekscufWZfA8g/jWev9ARC8W7zTv/vjn5mk" + 
+            //    "BxDxrODz/+ihaq6ywc2faLWRm8ufWZfAwAzrpeb7z7iJWZeksefuq9vpA/Tt" + 
+            //    "n+ak9QzznrSmwtqxcKa2wdy0Ww==");
+
+            //2018
             EO.Pdf.Runtime.AddLicense(
-                "tZf3Bg3EseftAxDyeuvBs9yua66zw9uwcZmkBxDxrODz/+ihb5mkwOmMQ5ek" + 
-                "scu7rODr/wzzrunpz/rUgcf4/v+yj+27CQDsce750u2xht7BzueurODr/wzz" + 
-                "runpz7iJdabw+g7kp+rpz7iJdePt9BDtrNzCnrWfWZekzRfonNzyBBDInbW6" + 
-                "yeKxb6m6wduxdabw+g7kp+rp2g+9RoGkscufdePt9BDtrNzpz+eupeDn9hny" + 
-                "ntzCnrWfWZekzQzrpeb7z7iJWZekscufWZfA8g/jWev9ARC8W7zTv/vjn5mk" + 
-                "BxDxrODz/+ihaq6ywc2faLWRm8ufWZfAwAzrpeb7z7iJWZeksefuq9vpA/Tt" + 
-                "n+ak9QzznrSmwtqxcKa2wdy0Ww==");
+                "op/mpPUM8560psLasXCmtsHctFuX9wYNxLHn7QMQ8nrrwbPcrmuus8PbsHGZ" + 
+                "pAcQ8azg8//ooW+ZpMDpjEOXpLHLu6zg6/8M867p6c8d0W6/8Nv256/QxfcN" + 
+                "+Gu7veYP1aa4wc7nrqzg6/8M867p6c+4iXWm8PoO5Kfq6c+4iXXj7fQQ7azc" + 
+                "wp61n1mXpM0X6Jzc8gQQyJ21usnisW+pusHbsXWm8PoO5Kfq6doPvUaBpLHL" + 
+                "n3Xj7fQQ7azc6c/nrqXg5/YZ8p7cwp61n1mXpM0M66Xm+8+4iVmXpLHLn1mX" + 
+                "wPIP41nr/QEQvFu807/745+ZpAcQ8azg8//ooWqvssHNn2i1kZvLn1mXwMAM" + 
+                "66Xm+8+4iVmXpLHn7qvb6QP07Q==");
         }
         //---------------------------------------------------------------------------------------------
         abstract protected FwSqlConnection GetApplicationSqlConnection();

@@ -10,7 +10,7 @@ namespace FwStandard.Security
     [JsonObject(MemberSerialization.OptIn)]
     public class FwSecurityTree
     {
-        private SqlServerConfig _sqlServerConfig;
+        private SqlServerConfig _sqlServerOptions;
         public Dictionary<string, FwSqlData.ApplicationOption> ApplicationOptions { get; set; }
         public Dictionary<string, FwSecurityTreeNode> GroupTrees { get; private set; } = new Dictionary<string, FwSecurityTreeNode>();
         //---------------------------------------------------------------------------------------------
@@ -25,9 +25,9 @@ namespace FwStandard.Security
         public Dictionary<string, FwSecurityTreeNode> Nodes { get; set; } = new Dictionary<string, FwSecurityTreeNode>();
         public Dictionary<string, FwSecurityTreeNode> ExcludedNodes { get; set; } = new Dictionary<string, FwSecurityTreeNode>();
         //---------------------------------------------------------------------------------------------
-        public FwSecurityTree(SqlServerConfig sqlServerConfig, string currentApplicationId)
+        public FwSecurityTree(SqlServerConfig sqlServerOptions, string currentApplicationId)
         {
-            _sqlServerConfig = sqlServerConfig;
+            _sqlServerOptions = sqlServerOptions;
             FwSecurityTree.CurrentApplicationId = currentApplicationId;
             Task.Run(async () => {
                 await this.InitAsync();
@@ -36,9 +36,9 @@ namespace FwStandard.Security
         //---------------------------------------------------------------------------------------------
         public async Task InitAsync()
         {
-            using (FwSqlConnection conn = new FwSqlConnection(_sqlServerConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
             {
-                this.ApplicationOptions = await FwSqlData.GetApplicationOptions2Async(conn, _sqlServerConfig);
+                this.ApplicationOptions = await FwSqlData.GetApplicationOptions2Async(conn, _sqlServerOptions);
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -685,9 +685,9 @@ namespace FwStandard.Security
                         }
                     }
                 }
-                using (FwSqlConnection conn = new FwSqlConnection(_sqlServerConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(_sqlServerOptions.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, _sqlServerConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, _sqlServerOptions.QueryTimeout);
                     qry.Add("select top 1 hidenewmenuoptionsbydefault, security");
                     qry.Add("from groups");
                     qry.Add("where groupsid = @groupsid");

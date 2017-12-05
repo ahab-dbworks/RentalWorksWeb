@@ -48,17 +48,17 @@
          you will have to fix it here afterwards.  Note that these variables contain the trailing backslash. 
          For NuGet packages example: $(SolutionDir)packages\EO.Pdf.17.2.75.0\lib\EO.Base.dll 
          For libraries in the Fw\lib folder example: $(ProjectDir)..\..\lib\EPPlus\EPPlus.dll-->
-    <Reference Include="EO.Base, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.17.2.92.0\lib\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Pdf, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.17.2.92.0\lib\EO.Pdf.dll</HintPath>
+    <Reference Include="EO.Pdf, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.17.2.92.0\lib\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.WebBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebEngine, Version=17.2.92.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.17.2.92.0\lib\EO.WebEngine.dll</HintPath>
+    <Reference Include="EO.WebEngine, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.WebEngine.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
