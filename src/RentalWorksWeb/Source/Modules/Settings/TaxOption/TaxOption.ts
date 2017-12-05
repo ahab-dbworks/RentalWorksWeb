@@ -1,5 +1,7 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
+declare var FwApplicationTree: any;
+declare var TaxOptionController: any;
 
 class TaxOption {
     Module: string;
@@ -8,6 +10,19 @@ class TaxOption {
     constructor() {
         this.Module = 'TaxOption';
         this.apiurl = 'api/v1/taxoption';
+        var self = this;
+        
+        //Sends confirmation for forcing tax rate
+        FwApplicationTree.clickEvents['{CE1AEA95-F022-4CF5-A4FA-81CE32523344}'] = function (event) {
+            var $form, taxOptionId;
+            try {
+                $form = jQuery(this).closest('.fwform');
+                taxOptionId = $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val();
+                self.forceTaxRates(taxOptionId);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
     }
 
     getModuleScreen() {
@@ -150,6 +165,33 @@ class TaxOption {
             this.toggleDisableUSTaxRates($form, jQuery(e).find('input[type="checkbox"]').is(':checked'), jQuery(e).data('exempttypetxtclass'));
         });                
 
+    }
+
+    forceTaxRates(id: any) {
+        var $confirmation, $yes, $no, self;
+        
+        self = this;
+        $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', `<div style="white-space:pre;">This will update all of the following records with the tax rates: \n 
+                                                                                                            ------------------------------------------------------------------------------------------------- \n 
+                                                                                                            Prospect and Active Quotes \n
+                                                                                                            Confirmed, Active, and Complete Orders \n 
+                                                                                                            New, Open, Received, and Completed Purchase Orders \n 
+                                                                                                            New and Estimated Repair Orders that have not yet been billed \n \n 
+                                                                                                            Are you sure you want to force these Tax Rates? This cannot be undone.</div>`);
+        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        $no = FwConfirmation.addButton($confirmation, 'No');
+
+        $yes.on('click', function () {
+            FwAppData.apiMethod(true, 'POST', `${self.apiurl}/${id}/forcerates`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwNotification.renderNotification('SUCCESS', 'Tax Rates Forced');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        });
+        
     }
 }
 

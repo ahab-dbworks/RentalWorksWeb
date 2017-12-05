@@ -24,6 +24,8 @@ namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeForm = tree.AddForm("{128030DD-3FF1-486E-9481-D68EBD3C24F4}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{CDC9E5D0-67F8-4062-8FFB-59239456E9E2}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{ECDF8EB4-51E5-47EC-A00A-CC11FD98E3F9}", nodeFormMenuBar.Id);
+            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{A4043D0C-CBDE-4CA6-92BC-ECD41033FAAD}", nodeFormSubMenu.Id);
+            tree.AddSubMenuItem("Force Tax Rates", "{CE1AEA95-F022-4CF5-A4FA-81CE32523344}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{88D09422-88B4-4453-BD5B-6863687C4156}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
