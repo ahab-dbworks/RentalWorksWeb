@@ -1,5 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
+using Microsoft.AspNetCore.Mvc;
 using RentalWorksWebApi.Logic;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Modules.Settings.TaxOption
 {
@@ -56,6 +58,13 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public string PstExportCode { get { return taxOption.PstExportCode; } set { taxOption.PstExportCode = value; } }
         public bool? Inactive { get { return taxOption.Inactive; } set { taxOption.Inactive = value; } }
         public string DateStamp { get { return taxOption.DateStamp; } set { taxOption.DateStamp = value; } }
+        //------------------------------------------------------------------------------------
+
+        public bool ForceRates()
+        {
+            bool success = taxOption.ForceRatesAsync().Result;
+            return success;
+        }
         //------------------------------------------------------------------------------------
     }
 }

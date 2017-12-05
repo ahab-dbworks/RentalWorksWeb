@@ -1,11 +1,13 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using RentalWorksWebApi.Data;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Modules.Settings.TaxOption
 {
     [FwSqlTable("taxoption")]
-    public class TaxOptionRecord: RwDataReadWriteRecord
+    public class TaxOptionRecord : RwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
@@ -89,5 +91,18 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        public async Task<bool> ForceRatesAsync()
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "forcetaxoptionrates", _dbConfig.QueryTimeout);
+                qry.AddParameter("@taxoptionid", SqlDbType.NVarChar, ParameterDirection.Input, TaxOptionId);
+                await qry.ExecuteNonQueryAsync(true);
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }

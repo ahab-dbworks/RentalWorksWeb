@@ -1,8 +1,11 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using RentalWorksWebApi.Controllers;
+using RentalWorksWebApi.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace RentalWorksWebApi.Modules.Settings.TaxOption
@@ -58,6 +61,32 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
         public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
         {
             return await DoValidateDuplicateAsync(request);
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/taxoption/A0000001/forcerates
+        [HttpPost("{id}/forcerates")]
+        public async Task<IActionResult> ForceRatesAsync([FromRoute]string id)
+        {
+            try
+            {
+                string[] ids = id.Split('~');
+                TaxOptionLogic l = new TaxOptionLogic();
+                l.SetDbConfig(_appConfig.DatabaseSettings);
+                bool success = await l.LoadAsync<TaxOptionLogic>(ids);
+                if (success)
+                {
+                    success = l.ForceRates();
+                }
+                return new OkObjectResult(success);
+            }
+            catch (Exception ex)
+            {
+                ApiException jsonException = new ApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------
     }

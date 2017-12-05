@@ -21121,6 +21121,31 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "Tax Option: Force Rates",
+					"request": {
+						"url": "http://localhost:57949/api/v1/taxoption",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"TaxOptionId\": \"00003ECI\",\n    \"TaxOption\": \"DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		},
