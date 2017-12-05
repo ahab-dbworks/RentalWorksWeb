@@ -99,20 +99,23 @@ var DuplicateRules = (function () {
                     fieldsHtml.push('</div>');
                 }
                 $fields.empty().append(fieldsHtml.join('')).html();
+                var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
+                var separateFields = fields.split(",");
+                jQuery.each(separateFields, function (i, val) {
+                    jQuery("input[name='" + val + "']").prop("checked", true);
+                });
+                $form.on('change', '[type="checkbox"]', function (e) {
+                    var field = jQuery(e.currentTarget).attr('name');
+                    if (separateFields.indexOf(field) === -1) {
+                        separateFields.push(field);
+                    }
+                    else {
+                        separateFields = separateFields.filter(function (item) { return item !== field; });
+                    }
+                    FwFormField.setValueByDataField($form, 'Fields', separateFields);
+                });
             });
         });
-        var fieldsArray = [];
-        $form.on('change', '[type="checkbox"]', function (e) {
-            var field = jQuery(e.currentTarget).attr('name');
-            if (fieldsArray.indexOf(field) === -1) {
-                fieldsArray.push(field);
-            }
-            else {
-                fieldsArray = fieldsArray.filter(function (item) { return item !== field; });
-            }
-            console.log(fieldsArray, "FIELDS");
-        });
-        //FwFormField.setValueByDataField($form, 'Fields', fieldsArray)
     };
     DuplicateRules.prototype.afterLoad = function ($form) {
         var moduleName = $form.find('.modules').attr('data-originalvalue');
@@ -140,6 +143,21 @@ var DuplicateRules = (function () {
                 fieldsHtml.push('</div>');
             }
             $fields.empty().append(fieldsHtml.join('')).html();
+            var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
+            var separateFields = fields.split(",");
+            jQuery.each(separateFields, function (i, val) {
+                jQuery("input[name='" + val + "']").prop("checked", true);
+            });
+            $form.on('change', '[type="checkbox"]', function (e) {
+                var field = jQuery(e.currentTarget).attr('name');
+                if (separateFields.indexOf(field) === -1) {
+                    separateFields.push(field);
+                }
+                else {
+                    separateFields = separateFields.filter(function (item) { return item !== field; });
+                }
+                FwFormField.setValueByDataField($form, 'Fields', separateFields);
+            });
         });
     };
     return DuplicateRules;
