@@ -93,6 +93,33 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public bool? SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerId { get; set; }
+
+
+        public string PatternId { get { return master.PatternId; } set { master.PatternId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Pattern { get; set; }
+        public string PeriodId { get { return master.PeriodId; } set { master.PeriodId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Period { get; set; }
+        public string MaterialId { get { return master.MaterialId; } set { master.MaterialId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Material { get; set; }
+        public string GenderId { get { return master.GenderId; } set { master.GenderId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Gender { get; set; }
+        public string LabelId { get { return master.LabelId; } set { master.LabelId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Label { get; set; }
+        public string WardrobeSize { get { return master.WardrobeSize; } set { master.WardrobeSize = value; } }
+        public int? WardrobePieceCount { get { return master.WardrobePieceCount; } set { master.WardrobePieceCount = value; } }
+        public bool? Dyed { get { return master.Dyed; } set { master.Dyed = value; } }
+        public string WardrobeSourceId { get { return master.WardrobeSourceId; } set { master.WardrobeSourceId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WardrobeSource { get; set; }
+        public string WardrobeCareId { get { return master.WardrobeCareId; } set { master.WardrobeCareId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WardrobeCare { get; set; }
+        public decimal? CleaningFeeAmount { get { return master.CleaningFeeAmount; } set { master.CleaningFeeAmount = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }

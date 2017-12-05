@@ -209,8 +209,59 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text)]
         public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
-
+        [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text)]
+        public string PatternId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pattern", modeltype: FwDataTypes.Text)]
+        public string Pattern { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodid", modeltype: FwDataTypes.Text)]
+        public string PeriodId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "period", modeltype: FwDataTypes.Text)]
+        public string Period { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "materialid", modeltype: FwDataTypes.Text)]
+        public string MaterialId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "material", modeltype: FwDataTypes.Text)]
+        public string Material { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "genderid", modeltype: FwDataTypes.Text)]
+        public string GenderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "gender", modeltype: FwDataTypes.Text)]
+        public string Gender { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labelid", modeltype: FwDataTypes.Text)]
+        public string LabelId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "label", modeltype: FwDataTypes.Text)]
+        public string Label { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobesize", modeltype: FwDataTypes.Text)]
+        public string WardrobeSize { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobepiececount", modeltype: FwDataTypes.Integer)]
+        public int? WardrobePieceCount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dyed", modeltype: FwDataTypes.Boolean)]
+        public bool? Dyed { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobesourceid", modeltype: FwDataTypes.Text)]
+        public string WardrobeSourceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobesource", modeltype: FwDataTypes.Text)]
+        public string WardrobeSource { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobecareid", modeltype: FwDataTypes.Text)]
+        public string WardrobeCareId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobecare", modeltype: FwDataTypes.Text)]
+        public string WardrobeCare { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cleaningfeeamount", modeltype: FwDataTypes.Decimal)]
+        public decimal? CleaningFeeAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

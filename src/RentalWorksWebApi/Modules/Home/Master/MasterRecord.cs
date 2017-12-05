@@ -182,6 +182,39 @@ namespace RentalWorksWebApi.Modules.Home.Master
         [FwSqlDataField(column: "separate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? SeparatePackageOnQuoteOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dyed", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Dyed { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobecareid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string WardrobeCareId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobesourceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string WardrobeSourceId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PatternId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "genderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string GenderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labelid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string LabelId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "materialid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string MaterialId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PeriodId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cleaningfeeamount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
+        public decimal? CleaningFeeAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobesize", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
+        public string WardrobeSize { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobepiececount", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? WardrobePieceCount { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -307,30 +340,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 [FwSqlDataField(column: "rentalmasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string RentalmasterId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string PatternId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "genderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string GenderId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "labelid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string LabelId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "materialid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string MaterialId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "periodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string PeriodId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "cleaningfeeamount", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-                public decimal? Cleaningfeeamount { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "wardrobesize", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
-                public string Wardrobesize { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "wardrobepiececount", modeltype: FwDataTypes.Integer, sqltype: "int")]
-                public int? Wardrobepiececount { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "splitpackagerevenue", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Splitpackagerevenue { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -390,15 +399,6 @@ namespace RentalWorksWebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "includeonpicklist", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Includeonpicklist { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "dyed", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Dyed { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "wardrobecareid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string WardrobecareId { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "wardrobesourceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string WardrobesourceId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "usecontainerno", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Usecontainerno { get; set; }
