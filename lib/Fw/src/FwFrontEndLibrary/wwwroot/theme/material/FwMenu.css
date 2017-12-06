@@ -2,11 +2,10 @@
 html.theme-material .fwmenu.grid {display:flex;height:44px;}
 html.theme-material .fwmenu.grid .menucaption {flex: 1 1 auto; flex: 1 1 auto; padding: 12px 10px 5px 10px; font-size: 14px; font-weight:600; color: #2196F3;min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 html.theme-material .fwmenu.grid .buttonbar {flex: 0 0 auto; padding: 0 0 0 5px;}
-html.theme-material .fwmenu.grid .buttonbar .btn {cursor:pointer;padding:0px 15px;font-family:arial;font-size:12px;font-weight:bold;text-decoration:none;text-align:center;float:left;}
-html.theme-material .fwmenu.grid .buttonbar .btn .material-icons {vertical-align:middle;}
+html.theme-material .fwmenu.grid .buttonbar .btn {color:#546e7a;height:24px;cursor:pointer;padding:10px;font-family:arial;font-size:12px;font-weight:bold;text-decoration:none;text-align:center;float:left;}
 html.theme-material .fwmenu.grid .buttonbar .btn:hover {background: #4CAF50; color: #ffffff;}
 html.theme-material .fwmenu.grid .submenubutton {flex: 0 0 auto;}
-html.theme-material .fwmenu.grid .submenubutton .icon {height:24px;cursor:pointer;}
+html.theme-material .fwmenu.grid .submenubutton .icon {height:24px;padding:10px;cursor:pointer;}
 html.theme-material .fwmenu.grid .submenubutton .submenu {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
 html.theme-material .fwmenu.grid .submenubutton.active .submenu {display:block;}
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column {margin:10px;font-size:14px;float:left;min-width:200px;}
@@ -17,13 +16,12 @@ html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submen
 html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn > .caption {}
 
 /*#region Material Theme*/
-html.theme-material .fwmenu.grid .buttonbar .btn {/*border:1px solid rgba(0,0,0,.2);background: rgba(255,255,255,.8);*/ color:#546e7a;height: 44px; line-height: 44px;}
 html.theme-material .fwmenu.grid .buttonbar .btn:hover:not(.disabled) {text-decoration:underline;}
 html.theme-material .fwmenu.grid .buttonbar .btn.disabled {opacity:0.6;}
 html.theme-material div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn .btn-text {color:#cccccc;}
 html.theme-material div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn:hover {text-decoration:none !important;}
 
-html.theme-material .fwmenu.grid .submenubutton {/*background: rgba(120,120,120,0.4);border:solid 1px #5e5e5e;*/padding:10px;color: #607D8B;}
+html.theme-material .fwmenu.grid .submenubutton {color: #607D8B;}
 html.theme-material .fwmenu.grid .submenubutton:hover {background-color: #7B1FA2; color: #ffffff;}
 html.theme-material .fwmenu.grid .submenubutton.active {background-color: #7B1FA2; color: #ffffff;}
 

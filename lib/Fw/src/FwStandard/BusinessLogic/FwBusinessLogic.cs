@@ -75,7 +75,10 @@ namespace FwStandard.BusinessLogic
                     dynamic result = generic.Invoke(dataRecords[0], new object[] { browseRequest, customFields });
                     dynamic dataRecordsResults = await result;
                     records = new List<T>(dataRecordsResults.Count);
-                    Mapper.Map(dataRecordsResults, records);
+                    Mapper.Map((object)dataRecordsResults, records, opts =>
+                    {
+                        opts.ConfigureMap(MemberList.None);
+                    });
                 }
             }
             else
@@ -106,7 +109,10 @@ namespace FwStandard.BusinessLogic
                     FwDataReadWriteRecord rec = dataRecords[i];
                     rec = await rec.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
                     dataRecords[i] = rec;
-                    Mapper.Map(rec, this);
+                    Mapper.Map(rec, this, opts =>
+                    {
+                        opts.ConfigureMap(MemberList.None);
+                    });
                     recLoaded = (rec != null);
                     if (i == 0)
                     {
@@ -119,7 +125,10 @@ namespace FwStandard.BusinessLogic
             {
                 dataLoader = await dataLoader.GetAsync<T>(primaryKeyValues, _Custom.CustomFields);
                 blLoaded = (dataLoader != null);
-                Mapper.Map(dataLoader, this);
+                Mapper.Map(dataLoader, this, opts =>
+                {
+                    opts.ConfigureMap(MemberList.None);
+                });
             }
             //if (blLoaded) 
             //{
