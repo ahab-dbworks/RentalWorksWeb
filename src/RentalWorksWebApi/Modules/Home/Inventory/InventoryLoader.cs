@@ -263,5 +263,8 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "cleaningfeeamount", modeltype: FwDataTypes.Decimal)]
         public decimal? CleaningFeeAmount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invdeptiswardrobe", modeltype: FwDataTypes.Boolean)]
+        public bool? InventoryTypeIsWardrobe { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

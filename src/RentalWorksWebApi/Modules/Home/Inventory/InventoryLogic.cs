@@ -93,8 +93,8 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public bool? SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ContainerId { get; set; }
-
-
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? InventoryTypeIsWardrobe { get; set; }
         public string PatternId { get { return master.PatternId; } set { master.PatternId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Pattern { get; set; }
@@ -121,5 +121,7 @@ namespace RentalWorksWebApi.Modules.Home.Inventory
         public string WardrobeCare { get; set; }
         public decimal? CleaningFeeAmount { get { return master.CleaningFeeAmount; } set { master.CleaningFeeAmount = value; } }
         //------------------------------------------------------------------------------------ 
+
+
     }
 }
