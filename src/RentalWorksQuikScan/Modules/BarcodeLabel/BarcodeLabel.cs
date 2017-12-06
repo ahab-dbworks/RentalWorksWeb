@@ -65,7 +65,7 @@ namespace RentalWorksQuikScan.Modules
             {
                 select.PageNo   = request.pageno;
                 select.PageSize = request.pagesize;
-                select.Add("select masterid, masterno, master, inventorydepartment, category, subcategory=isnull(subcategory, ''), trackedby, qty");
+                select.Add("select masterid, masterno, master, inventorydepartment, department=inventorydepartment, category, subcategory=isnull(subcategory, ''), trackedby, qty, icode=masterno, description=master");
                 select.Add("from masterview m with (nolock)");
                 select.Add("where warehouseid  = @warehouseid");
                 select.Add("  and m.availfor in ('R')");

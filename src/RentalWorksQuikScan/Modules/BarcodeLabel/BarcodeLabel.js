@@ -23,7 +23,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     screen.$searchicodes       = screen.$view.find('.search-icodes');
     screen.$searchbarcodelabel = screen.$view.find('.search-barcodelabel');
 
-    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function () { //back
+    screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', false, function () {
         try {
             screen.getCurrentPage().back();
         } catch (ex) {
@@ -31,26 +31,36 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         }
     });
 
-    screen.$btnprint = FwMobileMasterController.addFormControl(screen, 'Print', 'right', '&#xE8AD;', false, function () { //print
+    screen.$btnprint = FwMobileMasterController.addFormControl(screen, 'Print', 'right', '&#xE8AD;', false, function () {
         try {
-            var $records = screen.pages.barcodesearch.getElement().find('.record[data-selected="true"]');
+            var $records;
+            if (screen.getCurrentPage() === screen.pages.barcodesearch) {
+                $records = screen.pages.barcodesearch.getElement().find('.record[data-selected="true"]');
+            } else if (screen.getCurrentPage() === screen.pages.icodesearch) {
+                $records = screen.pages.icodesearch.getElement().find('.record[data-selected="true"]');
+            }
             var models = [];
             $records.each(function (index, element) {
                 var $record = jQuery(element);
                 var model = $record.data('recorddata');
                 models.push(model);
             });
-            if (screen.getCurrentPage() === screen.pages.barcodesearch) {
-                screen.showBarcodePrintingDialog(models, 'Rental Item Barcode');
-            } else if (screen.getCurrentPage() === screen.pages.icodesearch) {
-                screen.showBarcodePrintingDialog(models, 'Inventory Barcode');
+            //alert(JSON.stringify(models));
+            if ($records.length > 0) {
+                if (screen.getCurrentPage() === screen.pages.barcodesearch) {
+                    screen.showBarcodePrintingDialog(models, 'Barcode Label');
+                } else if (screen.getCurrentPage() === screen.pages.icodesearch) {
+                    screen.showBarcodePrintingDialog(models, 'I-Code Label');
+                }
+            } else {
+                FwFunc.showMessage('Select a row to print.');
             }
         } catch (ex) {
             FwFunc.showError(ex);
         }
     });
 
-    screen.$btnselectnone = FwMobileMasterController.addFormControl(screen, 'None', 'right', '&#xE14C;', false, function () { //clear
+    screen.$btnselectnone = FwMobileMasterController.addFormControl(screen, 'None', 'right', '&#xE14C;', false, function () {
         try {
             var $records;
             if (screen.getCurrentPage().name === 'barcodesearch') {
@@ -65,7 +75,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         }
     });
 
-    screen.$btnselectall = FwMobileMasterController.addFormControl(screen, 'All', 'right', '&#xE065;', false, function () { //playlist_add_check
+    screen.$btnselectall = FwMobileMasterController.addFormControl(screen, 'All', 'right', '&#xE065;', false, function () {
         try {
             var $records;
             if (screen.getCurrentPage().name === 'barcodesearch') {
@@ -377,7 +387,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.$btnback.show();
                 FwMobileMasterController.setTitle('Manage Barcode Labels...');
                 screen.$searchbarcodelabel.fwmobilesearch('search');
-                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', '&#xE145;', true, function () { //add
+                screen.$btnnewbarcodelabel = FwMobileMasterController.addFormControl(screen, 'New', 'right', '&#xE145;', true, function () {
                     try {
                         screen.pages.uploadbarcodelabel.forward('NEW');
                     } catch (ex) {
@@ -406,14 +416,14 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 screen.pages.reset();
                 screen.pages.uploadbarcodelabel.getElement().show();
                 FwMobileMasterController.setTitle('Upload Barcode Label...');
-                screen.$btncancelbarcodelabel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', '&#xE5C9;', true, function () { //cancel
+                screen.$btncancelbarcodelabel = FwMobileMasterController.addFormControl(screen, 'Cancel', 'left', '&#xE5C9;', true, function () {
                     try {
                         screen.getCurrentPage().back();
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
-                screen.$btnsavebarcodelabel = FwMobileMasterController.addFormControl(screen, 'Save', 'right', '&#xE161;', true, function () { //save
+                screen.$btnsavebarcodelabel = FwMobileMasterController.addFormControl(screen, 'Save', 'right', '&#xE161;', true, function () {
                     try {
                         var fileBarcodeLabel = screen.$view.find('.fileBarcodeLabel');
                         if (fileBarcodeLabel.get(0).files.length > 0) {
@@ -478,8 +488,8 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 html.push('    <div class="caption">Category</div>');
                 html.push('    <div class="value">');
                 html.push('    <select class="category">');
-                html.push('        <option value="Rental Item Barcode">Rental Item Barcode</option>');
-                html.push('        <option value="Inventory Barcode">Inventory Barcode</option>');
+                html.push('        <option value="Barcode Label">Barcode Label</option>');
+                html.push('        <option value="I-Code Label">I-Code Label</option>');
                 //html.push('        <option value="Warehouse Barcode">Warehouse Barcode</option>');
                 //html.push('        <option value="Warehouse Asset Barcode">Warehouse Asset Barcode</option>');
                 html.push('    </select>');
@@ -497,6 +507,18 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                 html.push('    <div class="explanation">');
                 html.push('    (Must be the actual printed output saved to a file, not the designer file. For example, from Zebra designer choose the print to file option, and save the .prn file.');
                 html.push('    You should use a desktop browser to upload the file.  Using the file picker above from a mobile device may cause the mobile app to close.)');
+                html.push('    <br/><br/>');
+                html.push('    <span style="text-decoration:underline;">Barcode Label Fields:</span><br />');
+                html.push('    [barcode]<br />');
+                html.push('    [description]<br />');
+                html.push('    [icode]');
+                html.push('    <br/><br/>');
+                html.push('    <span style="text-decoration:underline;">I-Code Label Fields:</span><br/>');
+                html.push('    [icode]<br/>');
+                html.push('    [description]<br/>');
+                html.push('    [department]<br/>');
+                html.push('    [category]<br/>');
+                html.push('    [subcategory]');
                 html.push('    </div>');
                 html.push('</div>');
                 screen.pages.uploadbarcodelabel.getElement().html(html.join('\n'));
@@ -619,6 +641,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         //labeltemplate = labeltemplate.replace(new RegExp('\[' + key + '\]', 'g'), model[key]);
                     }
                     labeltemplate = labeltemplate + '\r\n';
+                    //alert(labeltemplate);
                     $win.savePrintingPreferences();
                     if (isNaN(qty) || qty <= 0) {
                         throw 'Invalid Qty!';
@@ -779,6 +802,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
 
         $win.savePrintingPreferences = function () {
             var printerplugin = $win.find('.printerplugin').val();
+            var printer = $win.find('.printer').val();
             var host = $win.find('.host').val();
             var port = parseInt($win.find('.port').val());
             var barcodelabelid = $win.find('.barcodelabelid').val();
@@ -786,7 +810,9 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
             localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_barcodelabelid', barcodelabelid);
             switch (printerplugin) {
                 case 'cordovaBT':
+                    break;
                 case 'electronLocal':
+                   localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_printer', printer);
                     break;
                 case 'cordovaNet':
                 case 'electronNet':
@@ -798,11 +824,15 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
 
         $win.loadPrintingPreferences = function () {
             var printerplugin = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_printerplugin');
+            var printer = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_printer');
             var host = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_host');
             var port = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_port');
             var barcodelabelid = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_barcodelabelid');
             if (typeof printerplugin !== 'undefined') {
                 $win.find('.printerplugin').val(printerplugin).change();
+            }
+            if (typeof printer !== 'undefined') {
+                $win.find('.printer').val(printer).change();
             }
             if (typeof printerplugin !== 'undefined') {
                 $win.find('.host').val(host).change();
