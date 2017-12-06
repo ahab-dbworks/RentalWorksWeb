@@ -631,7 +631,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                         case 'cordovaBT':
                             {
                                 if (typeof window.ZebraLinkOS !== 'undefined') {
-                                    if (typeof window.DwCordovaFunc.printBluetooth === 'undefined') {
+                                    if (typeof window.ZebraLinkOS.printBluetooth === 'undefined') {
                                         throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
                                     }
                                     window.ZebraLinkOS.printBluetooth(labeldata,
