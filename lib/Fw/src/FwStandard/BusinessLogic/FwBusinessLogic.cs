@@ -90,7 +90,11 @@ namespace FwStandard.BusinessLogic
                 dynamic result = generic.Invoke(dataLoader, new object[] { browseRequest, customFields });
                 dynamic dataLoaderResults = await result;
                 records = new List<T>(dataLoaderResults.Count);
-                Mapper.Map(dataLoaderResults, records);
+                //Mapper.Map(dataLoaderResults, records);
+                Mapper.Map((object)dataLoaderResults, records, opts =>
+                {
+                    opts.ConfigureMap(MemberList.None);
+                });
             }
             return records;
         }
