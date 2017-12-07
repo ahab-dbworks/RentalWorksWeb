@@ -123,7 +123,11 @@ var SalesInventory = (function () {
             { value: 'B', text: 'B' },
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
-        ]);
+        ], true);
+        FwFormField.loadItems($form.find('.dyed'), [
+            { value: false, text: 'No' },
+            { value: true, text: 'Yes' }
+        ], true);
         return $form;
     };
     SalesInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
@@ -363,7 +367,25 @@ var SalesInventory = (function () {
         else {
             FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
         }
+        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
+            $form.find('.wardrobetab').show();
+        }
+        ;
     };
+    SalesInventory.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
+        var $form;
+        $form = $valuefield.closest('.fwform');
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                    $form.find('.wardrobetab').show();
+                }
+                else {
+                    $form.find('.wardrobetab').hide();
+                }
+        }
+    };
+    ;
     return SalesInventory;
 }());
 window.SalesInventoryController = new SalesInventory();

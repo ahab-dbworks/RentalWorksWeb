@@ -139,7 +139,7 @@ class RentalInventory {
         if (mode === 'NEW') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
 
-            $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function() {
+            $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
                 var $this = jQuery(this);
 
                 $form.find('.completeskitstab').show();
@@ -150,7 +150,7 @@ class RentalInventory {
                 if ($this.prop('checked') === true && $this.val() === 'N') {
                     $form.find('.containertab').show();
                     $form.find('.completeskitstab').hide();
-                } 
+                }
                 if ($this.prop('checked') === true && $this.val() === 'C') {
                     $form.find('.completetab').show();
                     $form.find('.completeskitstab').hide();
@@ -178,7 +178,7 @@ class RentalInventory {
             { value: 'B', text: 'B' },
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
-        ]);
+        ], true);
 
         FwFormField.loadItems($form.find('.lamps'), [
             { value: '0', text: '0' },
@@ -187,7 +187,12 @@ class RentalInventory {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
-        
+
+        FwFormField.loadItems($form.find('.dyed'), [
+            { value: false, text: 'No' },
+            { value: true, text: 'Yes' }
+        ], true);
+
         return $form;
     }
 
@@ -554,7 +559,25 @@ class RentalInventory {
         } else {
             FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
         }
+
+        if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
+            $form.find('.wardrobetab').show();
+        };
     }
+
+    loadRelatedValidationFields(validationName, $valuefield, $tr) {
+        var $form;
+
+        $form = $valuefield.closest('.fwform');
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                    $form.find('.wardrobetab').show();
+                } else {
+                    $form.find('.wardrobetab').hide();
+                }
+        }
+    };
 }
 
 (<any>window).RentalInventoryController = new RentalInventory();
