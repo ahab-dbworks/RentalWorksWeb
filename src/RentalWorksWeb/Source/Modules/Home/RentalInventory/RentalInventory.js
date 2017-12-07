@@ -157,10 +157,6 @@ var RentalInventory = (function () {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
-        FwFormField.loadItems($form.find('.dyed'), [
-            { value: false, text: 'No' },
-            { value: true, text: 'Yes' }
-        ], true);
         return $form;
     };
     RentalInventory.prototype.loadForm = function (uniqueids) {

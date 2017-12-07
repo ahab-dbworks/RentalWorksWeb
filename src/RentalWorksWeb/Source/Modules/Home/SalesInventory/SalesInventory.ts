@@ -150,12 +150,7 @@ class SalesInventory {
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
         ], true);
-
-        FwFormField.loadItems($form.find('.dyed'), [
-            { value: false, text: 'No' },
-            { value: true, text: 'Yes' }
-        ], true); 
-
+        
         return $form;
     }
 

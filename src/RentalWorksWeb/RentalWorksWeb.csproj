@@ -742,6 +742,12 @@
     <Content Include="Source\Validations\BillingCycleValidation\BillingCycleValidationBrowse.htm" />
     <Content Include="Source\Validations\TaxOptionValidation\TaxOptionValidationBrowse.htm" />
     <Content Include="Source\Validations\TermsConditionsValidation\TermsConditionsValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeCareValidation\WardrobeCareValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeGenderValidation\WardrobeGenderValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeLabelValidation\WardrobeLabelValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobePatternValidation\WardrobePatternValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobePeriodValidation\WardrobePeriodValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeSourceValidation\WardrobeSourceValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseValidation\WarehouseValidationBrowse.htm" />
     <Content Include="Source\Validations\OfficeLocationValidation\OfficeLocationValidationBrowse.htm" />
     <Content Include="Source\Validations\CoverLetterValidation\CoverLetterValidationBrowse.htm" />
