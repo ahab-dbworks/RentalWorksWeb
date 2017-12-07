@@ -49,7 +49,7 @@ class Customer {
     updateExternalInputsWithGridValues($tr: JQuery): void {
         $tr.find('.column > .field').each((i, e) => {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-
+            jQuery('.' + id).find(':input').inputmask({ alias: 'numeric', suffix: ' %', digits: 4 });
             if (value == undefined || null) {
                 jQuery('.' + id).find(':input').val(0);
             } else {

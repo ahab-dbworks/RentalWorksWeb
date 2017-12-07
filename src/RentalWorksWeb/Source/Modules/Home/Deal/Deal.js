@@ -212,6 +212,7 @@ var Deal = (function () {
     Deal.prototype.updateExternalInputsWithGridValues = function ($tr) {
         $tr.find('.column > .field').each(function (i, e) {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
+            jQuery('.' + id).find(':input').inputmask({ alias: 'numeric', suffix: ' %', digits: 4 });
             if (value == undefined || null) {
                 jQuery('.' + id).find(':input').val(0);
             }
