@@ -124,10 +124,6 @@ var SalesInventory = (function () {
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
         ], true);
-        FwFormField.loadItems($form.find('.dyed'), [
-            { value: false, text: 'No' },
-            { value: true, text: 'Yes' }
-        ], true);
         return $form;
     };
     SalesInventory.prototype.saveForm = function ($form, closetab, navigationpath) {

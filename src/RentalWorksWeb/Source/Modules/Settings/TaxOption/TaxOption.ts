@@ -171,13 +171,13 @@ class TaxOption {
         var $confirmation, $yes, $no, self;
         
         self = this;
-        $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', `<div style="white-space:pre;">This will update all of the following records with the tax rates: \n 
-                                                                                                            ------------------------------------------------------------------------------------------------- \n 
-                                                                                                            Prospect and Active Quotes \n
-                                                                                                            Confirmed, Active, and Complete Orders \n 
-                                                                                                            New, Open, Received, and Completed Purchase Orders \n 
-                                                                                                            New and Estimated Repair Orders that have not yet been billed \n \n 
-                                                                                                            Are you sure you want to force these Tax Rates? This cannot be undone.</div>`);
+        $confirmation = FwConfirmation.renderConfirmation('Force Tax Rates', '<div style="white-space:pre;">This will update all of the following records with the tax rates: \n' +
+                                                                                                            '------------------------------------------------------------------------------------------------- \n' +
+                                                                                                            'Prospect and Active Quotes \n' +
+                                                                                                            'Confirmed, Active, and Complete Orders \n' +
+                                                                                                            'New, Open, Received, and Completed Purchase Orders \n' +
+                                                                                                            'New and Estimated Repair Orders that have not yet been billed \n \n' +
+                                                                                                            'Are you sure you want to force these Tax Rates? This cannot be undone.</div>');
         $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         $no = FwConfirmation.addButton($confirmation, 'No');
 
