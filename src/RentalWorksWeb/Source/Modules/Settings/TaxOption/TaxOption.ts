@@ -141,6 +141,7 @@ class TaxOption {
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val(uniqueids.TaxOptionId);
+        $form.find('[data-type="percent"] input').inputmask({ alias: 'numeric', suffix: ' %', digits: 4 });
         FwModule.loadForm(this.Module, $form);
         
         return $form;
@@ -163,8 +164,7 @@ class TaxOption {
 
         $form.find('.exempttype').each((i, e) => {
             this.toggleDisableUSTaxRates($form, jQuery(e).find('input[type="checkbox"]').is(':checked'), jQuery(e).data('exempttypetxtclass'));
-        });                
-
+        });    
     }
 
     forceTaxRates(id: any) {
