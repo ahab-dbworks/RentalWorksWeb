@@ -52,6 +52,7 @@ class UserSettings {
         FwFormField.loadItems($applicationtheme, [
             { value: 'theme-default', text: 'Default' },
             { value: 'theme-material', text: 'Material' },
+            { value: 'theme-materialmobile', text: 'Material Mobile' },
             { value: 'theme-classic', text: 'Classic' }
         ]);
 
