@@ -117,7 +117,7 @@ class TaxOption {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);        
-
+        $form.find('[data-type="percent"] input').inputmask({ alias: 'numeric', suffix: ' %', digits: 4 });
         this.events($form);                        
 
         this.markFieldsNotRequired($form);
@@ -141,7 +141,6 @@ class TaxOption {
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="TaxOptionId"] input').val(uniqueids.TaxOptionId);
-        $form.find('[data-type="percent"] input').inputmask({ alias: 'numeric', suffix: ' %', digits: 4 });
         FwModule.loadForm(this.Module, $form);
         
         return $form;
