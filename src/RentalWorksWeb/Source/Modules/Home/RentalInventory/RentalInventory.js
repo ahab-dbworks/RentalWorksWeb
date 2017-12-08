@@ -134,6 +134,7 @@ var RentalInventory = (function () {
                 }
             });
         }
+        ;
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -157,6 +158,30 @@ var RentalInventory = (function () {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
+        $form.find('[data-datafield="InventoryTypeId"] input.fwformfield-text').css('cursor', 'pointer');
+        $form.find('[data-datafield="InventoryTypeId"] input.fwformfield-text').on('click', function () {
+            var $popupForm;
+            var popupModule = jQuery(this).parent().parent().attr('data-displayfield');
+            var popupModuleId = jQuery(this).parent().find('input.fwformfield-value').val();
+            $popupForm = jQuery(jQuery('#tmpl-modules-' + popupModule + 'Form').html());
+            $popupForm = FwModule.openForm($popupForm, mode);
+            // style="background-color:darkgray;box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22);"
+            //$popupForm.find('.tabs').remove();
+            //$popupForm.find('.fwform-menu').remove();
+            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '1000px', 'height': '600px' });
+            //$popupForm.find("*").addBack().off();
+            //$popupForm = $popupForm.openForm('EDIT');
+            $popupForm.find('div.fwformfield[data-datafield="' + popupModule + 'Id"] input').val(popupModuleId);
+            FwModule.loadForm(popupModule, $popupForm);
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm));
+            jQuery(document).find('.fwpopup').on('click', function () {
+                FwPopup.destroyPopup(this);
+                jQuery(document).find('.fwpopup').off('click');
+            });
+            jQuery(document).find('.fwpopupbox').on('click', function (e) {
+                e.stopPropagation();
+            });
+        });
         return $form;
     };
     RentalInventory.prototype.loadForm = function (uniqueids) {
