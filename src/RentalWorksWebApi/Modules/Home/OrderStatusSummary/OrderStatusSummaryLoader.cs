@@ -79,7 +79,7 @@ namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
         public decimal? OutQuantityfilter { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
-        public bool IsSuspendOut { get; set; }
+        public bool? IsSuspendOut { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inqty", modeltype: FwDataTypes.Decimal)]
         public decimal? InQuantity { get; set; }
@@ -88,7 +88,7 @@ namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
         public decimal? InQuantityFilter { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
-        public bool IsSuspendIn { get; set; }
+        public bool? IsSuspendIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returnedqty", modeltype: FwDataTypes.Decimal)]
         public decimal? ReturnedQuantity { get; set; }
@@ -109,7 +109,7 @@ namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
         public decimal? NotYetStagedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "toomanystagedout", modeltype: FwDataTypes.Boolean)]
-        public bool TooManyStagedOut { get; set; }
+        public bool? TooManyStagedOut { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notyetstagedqtyfilter", modeltype: FwDataTypes.Decimal)]
         public decimal? NotYetStagedQuantityFilter { get; set; }
@@ -138,14 +138,14 @@ namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Boolean)]
-        public bool OptionColor { get; set; }
+        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
+        public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
-        public bool Bold { get; set; }
+        public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "haspoitem", modeltype: FwDataTypes.Boolean)]
-        public bool HasPoItem { get; set; }
+        public bool? HasPoItem { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text)]
         public string VendorId { get; set; }
@@ -160,10 +160,10 @@ namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "iswardrobe", modeltype: FwDataTypes.Boolean)]
-        public bool IsWardrobe { get; set; }
+        public bool? IsWardrobe { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isprops", modeltype: FwDataTypes.Boolean)]
-        public bool IsProps { get; set; }
+        public bool? IsProps { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.Decimal)]
         public decimal? UnitCost { get; set; }
