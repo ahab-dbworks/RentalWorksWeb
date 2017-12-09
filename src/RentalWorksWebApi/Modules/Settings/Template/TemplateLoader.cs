@@ -29,7 +29,7 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string OrderType { get; set; }
+        public string Type { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
@@ -38,7 +38,7 @@ namespace RentalWorksWebApi.Modules.Settings.Template
         public bool? Sales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
-        public bool? Misc { get; set; }
+        public bool? Miscellaneous { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
         public bool? Labor { get; set; }
