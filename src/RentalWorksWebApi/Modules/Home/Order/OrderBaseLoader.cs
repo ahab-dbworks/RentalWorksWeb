@@ -14,7 +14,7 @@ namespace RentalWorksWebApi.Modules.Home.Order
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string OrderType { get; set; }
+        public string Type { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -52,6 +52,27 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
         //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? Sales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "misc", modeltype: FwDataTypes.Boolean)]
+        public bool? Miscellaneous { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labor", modeltype: FwDataTypes.Boolean)]
+        public bool? Labor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "space", modeltype: FwDataTypes.Boolean)]
+        public bool? Facilities { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vehicle", modeltype: FwDataTypes.Boolean)]
+        public bool? Transportation { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
         public string PickDate { get; set; }
         //------------------------------------------------------------------------------------
@@ -75,6 +96,30 @@ namespace RentalWorksWebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
         public string StatusDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
+        public string OrderTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "flatpo", modeltype: FwDataTypes.Boolean)]
+        public bool? FlatPo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "pending", modeltype: FwDataTypes.Boolean)]
+        public bool? PendingPo { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
+        public string Location { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
+        public string ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+
+
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "maxcumulativediscount", modeltype: FwDataTypes.Decimal)]
         public decimal? MaximumCumulativeDiscount { get; set; }

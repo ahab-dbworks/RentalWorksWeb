@@ -52,6 +52,23 @@ namespace RentalWorksWebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string DealNumber { get; set; }
         //------------------------------------------------------------------------------------
+        public string RateType { get { return dealOrder.RateType; } set { dealOrder.RateType = value; } }
+        //------------------------------------------------------------------------------------
+
+        public bool? Rental { get { return dealOrder.Rental; } set { dealOrder.Rental = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? Sales { get { return dealOrder.Sales; } set { dealOrder.Sales = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? Miscellaneous { get { return dealOrder.Miscellaneous; } set { dealOrder.Miscellaneous = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? Labor { get { return dealOrder.Labor; } set { dealOrder.Labor = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? Facilities { get { return dealOrder.Facilities; } set { dealOrder.Facilities = value; } }
+        //------------------------------------------------------------------------------------ 
+        public bool? Transportation { get { return dealOrder.Transportation; } set { dealOrder.Transportation = value; } }
+        //------------------------------------------------------------------------------------ 
+
+
         public string PickDate { get { return dealOrder.PickDate; } set { dealOrder.PickDate = value; } }
         //------------------------------------------------------------------------------------
         public string PickTime { get { return dealOrder.PickTime; } set { dealOrder.PickTime = value; } }
@@ -64,6 +81,19 @@ namespace RentalWorksWebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string EstimatedStopTime { get { return dealOrder.EstimatedStopTime; } set { dealOrder.EstimatedStopTime = value; } }
         //------------------------------------------------------------------------------------
+        public string OrderTypeId { get { return dealOrder.OrderTypeId; } set { dealOrder.OrderTypeId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------
+        public bool? FlatPo { get { return dealOrder.FlatPo; } set { dealOrder.FlatPo = value; } }
+        //------------------------------------------------------------------------------------
+        public bool? PendingPo { get { return dealOrder.PendingPo; } set { dealOrder.PendingPo = value; } }
+        //------------------------------------------------------------------------------------
+        public string Location { get { return dealOrder.Location; } set { dealOrder.Location = value; } }
+        //------------------------------------------------------------------------------------
+        public string ReferenceNumber { get { return dealOrder.ReferenceNumber; } set { dealOrder.ReferenceNumber = value; } }
+        //------------------------------------------------------------------------------------
 
 
         //------------------------------------------------------------------------------------
@@ -72,7 +102,7 @@ namespace RentalWorksWebApi.Modules.Home.Order
         public string StatusDate { get { return dealOrder.StatusDate; } set { dealOrder.StatusDate = value; } }
         //------------------------------------------------------------------------------------
         [JsonIgnore]
-        public string OrderType { get { return dealOrder.OrderType; } set { dealOrder.OrderType = value; } }
+        public string Type { get { return dealOrder.Type; } set { dealOrder.Type = value; } }
         //------------------------------------------------------------------------------------
         public decimal? MaximumCumulativeDiscount { get { return dealOrderDetail.MaximumCumulativeDiscount; } set { dealOrderDetail.MaximumCumulativeDiscount = value; } }
         //------------------------------------------------------------------------------------
