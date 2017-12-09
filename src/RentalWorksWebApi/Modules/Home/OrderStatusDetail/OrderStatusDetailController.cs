@@ -1,0 +1,56 @@
+using FwStandard.Models; 
+using Microsoft.AspNetCore.Mvc; 
+using Microsoft.Extensions.Options; 
+using RentalWorksWebApi.Controllers; 
+using System.Threading.Tasks;
+namespace RentalWorksWebApi.Modules.Home.OrderStatusDetail
+{
+    [Route("api/v1/[controller]")]
+    public class OrderStatusDetailController : RwDataController
+    {
+        public OrderStatusDetailController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderstatusdetail/browse 
+        [HttpPost("browse")]
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest, typeof(OrderStatusDetailLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        //// GET api/v1/orderstatusdetail 
+        //[HttpGet]
+        //public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        //{
+        //    return await DoGetAsync<OrderStatusDetailLogic>(pageno, pagesize, sort, typeof(OrderStatusDetailLogic));
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// GET api/v1/orderstatusdetail/A0000001 
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetAsync([FromRoute]string id)
+        //{
+        //    return await DoGetAsync<OrderStatusDetailLogic>(id, typeof(OrderStatusDetailLogic));
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// POST api/v1/orderstatusdetail 
+        //[HttpPost]
+        //public async Task<IActionResult> PostAsync([FromBody]OrderStatusDetailLogic l)
+        //{
+        //    return await DoPostAsync<OrderStatusDetailLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/orderstatusdetail/A0000001 
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id, typeof(OrderStatusDetailLogic));
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// POST api/v1/orderstatusdetail/validateduplicate 
+        //[HttpPost("validateduplicate")]
+        //public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
+        //{
+        //    return await DoValidateDuplicateAsync(request);
+        //}
+        ////------------------------------------------------------------------------------------ 
+    }
+}
