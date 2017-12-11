@@ -42,9 +42,9 @@
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
 
+/src/RentalWorksWebApi/appsettings.json
+
 /src/*/Properties/PublishProfiles/
-/src/RentalWorksWebApi/appsettings.Development.json
 
 /TestResult.xml
 
-src/RentalWorksWebApi/appsettings\.json
