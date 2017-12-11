@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.Master
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesMaster(object sender, SaveEventArgs e)
+        public virtual void OnAfterSavesMaster(object sender, SaveEventArgs e)
         {
             bool saved = false;
             saved = master.SaveNoteASync(Note).Result;

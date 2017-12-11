@@ -1,7 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using WebApi.Logic;
-using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.ItemDimension;
+using WebApi.Modules.Home.Master;
+using WebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Inventory
 {
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Home.Inventory
         {
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
+            master.AfterSaves += OnAfterSavesMaster;
         }
         //------------------------------------------------------------------------------------ 
 
@@ -120,7 +122,16 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string WardrobeCare { get; set; }
         public decimal? CleaningFeeAmount { get { return master.CleaningFeeAmount; } set { master.CleaningFeeAmount = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WardrobeDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        public override void OnAfterSavesMaster(object sender, SaveEventArgs e)
+        {
+            base.OnAfterSavesMaster(sender, e);
+            bool saved = false;
+            saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+        }
+        //------------------------------------------------------------------------------------
 
 
     }

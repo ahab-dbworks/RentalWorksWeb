@@ -263,6 +263,9 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "cleaningfeeamount", modeltype: FwDataTypes.Decimal)]
         public decimal? CleaningFeeAmount { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "wardrobedetaileddescription", modeltype: FwDataTypes.Text)]
+        public string WardrobeDetailedDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invdeptiswardrobe", modeltype: FwDataTypes.Boolean)]
         public bool? InventoryTypeIsWardrobe { get; set; }
         //------------------------------------------------------------------------------------ 

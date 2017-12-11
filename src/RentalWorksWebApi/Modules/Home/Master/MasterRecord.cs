@@ -460,5 +460,24 @@ namespace WebApi.Modules.Home.Master
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<bool> SaveWardrobeDetailedDescription(string WardrobeDetailedDescription)
+        {
+            bool saved = false;
+            if (WardrobeDetailedDescription != null)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
+                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "WARDDESC");
+                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, WardrobeDetailedDescription);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------   
     }
 }
