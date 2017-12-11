@@ -1,8 +1,9 @@
-﻿using WebApi.Modules.Settings.InventoryCategory;
+﻿using FwStandard.BusinessLogic.Attributes;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.MiscCategory
 {
-    public class MiscCategoryLogic : InventoryCategoryLogic
+    public class MiscCategoryLogic : CategoryLogic
     {
         //------------------------------------------------------------------------------------
         MiscCategoryLoader inventoryCategoryLoader = new MiscCategoryLoader();
@@ -11,6 +12,9 @@ namespace WebApi.Modules.Settings.MiscCategory
             dataLoader = inventoryCategoryLoader;
         }
         //------------------------------------------------------------------------------------
+        public string MiscTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MiscType { get; set; }
 
 
         public bool? DiscountCategoryItems100PercentByDefault { get { return inventoryCategory.DiscountCategoryItems100PercentByDefault; } set { inventoryCategory.DiscountCategoryItems100PercentByDefault = value; } }

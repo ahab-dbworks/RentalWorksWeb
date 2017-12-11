@@ -83,10 +83,10 @@ namespace WebApi.Modules.Settings.VehicleType
         public string EquipmentSaleIncomeAccountId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "equipsaleincomeglno", modeltype: FwDataTypes.Text)]
-        public string EquipSaleIncomeAccountNo { get; set; }
+        public string EquipmentSaleIncomeAccountNo { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "equipsaleincomeglacctdesc", modeltype: FwDataTypes.Text)]
-        public string EquipSaleIncomeAccountDescription { get; set; }
+        public string EquipmentSaleIncomeAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text)]
         public string ExpenseAccountId { get; set; }

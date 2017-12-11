@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
-using WebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.Category;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
@@ -11,7 +11,7 @@ namespace WebApi.Modules.Settings.VehicleType
     public abstract class VehicleTypeBaseLogic: RwBusinessLogic
     {
         //------------------------------------------------------------------------------------
-        protected InventoryCategoryRecord inventoryCategory = new InventoryCategoryRecord();
+        protected CategoryRecord inventoryCategory = new CategoryRecord();
         protected MasterRecord masterRecord = new MasterRecord();
         //protected VehicleTypeLoader vehicleTypeLoader = new VehicleTypeLoader();
         public VehicleTypeBaseLogic()
@@ -19,11 +19,11 @@ namespace WebApi.Modules.Settings.VehicleType
             dataRecords.Add(inventoryCategory);
             dataRecords.Add(masterRecord);
             //dataLoader = vehicleTypeLoader;
-            inventoryCategory.InventoryCategory = "TEMP";  //jh - temporary value because the field is required
+            inventoryCategory.Category = "TEMP";  //jh - temporary value because the field is required
             inventoryCategory.BeforeValidate += OnBeforeValidateCategory;
         }
         //------------------------------------------------------------------------------------
-        public string InventoryTypeId { get { return inventoryCategory.InventoryTypeId; } set { inventoryCategory.InventoryTypeId = value; } }
+        public string InventoryTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
         [JsonIgnore]
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.VehicleType
         [JsonIgnore]
         public string MasterId { get { return masterRecord.MasterId; } set { masterRecord.MasterId = value; } }
         [JsonIgnore]
-        public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategoryId = value; inventoryCategory.InventoryCategory = value; masterRecord.CategoryId = value; } }
+        public string Category { get { return inventoryCategory.Category; } set { inventoryCategory.CategoryId = value; inventoryCategory.Category = value; masterRecord.CategoryId = value; } }
         [JsonIgnore]
         public string Classification { get { return masterRecord.Classification; } set { masterRecord.Classification = value; } }
         [JsonIgnore]
@@ -69,9 +69,9 @@ namespace WebApi.Modules.Settings.VehicleType
         public string LdIncomeAccountDescription { get; set; }
         public string EquipmentSaleIncomeAccountId { get { return inventoryCategory.EquipmentSaleIncomeAccountId; } set { inventoryCategory.EquipmentSaleIncomeAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string EquipSaleIncomeAccountNo { get; set; }
+        public string EquipmentSaleIncomeAccountNo { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string EquipSaleIncomeAccountDescription { get; set; }
+        public string EquipmentSaleIncomeAccountDescription { get; set; }
         public string ExpenseAccountId { get { return inventoryCategory.ExpenseAccountId; } set { inventoryCategory.ExpenseAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ExpenseAccountNo { get; set; }
@@ -104,9 +104,9 @@ namespace WebApi.Modules.Settings.VehicleType
         //------------------------------------------------------------------------------------
         public void OnBeforeValidateCategory(object sender, SaveEventArgs e)
         {
-            if (inventoryCategory.InventoryCategory.Equals(string.Empty))
+            if (inventoryCategory.Category.Equals(string.Empty))
             {
-                inventoryCategory.InventoryCategory = masterRecord.Description;
+                inventoryCategory.Category = masterRecord.Description;
             }
         }
         //------------------------------------------------------------------------------------

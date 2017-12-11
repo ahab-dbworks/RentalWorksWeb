@@ -1,8 +1,9 @@
-﻿using WebApi.Modules.Settings.InventoryCategory;
+﻿using FwStandard.BusinessLogic.Attributes;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.LaborCategory
 {
-    public class LaborCategoryLogic : InventoryCategoryLogic
+    public class LaborCategoryLogic : CategoryLogic
     {
         //------------------------------------------------------------------------------------
         LaborCategoryLoader inventoryCategoryLoader = new LaborCategoryLoader();
@@ -11,6 +12,9 @@ namespace WebApi.Modules.Settings.LaborCategory
             dataLoader = inventoryCategoryLoader;
         }
         //------------------------------------------------------------------------------------
+        public string LaborTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LaborType { get; set; }
 
 
         public bool? DiscountCategoryItems100PercentByDefault { get { return inventoryCategory.DiscountCategoryItems100PercentByDefault; } set { inventoryCategory.DiscountCategoryItems100PercentByDefault = value; } }

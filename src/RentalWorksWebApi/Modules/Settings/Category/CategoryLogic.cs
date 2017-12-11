@@ -2,24 +2,21 @@
 using Newtonsoft.Json;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Settings.InventoryCategory
+namespace WebApi.Modules.Settings.Category
 {
-    public abstract class InventoryCategoryLogic : RwBusinessLogic
+    public abstract class CategoryLogic : RwBusinessLogic
     {
         //------------------------------------------------------------------------------------
-        protected InventoryCategoryRecord inventoryCategory = new InventoryCategoryRecord();
-        public InventoryCategoryLogic() : base()
+        protected CategoryRecord inventoryCategory = new CategoryRecord();
+        public CategoryLogic() : base()
         {
             dataRecords.Add(inventoryCategory);
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string InventoryCategoryId { get { return inventoryCategory.InventoryCategoryId; } set { inventoryCategory.InventoryCategoryId = value; } }
-        public string InventoryTypeId { get { return inventoryCategory.InventoryTypeId; } set { inventoryCategory.InventoryTypeId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string InventoryType { get; set; }
+        public string CategoryId { get { return inventoryCategory.CategoryId; } set { inventoryCategory.CategoryId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
-        public string InventoryCategory { get { return inventoryCategory.InventoryCategory; } set { inventoryCategory.InventoryCategory = value; } }
+        public string Category { get { return inventoryCategory.Category; } set { inventoryCategory.Category = value; } }
         [JsonIgnore]
         public string RecType { get { return inventoryCategory.RecType; } set { inventoryCategory.RecType = value; } }
         public bool? WarehouseCategory { get { return inventoryCategory.WarehouseCategory; } set { inventoryCategory.WarehouseCategory = value; } }
@@ -51,9 +48,9 @@ namespace WebApi.Modules.Settings.InventoryCategory
         public string LdIncomeAccountDescription { get; set; }
         public string EquipmentSaleIncomeAccountId { get { return inventoryCategory.EquipmentSaleIncomeAccountId; } set { inventoryCategory.EquipmentSaleIncomeAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string EquipSaleIncomeAccountNo { get; set; }
+        public string EquipmentSaleIncomeAccountNo { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string EquipSaleIncomeAccountDescription { get; set; }
+        public string EquipmentSaleIncomeAccountDescription { get; set; }
         public string ExpenseAccountId { get { return inventoryCategory.ExpenseAccountId; } set { inventoryCategory.ExpenseAccountId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ExpenseAccountNo { get; set; }

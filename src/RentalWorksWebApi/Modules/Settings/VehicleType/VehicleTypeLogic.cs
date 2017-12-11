@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
-using WebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.Category;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
@@ -21,7 +21,7 @@ namespace WebApi.Modules.Settings.VehicleType
         //------------------------------------------------------------------------------------
 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string VehicleTypeId { get { return inventoryCategory.InventoryCategoryId; } set { inventoryCategory.InventoryCategoryId = value; inventoryCategory.InventoryCategory = value; masterRecord.CategoryId = value; } }
+        public string VehicleTypeId { get { return inventoryCategory.CategoryId; } set { inventoryCategory.CategoryId = value; inventoryCategory.Category = value; masterRecord.CategoryId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string VehicleType { get { return masterRecord.Description; } set { masterRecord.Description = value; } }
         public string PreventiveMaintenanceCycle { get { return inventoryCategory.PreventiveMaintenanceCycle; } set { inventoryCategory.PreventiveMaintenanceCycle = value; } }
@@ -46,7 +46,7 @@ namespace WebApi.Modules.Settings.VehicleType
         //------------------------------------------------------------------------------------
         public void OnBeforeSavesCategory(object sender, SaveEventArgs e)
         {
-            InventoryCategory = VehicleTypeId;  // jh - remove TEMP value
+            Category = VehicleTypeId;  // jh - remove TEMP value
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSavesCategory(object sender, SaveEventArgs e)

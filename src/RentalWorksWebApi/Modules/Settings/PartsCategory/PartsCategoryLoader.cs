@@ -1,13 +1,22 @@
 ﻿using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using WebApi.Modules.Settings.InventoryCategory;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.PartsCategory
 {
-    public class PartsCategoryLoader: InventoryCategoryLoader
+    public class PartsCategoryLoader: CategoryLoader
     {
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
+        public string InventoryTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
+        public string InventoryType { get; set; }
+        //------------------------------------------------------------------------------------
+
+            //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

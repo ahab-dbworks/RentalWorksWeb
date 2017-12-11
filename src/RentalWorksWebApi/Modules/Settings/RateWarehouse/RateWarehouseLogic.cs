@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
-using WebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.Category;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 using WebApi.Modules.Home.MasterWarehouse;

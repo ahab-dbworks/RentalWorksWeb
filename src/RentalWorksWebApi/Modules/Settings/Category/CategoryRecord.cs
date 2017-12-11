@@ -2,26 +2,31 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.InventoryCategory
+namespace WebApi.Modules.Settings.Category
 {
-    [FwSqlTable("categoryview")]
-    public abstract class InventoryCategoryLoader: RwDataLoadRecord
+    [FwSqlTable("category")]
+    public class CategoryRecord : RwDataReadWriteRecord
     {
+        /*
+        TODO:
+transworksvehicle
+
+             */
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string InventoryCategoryId { get; set; } = "";
+        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
+        public string CategoryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
-        public string InventoryTypeId { get; set; }
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
+        public string TypeId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
-        public string InventoryType { get; set; }
+        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text, maxlength: 25, required: true)]
+        public string Category { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
-        public string InventoryCategory { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, maxlength: 3)]
         public string RecType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicletype", modeltype: FwDataTypes.Text, maxlength: 10)]
+        public string VehicleType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventory", modeltype: FwDataTypes.Boolean)]
         public bool? WarehouseCategory { get; set; }
@@ -38,19 +43,13 @@ namespace WebApi.Modules.Settings.InventoryCategory
         [FwSqlDataField(column: "usedesigner", modeltype: FwDataTypes.Boolean)]
         public bool? BarCodePrintUseDesigner { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inventoryappreportdesignerid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "inventoryappreportdesignerid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string InventoryBarCodeDesignerId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "inventoryappreportdesigner", modeltype: FwDataTypes.Text)]
-        public string InventoryBarCodeDesigner { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string BarCodeDesignerId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "appreportdesigner", modeltype: FwDataTypes.Text)]
-        public string BarCodeDesigner { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "barcodetype", modeltype: FwDataTypes.Text, maxlength: 1)]
         public string BarCodeType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "autodiscount100", modeltype: FwDataTypes.Boolean)]
@@ -65,7 +64,7 @@ namespace WebApi.Modules.Settings.InventoryCategory
         [FwSqlDataField(column: "maintenance", modeltype: FwDataTypes.Boolean)]
         public bool? HasMaintenance { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "pmcycle", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "pmcycle", modeltype: FwDataTypes.Text, maxlength: 10)]
         public string PreventiveMaintenanceCycle { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pmcycleperiod", modeltype: FwDataTypes.Integer)]
@@ -77,92 +76,50 @@ namespace WebApi.Modules.Settings.InventoryCategory
         [FwSqlDataField(column: "overrideprofitlosscategory", modeltype: FwDataTypes.Boolean)]
         public bool? OverrideProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "profitlosscategoryid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string ProfitAndLossCategoryId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "profitlosscategory", modeltype: FwDataTypes.Text)]
-        public string ProfitAndLossCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossismiscexpense", modeltype: FwDataTypes.Boolean)]
         public bool? ProfitAndLossIncludeAsMiscExpense { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "assetaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string AssetAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "assetglno", modeltype: FwDataTypes.Text)]
-        public string AssetAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "assetglacctdesc", modeltype: FwDataTypes.Text)]
-        public string AssetAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "incomeaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string IncomeAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "incomeglno", modeltype: FwDataTypes.Text)]
-        public string IncomeAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "incomeglacctdesc", modeltype: FwDataTypes.Text)]
-        public string IncomeAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "subincomeaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string SubIncomeAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subincomeglno", modeltype: FwDataTypes.Text)]
-        public string SubIncomeAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "subincomeglacctdesc", modeltype: FwDataTypes.Text)]
-        public string SubIncomeAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ldincomeaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "ldincomeaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string LdIncomeAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ldincomeglno", modeltype: FwDataTypes.Text)]
-        public string LdIncomeAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ldincomeglacctdesc", modeltype: FwDataTypes.Text)]
-        public string LdIncomeAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "equipsaleincomeaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "equipsaleincomeaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string EquipmentSaleIncomeAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "equipsaleincomeglno", modeltype: FwDataTypes.Text)]
-        public string EquipSaleIncomeAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "equipsaleincomeglacctdesc", modeltype: FwDataTypes.Text)]
-        public string EquipSaleIncomeAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "expenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string ExpenseAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "expenseglno", modeltype: FwDataTypes.Text)]
-        public string ExpenseAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "expenseglacctdesc", modeltype: FwDataTypes.Text)]
-        public string ExpenseAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogsexpenseaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "cogsexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string CostOfGoodsSoldExpenseAccountId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogsexpenseglno", modeltype: FwDataTypes.Text)]
-        public string CostOfGoodsSoldExpenseAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogsexpenseglacctdesc", modeltype: FwDataTypes.Text)]
-        public string CostOfGoodsSoldExpenseAccountDescription { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "cogrexpenseaccountid", modeltype: FwDataTypes.Text, maxlength: 8)]
         public string CostOfGoodsRentedExpenseAccountId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogrexpenseglno", modeltype: FwDataTypes.Text)]
-        public string CostOfGoodsRentedExpenseAccountNo { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "cogrexpenseglacctdesc", modeltype: FwDataTypes.Text)]
-        public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
         public int? PickListOrderBy { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dotperiod", modeltype: FwDataTypes.Integer)]
+        public int? DotPeriod { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "licclassid", modeltype: FwDataTypes.Text, maxlength: 8)]
+        public string LicenseClassId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "regulated", modeltype: FwDataTypes.Boolean)]
+        public bool? Regulated { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }

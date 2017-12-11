@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using WebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.SalesCategory
 {
-    public class SalesCategoryLogic : InventoryCategoryLogic
+    public class SalesCategoryLogic : CategoryLogic
     {
         //------------------------------------------------------------------------------------
         SalesCategoryLoader inventoryCategoryLoader = new SalesCategoryLoader();
@@ -12,6 +12,9 @@ namespace WebApi.Modules.Settings.SalesCategory
             dataLoader = inventoryCategoryLoader;
         }
         //------------------------------------------------------------------------------------
+        public string InventoryTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InventoryType { get; set; }
 
 
         public bool? SubsRequireQc { get { return inventoryCategory.SubsRequireQc; } set { inventoryCategory.SubsRequireQc = value; } }

@@ -1,11 +1,11 @@
 ﻿using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using WebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.FacilityCategory
 {
-    public class FacilityCategoryLoader: InventoryCategoryLoader
+    public class FacilityCategoryLoader: CategoryLoader
     {
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
