@@ -40,6 +40,9 @@ namespace WebApi.Modules.Home.PickList
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "delivertype", modeltype: FwDataTypes.Text)]
+        public string DeliverType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 

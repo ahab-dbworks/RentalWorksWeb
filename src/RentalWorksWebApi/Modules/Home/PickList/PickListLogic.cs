@@ -30,6 +30,8 @@ namespace WebApi.Modules.Home.PickList
         public string WarehouseCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Warehouse { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DeliverType { get; set; }
         public string OrderId { get { return pickList.OrderId; } set { pickList.OrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderNumber { get; set; }
