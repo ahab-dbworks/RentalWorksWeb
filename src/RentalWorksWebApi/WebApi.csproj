@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Content Remove="appsettings.Development.json" />
+    <Content Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appsettings.json" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
