@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
+namespace WebApi.Modules.Home.CompanyTaxOption
 {
     [FwSqlTable("companytaxoptionview")]
     public class CompanyTaxOptionLoader: RwDataLoadRecord

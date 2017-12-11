@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeLabel
+namespace WebApi.Modules.Settings.WardrobeLabel
 {
     [FwSqlTable("label")]
     public class WardrobeLabelRecord : RwDataReadWriteRecord

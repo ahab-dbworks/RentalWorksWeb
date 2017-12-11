@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks; 
-namespace RentalWorksWebApi.Modules.Settings.DiscountItem 
+namespace WebApi.Modules.Settings.DiscountItem 
 { 
 [Route("api/v1/[controller]")] 
-public class DiscountItemController : RwDataController 
+public class DiscountItemController : AppDataController 
 { 
-public DiscountItemController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { } 
+public DiscountItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { } 
 //------------------------------------------------------------------------------------ 
 // POST api/v1/discountitem/browse 
 [HttpPost("browse")] 

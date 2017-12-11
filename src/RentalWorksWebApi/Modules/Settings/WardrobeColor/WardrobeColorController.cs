@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeColor
+namespace WebApi.Modules.Settings.WardrobeColor
 {
     [Route("api/v1/[controller]")]
-    public class WardrobeColorController : RwDataController
+    public class WardrobeColorController : AppDataController
     {
-        public WardrobeColorController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobeColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecolor/browse
         [HttpPost("browse")]

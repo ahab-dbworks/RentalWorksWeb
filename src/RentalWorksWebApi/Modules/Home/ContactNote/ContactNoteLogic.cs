@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.ContactNote
+using WebApi.Logic;
+namespace WebApi.Modules.Home.ContactNote
 {
     public class ContactNoteLogic : RwBusinessLogic
     {

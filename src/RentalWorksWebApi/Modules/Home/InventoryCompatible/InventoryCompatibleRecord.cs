@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.InventoryCompatible
+using WebApi.Data;
+namespace WebApi.Modules.Home.InventoryCompatible
 {
     [FwSqlTable("mastercompatible")]
     public class InventoryCompatibleRecord : RwDataReadWriteRecord

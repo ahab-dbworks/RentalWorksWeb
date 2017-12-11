@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactEvent
 {
     public class ContactEventLogic : RwBusinessLogic
     {

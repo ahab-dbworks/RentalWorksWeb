@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace RentalWorksWeb.Source.Modules
+namespace Web.Source.Modules
 {
     public class PresentationLayerMenu : FwSecurityTreeBranch
     {

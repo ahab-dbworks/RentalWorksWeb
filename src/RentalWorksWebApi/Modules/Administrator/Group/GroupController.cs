@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Administrator.Group
+namespace WebApi.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
-    public class GroupController : RwDataController
+    public class GroupController : AppDataController
     {
-        public GroupController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/group/browse 
         [HttpPost("browse")]

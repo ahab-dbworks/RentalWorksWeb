@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeLabel
+namespace WebApi.Modules.Settings.WardrobeLabel
 {
     [Route("api/v1/[controller]")]
-    public class WardrobeLabelController : RwDataController
+    public class WardrobeLabelController : AppDataController
     {
-        public WardrobeLabelController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobeLabelController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobelabel/browse
         [HttpPost("browse")]

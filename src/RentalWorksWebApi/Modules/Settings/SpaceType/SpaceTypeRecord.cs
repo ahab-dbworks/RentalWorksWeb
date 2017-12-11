@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.SpaceType
+using WebApi.Data;
+namespace WebApi.Modules.Settings.SpaceType
 {
     [FwSqlTable("spacetype")]
     public class SpaceTypeRecord : RwDataReadWriteRecord

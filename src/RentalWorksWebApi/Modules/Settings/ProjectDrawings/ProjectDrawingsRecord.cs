@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDrawings
+using WebApi.Data;
+namespace WebApi.Modules.Settings.ProjectDrawings
 {
     [FwSqlTable("drawing")]
     public class ProjectDrawingsRecord : RwDataReadWriteRecord

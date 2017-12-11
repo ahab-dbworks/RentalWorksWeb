@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivityOverride
+namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
     [Route("api/v1/[controller]")]
-    public class PresentationLayerActivityOverrideController : RwDataController
+    public class PresentationLayerActivityOverrideController : AppDataController
     {
-        public PresentationLayerActivityOverrideController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PresentationLayerActivityOverrideController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayeractivityoverride/browse 
         [HttpPost("browse")]

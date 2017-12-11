@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.CreditStatus
+namespace WebApi.Modules.Settings.CreditStatus
 {
     public class CreditStatusLogic : RwBusinessLogic
     {

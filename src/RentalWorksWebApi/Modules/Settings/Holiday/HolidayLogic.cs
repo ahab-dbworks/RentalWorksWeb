@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.Holiday
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.Holiday
 {
     public class HolidayLogic : RwBusinessLogic
     {

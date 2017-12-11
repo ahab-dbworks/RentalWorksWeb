@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeNote
+namespace WebApi.Modules.Settings.OrderTypeNote
 {
     [Route("api/v1/[controller]")]
-    public class OrderTypeNoteController : RwDataController
+    public class OrderTypeNoteController : AppDataController
     {
-        public OrderTypeNoteController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderTypeNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypenote/browse 
         [HttpPost("browse")]

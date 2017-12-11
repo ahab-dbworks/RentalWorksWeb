@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.SpaceRate
+using WebApi.Data;
+namespace WebApi.Modules.Settings.SpaceRate
 {
     [FwSqlTable("spacerate")]
     public class SpaceRateRecord : RwDataReadWriteRecord

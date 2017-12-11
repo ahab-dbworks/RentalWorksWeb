@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Attribute
+namespace WebApi.Modules.Settings.Attribute
 {
     [FwSqlTable("attributeview")]
     public class AttributeLoader: RwDataLoadRecord

@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocation
 {
     public class OfficeLocationLogic : RwBusinessLogic
     {

@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace RentalWorksWebLibrary.Security.Tree.RentalworkWeb.Modules.Administrator
+namespace WebLibrary.Security.Tree.RentalworkWeb.Modules.Administrator
 {
     public class GroupMenu : FwSecurityTreeBranch
     {

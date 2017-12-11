@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.BillPeriod;
+using WebApi.Logic;
+using WebApi.Modules.Settings.BillPeriod;
 
-namespace RentalWorksWebApi.Modules.Settings.BillingCycle
+namespace WebApi.Modules.Settings.BillingCycle
 {
     public class BillingCycleLogic : RwBusinessLogic
     {

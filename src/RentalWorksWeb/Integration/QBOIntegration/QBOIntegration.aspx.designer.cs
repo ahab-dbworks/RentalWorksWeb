@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RentalWorksWeb.Integration {
+namespace Web.Integration {
     
     
     public partial class QBOIntegration {

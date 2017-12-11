@@ -3,14 +3,14 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 using OfficeOpenXml;
-using RentalWorksWeb.Integration;
+using Web.Integration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Text;
 
-namespace RentalWorksWeb.Source.Reports
+namespace Web.Source.Reports
 {
     class ReceiptProcessing : RwReport
     {

@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.PickList
+using WebApi.Data;
+namespace WebApi.Modules.Home.PickList
 {
     [FwSqlTable("picklist")]
     public class PickListRecord : RwDataReadWriteRecord

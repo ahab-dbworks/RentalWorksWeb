@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.InventoryRank
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.InventoryRank
 {
     public class InventoryRankLogic : RwBusinessLogic
     {

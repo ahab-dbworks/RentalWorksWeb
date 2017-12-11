@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Administrator.Group
+using WebApi.Data;
+namespace WebApi.Modules.Administrator.Group
 {
     [FwSqlTable("groups")]
     public class GroupRecord : RwDataReadWriteRecord

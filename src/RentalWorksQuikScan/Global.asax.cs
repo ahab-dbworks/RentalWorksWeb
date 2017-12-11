@@ -5,7 +5,7 @@ using Fw.Json.ValueTypes;
 using FwStandard.Models;
 using FwStandard.Security;
 using RentalWorksQuikScan.Source;
-using RentalWorksWebLibrary;
+using WebLibrary;
 using System;
 
 namespace RentalWorksQuikScan

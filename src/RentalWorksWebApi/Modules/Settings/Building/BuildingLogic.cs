@@ -1,7 +1,7 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.Building
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.Building
 {
     public class BuildingLogic : RwBusinessLogic
     {

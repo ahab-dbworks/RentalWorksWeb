@@ -8,7 +8,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 
-namespace RentalWorksWeb.Source.Grids
+namespace Web.Source.Grids
 {
     class AuditHistory : FwGrid
     {

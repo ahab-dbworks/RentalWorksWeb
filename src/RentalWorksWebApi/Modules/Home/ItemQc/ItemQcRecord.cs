@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.ItemQc
+using WebApi.Data;
+namespace WebApi.Modules.Home.ItemQc
 {
     [FwSqlTable("rentalitemqc")]
     public class ItemQcRecord : RwDataReadWriteRecord

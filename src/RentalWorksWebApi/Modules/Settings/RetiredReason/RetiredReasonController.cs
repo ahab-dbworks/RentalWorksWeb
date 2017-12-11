@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.RetiredReason
+namespace WebApi.Modules.Settings.RetiredReason
 {
     [Route("api/v1/[controller]")]
-    public class RetiredReasonController : RwDataController
+    public class RetiredReasonController : AppDataController
     {
-        public RetiredReasonController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public RetiredReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/retiredreason/browse
         [HttpPost("browse")]

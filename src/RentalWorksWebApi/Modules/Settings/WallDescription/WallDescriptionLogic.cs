@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.WallDescription
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.WallDescription
 {
     public class WallDescriptionLogic : RwBusinessLogic
     {

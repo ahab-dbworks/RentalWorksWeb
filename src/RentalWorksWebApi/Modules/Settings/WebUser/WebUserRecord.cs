@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Administrator.User
+using WebApi.Data;
+namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("webusers")]
     public class WebUserRecord : RwDataReadWriteRecord

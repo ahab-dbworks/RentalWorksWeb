@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.ItemAttributeValue
+using WebApi.Data;
+namespace WebApi.Modules.Home.ItemAttributeValue
 {
     [FwSqlTable("itemattribute")]
     public class ItemAttributeValueRecord : RwDataReadWriteRecord

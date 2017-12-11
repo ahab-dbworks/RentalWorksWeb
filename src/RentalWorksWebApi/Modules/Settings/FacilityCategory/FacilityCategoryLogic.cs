@@ -1,6 +1,6 @@
-﻿using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+﻿using WebApi.Modules.Settings.InventoryCategory;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityCategory
+namespace WebApi.Modules.Settings.FacilityCategory
 {
     public class FacilityCategoryLogic : InventoryCategoryLogic
     {

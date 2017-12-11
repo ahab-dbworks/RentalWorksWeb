@@ -2,11 +2,11 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Home.Inventory;
+using WebApi.Data;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Home.Inventory;
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.SalesInventory
+namespace WebApi.Modules.Home.SalesInventory
 {
     public class SalesInventoryLoader : InventoryLoader
     {

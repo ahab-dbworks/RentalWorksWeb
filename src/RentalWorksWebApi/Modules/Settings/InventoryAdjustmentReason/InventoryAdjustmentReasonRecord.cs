@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryAdjustmentReason
+namespace WebApi.Modules.Settings.InventoryAdjustmentReason
 {
     [FwSqlTable("adjreason")]
     public class InventoryAdjustmentReasonRecord : RwDataReadWriteRecord

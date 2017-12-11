@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.Region
+namespace WebApi.Modules.Settings.Region
 {
     [Route("api/v1/[controller]")]
-    public class RegionController : RwDataController
+    public class RegionController : AppDataController
     {
-        public RegionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public RegionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/region/browse
         [HttpPost("browse")]

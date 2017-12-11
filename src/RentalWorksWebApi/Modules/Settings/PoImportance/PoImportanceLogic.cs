@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.PoImportance
+namespace WebApi.Modules.Settings.PoImportance
 {
     public class PoImportanceLogic : RwBusinessLogic
     {

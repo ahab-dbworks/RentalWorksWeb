@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Home.DealOrder
+namespace WebApi.Modules.Home.DealOrder
 {
     [FwSqlTable("dealorder")]
     public class DealOrderRecord : RwDataReadWriteRecord

@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.ProjectCommissioning
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.ProjectCommissioning
 {
     public class ProjectCommissioningLogic : RwBusinessLogic
     {

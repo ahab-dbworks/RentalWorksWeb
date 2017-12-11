@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.InventoryGroup
+namespace WebApi.Modules.Settings.InventoryGroup
 {
     [Route("api/v1/[controller]")]
-    public class InventoryGroupController : RwDataController
+    public class InventoryGroupController : AppDataController
     {
-        public InventoryGroupController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryGroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorygroup/browse 
         [HttpPost("browse")]

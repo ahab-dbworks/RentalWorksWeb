@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.MailList
+namespace WebApi.Modules.Settings.MailList
 {
     [Route("api/v1/[controller]")]
-    public class MailListController : RwDataController
+    public class MailListController : AppDataController
     {
-        public MailListController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public MailListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/maillist/browse
         [HttpPost("browse")]

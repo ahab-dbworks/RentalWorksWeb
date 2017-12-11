@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.ScheduleType
+namespace WebApi.Modules.Settings.ScheduleType
 {
     [Route("api/v1/[controller]")]
-    public class ScheduleTypeController : RwDataController
+    public class ScheduleTypeController : AppDataController
     {
-        public ScheduleTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ScheduleTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/scheduletype/browse
         [HttpPost("browse")]

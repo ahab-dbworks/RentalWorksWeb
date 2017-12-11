@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
-using RentalWorksWebApi.Models;
 using System;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace RentalWorksWebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxOption
 {
     [Route("api/v1/[controller]")]
-    public class TaxOptionController : RwDataController
+    public class TaxOptionController : AppDataController
     {
-        public TaxOptionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public TaxOptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/taxoption/browse
         [HttpPost("browse")]
@@ -81,7 +80,7 @@ namespace RentalWorksWebApi.Modules.Settings.TaxOption
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;

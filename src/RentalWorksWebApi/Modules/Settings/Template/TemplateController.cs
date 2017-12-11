@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.Template
+namespace WebApi.Modules.Settings.Template
 {
     [Route("api/v1/[controller]")]
-    public class TemplateController : RwDataController
+    public class TemplateController : AppDataController
     {
-        public TemplateController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public TemplateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/template/browse 
         [HttpPost("browse")]

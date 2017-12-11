@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.DealShipper
+using WebApi.Logic;
+namespace WebApi.Modules.Home.DealShipper
 {
     public class DealShipperLogic : RwBusinessLogic
     {

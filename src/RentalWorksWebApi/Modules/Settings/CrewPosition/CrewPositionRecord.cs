@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.CrewPosition
+using WebApi.Data;
+namespace WebApi.Modules.Settings.CrewPosition
 {
     [FwSqlTable("crewposition")]
     public class CrewPositionRecord : RwDataReadWriteRecord

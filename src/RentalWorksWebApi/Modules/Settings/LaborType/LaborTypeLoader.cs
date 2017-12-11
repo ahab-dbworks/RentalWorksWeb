@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.LaborType
+namespace WebApi.Modules.Settings.LaborType
 {
     [FwSqlTable("inventorydepartment")]
     public class LaborTypeLoader: RwDataLoadRecord

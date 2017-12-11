@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderSetNo
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderSetNo
 {
     [FwSqlTable("setno")]
     public class OrderSetNoRecord : RwDataReadWriteRecord

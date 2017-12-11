@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.FiscalYear
+namespace WebApi.Modules.Settings.FiscalYear
 {
     [Route("api/v1/[controller]")]
-    public class FiscalYearController : RwDataController
+    public class FiscalYearController : AppDataController
     {
-        public FiscalYearController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FiscalYearController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/fiscalyear/browse 
         [HttpPost("browse")]

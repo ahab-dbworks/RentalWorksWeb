@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.RetiredReason
+namespace WebApi.Modules.Settings.RetiredReason
 {
     public class RetiredReasonLogic : RwBusinessLogic
     {

@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Unit
+namespace WebApi.Modules.Settings.Unit
 {
     [FwSqlTable("unit")]
     public class UnitRecord : RwDataReadWriteRecord

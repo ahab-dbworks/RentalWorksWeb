@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.OrganizationType
+namespace WebApi.Modules.Settings.OrganizationType
 {
     [Route("api/v1/[controller]")]
-    public class OrganizationTypeController : RwDataController
+    public class OrganizationTypeController : AppDataController
     {
-        public OrganizationTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrganizationTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/organizationtype/browse
         [HttpPost("browse")]

@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.PresentationLayer
+using WebApi.Data;
+namespace WebApi.Modules.Settings.PresentationLayer
 {
     [FwSqlTable("presentationlayer")]
     public class PresentationLayerRecord : RwDataReadWriteRecord

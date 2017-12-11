@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.CustomerStatus
+namespace WebApi.Modules.Settings.CustomerStatus
 {
     [FwSqlTable("custstatus")]
     public class CustomerStatusRecord : RwDataReadWriteRecord

@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.InventoryVendor
+using WebApi.Data;
+namespace WebApi.Modules.Home.InventoryVendor
 {
     [FwSqlTable("mastervendor")]
     public class InventoryVendorRecord : RwDataReadWriteRecord

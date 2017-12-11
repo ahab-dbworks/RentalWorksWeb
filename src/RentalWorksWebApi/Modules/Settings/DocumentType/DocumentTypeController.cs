@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.DocumentType
+namespace WebApi.Modules.Settings.DocumentType
 {
     [Route("api/v1/[controller]")]
-    public class DocumentTypeController : RwDataController
+    public class DocumentTypeController : AppDataController
     {
-        public DocumentTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public DocumentTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/documenttype/browse
         [HttpPost("browse")]

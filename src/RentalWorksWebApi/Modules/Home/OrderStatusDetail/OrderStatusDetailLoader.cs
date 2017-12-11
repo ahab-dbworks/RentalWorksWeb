@@ -3,9 +3,9 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.OrderStatusDetail
+namespace WebApi.Modules.Home.OrderStatusDetail
 {
     [FwSqlTable("masteritem")]
     public class OrderStatusDetailLoader : RwDataLoadRecord

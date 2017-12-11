@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.Contact
+namespace WebApi.Modules.Home.Contact
 {
     [FwSqlTable("contactview")]
     public class ContactLoader : RwDataLoadRecord

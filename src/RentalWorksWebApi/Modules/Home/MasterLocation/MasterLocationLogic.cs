@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.MasterLocation
+using WebApi.Logic;
+namespace WebApi.Modules.Home.MasterLocation
 {
     public abstract class MasterLocationLogic : RwBusinessLogic
     {

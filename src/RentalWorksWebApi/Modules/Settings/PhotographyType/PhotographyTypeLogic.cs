@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.PhotographyType
+namespace WebApi.Modules.Settings.PhotographyType
 {
     public class PhotographyTypeLogic : RwBusinessLogic
     {

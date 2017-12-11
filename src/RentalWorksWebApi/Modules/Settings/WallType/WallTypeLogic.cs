@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.WallType
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.WallType
 {
     public class WallTypeLogic : RwBusinessLogic
     {

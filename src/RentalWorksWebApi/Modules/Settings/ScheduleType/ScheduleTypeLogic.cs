@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.ScheduleType
+namespace WebApi.Modules.Settings.ScheduleType
 {
     public class ScheduleTypeLogic : RwBusinessLogic
     {

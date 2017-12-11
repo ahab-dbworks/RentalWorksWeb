@@ -3,7 +3,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using FwStandard.Security;
 
-namespace RentalWorksWeb.Source
+namespace Web.Source
 {
     public class AccountService : FwAccountService
     {

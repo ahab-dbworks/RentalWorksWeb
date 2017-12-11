@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleMake
+namespace WebApi.Modules.Settings.VehicleMake
 {
     [FwSqlTable("vehiclemake")]
     public class VehicleMakeRecord : RwDataReadWriteRecord

@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.InventoryCondition;
+using WebApi.Logic;
+using WebApi.Modules.Settings.InventoryCondition;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeCondition
+namespace WebApi.Modules.Settings.WardrobeCondition
 {
     public class WardrobeConditionLogic : RwBusinessLogic
     {

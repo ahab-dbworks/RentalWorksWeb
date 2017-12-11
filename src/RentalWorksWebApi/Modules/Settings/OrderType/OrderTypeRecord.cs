@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderType
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderType
 {
     [FwSqlTable("ordertype")]
     public class OrderTypeRecord : RwDataReadWriteRecord

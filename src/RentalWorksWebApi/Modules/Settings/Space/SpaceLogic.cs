@@ -1,10 +1,10 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.ItemDimension;
-using RentalWorksWebApi.Modules.Home.Master;
+using WebApi.Logic;
+using WebApi.Modules.Home.ItemDimension;
+using WebApi.Modules.Home.Master;
 
-namespace RentalWorksWebApi.Modules.Settings.Space
+namespace WebApi.Modules.Settings.Space
 {
     public class SpaceLogic : RwBusinessLogic
     {

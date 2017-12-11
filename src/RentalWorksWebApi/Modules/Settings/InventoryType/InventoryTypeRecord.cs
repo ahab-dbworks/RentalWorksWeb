@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryType
+namespace WebApi.Modules.Settings.InventoryType
 {
     [FwSqlTable("inventorydepartment")]
     public class InventoryTypeRecord : RwDataReadWriteRecord

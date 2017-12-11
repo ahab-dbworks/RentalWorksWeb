@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
+namespace WebApi.Modules.Settings.BillingCycleEvent
 {
     [FwSqlTable("billperiodeventpercent")]
     public class BillingCycleEventLoader : RwDataLoadRecord

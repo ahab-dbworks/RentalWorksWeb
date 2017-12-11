@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Text.RegularExpressions;
 
-namespace RentalWorksWeb.Source.Modules
+namespace Web.Source.Modules
 {
     class Contact : FwModule
     {

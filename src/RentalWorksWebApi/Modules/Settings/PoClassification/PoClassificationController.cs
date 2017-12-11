@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.PoClassification
+namespace WebApi.Modules.Settings.PoClassification
 {
     [Route("api/v1/[controller]")]
-    public class PoClassificationController : RwDataController
+    public class PoClassificationController : AppDataController
     {
-        public PoClassificationController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PoClassificationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/poclassification/browse
         [HttpPost("browse")]

@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.BarCodeRange
+namespace WebApi.Modules.Settings.BarCodeRange
 {
     [Route("api/v1/[controller]")]
-    public class BarCodeRangeController : RwDataController
+    public class BarCodeRangeController : AppDataController
     {
-        public BarCodeRangeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public BarCodeRangeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/barcoderange/browse 
         [HttpPost("browse")]

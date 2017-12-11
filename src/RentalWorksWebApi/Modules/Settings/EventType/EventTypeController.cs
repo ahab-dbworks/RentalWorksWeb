@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.EventType
+namespace WebApi.Modules.Settings.EventType
 {
     [Route("api/v1/[controller]")]
-    public class EventTypeController : RwDataController
+    public class EventTypeController : AppDataController
     {
-        public EventTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public EventTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/eventtype/browse 
         [HttpPost("browse")]

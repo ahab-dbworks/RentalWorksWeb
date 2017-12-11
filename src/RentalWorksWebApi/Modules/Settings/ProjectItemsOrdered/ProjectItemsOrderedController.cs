@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.ProjectItemsOrdered
+namespace WebApi.Modules.Settings.ProjectItemsOrdered
 {
     [Route("api/v1/[controller]")]
-    public class ProjectItemsOrderedController : RwDataController
+    public class ProjectItemsOrderedController : AppDataController
     {
-        public ProjectItemsOrderedController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectItemsOrderedController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectitemsordered/browse 
         [HttpPost("browse")]

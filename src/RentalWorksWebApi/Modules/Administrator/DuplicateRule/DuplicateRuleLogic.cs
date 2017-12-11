@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
+namespace WebApi.Modules.Administrator.DuplicateRule
 {
     public class DuplicateRuleLogic : RwBusinessLogic
     {

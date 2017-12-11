@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic; 
-namespace RentalWorksWebApi.Modules.Settings.AppReportDesigner 
+using WebApi.Logic; 
+namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
 public class AppReportDesignerLogic : RwBusinessLogic 
 { 

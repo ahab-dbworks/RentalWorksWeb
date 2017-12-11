@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.PoApproverRole
+namespace WebApi.Modules.Settings.PoApproverRole
 {
     [Route("api/v1/[controller]")]
-    public class PoApproverRoleController : RwDataController
+    public class PoApproverRoleController : AppDataController
     {
-        public PoApproverRoleController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PoApproverRoleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/poapproverrole/browse
         [HttpPost("browse")]

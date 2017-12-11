@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Data.Settings
+namespace WebApi.Data.Settings
 {
     [FwSqlTable("shipviaview")]
     public class ShipViaLoader : RwDataLoadRecord

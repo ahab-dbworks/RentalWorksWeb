@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.Floor
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.Floor
 {
     public class FloorLogic : RwBusinessLogic
     {

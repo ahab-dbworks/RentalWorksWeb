@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.MasterItem;
+using WebApi.Logic;
+using WebApi.Modules.Home.MasterItem;
 
-namespace RentalWorksWebApi.Modules.Home.InventoryContainerItem
+namespace WebApi.Modules.Home.InventoryContainerItem
 {
     public class InventoryContainerItemLogic : RwBusinessLogic
     {

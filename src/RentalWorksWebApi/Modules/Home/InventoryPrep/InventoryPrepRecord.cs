@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.InventoryPrep
+using WebApi.Data;
+namespace WebApi.Modules.Home.InventoryPrep
 {
     [FwSqlTable("masterprep")]
     public class InventoryPrepRecord : RwDataReadWriteRecord

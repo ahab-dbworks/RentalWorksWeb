@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWebApi
+namespace WebLibrary.Security.Tree.RentalWorksWebApi
 {
     public class ProductionTypeMenu : FwSecurityTreeBranch
     {

@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.InventoryType;
+using WebApi.Logic;
+using WebApi.Modules.Settings.InventoryType;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityType
+namespace WebApi.Modules.Settings.FacilityType
 {
     public class FacilityTypeLogic : RwBusinessLogic
     {

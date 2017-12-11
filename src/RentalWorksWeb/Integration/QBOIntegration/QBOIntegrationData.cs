@@ -13,7 +13,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-namespace RentalWorksWeb.Integration
+namespace Web.Integration
 {
     public class QBOIntegrationData
     {

@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorRating
+namespace WebApi.Modules.Settings.GeneratorRating
 {
     [Route("api/v1/[controller]")]
-    public class GeneratorRatingController : RwDataController
+    public class GeneratorRatingController : AppDataController
     {
-        public GeneratorRatingController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorrating/browse
         [HttpPost("browse")]

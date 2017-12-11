@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
 
-namespace RentalWorksWebApi.Modules.Settings.RentalStatus
+namespace WebApi.Modules.Settings.RentalStatus
 {
     public class InventoryStatusLogic : RwBusinessLogic
     {

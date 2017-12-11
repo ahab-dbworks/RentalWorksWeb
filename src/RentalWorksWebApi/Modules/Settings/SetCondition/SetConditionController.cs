@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.SetCondition
+namespace WebApi.Modules.Settings.SetCondition
 {
     [Route("api/v1/[controller]")]
-    public class SetConditionController : RwDataController
+    public class SetConditionController : AppDataController
     {
-        public SetConditionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SetConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/setscondition/browse
         [HttpPost("browse")]

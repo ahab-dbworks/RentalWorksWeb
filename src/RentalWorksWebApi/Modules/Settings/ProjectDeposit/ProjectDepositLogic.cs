@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDeposit
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.ProjectDeposit
 {
     public class ProjectDepositLogic : RwBusinessLogic
     {

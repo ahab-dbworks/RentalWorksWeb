@@ -1,9 +1,9 @@
 ﻿using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
-using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.InventoryCategory;
 
-namespace RentalWorksWebApi.Modules.Settings.MiscCategory
+namespace WebApi.Modules.Settings.MiscCategory
 {
     public class MiscCategoryLoader: InventoryCategoryLoader
     {

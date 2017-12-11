@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.FuelType;
+using WebApi.Logic;
+using WebApi.Modules.Settings.FuelType;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorFuelType
+namespace WebApi.Modules.Settings.GeneratorFuelType
 {
     public class GeneratorFuelTypeLogic : RwBusinessLogic
     {

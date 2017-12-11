@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks; 
-namespace RentalWorksWebApi.Modules.Home.ContactNote 
+namespace WebApi.Modules.Home.ContactNote 
 { 
 [Route("api/v1/[controller]")] 
-public class ContactNoteController : RwDataController 
+public class ContactNoteController : AppDataController 
 { 
-public ContactNoteController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { } 
+public ContactNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { } 
 //------------------------------------------------------------------------------------ 
 // POST api/v1/contactnote/browse 
 [HttpPost("browse")] 

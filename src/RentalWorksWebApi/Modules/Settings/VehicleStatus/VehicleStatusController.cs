@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleStatus
+namespace WebApi.Modules.Settings.VehicleStatus
 {
     [Route("api/v1/[controller]")]
-    public class VehicleStatusController : RwDataController
+    public class VehicleStatusController : AppDataController
     {
-        public VehicleStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclestatus/browse
         [HttpPost("browse")]

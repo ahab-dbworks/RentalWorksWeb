@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Administrator.User
+namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("webusersview")]
     public class UserLoader : RwDataLoadRecord

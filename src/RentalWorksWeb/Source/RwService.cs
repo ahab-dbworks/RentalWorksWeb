@@ -8,7 +8,7 @@ using System.Dynamic;
 using System.Web;
 using System.Web.Security;
 
-namespace RentalWorksWeb.Source
+namespace Web.Source
 {
     public class RwService
     {
@@ -118,11 +118,11 @@ namespace RentalWorksWeb.Source
             {
                 case "Module":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"Driver","Vehicle"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("RentalWorksWeb.Source.Modules." + name, false);
+                    type = typeof(RwService).Assembly.GetType("Web.Source.Modules." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwModule))))
                     {
                         FwModule module = (FwModule)Activator.CreateInstance(type);
-                        module.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
+                        module.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (module != null)
                         {
                             typeof(FwModule).GetMethod(method).Invoke(module, new object[0]);
@@ -148,11 +148,11 @@ namespace RentalWorksWeb.Source
                     break;
                 case "Grid":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"DriverLicenseClass","DriverEndorsement","DriverRestriction","DriverDocument","VehicleDocument", "AppDocumentVersion"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("RentalWorksWeb.Source.Grids." + name, false);
+                    type = typeof(RwService).Assembly.GetType("Web.Source.Grids." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwGrid))))
                     {
                         FwGrid grid = (FwGrid)Activator.CreateInstance(type);
-                        grid.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
+                        grid.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (grid != null)
                         {
                             typeof(FwGrid).GetMethod(method).Invoke(grid, new object[0]);
@@ -178,11 +178,11 @@ namespace RentalWorksWeb.Source
                     break;
                 case "Validation":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"VehicleDocumentType"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("RentalWorksWeb.Source.Validations." + name, false);
+                    type = typeof(RwService).Assembly.GetType("Web.Source.Validations." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwValidation))))
                     {
                         FwValidation validation = (FwValidation)Activator.CreateInstance(type);
-                        validation.Init("RentalWorksWeb.Source", "", typeof(RwService).Assembly, request, response, session);
+                        validation.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
                         if (validation != null)
                         {
                             typeof(FwValidation).GetMethod(method).Invoke(validation, new object[0]);
@@ -208,7 +208,7 @@ namespace RentalWorksWeb.Source
                     break;
                 case "Reports":
                     if (session.security.webUser.usertype == "CONTACT") throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("RentalWorksWeb.Source.Reports." + name, false);
+                    type = typeof(RwService).Assembly.GetType("Web.Source.Reports." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwReport))))
                     {
                         FwReport report = (FwReport)Activator.CreateInstance(type);

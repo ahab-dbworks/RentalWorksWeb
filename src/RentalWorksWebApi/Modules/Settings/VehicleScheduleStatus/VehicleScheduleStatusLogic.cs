@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.ScheduleStatus;
+using WebApi.Logic;
+using WebApi.Modules.Settings.ScheduleStatus;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleScheduleStatus
+namespace WebApi.Modules.Settings.VehicleScheduleStatus
 {
     public class VehicleScheduleStatusLogic : RwBusinessLogic
     {

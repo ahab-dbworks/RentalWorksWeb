@@ -1,7 +1,7 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     public class OrderTypeDateTypeLogic : RwBusinessLogic
     {

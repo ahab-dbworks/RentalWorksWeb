@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.FiscalMonth
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.FiscalMonth
 {
     public class FiscalMonthLogic : RwBusinessLogic
     {

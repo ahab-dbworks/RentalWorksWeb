@@ -3,10 +3,10 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Home.VendorNote
+namespace WebApi.Modules.Home.VendorNote
 {
     [FwSqlTable("vendnoteview")]
     public class VendorNoteLoader : RwDataReadWriteRecord

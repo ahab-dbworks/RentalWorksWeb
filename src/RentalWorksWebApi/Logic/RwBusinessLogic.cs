@@ -1,6 +1,6 @@
 ﻿using FwStandard.BusinessLogic;
 
-namespace RentalWorksWebApi.Logic
+namespace WebApi.Logic
 {
     public class RwBusinessLogic : FwBusinessLogic
     {

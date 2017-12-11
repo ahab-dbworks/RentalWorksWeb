@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.SubCategory
+namespace WebApi.Modules.Settings.SubCategory
 {
     public class SubCategoryLogic : RwBusinessLogic
     {

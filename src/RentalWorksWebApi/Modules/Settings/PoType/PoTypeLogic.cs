@@ -1,11 +1,11 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.OrderType;
-using RentalWorksWebApi.Modules.Settings.OrderTypeFields;
+using WebApi.Logic;
+using WebApi.Modules.Settings.OrderType;
+using WebApi.Modules.Settings.OrderTypeFields;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Settings.PoType
+namespace WebApi.Modules.Settings.PoType
 {
     public class PoTypeLogic : RwBusinessLogic
     {

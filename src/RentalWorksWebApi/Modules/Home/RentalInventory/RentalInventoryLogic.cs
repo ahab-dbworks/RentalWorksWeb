@@ -1,9 +1,9 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Home.Inventory;
+using WebApi.Logic;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Home.Inventory;
 
-namespace RentalWorksWebApi.Modules.Home.RentalInventory
+namespace WebApi.Modules.Home.RentalInventory
 {
     public class RentalInventoryLogic : InventoryLogic 
     {

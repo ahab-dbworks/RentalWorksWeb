@@ -2,11 +2,11 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-using RentalWorksWebApi.Modules.Home.MasterLocation;
+using WebApi.Modules.Home.MasterLocation;
 
-namespace RentalWorksWebApi.Modules.Home.InventoryLocationTax
+namespace WebApi.Modules.Home.InventoryLocationTax
 {
     public class InventoryLocationTaxLoader : MasterLocationLoader
     {

@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
+namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
     [FwSqlTable("sapvendorinvoicestatusview")]
     public class SapVendorInvoiceStatusLoader : RwDataLoadRecord

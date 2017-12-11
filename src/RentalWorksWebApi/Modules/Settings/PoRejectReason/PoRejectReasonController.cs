@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.PoRejectReason
+namespace WebApi.Modules.Settings.PoRejectReason
 {
     [Route("api/v1/[controller]")]
-    public class PoRejectReasonController : RwDataController
+    public class PoRejectReasonController : AppDataController
     {
-        public PoRejectReasonController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PoRejectReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/porejectreason/browse 
         [HttpPost("browse")]

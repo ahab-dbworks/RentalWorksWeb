@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.Crew
 {
     [FwSqlTable("crewview")]
     public class CrewLoader : RwDataLoadRecord

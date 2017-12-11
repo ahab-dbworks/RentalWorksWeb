@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Home.PickList
+namespace WebApi.Modules.Home.PickList
 {
     [Route("api/v1/[controller]")]
-    public class PickListController : RwDataController
+    public class PickListController : AppDataController
     {
-        public PickListController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PickListController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklist/browse 
         [HttpPost("browse")]

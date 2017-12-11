@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.PresentationLayerForm
+namespace WebApi.Modules.Settings.PresentationLayerForm
 {
     [Route("api/v1/[controller]")]
-    public class PresentationLayerFormController : RwDataController
+    public class PresentationLayerFormController : AppDataController
     {
-        public PresentationLayerFormController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PresentationLayerFormController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/presentationlayerform/browse 
         [HttpPost("browse")]

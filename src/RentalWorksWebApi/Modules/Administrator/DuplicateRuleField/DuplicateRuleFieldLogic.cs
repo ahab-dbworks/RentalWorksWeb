@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Administrator.DuplicateRuleField
+using WebApi.Logic;
+namespace WebApi.Modules.Administrator.DuplicateRuleField
 {
     public class DuplicateRuleFieldLogic : RwBusinessLogic
     {

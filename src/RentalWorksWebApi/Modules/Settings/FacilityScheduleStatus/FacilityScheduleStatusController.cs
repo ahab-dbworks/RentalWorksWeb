@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityScheduleStatus
+namespace WebApi.Modules.Settings.FacilityScheduleStatus
 {
     [Route("api/v1/[controller]")]
-    public class FacilityScheduleStatusController : RwDataController
+    public class FacilityScheduleStatusController : AppDataController
     {
-        public FacilityScheduleStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FacilityScheduleStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilityschedulestatus/browse
         [HttpPost("browse")]

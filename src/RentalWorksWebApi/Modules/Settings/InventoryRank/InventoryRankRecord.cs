@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.InventoryRank
+using WebApi.Data;
+namespace WebApi.Modules.Settings.InventoryRank
 {
     [FwSqlTable("rank")]
     public class InventoryRankRecord : RwDataReadWriteRecord

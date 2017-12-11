@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.PoClassification
+namespace WebApi.Modules.Settings.PoClassification
 {
     public class PoClassificationLogic : RwBusinessLogic
     {

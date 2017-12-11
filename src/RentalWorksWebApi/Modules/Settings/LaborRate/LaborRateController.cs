@@ -1,15 +1,15 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.LaborRate
+namespace WebApi.Modules.Settings.LaborRate
 {
     [Route("api/v1/[controller]")]
-    public class LaborRateController : RwDataController
+    public class LaborRateController : AppDataController
     {
-        public LaborRateController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public LaborRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/laborrate/browse 
         [HttpPost("browse")]

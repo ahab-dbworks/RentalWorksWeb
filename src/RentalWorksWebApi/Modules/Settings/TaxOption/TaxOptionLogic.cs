@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Microsoft.AspNetCore.Mvc;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxOption
 {
     public class TaxOptionLogic : RwBusinessLogic
     {

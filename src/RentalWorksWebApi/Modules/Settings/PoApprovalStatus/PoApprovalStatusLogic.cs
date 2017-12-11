@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.PoApprovalStatus
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.PoApprovalStatus
 {
     public class PoApprovalStatusLogic : RwBusinessLogic
     {

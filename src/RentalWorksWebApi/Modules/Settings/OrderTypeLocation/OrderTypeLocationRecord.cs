@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeLocation
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderTypeLocation
 {
     [FwSqlTable("ordertypelocation")]
     public class OrderTypeLocationRecord : RwDataReadWriteRecord

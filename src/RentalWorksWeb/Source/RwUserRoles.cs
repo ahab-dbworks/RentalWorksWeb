@@ -1,4 +1,4 @@
-﻿namespace RentalWorksWeb.Source
+﻿namespace Web.Source
 {
     public class RwUserRoles
     {

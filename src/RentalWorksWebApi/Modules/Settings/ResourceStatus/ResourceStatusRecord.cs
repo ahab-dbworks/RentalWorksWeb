@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.ResourceStatus
+namespace WebApi.Modules.Settings.ResourceStatus
 {
     [FwSqlTable("resourcestatus")]
     public class ResourceStatusRecord : RwDataReadWriteRecord

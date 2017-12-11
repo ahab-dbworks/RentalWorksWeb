@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorWatts
 {
     public class GeneratorWattsLogic : RwBusinessLogic
     {

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.SetOpening
+namespace WebApi.Modules.Settings.SetOpening
 {
     [Route("api/v1/[controller]")]
-    public class SetOpeningController : RwDataController
+    public class SetOpeningController : AppDataController
     {
-        public SetOpeningController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SetOpeningController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/setopening/browse
         [HttpPost("browse")]

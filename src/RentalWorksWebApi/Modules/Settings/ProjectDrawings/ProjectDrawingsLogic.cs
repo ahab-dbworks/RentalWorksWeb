@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDrawings
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.ProjectDrawings
 {
     public class ProjectDrawingsLogic : RwBusinessLogic
     {

@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeContactTitle
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
     [FwSqlTable("ordertypecontacttitle")]
     public class OrderTypeContactTitleRecord : RwDataReadWriteRecord

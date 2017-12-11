@@ -4,7 +4,7 @@ using Fw.Json.SqlServer.Entities;
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace RentalWorksWeb.Source.Modules
+namespace Web.Source.Modules
 {
     class UserSettings : FwModule
     {

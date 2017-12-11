@@ -8,7 +8,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 
-namespace RentalWorksWeb.Source.Validations
+namespace Web.Source.Validations
 {
     class PayTypeValidation : FwValidation
     {

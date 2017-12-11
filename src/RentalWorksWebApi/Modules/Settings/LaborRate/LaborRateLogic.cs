@@ -1,10 +1,10 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Home.Inventory;
-using RentalWorksWebApi.Modules.Settings.Rate;
+using WebApi.Logic;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.Settings.Rate;
 
-namespace RentalWorksWebApi.Modules.Settings.LaborRate
+namespace WebApi.Modules.Settings.LaborRate
 {
     public class LaborRateLogic : RateLogic 
     {

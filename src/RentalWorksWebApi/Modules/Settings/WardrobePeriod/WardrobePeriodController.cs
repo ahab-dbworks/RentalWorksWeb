@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobePeriod
+namespace WebApi.Modules.Settings.WardrobePeriod
 {
     [Route("api/v1/[controller]")]
-    public class WardrobePeriodController : RwDataController
+    public class WardrobePeriodController : AppDataController
     {
-        public WardrobePeriodController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobePeriodController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobeperiod/browse
         [HttpPost("browse")]

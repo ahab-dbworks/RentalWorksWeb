@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Region
+namespace WebApi.Modules.Settings.Region
 {
     [FwSqlTable("region")]
     public class RegionRecord : RwDataReadWriteRecord

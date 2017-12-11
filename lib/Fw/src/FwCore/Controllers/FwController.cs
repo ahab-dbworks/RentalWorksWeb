@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Linq;
 
-namespace RentalWorksWebApi.Controllers
+namespace FwCore.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class RwController : Controller  //todo: create FwController to inherit from
+    public class FwController : Controller  //todo: create FwController to inherit from
     {
-        protected readonly ApplicationConfig _appConfig;
+        protected readonly FwApplicationConfig _appConfig;
         //------------------------------------------------------------------------------------
         protected string UsersId
         {
@@ -41,7 +41,7 @@ namespace RentalWorksWebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        public RwController(IOptions<ApplicationConfig> appConfig)
+        public FwController(IOptions<FwApplicationConfig> appConfig)
         {
             _appConfig = appConfig.Value;
         }

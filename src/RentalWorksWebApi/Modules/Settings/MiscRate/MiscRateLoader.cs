@@ -2,13 +2,13 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Home.Inventory;
-using RentalWorksWebApi.Modules.Settings.Rate;
+using WebApi.Data;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Home.Inventory;
+using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.MiscRate
+namespace WebApi.Modules.Settings.MiscRate
 {
     public class MiscRateLoader : RateLoader
     {

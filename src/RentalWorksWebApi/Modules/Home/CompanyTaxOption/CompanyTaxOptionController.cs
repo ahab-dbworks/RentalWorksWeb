@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Home.CompanyTaxOption
+namespace WebApi.Modules.Home.CompanyTaxOption
 {
     [Route("api/v1/[controller]")]
-    public class CompanyTaxOptionController : RwDataController
+    public class CompanyTaxOptionController : AppDataController
     {
-        public CompanyTaxOptionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyTaxOptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxoption/browse
         [HttpPost("browse")]

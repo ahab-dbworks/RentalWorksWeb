@@ -4,11 +4,11 @@ using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 using FwStandard.Models;
 using FwStandard.Security;
-using RentalWorksWeb.Source;
-using RentalWorksWebLibrary;
 using System;
+using Web.Source;
+using WebLibrary.Security;
 
-namespace RentalWorksWeb
+namespace Web
 {
     public class Global : System.Web.HttpApplication
     {

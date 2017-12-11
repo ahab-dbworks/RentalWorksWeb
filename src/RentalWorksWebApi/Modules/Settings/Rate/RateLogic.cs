@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
+using WebApi.Logic;
+using WebApi.Modules.Home.Master;
 
-namespace RentalWorksWebApi.Modules.Settings.Rate
+namespace WebApi.Modules.Settings.Rate
 {
     public abstract class RateLogic : MasterLogic 
     {

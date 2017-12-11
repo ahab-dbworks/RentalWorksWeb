@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorWatts
 {
     [Route("api/v1/[controller]")]
-    public class GeneratorWattsController : RwDataController
+    public class GeneratorWattsController : AppDataController
     {
-        public GeneratorWattsController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorWattsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorwatts/browse
         [HttpPost("browse")]

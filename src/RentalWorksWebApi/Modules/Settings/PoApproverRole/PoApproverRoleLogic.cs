@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.AppRole;
+using WebApi.Logic;
+using WebApi.Modules.Settings.AppRole;
 
-namespace RentalWorksWebApi.Modules.Settings.PoApproverRole
+namespace WebApi.Modules.Settings.PoApproverRole
 {
     public class PoApproverRoleLogic : RwBusinessLogic
     {

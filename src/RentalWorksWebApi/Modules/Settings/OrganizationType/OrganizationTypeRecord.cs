@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.OrganizationType
+namespace WebApi.Modules.Settings.OrganizationType
 {
     [FwSqlTable("organizationtype")]
     public class OrganizationTypeRecord : RwDataReadWriteRecord

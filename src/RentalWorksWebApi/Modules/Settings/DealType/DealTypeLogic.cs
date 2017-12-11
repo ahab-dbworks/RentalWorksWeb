@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.DealType
+namespace WebApi.Modules.Settings.DealType
 {
     public class DealTypeLogic : RwBusinessLogic
     {

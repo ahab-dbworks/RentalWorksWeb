@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.Building
+using WebApi.Data;
+namespace WebApi.Modules.Settings.Building
 {
     [FwSqlTable("building")]
     public class BuildingRecord : RwDataReadWriteRecord

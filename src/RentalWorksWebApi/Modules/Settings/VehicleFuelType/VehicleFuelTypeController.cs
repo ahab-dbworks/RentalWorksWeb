@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleFuelType
+namespace WebApi.Modules.Settings.VehicleFuelType
 {
     [Route("api/v1/[controller]")]
-    public class VehicleFuelTypeController : RwDataController
+    public class VehicleFuelTypeController : AppDataController
     {
-        public VehicleFuelTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleFuelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclefueltype/browse
         [HttpPost("browse")]

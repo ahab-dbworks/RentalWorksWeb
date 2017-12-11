@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.PoApprover
+using WebApi.Data;
+namespace WebApi.Modules.Settings.PoApprover
 {
     [FwSqlTable("poapprover")]
     public class PoApproverRecord : RwDataReadWriteRecord

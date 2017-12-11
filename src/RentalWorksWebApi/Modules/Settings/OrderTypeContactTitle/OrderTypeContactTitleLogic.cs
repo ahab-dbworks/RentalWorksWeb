@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeContactTitle
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
     public class OrderTypeContactTitleLogic : RwBusinessLogic
     {

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="QBOIntegration.aspx.cs" Inherits="RentalWorksWeb.Integration.QBOIntegration" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="QBOIntegration.aspx.cs" Inherits="Web.Integration.QBOIntegration" %>
 
 <!DOCTYPE html>
 

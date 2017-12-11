@@ -1,9 +1,9 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.ScheduleStatus
+namespace WebApi.Modules.Settings.ScheduleStatus
 {
     [FwSqlTable("schedulestatus")]
     public class ScheduleStatusRecord : RwDataReadWriteRecord

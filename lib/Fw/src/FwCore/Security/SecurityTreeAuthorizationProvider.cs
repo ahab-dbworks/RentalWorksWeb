@@ -1,16 +1,14 @@
 ﻿using FwStandard.Security;
-using RentalWorksWebLibrary;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Security
+namespace FwCore.Security
 {
     public class SecurityTreeAuthorizationProvider
     {
         public static async Task<bool> IsAuthorizedAsync(string groupsid, string securityid, bool requireVisible, bool requireEditable)
         {
             bool isAuthorized = false;
-            FwSecurityTreeNode groupTree = await SecurityTree.Tree.GetGroupsTreeAsync(groupsid, false);
+            FwSecurityTreeNode groupTree = await FwSecurityTree.Tree.GetGroupsTreeAsync(groupsid, false);
             if (groupTree != null)
             {
                 FwSecurityTreeNode node = groupTree.FindById(securityid);

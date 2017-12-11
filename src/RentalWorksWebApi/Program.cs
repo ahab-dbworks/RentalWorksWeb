@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using FwCore.Api;
 using Microsoft.AspNetCore.Hosting;
 
-namespace RentalWorksWebApi
+namespace WebApi
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .CaptureStartupErrors(true)
-                .Build();
-
+            IWebHostBuilder hostBuilder = FwProgram.BuildWebHost(args, typeof(Startup));
+            IWebHost host = hostBuilder.Build();
             host.Run();
         }
     }

@@ -1,7 +1,7 @@
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderLocation
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderLocation
 {
     [FwSqlTable("dealorderlocation")]
     public class OrderLocationRecord : RwDataReadWriteRecord

@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
-using RentalWorksWebApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace RentalWorksWebApi.Modules.Settings.BillingCycle
+namespace WebApi.Modules.Settings.BillingCycle
 {
     [Route("api/v1/[controller]")]
-    public class BillingCycleController : RwDataController
+    public class BillingCycleController : AppDataController
     {
-        public BillingCycleController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public BillingCycleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycle/browse
         [HttpPost("browse")]
@@ -31,7 +30,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         [HttpGet]
         [Produces(typeof(List<BillingCycleLogic>))]
         [SwaggerResponse(200, Type = typeof(List<BillingCycleLogic>))]
-        [SwaggerResponse(500, Type = typeof(ApiException))]
+        [SwaggerResponse(500, Type = typeof(FwApiException))]
         [Authorize(Policy = "{6960FFCC-430A-4760-88C6-0F07FCFCF851}")]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
@@ -46,7 +45,7 @@ namespace RentalWorksWebApi.Modules.Settings.BillingCycle
         [HttpGet("{id}")]
         [Produces(typeof(BillingCycleLogic))]
         [SwaggerResponse(200, Type = typeof(BillingCycleLogic))]
-        [SwaggerResponse(500, Type = typeof(ApiException))]
+        [SwaggerResponse(500, Type = typeof(FwApiException))]
         [Authorize(Policy = "{EC1DF66E-F686-4BF4-A61C-19CAF8FA3EE7}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {

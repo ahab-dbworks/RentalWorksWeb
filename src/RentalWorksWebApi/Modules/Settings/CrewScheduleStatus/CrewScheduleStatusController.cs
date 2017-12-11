@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CrewScheduleStatus
+namespace WebApi.Modules.Settings.CrewScheduleStatus
 {
     [Route("api/v1/[controller]")]
-    public class CrewScheduleStatusController : RwDataController
+    public class CrewScheduleStatusController : AppDataController
     {
-        public CrewScheduleStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewScheduleStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/crewschedulestatus/browse
         [HttpPost("browse")]

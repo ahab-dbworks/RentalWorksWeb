@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.OrganizationType
+namespace WebApi.Modules.Settings.OrganizationType
 {
     public class OrganizationTypeLogic : RwBusinessLogic
     {

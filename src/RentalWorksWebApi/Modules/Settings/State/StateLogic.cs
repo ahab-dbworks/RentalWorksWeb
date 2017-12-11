@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.State
+namespace WebApi.Modules.Settings.State
 {
     public class StateLogic : RwBusinessLogic
     {

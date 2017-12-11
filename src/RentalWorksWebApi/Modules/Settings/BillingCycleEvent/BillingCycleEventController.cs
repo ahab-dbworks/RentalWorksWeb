@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.BillingCycleEvent
+namespace WebApi.Modules.Settings.BillingCycleEvent
 {
     [Route("api/v1/[controller]")]
-    public class BillingCycleEventController : RwDataController
+    public class BillingCycleEventController : AppDataController
     {
-        public BillingCycleEventController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public BillingCycleEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/billingcycleevent/browse
         [HttpPost("browse")]

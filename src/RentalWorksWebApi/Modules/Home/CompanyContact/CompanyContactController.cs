@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Home.CompanyContact
+namespace WebApi.Modules.Home.CompanyContact
 {
     [Route("api/v1/[controller]")]
-    public class CompanyContactController : RwDataController
+    public class CompanyContactController : AppDataController
     {
-        public CompanyContactController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/companycontact/browse 
         [HttpPost("browse")]

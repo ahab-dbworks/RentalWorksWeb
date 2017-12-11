@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.PropsCondition
+namespace WebApi.Modules.Settings.PropsCondition
 {
     [FwSqlTable("condition")]
     public class PropsConditionLoader : RwDataLoadRecord

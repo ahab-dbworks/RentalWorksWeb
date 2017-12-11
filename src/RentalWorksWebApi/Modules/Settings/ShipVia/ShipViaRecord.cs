@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using System;
 
-namespace RentalWorksWebApi.Data.Settings
+namespace WebApi.Data.Settings
 {
     [FwSqlTable("shipvia")]
     public class ShipViaRecord : RwDataReadWriteRecord

@@ -1,15 +1,15 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityRate
+namespace WebApi.Modules.Settings.FacilityRate
 {
     [Route("api/v1/[controller]")]
-    public class FacilityRateController : RwDataController
+    public class FacilityRateController : AppDataController
     {
-        public FacilityRateController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FacilityRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/facilityrate/browse 
         [HttpPost("browse")]

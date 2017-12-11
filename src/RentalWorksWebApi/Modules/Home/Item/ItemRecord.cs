@@ -1,11 +1,11 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Home.Item
+namespace WebApi.Modules.Home.Item
 {
     [FwSqlTable("rentalitem")]
     public class ItemRecord : RwDataReadWriteRecord

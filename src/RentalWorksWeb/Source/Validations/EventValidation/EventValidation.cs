@@ -1,6 +1,6 @@
 ﻿using Fw.Json.Services;
 
-namespace RentalWorksWeb.Source.Validations
+namespace Web.Source.Validations
 {
     class EventValidation : FwValidation
     {

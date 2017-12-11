@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.PoRejectReason
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.PoRejectReason
 {
     public class PoRejectReasonLogic : RwBusinessLogic
     {

@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.DiscountItem
+using WebApi.Data;
+namespace WebApi.Modules.Settings.DiscountItem
 {
     [FwSqlTable("discountitem")]
     public class DiscountItemRecord : RwDataReadWriteRecord

@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.Currency
+namespace WebApi.Modules.Settings.Currency
 {
     [Route("api/v1/[controller]")]
-    public class CurrencyController : RwDataController
+    public class CurrencyController : AppDataController
     {
-        public CurrencyController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CurrencyController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/currency/browse
         [HttpPost("browse")]

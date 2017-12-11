@@ -9,7 +9,7 @@ using System.Dynamic;
 using System.Text.RegularExpressions;
 using System.Web.Security;
 
-namespace RentalWorksWeb.Source
+namespace Web.Source
 {
     public class RwServiceRouting : Fw.Json.Services.FwJsonService
     {

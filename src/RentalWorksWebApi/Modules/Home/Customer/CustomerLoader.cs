@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Home.Customer
+namespace WebApi.Modules.Home.Customer
 {
     [FwSqlTable("customerview")]
     public class CustomerLoader: RwDataLoadRecord

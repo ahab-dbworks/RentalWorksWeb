@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.VendorInvoiceApprover
+namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
     [Route("api/v1/[controller]")]
-    public class VendorInvoiceApproverController : RwDataController
+    public class VendorInvoiceApproverController : AppDataController
     {
-        public VendorInvoiceApproverController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorInvoiceApproverController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoiceapprover/browse 
         [HttpPost("browse")]

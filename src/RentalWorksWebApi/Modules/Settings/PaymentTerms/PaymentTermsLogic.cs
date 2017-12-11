@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 using RRentalWorksWebApi.Modules.Settings.PaymentTerms;
 
-namespace RentalWorksWebApi.Modules.Settings.PaymentTerms
+namespace WebApi.Modules.Settings.PaymentTerms
 {
     public class PaymentTermsLogic : RwBusinessLogic
     {

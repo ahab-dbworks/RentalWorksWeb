@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.OrderTypePersonnelType;
+using WebApi.Logic;
+using WebApi.Modules.Settings.OrderTypePersonnelType;
 
-namespace RentalWorksWebApi.Modules.Settings.EventTypePersonnelType
+namespace WebApi.Modules.Settings.EventTypePersonnelType
 {
     public class EventTypePersonnelTypeLogic : RwBusinessLogic
     {

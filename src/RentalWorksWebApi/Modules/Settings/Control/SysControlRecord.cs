@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.Control
+using WebApi.Data;
+namespace WebApi.Modules.Settings.Control
 {
     [FwSqlTable("syscontrol")]
     public class SysControlRecord : RwDataReadWriteRecord

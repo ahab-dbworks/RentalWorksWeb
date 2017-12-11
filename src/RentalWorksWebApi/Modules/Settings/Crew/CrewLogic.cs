@@ -1,12 +1,12 @@
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Administrator.User;
-using RentalWorksWebApi.Modules.Home.Contact;
+using WebApi.Logic;
+using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Home.Contact;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.Crew
 {
     public class CrewLogic : RwBusinessLogic //ContactLogic
     {

@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.MasterWarehouse
+namespace WebApi.Modules.Home.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
     public abstract class MasterWarehouseLoader : RwDataLoadRecord

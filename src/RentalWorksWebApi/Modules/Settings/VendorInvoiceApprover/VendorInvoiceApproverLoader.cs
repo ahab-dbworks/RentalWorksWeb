@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.VendorInvoiceApprover
+namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapproverview")]
     public class VendorInvoiceApproverLoader : RwDataLoadRecord

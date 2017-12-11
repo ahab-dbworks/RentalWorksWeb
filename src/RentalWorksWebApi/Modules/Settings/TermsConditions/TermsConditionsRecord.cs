@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.TermsConditions
+namespace WebApi.Modules.Settings.TermsConditions
 {
     [FwSqlTable("termsconditions")]
     public class TermsConditionsRecord : RwDataReadWriteRecord

@@ -1,6 +1,6 @@
 ﻿using FwStandard.DataLayer;
 
-namespace RentalWorksWebApi.Data
+namespace WebApi.Data
 {
     public class RwDataLoadRecord : FwDataReadWriteRecord
     {

@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.MiscType
+namespace WebApi.Modules.Settings.MiscType
 {
     [FwSqlTable("inventorydepartment")]
     public class MiscTypeLoader: RwDataLoadRecord

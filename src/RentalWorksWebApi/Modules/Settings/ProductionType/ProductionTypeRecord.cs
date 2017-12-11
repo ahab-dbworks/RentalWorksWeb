@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.ProductionType
 {
     [FwSqlTable("prodtype")]
     public class ProductionTypeRecord : RwDataReadWriteRecord

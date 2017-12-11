@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
+using WebApi.Data;
+namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     [FwSqlTable("ordertypedatetype")]
     public class OrderTypeDateTypeRecord : RwDataReadWriteRecord

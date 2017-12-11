@@ -2,16 +2,16 @@
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Home.CustomerNote
+namespace WebApi.Modules.Home.CustomerNote
 {
     [Route("api/v1/[controller]")]
-    public class CustomerNoteController : RwDataController
+    public class CustomerNoteController : AppDataController
     {
-        public CustomerNoteController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerNoteController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/customernote/browse
         [HttpPost("browse")]

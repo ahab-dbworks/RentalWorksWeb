@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleColor
+namespace WebApi.Modules.Settings.VehicleColor
 {
     [Route("api/v1/[controller]")]
-    public class VehicleColorController : RwDataController
+    public class VehicleColorController : AppDataController
     {
-        public VehicleColorController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleColorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclecolor/browse
         [HttpPost("browse")]

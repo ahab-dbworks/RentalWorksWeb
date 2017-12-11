@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.LicenseClass
+namespace WebApi.Modules.Settings.LicenseClass
 {
     [FwSqlTable("licclass")]
     public class LicenseClassRecord : RwDataReadWriteRecord

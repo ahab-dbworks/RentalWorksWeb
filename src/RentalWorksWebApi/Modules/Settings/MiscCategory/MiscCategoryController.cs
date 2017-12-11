@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.MiscCategory
+namespace WebApi.Modules.Settings.MiscCategory
 {
     [Route("api/v1/[controller]")]
-    public class MiscCategoryController : RwDataController
+    public class MiscCategoryController : AppDataController
     {
-        public MiscCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public MiscCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/misccategory/browse
         [HttpPost("browse")]

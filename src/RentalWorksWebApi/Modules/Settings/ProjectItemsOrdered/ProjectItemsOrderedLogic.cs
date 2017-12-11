@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.ProjectItemsOrdered
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.ProjectItemsOrdered
 {
     public class ProjectItemsOrderedLogic : RwBusinessLogic
     {

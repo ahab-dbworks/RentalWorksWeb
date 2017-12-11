@@ -1,11 +1,11 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
+namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicaterule")]
     public class DuplicateRuleRecord : RwDataReadWriteRecord

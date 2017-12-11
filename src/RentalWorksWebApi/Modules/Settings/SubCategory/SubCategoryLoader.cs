@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.SubCategory
+namespace WebApi.Modules.Settings.SubCategory
 {
     [FwSqlTable("subcategoryview")]
     public class SubCategoryLoader: RwDataLoadRecord

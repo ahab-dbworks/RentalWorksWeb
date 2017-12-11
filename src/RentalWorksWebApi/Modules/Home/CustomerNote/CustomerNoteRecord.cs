@@ -1,10 +1,10 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Home.CustomerNote
+namespace WebApi.Modules.Home.CustomerNote
 {
     [FwSqlTable("custnote")]
     public class CustomerNoteRecord : RwDataReadWriteRecord

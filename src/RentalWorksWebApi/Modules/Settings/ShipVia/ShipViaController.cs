@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.ShipVia
+namespace WebApi.Modules.Settings.ShipVia
 {
     [Route("api/v1/[controller]")]
-    public class ShipViaController : RwDataController
+    public class ShipViaController : AppDataController
     {
-        public ShipViaController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ShipViaController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/shipvia/browse
         [HttpPost("browse")]

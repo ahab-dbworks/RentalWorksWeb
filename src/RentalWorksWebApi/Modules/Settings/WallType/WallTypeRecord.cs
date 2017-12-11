@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.WallType
+using WebApi.Data;
+namespace WebApi.Modules.Settings.WallType
 {
     [FwSqlTable("walltype")]
     public class WallTypeRecord : RwDataReadWriteRecord

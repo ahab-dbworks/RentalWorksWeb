@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
     public class InventoryAdjustmentReasonMenu : FwSecurityTreeBranch
     {

@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
+namespace WebApi.Modules.Home.InventoryConsignor
 {
     [Route("api/v1/[controller]")]
-    public class InventoryConsignorController : RwDataController
+    public class InventoryConsignorController : AppDataController
     {
-        public InventoryConsignorController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryConsignorController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryconsignor/browse 
         [HttpPost("browse")]

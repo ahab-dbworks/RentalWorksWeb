@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDeposit
+using WebApi.Data;
+namespace WebApi.Modules.Settings.ProjectDeposit
 {
     [FwSqlTable("deposit")]
     public class ProjectDepositRecord : RwDataReadWriteRecord

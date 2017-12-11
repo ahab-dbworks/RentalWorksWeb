@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.OrderLocation
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.OrderLocation
 {
     public class OrderLocationLogic : RwBusinessLogic
     {

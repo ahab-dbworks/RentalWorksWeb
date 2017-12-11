@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleRating
+namespace WebApi.Modules.Settings.VehicleRating
 {
     [Route("api/v1/[controller]")]
-    public class VehicleRatingController : RwDataController
+    public class VehicleRatingController : AppDataController
     {
-        public VehicleRatingController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VehicleRatingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/vehiclerating/browse
         [HttpPost("browse")]

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.PersonnelType
+namespace WebApi.Modules.Settings.PersonnelType
 {
     [Route("api/v1/[controller]")]
-    public class PersonnelTypeController : RwDataController
+    public class PersonnelTypeController : AppDataController
     {
-        public PersonnelTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PersonnelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/personneltype/browse
         [HttpPost("browse")]

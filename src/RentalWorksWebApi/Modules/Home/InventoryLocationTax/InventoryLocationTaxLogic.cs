@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.MasterLocation;
+using WebApi.Logic;
+using WebApi.Modules.Home.MasterLocation;
 
-namespace RentalWorksWebApi.Modules.Home.InventoryLocationTax
+namespace WebApi.Modules.Home.InventoryLocationTax
 {
     public class InventoryLocationTaxLogic : MasterLocationLogic
     {

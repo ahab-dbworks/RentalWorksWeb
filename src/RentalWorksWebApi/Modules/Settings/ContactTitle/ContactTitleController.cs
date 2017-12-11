@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.ContactTitle
+namespace WebApi.Modules.Settings.ContactTitle
 {
     [Route("api/v1/[controller]")]
-    public class ContactTitleController : RwDataController
+    public class ContactTitleController : AppDataController
     {
-        public ContactTitleController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactTitleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/contacttitle/browse
         [HttpPost("browse")]

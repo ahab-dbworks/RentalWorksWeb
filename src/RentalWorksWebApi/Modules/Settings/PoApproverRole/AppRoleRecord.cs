@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.AppRole
+namespace WebApi.Modules.Settings.AppRole
 {
     [FwSqlTable("approle")]
     public class AppRoleRecord : RwDataReadWriteRecord

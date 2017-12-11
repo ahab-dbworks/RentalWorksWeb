@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.VendorClass
+namespace WebApi.Modules.Settings.VendorClass
 {
     [Route("api/v1/[controller]")]
-    public class VendorClassController : RwDataController
+    public class VendorClassController : AppDataController
     {
-        public VendorClassController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public VendorClassController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/vendorclass/browse
         [HttpPost("browse")]

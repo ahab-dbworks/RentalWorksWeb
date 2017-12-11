@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactEvent
 {
     [Route("api/v1/[controller]")]
-    public class ContactEventController : RwDataController
+    public class ContactEventController : AppDataController
     {
-        public ContactEventController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactEventController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/contactevent/browse
         [HttpPost("browse")]

@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.InventoryConsignor
+using WebApi.Logic;
+namespace WebApi.Modules.Home.InventoryConsignor
 {
     public class InventoryConsignorLogic : RwBusinessLogic
     {

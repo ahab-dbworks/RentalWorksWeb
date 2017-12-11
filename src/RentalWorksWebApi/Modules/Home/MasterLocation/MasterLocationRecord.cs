@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.MasterLocation
+using WebApi.Data;
+namespace WebApi.Modules.Home.MasterLocation
 {
     [FwSqlTable("masterlocation")]
     public class MasterLocationRecord : RwDataReadWriteRecord

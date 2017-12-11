@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.RetiredReason
+namespace WebApi.Modules.Settings.RetiredReason
 {
     [FwSqlTable("retiredreason")]
     public class RetiredReasonRecord : RwDataReadWriteRecord

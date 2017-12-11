@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.ProjectItemsOrdered
+using WebApi.Data;
+namespace WebApi.Modules.Settings.ProjectItemsOrdered
 {
     [FwSqlTable("itemordered")]
     public class ProjectItemsOrderedRecord : RwDataReadWriteRecord

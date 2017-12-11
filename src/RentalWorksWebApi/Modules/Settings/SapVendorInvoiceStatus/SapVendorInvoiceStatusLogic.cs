@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
     public class SapVendorInvoiceStatusLogic : RwBusinessLogic
     {

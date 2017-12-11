@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.VendorInvoiceApprover
+using WebApi.Data;
+namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapprover")]
     public class VendorInvoiceApproverRecord : RwDataReadWriteRecord

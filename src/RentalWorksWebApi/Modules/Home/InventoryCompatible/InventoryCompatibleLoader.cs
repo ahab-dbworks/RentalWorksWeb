@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.InventoryCompatible
+namespace WebApi.Modules.Home.InventoryCompatible
 {
     [FwSqlTable("mastercompatibleview")]
     public class InventoryCompatibleLoader : RwDataLoadRecord

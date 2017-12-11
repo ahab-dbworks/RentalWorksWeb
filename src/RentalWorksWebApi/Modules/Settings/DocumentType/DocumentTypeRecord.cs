@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.DocumentType
+namespace WebApi.Modules.Settings.DocumentType
 {
     [FwSqlTable("documenttype")]
     public class DocumentTypeRecord : RwDataReadWriteRecord

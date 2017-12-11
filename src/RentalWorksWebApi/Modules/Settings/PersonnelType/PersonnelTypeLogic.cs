@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.PersonnelType
+namespace WebApi.Modules.Settings.PersonnelType
 {
     public class PersonnelTypeLogic : RwBusinessLogic
     {

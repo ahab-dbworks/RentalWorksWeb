@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDropShipItems
+using WebApi.Data;
+namespace WebApi.Modules.Settings.ProjectDropShipItems
 {
     [FwSqlTable("dropship")]
     public class ProjectDropShipItemsRecord : RwDataReadWriteRecord

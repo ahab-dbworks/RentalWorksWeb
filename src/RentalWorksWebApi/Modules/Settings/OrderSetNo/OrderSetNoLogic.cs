@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.OrderSetNo
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.OrderSetNo
 {
     public class OrderSetNoLogic : RwBusinessLogic
     {

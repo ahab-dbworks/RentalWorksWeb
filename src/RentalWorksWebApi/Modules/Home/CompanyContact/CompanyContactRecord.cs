@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.CompanyContact
+using WebApi.Data;
+namespace WebApi.Modules.Home.CompanyContact
 {
     [FwSqlTable("compcontact")]
     public class CompanyContactRecord : RwDataReadWriteRecord

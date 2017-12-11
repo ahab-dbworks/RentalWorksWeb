@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.FiscalYear
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.FiscalYear
 {
     public class FiscalYearLogic : RwBusinessLogic
     {

@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.DealStatus
+namespace WebApi.Modules.Settings.DealStatus
 {
     [Route("api/v1/[controller]")]
-    public class DealStatusController : RwDataController
+    public class DealStatusController : AppDataController
     {
-        public DealStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public DealStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/dealstatus/browse
         [HttpPost("browse")]

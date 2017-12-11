@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Options
+namespace WebApi.Options
 {
   public class JwtIssuerOptions
   {

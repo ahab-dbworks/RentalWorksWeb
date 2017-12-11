@@ -2,7 +2,7 @@
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 
-namespace RentalWorksWeb.Source.Validations
+namespace Web.Source.Validations
 {
     class UserWarehouseValidation : FwValidation
     {

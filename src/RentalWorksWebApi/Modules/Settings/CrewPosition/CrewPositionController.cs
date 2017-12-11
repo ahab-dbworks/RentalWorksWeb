@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.CrewPosition
+namespace WebApi.Modules.Settings.CrewPosition
 {
     [Route("api/v1/[controller]")]
-    public class CrewPositionController : RwDataController
+    public class CrewPositionController : AppDataController
     {
-        public CrewPositionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewPositionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crewposition/browse 
         [HttpPost("browse")]

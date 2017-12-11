@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.PoImportance
+namespace WebApi.Modules.Settings.PoImportance
 {
     [Route("api/v1/[controller]")]
-    public class PoImportanceController : RwDataController
+    public class PoImportanceController : AppDataController
     {
-        public PoImportanceController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PoImportanceController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/poimportance/browse
         [HttpPost("browse")]

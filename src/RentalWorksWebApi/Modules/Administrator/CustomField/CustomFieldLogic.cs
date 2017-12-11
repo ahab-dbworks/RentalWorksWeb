@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Administration.CustomField
+using WebApi.Logic;
+namespace WebApi.Modules.Administration.CustomField
 {
     public class CustomFieldLogic : RwBusinessLogic
     {

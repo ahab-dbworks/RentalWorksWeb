@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Settings.Holiday
+namespace WebApi.Modules.Settings.Holiday
 {
     [FwSqlTable("holidaydefinitionview")]
     public class HolidayLoader : RwDataLoadRecord

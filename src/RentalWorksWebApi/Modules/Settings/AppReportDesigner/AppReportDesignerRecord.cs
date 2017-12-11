@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
-namespace RentalWorksWebApi.Modules.Settings.AppReportDesigner 
+using WebApi.Data; 
+namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
 [FwSqlTable("appreportdesigner")] 
 public class AppReportDesignerRecord : RwDataReadWriteRecord 

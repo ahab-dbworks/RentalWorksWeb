@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDeposit
+namespace WebApi.Modules.Settings.ProjectDeposit
 {
     [Route("api/v1/[controller]")]
-    public class ProjectDepositController : RwDataController
+    public class ProjectDepositController : AppDataController
     {
-        public ProjectDepositController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectDepositController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdeposit/browse 
         [HttpPost("browse")]

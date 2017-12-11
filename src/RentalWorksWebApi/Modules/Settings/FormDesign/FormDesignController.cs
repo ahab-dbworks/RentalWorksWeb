@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.FormDesign
+namespace WebApi.Modules.Settings.FormDesign
 {
     [Route("api/v1/[controller]")]
-    public class FormDesignController : RwDataController
+    public class FormDesignController : AppDataController
     {
-        public FormDesignController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FormDesignController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/formdesign/browse
         [HttpPost("browse")]

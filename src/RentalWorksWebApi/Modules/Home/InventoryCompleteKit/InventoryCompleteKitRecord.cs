@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.InventoryCompleteKit
+using WebApi.Data;
+namespace WebApi.Modules.Home.InventoryCompleteKit
 {
     [FwSqlTable("packageitem")]
     public class InventoryCompleteKitRecord : RwDataReadWriteRecord

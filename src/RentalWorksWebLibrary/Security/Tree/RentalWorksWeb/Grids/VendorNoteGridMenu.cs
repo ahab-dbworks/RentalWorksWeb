@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
     class VendorNoteGridMenu : FwSecurityTreeBranch
     {

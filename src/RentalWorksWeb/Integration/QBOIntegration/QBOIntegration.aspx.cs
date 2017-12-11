@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Services;
 
-namespace RentalWorksWeb.Integration
+namespace Web.Integration
 {
     public partial class QBOIntegration : System.Web.UI.Page
     {

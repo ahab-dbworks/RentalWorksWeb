@@ -1,6 +1,6 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
 namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
 {

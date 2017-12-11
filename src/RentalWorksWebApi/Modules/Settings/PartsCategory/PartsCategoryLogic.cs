@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+using WebApi.Modules.Settings.InventoryCategory;
 
-namespace RentalWorksWebApi.Modules.Settings.PartsCategory
+namespace WebApi.Modules.Settings.PartsCategory
 {
     public class PartsCategoryLogic : InventoryCategoryLogic
     {

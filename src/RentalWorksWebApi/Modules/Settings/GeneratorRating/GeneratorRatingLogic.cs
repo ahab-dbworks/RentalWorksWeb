@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.VehicleRating;
+using WebApi.Logic;
+using WebApi.Modules.Settings.VehicleRating;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorRating
+namespace WebApi.Modules.Settings.GeneratorRating
 {
     public class GeneratorRatingLogic : RwBusinessLogic
     {

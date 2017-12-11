@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.GlDistribution
+using WebApi.Data;
+namespace WebApi.Modules.Settings.GlDistribution
 {
     [FwSqlTable("gldistribution")]
     public class GlDistributionRecord : RwDataReadWriteRecord

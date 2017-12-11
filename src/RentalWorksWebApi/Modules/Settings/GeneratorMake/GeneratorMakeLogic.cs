@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.VehicleMake;
+using WebApi.Logic;
+using WebApi.Modules.Settings.VehicleMake;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorMake
+namespace WebApi.Modules.Settings.GeneratorMake
 {
     public class GeneratorMakeLogic : RwBusinessLogic
     {

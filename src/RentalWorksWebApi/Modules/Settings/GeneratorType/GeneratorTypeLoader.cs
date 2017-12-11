@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Settings.VehicleType;
+using WebApi.Data;
+using WebApi.Modules.Settings.VehicleType;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorType
+namespace WebApi.Modules.Settings.GeneratorType
 {
     public class GeneratorTypeLoader : VehicleTypeBaseLoader 
     {

@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeGender
+namespace WebApi.Modules.Settings.WardrobeGender
 {
     [FwSqlTable("gender")]
     public class WardrobeGenderRecord : RwDataReadWriteRecord

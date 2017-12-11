@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.CoverLetter
 {
     [FwSqlTable("coverletter")]
     public class CoverLetterRecord : RwDataReadWriteRecord

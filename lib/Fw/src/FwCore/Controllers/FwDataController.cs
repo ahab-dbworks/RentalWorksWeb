@@ -4,20 +4,19 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Controllers
+namespace FwCore.Controllers
 {
     [Route("api/v1/[controller]")]
-    public abstract class RwDataController : RwController  
+    public abstract class FwDataController : FwController  
     {
         //------------------------------------------------------------------------------------
-        public RwDataController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         protected FwBusinessLogic CreateBusinessLogic(Type type)
         {
@@ -39,7 +38,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;
@@ -69,7 +68,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;
@@ -99,7 +98,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;
@@ -146,7 +145,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;
@@ -224,7 +223,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;
@@ -245,7 +244,7 @@ namespace RentalWorksWebApi.Controllers
             }
             catch (Exception ex)
             {
-                ApiException jsonException = new ApiException();
+                FwApiException jsonException = new FwApiException();
                 jsonException.StatusCode = StatusCodes.Status500InternalServerError;
                 jsonException.Message = ex.Message;
                 jsonException.StackTrace = ex.StackTrace;

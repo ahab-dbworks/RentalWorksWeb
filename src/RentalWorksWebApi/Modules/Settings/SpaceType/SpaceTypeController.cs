@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.SpaceType
+namespace WebApi.Modules.Settings.SpaceType
 {
     [Route("api/v1/[controller]")]
-    public class SpaceTypeController : RwDataController
+    public class SpaceTypeController : AppDataController
     {
-        public SpaceTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SpaceTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacetype/browse 
         [HttpPost("browse")]

@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.ContactEvent
+namespace WebApi.Modules.Settings.ContactEvent
 {
     [FwSqlTable("contactevent")]
     public class ContactEventRecord : RwDataReadWriteRecord

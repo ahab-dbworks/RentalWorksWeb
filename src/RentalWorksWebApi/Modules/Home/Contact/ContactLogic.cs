@@ -1,10 +1,10 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Administrator.User;
+using WebApi.Logic;
+using WebApi.Modules.Administrator.User;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Home.Contact
+namespace WebApi.Modules.Home.Contact
 {
     public class ContactLogic : RwBusinessLogic
     {

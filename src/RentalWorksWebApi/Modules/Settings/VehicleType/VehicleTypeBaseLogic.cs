@@ -1,12 +1,12 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+using WebApi.Logic;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Settings.InventoryCategory;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleType
+namespace WebApi.Modules.Settings.VehicleType
 {
     public abstract class VehicleTypeBaseLogic: RwBusinessLogic
     {

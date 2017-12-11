@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeCare
+namespace WebApi.Modules.Settings.WardrobeCare
 {
     public class WardrobeCareLogic : RwBusinessLogic
     {

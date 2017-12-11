@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDropShipItems
+namespace WebApi.Modules.Settings.ProjectDropShipItems
 {
     [Route("api/v1/[controller]")]
-    public class ProjectDropShipItemsController : RwDataController
+    public class ProjectDropShipItemsController : AppDataController
     {
-        public ProjectDropShipItemsController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectDropShipItemsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdropshipitems/browse 
         [HttpPost("browse")]

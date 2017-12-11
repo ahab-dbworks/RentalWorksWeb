@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Home.Customer
+namespace WebApi.Modules.Home.Customer
 {
     public class CustomerLogic : RwBusinessLogic
     {

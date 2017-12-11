@@ -2,19 +2,18 @@
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
-using RentalWorksWebApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace RentalWorksWebApi.Modules.Home.Contact
+namespace WebApi.Modules.Home.Contact
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "v1")]
-    public class ContactController : RwDataController
+    public class ContactController : AppDataController
     {
-        public ContactController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ContactController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/customerstatus/browse
         /// <summary>
@@ -26,7 +25,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         [HttpPost("browse")]
         [Produces(typeof(FwJsonDataTable))]
         [SwaggerResponse(200, Type = typeof(FwJsonDataTable))]
-        [SwaggerResponse(500, Type = typeof(ApiException))]
+        [SwaggerResponse(500, Type = typeof(FwApiException))]
         //[ApiExplorerSettings(IgnoreApi=true)]
         public async Task<IActionResult> Browse([FromBody]BrowseRequest browseRequest)
         {
@@ -43,7 +42,7 @@ namespace RentalWorksWebApi.Modules.Home.Contact
         [HttpGet]
         [Produces(typeof(List<ContactLogic>))]
         [SwaggerResponse(200, Type = typeof(List<ContactLogic>))]
-        [SwaggerResponse(500, Type = typeof(ApiException))]
+        [SwaggerResponse(500, Type = typeof(FwApiException))]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContactLogic>(pageno, pagesize, sort, typeof(ContactLogic));

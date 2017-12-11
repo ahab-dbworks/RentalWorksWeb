@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeCondition
+namespace WebApi.Modules.Settings.WardrobeCondition
 {
     [Route("api/v1/[controller]")]
-    public class WardrobeConditionController : RwDataController
+    public class WardrobeConditionController : AppDataController
     {
-        public WardrobeConditionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public WardrobeConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/wardrobecondition/browse
         [HttpPost("browse")]

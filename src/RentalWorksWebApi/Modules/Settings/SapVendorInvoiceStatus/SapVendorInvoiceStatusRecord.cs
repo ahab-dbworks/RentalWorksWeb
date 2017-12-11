@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
+using WebApi.Data;
+namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
     [FwSqlTable("sapvendorinvoicestatus")]
     public class SapVendorInvoiceStatusRecord : RwDataReadWriteRecord

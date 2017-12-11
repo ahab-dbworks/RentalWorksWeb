@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.PoClassification
+namespace WebApi.Modules.Settings.PoClassification
 {
     [FwSqlTable("poclassification")]
     public class PoClassificationRecord : RwDataReadWriteRecord

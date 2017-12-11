@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleFuelType
+namespace WebApi.Modules.Settings.VehicleFuelType
 {
     [FwSqlTable("vehiclefueltypeview")]
     public class VehicleFuelTypeLoader: RwDataLoadRecord

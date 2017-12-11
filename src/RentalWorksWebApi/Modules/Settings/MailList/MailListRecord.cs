@@ -1,7 +1,7 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 
-namespace RentalWorksWebApi.Data.Settings
+namespace WebApi.Data.Settings
 {
     [FwSqlTable("maillist")]
     public class MailListRecord : RwDataReadWriteRecord

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.OfficeLocation
+namespace WebApi.Modules.Settings.OfficeLocation
 {
     [Route("api/v1/[controller]")]
-    public class OfficeLocationController : RwDataController
+    public class OfficeLocationController : AppDataController
     {
-        public OfficeLocationController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OfficeLocationController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/Location/browse
         [HttpPost("browse")]

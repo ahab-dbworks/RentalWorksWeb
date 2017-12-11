@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityType
+namespace WebApi.Modules.Settings.FacilityType
 {
     [FwSqlTable("inventorydepartment")]
     public class FacilityTypeLoader: RwDataLoadRecord

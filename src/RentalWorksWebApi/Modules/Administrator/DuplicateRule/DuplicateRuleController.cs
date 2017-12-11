@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Administrator.DuplicateRule
+namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [Route("api/v1/[controller]")]
-    public class DuplicateRuleController : RwDataController
+    public class DuplicateRuleController : AppDataController
     {
-        public DuplicateRuleController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public DuplicateRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/duplicaterule/browse 
         [HttpPost("browse")]

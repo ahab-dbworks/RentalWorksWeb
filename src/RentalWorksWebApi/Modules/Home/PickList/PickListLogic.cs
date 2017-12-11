@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.PickList
+using WebApi.Logic;
+namespace WebApi.Modules.Home.PickList
 {
     public class PickListLogic : RwBusinessLogic
     {

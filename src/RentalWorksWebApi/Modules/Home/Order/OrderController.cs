@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Home.Order
+namespace WebApi.Modules.Home.Order
 {
     [Route("api/v1/[controller]")]
-    public class OrderController : RwDataController
+    public class OrderController : AppDataController
     {
-        public OrderController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/order/browse
         [HttpPost("browse")]

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace RentalWorksWebApi
+namespace FwCore.Api
 {
-    public class ApplicationLogging
+    public class FwLogger
     {
         private static ILoggerFactory _Factory = null;
         private static ILogger logger = null;

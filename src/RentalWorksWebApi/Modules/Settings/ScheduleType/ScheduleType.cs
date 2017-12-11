@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.ScheduleType
+namespace WebApi.Modules.Settings.ScheduleType
 {
     [FwSqlTable("scheduletype")]
     public class ScheduleTypeRecord : RwDataReadWriteRecord

@@ -8,10 +8,12 @@
     <AppSrcDir>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</AppSrcDir>
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
+    <AssemblyName>WebApi</AssemblyName>
+    <RootNamespace>WebApi</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\RentalWorksWebApi.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\WebApi.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
@@ -42,13 +44,12 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="appsettings.Development.json" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Fw\src\FwCore\FwCore.csproj" />
     <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj" />
-    <ProjectReference Include="..\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj" />
+    <ProjectReference Include="..\RentalWorksWebLibrary\WebLibrary.csproj" />
   </ItemGroup>
   <!--copies the Xml documentation file-->
   <Target Name="CopyDocumentationFile" AfterTargets="ComputeFilesToPublish">

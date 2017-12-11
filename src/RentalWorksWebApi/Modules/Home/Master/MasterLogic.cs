@@ -1,9 +1,9 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Home.Master
+namespace WebApi.Modules.Home.Master
 {
     public abstract class MasterLogic : RwBusinessLogic
     {

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorMake
+namespace WebApi.Modules.Settings.GeneratorMake
 {
     [Route("api/v1/[controller]")]
-    public class GeneratorMakeController : RwDataController
+    public class GeneratorMakeController : AppDataController
     {
-        public GeneratorMakeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorMakeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatormake/browse
         [HttpPost("browse")]

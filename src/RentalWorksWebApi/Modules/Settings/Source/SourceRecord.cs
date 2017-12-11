@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Source
+namespace WebApi.Modules.Settings.Source
 {
     [FwSqlTable("source")]
     public class SourceRecord : RwDataReadWriteRecord

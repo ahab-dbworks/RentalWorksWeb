@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Warehouse
+namespace WebApi.Modules.Settings.Warehouse
 {
     [FwSqlTable("warehouse")]
     public class WarehouseRecord : RwDataReadWriteRecord

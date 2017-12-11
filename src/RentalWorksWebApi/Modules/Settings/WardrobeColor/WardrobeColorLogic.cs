@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Settings.Color;
+using WebApi.Logic;
+using WebApi.Modules.Settings.Color;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeColor
+namespace WebApi.Modules.Settings.WardrobeColor
 {
     public class WardrobeColorLogic : RwBusinessLogic
     {

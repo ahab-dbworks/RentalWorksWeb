@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Administrator.Group
+using WebApi.Logic;
+namespace WebApi.Modules.Administrator.Group
 {
     public class GroupLogic : RwBusinessLogic
     {

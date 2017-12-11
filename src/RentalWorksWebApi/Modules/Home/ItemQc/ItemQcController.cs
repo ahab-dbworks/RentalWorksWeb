@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Home.ItemQc
+namespace WebApi.Modules.Home.ItemQc
 {
     [Route("api/v1/[controller]")]
-    public class ItemQcController : RwDataController
+    public class ItemQcController : AppDataController
     {
-        public ItemQcController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ItemQcController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/itemqc/browse 
         [HttpPost("browse")]

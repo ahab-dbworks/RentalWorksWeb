@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.BarCodeRange
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.BarCodeRange
 {
     public class BarCodeRangeLogic : RwBusinessLogic
     {

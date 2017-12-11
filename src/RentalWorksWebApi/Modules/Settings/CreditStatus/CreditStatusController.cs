@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CreditStatus
+namespace WebApi.Modules.Settings.CreditStatus
 {
     [Route("api/v1/[controller]")]
-    public class CreditStatusController : RwDataController
+    public class CreditStatusController : AppDataController
     {
-        public CreditStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CreditStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/creditstatus/browse
         [HttpPost("browse")]

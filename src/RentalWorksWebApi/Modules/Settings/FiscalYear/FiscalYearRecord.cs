@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.FiscalYear
+using WebApi.Data;
+namespace WebApi.Modules.Settings.FiscalYear
 {
     [FwSqlTable("fiscalyear")]
     public class FiscalYearRecord : RwDataReadWriteRecord

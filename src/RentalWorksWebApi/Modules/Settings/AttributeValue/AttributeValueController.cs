@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.AttributeValue
+namespace WebApi.Modules.Settings.AttributeValue
 {
     [Route("api/v1/[controller]")]
-    public class AttributeValueController : RwDataController
+    public class AttributeValueController : AppDataController
     {
-        public AttributeValueController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public AttributeValueController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/attributevalue/browse
         [HttpPost("browse")]

@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryAdjustmentReason
+namespace WebApi.Modules.Settings.InventoryAdjustmentReason
 {
     public class InventoryAdjustmentReasonLogic : RwBusinessLogic
     {

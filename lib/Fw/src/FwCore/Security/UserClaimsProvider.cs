@@ -3,7 +3,7 @@ using FwStandard.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Security
+namespace FwCore.Security
 {
     public class UserClaimsProvider
     {

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.SubCategory
+namespace WebApi.Modules.Settings.SubCategory
 {
     [Route("api/v1/[controller]")]
-    public class SubCategoryController : RwDataController
+    public class SubCategoryController : AppDataController
     {
-        public SubCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SubCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/subcategory/browse
         [HttpPost("browse")]

@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.CoverLetter
 {
     [Route("api/v1/[controller]")]
-    public class CoverLetterController : RwDataController
+    public class CoverLetterController : AppDataController
     {
-        public CoverLetterController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CoverLetterController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/coverletter/browse
         [HttpPost("browse")]

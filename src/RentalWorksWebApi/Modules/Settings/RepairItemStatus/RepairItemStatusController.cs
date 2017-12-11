@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.RepairItemStatus
+namespace WebApi.Modules.Settings.RepairItemStatus
 {
     [Route("api/v1/[controller]")]
-    public class RepairItemStatusController : RwDataController
+    public class RepairItemStatusController : AppDataController
     {
-        public RepairItemStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public RepairItemStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/repairitemstatus/browse
         [HttpPost("browse")]

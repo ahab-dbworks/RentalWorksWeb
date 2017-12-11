@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using RentalWorksWebApi.Security;
-using System;
-using System.Collections.Generic;
+﻿using FwCore.Security;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Policies
+namespace FwCore.Security
 {
     public class SecurityTreeAuthorizationRequirement : IAuthorizationRequirement
     {

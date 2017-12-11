@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.SapVendorInvoiceStatus
+namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
     [Route("api/v1/[controller]")]
-    public class SapVendorInvoiceStatusController : RwDataController
+    public class SapVendorInvoiceStatusController : AppDataController
     {
-        public SapVendorInvoiceStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SapVendorInvoiceStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/sapvendorinvoicestatus/browse 
         [HttpPost("browse")]

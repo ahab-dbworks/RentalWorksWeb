@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.WardrobeCondition
+namespace WebApi.Modules.Settings.WardrobeCondition
 {
     [FwSqlTable("condition")]
     public class WardrobeConditionLoader : RwDataLoadRecord

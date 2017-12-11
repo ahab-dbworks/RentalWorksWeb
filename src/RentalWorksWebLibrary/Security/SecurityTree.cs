@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RentalWorksWebLibrary
+namespace WebLibrary.Security
 {
     public class SecurityTree : FwSecurityTree
     {

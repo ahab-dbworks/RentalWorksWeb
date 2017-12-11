@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.FacilityType
+namespace WebApi.Modules.Settings.FacilityType
 {
     [Route("api/v1/[controller]")]
-    public class FacilityTypeController : RwDataController
+    public class FacilityTypeController : AppDataController
     {
-        public FacilityTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public FacilityTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/facilitytype/browse
         [HttpPost("browse")]

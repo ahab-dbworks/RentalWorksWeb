@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.Region
+namespace WebApi.Modules.Settings.Region
 {
     public class RegionLogic : RwBusinessLogic
     {

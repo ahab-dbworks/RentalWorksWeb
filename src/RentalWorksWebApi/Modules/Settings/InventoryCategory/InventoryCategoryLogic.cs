@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryCategory
+namespace WebApi.Modules.Settings.InventoryCategory
 {
     public abstract class InventoryCategoryLogic : RwBusinessLogic
     {

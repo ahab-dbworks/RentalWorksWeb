@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Administration.CustomField
+namespace WebApi.Modules.Administration.CustomField
 {
     [Route("api/v1/[controller]")]
-    public class CustomFieldController : RwDataController
+    public class CustomFieldController : AppDataController
     {
-        public CustomFieldController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomFieldController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/customfield/browse 
         [HttpPost("browse")]

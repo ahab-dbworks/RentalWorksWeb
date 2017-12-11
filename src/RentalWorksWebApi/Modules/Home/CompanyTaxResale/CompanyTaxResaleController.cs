@@ -2,19 +2,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
-using RentalWorksWebApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 
-namespace RentalWorksWebApi.Modules.Home.CompanyTaxResale
+namespace WebApi.Modules.Home.CompanyTaxResale
 {
     [Route("api/v1/[controller]")]
     //[ApiExplorerSettings(GroupName = "v1")]
-    public class CompanyTaxResaleController : RwDataController
+    public class CompanyTaxResaleController : AppDataController
     {
-        public CompanyTaxResaleController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CompanyTaxResaleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/companytaxresale/browse
         /// <summary>
@@ -46,7 +45,7 @@ namespace RentalWorksWebApi.Modules.Home.CompanyTaxResale
         [SwaggerResponse(200, Type = typeof(List<CompanyTaxResaleLogic>))]
         [SwaggerResponse(401, Type = typeof(string))]
         [SwaggerResponse(403, Type = typeof(string))]
-        [SwaggerResponse(500, Type = typeof(ApiException))]
+        [SwaggerResponse(500, Type = typeof(FwApiException))]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<CompanyTaxResaleLogic>(pageno, pagesize, sort, typeof(CompanyTaxResaleLogic));

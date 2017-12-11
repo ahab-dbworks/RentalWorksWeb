@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Home.OrderStatusSummary
+namespace WebApi.Modules.Home.OrderStatusSummary
 {
     [Route("api/v1/[controller]")]
-    public class OrderStatusSummaryController : RwDataController
+    public class OrderStatusSummaryController : AppDataController
     {
-        public OrderStatusSummaryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderStatusSummaryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderstatussummary/browse 
         [HttpPost("browse")]

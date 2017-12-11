@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.OrderTypeDateType
+namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     [Route("api/v1/[controller]")]
-    public class OrderTypeDateTypeController : RwDataController
+    public class OrderTypeDateTypeController : AppDataController
     {
-        public OrderTypeDateTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public OrderTypeDateTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/ordertypedatetype/browse 
         [HttpPost("browse")]

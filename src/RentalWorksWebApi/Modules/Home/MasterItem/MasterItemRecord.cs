@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.MasterItem
+using WebApi.Data;
+namespace WebApi.Modules.Home.MasterItem
 {
     [FwSqlTable("masteritem")]
     public class MasterItemRecord : RwDataReadWriteRecord

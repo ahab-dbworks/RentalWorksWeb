@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using FwStandard.Security;
 
-namespace RentalWorksWeb.Source.Modules
+namespace Web.Source.Modules
 {
     public class VendorMenu : FwSecurityTreeBranch
     {

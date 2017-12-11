@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.SpaceRate
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.SpaceRate
 {
     public class SpaceRateLogic : RwBusinessLogic
     {

@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.Color
+namespace WebApi.Modules.Settings.Color
 {
     [FwSqlTable("color")]
     public class ColorRecord : RwDataReadWriteRecord

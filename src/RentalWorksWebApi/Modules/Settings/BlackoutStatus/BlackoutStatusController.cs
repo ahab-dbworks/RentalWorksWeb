@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.BlackoutStatus
+namespace WebApi.Modules.Settings.BlackoutStatus
 {
     [Route("api/v1/[controller]")]
-    public class BlackoutStatusController : RwDataController
+    public class BlackoutStatusController : AppDataController
     {
-        public BlackoutStatusController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public BlackoutStatusController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/blackoutstatus/browse
         [HttpPost("browse")]

@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.BillPeriodEventPercent
+namespace WebApi.Modules.Settings.BillPeriodEventPercent
 {
     [FwSqlTable("billperiodeventpercent")]
     public class BillPeriodEventPercentRecord : RwDataReadWriteRecord

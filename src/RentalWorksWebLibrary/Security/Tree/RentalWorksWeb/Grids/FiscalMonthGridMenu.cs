@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace RentalWorksWebLibrary.Security.Tree.RentalWorksWeb.Grids
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
     public class FiscalMonthGridMenu : FwSecurityTreeBranch
     {

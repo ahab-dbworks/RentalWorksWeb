@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleColor
+namespace WebApi.Modules.Settings.VehicleColor
 {
     [FwSqlTable("vehiclecolorview")]
     public class VehicleColorLoader: RwDataLoadRecord

@@ -5,7 +5,7 @@ using FwStandard.Security;
 using System;
 using System.Threading.Tasks;
 
-namespace RentalWorksWeb.Source.Modules
+namespace Web.Source.Modules
 {
     class Group : FwModule
     {

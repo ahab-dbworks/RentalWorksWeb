@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.CoverLetter
+namespace WebApi.Modules.Settings.CoverLetter
 {
     public class CoverLetterLogic : RwBusinessLogic
     {

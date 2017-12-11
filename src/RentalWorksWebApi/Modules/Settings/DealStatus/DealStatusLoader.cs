@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.DealStatus
+namespace WebApi.Modules.Settings.DealStatus
 {
     [FwSqlTable("dealstatusview")]
     public class DealStatusLoader : RwDataLoadRecord

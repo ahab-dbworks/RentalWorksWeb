@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Settings.Floor
+using WebApi.Data;
+namespace WebApi.Modules.Settings.Floor
 {
     [FwSqlTable("floor")]
     public class FloorRecord : RwDataReadWriteRecord

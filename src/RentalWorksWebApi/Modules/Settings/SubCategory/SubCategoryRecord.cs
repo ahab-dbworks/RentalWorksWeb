@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.SubCategory
+namespace WebApi.Modules.Settings.SubCategory
 {
     [FwSqlTable("subcategory")]
     public class SubCategoryRecord : RwDataReadWriteRecord

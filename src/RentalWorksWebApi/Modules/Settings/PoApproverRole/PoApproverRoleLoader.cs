@@ -2,9 +2,9 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.PoApproverRole
+namespace WebApi.Modules.Settings.PoApproverRole
 {
     [FwSqlTable("poapproverroleview")]
     public class PoApproverRoleLoader : RwDataLoadRecord

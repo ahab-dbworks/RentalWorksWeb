@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryCondition
+namespace WebApi.Modules.Settings.InventoryCondition
 {
     [Route("api/v1/[controller]")]
-    public class InventoryConditionController : RwDataController
+    public class InventoryConditionController : AppDataController
     {
-        public InventoryConditionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryConditionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/inventorycondition/browse
         [HttpPost("browse")]

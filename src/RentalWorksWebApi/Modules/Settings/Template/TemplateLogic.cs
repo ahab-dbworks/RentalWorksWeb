@@ -1,9 +1,9 @@
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.DealOrder;
+using WebApi.Logic;
+using WebApi.Modules.Home.DealOrder;
 
-namespace RentalWorksWebApi.Modules.Settings.Template
+namespace WebApi.Modules.Settings.Template
 {
     public class TemplateLogic : RwBusinessLogic
     {

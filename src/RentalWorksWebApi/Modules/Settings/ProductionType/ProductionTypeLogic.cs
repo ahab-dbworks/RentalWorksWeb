@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.ProductionType
 {
     public class ProductionTypeLogic : RwBusinessLogic
     {

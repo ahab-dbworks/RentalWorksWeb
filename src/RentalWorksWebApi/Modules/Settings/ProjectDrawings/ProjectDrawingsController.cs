@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.ProjectDrawings
+namespace WebApi.Modules.Settings.ProjectDrawings
 {
     [Route("api/v1/[controller]")]
-    public class ProjectDrawingsController : RwDataController
+    public class ProjectDrawingsController : AppDataController
     {
-        public ProjectDrawingsController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ProjectDrawingsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/projectdrawings/browse 
         [HttpPost("browse")]

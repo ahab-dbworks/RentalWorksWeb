@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Data.Settings;
-using RentalWorksWebApi.Logic;
+using WebApi.Data.Settings;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.PaymentType
+namespace WebApi.Modules.Settings.PaymentType
 {
     public class PaymentTypeLogic : RwBusinessLogic
     {

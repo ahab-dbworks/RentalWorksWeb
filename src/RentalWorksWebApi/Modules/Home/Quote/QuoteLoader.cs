@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Home.Order;
+using WebApi.Data;
+using WebApi.Modules.Home.Order;
 
-namespace RentalWorksWebApi.Modules.Home.Quote
+namespace WebApi.Modules.Home.Quote
 {
     public class QuoteLoader : OrderBaseLoader
     {

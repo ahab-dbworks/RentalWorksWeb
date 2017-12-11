@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CustomerType
+namespace WebApi.Modules.Settings.CustomerType
 {
     [Route("api/v1/[controller]")]
-    public class CustomerTypeController : RwDataController
+    public class CustomerTypeController : AppDataController
     {
-        public CustomerTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/customertype/browse
         [HttpPost("browse")]

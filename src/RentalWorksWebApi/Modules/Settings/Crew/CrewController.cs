@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.Crew
+namespace WebApi.Modules.Settings.Crew
 {
     [Route("api/v1/[controller]")]
-    public class CrewController : RwDataController
+    public class CrewController : AppDataController
     {
-        public CrewController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CrewController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/crew/browse 
         [HttpPost("browse")]

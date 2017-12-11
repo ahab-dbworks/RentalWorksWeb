@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.SpaceRate
+namespace WebApi.Modules.Settings.SpaceRate
 {
     [Route("api/v1/[controller]")]
-    public class SpaceRateController : RwDataController
+    public class SpaceRateController : AppDataController
     {
-        public SpaceRateController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public SpaceRateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/spacerate/browse 
         [HttpPost("browse")]

@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Home.CompanyTaxResale
+namespace WebApi.Modules.Home.CompanyTaxResale
 {
     [FwSqlTable("taxresaleview")]
     public class CompanyTaxResaleLoader : RwDataLoadRecord

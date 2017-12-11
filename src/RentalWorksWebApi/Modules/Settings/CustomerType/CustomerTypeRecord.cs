@@ -1,9 +1,9 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.CustomerType
+namespace WebApi.Modules.Settings.CustomerType
 {
     [FwSqlTable("custtype")]
     public class CustomerTypeRecord : RwDataReadWriteRecord

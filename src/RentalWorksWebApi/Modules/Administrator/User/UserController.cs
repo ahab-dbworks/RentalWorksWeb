@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Administrator.User
+namespace WebApi.Modules.Administrator.User
 {
     [Route("api/v1/[controller]")]
-    public class UserController : RwDataController
+    public class UserController : AppDataController
     {
-        public UserController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public UserController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/user/browse 
         [HttpPost("browse")]

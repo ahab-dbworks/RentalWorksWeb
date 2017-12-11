@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.VehicleScheduleStatus
+namespace WebApi.Modules.Settings.VehicleScheduleStatus
 {
     [FwSqlTable("vehicleschedulestatusview")]
     public class VehicleScheduleStatusLoader: RwDataLoadRecord

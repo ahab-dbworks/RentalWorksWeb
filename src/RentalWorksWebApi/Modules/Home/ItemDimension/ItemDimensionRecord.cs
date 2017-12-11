@@ -1,8 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Home.ItemDimension
+using WebApi.Data;
+namespace WebApi.Modules.Home.ItemDimension
 {
     [FwSqlTable("itemdimension")]
     public class ItemDimensionRecord : RwDataReadWriteRecord

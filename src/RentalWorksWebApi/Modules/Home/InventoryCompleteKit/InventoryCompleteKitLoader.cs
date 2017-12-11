@@ -2,9 +2,9 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data; 
+using WebApi.Data; 
 using System.Collections.Generic;
-namespace RentalWorksWebApi.Modules.Home.InventoryCompleteKit
+namespace WebApi.Modules.Home.InventoryCompleteKit
 {
     [FwSqlTable("mastercompletekitview")]
     public class InventoryCompleteKitLoader : RwDataLoadRecord

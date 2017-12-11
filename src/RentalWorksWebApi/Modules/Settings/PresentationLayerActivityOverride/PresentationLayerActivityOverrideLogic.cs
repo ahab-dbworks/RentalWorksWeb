@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.PresentationLayerActivityOverride
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
     public class PresentationLayerActivityOverrideLogic : RwBusinessLogic
     {

@@ -37,22 +37,16 @@ html.theme-classic.mobile .fwformfield[data-type="number"][data-enabled="false"]
 /*#endregion*/
 
 /*#region Date CSS*/
-html.theme-classic.desktop .fwformfield[data-type="date"] .fwformfield-control {position:relative;height:24px;line-height:24px;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
-html.theme-classic.desktop .fwformfield[data-type="date"] input.fwformfield-value {height:22px;padding:0 35px 0 3px;position:absolute;top:0;bottom:0;left:0;display:block;border:0;width:100%;box-sizing:border-box;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .add-on {box-sizing:border-box;width:32px;position:absolute;top:0;right:0;bottom:0;border-top-right-radius:3px;border-bottom-right-radius:3px;display:table-cell;vertical-align:middle;text-align:center;color: #616161;}
+html.theme-classic.desktop .fwformfield[data-type="date"] .fwformfield-control {display:flex;height:24px;line-height:24px;box-sizing:border-box;border-radius: 4px;}
+html.theme-classic.desktop .fwformfield[data-type="date"] input.fwformfield-value {height:22px;display:block;border:0;width:100%;box-sizing:border-box;}
+html.theme-classic.desktop .fwformfield[data-type="date"][data-datenav="true"] input.fwformfield-value {border-radius:0;}
+html.theme-classic.desktop .fwformfield[data-type="date"] .add-on {cursor:pointer;box-sizing:border-box;width:32px;border-top-right-radius:3px;border-bottom-right-radius:3px;color: #616161;text-align:center;}
 html.theme-classic.desktop .fwformfield[data-type="date"] .add-on i {font-size:21px;padding-top:1px;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .icon-datepicker {display:inline-block;width: 16px;height: 16px;background-image:url("../fwimages/icons/16/datepicker.001.png");background-size: 16px 16px;background-repeat: no-repeat;}
-html.theme-classic.desktop .fwformfield[data-type="date"][data-datenav="true"] .add-on {right:110px;border-top-right-radius:0;border-bottom-right-radius:0;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav {width:110px;height:22px;position:absolute;right:0;font:13px Arial;line-height:23px;background:#e9e9e9;border-top-right-radius:3px;border-bottom-right-radius:3px;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav .today {float:left;width:52px;height:22px;text-align:center;box-sizing:border-box;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav .tomorrow {float:left;height:22px;width:29px;box-sizing: border-box;border-top-right-radius:3px;border-bottom-right-radius:3px;vertical-align:middle;text-align:center;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav .tomorrow .icon-eastarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-east.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav .yesterday {float:left;height:22px;width:29px;box-sizing: border-box;vertical-align:middle;text-align:center;}
-html.theme-classic.desktop .fwformfield[data-type="date"] .date-nav .yesterday .icon-westarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-west.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
-html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="true"] .add-on {cursor:pointer;}
-html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="true"] .today {cursor:pointer;}
-html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="true"] .tomorrow {cursor:pointer;}
-html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="true"] .yesterday {cursor:pointer;}
+html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="false"] .add-on {cursor:default;}
+html.theme-classic.desktop .fwformfield[data-type="date"] .datenav {color:#616161;cursor:pointer;}
+html.theme-classic.desktop .fwformfield[data-type="date"][data-enabled="true"] .datenav:hover {background-color:#bcb4b0;}
+html.theme-classic.desktop .fwformfield[data-type="date"] .datenav i {font-size:22px;}
+html.theme-classic.desktop .fwformfield[data-type="date"] .yesterday i {transform:rotate(180deg);}
 
 html.theme-classic.mobile .fwformfield[data-type="date"] .fwformfield-control {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-direction:row;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
 html.theme-classic.mobile .fwformfield[data-type="date"] input.fwformfield-value {width:100%;height:42px;flex:1 1 0;box-sizing:border-box;padding:0 10px;border:0;border-radius:3px 0 0 3px;}
@@ -238,13 +232,7 @@ html.theme-classic .fwformfield[data-type="number"][data-enabled="true"] .fwform
 html.theme-classic .fwformfield[data-type="date"] .fwformfield-control {border:1px solid #bcbcbc;}
 html.theme-classic .fwformfield[data-type="date"] .fwformfield-value {border:none;}
 html.theme-classic .fwformfield[data-type="date"] .add-on {border-left: 1px solid #bdbdbd;background:#e9e9e9;}
-html.theme-classic .fwformfield[data-type="date"] .date-nav .today {border-left: 1px solid #bdbdbd;}
-html.theme-classic .fwformfield[data-type="date"] .date-nav .yesterday {border-left: 1px solid #bdbdbd;}
-html.theme-classic .fwformfield[data-type="date"] .date-nav .tomorrow {border-left: 1px solid #bdbdbd;}
 html.theme-classic .fwformfield[data-type="date"][data-enabled="true"] .add-on:hover {background-color:#bcb4b0;}
-html.theme-classic .fwformfield[data-type="date"][data-enabled="true"] .date-nav .today:hover {background-color:#bcb4b0;}
-html.theme-classic .fwformfield[data-type="date"][data-enabled="true"] .date-nav .yesterday:hover {background-color:#bcb4b0;}
-html.theme-classic .fwformfield[data-type="date"][data-enabled="true"] .date-nav .tomorrow:hover {background-color:#bcb4b0;}
 /*#endregion*/
 
 /*#region Classic Theme - Combobox CSS*/

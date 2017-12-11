@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.InventoryAdjustmentReason
+namespace WebApi.Modules.Settings.InventoryAdjustmentReason
 {
     [Route("api/v1/[controller]")]
-    public class InventoryAdjustmentReasonController : RwDataController
+    public class InventoryAdjustmentReasonController : AppDataController
     {
-        public InventoryAdjustmentReasonController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public InventoryAdjustmentReasonController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/inventoryadjustmentreason/browse
         [HttpPost("browse")]

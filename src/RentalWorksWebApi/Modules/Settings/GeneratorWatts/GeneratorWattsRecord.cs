@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorWatts
+namespace WebApi.Modules.Settings.GeneratorWatts
 {
     [FwSqlTable("watts")]
     public class GeneratorWattsRecord : RwDataReadWriteRecord

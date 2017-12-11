@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksWeb", "src\RentalWorksWeb\RentalWorksWeb.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\RentalWorksWeb\Web.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fw.Json", "lib\Fw\src\Fw.Json\Fw.Json.csproj", "{3BE1823F-3F08-4CA5-94BC-9C7EFD2FC64F}"
 EndProject
@@ -22,9 +22,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalWorksTest", "src\Rent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwStandard", "lib\Fw\src\FwStandard\FwStandard.csproj", "{BF70FE28-DA24-40EC-AA7E-613803411E12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebApi", "src\RentalWorksWebApi\RentalWorksWebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "src\RentalWorksWebApi\WebApi.csproj", "{8015A604-E732-481C-AB96-065C9E7E20B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksWebLibrary", "src\RentalWorksWebLibrary\RentalWorksWebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLibrary", "src\RentalWorksWebLibrary\WebLibrary.csproj", "{28FF8708-3B6C-4933-B35A-BE80C879060F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwFrontEndLibrary", "lib\Fw\src\FwFrontEndLibrary\FwFrontEndLibrary.csproj", "{2CC20C40-E79C-4BB7-8BB8-8B78B951A319}"
 EndProject
@@ -119,7 +119,6 @@ Global
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
-		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86349F96-FDF2-4D9F-B23C-3664AE189B00}.Release API|Any CPU.ActiveCfg = Release|Any CPU

@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorFuelType
+namespace WebApi.Modules.Settings.GeneratorFuelType
 {
     [Route("api/v1/[controller]")]
-    public class GeneratorFuelTypeController : RwDataController
+    public class GeneratorFuelTypeController : AppDataController
     {
-        public GeneratorFuelTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public GeneratorFuelTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/generatorfueltype/browse
         [HttpPost("browse")]

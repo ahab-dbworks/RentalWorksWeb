@@ -2,11 +2,11 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Home.Master;
+using WebApi.Data;
+using WebApi.Modules.Home.Master;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.Rate
+namespace WebApi.Modules.Settings.Rate
 {
     public abstract class RateLoader : MasterLoader
     {

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.RentalCategory
+namespace WebApi.Modules.Settings.RentalCategory
 {
     [Route("api/v1/[controller]")]
-    public class RentalCategoryController : RwDataController
+    public class RentalCategoryController : AppDataController
     {
-        public RentalCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public RentalCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/rentalcategory/browse
         [HttpPost("browse")]

@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.CrewLocation
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.CrewLocation
 {
     public class CrewLocationLogic : RwBusinessLogic
     {

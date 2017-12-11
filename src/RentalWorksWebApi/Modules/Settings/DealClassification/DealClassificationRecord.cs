@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.DealClassification
+namespace WebApi.Modules.Settings.DealClassification
 {
     [FwSqlTable("dealclassification")]
     public class DealClassificationRecord : RwDataReadWriteRecord

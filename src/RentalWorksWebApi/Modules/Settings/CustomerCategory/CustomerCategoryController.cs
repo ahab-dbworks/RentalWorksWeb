@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.CustomerCategory
+namespace WebApi.Modules.Settings.CustomerCategory
 {
     [Route("api/v1/[controller]")]
-    public class CustomerCategoryController : RwDataController
+    public class CustomerCategoryController : AppDataController
     {
-        public CustomerCategoryController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public CustomerCategoryController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/CustomerCategory/browse
         [HttpPost("browse")]

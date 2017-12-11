@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Home.OrderStatusDetail
+using WebApi.Logic;
+namespace WebApi.Modules.Home.OrderStatusDetail
 {
     public class OrderStatusDetailLogic : RwBusinessLogic
     {

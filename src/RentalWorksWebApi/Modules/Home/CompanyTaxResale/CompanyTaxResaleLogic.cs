@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Home.CompanyTaxResale
+namespace WebApi.Modules.Home.CompanyTaxResale
 {
     public class CompanyTaxResaleLogic : RwBusinessLogic
     {

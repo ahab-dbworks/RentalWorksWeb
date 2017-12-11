@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.TermsConditions
+namespace WebApi.Modules.Settings.TermsConditions
 {
     public class TermsConditionsLogic : RwBusinessLogic
     {

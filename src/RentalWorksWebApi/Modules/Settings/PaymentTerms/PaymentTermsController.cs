@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.PaymentTerms
+namespace WebApi.Modules.Settings.PaymentTerms
 {
     [Route("api/v1/[controller]")]
-    public class PaymentTermsController : RwDataController
+    public class PaymentTermsController : AppDataController
     {
-        public PaymentTermsController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public PaymentTermsController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/paymentterms/browse
         [HttpPost("browse")]

@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.GlAccount
+namespace WebApi.Modules.Settings.GlAccount
 {
     public class GlAccountLogic : RwBusinessLogic
     {

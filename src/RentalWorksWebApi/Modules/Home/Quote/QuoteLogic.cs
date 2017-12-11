@@ -1,11 +1,11 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.DealOrder;
-using RentalWorksWebApi.Modules.Home.DealOrderDetail;
-using RentalWorksWebApi.Modules.Home.Order;
+using WebApi.Logic;
+using WebApi.Modules.Home.DealOrder;
+using WebApi.Modules.Home.DealOrderDetail;
+using WebApi.Modules.Home.Order;
 
-namespace RentalWorksWebApi.Modules.Home.Quote
+namespace WebApi.Modules.Home.Quote
 {
     public class QuoteLogic : OrderBaseLogic
     {

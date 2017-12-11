@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.Source
+namespace WebApi.Modules.Settings.Source
 {
     public class SourceLogic : RwBusinessLogic
     {

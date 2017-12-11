@@ -1,8 +1,12 @@
-﻿namespace FwStandard.Models
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
+
+namespace FwStandard.Models
 {
-    public class ApplicationConfig
+    public class FwApplicationConfig
     {
         public SqlServerConfig DatabaseSettings { get; set; }
+        public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
     }
 
     public class SqlServerConfig

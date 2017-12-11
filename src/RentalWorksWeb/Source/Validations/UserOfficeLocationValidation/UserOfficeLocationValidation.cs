@@ -1,7 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 
-namespace RentalWorksWeb.Source.Validations
+namespace Web.Source.Validations
 {
     class UserOfficeLocationValidation : FwValidation
     {

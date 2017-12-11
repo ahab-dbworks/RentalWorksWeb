@@ -1,10 +1,10 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.TaxOption
+namespace WebApi.Modules.Settings.TaxOption
 {
     [FwSqlTable("taxoption")]
     public class TaxOptionRecord : RwDataReadWriteRecord

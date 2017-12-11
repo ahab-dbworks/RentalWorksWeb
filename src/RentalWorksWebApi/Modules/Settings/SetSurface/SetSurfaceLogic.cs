@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.SetSurface
+namespace WebApi.Modules.Settings.SetSurface
 {
     public class SetSurfaceLogic : RwBusinessLogic
     {

@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.RateWarehouse
+namespace WebApi.Modules.Settings.RateWarehouse
 {
     [Route("api/v1/[controller]")]
-    public class RateWarehouseController : RwDataController
+    public class RateWarehouseController : AppDataController
     {
-        public RateWarehouseController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public RateWarehouseController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/ratewarehouse/browse
         [HttpPost("browse")]

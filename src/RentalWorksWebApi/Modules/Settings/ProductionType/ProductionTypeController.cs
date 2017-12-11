@@ -1,15 +1,15 @@
 ﻿using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using RentalWorksWebApi.Controllers;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace RentalWorksWebApi.Modules.Settings.ProductionType
+namespace WebApi.Modules.Settings.ProductionType
 {
     [Route("api/v1/[controller]")]
-    public class ProductionTypeController : RwDataController
+    public class ProductionTypeController : AppDataController
     {
-        public ProductionTypeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public ProductionTypeController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
         // POST api/v1/productiontype/browse
         [HttpPost("browse")]

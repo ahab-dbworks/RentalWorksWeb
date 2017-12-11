@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
-namespace RentalWorksWebApi.Modules.Settings.DiscountItem
+using WebApi.Logic;
+namespace WebApi.Modules.Settings.DiscountItem
 {
     public class DiscountItemLogic : RwBusinessLogic
     {

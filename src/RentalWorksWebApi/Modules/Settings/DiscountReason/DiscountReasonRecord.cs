@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.DiscountReason
+namespace WebApi.Modules.Settings.DiscountReason
 {
     [FwSqlTable("invoicediscountreason")]
     public class DiscountReasonRecord : RwDataReadWriteRecord

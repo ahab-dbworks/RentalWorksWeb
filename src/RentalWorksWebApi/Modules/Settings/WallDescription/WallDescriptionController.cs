@@ -1,14 +1,14 @@
 using FwStandard.Models; 
 using Microsoft.AspNetCore.Mvc; 
 using Microsoft.Extensions.Options; 
-using RentalWorksWebApi.Controllers; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace RentalWorksWebApi.Modules.Settings.WallDescription
+namespace WebApi.Modules.Settings.WallDescription
 {
     [Route("api/v1/[controller]")]
-    public class WallDescriptionController : RwDataController
+    public class WallDescriptionController : AppDataController
     {
-        public WallDescriptionController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        public WallDescriptionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/walldescription/browse 
         [HttpPost("browse")]

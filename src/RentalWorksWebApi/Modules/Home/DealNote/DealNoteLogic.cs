@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace RentalWorksWebApi.Modules.Home.DealNote
+namespace WebApi.Modules.Home.DealNote
 {
     public class DealNoteLogic : RwBusinessLogic
     {

@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.Currency
+namespace WebApi.Modules.Settings.Currency
 {
     public class CurrencyLogic : RwBusinessLogic
     {

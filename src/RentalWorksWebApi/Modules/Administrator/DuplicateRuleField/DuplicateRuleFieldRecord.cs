@@ -3,8 +3,8 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-namespace RentalWorksWebApi.Modules.Administrator.DuplicateRuleField
+using WebApi.Data;
+namespace WebApi.Modules.Administrator.DuplicateRuleField
 {
     [FwSqlTable("duplicaterulefield")]
     public class DuplicateRuleFieldRecord : RwDataReadWriteRecord

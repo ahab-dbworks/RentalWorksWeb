@@ -2,10 +2,10 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Home.DealNote
+namespace WebApi.Modules.Home.DealNote
 {
     [FwSqlTable("dealnoteview")]
     public class DealNoteLoader : RwDataLoadRecord

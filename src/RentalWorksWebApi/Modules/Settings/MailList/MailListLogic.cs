@@ -1,8 +1,8 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Data.Settings;
-using RentalWorksWebApi.Logic;
+using WebApi.Data.Settings;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.MailList
+namespace WebApi.Modules.Settings.MailList
 {
     public class MailListLogic : RwBusinessLogic
     {

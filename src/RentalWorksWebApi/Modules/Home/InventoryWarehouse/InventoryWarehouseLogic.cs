@@ -1,13 +1,13 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
-using RentalWorksWebApi.Logic;
-using RentalWorksWebApi.Modules.Home.Master;
-using RentalWorksWebApi.Modules.Settings.InventoryCategory;
+using WebApi.Logic;
+using WebApi.Modules.Home.Master;
+using WebApi.Modules.Settings.InventoryCategory;
 using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
-using RentalWorksWebApi.Modules.Home.MasterWarehouse;
+using WebApi.Modules.Home.MasterWarehouse;
 
-namespace RentalWorksWebApi.Modules.Home.InventoryWarehouse
+namespace WebApi.Modules.Home.InventoryWarehouse
 {
     public class InventoryWarehouseLogic : MasterWarehouseLogic
     {

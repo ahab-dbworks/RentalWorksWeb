@@ -2,11 +2,11 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using RentalWorksWebApi.Data;
-using RentalWorksWebApi.Modules.Settings.OrderType;
+using WebApi.Data;
+using WebApi.Modules.Settings.OrderType;
 using System.Collections.Generic;
 
-namespace RentalWorksWebApi.Modules.Settings.EventType
+namespace WebApi.Modules.Settings.EventType
 {
     public class EventTypeLoader : OrderTypeBaseLoader
     {

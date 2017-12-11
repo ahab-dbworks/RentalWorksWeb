@@ -1,8 +1,8 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using RentalWorksWebApi.Data;
+using WebApi.Data;
 
-namespace RentalWorksWebApi.Modules.Settings.GeneratorMake
+namespace WebApi.Modules.Settings.GeneratorMake
 {
     [FwSqlTable("generatormakeview")]
     public class GeneratorMakeLoader: RwDataLoadRecord

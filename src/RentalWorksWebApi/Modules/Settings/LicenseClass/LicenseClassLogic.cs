@@ -1,7 +1,7 @@
 ﻿using FwStandard.BusinessLogic.Attributes;
-using RentalWorksWebApi.Logic;
+using WebApi.Logic;
 
-namespace RentalWorksWebApi.Modules.Settings.LicenseClass
+namespace WebApi.Modules.Settings.LicenseClass
 {
     public class LicenseClassLogic : RwBusinessLogic
     {
