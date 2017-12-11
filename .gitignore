@@ -46,3 +46,5 @@
 /src/RentalWorksWebApi/appsettings.Development.json
 
 /TestResult.xml
+
+src/RentalWorksWebApi/appsettings\.json
