@@ -157,6 +157,25 @@ class Order {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     }
 
+    renderGrids($form: any) {
+        var $orderPickListGrid: any;
+        var $orderPickListGridControl: any;
+        var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+        var pickListId = $form.find('[data-datafield="PickListId"] .fwformfield-value').val();
+
+        $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
+        $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
+        $orderPickListGrid.empty().append($orderPickListGridControl);
+        $orderPickListGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: orderId,
+                PickListId: pickListId
+            };
+        })
+        FwBrowse.init($orderPickListGridControl);
+        FwBrowse.renderRuntimeHtml($orderPickListGridControl);
+    }
+
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
@@ -164,7 +183,10 @@ class Order {
     }
 
     afterLoad($form: any) {
+        var $orderPickListGrid: any;
 
+        $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
+        FwBrowse.search($orderPickListGrid);
     }
 }
 
