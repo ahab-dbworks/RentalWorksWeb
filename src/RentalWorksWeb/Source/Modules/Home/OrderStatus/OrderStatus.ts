@@ -71,6 +71,26 @@ class OrderStatus {
                     }
                 })
                 FwBrowse.search($orderStatusSummaryGridControl);
+
+                var $orderStatusRentalDetailGridControl: any;
+                $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
+                $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OrderId: orderId,
+                        RecType: "R"
+                    }
+                })
+                FwBrowse.search($orderStatusRentalDetailGridControl);
+
+                var $orderStatusSalesDetailGridControl: any;
+                $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
+                $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                    request.uniqueids = {
+                        OrderId: orderId,
+                        RecType: "S"
+                    }
+                })
+                FwBrowse.search($orderStatusSalesDetailGridControl);
             }
             catch(ex) {
                     FwFunc.showError(ex);
@@ -91,9 +111,36 @@ class OrderStatus {
                 OrderId: orderId
             };
         })
-   
         FwBrowse.init($orderStatusSummaryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSummaryGridControl);
+
+        var $orderStatusRentalDetailGrid: any;
+        var $orderStatusRentalDetailGridControl: any;
+        $orderStatusRentalDetailGrid = $form.find('div[data-grid="OrderStatusRentalDetailGrid"]');
+        $orderStatusRentalDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusRentalDetailGridBrowse').html());
+        $orderStatusRentalDetailGrid.empty().append($orderStatusRentalDetailGridControl);
+        $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: orderId,
+                RecType: "R"
+            };
+        })
+        FwBrowse.init($orderStatusRentalDetailGridControl);
+        FwBrowse.renderRuntimeHtml($orderStatusRentalDetailGridControl);
+
+        var $orderStatusSalesDetailGrid: any;
+        var $orderStatusSalesDetailGridControl: any;
+        $orderStatusSalesDetailGrid = $form.find('div[data-grid="OrderStatusSalesDetailGrid"]');
+        $orderStatusSalesDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSalesDetailGridBrowse').html());
+        $orderStatusSalesDetailGrid.empty().append($orderStatusSalesDetailGridControl);
+        $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: orderId,
+                RecType: "S"
+            };
+        })
+        FwBrowse.init($orderStatusSalesDetailGridControl);
+        FwBrowse.renderRuntimeHtml($orderStatusSalesDetailGridControl);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -101,6 +148,16 @@ class OrderStatus {
 
         $orderStatusSummaryGrid = $form.find('[data-name="OrderStatusSummaryGrid"]');
         FwBrowse.search($orderStatusSummaryGrid);
+
+        var $orderStatusRentalDetailGrid: any;
+
+        $orderStatusRentalDetailGrid = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
+        FwBrowse.search($orderStatusRentalDetailGrid);
+
+        var $orderStatusSalesDetailGrid: any;
+
+        $orderStatusSalesDetailGrid = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
+        FwBrowse.search($orderStatusSalesDetailGrid);
 
     }
 }

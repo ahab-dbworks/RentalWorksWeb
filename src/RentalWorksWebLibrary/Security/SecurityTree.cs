@@ -349,6 +349,8 @@ namespace WebLibrary.Security
             AddGrid("Event Type Personnel Type",              "{F14FB171-801C-4CD0-A589-DF9511B501F7}", lv1menuGrids.Id, "EventTypePersonnelTypeGridController");
             AddGrid("Company Contact",                        "{12C1C7E7-FC37-4ED2-807B-FFD5D6BF73C6}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Order Status Summary",                   "{959E3D3C-B83D-4ACC-997D-A5508DE0A542}", lv1menuGrids.Id, "OrderStatusSummaryGridController");
+            AddGrid("Order Status Rental Detail",             "{5B497696-B956-453D-A2A0-755B84F8E83D}", lv1menuGrids.Id, "OrderStatusRentalDetailGridController");
+            AddGrid("Order Status Sales Detail",              "{220300EC-40A7-4374-8247-BE6BFC5CDF14}", lv1menuGrids.Id, "OrderStatusSalesDetailGridController");
         }
 
         //---------------------------------------------------------------------------------------------

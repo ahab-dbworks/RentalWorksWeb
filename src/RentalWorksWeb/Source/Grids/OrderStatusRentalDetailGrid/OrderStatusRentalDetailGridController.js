@@ -1,7 +1,7 @@
 var OrderStatusRentalDetailGrid = (function () {
     function OrderStatusRentalDetailGrid() {
         this.Module = 'OrderStatusRentalDetailGrid';
-        this.apiurl = 'api/v1/orderstatussummary';
+        this.apiurl = 'api/v1/orderstatusdetail';
     }
     return OrderStatusRentalDetailGrid;
 }());

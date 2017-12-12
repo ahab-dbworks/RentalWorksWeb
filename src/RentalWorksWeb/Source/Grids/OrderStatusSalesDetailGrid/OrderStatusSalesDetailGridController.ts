@@ -1,12 +1,12 @@
-﻿class OrderStatusRentalDetailGrid {
+﻿class OrderStatusSalesDetailGrid {
     Module: string;
     apiurl: string;
 
     constructor() {
-        this.Module = 'OrderStatusRentalDetailGrid';
+        this.Module = 'OrderStatusSalesDetailGrid';
         this.apiurl = 'api/v1/orderstatusdetail';
     }
 }
 
-(<any>window).OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
+(<any>window).OrderStatusSalesDetailGridController = new OrderStatusSalesDetailGrid();
 //----------------------------------------------------------------------------------------------
