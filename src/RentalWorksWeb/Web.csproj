@@ -184,6 +184,7 @@
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
+    <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridBrowse.htm" />
@@ -257,6 +258,7 @@
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeTermsAndConditionsGrid\OrderTypeTermsAndConditionsGridController.ts" />

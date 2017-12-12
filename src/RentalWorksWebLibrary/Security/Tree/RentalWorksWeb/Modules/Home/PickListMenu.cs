@@ -23,6 +23,8 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeForm = tree.AddForm("{7B20077B-0183-497D-A318-A06958EC321C}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{57C9AEB0-3665-49A1-9C16-5A4D21DDF672}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{7ED7A3E8-F825-44AB-B892-76A6DBA253EB}", nodeFormMenuBar.Id);
+            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{4F196091-36A4-4AA9-BDB8-3689F01C08B3}", nodeFormSubMenu.Id);
+            tree.AddSubMenuItem("Print Pick List", "{069BBE73-5B14-4F3E-A594-8699676D9B8E}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{8366DB71-62CB-456A-B188-5799A17E591D}", nodeFormMenuBar.Id);
         }
 

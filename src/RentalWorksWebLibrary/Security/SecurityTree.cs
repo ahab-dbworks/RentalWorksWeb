@@ -352,6 +352,7 @@ namespace WebLibrary.Security
             AddGrid("Order Status Summary",                   "{959E3D3C-B83D-4ACC-997D-A5508DE0A542}", lv1menuGrids.Id, "OrderStatusSummaryGridController");
             AddGrid("Order Status Rental Detail",             "{5B497696-B956-453D-A2A0-755B84F8E83D}", lv1menuGrids.Id, "OrderStatusRentalDetailGridController");
             AddGrid("Order Status Sales Detail",              "{220300EC-40A7-4374-8247-BE6BFC5CDF14}", lv1menuGrids.Id, "OrderStatusSalesDetailGridController");
+            AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
         }
 
         //---------------------------------------------------------------------------------------------

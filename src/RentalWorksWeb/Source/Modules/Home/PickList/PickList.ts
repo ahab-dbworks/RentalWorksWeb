@@ -66,22 +66,22 @@ class PickList {
     }
 
     renderGrids($form: JQuery) {
-        //var $itemQcGrid: JQuery = $form.find('div[data-grid="' + this.nameItemQcGrid + '"]');
-        //var $itemQcGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemQcGrid + 'Browse').html());
-        //$itemQcGrid.empty().append($itemQcGridControl);
-        //$itemQcGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        ItemId: FwFormField.getValueByDataField($form, 'ItemId')
-        //    };
-        //})
-        //FwBrowse.init($itemQcGridControl);
-        //FwBrowse.renderRuntimeHtml($itemQcGridControl);
+        var $pickListItemGrid: JQuery = $form.find('div[data-grid="PickListItemGrid"]');
+        var $pickListItemGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
+        $pickListItemGrid.empty().append($pickListItemGridControl);
+        $pickListItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PickListId: FwFormField.getValueByDataField($form, 'PickListId')
+            };
+        })
+        FwBrowse.init($pickListItemGridControl);
+        FwBrowse.renderRuntimeHtml($pickListItemGridControl);
     
     }
 
     afterLoad($form: JQuery) {
-        //var $itemAttributeValueGrid: JQuery = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
-        //FwBrowse.search($itemAttributeValueGrid);
+        var $pickListItemGrid: JQuery = $form.find('[data-name="' + "PickListItemGrid" + '"]');
+        FwBrowse.search($pickListItemGrid);
     }
 }
 
