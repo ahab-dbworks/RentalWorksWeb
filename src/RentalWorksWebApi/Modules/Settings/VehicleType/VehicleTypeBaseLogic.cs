@@ -3,12 +3,11 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Settings.Category;
-using System;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.VehicleType
 {
-    public abstract class VehicleTypeBaseLogic: RwBusinessLogic
+    public abstract class VehicleTypeBaseLogic: AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         protected CategoryRecord inventoryCategory = new CategoryRecord();

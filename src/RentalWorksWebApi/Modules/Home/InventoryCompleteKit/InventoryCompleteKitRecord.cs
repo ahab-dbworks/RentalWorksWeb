@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryCompleteKit
 {
     [FwSqlTable("packageitem")]
-    public class InventoryCompleteKitRecord : RwDataReadWriteRecord
+    public class InventoryCompleteKitRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Customer
 {
     [FwSqlTable("customerview")]
-    public class CustomerLoader: RwDataLoadRecord
+    public class CustomerLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

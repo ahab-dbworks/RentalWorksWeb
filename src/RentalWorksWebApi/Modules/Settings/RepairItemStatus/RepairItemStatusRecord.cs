@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.RepairItemStatus
 {
     [FwSqlTable("repairitemstatus")]
-    public class RepairItemStatusRecord : RwDataReadWriteRecord
+    public class RepairItemStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "repairitemstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

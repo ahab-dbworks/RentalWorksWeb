@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Warehouse
 {
-    public class WarehouseLogic : RwBusinessLogic
+    public class WarehouseLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         WarehouseRecord warehouse = new WarehouseRecord();

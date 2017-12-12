@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.VehicleMake
 {
-    public class VehicleMakeLogic : RwBusinessLogic
+    public class VehicleMakeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VehicleMakeRecord vehicleMake = new VehicleMakeRecord();

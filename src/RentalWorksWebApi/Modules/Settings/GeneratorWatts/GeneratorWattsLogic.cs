@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.GeneratorWatts
 {
-    public class GeneratorWattsLogic : RwBusinessLogic
+    public class GeneratorWattsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         GeneratorWattsRecord generatorWatts = new GeneratorWattsRecord();

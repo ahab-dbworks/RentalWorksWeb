@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryCompatible
 {
-    public class InventoryCompatibleLogic : RwBusinessLogic
+    public class InventoryCompatibleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryCompatibleRecord inventoryCompatible = new InventoryCompatibleRecord();

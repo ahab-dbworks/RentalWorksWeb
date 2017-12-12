@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.SubCategory
 {
     [FwSqlTable("subcategoryview")]
-    public class SubCategoryLoader: RwDataLoadRecord
+    public class SubCategoryLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

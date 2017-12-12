@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Category
 {
-    public abstract class CategoryLogic : RwBusinessLogic
+    public abstract class CategoryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         protected CategoryRecord inventoryCategory = new CategoryRecord();

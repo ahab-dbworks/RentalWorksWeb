@@ -6,7 +6,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.OrderType
 {
-    public class OrderTypeLogic : RwBusinessLogic
+    public class OrderTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeRecord orderType = new OrderTypeRecord();

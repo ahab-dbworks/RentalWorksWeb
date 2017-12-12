@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryColor
 {
-    public class InventoryColorLogic : RwBusinessLogic
+    public class InventoryColorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryColorRecord inventoryColor = new InventoryColorRecord();

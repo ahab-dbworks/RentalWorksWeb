@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
     [FwSqlTable("ordertypecontacttitleview")]
-    public class OrderTypeContactTitleLoader : RwDataLoadRecord
+    public class OrderTypeContactTitleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypecontacttitleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

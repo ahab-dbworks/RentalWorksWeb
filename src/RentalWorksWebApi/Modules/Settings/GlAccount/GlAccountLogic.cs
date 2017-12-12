@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.GlAccount
 {
-    public class GlAccountLogic : RwBusinessLogic
+    public class GlAccountLogic : AppBusinessLogic
     {
         GlAccountRecord glAccount = new GlAccountRecord();
         //------------------------------------------------------------------------------------

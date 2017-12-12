@@ -6,7 +6,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Contact
 {
-    public class ContactLogic : RwBusinessLogic
+    public class ContactLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ContactRecord contact = new ContactRecord();

@@ -8,7 +8,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.Crew
 {
-    public class CrewLogic : RwBusinessLogic //ContactLogic
+    public class CrewLogic : AppBusinessLogic //ContactLogic
     {
         //------------------------------------------------------------------------------------ 
         ContactRecord crew = new ContactRecord();

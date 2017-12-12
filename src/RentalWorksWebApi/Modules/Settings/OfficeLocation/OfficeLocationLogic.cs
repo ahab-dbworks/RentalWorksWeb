@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OfficeLocation
 {
-    public class OfficeLocationLogic : RwBusinessLogic
+    public class OfficeLocationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         OfficeLocationRecord location = new OfficeLocationRecord();

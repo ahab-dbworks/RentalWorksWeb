@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.ScheduleStatus;
 
 namespace WebApi.Modules.Settings.FacilityScheduleStatus
 {
-    public class FacilityScheduleStatusLogic : RwBusinessLogic
+    public class FacilityScheduleStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ScheduleStatusRecord scheduleStatus = new ScheduleStatusRecord();

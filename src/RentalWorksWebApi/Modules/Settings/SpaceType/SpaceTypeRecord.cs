@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SpaceType
 {
     [FwSqlTable("spacetype")]
-    public class SpaceTypeRecord : RwDataReadWriteRecord
+    public class SpaceTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacetypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

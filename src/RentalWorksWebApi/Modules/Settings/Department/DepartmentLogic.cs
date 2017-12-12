@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Department
 {
-    public class DepartmentLogic : RwBusinessLogic
+    public class DepartmentLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DepartmentRecord department = new DepartmentRecord();

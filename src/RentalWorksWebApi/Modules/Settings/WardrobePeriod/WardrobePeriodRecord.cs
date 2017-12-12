@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WardrobePeriod
 {
     [FwSqlTable("period")]
-    public class WardrobePeriodRecord : RwDataReadWriteRecord
+    public class WardrobePeriodRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "periodid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

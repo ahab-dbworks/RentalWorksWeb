@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.DealShipper
 {
-    public class DealShipperLogic : RwBusinessLogic
+    public class DealShipperLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DealShipperRecord dealShipper = new DealShipperRecord();

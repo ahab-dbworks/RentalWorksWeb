@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectDropShipItems
 {
-    public class ProjectDropShipItemsLogic : RwBusinessLogic
+    public class ProjectDropShipItemsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectDropShipItemsRecord projectDropShipItems = new ProjectDropShipItemsRecord();

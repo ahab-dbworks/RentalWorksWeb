@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WardrobeColor
 {
     [FwSqlTable("wardrobecolorview")]
-    public class WardrobeColorLoader: RwDataLoadRecord
+    public class WardrobeColorLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "colorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

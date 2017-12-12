@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.InventoryRank
 {
-    public class InventoryRankLogic : RwBusinessLogic
+    public class InventoryRankLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryRankRecord inventoryRank = new InventoryRankRecord();

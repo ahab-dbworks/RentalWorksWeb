@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryCompatible
 {
     [FwSqlTable("mastercompatibleview")]
-    public class InventoryCompatibleLoader : RwDataLoadRecord
+    public class InventoryCompatibleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastercompatibleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

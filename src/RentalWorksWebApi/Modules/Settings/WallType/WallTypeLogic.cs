@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WallType
 {
-    public class WallTypeLogic : RwBusinessLogic
+    public class WallTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         WallTypeRecord wallType = new WallTypeRecord();

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Country
 {
-    public class CountryLogic : RwBusinessLogic
+    public class CountryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CountryRecord country = new CountryRecord();

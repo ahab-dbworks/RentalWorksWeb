@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.ResourceStatus;
 
 namespace WebApi.Modules.Settings.UserStatus
 {
-    public class UserStatusLogic : RwBusinessLogic
+    public class UserStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ResourceStatusRecord resourceStatus = new ResourceStatusRecord();

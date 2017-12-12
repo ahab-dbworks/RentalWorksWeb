@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.TaxOption
 {
     [FwSqlTable("taxoption")]
-    public class TaxOptionRecord : RwDataReadWriteRecord
+    public class TaxOptionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

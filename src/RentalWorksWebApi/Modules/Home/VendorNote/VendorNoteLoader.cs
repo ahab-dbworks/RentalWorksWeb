@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.VendorNote
 {
     [FwSqlTable("vendnoteview")]
-    public class VendorNoteLoader : RwDataReadWriteRecord
+    public class VendorNoteLoader : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.CompanyContact
 {
     [FwSqlTable("compcontactview")]
-    public class CompanyContactLoader : RwDataLoadRecord
+    public class CompanyContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.DocumentType
 {
     [FwSqlTable("documenttype")]
-    public class DocumentTypeRecord : RwDataReadWriteRecord
+    public class DocumentTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "documenttypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

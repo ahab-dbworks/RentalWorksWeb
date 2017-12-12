@@ -4,7 +4,7 @@ using WebApi.Modules.Home.MasterItem;
 
 namespace WebApi.Modules.Home.InventoryContainerItem
 {
-    public class InventoryContainerItemLogic : RwBusinessLogic
+    public class InventoryContainerItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         MasterItemRecord masterItem = new MasterItemRecord();

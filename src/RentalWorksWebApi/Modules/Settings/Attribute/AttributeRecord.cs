@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Attribute
 {
     [FwSqlTable("attribute")]
-    public class AttributeRecord : RwDataReadWriteRecord
+    public class AttributeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "attributeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

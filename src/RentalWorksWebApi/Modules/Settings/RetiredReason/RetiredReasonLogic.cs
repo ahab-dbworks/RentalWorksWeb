@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.RetiredReason
 {
-    public class RetiredReasonLogic : RwBusinessLogic
+    public class RetiredReasonLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         RetiredReasonRecord retiredReason = new RetiredReasonRecord();

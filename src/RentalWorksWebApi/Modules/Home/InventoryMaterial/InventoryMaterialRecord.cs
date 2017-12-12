@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryMaterial
 {
     [FwSqlTable("mastermaterial")]
-    public class InventoryMaterialRecord : RwDataReadWriteRecord
+    public class InventoryMaterialRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastermaterialid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

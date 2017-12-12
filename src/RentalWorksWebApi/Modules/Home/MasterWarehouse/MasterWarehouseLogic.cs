@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.MasterWarehouse
 {
-    public abstract class MasterWarehouseLogic : RwBusinessLogic
+    public abstract class MasterWarehouseLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         protected MasterWarehouseRecord masterWarehouse = new MasterWarehouseRecord();

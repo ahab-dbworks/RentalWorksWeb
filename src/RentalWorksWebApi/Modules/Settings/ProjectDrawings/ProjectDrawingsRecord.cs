@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectDrawings
 {
     [FwSqlTable("drawing")]
-    public class ProjectDrawingsRecord : RwDataReadWriteRecord
+    public class ProjectDrawingsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "drawingid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

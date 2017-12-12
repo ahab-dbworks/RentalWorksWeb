@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.LaborType
 {
     [FwSqlTable("inventorydepartment")]
-    public class LaborTypeLoader: RwDataLoadRecord
+    public class LaborTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

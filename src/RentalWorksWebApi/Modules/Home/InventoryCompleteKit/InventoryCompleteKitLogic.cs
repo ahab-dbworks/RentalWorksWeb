@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryCompleteKit
 {
-    public class InventoryCompleteKitLogic : RwBusinessLogic
+    public class InventoryCompleteKitLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryCompleteKitRecord inventoryCompleteKit = new InventoryCompleteKitRecord();

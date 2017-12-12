@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.Control
 {
-    public class ControlLogic : RwBusinessLogic
+    public class ControlLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ControlRecord control = new ControlRecord();

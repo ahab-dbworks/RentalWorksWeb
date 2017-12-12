@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PoApprovalStatus
 {
     [FwSqlTable("poapprovalstatus")]
-    public class PoApprovalStatusRecord : RwDataReadWriteRecord
+    public class PoApprovalStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

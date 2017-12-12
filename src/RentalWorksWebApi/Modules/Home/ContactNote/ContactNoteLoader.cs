@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.ContactNote
 {
     [FwSqlTable("contactnoteview")]
-    public class ContactNoteLoader : RwDataLoadRecord
+    public class ContactNoteLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

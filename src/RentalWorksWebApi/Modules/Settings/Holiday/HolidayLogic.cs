@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.Holiday
 {
-    public class HolidayLogic : RwBusinessLogic
+    public class HolidayLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         HolidayRecord holiday = new HolidayRecord();

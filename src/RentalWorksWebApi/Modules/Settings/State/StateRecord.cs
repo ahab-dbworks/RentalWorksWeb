@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.State
 {
     [FwSqlTable("state")]
-    public class StateRecord : RwDataReadWriteRecord
+    public class StateRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "stateid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

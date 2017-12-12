@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderTypeDateType
 {
     [FwSqlTable("ordertypedatetypeview")]
-    public class OrderTypeDateTypeLoader : RwDataLoadRecord
+    public class OrderTypeDateTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypedatetypeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

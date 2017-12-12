@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.Building
 {
-    public class BuildingLogic : RwBusinessLogic
+    public class BuildingLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         BuildingRecord building = new BuildingRecord();

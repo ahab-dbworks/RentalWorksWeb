@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ShipVia
 {
-    public class ShipViaLogic : RwBusinessLogic
+    public class ShipViaLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ShipViaRecord shipVia = new ShipViaRecord();

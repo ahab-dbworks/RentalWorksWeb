@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
     [FwSqlTable("sapvendorinvoicestatusview")]
-    public class SapVendorInvoiceStatusLoader : RwDataLoadRecord
+    public class SapVendorInvoiceStatusLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sapvendorinvoicestatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

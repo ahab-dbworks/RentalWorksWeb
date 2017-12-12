@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.VehicleModel
 {
     [FwSqlTable("vehiclemodelview")]
-    public class VehicleModelLoader : RwDataLoadRecord
+    public class VehicleModelLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemodelid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

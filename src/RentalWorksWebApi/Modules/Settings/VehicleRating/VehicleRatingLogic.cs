@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.VehicleRating
 {
-    public class VehicleRatingLogic : RwBusinessLogic
+    public class VehicleRatingLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VehicleRatingRecord vehicleRating = new VehicleRatingRecord();

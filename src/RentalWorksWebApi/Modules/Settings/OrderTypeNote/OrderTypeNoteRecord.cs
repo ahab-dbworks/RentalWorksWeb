@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Settings.OrderTypeNote
 {
     [FwSqlTable("ordertypenotes")]
-    public class OrderTypeNoteRecord : RwDataReadWriteRecord
+    public class OrderTypeNoteRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypenotesid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

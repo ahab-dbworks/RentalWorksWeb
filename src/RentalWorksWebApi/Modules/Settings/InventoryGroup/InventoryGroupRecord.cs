@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryGroup
 {
     [FwSqlTable("inventorygroup")]
-    public class InventoryGroupRecord : RwDataReadWriteRecord
+    public class InventoryGroupRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorygroupid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.CompanyTaxOption
 {
     [FwSqlTable("deallocation")]
-    public class DealLocationRecord : RwDataReadWriteRecord
+    public class DealLocationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]

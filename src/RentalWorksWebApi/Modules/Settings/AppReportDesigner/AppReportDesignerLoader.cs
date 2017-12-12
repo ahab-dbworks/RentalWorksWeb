@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
 [FwSqlTable("appreportdesignerview")] 
-public class AppReportDesignerLoader: RwDataLoadRecord 
+public class AppReportDesignerLoader: AppDataLoadRecord 
 { 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text, isPrimaryKey: true)] 

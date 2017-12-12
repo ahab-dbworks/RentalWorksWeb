@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.ItemAttributeValue
 {
     [FwSqlTable("itemattributeview")]
-    public class ItemAttributeValueLoader : RwDataLoadRecord
+    public class ItemAttributeValueLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

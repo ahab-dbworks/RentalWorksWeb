@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.DiscountItem
 {
-    public class DiscountItemLogic : RwBusinessLogic
+    public class DiscountItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DiscountItemRecord discountItem = new DiscountItemRecord();

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.PickList
 {
-    public class PickListLogic : RwBusinessLogic
+    public class PickListLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PickListRecord pickList = new PickListRecord();

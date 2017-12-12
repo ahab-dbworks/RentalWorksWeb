@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.GlAccount
 {
     [FwSqlTable("glaccount")]
-    public class GlAccountRecord : RwDataReadWriteRecord
+    public class GlAccountRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "glaccountid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryType
 {
     [FwSqlTable("inventorydepartment")]
-    public class InventoryTypeRecord : RwDataReadWriteRecord
+    public class InventoryTypeRecord : AppDataReadWriteRecord
     {
 
         /* TODO:

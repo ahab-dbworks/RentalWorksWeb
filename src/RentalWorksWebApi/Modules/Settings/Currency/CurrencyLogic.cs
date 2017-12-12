@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Currency
 {
-    public class CurrencyLogic : RwBusinessLogic
+    public class CurrencyLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CurrencyRecord currency = new CurrencyRecord();

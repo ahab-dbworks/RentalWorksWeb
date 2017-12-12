@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.Deal
 {
-    public class DealLogic : RwBusinessLogic
+    public class DealLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DealRecord deal = new DealRecord();

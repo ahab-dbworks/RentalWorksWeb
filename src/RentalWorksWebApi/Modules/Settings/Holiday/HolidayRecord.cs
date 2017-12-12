@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Holiday
 {
     [FwSqlTable("holidaydefinition")]
-    public class HolidayRecord : RwDataReadWriteRecord
+    public class HolidayRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "holidayid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

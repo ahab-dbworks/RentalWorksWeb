@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectCommissioning
 {
-    public class ProjectCommissioningLogic : RwBusinessLogic
+    public class ProjectCommissioningLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectCommissioningRecord projectCommissioning = new ProjectCommissioningRecord();

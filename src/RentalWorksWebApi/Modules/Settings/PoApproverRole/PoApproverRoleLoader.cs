@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PoApproverRole
 {
     [FwSqlTable("poapproverroleview")]
-    public class PoApproverRoleLoader : RwDataLoadRecord
+    public class PoApproverRoleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poapproverroleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

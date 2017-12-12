@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DealStatus
 {
-    public class DealStatusLogic : RwBusinessLogic
+    public class DealStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DealStatusRecord dealStatus = new DealStatusRecord();

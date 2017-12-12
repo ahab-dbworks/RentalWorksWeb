@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.CoverLetter
 {
-    public class CoverLetterLogic : RwBusinessLogic
+    public class CoverLetterLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CoverLetterRecord coverLetter = new CoverLetterRecord();

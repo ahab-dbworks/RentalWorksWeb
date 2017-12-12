@@ -4,7 +4,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PoRejectReason
 {
     [FwSqlTable("porejectreason")]
-    public class PoRejectReasonRecord : RwDataReadWriteRecord
+    public class PoRejectReasonRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "porejectreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

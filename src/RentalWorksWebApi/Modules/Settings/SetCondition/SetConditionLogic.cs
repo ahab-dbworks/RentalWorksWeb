@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.InventoryCondition;
 
 namespace WebApi.Modules.Settings.SetCondition
 {
-    public class SetConditionLogic : RwBusinessLogic
+    public class SetConditionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryConditionRecord setCondition = new InventoryConditionRecord();

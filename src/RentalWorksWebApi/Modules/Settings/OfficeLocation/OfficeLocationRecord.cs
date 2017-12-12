@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OfficeLocation
 {
     [FwSqlTable("location")]
-    public class OfficeLocationRecord : RwDataReadWriteRecord
+    public class OfficeLocationRecord : AppDataReadWriteRecord
     {
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string LocationId { get; set; } = "";

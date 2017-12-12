@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.TaxOption
 {
     [FwSqlTable("taxoptionview")]
-    public class TaxOptionLoader : RwDataLoadRecord
+    public class TaxOptionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

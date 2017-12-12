@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.GeneratorModel
 {
     [FwSqlTable("generatormodelview")]
-    public class GeneratorModelLoader : RwDataLoadRecord
+    public class GeneratorModelLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemodelid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

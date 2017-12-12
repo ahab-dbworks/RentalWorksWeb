@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.BillPeriod;
 
 namespace WebApi.Modules.Settings.BillingCycle
 {
-    public class BillingCycleLogic : RwBusinessLogic
+    public class BillingCycleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         BillPeriodRecord billPeriod = new BillPeriodRecord();

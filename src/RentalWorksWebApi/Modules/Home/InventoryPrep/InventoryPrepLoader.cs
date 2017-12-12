@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryPrep
 {
     [FwSqlTable("masterprepview")]
-    public class InventoryPrepLoader : RwDataLoadRecord
+    public class InventoryPrepLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterprepid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

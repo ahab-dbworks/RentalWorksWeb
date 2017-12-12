@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Unit
 {
-    public class UnitLogic : RwBusinessLogic
+    public class UnitLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         UnitRecord unit = new UnitRecord();

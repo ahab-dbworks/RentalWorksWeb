@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VehicleRating
 {
     [FwSqlTable("vehiclerating")]
-    public class VehicleRatingRecord : RwDataReadWriteRecord
+    public class VehicleRatingRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicleratingid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

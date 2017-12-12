@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.MasterItem
 {
     [FwSqlTable("masteritem")]
-    public class MasterItemRecord : RwDataReadWriteRecord
+    public class MasterItemRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

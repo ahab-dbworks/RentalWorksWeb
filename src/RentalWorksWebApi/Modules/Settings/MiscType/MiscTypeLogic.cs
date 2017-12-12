@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.InventoryType;
 
 namespace WebApi.Modules.Settings.MiscType
 {
-    public class MiscTypeLogic : RwBusinessLogic
+    public class MiscTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryTypeRecord inventoryType = new InventoryTypeRecord();

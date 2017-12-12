@@ -5,7 +5,7 @@ using System;
 namespace WebApi.Data.Settings
 {
     [FwSqlTable("shipvia")]
-    public class ShipViaRecord : RwDataReadWriteRecord
+    public class ShipViaRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "shipviaid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

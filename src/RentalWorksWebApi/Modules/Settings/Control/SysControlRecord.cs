@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Control
 {
     [FwSqlTable("syscontrol")]
-    public class SysControlRecord : RwDataReadWriteRecord
+    public class SysControlRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

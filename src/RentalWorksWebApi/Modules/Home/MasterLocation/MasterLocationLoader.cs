@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.MasterLocation
 {
     [FwSqlTable("masterlocationview")]
-    public abstract class MasterLocationLoader : RwDataLoadRecord
+    public abstract class MasterLocationLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]

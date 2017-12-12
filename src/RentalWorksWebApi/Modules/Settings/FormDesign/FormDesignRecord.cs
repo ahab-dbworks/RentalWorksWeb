@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.FormDesign
 {
     [FwSqlTable("formdesign")]
-    public class FormDesignRecord : RwDataReadWriteRecord
+    public class FormDesignRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "formdesignid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

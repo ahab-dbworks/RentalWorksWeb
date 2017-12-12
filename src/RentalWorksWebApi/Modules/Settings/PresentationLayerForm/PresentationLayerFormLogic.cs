@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PresentationLayerForm
 {
-    public class PresentationLayerFormLogic : RwBusinessLogic
+    public class PresentationLayerFormLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PresentationLayerFormRecord presentationLayerForm = new PresentationLayerFormRecord();

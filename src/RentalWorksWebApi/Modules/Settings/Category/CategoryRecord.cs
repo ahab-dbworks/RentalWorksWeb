@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Category
 {
     [FwSqlTable("category")]
-    public class CategoryRecord : RwDataReadWriteRecord
+    public class CategoryRecord : AppDataReadWriteRecord
     {
         /*
         TODO:

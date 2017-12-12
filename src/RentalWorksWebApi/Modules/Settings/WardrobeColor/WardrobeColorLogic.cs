@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.Color;
 
 namespace WebApi.Modules.Settings.WardrobeColor
 {
-    public class WardrobeColorLogic : RwBusinessLogic
+    public class WardrobeColorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ColorRecord wardrobeColor = new ColorRecord();

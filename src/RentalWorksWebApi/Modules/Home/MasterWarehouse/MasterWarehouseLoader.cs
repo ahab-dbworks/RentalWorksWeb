@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
-    public abstract class MasterWarehouseLoader : RwDataLoadRecord
+    public abstract class MasterWarehouseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]

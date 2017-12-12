@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectCommissioning
 {
     [FwSqlTable("commissioning")]
-    public class ProjectCommissioningRecord : RwDataReadWriteRecord
+    public class ProjectCommissioningRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "commissioningid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

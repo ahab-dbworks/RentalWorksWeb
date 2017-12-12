@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.SubCategory
 {
-    public class SubCategoryLogic : RwBusinessLogic
+    public class SubCategoryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         SubCategoryRecord subCategory = new SubCategoryRecord();

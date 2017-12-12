@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PresentationLayer
 {
-    public class PresentationLayerLogic : RwBusinessLogic
+    public class PresentationLayerLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PresentationLayerRecord presentationLayer = new PresentationLayerRecord();

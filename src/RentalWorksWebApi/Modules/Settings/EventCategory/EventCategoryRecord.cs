@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.EventCategory
 {
     [FwSqlTable("eventcategory")]
-    public class EventCategoryRecord : RwDataReadWriteRecord
+    public class EventCategoryRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "eventcategoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

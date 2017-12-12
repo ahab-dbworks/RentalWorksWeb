@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.DuplicateRuleField
 {
-    public class DuplicateRuleFieldLogic : RwBusinessLogic
+    public class DuplicateRuleFieldLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DuplicateRuleFieldRecord duplicateRuleField = new DuplicateRuleFieldRecord();

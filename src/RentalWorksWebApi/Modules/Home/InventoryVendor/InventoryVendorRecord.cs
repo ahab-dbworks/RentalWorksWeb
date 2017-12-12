@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryVendor
 {
     [FwSqlTable("mastervendor")]
-    public class InventoryVendorRecord : RwDataReadWriteRecord
+    public class InventoryVendorRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastervendorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

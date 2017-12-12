@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.Floor
 {
     [FwSqlTable("floorview")]
-    public class FloorLoader : RwDataLoadRecord
+    public class FloorLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "floorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

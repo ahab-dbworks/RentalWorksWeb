@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectAsBuild
 {
-    public class ProjectAsBuildLogic : RwBusinessLogic
+    public class ProjectAsBuildLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectAsBuildRecord projectAsBuild = new ProjectAsBuildRecord();

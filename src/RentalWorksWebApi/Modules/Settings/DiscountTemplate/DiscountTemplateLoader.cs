@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.DiscountTemplate
 {
     [FwSqlTable("discounttemplateview")]
-    public class DiscountTemplateLoader : RwDataLoadRecord
+    public class DiscountTemplateLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

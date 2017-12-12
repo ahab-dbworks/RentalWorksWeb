@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.InventoryType;
 
 namespace WebApi.Modules.Settings.LaborType
 {
-    public class LaborTypeLogic : RwBusinessLogic
+    public class LaborTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryTypeRecord inventoryType = new InventoryTypeRecord();

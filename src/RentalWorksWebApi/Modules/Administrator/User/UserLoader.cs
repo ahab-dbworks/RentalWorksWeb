@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("webusersview")]
-    public class UserLoader : RwDataLoadRecord
+    public class UserLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

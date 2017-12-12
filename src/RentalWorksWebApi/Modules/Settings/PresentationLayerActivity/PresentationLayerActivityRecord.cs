@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PresentationLayerActivity
 {
     [FwSqlTable("presentationlayeractivity")]
-    public class PresentationLayerActivityRecord : RwDataReadWriteRecord
+    public class PresentationLayerActivityRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayeractivityid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

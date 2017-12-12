@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.WardrobePattern
 {
-    public class WardrobePatternLogic : RwBusinessLogic
+    public class WardrobePatternLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         WardrobePatternRecord wardrobePattern = new WardrobePatternRecord();

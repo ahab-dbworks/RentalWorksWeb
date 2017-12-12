@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.PickList
 {
     [FwSqlTable("picklistview")]
-    public class PickListLoader : RwDataLoadRecord
+    public class PickListLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

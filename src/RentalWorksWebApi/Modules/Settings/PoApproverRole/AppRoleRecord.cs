@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.AppRole
 {
     [FwSqlTable("approle")]
-    public class AppRoleRecord : RwDataReadWriteRecord
+    public class AppRoleRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "approleid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

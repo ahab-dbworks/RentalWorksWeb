@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VehicleColor
 {
     [FwSqlTable("vehiclecolorview")]
-    public class VehicleColorLoader: RwDataLoadRecord
+    public class VehicleColorLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "colorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

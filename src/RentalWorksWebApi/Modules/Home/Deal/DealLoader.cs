@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.Deal
 {
     [FwSqlTable("dealview")]
-    public class DealLoader : RwDataLoadRecord
+    public class DealLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

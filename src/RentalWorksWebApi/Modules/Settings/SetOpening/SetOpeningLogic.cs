@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.SetOpening
 {
-    public class SetOpeningLogic : RwBusinessLogic
+    public class SetOpeningLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         SetOpeningRecord setOpening = new SetOpeningRecord();

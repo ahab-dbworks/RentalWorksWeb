@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapprover")]
-    public class VendorInvoiceApproverRecord : RwDataReadWriteRecord
+    public class VendorInvoiceApproverRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorinvoiceapproverid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

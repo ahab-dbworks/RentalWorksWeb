@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.DealClassification
 {
     [FwSqlTable("dealclassification")]
-    public class DealClassificationRecord : RwDataReadWriteRecord
+    public class DealClassificationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

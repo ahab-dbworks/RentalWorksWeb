@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.VehicleMake;
 
 namespace WebApi.Modules.Settings.GeneratorMake
 {
-    public class GeneratorMakeLogic : RwBusinessLogic
+    public class GeneratorMakeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VehicleMakeRecord generatorMake = new VehicleMakeRecord();

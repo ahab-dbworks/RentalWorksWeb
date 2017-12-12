@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Administrator.Group
 {
     [FwSqlTable("groups")]
-    public class GroupRecord : RwDataReadWriteRecord
+    public class GroupRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

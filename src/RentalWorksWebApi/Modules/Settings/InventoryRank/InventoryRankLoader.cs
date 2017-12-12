@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.InventoryRank
 {
     [FwSqlTable("rankview")]
-    public class InventoryRankLoader : RwDataLoadRecord
+    public class InventoryRankLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rankid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

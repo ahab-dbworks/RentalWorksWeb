@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SetSurface
 {
     [FwSqlTable("surface")]
-    public class SetSurfaceRecord : RwDataReadWriteRecord
+    public class SetSurfaceRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "surfaceid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

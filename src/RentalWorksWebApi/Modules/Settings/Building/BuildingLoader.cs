@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.Building
 {
     [FwSqlTable("buildingview")]
-    public class BuildingLoader : RwDataLoadRecord
+    public class BuildingLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "buildingid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

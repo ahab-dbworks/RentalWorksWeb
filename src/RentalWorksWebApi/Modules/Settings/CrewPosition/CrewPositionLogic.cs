@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.CrewPosition
 {
-    public class CrewPositionLogic : RwBusinessLogic
+    public class CrewPositionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         CrewPositionRecord crewPosition = new CrewPositionRecord();

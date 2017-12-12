@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
-    public class VendorInvoiceApproverLogic : RwBusinessLogic
+    public class VendorInvoiceApproverLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         VendorInvoiceApproverRecord vendorInvoiceApprover = new VendorInvoiceApproverRecord();

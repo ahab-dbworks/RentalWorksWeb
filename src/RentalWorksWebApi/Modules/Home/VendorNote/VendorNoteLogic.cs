@@ -4,7 +4,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.VendorNote
 {
-    public class VendorNoteLogic : RwBusinessLogic
+    public class VendorNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VendorNoteRecord vendorNoteRecord = new VendorNoteRecord();

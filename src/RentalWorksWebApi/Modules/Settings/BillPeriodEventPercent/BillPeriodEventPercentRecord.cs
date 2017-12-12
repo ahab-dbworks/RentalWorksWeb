@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.BillPeriodEventPercent
 {
     [FwSqlTable("billperiodeventpercent")]
-    public class BillPeriodEventPercentRecord : RwDataReadWriteRecord
+    public class BillPeriodEventPercentRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]

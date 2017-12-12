@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.SetSurface
 {
-    public class SetSurfaceLogic : RwBusinessLogic
+    public class SetSurfaceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         SetSurfaceRecord setSurface = new SetSurfaceRecord();

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.DiscountReason
 {
     [FwSqlTable("invoicediscountreason")]
-    public class DiscountReasonRecord : RwDataReadWriteRecord
+    public class DiscountReasonRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoicediscountreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

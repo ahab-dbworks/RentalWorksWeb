@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.TermsConditions
 {
-    public class TermsConditionsLogic : RwBusinessLogic
+    public class TermsConditionsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         TermsConditionsRecord termsConditions = new TermsConditionsRecord();

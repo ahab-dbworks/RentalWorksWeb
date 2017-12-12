@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.ItemAttributeValue
 {
-    public class ItemAttributeValueLogic : RwBusinessLogic
+    public class ItemAttributeValueLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ItemAttributeValueRecord itemAttribute = new ItemAttributeValueRecord();

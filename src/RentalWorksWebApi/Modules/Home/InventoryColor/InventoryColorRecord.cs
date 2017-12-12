@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryColor
 {
     [FwSqlTable("mastercolor")]
-    public class InventoryColorRecord : RwDataReadWriteRecord
+    public class InventoryColorRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastercolorid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

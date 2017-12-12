@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderTypeDateType
 {
-    public class OrderTypeDateTypeLogic : RwBusinessLogic
+    public class OrderTypeDateTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeDateTypeRecord orderTypeDateType = new OrderTypeDateTypeRecord();

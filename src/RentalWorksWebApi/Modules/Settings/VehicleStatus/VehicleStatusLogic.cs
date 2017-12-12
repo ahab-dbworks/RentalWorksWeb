@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.ResourceStatus;
 
 namespace WebApi.Modules.Settings.VehicleStatus
 {
-    public class VehicleStatusLogic : RwBusinessLogic
+    public class VehicleStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ResourceStatusRecord resourceStatus = new ResourceStatusRecord();

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.OrderStatusSummary
 {
-    public class OrderStatusSummaryLogic : RwBusinessLogic
+    public class OrderStatusSummaryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderStatusSummaryLoader orderStatusSummaryLoader = new OrderStatusSummaryLoader();

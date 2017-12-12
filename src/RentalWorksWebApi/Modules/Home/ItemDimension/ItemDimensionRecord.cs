@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.ItemDimension
 {
     [FwSqlTable("itemdimension")]
-    public class ItemDimensionRecord : RwDataReadWriteRecord
+    public class ItemDimensionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
-    public class PresentationLayerActivityOverrideLogic : RwBusinessLogic
+    public class PresentationLayerActivityOverrideLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PresentationLayerActivityOverrideRecord presentationLayerActivityOverride = new PresentationLayerActivityOverrideRecord();

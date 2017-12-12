@@ -4,7 +4,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.DealNote
 {
-    public class DealNoteLogic : RwBusinessLogic
+    public class DealNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DealNoteRecord dealNote = new DealNoteRecord();

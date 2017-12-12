@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.RetiredReason
 {
     [FwSqlTable("retiredreason")]
-    public class RetiredReasonRecord : RwDataReadWriteRecord
+    public class RetiredReasonRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

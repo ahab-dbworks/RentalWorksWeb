@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PoApprover
 {
-    public class PoApproverLogic : RwBusinessLogic
+    public class PoApproverLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PoApproverRecord poApprover = new PoApproverRecord();

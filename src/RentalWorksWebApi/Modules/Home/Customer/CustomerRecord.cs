@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Customer
 {
     [FwSqlTable("customer")]
-    public class CustomerRecord : RwDataReadWriteRecord
+    public class CustomerRecord : AppDataReadWriteRecord
     {
 
 

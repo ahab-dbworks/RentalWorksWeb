@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("users")]
-    public class UserRecord : RwDataReadWriteRecord
+    public class UserRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

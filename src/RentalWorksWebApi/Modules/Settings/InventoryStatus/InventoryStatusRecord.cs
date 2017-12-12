@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.RentalStatus
 {
     [FwSqlTable("rentalstatus")]
-    public class InventoryStatusRecord : RwDataReadWriteRecord
+    public class InventoryStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

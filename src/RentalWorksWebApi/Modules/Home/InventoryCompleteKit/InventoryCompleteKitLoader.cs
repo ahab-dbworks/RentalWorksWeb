@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryCompleteKit
 {
     [FwSqlTable("mastercompletekitview")]
-    public class InventoryCompleteKitLoader : RwDataLoadRecord
+    public class InventoryCompleteKitLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]

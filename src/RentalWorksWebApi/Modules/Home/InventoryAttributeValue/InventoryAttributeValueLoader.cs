@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryAttributeValue
 {
     [FwSqlTable("itemattributeview")]
-    public class InventoryAttributeValueLoader : RwDataLoadRecord
+    public class InventoryAttributeValueLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

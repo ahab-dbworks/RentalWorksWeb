@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.BarCodeRange
 {
     [FwSqlTable("barcoderangeview")]
-    public class BarCodeRangeLoader : RwDataLoadRecord
+    public class BarCodeRangeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcoderangeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

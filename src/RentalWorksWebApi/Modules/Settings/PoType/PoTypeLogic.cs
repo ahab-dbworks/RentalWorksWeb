@@ -7,7 +7,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.PoType
 {
-    public class PoTypeLogic : RwBusinessLogic
+    public class PoTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeRecord poType = new OrderTypeRecord();

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.PoRejectReason
 {
-    public class PoRejectReasonLogic : RwBusinessLogic
+    public class PoRejectReasonLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         PoRejectReasonRecord poRejectReason = new PoRejectReasonRecord();

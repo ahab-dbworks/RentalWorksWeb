@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Settings.TaxOption
 {
-    public class TaxOptionLogic : RwBusinessLogic
+    public class TaxOptionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         TaxOptionRecord taxOption = new TaxOptionRecord();

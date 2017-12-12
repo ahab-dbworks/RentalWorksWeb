@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.InventoryCondition;
 
 namespace WebApi.Modules.Settings.WardrobeCondition
 {
-    public class WardrobeConditionLogic : RwBusinessLogic
+    public class WardrobeConditionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryConditionRecord wardrobeCondition = new InventoryConditionRecord();

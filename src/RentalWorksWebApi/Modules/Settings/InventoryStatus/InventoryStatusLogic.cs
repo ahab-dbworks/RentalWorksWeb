@@ -5,7 +5,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.RentalStatus
 {
-    public class InventoryStatusLogic : RwBusinessLogic
+    public class InventoryStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryStatusRecord rentalStatus = new InventoryStatusRecord();

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryVendor
 {
-    public class InventoryVendorLogic : RwBusinessLogic
+    public class InventoryVendorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryVendorRecord inventoryVendor = new InventoryVendorRecord();

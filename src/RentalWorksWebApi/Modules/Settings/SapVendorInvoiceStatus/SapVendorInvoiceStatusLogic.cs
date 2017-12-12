@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
 {
-    public class SapVendorInvoiceStatusLogic : RwBusinessLogic
+    public class SapVendorInvoiceStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         SapVendorInvoiceStatusRecord sapVendorInvoiceStatus = new SapVendorInvoiceStatusRecord();

@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryCondition
 {
     [FwSqlTable("condition")]
-    public class InventoryConditionLoader : RwDataLoadRecord
+    public class InventoryConditionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.CustomerType
 {
-    public class CustomerTypeLogic : RwBusinessLogic
+    public class CustomerTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CustomerTypeRecord customerType = new CustomerTypeRecord();

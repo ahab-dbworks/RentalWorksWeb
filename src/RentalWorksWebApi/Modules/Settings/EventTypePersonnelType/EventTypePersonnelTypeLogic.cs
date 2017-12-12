@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.OrderTypePersonnelType;
 
 namespace WebApi.Modules.Settings.EventTypePersonnelType
 {
-    public class EventTypePersonnelTypeLogic : RwBusinessLogic
+    public class EventTypePersonnelTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypePersonnelTypeRecord eventTypePersonnelType = new OrderTypePersonnelTypeRecord();

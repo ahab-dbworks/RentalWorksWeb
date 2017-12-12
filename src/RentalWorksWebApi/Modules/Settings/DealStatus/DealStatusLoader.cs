@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.DealStatus
 {
     [FwSqlTable("dealstatusview")]
-    public class DealStatusLoader : RwDataLoadRecord
+    public class DealStatusLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealstatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.PaymentType
 {
-    public class PaymentTypeLogic : RwBusinessLogic
+    public class PaymentTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         PaymentTypeRecord paymentType = new PaymentTypeRecord();

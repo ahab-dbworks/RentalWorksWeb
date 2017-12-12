@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SubCategory
 {
     [FwSqlTable("subcategory")]
-    public class SubCategoryRecord : RwDataReadWriteRecord
+    public class SubCategoryRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

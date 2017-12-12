@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.ItemQc
 {
     [FwSqlTable("rentalitemqcview")]
-    public class ItemQcLoader : RwDataLoadRecord
+    public class ItemQcLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemqcid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PoImportance
 {
     [FwSqlTable("poimportance")]
-    public class PoImportanceRecord : RwDataReadWriteRecord
+    public class PoImportanceRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poimportanceid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

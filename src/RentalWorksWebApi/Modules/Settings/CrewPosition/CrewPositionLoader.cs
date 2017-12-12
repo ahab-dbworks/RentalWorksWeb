@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.CrewPosition
 {
     [FwSqlTable("crewpositionview")]
-    public class CrewPositionLoader : RwDataLoadRecord
+    public class CrewPositionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crewpositionid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

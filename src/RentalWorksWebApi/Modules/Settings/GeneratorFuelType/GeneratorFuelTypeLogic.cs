@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.FuelType;
 
 namespace WebApi.Modules.Settings.GeneratorFuelType
 {
-    public class GeneratorFuelTypeLogic : RwBusinessLogic
+    public class GeneratorFuelTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         FuelTypeRecord fuelType = new FuelTypeRecord();

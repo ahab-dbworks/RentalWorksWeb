@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.ItemAttributeValue
 {
     [FwSqlTable("itemattribute")]
-    public class ItemAttributeValueRecord : RwDataReadWriteRecord
+    public class ItemAttributeValueRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemattributeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

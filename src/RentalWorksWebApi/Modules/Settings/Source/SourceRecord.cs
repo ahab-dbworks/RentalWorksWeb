@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Source
 {
     [FwSqlTable("source")]
-    public class SourceRecord : RwDataReadWriteRecord
+    public class SourceRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sourceid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

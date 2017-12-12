@@ -7,7 +7,7 @@
 namespace WebApi.Modules.Settings.OrderType
 {
     [FwSqlTable("ordertypeview")]
-    public class OrderTypeBaseLoader : RwDataLoadRecord
+    public class OrderTypeBaseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "installstrikefee", modeltype: FwDataTypes.Boolean)]

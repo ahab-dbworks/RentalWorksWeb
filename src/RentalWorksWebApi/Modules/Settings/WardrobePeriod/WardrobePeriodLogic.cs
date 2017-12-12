@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.WardrobePeriod
 {
-    public class WardrobePeriodLogic : RwBusinessLogic
+    public class WardrobePeriodLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         WardrobePeriodRecord wardrobePeriod = new WardrobePeriodRecord();

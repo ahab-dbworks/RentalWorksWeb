@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.InventoryGroup
 {
-    public class InventoryGroupLogic : RwBusinessLogic
+    public class InventoryGroupLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryGroupRecord inventoryGroup = new InventoryGroupRecord();

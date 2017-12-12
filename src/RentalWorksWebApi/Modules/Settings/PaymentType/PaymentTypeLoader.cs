@@ -5,7 +5,7 @@ using System;
 namespace WebApi.Data.Settings
 {
     [FwSqlTable("paytypeview")]
-    public class PaymentTypeLoader : RwDataLoadRecord
+    public class PaymentTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectItemsOrdered
 {
-    public class ProjectItemsOrderedLogic : RwBusinessLogic
+    public class ProjectItemsOrderedLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectItemsOrderedRecord projectItemsOrdered = new ProjectItemsOrderedRecord();

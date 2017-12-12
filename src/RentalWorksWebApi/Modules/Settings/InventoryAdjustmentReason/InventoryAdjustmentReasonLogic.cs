@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.InventoryAdjustmentReason
 {
-    public class InventoryAdjustmentReasonLogic : RwBusinessLogic
+    public class InventoryAdjustmentReasonLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryAdjustmentReasonRecord inventoryAdjustmentReason = new InventoryAdjustmentReasonRecord();

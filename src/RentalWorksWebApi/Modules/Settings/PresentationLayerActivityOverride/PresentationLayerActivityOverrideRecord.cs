@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
     [FwSqlTable("presentationlayeractivityoverride")]
-    public class PresentationLayerActivityOverrideRecord : RwDataReadWriteRecord
+    public class PresentationLayerActivityOverrideRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayeractivityoverrideid", isPrimaryKey: true, modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

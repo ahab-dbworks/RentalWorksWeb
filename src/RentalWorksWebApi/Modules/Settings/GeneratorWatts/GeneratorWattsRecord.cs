@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.GeneratorWatts
 {
     [FwSqlTable("watts")]
-    public class GeneratorWattsRecord : RwDataReadWriteRecord
+    public class GeneratorWattsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "wattsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

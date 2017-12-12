@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Data.Settings
 {
     [FwSqlTable("shipviaview")]
-    public class ShipViaLoader : RwDataLoadRecord
+    public class ShipViaLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "shipviaid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -4,7 +4,7 @@ using WebApi.Modules.Home.ItemAttributeValue;
 
 namespace WebApi.Modules.Home.InventoryAttributeValue
 {
-    public class InventoryAttributeValueLogic : RwBusinessLogic
+    public class InventoryAttributeValueLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ItemAttributeValueRecord itemAttribute = new ItemAttributeValueRecord();

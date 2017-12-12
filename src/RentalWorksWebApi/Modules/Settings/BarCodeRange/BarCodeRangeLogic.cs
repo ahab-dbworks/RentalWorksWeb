@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.BarCodeRange
 {
-    public class BarCodeRangeLogic : RwBusinessLogic
+    public class BarCodeRangeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         BarCodeRangeRecord barCodeRange = new BarCodeRangeRecord();

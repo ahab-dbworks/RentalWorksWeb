@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.SpaceRate
 {
-    public class SpaceRateLogic : RwBusinessLogic
+    public class SpaceRateLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         SpaceRateRecord spaceRate = new SpaceRateRecord();

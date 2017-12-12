@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.GeneratorFuelType
 {
     [FwSqlTable("generatorfueltypeview")]
-    public class GeneratorFuelTypeLoader: RwDataLoadRecord
+    public class GeneratorFuelTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "fueltypeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

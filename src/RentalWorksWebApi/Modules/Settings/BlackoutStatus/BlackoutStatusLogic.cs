@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.ResourceStatus;
 
 namespace WebApi.Modules.Settings.BlackoutStatus
 {
-    public class BlackoutStatusLogic : RwBusinessLogic
+    public class BlackoutStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ResourceStatusRecord resourceStatus = new ResourceStatusRecord();

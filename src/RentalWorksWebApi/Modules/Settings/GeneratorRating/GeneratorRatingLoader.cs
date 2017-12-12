@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.GeneratorRating
 {
     [FwSqlTable("generatorratingview")]
-    public class GeneratorRatingLoader: RwDataLoadRecord
+    public class GeneratorRatingLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicleratingid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

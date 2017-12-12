@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SetOpening
 {
     [FwSqlTable("opening")]
-    public class SetOpeningRecord : RwDataReadWriteRecord
+    public class SetOpeningRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "openingid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

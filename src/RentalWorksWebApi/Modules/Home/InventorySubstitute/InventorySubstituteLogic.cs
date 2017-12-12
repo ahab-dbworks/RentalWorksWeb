@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventorySubstitute
 {
-    public class InventorySubstituteLogic : RwBusinessLogic
+    public class InventorySubstituteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventorySubstituteRecord inventorySubstitute = new InventorySubstituteRecord();

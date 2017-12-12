@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WallDescription
 {
     [FwSqlTable("walldescription")]
-    public class WallDescriptionRecord : RwDataReadWriteRecord
+    public class WallDescriptionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "walldescriptionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.AppRole;
 
 namespace WebApi.Modules.Settings.PoApproverRole
 {
-    public class PoApproverRoleLogic : RwBusinessLogic
+    public class PoApproverRoleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         AppRoleRecord poApproverRole = new AppRoleRecord();

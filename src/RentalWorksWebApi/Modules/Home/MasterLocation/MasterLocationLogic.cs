@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.MasterLocation
 {
-    public abstract class MasterLocationLogic : RwBusinessLogic
+    public abstract class MasterLocationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         protected MasterLocationRecord masterLocation = new MasterLocationRecord();

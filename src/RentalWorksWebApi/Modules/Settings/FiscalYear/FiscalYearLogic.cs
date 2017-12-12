@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.FiscalYear
 {
-    public class FiscalYearLogic : RwBusinessLogic
+    public class FiscalYearLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         FiscalYearRecord fiscalYear = new FiscalYearRecord();

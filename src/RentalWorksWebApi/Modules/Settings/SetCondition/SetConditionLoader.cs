@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SetCondition
 {
     [FwSqlTable("condition")]
-    public class SetConditionLoader : RwDataLoadRecord
+    public class SetConditionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

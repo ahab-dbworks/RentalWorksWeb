@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic; 
 namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
-public class AppReportDesignerLogic : RwBusinessLogic 
+public class AppReportDesignerLogic : AppBusinessLogic 
 { 
 //------------------------------------------------------------------------------------ 
 AppReportDesignerRecord appReportDesigner = new AppReportDesignerRecord(); 

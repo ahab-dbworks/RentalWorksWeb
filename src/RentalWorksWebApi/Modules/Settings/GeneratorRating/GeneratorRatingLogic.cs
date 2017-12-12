@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.VehicleRating;
 
 namespace WebApi.Modules.Settings.GeneratorRating
 {
-    public class GeneratorRatingLogic : RwBusinessLogic
+    public class GeneratorRatingLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VehicleRatingRecord generatorRating = new VehicleRatingRecord();

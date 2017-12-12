@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.State
 {
-    public class StateLogic : RwBusinessLogic
+    public class StateLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         StateRecord state = new StateRecord();

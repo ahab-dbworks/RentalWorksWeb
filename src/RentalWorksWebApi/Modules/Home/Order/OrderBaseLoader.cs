@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Order
 {
     [FwSqlTable("orderview")]
-    public abstract class OrderBaseLoader : RwDataLoadRecord
+    public abstract class OrderBaseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]

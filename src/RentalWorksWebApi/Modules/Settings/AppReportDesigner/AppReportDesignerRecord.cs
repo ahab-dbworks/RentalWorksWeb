@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.AppReportDesigner 
 { 
 [FwSqlTable("appreportdesigner")] 
-public class AppReportDesignerRecord : RwDataReadWriteRecord 
+public class AppReportDesignerRecord : AppDataReadWriteRecord 
 { 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "appreportdesignerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)] 

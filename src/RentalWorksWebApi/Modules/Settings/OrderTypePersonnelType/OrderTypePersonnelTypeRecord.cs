@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OrderTypePersonnelType
 {
     [FwSqlTable("ordertypepersonneltype")]
-    public class OrderTypePersonnelTypeRecord : RwDataReadWriteRecord
+    public class OrderTypePersonnelTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypepersonneltypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

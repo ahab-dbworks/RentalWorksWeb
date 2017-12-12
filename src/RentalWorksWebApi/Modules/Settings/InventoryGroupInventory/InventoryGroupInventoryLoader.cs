@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.InventoryGroupInventory
 {
     [FwSqlTable("inventorygroupmasterview")]
-    public class InventoryGroupInventoryLoader : RwDataLoadRecord
+    public class InventoryGroupInventoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorygroupmasterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

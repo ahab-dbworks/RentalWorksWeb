@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.RepairItemStatus
 {
-    public class RepairItemStatusLogic : RwBusinessLogic
+    public class RepairItemStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         RepairItemStatusRecord repairItemStatus = new RepairItemStatusRecord();

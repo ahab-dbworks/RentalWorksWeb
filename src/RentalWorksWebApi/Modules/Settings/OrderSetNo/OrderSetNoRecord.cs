@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OrderSetNo
 {
     [FwSqlTable("setno")]
-    public class OrderSetNoRecord : RwDataReadWriteRecord
+    public class OrderSetNoRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "setnoid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

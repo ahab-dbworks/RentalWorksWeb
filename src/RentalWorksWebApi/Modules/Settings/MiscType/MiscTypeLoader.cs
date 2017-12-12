@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.MiscType
 {
     [FwSqlTable("inventorydepartment")]
-    public class MiscTypeLoader: RwDataLoadRecord
+    public class MiscTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

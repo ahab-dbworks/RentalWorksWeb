@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.FiscalMonth
 {
-    public class FiscalMonthLogic : RwBusinessLogic
+    public class FiscalMonthLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         FiscalMonthRecord fiscalMonth = new FiscalMonthRecord();

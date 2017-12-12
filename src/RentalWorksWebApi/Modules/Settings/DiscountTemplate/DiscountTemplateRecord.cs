@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.DiscountTemplate
 {
     [FwSqlTable("discounttemplate")]
-    public class DiscountTemplateRecord : RwDataReadWriteRecord
+    public class DiscountTemplateRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discounttemplateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

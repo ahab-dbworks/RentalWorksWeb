@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryPackageInventory
 {
     [FwSqlTable("packageitemview")]
-    public class InventoryPackageInventoryLoader : RwDataLoadRecord
+    public class InventoryPackageInventoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Administration.CustomField
 {
     [FwSqlTable("customfield")]
-    public class CustomFieldRecord : RwDataReadWriteRecord
+    public class CustomFieldRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customfieldid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

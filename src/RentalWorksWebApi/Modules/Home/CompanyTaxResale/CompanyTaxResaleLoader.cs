@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.CompanyTaxResale
 {
     [FwSqlTable("taxresaleview")]
-    public class CompanyTaxResaleLoader : RwDataLoadRecord
+    public class CompanyTaxResaleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxresaleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DealType
 {
-    public class DealTypeLogic : RwBusinessLogic
+    public class DealTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DealTypeRecord dealType = new DealTypeRecord();

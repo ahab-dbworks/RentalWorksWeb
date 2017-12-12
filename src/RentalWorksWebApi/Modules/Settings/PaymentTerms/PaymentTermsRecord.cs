@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace RRentalWorksWebApi.Modules.Settings.PaymentTerms
 {
     [FwSqlTable("payterms")]
-    public class PaymentTermsRecord : RwDataReadWriteRecord
+    public class PaymentTermsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

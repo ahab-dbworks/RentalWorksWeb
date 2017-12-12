@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WardrobePattern
 {
     [FwSqlTable("pattern")]
-    public class WardrobePatternRecord : RwDataReadWriteRecord
+    public class WardrobePatternRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "patternid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

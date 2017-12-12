@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WarehouseCatalog
 {
-    public class WarehouseCatalogLogic : RwBusinessLogic
+    public class WarehouseCatalogLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         WarehouseCatalogRecord warehouseCatalog = new WarehouseCatalogRecord();

@@ -4,7 +4,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.CustomerNote
 {
-    public class CustomerNoteLogic : RwBusinessLogic
+    public class CustomerNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CustomerNoteRecord customerNote = new CustomerNoteRecord();

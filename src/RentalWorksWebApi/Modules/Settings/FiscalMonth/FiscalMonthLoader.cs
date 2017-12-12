@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.FiscalMonth
 {
     [FwSqlTable("fiscalmonthview")]
-    public class FiscalMonthLoader : RwDataLoadRecord
+    public class FiscalMonthLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fiscalmonthid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

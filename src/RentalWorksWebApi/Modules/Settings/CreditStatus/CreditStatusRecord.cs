@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CreditStatus
 {
     [FwSqlTable("creditstatus")]
-    public class CreditStatusRecord : RwDataReadWriteRecord
+    public class CreditStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "creditstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

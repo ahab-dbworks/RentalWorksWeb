@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.Group
 {
-    public class GroupLogic : RwBusinessLogic
+    public class GroupLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         GroupRecord group = new GroupRecord();

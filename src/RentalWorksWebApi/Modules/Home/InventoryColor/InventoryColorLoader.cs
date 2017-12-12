@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryColor
 {
     [FwSqlTable("mastercolorview")]
-    public class InventoryColorLoader : RwDataLoadRecord
+    public class InventoryColorLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastercolorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

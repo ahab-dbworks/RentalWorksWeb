@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectAsBuild
 {
     [FwSqlTable("asbuild")]
-    public class ProjectAsBuildRecord : RwDataReadWriteRecord
+    public class ProjectAsBuildRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "asbuildid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

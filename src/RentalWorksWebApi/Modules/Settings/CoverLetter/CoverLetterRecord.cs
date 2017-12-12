@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CoverLetter
 {
     [FwSqlTable("coverletter")]
-    public class CoverLetterRecord : RwDataReadWriteRecord
+    public class CoverLetterRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "coverletterid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

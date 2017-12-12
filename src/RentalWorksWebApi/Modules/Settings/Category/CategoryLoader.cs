@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Category
 {
     [FwSqlTable("categoryview")]
-    public abstract class CategoryLoader: RwDataLoadRecord
+    public abstract class CategoryLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

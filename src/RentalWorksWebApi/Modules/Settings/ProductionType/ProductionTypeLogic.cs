@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ProductionType
 {
-    public class ProductionTypeLogic : RwBusinessLogic
+    public class ProductionTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ProductionTypeRecord productionType = new ProductionTypeRecord();

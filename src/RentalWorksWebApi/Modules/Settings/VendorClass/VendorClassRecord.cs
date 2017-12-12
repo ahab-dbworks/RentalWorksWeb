@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VendorClass
 {
     [FwSqlTable("vendorclass")]
-    public class VendorClassRecord : RwDataReadWriteRecord
+    public class VendorClassRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorclassid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

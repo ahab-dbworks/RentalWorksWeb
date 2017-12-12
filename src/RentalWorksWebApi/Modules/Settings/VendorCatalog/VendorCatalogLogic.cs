@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.VendorCatalog
 {
-    public class VendorCatalogLogic : RwBusinessLogic
+    public class VendorCatalogLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VendorCatalogRecord vendorCatalog = new VendorCatalogRecord();

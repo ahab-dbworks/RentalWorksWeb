@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.ItemQc
 {
     [FwSqlTable("rentalitemqc")]
-    public class ItemQcRecord : RwDataReadWriteRecord
+    public class ItemQcRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemqcid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

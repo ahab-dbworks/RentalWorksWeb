@@ -6,7 +6,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ScheduleStatus
 {
     [FwSqlTable("schedulestatus")]
-    public class ScheduleStatusRecord : RwDataReadWriteRecord
+    public class ScheduleStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "schedulestatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

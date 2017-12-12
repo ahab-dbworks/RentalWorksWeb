@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.VendorCatalog
 {
     [FwSqlTable("vendorcatalogview")]
-    public class VendorCatalogLoader : RwDataLoadRecord
+    public class VendorCatalogLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorcatalogid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

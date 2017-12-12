@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.CompanyTaxResale
 {
-    public class CompanyTaxResaleLogic : RwBusinessLogic
+    public class CompanyTaxResaleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CompanyTaxResaleRecord companyTaxResale = new CompanyTaxResaleRecord();

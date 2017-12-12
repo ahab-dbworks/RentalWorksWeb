@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Warehouse
 {
     [FwSqlTable("warehouse")]
-    public class WarehouseRecord : RwDataReadWriteRecord
+    public class WarehouseRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

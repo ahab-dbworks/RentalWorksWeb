@@ -4,7 +4,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Administrator.DuplicateRule
 {
-    public class DuplicateRuleLogic : RwBusinessLogic
+    public class DuplicateRuleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DuplicateRuleRecord duplicateRule = new DuplicateRuleRecord();

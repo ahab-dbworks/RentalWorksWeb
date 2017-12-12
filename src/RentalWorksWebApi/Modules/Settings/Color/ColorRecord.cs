@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Color
 {
     [FwSqlTable("color")]
-    public class ColorRecord : RwDataReadWriteRecord
+    public class ColorRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "colorid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

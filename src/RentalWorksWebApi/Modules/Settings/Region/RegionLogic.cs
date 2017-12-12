@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Region
 {
-    public class RegionLogic : RwBusinessLogic
+    public class RegionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         RegionRecord region = new RegionRecord();

@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WardrobeCondition
 {
     [FwSqlTable("condition")]
-    public class WardrobeConditionLoader : RwDataLoadRecord
+    public class WardrobeConditionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

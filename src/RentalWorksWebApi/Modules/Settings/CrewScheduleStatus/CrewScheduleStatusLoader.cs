@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CrewScheduleStatus
 {
     [FwSqlTable("crewschedulestatusview")]
-    public class CrewScheduleStatusLoader: RwDataLoadRecord
+    public class CrewScheduleStatusLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "schedulestatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

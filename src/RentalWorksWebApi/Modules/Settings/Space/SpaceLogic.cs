@@ -6,7 +6,7 @@ using WebApi.Modules.Home.Master;
 
 namespace WebApi.Modules.Settings.Space
 {
-    public class SpaceLogic : RwBusinessLogic
+    public class SpaceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         MasterRecord space = new MasterRecord();

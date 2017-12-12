@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.LicenseClass
 {
-    public class LicenseClassLogic : RwBusinessLogic
+    public class LicenseClassLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         LicenseClassRecord licenseClass = new LicenseClassRecord();

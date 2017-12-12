@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CrewPosition
 {
     [FwSqlTable("crewposition")]
-    public class CrewPositionRecord : RwDataReadWriteRecord
+    public class CrewPositionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crewpositionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

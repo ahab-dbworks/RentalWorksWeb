@@ -7,7 +7,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.EventType
 {
-    public class EventTypeLogic : RwBusinessLogic
+    public class EventTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeRecord eventType = new OrderTypeRecord();

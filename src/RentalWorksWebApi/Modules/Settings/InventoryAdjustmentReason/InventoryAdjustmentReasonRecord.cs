@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryAdjustmentReason
 {
     [FwSqlTable("adjreason")]
-    public class InventoryAdjustmentReasonRecord : RwDataReadWriteRecord
+    public class InventoryAdjustmentReasonRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invadjid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

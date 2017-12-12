@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Administration.CustomField
 {
-    public class CustomFieldLogic : RwBusinessLogic
+    public class CustomFieldLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         CustomFieldRecord customField = new CustomFieldRecord();

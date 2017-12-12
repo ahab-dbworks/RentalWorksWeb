@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryCompatible
 {
     [FwSqlTable("mastercompatible")]
-    public class InventoryCompatibleRecord : RwDataReadWriteRecord
+    public class InventoryCompatibleRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastercompatibleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

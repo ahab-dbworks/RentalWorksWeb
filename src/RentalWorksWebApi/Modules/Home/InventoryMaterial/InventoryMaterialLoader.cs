@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryMaterial
 {
     [FwSqlTable("mastermaterialview")]
-    public class InventoryMaterialLoader : RwDataLoadRecord
+    public class InventoryMaterialLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastermaterialid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

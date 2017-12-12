@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventorySubstitute
 {
     [FwSqlTable("substitute")]
-    public class InventorySubstituteRecord : RwDataReadWriteRecord
+    public class InventorySubstituteRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastersubstituteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

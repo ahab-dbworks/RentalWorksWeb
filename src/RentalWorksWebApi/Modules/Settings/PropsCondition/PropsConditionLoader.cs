@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PropsCondition
 {
     [FwSqlTable("condition")]
-    public class PropsConditionLoader : RwDataLoadRecord
+    public class PropsConditionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

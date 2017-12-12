@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.ScheduleStatus;
 
 namespace WebApi.Modules.Settings.VehicleScheduleStatus
 {
-    public class VehicleScheduleStatusLogic : RwBusinessLogic
+    public class VehicleScheduleStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ScheduleStatusRecord scheduleStatus = new ScheduleStatusRecord();

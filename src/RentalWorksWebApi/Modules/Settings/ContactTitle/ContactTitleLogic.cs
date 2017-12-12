@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ContactTitle
 {
-    public class ContactTitleLogic : RwBusinessLogic
+    public class ContactTitleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ContactTitleRecord contactTitle = new ContactTitleRecord();

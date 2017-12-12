@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.InventoryType
 {
-    public class InventoryTypeLogic : RwBusinessLogic
+    public class InventoryTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         InventoryTypeRecord inventoryType = new InventoryTypeRecord();

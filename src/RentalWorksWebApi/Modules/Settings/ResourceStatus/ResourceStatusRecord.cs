@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ResourceStatus
 {
     [FwSqlTable("resourcestatus")]
-    public class ResourceStatusRecord : RwDataReadWriteRecord
+    public class ResourceStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "resourcestatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.WardrobeCare
 {
     [FwSqlTable("wardrobecare")]
-    public class WardrobeCareRecord : RwDataReadWriteRecord
+    public class WardrobeCareRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "wardrobecareid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

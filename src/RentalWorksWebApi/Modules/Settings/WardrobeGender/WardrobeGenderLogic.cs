@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.WardrobeGender
 {
-    public class WardrobeGenderLogic : RwBusinessLogic
+    public class WardrobeGenderLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         WardrobeGenderRecord wardrobeGender = new WardrobeGenderRecord();

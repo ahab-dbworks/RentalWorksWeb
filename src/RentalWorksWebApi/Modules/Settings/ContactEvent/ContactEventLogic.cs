@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ContactEvent
 {
-    public class ContactEventLogic : RwBusinessLogic
+    public class ContactEventLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ContactEventRecord contactEvent = new ContactEventRecord();

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.ScheduleType
 {
-    public class ScheduleTypeLogic : RwBusinessLogic
+    public class ScheduleTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ScheduleTypeRecord scheduleType = new ScheduleTypeRecord();

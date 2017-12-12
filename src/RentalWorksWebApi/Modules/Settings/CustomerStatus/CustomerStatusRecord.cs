@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CustomerStatus
 {
     [FwSqlTable("custstatus")]
-    public class CustomerStatusRecord : RwDataReadWriteRecord
+    public class CustomerStatusRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "custstatusid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

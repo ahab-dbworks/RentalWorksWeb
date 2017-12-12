@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.CustomerNote
 {
     [FwSqlTable("customernoteview")]
-    public class CustomerNoteLoader : RwDataLoadRecord
+    public class CustomerNoteLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "custnoteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

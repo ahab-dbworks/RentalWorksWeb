@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectDeposit
 {
     [FwSqlTable("deposit")]
-    public class ProjectDepositRecord : RwDataReadWriteRecord
+    public class ProjectDepositRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "depositid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.CompanyContact
 {
     [FwSqlTable("compcontact")]
-    public class CompanyContactRecord : RwDataReadWriteRecord
+    public class CompanyContactRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

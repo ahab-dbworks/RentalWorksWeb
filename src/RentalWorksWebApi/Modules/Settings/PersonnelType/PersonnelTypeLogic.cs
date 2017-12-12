@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.PersonnelType
 {
-    public class PersonnelTypeLogic : RwBusinessLogic
+    public class PersonnelTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         PersonnelTypeRecord personnelType = new PersonnelTypeRecord();

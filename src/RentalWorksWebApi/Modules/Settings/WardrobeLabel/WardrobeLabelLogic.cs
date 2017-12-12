@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.WardrobeLabel
 {
-    public class WardrobeLabelLogic : RwBusinessLogic
+    public class WardrobeLabelLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         WardrobeLabelRecord wardrobeLabel = new WardrobeLabelRecord();

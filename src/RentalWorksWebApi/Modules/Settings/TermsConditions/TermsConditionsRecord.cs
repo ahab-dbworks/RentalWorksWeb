@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.TermsConditions
 {
     [FwSqlTable("termsconditions")]
-    public class TermsConditionsRecord : RwDataReadWriteRecord
+    public class TermsConditionsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.PresentationLayerActivity
 {
     [FwSqlTable("presentationlayeractivity")]
-    public class PresentationLayerActivityLoader : RwDataLoadRecord
+    public class PresentationLayerActivityLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayeractivityid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

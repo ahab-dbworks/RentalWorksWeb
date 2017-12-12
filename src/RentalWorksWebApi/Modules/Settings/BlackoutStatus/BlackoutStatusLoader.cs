@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.BlackoutStatus
 {
     [FwSqlTable("blackoutstatusview")]
-    public class BlackoutStatusLoader: RwDataLoadRecord
+    public class BlackoutStatusLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "resourcestatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

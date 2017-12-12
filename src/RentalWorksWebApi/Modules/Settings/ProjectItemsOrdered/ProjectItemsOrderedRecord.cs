@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectItemsOrdered
 {
     [FwSqlTable("itemordered")]
-    public class ProjectItemsOrderedRecord : RwDataReadWriteRecord
+    public class ProjectItemsOrderedRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemorderedid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

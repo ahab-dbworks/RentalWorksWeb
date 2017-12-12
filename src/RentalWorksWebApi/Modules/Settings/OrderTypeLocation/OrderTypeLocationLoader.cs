@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderTypeLocation
 {
     [FwSqlTable("ordertypelocationview")]
-    public class OrderTypeLocationLoader : RwDataLoadRecord
+    public class OrderTypeLocationLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypelocationid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

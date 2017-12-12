@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectDeposit
 {
-    public class ProjectDepositLogic : RwBusinessLogic
+    public class ProjectDepositLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectDepositRecord projectDeposit = new ProjectDepositRecord();

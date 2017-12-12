@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProductionType
 {
     [FwSqlTable("prodtype")]
-    public class ProductionTypeRecord : RwDataReadWriteRecord
+    public class ProductionTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "prodtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.UnretiredReason
 {
     [FwSqlTable("unretiredreason")]
-    public class UnretiredReasonRecord : RwDataReadWriteRecord
+    public class UnretiredReasonRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "unretiredreasonid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

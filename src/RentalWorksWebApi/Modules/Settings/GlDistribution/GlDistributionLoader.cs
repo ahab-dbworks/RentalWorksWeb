@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.GlDistribution
 {
     [FwSqlTable("gldistributionview")]
-    public class GlDistributionLoader : RwDataLoadRecord
+    public class GlDistributionLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldistributionid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

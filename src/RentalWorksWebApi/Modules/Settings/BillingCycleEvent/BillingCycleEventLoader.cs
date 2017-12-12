@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.BillingCycleEvent
 {
     [FwSqlTable("billperiodeventpercent")]
-    public class BillingCycleEventLoader : RwDataLoadRecord
+    public class BillingCycleEventLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, required: true)]

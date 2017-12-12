@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.Space
 {
     [FwSqlTable("masterspaceview")]
-    public class SpaceLoader : RwDataLoadRecord
+    public class SpaceLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]

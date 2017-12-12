@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.ItemQc
 {
-    public class ItemQcLogic : RwBusinessLogic
+    public class ItemQcLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ItemQcRecord itemQc = new ItemQcRecord();

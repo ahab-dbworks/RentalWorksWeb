@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.DealNote
 {
     [FwSqlTable("dealnote")]
-    public class DealNoteRecord : RwDataReadWriteRecord
+    public class DealNoteRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealnoteid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

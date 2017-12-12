@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.EventTypePersonnelType
 {
     [FwSqlTable("ordertypepersonneltypeview")]
-    public class EventTypePersonnelTypeLoader : RwDataLoadRecord
+    public class EventTypePersonnelTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypepersonneltypeid", isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ProjectDropShipItems
 {
     [FwSqlTable("dropship")]
-    public class ProjectDropShipItemsRecord : RwDataReadWriteRecord
+    public class ProjectDropShipItemsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dropshipid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

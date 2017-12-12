@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Unit
 {
     [FwSqlTable("unit")]
-    public class UnitRecord : RwDataReadWriteRecord
+    public class UnitRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

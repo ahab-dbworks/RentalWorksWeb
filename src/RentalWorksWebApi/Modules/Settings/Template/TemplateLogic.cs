@@ -5,7 +5,7 @@ using WebApi.Modules.Home.DealOrder;
 
 namespace WebApi.Modules.Settings.Template
 {
-    public class TemplateLogic : RwBusinessLogic
+    public class TemplateLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DealOrderRecord template = new DealOrderRecord();

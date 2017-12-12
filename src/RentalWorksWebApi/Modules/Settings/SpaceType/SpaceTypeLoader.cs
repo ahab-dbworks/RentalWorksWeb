@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.SpaceType
 {
     [FwSqlTable("spacetypeview")]
-    public class SpaceTypeLoader : RwDataLoadRecord
+    public class SpaceTypeLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacetypeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

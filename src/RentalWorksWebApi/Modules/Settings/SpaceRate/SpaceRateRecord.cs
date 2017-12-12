@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.SpaceRate
 {
     [FwSqlTable("spacerate")]
-    public class SpaceRateRecord : RwDataReadWriteRecord
+    public class SpaceRateRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacerateid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.BillingCycle
 {
     [FwSqlTable("billingcycleview")]
-    public class BillingCycleLoader : RwDataLoadRecord
+    public class BillingCycleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billingcycleid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

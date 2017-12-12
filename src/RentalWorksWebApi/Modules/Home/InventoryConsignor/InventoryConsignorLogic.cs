@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryConsignor
 {
-    public class InventoryConsignorLogic : RwBusinessLogic
+    public class InventoryConsignorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryConsignorLoader inventoryConsignorLoader = new InventoryConsignorLoader();

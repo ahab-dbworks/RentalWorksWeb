@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.ContactNote
 {
-    public class ContactNoteLogic : RwBusinessLogic
+    public class ContactNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ContactNoteRecord contactNote = new ContactNoteRecord();

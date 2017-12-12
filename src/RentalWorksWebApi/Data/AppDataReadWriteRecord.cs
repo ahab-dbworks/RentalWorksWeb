@@ -2,7 +2,7 @@
 
 namespace WebApi.Data
 {
-    public class RwDataLoadRecord : FwDataReadWriteRecord
+    public class AppDataReadWriteRecord : FwDataReadWriteRecord
     {
     }
 }

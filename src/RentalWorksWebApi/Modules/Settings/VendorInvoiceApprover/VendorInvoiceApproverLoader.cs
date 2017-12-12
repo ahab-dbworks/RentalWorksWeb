@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.VendorInvoiceApprover
 {
     [FwSqlTable("vendorinvoiceapproverview")]
-    public class VendorInvoiceApproverLoader : RwDataLoadRecord
+    public class VendorInvoiceApproverLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorinvoiceapproverid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

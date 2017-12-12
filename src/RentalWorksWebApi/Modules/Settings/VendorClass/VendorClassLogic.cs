@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.VendorClass
 {
-    public class VendorClassLogic : RwBusinessLogic
+    public class VendorClassLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VendorClassRecord vendorClass = new VendorClassRecord();

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.PoApprover
 {
     [FwSqlTable("poapproverview")]
-    public class PoApproverLoader : RwDataLoadRecord
+    public class PoApproverLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poapproverid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

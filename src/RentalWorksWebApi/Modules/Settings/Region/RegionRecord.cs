@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Region
 {
     [FwSqlTable("region")]
-    public class RegionRecord : RwDataReadWriteRecord
+    public class RegionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "regionid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

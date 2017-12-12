@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.OrderStatusDetail
 {
     [FwSqlTable("masteritem")]
-    public class OrderStatusDetailLoader : RwDataLoadRecord
+    public class OrderStatusDetailLoader : AppDataLoadRecord
     {
         private string orderId;
         //------------------------------------------------------------------------------------  

@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.VehicleModel;
 
 namespace WebApi.Modules.Settings.GeneratorModel
 {
-    public class GeneratorModelLogic : RwBusinessLogic
+    public class GeneratorModelLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         VehicleModelRecord vehicleModel = new VehicleModelRecord();

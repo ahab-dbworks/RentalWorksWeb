@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.BarCodeRange
 {
     [FwSqlTable("barcoderange")]
-    public class BarCodeRangeRecord : RwDataReadWriteRecord
+    public class BarCodeRangeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcoderangeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

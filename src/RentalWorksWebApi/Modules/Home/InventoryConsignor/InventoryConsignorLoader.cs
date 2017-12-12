@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryConsignor
 {
     [FwSqlTable("masterconsignoragreementview")]
-    public class InventoryConsignorLoader : RwDataLoadRecord
+    public class InventoryConsignorLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignorid", modeltype: FwDataTypes.Text)]

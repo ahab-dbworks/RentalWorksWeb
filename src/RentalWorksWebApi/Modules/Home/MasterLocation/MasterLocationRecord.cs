@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.MasterLocation
 {
     [FwSqlTable("masterlocation")]
-    public class MasterLocationRecord : RwDataReadWriteRecord
+    public class MasterLocationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.LicenseClass
 {
     [FwSqlTable("licclass")]
-    public class LicenseClassRecord : RwDataReadWriteRecord
+    public class LicenseClassRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "licclassid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.CustomerCategory
 {
-    public class CustomerCategoryLogic : RwBusinessLogic
+    public class CustomerCategoryLogic : AppBusinessLogic
     {
         CustomerCategoryRecord customerCat = new CustomerCategoryRecord();
         public CustomerCategoryLogic()

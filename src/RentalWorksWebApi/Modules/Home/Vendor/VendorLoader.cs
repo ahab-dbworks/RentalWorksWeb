@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Vendor
 {
     [FwSqlTable("vendorview")]
-    public class VendorLoader: RwDataLoadRecord
+    public class VendorLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

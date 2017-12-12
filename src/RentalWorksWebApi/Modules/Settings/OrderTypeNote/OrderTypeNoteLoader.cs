@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderTypeNote
 {
     [FwSqlTable("ordertypenotesview")]
-    public class OrderTypeNoteLoader : RwDataLoadRecord
+    public class OrderTypeNoteLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypenotesid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

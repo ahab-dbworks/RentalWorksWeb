@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VehicleType
 {
     [FwSqlTable("webvehicletypeview")]
-    public abstract class VehicleTypeBaseLoader : RwDataLoadRecord
+    public abstract class VehicleTypeBaseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryPrep
 {
     [FwSqlTable("masterprep")]
-    public class InventoryPrepRecord : RwDataReadWriteRecord
+    public class InventoryPrepRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterprepid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderSetNo
 {
-    public class OrderSetNoLogic : RwBusinessLogic
+    public class OrderSetNoLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderSetNoRecord orderSetNo = new OrderSetNoRecord();

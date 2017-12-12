@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.BillPeriodEventPercent;
 
 namespace WebApi.Modules.Settings.BillingCycleEvent
 {
-    public class BillingCycleEventLogic : RwBusinessLogic
+    public class BillingCycleEventLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         BillPeriodEventPercentRecord billPeriodEventPercent = new BillPeriodEventPercentRecord();

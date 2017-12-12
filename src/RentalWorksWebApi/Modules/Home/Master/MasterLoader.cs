@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.Master
 {
     [FwSqlTable("inventoryview")]
-    public class MasterLoader : RwDataLoadRecord
+    public class MasterLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]

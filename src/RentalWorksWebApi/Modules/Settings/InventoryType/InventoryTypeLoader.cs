@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryType
 {
     [FwSqlTable("inventorydepartment")]
-    public class InventoryTypeLoader: RwDataLoadRecord
+    public class InventoryTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.InventoryRank
 {
     [FwSqlTable("rank")]
-    public class InventoryRankRecord : RwDataReadWriteRecord
+    public class InventoryRankRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rankid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

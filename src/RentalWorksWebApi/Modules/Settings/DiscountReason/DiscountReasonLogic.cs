@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DiscountReason
 {
-    public class DiscountReasonLogic : RwBusinessLogic
+    public class DiscountReasonLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DiscountReasonRecord discountReason = new DiscountReasonRecord();

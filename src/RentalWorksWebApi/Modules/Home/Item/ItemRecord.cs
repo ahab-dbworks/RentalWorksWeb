@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.Item
 {
     [FwSqlTable("rentalitem")]
-    public class ItemRecord : RwDataReadWriteRecord
+    public class ItemRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

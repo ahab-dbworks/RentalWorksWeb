@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ContactEvent
 {
     [FwSqlTable("contactevent")]
-    public class ContactEventRecord : RwDataReadWriteRecord
+    public class ContactEventRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "contacteventid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

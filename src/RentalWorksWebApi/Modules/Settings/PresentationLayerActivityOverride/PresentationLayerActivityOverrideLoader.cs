@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
 {
     [FwSqlTable("presentationlayeractivityoverrideview")]
-    public class PresentationLayerActivityOverrideLoader : RwDataLoadRecord
+    public class PresentationLayerActivityOverrideLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayeractivityoverrideid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]

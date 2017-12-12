@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VehicleStatus
 {
     [FwSqlTable("vehicleresourcestatusview")]
-    public class VehicleStatusLoader: RwDataLoadRecord
+    public class VehicleStatusLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "resourcestatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

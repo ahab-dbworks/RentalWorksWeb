@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OrganizationType
 {
     [FwSqlTable("organizationtype")]
-    public class OrganizationTypeRecord : RwDataReadWriteRecord
+    public class OrganizationTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "organizationtypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

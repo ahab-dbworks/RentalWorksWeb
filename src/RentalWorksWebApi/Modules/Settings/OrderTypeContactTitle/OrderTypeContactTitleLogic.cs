@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderTypeContactTitle
 {
-    public class OrderTypeContactTitleLogic : RwBusinessLogic
+    public class OrderTypeContactTitleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeContactTitleRecord orderTypeContactTitle = new OrderTypeContactTitleRecord();

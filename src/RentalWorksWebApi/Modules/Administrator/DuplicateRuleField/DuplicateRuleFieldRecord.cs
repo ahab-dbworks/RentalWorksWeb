@@ -7,7 +7,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Administrator.DuplicateRuleField
 {
     [FwSqlTable("duplicaterulefield")]
-    public class DuplicateRuleFieldRecord : RwDataReadWriteRecord
+    public class DuplicateRuleFieldRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duplicaterulefieldid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

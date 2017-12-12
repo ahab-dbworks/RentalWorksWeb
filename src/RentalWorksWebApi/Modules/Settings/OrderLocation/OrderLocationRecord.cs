@@ -4,7 +4,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OrderLocation
 {
     [FwSqlTable("dealorderlocation")]
-    public class OrderLocationRecord : RwDataReadWriteRecord
+    public class OrderLocationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealorderlocationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

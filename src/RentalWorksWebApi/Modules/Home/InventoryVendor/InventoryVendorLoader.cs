@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventoryVendor
 {
     [FwSqlTable("mastervendorgridview")]
-    public class InventoryVendorLoader : RwDataLoadRecord
+    public class InventoryVendorLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastervendorid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

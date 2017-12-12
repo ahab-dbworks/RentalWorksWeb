@@ -3,7 +3,7 @@ using FwStandard.DataLayer;
 
 namespace WebApi.Data
 {
-    public class RwDataRecord : FwDataRecord
+    public class AppDataRecord : FwDataRecord
     {
     }
 }

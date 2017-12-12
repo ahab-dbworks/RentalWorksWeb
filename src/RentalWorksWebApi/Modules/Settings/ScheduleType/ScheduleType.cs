@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.ScheduleType
 {
     [FwSqlTable("scheduletype")]
-    public class ScheduleTypeRecord : RwDataReadWriteRecord
+    public class ScheduleTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "scheduletypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

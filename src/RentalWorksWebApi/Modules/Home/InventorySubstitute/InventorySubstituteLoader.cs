@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.InventorySubstitute
 {
     [FwSqlTable("substituteview")]
-    public class InventorySubstituteLoader : RwDataLoadRecord
+    public class InventorySubstituteLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mastersubstituteid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

@@ -5,7 +5,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Master
 {
-    public abstract class MasterLogic : RwBusinessLogic
+    public abstract class MasterLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         protected MasterRecord master = new MasterRecord();

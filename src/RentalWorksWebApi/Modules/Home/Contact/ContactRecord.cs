@@ -8,7 +8,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Contact
 {
     [FwSqlTable("contact")]
-    public class ContactRecord : RwDataReadWriteRecord
+    public class ContactRecord : AppDataReadWriteRecord
     {
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0, isPrimaryKey: true)]

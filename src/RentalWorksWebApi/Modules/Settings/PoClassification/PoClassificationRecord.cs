@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PoClassification
 {
     [FwSqlTable("poclassification")]
-    public class PoClassificationRecord : RwDataReadWriteRecord
+    public class PoClassificationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

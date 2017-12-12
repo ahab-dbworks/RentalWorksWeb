@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CustomerCategory
 {
     [FwSqlTable("custcat")]
-    public class CustomerCategoryRecord : RwDataReadWriteRecord
+    public class CustomerCategoryRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "custcatid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

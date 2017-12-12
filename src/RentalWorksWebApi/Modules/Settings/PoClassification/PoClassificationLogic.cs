@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.PoClassification
 {
-    public class PoClassificationLogic : RwBusinessLogic
+    public class PoClassificationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         PoClassificationRecord poClassification = new PoClassificationRecord();

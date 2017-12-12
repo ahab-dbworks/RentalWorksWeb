@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.CreditStatus
 {
-    public class CreditStatusLogic : RwBusinessLogic
+    public class CreditStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         CreditStatusRecord creditStatus = new CreditStatusRecord();

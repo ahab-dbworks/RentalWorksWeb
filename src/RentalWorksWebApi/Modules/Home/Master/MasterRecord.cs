@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Home.Master
 {
     [FwSqlTable("master")]
-    public class MasterRecord : RwDataReadWriteRecord
+    public class MasterRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

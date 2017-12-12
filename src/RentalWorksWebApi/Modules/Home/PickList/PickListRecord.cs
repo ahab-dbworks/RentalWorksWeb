@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.PickList
 {
     [FwSqlTable("picklist")]
-    public class PickListRecord : RwDataReadWriteRecord
+    public class PickListRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

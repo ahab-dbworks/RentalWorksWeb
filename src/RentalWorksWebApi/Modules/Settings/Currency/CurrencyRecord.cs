@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.Currency
 {
     [FwSqlTable("currency")]
-    public class CurrencyRecord : RwDataReadWriteRecord
+    public class CurrencyRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

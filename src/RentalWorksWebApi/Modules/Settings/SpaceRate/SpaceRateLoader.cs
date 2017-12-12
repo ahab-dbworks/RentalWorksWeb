@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.SpaceRate
 {
     [FwSqlTable("spacerateview")]
-    public class SpaceRateLoader : RwDataLoadRecord
+    public class SpaceRateLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacerateid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

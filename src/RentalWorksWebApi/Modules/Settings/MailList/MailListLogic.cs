@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.MailList
 {
-    public class MailListLogic : RwBusinessLogic
+    public class MailListLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         MailListRecord mailList = new MailListRecord();

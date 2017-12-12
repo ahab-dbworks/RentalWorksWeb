@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.SpaceType
 {
-    public class SpaceTypeLogic : RwBusinessLogic
+    public class SpaceTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         SpaceTypeRecord spaceType = new SpaceTypeRecord();

@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.OrderTypeFields
 {
     [FwSqlTable("ordertypefields")]
-    public class OrderTypeFieldsRecord : RwDataReadWriteRecord
+    public class OrderTypeFieldsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertypefieldsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

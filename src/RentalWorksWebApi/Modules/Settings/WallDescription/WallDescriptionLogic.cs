@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.WallDescription
 {
-    public class WallDescriptionLogic : RwBusinessLogic
+    public class WallDescriptionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         WallDescriptionRecord wallDescription = new WallDescriptionRecord();

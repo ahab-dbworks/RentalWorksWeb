@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.InventoryPackageInventory
 {
     [FwSqlTable("packageitem")]
-    public class InventoryPackageInventoryRecord : RwDataReadWriteRecord
+    public class InventoryPackageInventoryRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "packageitemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

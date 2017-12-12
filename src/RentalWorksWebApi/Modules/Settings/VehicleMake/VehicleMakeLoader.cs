@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.VehicleMake
 {
     [FwSqlTable("vehiclemakeview")]
-    public class VehicleMakeLoader: RwDataLoadRecord
+    public class VehicleMakeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemakeid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

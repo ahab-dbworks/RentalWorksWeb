@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.PhotographyType
 {
-    public class PhotographyTypeLogic : RwBusinessLogic
+    public class PhotographyTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         PhotographyTypeRecord photographyType = new PhotographyTypeRecord();

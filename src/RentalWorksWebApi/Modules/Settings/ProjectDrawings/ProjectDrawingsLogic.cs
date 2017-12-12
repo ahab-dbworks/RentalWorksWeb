@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.ProjectDrawings
 {
-    public class ProjectDrawingsLogic : RwBusinessLogic
+    public class ProjectDrawingsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         ProjectDrawingsRecord projectDrawings = new ProjectDrawingsRecord();

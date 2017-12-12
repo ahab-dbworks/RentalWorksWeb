@@ -4,7 +4,7 @@ using RRentalWorksWebApi.Modules.Settings.PaymentTerms;
 
 namespace WebApi.Modules.Settings.PaymentTerms
 {
-    public class PaymentTermsLogic : RwBusinessLogic
+    public class PaymentTermsLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         PaymentTermsRecord paymentTerms = new PaymentTermsRecord();

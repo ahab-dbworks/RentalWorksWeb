@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.GlDistribution
 {
-    public class GlDistributionLogic : RwBusinessLogic
+    public class GlDistributionLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         GlDistributionRecord glDistribution = new GlDistributionRecord();

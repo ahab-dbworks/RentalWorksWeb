@@ -4,7 +4,7 @@ using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Settings.OrderTypeNote
 {
-    public class OrderTypeNoteLogic : RwBusinessLogic
+    public class OrderTypeNoteLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderTypeNoteRecord orderTypeNote = new OrderTypeNoteRecord();

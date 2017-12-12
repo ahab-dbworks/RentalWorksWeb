@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DealClassification
 {
-    public class DealClassificationLogic : RwBusinessLogic
+    public class DealClassificationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DealClassificationRecord dealClassification = new DealClassificationRecord();

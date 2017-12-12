@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicaterule")]
-    public class DuplicateRuleRecord : RwDataReadWriteRecord
+    public class DuplicateRuleRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duplicateruleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

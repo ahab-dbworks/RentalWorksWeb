@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.FiscalMonth
 {
     [FwSqlTable("fiscalmonth")]
-    public class FiscalMonthRecord : RwDataReadWriteRecord
+    public class FiscalMonthRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fiscalmonthid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

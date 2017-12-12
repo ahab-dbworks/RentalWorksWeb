@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.Holiday
 {
     [FwSqlTable("holidaydefinitionview")]
-    public class HolidayLoader : RwDataLoadRecord
+    public class HolidayLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "holidayid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

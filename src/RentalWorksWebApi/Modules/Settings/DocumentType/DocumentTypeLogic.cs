@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.DocumentType
 {
-    public class DocumentTypeLogic : RwBusinessLogic
+    public class DocumentTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         DocumentTypeRecord documentType = new DocumentTypeRecord();

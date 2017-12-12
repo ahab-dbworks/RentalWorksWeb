@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.User
 {
-    public class UserLogic : RwBusinessLogic
+    public class UserLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         UserRecord user = new UserRecord();

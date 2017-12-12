@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryMaterial
 {
-    public class InventoryMaterialLogic : RwBusinessLogic
+    public class InventoryMaterialLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         InventoryMaterialRecord inventoryMaterial = new InventoryMaterialRecord();

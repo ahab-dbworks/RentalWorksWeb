@@ -5,7 +5,7 @@ using WebApi.Modules.Settings.FuelType;
 
 namespace WebApi.Modules.Settings.VehicleFuelType
 {
-    public class VehicleFuelTypeLogic : RwBusinessLogic
+    public class VehicleFuelTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         FuelTypeRecord fuelType = new FuelTypeRecord();

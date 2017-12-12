@@ -6,7 +6,7 @@ using WebApi.Modules.Home.DealOrderDetail;
 
 namespace WebApi.Modules.Home.Order
 {
-    public class OrderBaseLogic : RwBusinessLogic
+    public class OrderBaseLogic : AppBusinessLogic
     {
         protected DealOrderRecord dealOrder = new DealOrderRecord();
         protected DealOrderDetailRecord dealOrderDetail = new DealOrderDetailRecord();

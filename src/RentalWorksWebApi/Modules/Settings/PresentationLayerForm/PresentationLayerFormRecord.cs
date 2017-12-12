@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Settings.PresentationLayerForm
 {
     [FwSqlTable("presentationlayerform")]
-    public class PresentationLayerFormRecord : RwDataReadWriteRecord
+    public class PresentationLayerFormRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "presentationlayerformid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

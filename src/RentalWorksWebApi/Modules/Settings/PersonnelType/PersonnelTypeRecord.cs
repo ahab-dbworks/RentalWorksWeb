@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PersonnelType
 {
     [FwSqlTable("personneltype")]
-    public class PersonnelTypeRecord : RwDataReadWriteRecord
+    public class PersonnelTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "personneltypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

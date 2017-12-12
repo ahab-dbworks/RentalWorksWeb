@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OrganizationType
 {
-    public class OrganizationTypeLogic : RwBusinessLogic
+    public class OrganizationTypeLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         OrganizationTypeRecord organizationType = new OrganizationTypeRecord();

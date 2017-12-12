@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.PhotographyType
 {
     [FwSqlTable("photographytype")]
-    public class PhotographyTypeRecord : RwDataReadWriteRecord
+    public class PhotographyTypeRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "photographytypeid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

@@ -4,7 +4,7 @@ using WebApi.Modules.Settings.Color;
 
 namespace WebApi.Modules.Settings.VehicleColor
 {
-    public class VehicleColorLogic : RwBusinessLogic
+    public class VehicleColorLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         ColorRecord vehicleColor = new ColorRecord();

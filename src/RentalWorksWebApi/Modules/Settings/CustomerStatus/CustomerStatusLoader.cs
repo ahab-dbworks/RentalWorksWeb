@@ -5,7 +5,7 @@ using WebApi.Data;
 namespace WebApi.Modules.Settings.CustomerStatus
 {
     [FwSqlTable("customerstatusview")]
-    public class CustomerStatusLoader : RwDataLoadRecord
+    public class CustomerStatusLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "customerstatusid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

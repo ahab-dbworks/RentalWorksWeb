@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.Source
 {
-    public class SourceLogic : RwBusinessLogic
+    public class SourceLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         SourceRecord source = new SourceRecord();

@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.EventCategory
 {
-    public class EventCategoryLogic : RwBusinessLogic
+    public class EventCategoryLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         EventCategoryRecord eventCategory = new EventCategoryRecord();

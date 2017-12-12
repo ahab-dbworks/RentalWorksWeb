@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 namespace WebApi.Modules.Settings.OrderLocation
 {
-    public class OrderLocationLogic : RwBusinessLogic
+    public class OrderLocationLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         OrderLocationRecord orderLocation = new OrderLocationRecord();

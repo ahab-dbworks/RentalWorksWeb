@@ -2,10 +2,10 @@
 
 namespace WebApi.Logic
 {
-    public class RwBusinessLogic : FwBusinessLogic
+    public class AppBusinessLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------
-        public RwBusinessLogic()
+        public AppBusinessLogic()
         {
         }
         //------------------------------------------------------------------------------------

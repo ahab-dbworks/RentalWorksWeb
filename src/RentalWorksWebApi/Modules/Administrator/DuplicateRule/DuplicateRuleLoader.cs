@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicateruleview")]
-    public class DuplicateRuleLoader : RwDataLoadRecord
+    public class DuplicateRuleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duplicateruleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

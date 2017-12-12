@@ -4,7 +4,7 @@ using FwStandard.SqlServer.Attributes;
 namespace WebApi.Data.Settings
 {
     [FwSqlTable("maillist")]
-    public class MailListRecord : RwDataReadWriteRecord
+    public class MailListRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "listid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]

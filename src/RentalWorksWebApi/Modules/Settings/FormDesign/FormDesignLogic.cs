@@ -3,7 +3,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.FormDesign
 {
-    public class FormDesignLogic : RwBusinessLogic
+    public class FormDesignLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
         FormDesignRecord formDesign = new FormDesignRecord();
