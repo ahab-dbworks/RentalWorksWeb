@@ -130,35 +130,41 @@ class Order {
     };
 
     openForm(mode: string) {
-        //var $form = FwModule.loadFormFromTemplate(this.Module);
-        //$form = FwModule.openForm($form, mode);
+        var $form;
 
-        //return $form;
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true')
+        }
+
+        $form = FwModule.openForm($form, mode);
+
+        return $form;
     }
 
     loadForm(uniqueids: any) {
-        //var $form = this.openForm('EDIT');
-        //FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
-        //FwModule.loadForm(this.Module, $form);
+        var $form;
 
-        //return $form;
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
     }
 
-    saveForm($form: JQuery, closetab: boolean, navigationpath: string) {
+    saveForm($form: any, closetab: boolean, navigationpath: string) {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     }
 
-    loadAudit($form: JQuery) {
-        var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
+    loadAudit($form: any) {
+        var uniqueid;
+        uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
-    renderGrids($form: JQuery) {
+    afterLoad($form: any) {
 
-    }
-
-    afterLoad($form: JQuery) {
-      
     }
 }
 
