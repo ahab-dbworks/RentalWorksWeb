@@ -178,6 +178,7 @@ html.theme-material.mobile .fwformfield[data-type="combobox"] .pager .lasticon {
 /*#region Validation CSS*/
 html.theme-material .fwformfield[data-type="validation"] .fwformfield-control input.fwformfield-text {flex:1 0 auto;width:5px;background-color: transparent;padding:6px;font-size:14px;border:1px solid #E0E0E0;border-right:none;outline:0;transition: all 0.3s;}
 html.theme-material .fwformfield[data-type="validation"] .fwformfield-control input.fwformfield-text:focus {border: 1px solid #2196f3;border-right:none;}
+html.theme-material .fwformfield[data-type="validation"] .fwformfield-control .btnhelp {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
 html.theme-material .fwformfield[data-type="validation"] .fwformfield-control .btnvalidate {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
 html.theme-material .fwformfield[data-type="validation"] input.fwformfield-text:focus+.btnvalidate {border: 1px solid #2196f3;border-left:none;}
 html.theme-material .fwformfield[data-type="validation"][data-enabled="false"] .fwformfield-control input.fwformfield-text {color: #757575;}
