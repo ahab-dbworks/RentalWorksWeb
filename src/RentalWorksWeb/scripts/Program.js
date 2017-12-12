@@ -23,6 +23,7 @@ Program.prototype.modules = [
   { urlpattern: /^module\/contact$/,                    getScreen: function () { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendor$/,                   getScreen: function () { return VendorController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/picklist$/,                 getScreen: function () { return PickListController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/orderstatus$/,              getScreen: function () { return OrderStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/customer$/,                 getScreen: function() { return CustomerController.getModuleScreen({}, {}); } }

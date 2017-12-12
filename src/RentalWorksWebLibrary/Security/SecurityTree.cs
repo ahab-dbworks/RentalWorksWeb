@@ -51,6 +51,7 @@ namespace WebLibrary.Security
             AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
             AddModule("Order", "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuRentalWorks.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
             AddModule("Order Status", "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuRentalWorks.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
+            AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
             

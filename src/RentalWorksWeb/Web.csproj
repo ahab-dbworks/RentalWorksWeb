@@ -349,6 +349,8 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
+    <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\CompanyContact\CompanyContactForm.htm" />
     <Content Include="Source\Modules\Home\Contact\Contact.css" />
@@ -364,6 +366,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
