@@ -90,7 +90,7 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendOut { get; set; }
         //------------------------------------------------------------------------------------  
-        [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.UTCDateTime)]
         public string OutDateTime { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "isexchangeout", modeltype: FwDataTypes.Boolean)]
@@ -105,7 +105,7 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendIn { get; set; }
         //------------------------------------------------------------------------------------  
-        [FwSqlDataField(column: "indatetime", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "indatetime", modeltype: FwDataTypes.UTCDateTime)]
         public string InDateTime { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "isexchangein", modeltype: FwDataTypes.Boolean)]
