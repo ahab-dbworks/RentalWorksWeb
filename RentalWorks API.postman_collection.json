@@ -19240,16 +19240,18 @@
 				{
 					"name": "Rental  Inventory: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalinventory/000032T1",
+						"url": "http://localhost:57949/api/v1/rentalinventory/000061ZK",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -25548,6 +25550,162 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wardrobe Material",
+			"description": "",
+			"item": [
+				{
+					"name": "Wardrobe Material: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Material: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"WardrobeMaterial\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Material: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial/00006DYA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Material: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WardrobeMaterial\": \"RAYON\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Material: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WardrobeMaterialId\": \"00006E1Z\",\n    \"WardrobeMaterial\": \"RAYONX\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Wardrobe Material: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/wardrobematerial/00006E1Z",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
