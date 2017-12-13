@@ -15,7 +15,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeBrowseSubMenu = tree.AddSubMenu("{0E2A9234-314E-47EB-81EF-BE741C346903}", nodeBrowseMenuBar.Id);
             var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{EB58FFA8-DE71-434F-A4B4-D9D3786419D2}", nodeBrowseSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{5A45F16F-D7FA-410F-BE8D-304E0CFC1327}", nodeBrowseExport.Id);
-            tree.AddNewMenuBarButton("{0D5E1A34-90CE-4020-BEDD-4817D9D0305F}", nodeBrowseMenuBar.Id);
+            //tree.AddNewMenuBarButton("{0D5E1A34-90CE-4020-BEDD-4817D9D0305F}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{E1FEF449-73EA-4BE9-8CED-D0BA711D9CFC}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{8521DD2F-5F65-4528-9162-A262337B16AF}", nodeBrowseMenuBar.Id);
             tree.AddDeleteMenuBarButton("{F85CF357-534F-4A66-8274-CA118EC6FD90}", nodeBrowseMenuBar.Id);
