@@ -206,6 +206,10 @@ var RentalInventory = (function () {
         var $inventoryWarehouseStagingGridControl;
         var $inventoryKitGrid;
         var $inventoryKitGridControl;
+        var $wardrobeInventoryColorGrid;
+        var $wardrobeInventoryColorGridControl;
+        var $wardrobeInventoryMaterialGrid;
+        var $wardrobeInventoryMaterialGridControl;
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
@@ -403,6 +407,32 @@ var RentalInventory = (function () {
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
+        $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
+        $wardrobeInventoryColorGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryColorGridBrowse').html());
+        $wardrobeInventoryColorGrid.empty().append($wardrobeInventoryColorGridControl);
+        $wardrobeInventoryColorGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $wardrobeInventoryColorGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init($wardrobeInventoryColorGridControl);
+        FwBrowse.renderRuntimeHtml($wardrobeInventoryColorGridControl);
+        $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
+        $wardrobeInventoryMaterialGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryMaterialGridBrowse').html());
+        $wardrobeInventoryMaterialGrid.empty().append($wardrobeInventoryMaterialGridControl);
+        $wardrobeInventoryMaterialGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $wardrobeInventoryMaterialGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        FwBrowse.init($wardrobeInventoryMaterialGridControl);
+        FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
     };
     RentalInventory.prototype.afterLoad = function ($form) {
         var $itemLocationTaxGrid;
@@ -420,6 +450,8 @@ var RentalInventory = (function () {
         var $inventoryCompleteGrid;
         var $inventoryWarehouseStagingGrid;
         var $inventoryKitGrid;
+        var $wardrobeInventoryColorGrid;
+        var $wardrobeInventoryMaterialGrid;
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
@@ -450,6 +482,10 @@ var RentalInventory = (function () {
         FwBrowse.search($inventoryWarehouseStagingGrid);
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
         FwBrowse.search($inventoryKitGrid);
+        $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
+        FwBrowse.search($wardrobeInventoryColorGrid);
+        $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
+        FwBrowse.search($wardrobeInventoryMaterialGrid);
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
             $form.find('.completeradio').hide();

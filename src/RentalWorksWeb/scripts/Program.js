@@ -102,6 +102,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/wardrobecolor$/,              getScreen: function() { return WardrobeColorController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobegender$/,             getScreen: function() { return WardrobeGenderController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/wardrobelabel$/,              getScreen: function() { return WardrobeLabelController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/wardrobematerial$/,           getScreen: function() { return WardrobeMaterialController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vehiclemake$/,                getScreen: function () { return VehicleMakeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/inventorytype$/,              getScreen: function() { return InventoryTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } } 

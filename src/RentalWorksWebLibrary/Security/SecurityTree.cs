@@ -239,6 +239,7 @@ namespace WebLibrary.Security
                                              AddModule("Wardrobe Condition", "{4EEBE71C-139A-4D09-B589-59DA576C83FD}", lv2menuWardrobeSettings.Id, "WardrobeConditionController", "module/wardrobecondition", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Gender", "{28574D17-D2FF-41A0-8117-5F252013E7B1}", lv2menuWardrobeSettings.Id, "WardrobeGenderController", "module/wardrobegender", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Label", "{9C1B5157-C983-44EE-817F-171B4448401A}", lv2menuWardrobeSettings.Id, "WardrobeLabelController", "module/wardrobelabel", settingsiconbaseurl + "placeholder.png");
+                                             AddModule("Wardrobe Material", "{25895901-C700-4618-9ADA-00A7CB4B83B9}", lv2menuWardrobeSettings.Id, "WardrobeMaterialController", "module/wardrobematerial", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Pattern", "{2BE7072A-5588-4205-8DCD-0FFE6F0C48F7}", lv2menuWardrobeSettings.Id, "WardrobePatternController", "module/wardrobepattern", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Period", "{BF51623D-ABA6-471A-BC00-4729067C64CF}", lv2menuWardrobeSettings.Id, "WardrobePeriodController", "module/wardrobeperiod", settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Source", "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id, "WardrobeSourceController", "module/wardrobesource", settingsiconbaseurl + "placeholder.png");
@@ -341,6 +342,8 @@ namespace WebLibrary.Security
             AddGrid("Vehicle Type Warehouse",                 "{51707760-645D-452C-A545-37A4C861B139}", lv1menuGrids.Id, "VehicleTypeWarehouseGridController");
             AddGrid("Generator Type Warehouse",               "{A310B3F4-2B34-433A-8F24-04400B45670A}", lv1menuGrids.Id, "GeneratorTypeWarehouseGridController");
             AddGrid("Company Tax Option",                     "{B7E9F2F8-D28C-43C6-A91F-40B9B530C8A1}", lv1menuGrids.Id, "CompanyTaxOptionGridController");
+            AddGrid("Wardrobe Inventory Color",               "{ED2BCE54-1255-4B65-976B-B24A6573F176}", lv1menuGrids.Id, "WardrobeInventoryColorGridController");
+            AddGrid("Wardrobe Inventory Material",            "{8BE5E66E-35B8-444F-9F9A-E03F4667F67A}", lv1menuGrids.Id, "WardrobeInventoryMaterialGridController");
             AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
             AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNotesGridController");
             AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");

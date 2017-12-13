@@ -243,6 +243,10 @@ class RentalInventory {
         var $inventoryWarehouseStagingGridControl: any;
         var $inventoryKitGrid: any;
         var $inventoryKitGridControl: any;
+        var $wardrobeInventoryColorGrid: any;
+        var $wardrobeInventoryColorGridControl: any;
+        var $wardrobeInventoryMaterialGrid: any;
+        var $wardrobeInventoryMaterialGridControl: any;
 
 
         // load AttributeValue Grid
@@ -456,6 +460,34 @@ class RentalInventory {
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
+
+        $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
+        $wardrobeInventoryColorGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryColorGridBrowse').html());
+        $wardrobeInventoryColorGrid.empty().append($wardrobeInventoryColorGridControl);
+        $wardrobeInventoryColorGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $wardrobeInventoryColorGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($wardrobeInventoryColorGridControl);
+        FwBrowse.renderRuntimeHtml($wardrobeInventoryColorGridControl);
+
+        $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
+        $wardrobeInventoryMaterialGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryMaterialGridBrowse').html());
+        $wardrobeInventoryMaterialGrid.empty().append($wardrobeInventoryMaterialGridControl);
+        $wardrobeInventoryMaterialGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $wardrobeInventoryMaterialGridControl.data('beforesave', function (request) {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($wardrobeInventoryMaterialGridControl);
+        FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
     }
 
     afterLoad($form: any) {
@@ -474,6 +506,8 @@ class RentalInventory {
         var $inventoryCompleteGrid: any;
         var $inventoryWarehouseStagingGrid: any;
         var $inventoryKitGrid: any;
+        var $wardrobeInventoryColorGrid: any;
+        var $wardrobeInventoryMaterialGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -505,6 +539,10 @@ class RentalInventory {
         FwBrowse.search($inventoryWarehouseStagingGrid);
         $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
         FwBrowse.search($inventoryKitGrid);
+        $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
+        FwBrowse.search($wardrobeInventoryColorGrid);
+        $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
+        FwBrowse.search($wardrobeInventoryMaterialGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));

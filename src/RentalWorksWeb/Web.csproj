@@ -239,6 +239,8 @@
     <Content Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
     <Content Include="Source\Grids\VendorGrid\VendorGridBrowse.htm" />
+    <Content Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridBrowse.htm" />
+    <Content Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseGrid\WarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridBrowse.htm" />
@@ -304,6 +306,8 @@
     <TypeScriptCompile Include="Source\Grids\RateWarehouseGrid\RateWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorGrid\VendorGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseGrid\WarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VehicleTypeWarehouseGrid\VehicleTypeWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GeneratorTypeWarehouseGrid\GeneratorTypeWarehouseGridController.ts" />
@@ -486,6 +490,8 @@
     <Content Include="Source\Modules\Settings\ProjectDeposit\ProjectDepositForm.htm" />
     <Content Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioningBrowse.htm" />
     <Content Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioningForm.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeMaterial\WardrobeMaterialBrowse.htm" />
+    <Content Include="Source\Modules\Settings\WardrobeMaterial\WardrobeMaterialForm.htm" />
     <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogBrowse.htm" />
     <Content Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalogForm.htm" />
     <Content Include="Source\Modules\Settings\RentalCategory\RentalCategoryBrowse.htm" />
@@ -753,7 +759,9 @@
     <Content Include="Source\Validations\TaxOptionValidation\TaxOptionValidationBrowse.htm" />
     <Content Include="Source\Validations\TermsConditionsValidation\TermsConditionsValidationBrowse.htm" />
     <Content Include="Source\Validations\WardrobeCareValidation\WardrobeCareValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeMaterialValidation\WardrobeMaterialValidationBrowse.htm" />
     <Content Include="Source\Validations\WardrobeGenderValidation\WardrobeGenderValidationBrowse.htm" />
+    <Content Include="Source\Validations\WardrobeColorValidation\WardrobeColorValidationBrowse.htm" />
     <Content Include="Source\Validations\WardrobeLabelValidation\WardrobeLabelValidationBrowse.htm" />
     <Content Include="Source\Validations\WardrobePatternValidation\WardrobePatternValidationBrowse.htm" />
     <Content Include="Source\Validations\WardrobePeriodValidation\WardrobePeriodValidationBrowse.htm" />
@@ -1025,6 +1033,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\PresentationLayer\PresentationLayer.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectDeposit\ProjectDeposit.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ProjectCommissioning\ProjectCommissioning.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\WardrobeMaterial\WardrobeMaterial.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\WarehouseCatalog\WarehouseCatalog.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\RentalCategory\RentalCategory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\SalesCategory\SalesCategory.ts" />
