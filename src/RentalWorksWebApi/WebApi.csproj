@@ -31,7 +31,7 @@
     <Folder Include="Modules\Reports\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.1" />
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.1" />
