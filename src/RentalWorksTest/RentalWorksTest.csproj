@@ -82,8 +82,6 @@
   <ItemGroup>
     <Compile Include="QuikScan\FuncQS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuikScan\Modules\Login\LoginTestFixture.cs" />
-    <Compile Include="QuikScan\Modules\Staging\StagingTestFixture.cs" />
     <Compile Include="RentalWorksAPI\FuncApi.cs" />
     <Compile Include="RentalWorksAPI\WebServiceException.cs" />
   </ItemGroup>
