@@ -48,21 +48,22 @@
          you will have to fix it here afterwards.  Note that these variables contain the trailing backslash. 
          For NuGet packages example: $(SolutionDir)packages\EO.Pdf.17.2.75.0\lib\EO.Base.dll 
          For libraries in the Fw\lib folder example: $(ProjectDir)..\..\lib\EPPlus\EPPlus.dll-->
-    <Reference Include="EO.Base, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=18.0.15.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.15\lib\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Pdf, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.Pdf.dll</HintPath>
+    <Reference Include="EO.Pdf, Version=18.0.15.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.15\lib\EO.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=18.0.15.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.15\lib\EO.WebBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebEngine, Version=18.0.9.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.9\lib\EO.WebEngine.dll</HintPath>
+    <Reference Include="EO.WebEngine, Version=18.0.15.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)packages\EO.Pdf.18.0.15\lib\EO.WebEngine.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ProjectDir)..\..\lib\EPPlus\EPPlus.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=b0d5abe00db94ce4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -216,14 +217,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(ProjectDir)..\..\lib\EPPlus\EPPlus.dll">
-      <Link>EPPlus.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(ProjectDir)..\..\lib\EPPlus\EPPlus.XML">
-      <Link>EPPlus.XML</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="$(ProjectDir)..\..\lib\JsonFX\JsonFx.dll">
       <Link>JsonFx.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

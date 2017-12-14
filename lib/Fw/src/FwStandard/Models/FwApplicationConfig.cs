@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Runtime.Serialization;
-
-namespace FwStandard.Models
+﻿namespace FwStandard.Models
 {
     public class FwApplicationConfig
     {
