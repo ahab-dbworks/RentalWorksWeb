@@ -160,16 +160,13 @@ class Order {
     renderGrids($form: any) {
         var $orderPickListGrid: any;
         var $orderPickListGridControl: any;
-        var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-        var pickListId = $form.find('[data-datafield="PickListId"] .fwformfield-value').val();
 
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
         $orderPickListGrid.empty().append($orderPickListGridControl);
         $orderPickListGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
-                PickListId: pickListId
+                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
             };
         })
         FwBrowse.init($orderPickListGridControl);
