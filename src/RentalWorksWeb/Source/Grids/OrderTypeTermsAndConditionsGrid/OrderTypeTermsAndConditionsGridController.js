@@ -1,4 +1,4 @@
-var OrderTypeTermsAndConditionsGrid = (function () {
+var OrderTypeTermsAndConditionsGrid = /** @class */ (function () {
     function OrderTypeTermsAndConditionsGrid() {
         this.Module = 'OrderTypeTermsAndConditions';
         this.apiurl = 'api/v1/ordertypelocation';

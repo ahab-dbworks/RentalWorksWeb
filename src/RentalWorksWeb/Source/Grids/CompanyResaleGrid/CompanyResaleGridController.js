@@ -1,4 +1,4 @@
-var CompanyResaleGrid = (function () {
+var CompanyResaleGrid = /** @class */ (function () {
     function CompanyResaleGrid() {
         this.Module = 'CompanyResaleGrid';
         this.apiurl = 'api/v1/companytaxresale';

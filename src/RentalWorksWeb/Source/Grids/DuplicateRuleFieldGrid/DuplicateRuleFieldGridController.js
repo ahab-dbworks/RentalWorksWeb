@@ -1,4 +1,4 @@
-var DuplicateRuleFieldGrid = (function () {
+var DuplicateRuleFieldGrid = /** @class */ (function () {
     function DuplicateRuleFieldGrid() {
         this.Module = 'DuplicateRuleFieldGrid';
         this.apiurl = 'api/v1/duplicaterulefield';

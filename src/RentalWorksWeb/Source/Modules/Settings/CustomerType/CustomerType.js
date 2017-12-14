@@ -1,4 +1,4 @@
-var CustomerType = (function () {
+var CustomerType = /** @class */ (function () {
     function CustomerType() {
         this.Module = 'CustomerType';
         this.apiurl = 'api/v1/customertype';

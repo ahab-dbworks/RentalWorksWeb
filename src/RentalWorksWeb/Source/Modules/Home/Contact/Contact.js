@@ -1,4 +1,4 @@
-var Contact = (function () {
+var Contact = /** @class */ (function () {
     function Contact() {
         //----------------------------------------------------------------------------------------------
         this.renderGrids = function ($form) {

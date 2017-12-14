@@ -1,4 +1,4 @@
-var InventoryConsignmentGrid = (function () {
+var InventoryConsignmentGrid = /** @class */ (function () {
     function InventoryConsignmentGrid() {
         this.Module = 'InventoryConsignmentGrid';
         this.apiurl = 'api/v1/inventoryconsignor';

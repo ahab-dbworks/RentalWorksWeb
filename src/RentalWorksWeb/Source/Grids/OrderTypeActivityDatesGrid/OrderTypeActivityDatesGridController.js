@@ -1,4 +1,4 @@
-var OrderTypeActivityDatesGrid = (function () {
+var OrderTypeActivityDatesGrid = /** @class */ (function () {
     function OrderTypeActivityDatesGrid() {
         this.Module = 'OrderTypeActivityDatesGrid';
         this.apiurl = 'api/v1/ordertypedatetype';

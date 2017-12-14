@@ -1,4 +1,4 @@
-var SpaceWarehouseRateGrid = (function () {
+var SpaceWarehouseRateGrid = /** @class */ (function () {
     function SpaceWarehouseRateGrid() {
         this.Module = 'SpaceWarehouseRateGrid';
         this.apiurl = 'api/v1/ratewarehouse';

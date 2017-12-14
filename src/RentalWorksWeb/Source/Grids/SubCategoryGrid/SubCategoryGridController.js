@@ -1,4 +1,4 @@
-var SubCategoryGrid = (function () {
+var SubCategoryGrid = /** @class */ (function () {
     function SubCategoryGrid() {
         this.Module = 'SubCategoryGrid';
         this.apiurl = 'api/v1/subcategory';

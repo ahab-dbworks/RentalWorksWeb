@@ -1,4 +1,4 @@
-var ItemQcGrid = (function () {
+var ItemQcGrid = /** @class */ (function () {
     function ItemQcGrid() {
         this.Module = 'ItemQcGrid';
         this.apiurl = 'api/v1/itemqc';

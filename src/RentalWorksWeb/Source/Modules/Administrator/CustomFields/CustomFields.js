@@ -1,4 +1,4 @@
-var CustomFields = (function () {
+var CustomFields = /** @class */ (function () {
     function CustomFields() {
         this.Module = 'CustomFields';
         this.apiurl = 'api/v1/customfield';

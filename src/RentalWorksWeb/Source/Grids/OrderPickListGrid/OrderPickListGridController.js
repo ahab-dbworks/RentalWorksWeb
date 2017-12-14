@@ -1,4 +1,4 @@
-var OrderPickListGrid = (function () {
+var OrderPickListGrid = /** @class */ (function () {
     function OrderPickListGrid() {
         this.Module = 'OrderPickListGrid';
         this.apiurl = 'api/v1/picklist';
