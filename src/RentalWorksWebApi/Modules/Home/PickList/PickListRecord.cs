@@ -1,6 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer.Attributes;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Home.PickList
 {
@@ -80,5 +82,24 @@ namespace WebApi.Modules.Home.PickList
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveNoteASync(string Note)
+        {
+            bool saved = false;
+            if (Note != null)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
+                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

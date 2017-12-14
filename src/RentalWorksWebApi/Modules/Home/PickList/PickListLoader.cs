@@ -19,6 +19,9 @@ namespace WebApi.Modules.Home.PickList
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picktype", modeltype: FwDataTypes.Text)]
+        public string PickType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "completed", modeltype: FwDataTypes.Boolean)]
         public bool? Completed { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -109,6 +112,21 @@ namespace WebApi.Modules.Home.PickList
         [FwSqlDataField(column: "duetime", modeltype: FwDataTypes.Text)]
         public string DueTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deliverdate", modeltype: FwDataTypes.Date)]
+        public string DeliverDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "delivertime", modeltype: FwDataTypes.Text)]
+        public string DeliverTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
+        public string Note { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -117,7 +135,7 @@ namespace WebApi.Modules.Home.PickList
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("OrderId", "orderid", select, request); 
+            addFilterToSelect("OrderId", "orderid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }

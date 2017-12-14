@@ -1,5 +1,7 @@
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
+
 namespace WebApi.Modules.Home.PickList
 {
     public class PickListLogic : AppBusinessLogic
@@ -11,12 +13,19 @@ namespace WebApi.Modules.Home.PickList
         {
             dataRecords.Add(pickList);
             dataLoader = pickListLoader;
+            pickList.AfterSaves += OnAfterSavesPickList;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string PickListId { get { return pickList.PickListId; } set { pickList.PickListId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string PickListNumber { get { return pickList.PickListNumber; } set { pickList.PickListNumber = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PickType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PickDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PickTime { get; set; }
         public string Status { get { return pickList.Status; } set { pickList.Status = value; } }
         public bool? Completed { get { return pickList.Completed; } set { pickList.Completed = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -32,6 +41,10 @@ namespace WebApi.Modules.Home.PickList
         public string Warehouse { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DeliverType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DeliverDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DeliverTime { get; set; }
         public string OrderId { get { return pickList.OrderId; } set { pickList.OrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderNumber { get; set; }
@@ -71,7 +84,16 @@ namespace WebApi.Modules.Home.PickList
         public string AssignedTo { get; set; }
         public string DueDate { get { return pickList.DueDate; } set { pickList.DueDate = value; } }
         public string DueTime { get { return pickList.DueTime; } set { pickList.DueTime = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Note { get; set; }
         public string DateStamp { get { return pickList.DateStamp; } set { pickList.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+
+        public void OnAfterSavesPickList(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = pickList.SaveNoteASync(Note).Result;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
