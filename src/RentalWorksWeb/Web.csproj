@@ -662,6 +662,12 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
+    <Content Include="Source\Reports\PickListReport\Body.htm" />
+    <Content Include="Source\Reports\PickListReport\Footer.htm" />
+    <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
+    <Content Include="Source\Reports\PickListReport\Header.htm" />
+    <Content Include="Source\Reports\PickListReport\RwPickListReportController.js" />
+    <Content Include="Source\Reports\PickListReport\StyleSheet.css" />
     <Content Include="Source\Reports\DealOutstanding\Body.htm" />
     <Content Include="Source\Reports\DealOutstanding\Footer.htm" />
     <Content Include="Source\Reports\DealOutstanding\FrontEnd.htm" />
@@ -687,6 +693,7 @@
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
+    <Content Include="Source\Validations\PickListValidation\PickListValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDefinitionValidation\ReportDefinitionValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDesignerValidation\ReportDesignerValidationBrowse.htm" />
@@ -907,6 +914,7 @@
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
+    <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
     <Compile Include="Source\Reports\VendorInvoiceProcessing\VendorInvoiceProcessing.cs" />

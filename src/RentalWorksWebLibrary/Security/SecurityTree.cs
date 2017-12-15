@@ -250,6 +250,8 @@ namespace WebLibrary.Security
             var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports", "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png", "Deal Reports");
                                              AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
 
+            AddModule("Pick List Report", "{37A26BC9-9509-4524-9368-3D1E575142BD}", lv1menuReports.Id, "RwPickListReportController", "module/picklistreport", reportsiconbaseurl + "placeholder.png", "Pick List Report", "", "");
+
             // Add Utilities 
             //var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing",       "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id,                                                                                 utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
             //                                    AddModule("Process Deal Invoices",   "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",        "module/chargeprocessing",        utilitiesiconbaseurl + "placeholder.png", "", "", "");
