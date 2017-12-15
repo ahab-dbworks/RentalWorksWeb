@@ -655,7 +655,7 @@
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <Content Include="Source\Pages\Base\RwBaseController.js" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
-    <Content Include="Source\Pages\HomePage\RwHomeController.js" />
+    <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Reports\ChargeProcessing\Body.htm" />
     <Content Include="Source\Reports\ChargeProcessing\Footer.htm" />
     <Content Include="Source\Reports\ChargeProcessing\FrontEnd.htm" />
