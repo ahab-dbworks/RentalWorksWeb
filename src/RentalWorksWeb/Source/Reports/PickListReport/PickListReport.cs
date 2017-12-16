@@ -19,14 +19,6 @@ namespace Web.Source.Reports
       
             sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
             sb.Replace("[LBLREPORTNAME]", getReportName());
-            //sb.Replace("[LBLDEPARTMENT]", (request.parameters.ShowDepartmentFrom == "O") ? "Company Department" : "Inventory Type");
-            //if      (request.parameters.IncludeValueCost == "" ) { sb.Replace("[LBLITEMVALUE]", ""           ); }
-            //else if (request.parameters.IncludeValueCost == "R") { sb.Replace("[LBLITEMVALUE]", "Replacement"); } 
-            //else if (request.parameters.IncludeValueCost == "U") { sb.Replace("[LBLITEMVALUE]", "Unit Value" ); }
-            //else if (request.parameters.IncludeValueCost == "P") { sb.Replace("[LBLITEMVALUE]", "Unit Cost"  ); }
-            //sb.Replace("[LBLASOF]", "AS OF:");
-            //sb.Replace("[LBLFROMDATE]", "");
-            //sb.Replace("[LBLTODATE]"  , "");
 
             html = sb.ToString();
 
@@ -43,35 +35,8 @@ namespace Web.Source.Reports
 
             html        = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb          = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
-            sb.Replace("[LBLDEPARTMENT]", (request.parameters.ShowDepartmentFrom == "O") ? "Company Department" : "Inventory Type");
-            if      (request.parameters.IncludeValueCost == "R") { sb.Replace("[LBLITEMVALUE]", "Replacement"); } 
-            else if (request.parameters.IncludeValueCost == "U") { sb.Replace("[LBLITEMVALUE]", "Unit Value" ); }
-            else if (request.parameters.IncludeValueCost == "P") { sb.Replace("[LBLITEMVALUE]", "Unit Cost"  ); }
-            else                                                 { sb.Replace("[LBLITEMVALUE]", ""           ); }
+        
 
-            sb.Replace("[TOTOALROWS]", "Total Rows: " + dtPickListReport.Rows.Count);
-            if (request.parameters.IncludeValueCost == "on")
-            {
-                sb.Replace("[TOTALVALUE]", "");
-            }
-            else
-            {
-                int itemvalueindex = dtPickListReport.ColumnIndex["itemvalue"];
-                decimal total = 0M;
-                for (int i = 0; i < dtPickListReport.Rows.Count; i++)
-                {
-                    decimal tempval;
-                    decimal? itemvalue = decimal.TryParse((string)dtPickListReport.Rows[i][itemvalueindex], out tempval) ? tempval : (decimal?)null;
-                    total = itemvalue.Value + total;
-                }
-                sb.Replace("[TOTALVALUE]", "Total Value: " + string.Format("{0:C}", total));
-            }
-
-            if (request.parameters.ShowImages == "T")
-            {
-                sb.Replace("<div id=\"imagecaption\"></div>", "Image");
-                sb.Replace("<div id=\"imagevalue\"></div>", "<img style=\"max-height:200px;max-width:200px;\" src=\"{{image}}\">");
-            }
 
             html        = sb.ToString();
             html        = this.applyTableToTemplate(html, "details", dtPickListReport);
@@ -83,8 +48,7 @@ namespace Web.Source.Reports
         {
             FwSqlSelect select;
             FwSqlCommand qry;
-            FwJsonDataTable dtDetails/*, dtTotals*/;
-            //List<object> totalsRow;
+            FwJsonDataTable dtDetails;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             qry.AddColumn("orderdate",       false, FwJsonDataTableColumn.DataTypes.Date);
@@ -101,8 +65,8 @@ namespace Web.Source.Reports
             select.Add("from  picklistrptview with (nolock)");
             select.Add("where picklistid = @picklistid");
             select.Add("order by orderno, pickdate, rectypesequence, itemorder, masterno");
-            select.AddParameter("@picklistid",              request.parameters.picklistid);
-
+            select.AddParameter("@picklistid", request.parameters.PickListId);
+      
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
 
