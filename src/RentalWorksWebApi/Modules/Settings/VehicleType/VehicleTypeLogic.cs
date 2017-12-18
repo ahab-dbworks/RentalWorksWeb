@@ -32,7 +32,7 @@ namespace WebApi.Modules.Settings.VehicleType
         public string LicenseClass { get; set; }
         public bool? Regulated { get { return inventoryCategory.Regulated; } set { inventoryCategory.Regulated = value; } }
         [JsonIgnore]
-        public string InventoryCategoryId { get { return VehicleTypeId; } set { VehicleTypeId = value; } }
+        public string CategoryId { get { return VehicleTypeId; } set { VehicleTypeId = value; } }
         //------------------------------------------------------------------------------------
         public override void BeforeSave()
         {
@@ -51,7 +51,7 @@ namespace WebApi.Modules.Settings.VehicleType
         //------------------------------------------------------------------------------------
         public void OnAfterSavesCategory(object sender, SaveEventArgs e)
         {
-            InventoryCategoryId = VehicleTypeId;
+            CategoryId = VehicleTypeId;
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (MasterId == null))
             {
                 VehicleTypeLogic l2 = new VehicleTypeLogic();

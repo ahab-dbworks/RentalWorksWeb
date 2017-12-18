@@ -17,10 +17,10 @@ namespace WebApi.Modules.Settings.VehicleType
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
-        public string InventoryCategory { get; set; }
+        public string Category { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
-        public string InventoryCategoryId { get; set; }
+        public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string MasterId { get; set; }
