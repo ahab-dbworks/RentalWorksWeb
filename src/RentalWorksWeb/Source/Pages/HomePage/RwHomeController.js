@@ -172,7 +172,7 @@ var RwHome = /** @class */ (function () {
             options: {
                 title: {
                     display: true,
-                    text: 'Orders by Status'
+                    text: 'Billing'
                 },
                 scales: {
                     yAxes: [{
