@@ -1,4 +1,5 @@
-﻿using WebApi.Modules.Settings.Category;
+﻿using FwStandard.BusinessLogic.Attributes;
+using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.FacilityCategory
 {
@@ -11,6 +12,12 @@ namespace WebApi.Modules.Settings.FacilityCategory
             dataLoader = inventoryCategoryLoader;
         }
         //------------------------------------------------------------------------------------
+
+        public string FacilityTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FacilityType { get; set; }
+
+
 
 
         public override void BeforeSave()
