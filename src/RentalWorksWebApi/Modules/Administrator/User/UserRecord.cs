@@ -12,31 +12,34 @@ namespace WebApi.Modules.Administrator.User
         public string UserId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
-        public string Loginname { get; set; }
+        public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string Password { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string ContactTitleId { get; set; }
+        public string UserTitleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "firstname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
         public string FirstName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "middleinitial", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? MiddleInitial { get; set; }
+        [FwSqlDataField(column: "middleinitial", modeltype: FwDataTypes.Text, sqltype: "char")]
+        public string MiddleInitial { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string LastName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string GroupsId { get; set; }
+        public string GroupId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
-        public string Barcode { get; set; }
+        public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "office", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string OfficePhone { get; set; }
@@ -45,13 +48,13 @@ namespace WebApi.Modules.Administrator.User
         public string Title { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phoneextension", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6)]
-        public string PhoneExtension { get; set; }
+        public string OfficeExtension { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pager", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string Pager { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "home", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-        public string Home { get; set; }
+        public string HomePhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pagerpin", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PagerPin { get; set; }
@@ -149,24 +152,33 @@ namespace WebApi.Modules.Administrator.User
         //[FwSqlDataField(column: "modbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string ModifiedById { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "salesdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string SalesDepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "autoprintcontract", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Autoprintcontract { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "defaultdepttype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
-        //public string Defaultdepttype { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "partsdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string PartsdepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string LocationId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "spacedepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string SpacedepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdepttype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
+        public string DefaultDepartmentType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaldepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string RentalDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string SalesDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partsdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PartsDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "miscdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string MiscDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labordepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string LaborDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacedepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string FacilityDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "transportationdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string TransportationDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "alloworderedqty", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Alloworderedqty { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -206,14 +218,8 @@ namespace WebApi.Modules.Administrator.User
         //[FwSqlDataField(column: "allowstageunavailable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Allowstageunavailable { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "labordepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string LabordepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "laborinventorydepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LaborinventorydepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "miscdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string MiscdepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "miscinventorydepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string MiscinventorydepartmentId { get; set; }
@@ -226,9 +232,6 @@ namespace WebApi.Modules.Administrator.User
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primarywarehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string PrimarywarehouseId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentaldepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string RentaldepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "rentalinventorydepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string RentalinventorydepartmentId { get; set; }
@@ -298,9 +301,6 @@ namespace WebApi.Modules.Administrator.User
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "qeshowimagepane", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Qeshowimagepane { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "transportationdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        //public string TransportationdepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "transportationinvdepartmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string TransportationinvdepartmentId { get; set; }
@@ -428,9 +428,9 @@ namespace WebApi.Modules.Administrator.User
         //[FwSqlDataField(column: "allowstageunapproveditem", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Allowstageunapproveditem { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "schedulecolor", modeltype: FwDataTypes.Integer, sqltype: "int")]
-        //public int? Schedulecolor { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "schedulecolor", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string ScheduleColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "allowsubstitute", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Allowsubstitute { get; set; }
         ////------------------------------------------------------------------------------------ 

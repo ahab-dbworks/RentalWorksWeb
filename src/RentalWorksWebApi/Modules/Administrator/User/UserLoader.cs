@@ -31,6 +31,148 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "fullname", modeltype: FwDataTypes.Text)]
         public string FullName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "firstname", modeltype: FwDataTypes.Text)]
+        public string FirstName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "middleinitial", modeltype: FwDataTypes.Text)]
+        public string MiddleInitial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text)]
+        public string LastName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text)]
+        public string LoginName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
+        public string BarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
+        public string GroupId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "groups", modeltype: FwDataTypes.Text)]
+        public string GroupName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "schedulecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ScheduleColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text)]
+        public string UserTitleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "contacttitle", modeltype: FwDataTypes.Text)]
+        public string UserTitle { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
+        public string Address1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
+        public string Address2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "city", modeltype: FwDataTypes.Text)]
+        public string City { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "state", modeltype: FwDataTypes.Text)]
+        public string State { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "zip", modeltype: FwDataTypes.Text)]
+        public string ZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text)]
+        public string CountryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text)]
+        public string Country { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
+        [FwSqlDataField(column: "office", modeltype: FwDataTypes.Text)]
+        public string OfficePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "phoneextension", modeltype: FwDataTypes.Text)]
+        public string OfficeExtension { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
+        public string Fax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "directphone", modeltype: FwDataTypes.Text)]
+        public string DirectPhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pager", modeltype: FwDataTypes.Text)]
+        public string Pager { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pagerpin", modeltype: FwDataTypes.Text)]
+        public string PagerPin { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cellular", modeltype: FwDataTypes.Text)]
+        public string Cellular { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "home", modeltype: FwDataTypes.Text)]
+        public string HomePhone { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "defaultdepttype", modeltype: FwDataTypes.Text)]
+        public string DefaultDepartmentType { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "rentaldepartmentid", modeltype: FwDataTypes.Text)]
+        public string RentalDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentaldepartment", modeltype: FwDataTypes.Text)]
+        public string RentalDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesdepartmentid", modeltype: FwDataTypes.Text)]
+        public string SalesDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesdepartment", modeltype: FwDataTypes.Text)]
+        public string SalesDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partsdepartmentid", modeltype: FwDataTypes.Text)]
+        public string PartsDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partsdepartment", modeltype: FwDataTypes.Text)]
+        public string PartsDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "miscdepartmentid", modeltype: FwDataTypes.Text)]
+        public string MiscDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "miscdepartment", modeltype: FwDataTypes.Text)]
+        public string MiscDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labordepartmentid", modeltype: FwDataTypes.Text)]
+        public string LaborDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labordepartment", modeltype: FwDataTypes.Text)]
+        public string LaborDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacedepartmentid", modeltype: FwDataTypes.Text)]
+        public string FacilityDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacedepartment", modeltype: FwDataTypes.Text)]
+        public string FacilityDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "transportationdepartmentid", modeltype: FwDataTypes.Text)]
+        public string TransportationDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "transportationdepartment", modeltype: FwDataTypes.Text)]
+        public string TransportationDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webaccess", modeltype: FwDataTypes.Boolean)]
         //public bool? WebAccess { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -73,29 +215,11 @@ namespace WebApi.Modules.Administrator.User
         //[FwSqlDataField(column: "primarydepartmentid", modeltype: FwDataTypes.Text)]
         //public string PrimarydepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentaldepartmentid", modeltype: FwDataTypes.Text)]
-        //public string RentaldepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "salesdepartmentid", modeltype: FwDataTypes.Text)]
-        //public string SalesdepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "rentalagentusersid", modeltype: FwDataTypes.Text)]
         //public string RentalagentusersId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "salesagentusersid", modeltype: FwDataTypes.Text)]
         //public string SalesagentusersId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "partsdepartmentid", modeltype: FwDataTypes.Text)]
-        //public string PartsdepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "labordepartmentid", modeltype: FwDataTypes.Text)]
-        //public string LabordepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "miscdepartmentid", modeltype: FwDataTypes.Text)]
-        //public string MiscdepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "spacedepartmentid", modeltype: FwDataTypes.Text)]
-        //public string SpacedepartmentId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "titletype", modeltype: FwDataTypes.Text)]
         //public string Titletype { get; set; }
@@ -106,26 +230,11 @@ namespace WebApi.Modules.Administrator.User
         //[FwSqlDataField(column: "sourceid1", modeltype: FwDataTypes.Text)]
         //public string Sourceid1 { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
-        //public string GroupsId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         //public string Department { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         //public string DepartmentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        //public string LocationId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        //public string Location { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
-        //public string WarehouseId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
-        //public string Warehouse { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webreports", modeltype: FwDataTypes.Boolean)]
         //public bool? Webreports { get; set; }
@@ -138,15 +247,6 @@ namespace WebApi.Modules.Administrator.User
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "webcatalogid", modeltype: FwDataTypes.Text)]
         //public string WebcatalogId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "office", modeltype: FwDataTypes.Text)]
-        //public string Office { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "phoneextension", modeltype: FwDataTypes.Text)]
-        //public string Phoneextension { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text)]
-        //public string Fax { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "iscrew", modeltype: FwDataTypes.Boolean)]
         //public bool? Iscrew { get; set; }
@@ -162,7 +262,9 @@ namespace WebApi.Modules.Administrator.User
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(username > '')");
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("LocationId", "locationid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("GroupId", "groupsid", select, request); 
         }
         //------------------------------------------------------------------------------------    } 
     }
