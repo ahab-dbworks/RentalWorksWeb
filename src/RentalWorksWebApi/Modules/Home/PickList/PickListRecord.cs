@@ -101,5 +101,17 @@ namespace WebApi.Modules.Home.PickList
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
+        public override async Task<bool> DeleteAsync()
+        {
+            bool success = false;
+            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "deletepicklist", _dbConfig.QueryTimeout);
+                qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
+                await qry.ExecuteNonQueryAsync(true);
+            }
+            return success;
+        }
+        //------------------------------------------------------------------------------------    }
     }
 }
