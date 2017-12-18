@@ -693,6 +693,7 @@
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
+    <Content Include="Source\Validations\RateTypeValidation\RateTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PickListValidation\PickListValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDefinitionValidation\ReportDefinitionValidationBrowse.htm" />
@@ -720,7 +721,6 @@
     <Content Include="Source\Validations\CustomerCategoryValidation\CustomerCategoryValidationBrowse.htm" />
     <Content Include="Source\Validations\FacilityTypeValidation\FacilityTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PresentationLayerActivityValidation\PresentationLayerActivityValidationBrowse.htm" />
-    <Content Include="Source\Validations\RateTypeValidation\RateTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\SpaceTypeValidation\SpaceTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\SubCategoryValidation\SubCategoryValidationBrowse.htm" />
     <Content Include="Source\Validations\SalesInventoryValidation\SalesInventoryValidationBrowse.htm" />
@@ -935,7 +935,6 @@
     <Compile Include="Source\Validations\LanguageValidation\LanguageValidation.cs" />
     <Compile Include="Source\Validations\OrderTypeValidation\OrderTypeValidation.cs" />
     <Compile Include="Source\Validations\PayTypeValidation\PayTypeValidation.cs" />
-    <Compile Include="Source\Validations\RateTypeValidation\RateTypeValidation.cs" />
     <Compile Include="Source\Validations\UserOfficeLocationValidation\UserOfficeLocationValidation.cs" />
     <Compile Include="Source\Validations\UserWarehouseValidation\UserWarehouseValidation.cs" />
   </ItemGroup>

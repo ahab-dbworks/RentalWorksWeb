@@ -363,17 +363,17 @@ class Deal {
     }
 
     openForm(mode: string) {
-        var $form, $defaultrate;
+        var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        $defaultrate = $form.find('.defaultrate');
-        FwFormField.loadItems($defaultrate, [
-            { value: 'DAILY', text: 'Daily Rate' }
-            , { value: 'WEEKLY', text: 'Weekly Rate' }
-            , { value: 'MONTHLY', text: 'Monthly Rate' }
-        ]);
+        //$defaultrate = $form.find('.defaultrate');
+        //FwFormField.loadItems($defaultrate, [
+        //    { value: 'DAILY', text: 'Daily Rate' }
+        //    , { value: 'WEEKLY', text: 'Weekly Rate' }
+        //    , { value: 'MONTHLY', text: 'Monthly Rate' }
+        //]);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
 
