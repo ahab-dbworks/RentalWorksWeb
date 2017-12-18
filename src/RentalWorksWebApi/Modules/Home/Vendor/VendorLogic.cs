@@ -46,7 +46,9 @@ namespace WebApi.Modules.Home.Vendor
         public string OtherPhone { get { return vendor.OtherPhone; } set { vendor.OtherPhone = value; } }
         public string WebAddress { get { return vendor.WebAddress; } set { vendor.WebAddress = value; } }
         public string Email { get { return vendor.Email; } set { vendor.Email = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string ActiveDate { get { return vendor.ActiveDate; } set { vendor.ActiveDate = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string InactiveDate { get { return vendor.InactiveDate; } set { vendor.InactiveDate = value; } }
         public bool? SubRent { get { return vendor.SubRent; } set { vendor.SubRent = value; } }
         public bool? SubSales { get { return vendor.SubSales; } set { vendor.SubSales = value; } }
