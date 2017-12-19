@@ -2209,7 +2209,7 @@ namespace Fw.MSBuildTasks
             catch (Exception ex) {
                 //System.Diagnostics.Debugger.Launch();
                 task.Log.LogError("Unable to load uri: " + uri);
-                throw ex;
+                throw new Exception("Unable to load uri: " + uri, ex);
             }
 
             return result;
