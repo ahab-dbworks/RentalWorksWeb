@@ -17,6 +17,26 @@ class Order {
         this.apiurl = 'api/v1/order';
         this.caption = 'Order';
         this.ActiveView = 'ALL';
+
+
+        var self = this;
+
+        //Confirmation for cancelling Pick List
+        FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
+            var $form, pickListId, pickListNumber;
+
+            $form = jQuery(this).closest('.fwform');
+            pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
+            pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
+           
+
+            try {
+                self.cancelPickList(pickListId, pickListNumber, $form);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+           
+        };
     }
 
     getModuleScreen() {
@@ -179,11 +199,42 @@ class Order {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    cancelPickList(pickListId: any, pickListNumber: any, $form: any) {
+        var $confirmation, $yes, $no, self;
+
+
+        self = this;
+        $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
+            'Cancel Pick List ' + pickListNumber + '?</div>');
+        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        $no = FwConfirmation.addButton($confirmation, 'No');
+
+        $yes.on('click', function () {
+            FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/'+ pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+
+                    var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
+                    $pickListGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            OrderId: $form.find('[data-datafield="OrderId"] input').val()
+                        };
+                    })
+                    FwBrowse.search($pickListGridControl);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        });
+    }
+
     afterLoad($form: any) {
         var $orderPickListGrid: any;
-
+       
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
+
     }
 }
 

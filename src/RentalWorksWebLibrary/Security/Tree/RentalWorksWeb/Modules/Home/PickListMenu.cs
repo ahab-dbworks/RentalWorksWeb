@@ -25,6 +25,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormSubMenu = tree.AddSubMenu("{7ED7A3E8-F825-44AB-B892-76A6DBA253EB}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{4F196091-36A4-4AA9-BDB8-3689F01C08B3}", nodeFormSubMenu.Id);
             tree.AddSubMenuItem("Print Pick List", "{069BBE73-5B14-4F3E-A594-8699676D9B8E}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Cancel Pick List", "{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{8366DB71-62CB-456A-B188-5799A17E591D}", nodeFormMenuBar.Id);
         }
 

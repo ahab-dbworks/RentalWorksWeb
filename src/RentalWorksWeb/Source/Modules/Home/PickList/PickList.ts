@@ -13,6 +13,23 @@ class PickList {
     constructor() {
         this.Module = 'PickList';
         this.apiurl = 'api/v1/picklist';
+        var self = this;
+
+        //Cancel Pick List confirmation button
+        FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
+            var $form, pickListId, pickListNumber;
+            try {
+                $form = jQuery(this).closest('.fwform');
+                pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
+                pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+                console.log(pickListId, pickListNumber);
+                self.cancelPickList(pickListId, pickListNumber);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
+
+        
     }
 
     getModuleScreen() {
@@ -25,7 +42,7 @@ class PickList {
         var $browse: JQuery = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, "PickList", false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, "Pick List", false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -78,6 +95,30 @@ class PickList {
         FwBrowse.renderRuntimeHtml($pickListItemGridControl);
     
     }
+
+
+    cancelPickList(pickListId: any, pickListNumber: any) {
+        var $confirmation, $yes, $no, self;
+
+        self = this;
+        $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
+            'Cancel Pick List ' + pickListNumber + ' ?</div>');
+        $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+        $no = FwConfirmation.addButton($confirmation, 'No');
+
+        $yes.on('click', function () {
+            FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        });
+
+    }
+
 
     afterLoad($form: JQuery) {
         var $pickListItemGrid: JQuery = $form.find('[data-name="' + "PickListItemGrid" + '"]');
