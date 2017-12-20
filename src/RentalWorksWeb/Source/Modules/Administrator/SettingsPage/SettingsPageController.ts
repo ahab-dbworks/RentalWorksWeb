@@ -45,7 +45,7 @@ class SettingsPage {
             }
             moduleArray.sort();
             for (var j = 0; j < moduleArray.length; j++) {
-                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][2]].properties.color);
+                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][2]].properties.color, moduleArray[j][1]);
                 FwSettings.renderRecordHtml($settings, moduleArray[j][1]);
             }
             FwSettings.getCaptions(screen);
@@ -89,7 +89,7 @@ class SettingsPage {
                 }      
             });
 
-
+            $settings.find('.fwcontrol .fwmenu').on('click', '.')
             //$control.on('keypress', '#settingsSearch', function (e) {
             //    if (e.which === 13) {
             //        e.preventDefault();

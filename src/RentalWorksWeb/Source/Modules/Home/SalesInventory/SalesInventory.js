@@ -97,15 +97,6 @@ var SalesInventory = /** @class */ (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-        $form.find('[data-datafield="InventoryTypeId"] .fwformfield-text').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
-                FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-        });
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
