@@ -1,4 +1,4 @@
-var OrderTypeInvoiceExportGrid = /** @class */ (function () {
+var OrderTypeInvoiceExportGrid = (function () {
     function OrderTypeInvoiceExportGrid() {
         this.Module = 'OrderTypeInvoiceExportGrid';
         this.apiurl = 'api/v1/ordertypelocation';

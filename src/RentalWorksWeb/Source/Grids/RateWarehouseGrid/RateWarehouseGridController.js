@@ -1,4 +1,4 @@
-var RateWarehouseGrid = /** @class */ (function () {
+var RateWarehouseGrid = (function () {
     function RateWarehouseGrid() {
         this.Module = 'RateWarehouseGrid';
         this.apiurl = 'api/v1/ratewarehouse';

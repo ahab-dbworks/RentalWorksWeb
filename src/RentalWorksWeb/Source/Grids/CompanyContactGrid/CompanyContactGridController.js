@@ -1,4 +1,4 @@
-var CompanyContactGrid = /** @class */ (function () {
+var CompanyContactGrid = (function () {
     function CompanyContactGrid() {
         this.Module = 'CompanyContactGrid';
         this.apiurl = 'api/v1/companycontact';

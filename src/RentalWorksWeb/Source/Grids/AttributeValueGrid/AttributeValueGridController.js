@@ -1,4 +1,4 @@
-var AttributeValueGrid = /** @class */ (function () {
+var AttributeValueGrid = (function () {
     function AttributeValueGrid() {
         this.Module = 'AttributeValueGrid';
         this.apiurl = 'api/v1/attributevalue';

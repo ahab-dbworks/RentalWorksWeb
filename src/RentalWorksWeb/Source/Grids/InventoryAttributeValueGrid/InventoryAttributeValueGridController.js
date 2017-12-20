@@ -1,4 +1,4 @@
-var InventoryAttributeValueGrid = /** @class */ (function () {
+var InventoryAttributeValueGrid = (function () {
     function InventoryAttributeValueGrid() {
         this.Module = 'InventoryAttributeValueGrid';
         this.apiurl = 'api/v1/inventoryattributevalue';

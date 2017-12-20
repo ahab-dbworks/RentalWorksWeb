@@ -1,4 +1,4 @@
-var OrderTypeCoverLetterGrid = /** @class */ (function () {
+var OrderTypeCoverLetterGrid = (function () {
     function OrderTypeCoverLetterGrid() {
         this.Module = 'OrderTypeCoverLetter';
         this.apiurl = 'api/v1/ordertypelocation';

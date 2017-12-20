@@ -1,4 +1,4 @@
-var ItemLocationTaxGrid = /** @class */ (function () {
+var ItemLocationTaxGrid = (function () {
     function ItemLocationTaxGrid() {
         this.Module = 'ItemLocationTaxGrid';
         this.apiurl = 'api/v1/inventorylocationtax';

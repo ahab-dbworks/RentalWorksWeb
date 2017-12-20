@@ -1,4 +1,4 @@
-var DiscountItemLaborGrid = /** @class */ (function () {
+var DiscountItemLaborGrid = (function () {
     function DiscountItemLaborGrid() {
         this.Module = 'DiscountItemLaborGrid';
         this.apiurl = 'api/v1/discountitem';

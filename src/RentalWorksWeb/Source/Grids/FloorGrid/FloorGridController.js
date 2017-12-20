@@ -1,4 +1,4 @@
-var FloorGrid = /** @class */ (function () {
+var FloorGrid = (function () {
     function FloorGrid() {
         this.Module = 'FloorGrid';
         this.apiurl = 'api/v1/floor';

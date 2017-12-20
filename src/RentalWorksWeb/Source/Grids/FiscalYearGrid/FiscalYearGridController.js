@@ -1,4 +1,4 @@
-var FiscalYearGrid = /** @class */ (function () {
+var FiscalYearGrid = (function () {
     function FiscalYearGrid() {
         this.Module = 'FiscalYearGrid';
         this.apiurl = 'api/v1/fiscalyear';

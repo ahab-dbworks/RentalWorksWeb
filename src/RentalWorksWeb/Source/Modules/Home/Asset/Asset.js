@@ -1,4 +1,4 @@
-var RwAsset = /** @class */ (function () {
+var RwAsset = (function () {
     function RwAsset() {
         this.Module = 'Asset';
         this.apiurl = 'api/v1/item';

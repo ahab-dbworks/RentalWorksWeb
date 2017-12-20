@@ -1,0 +1,49 @@
+﻿<script id="designer_scan_template" type="text/x-handlebars-template">
+    <div class="scan_content">
+        <div class="row">
+            <div class="col-12">
+                <label for="scan_path" class="bold_header">Scan Path</label>
+                <input type="text" class="dcss_input" id="scan_path" placeholder="{{settings.defaultModuleSavePath}}" value="{{settings.defaultModuleSavePath}}">
+                <!--<input id="scan_path" placeholder="C:\DevFolder\" value="C:\dbworksprojects" type="text" class="validate">
+                <label for="scan_path" data-error="Not so good." data-success="Path looks good to me.">Structure Path</label>-->
+                <samll class="form-text text-muted">The target path gets scanned for all compatible files.</samll>
+            </div>
+        </div>
+        <div id="module_name_container" class="row">
+            <div class="col-12">
+                <label for="scan_path" class="bold_header">Module Name</label>
+                <input type="text" class="dcss_input" id="scan_module_name" placeholder="My Module" value="">
+                <samll class="form-text text-muted">Module folders with matching Module Names provided, will show in the results.</samll>
+            </div>
+        </div>
+        <div id="module_menu_container" class="row">
+            <div class="col-12">
+                <label for="scan_path" class="bold_header">Menu Path</label>
+                <input type="text" class="dcss_input" id="scan_module_menu_path" placeholder="Path to the SecurityMenu.cs file" value="{{settings.defaultMenuSavePath}}">
+                <samll class="form-text text-muted">The target path gets the associated menu file. If not provided, no file will be pulled.</samll>
+            </div>
+        </div>
+        <div id="module_only_container" class="row">
+            <div class="col-12">
+                <!--<label class="custom-control custom-checkbox">
+                    <input id="scan_modules_only" type="checkbox" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Modules Only</span>
+                </label>-->
+                <label class="dcss_checkbox">
+                    <input id="scan_modules_only" type="checkbox" checked="checked">
+                    <span class="dcss_checkbox_indicator"></span>
+                    <small>Scans results only display valid modules.</small>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="scanning" class="scan_content" style="display: none;">
+        Scanning Path...
+    </div>
+
+    <div id="scan_folder" class="scan_content">
+
+    </div>
+</script>

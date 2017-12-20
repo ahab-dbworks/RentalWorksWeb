@@ -1,4 +1,4 @@
-var WardrobeInventoryMaterialGrid = /** @class */ (function () {
+var WardrobeInventoryMaterialGrid = (function () {
     function WardrobeInventoryMaterialGrid() {
         this.Module = 'WardrobeInventoryMaterial';
         this.apiurl = 'api/v1/inventorymaterial';

@@ -1,4 +1,4 @@
-var OrderTypeNoteGrid = /** @class */ (function () {
+var OrderTypeNoteGrid = (function () {
     function OrderTypeNoteGrid() {
         this.Module = 'Order Type Note Grid';
         this.apiurl = 'api/v1/ordertypenote';

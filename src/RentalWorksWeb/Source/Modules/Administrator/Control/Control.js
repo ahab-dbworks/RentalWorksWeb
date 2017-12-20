@@ -1,4 +1,4 @@
-var Control = /** @class */ (function () {
+var Control = (function () {
     function Control() {
         this.Module = 'Control';
         this.apiurl = 'api/v1/control';

@@ -1,4 +1,4 @@
-var InventoryKitGrid = /** @class */ (function () {
+var InventoryKitGrid = (function () {
     function InventoryKitGrid() {
         this.Module = 'InventoryKitGrid';
         this.apiurl = 'api/v1/inventorypackageinventory';

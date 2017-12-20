@@ -1,4 +1,4 @@
-var VehicleTypeWarehouseGrid = /** @class */ (function () {
+var VehicleTypeWarehouseGrid = (function () {
     function VehicleTypeWarehouseGrid() {
         this.Module = 'Vehicle Type Warehouse';
         this.apiurl = 'api/v1/vehicletypewarehouse';

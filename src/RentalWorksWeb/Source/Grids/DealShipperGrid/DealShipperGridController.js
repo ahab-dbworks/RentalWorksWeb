@@ -1,4 +1,4 @@
-var DealShipperGrid = /** @class */ (function () {
+var DealShipperGrid = (function () {
     function DealShipperGrid() {
         this.Module = 'DealShipperGrid';
         this.apiurl = 'api/v1/dealshipper';

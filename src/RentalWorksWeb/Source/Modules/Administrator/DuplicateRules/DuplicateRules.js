@@ -1,4 +1,4 @@
-var DuplicateRules = /** @class */ (function () {
+var DuplicateRules = (function () {
     function DuplicateRules() {
         this.Module = 'DuplicateRules';
         this.apiurl = 'api/v1/duplicaterule';

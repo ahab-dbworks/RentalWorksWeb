@@ -1,4 +1,4 @@
-var Group = /** @class */ (function () {
+var Group = (function () {
     function Group() {
         this.Module = 'Group';
         this.apiurl = 'api/v1/group';

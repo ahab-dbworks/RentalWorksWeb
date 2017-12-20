@@ -1,4 +1,4 @@
-var InventoryVendorGrid = /** @class */ (function () {
+var InventoryVendorGrid = (function () {
     function InventoryVendorGrid() {
         this.Module = 'InventoryVendorGrid';
         this.apiurl = 'api/v1/inventoryvendor';

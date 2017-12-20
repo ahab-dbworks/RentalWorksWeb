@@ -1,4 +1,4 @@
-var DiscountItemRentalGrid = /** @class */ (function () {
+var DiscountItemRentalGrid = (function () {
     function DiscountItemRentalGrid() {
         this.Module = 'DiscountItemRentalGrid';
         this.apiurl = 'api/v1/discountitem';

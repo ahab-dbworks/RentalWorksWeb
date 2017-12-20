@@ -1,4 +1,4 @@
-var InventoryContainerGrid = /** @class */ (function () {
+var InventoryContainerGrid = (function () {
     function InventoryContainerGrid() {
         this.Module = 'InventoryContainerGrid';
         this.apiurl = 'api/v1/inventorycontaineritem';

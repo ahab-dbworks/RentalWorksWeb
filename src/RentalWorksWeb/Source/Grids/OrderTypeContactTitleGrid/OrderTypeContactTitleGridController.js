@@ -1,4 +1,4 @@
-var OrderTypeContactTitleGrid = /** @class */ (function () {
+var OrderTypeContactTitleGrid = (function () {
     function OrderTypeContactTitleGrid() {
         this.Module = 'Order Type Contact Title Grid';
         this.apiurl = 'api/v1/ordertypecontacttitle';

@@ -1,4 +1,4 @@
-var SalesInventorySubstituteGrid = /** @class */ (function () {
+var SalesInventorySubstituteGrid = (function () {
     function SalesInventorySubstituteGrid() {
         this.Module = 'SalesInventorySubstituteGrid';
         this.apiurl = 'api/v1/inventorysubstitute';

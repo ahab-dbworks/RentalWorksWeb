@@ -1,4 +1,4 @@
-var GeneratorTypeWarehouseGrid = /** @class */ (function () {
+var GeneratorTypeWarehouseGrid = (function () {
     function GeneratorTypeWarehouseGrid() {
         this.Module = 'Generator Type Warehouse';
         this.apiurl = 'api/v1/generatortypewarehouse';

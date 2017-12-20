@@ -1,4 +1,4 @@
-var BillingCycleEventsGrid = /** @class */ (function () {
+var BillingCycleEventsGrid = (function () {
     function BillingCycleEventsGrid() {
         this.Module = 'BillingCycleEventsGrid';
         this.apiurl = 'api/v1/billingcycleevent';
