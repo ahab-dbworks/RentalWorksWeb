@@ -1,4 +1,4 @@
-var SalesInventory = (function () {
+var SalesInventory = /** @class */ (function () {
     function SalesInventory() {
         this.Module = 'SalesInventory';
         this.apiurl = 'api/v1/salesinventory';

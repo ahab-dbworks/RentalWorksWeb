@@ -1,4 +1,4 @@
-var RateLocationTaxGrid = (function () {
+var RateLocationTaxGrid = /** @class */ (function () {
     function RateLocationTaxGrid() {
         this.Module = 'RateLocationTaxGrid';
         this.apiurl = 'api/v1/ratelocationtax';

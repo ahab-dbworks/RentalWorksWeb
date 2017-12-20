@@ -1,4 +1,4 @@
-var VehicleMakeModelGrid = (function () {
+var VehicleMakeModelGrid = /** @class */ (function () {
     function VehicleMakeModelGrid() {
         this.Module = 'VehicleMakeModelGrid';
         this.apiurl = 'api/v1/vehiclemodel';

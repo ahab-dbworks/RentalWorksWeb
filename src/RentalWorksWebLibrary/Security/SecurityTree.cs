@@ -266,7 +266,6 @@ namespace WebLibrary.Security
             //AddModule("Integration",       "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "RwIntegrationController", "module/integration",  administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
             AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",          "module/user",         administratoriconbaseurl + "user.png",                                     "USER");
             AddModule("Settings Page",       "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsPageController",  "module/settingspage", administratoriconbaseurl + "placeholder.png");
-            AddModule("Designer", "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "DesignerController", "module/designer", administratoriconbaseurl + "placeholder.png");
 
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");

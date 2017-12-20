@@ -1,4 +1,4 @@
-var CompanyTaxOptionGrid = (function () {
+var CompanyTaxOptionGrid = /** @class */ (function () {
     function CompanyTaxOptionGrid() {
         this.Module = 'CompanyTaxOptionGrid';
         this.apiurl = 'api/v1/companytaxoption';

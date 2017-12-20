@@ -1,4 +1,4 @@
-var RentalInventoryWarehouseGrid = (function () {
+var RentalInventoryWarehouseGrid = /** @class */ (function () {
     function RentalInventoryWarehouseGrid() {
         this.Module = 'RentalInventoryWarehouseGrid';
         this.apiurl = 'api/v1/inventorywarehouse';

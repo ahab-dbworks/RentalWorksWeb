@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------------------------
-var RwHome = (function () {
+var RwHome = /** @class */ (function () {
     function RwHome() {
     }
     RwHome.prototype.getHomeScreen = function (viewModel, properties) {

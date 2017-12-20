@@ -1,4 +1,4 @@
-var PresentationLayerActivityGrid = (function () {
+var PresentationLayerActivityGrid = /** @class */ (function () {
     function PresentationLayerActivityGrid() {
         this.Module = 'PresentationLayerActivityGrid';
         this.apiurl = 'api/v1/presentationlayeractivity';

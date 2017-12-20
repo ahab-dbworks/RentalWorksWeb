@@ -1,4 +1,4 @@
-var CrewPositionGrid = (function () {
+var CrewPositionGrid = /** @class */ (function () {
     function CrewPositionGrid() {
         this.Module = 'CrewPositionGrid';
         this.apiurl = 'api/v1/crewposition';

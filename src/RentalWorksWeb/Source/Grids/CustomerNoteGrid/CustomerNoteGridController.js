@@ -1,4 +1,4 @@
-var CustomerNoteGrid = (function () {
+var CustomerNoteGrid = /** @class */ (function () {
     function CustomerNoteGrid() {
         this.Module = 'CustomerNoteGrid';
         this.apiurl = 'api/v1/customernote';

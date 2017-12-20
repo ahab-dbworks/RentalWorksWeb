@@ -1,4 +1,4 @@
-var CustomerStatus = (function () {
+var CustomerStatus = /** @class */ (function () {
     function CustomerStatus() {
         this.Module = 'CustomerStatus';
         this.apiurl = 'api/v1/customerstatus';

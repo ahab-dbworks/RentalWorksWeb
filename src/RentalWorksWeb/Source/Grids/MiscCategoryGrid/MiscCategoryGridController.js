@@ -1,4 +1,4 @@
-var MiscCategoryGrid = (function () {
+var MiscCategoryGrid = /** @class */ (function () {
     function MiscCategoryGrid() {
         this.Module = 'MiscCategoryGrid';
         this.apiurl = 'api/v1/misccategory';

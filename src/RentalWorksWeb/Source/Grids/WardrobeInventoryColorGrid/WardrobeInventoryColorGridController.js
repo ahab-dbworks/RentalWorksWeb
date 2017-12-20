@@ -1,4 +1,4 @@
-var WardrobeInventoryColorGrid = (function () {
+var WardrobeInventoryColorGrid = /** @class */ (function () {
     function WardrobeInventoryColorGrid() {
         this.Module = 'WardrobeInventoryColor';
         this.apiurl = 'api/v1/inventorycolor';

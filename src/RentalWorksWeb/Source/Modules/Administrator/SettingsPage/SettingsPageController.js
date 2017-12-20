@@ -1,4 +1,4 @@
-var SettingsPage = (function () {
+var SettingsPage = /** @class */ (function () {
     function SettingsPage() {
         this.Module = 'SettingsPage';
     }

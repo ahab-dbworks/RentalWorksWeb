@@ -1,4 +1,4 @@
-var SpaceGrid = (function () {
+var SpaceGrid = /** @class */ (function () {
     function SpaceGrid() {
         this.Module = 'SpaceGrid';
         this.apiurl = 'api/v1/space';

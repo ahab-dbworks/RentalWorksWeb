@@ -1,4 +1,4 @@
-var DealNotesGrid = (function () {
+var DealNotesGrid = /** @class */ (function () {
     function DealNotesGrid() {
         this.Module = 'Generator Type Warehouse';
         this.apiurl = 'api/v1/dealnote';

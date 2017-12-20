@@ -1,4 +1,4 @@
-var InventoryCompatibilityGrid = (function () {
+var InventoryCompatibilityGrid = /** @class */ (function () {
     function InventoryCompatibilityGrid() {
         this.Module = 'InventoryCompatibilityGrid';
         this.apiurl = 'api/v1/inventorycompatible';

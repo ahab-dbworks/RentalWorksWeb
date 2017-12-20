@@ -1,4 +1,4 @@
-var EventTypePersonnelTypeGrid = (function () {
+var EventTypePersonnelTypeGrid = /** @class */ (function () {
     function EventTypePersonnelTypeGrid() {
         this.Module = 'Event Type Personnel Type';
         this.apiurl = 'api/v1/eventtypepersonneltype';

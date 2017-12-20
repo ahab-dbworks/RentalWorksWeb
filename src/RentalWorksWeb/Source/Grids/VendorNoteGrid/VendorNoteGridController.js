@@ -1,4 +1,4 @@
-var VendorNoteGrid = (function () {
+var VendorNoteGrid = /** @class */ (function () {
     function VendorNoteGrid() {
         this.Module = 'VendorNoteGrid';
         this.apiurl = 'api/v1/vendornote';

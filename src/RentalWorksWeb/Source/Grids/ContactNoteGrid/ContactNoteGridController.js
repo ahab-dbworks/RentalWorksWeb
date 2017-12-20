@@ -1,4 +1,4 @@
-var ContactNoteGrid = (function () {
+var ContactNoteGrid = /** @class */ (function () {
     function ContactNoteGrid() {
         this.Module = 'ContactNoteGrid';
         this.apiurl = 'api/v1/contactnote';
