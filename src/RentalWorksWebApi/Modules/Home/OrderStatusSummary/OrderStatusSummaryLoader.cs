@@ -63,6 +63,9 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyorderedcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityOrderedColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -138,6 +141,9 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 

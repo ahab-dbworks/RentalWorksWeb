@@ -27,6 +27,7 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         public string InWarehouseCode { get; set; }
         public string InWarehouse { get; set; }
         public decimal? QuantityOrdered { get; set; }
+        public string QuantityOrderedColor { get; set; }
         public decimal? SubQuantity { get; set; }
         public decimal? StageQuantity { get; set; }
         public decimal? StageQuantityFilter { get; set; }
@@ -52,6 +53,7 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         public string PoOrderId { get; set; }
         public string PoMasteritemId { get; set; }
         public string RecTypeDisplay { get; set; }
+        public string RecTypeColor { get; set; }
         public string OptionColor { get; set; }
         public bool? Bold { get; set; }
         public bool? HasPoItem { get; set; }
