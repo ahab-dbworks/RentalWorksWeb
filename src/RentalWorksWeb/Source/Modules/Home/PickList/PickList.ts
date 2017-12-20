@@ -4,6 +4,7 @@ declare var FwServices: any;
 declare var FwMenu: any;
 declare var Mustache: any;
 declare var FwFunc: any;
+declare var FwTabs: any;
 declare var FwNotification: any;
 
 class PickList {
@@ -22,7 +23,6 @@ class PickList {
                 $form = jQuery(this).closest('.fwform');
                 pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
                 pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-                console.log(pickListId, pickListNumber);
                 self.cancelPickList(pickListId, pickListNumber);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -111,17 +111,30 @@ class PickList {
                 try {
                     FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
                     FwConfirmation.destroyConfirmation($confirmation);
+                    //Close tab
+                    var $tab = jQuery('div.tab.active');
+                    var $control = jQuery(this).closest('.fwcontrol');
+                    var $form = jQuery('#' + $tab.attr('data-tabpageid')).find('.fwform');
+                    if (typeof $form !== 'undefined') {
+                        FwModule.closeForm($form, $tab);
+                    } else {
+                        var isactivetab = $tab.hasClass('active');
+                        var $newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
+                        FwTabs.removeTab($tab);
+                        if (isactivetab) {
+                            FwTabs.setActiveTab($control, $newactivetab);
+                        }
+                    }
+
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
-        });
-
+        }); 
     }
 
-
     afterLoad($form: JQuery) {
-        var $pickListItemGrid: JQuery = $form.find('[data-name="' + "PickListItemGrid" + '"]');
+        var $pickListItemGrid: JQuery = $form.find('[data-name="PickListItemGrid"]');
         FwBrowse.search($pickListItemGrid);
     }
 }
