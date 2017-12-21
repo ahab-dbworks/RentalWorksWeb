@@ -18,16 +18,16 @@ namespace WebApi.Modules.Settings.SubCategory
         public string SubCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
-        public string InventoryCategoryId { get; set; }
+        public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
-        public string InventoryCategory { get; set; }
+        public string Category { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
-        public string InventoryTypeId { get; set; }
+        public string TypeId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
-        public string InventoryType { get; set; }
+        public string Type { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Settings.SubCategory
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            addFilterToSelect("InventoryCategoryId", "categoryid", select, request);
+            addFilterToSelect("CategoryId", "categoryid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

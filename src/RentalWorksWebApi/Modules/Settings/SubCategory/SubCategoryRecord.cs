@@ -15,7 +15,7 @@ namespace WebApi.Modules.Settings.SubCategory
         public string SubCategory { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, maxlength: 8, required: true)]
-        public string InventoryCategoryId { get; set; }
+        public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Decimal, precision: 5, scale: 1)]
         public decimal? OrderBy { get; set; }

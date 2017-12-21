@@ -18,13 +18,13 @@ namespace WebApi.Modules.Settings.SubCategory
         public string SubCategoryId { get { return subCategory.SubCategoryId; } set { subCategory.SubCategoryId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string SubCategory { get { return subCategory.SubCategory; } set { subCategory.SubCategory = value; } }
-        public string InventoryCategoryId { get { return subCategory.InventoryCategoryId; } set { subCategory.InventoryCategoryId = value; } }
+        public string CategoryId { get { return subCategory.CategoryId; } set { subCategory.CategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string InventoryCategory { get; set; }
+        public string Category { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string InventoryTypeId { get; set; }
+        public string TypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string InventoryType { get; set; }
+        public string Type { get; set; }
         public decimal? OrderBy { get { return subCategory.OrderBy; } set { subCategory.OrderBy = value; } }
         public int? PickListOrderBy { get { return subCategory.PickListOrderBy; } set { subCategory.PickListOrderBy = value; } }
         public string DateStamp { get { return subCategory.DateStamp; } set { subCategory.DateStamp = value; } }
