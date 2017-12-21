@@ -26,15 +26,15 @@ namespace WebApi.Modules.Settings.Widgets
             try
             {
                 Widget w = new Widget();
-                w.ChartType = "bar";
-                w.Data.Labels.Add("Confirmed");
-                w.Data.Labels.Add("Hold");
-                w.Data.Labels.Add("Active");
-                w.Data.Labels.Add("Complete");
-                w.Data.Labels.Add("Closed");
-                w.Data.Labels.Add("Cancelled");
+                w.type = "bar";
+                w.data.labels.Add("Confirmed");
+                w.data.labels.Add("Hold");
+                w.data.labels.Add("Active");
+                w.data.labels.Add("Complete");
+                w.data.labels.Add("Closed");
+                w.data.labels.Add("Cancelled");
 
-                w.Options.Title.Text = "Orders By Status";
+                w.options.title.text = "Orders By Status";
 
                 List<int> data = new List<int>();
                 data.Add(251);  // confirmed
@@ -44,8 +44,8 @@ namespace WebApi.Modules.Settings.Widgets
                 data.Add(84);   // closed
                 data.Add(200);  // cancelled
 
-                w.Data.DataSets.Add(new WidgetDataSet());
-                w.Data.DataSets[0].Data = data;
+                w.data.datasets.Add(new WidgetDataSet());
+                w.data.datasets[0].data = data;
 
 
                 List<string> backgroundColor = new List<string>();
@@ -56,7 +56,7 @@ namespace WebApi.Modules.Settings.Widgets
                 backgroundColor.Add("rgba(153, 102, 255, 0.2)");
                 backgroundColor.Add("rgba(255, 159, 64, 0.2)");
 
-                w.Data.DataSets[0].BackgroundColor = backgroundColor;
+                w.data.datasets[0].backgroundColor = backgroundColor;
 
                 List<string> borderColor = new List<string>();
                 borderColor.Add("rgba(255,99,132,1)");
@@ -66,7 +66,7 @@ namespace WebApi.Modules.Settings.Widgets
                 borderColor.Add("rgba(153, 102, 255, 1)");
                 borderColor.Add("rgba(255, 159, 64, 1)");
 
-                w.Data.DataSets[0].BorderColor = borderColor;
+                w.data.datasets[0].borderColor = borderColor;
 
 
                 return new OkObjectResult(w);

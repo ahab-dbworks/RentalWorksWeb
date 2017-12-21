@@ -5,102 +5,103 @@ namespace WebApi.Modules.Settings.Widgets
     //------------------------------------------------------------------------------------
     public class WidgetDataSet
     {
-        public List<int> Data { get; set; }
-        public List<string> BackgroundColor { get; set; }
-        public List<string> BorderColor { get; set; }
-        public int BorderWidth { get; set; }
+        public List<int> data { get; set; }
+        public List<string> backgroundColor { get; set; }
+        public List<string> borderColor { get; set; }
+        public int borderWidth { get; set; }
         public WidgetDataSet()
         {
-            Data = new List<int>();
-            BackgroundColor = new List<string>();
-            BorderColor = new List<string>();
-            BorderWidth = 1;
+            data = new List<int>();
+            backgroundColor = new List<string>();
+            borderColor = new List<string>();
+            borderWidth = 1;
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetData
     {
-        public List<string> Labels { get; set; }
-        public List<WidgetDataSet> DataSets { get; set; }
+        public List<string> labels { get; set; }
+        public List<WidgetDataSet> datasets { get; set; }
         public WidgetData()
         {
-            Labels = new List<string>();
-            DataSets = new List<WidgetDataSet>();
+            labels = new List<string>();
+            datasets = new List<WidgetDataSet>();
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetTitle
     {
-        public bool Display { get; set; }
-        public string Text { get; set; }
+        public bool display { get; set; }
+        public string text { get; set; }
         public WidgetTitle()
         {
-            Display = true;
+            display = true;
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetLegend
     {
-        public bool Display { get; set; }
+        public bool display { get; set; }
         public WidgetLegend()
         {
-            Display = true;
+            display = false;
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetAxisTicks
     {
-        public bool BeginAtZero { get; set; }
+        public bool beginAtZero { get; set; }
         public WidgetAxisTicks()
         {
-            BeginAtZero = true;
+            beginAtZero = true;
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetAxis
     {
-        public WidgetAxisTicks Ticks { get; set; }
+        public WidgetAxisTicks ticks { get; set; }
         public WidgetAxis()
         {
-            Ticks = new WidgetAxisTicks();
+            ticks = new WidgetAxisTicks();
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetScales
     {
-        public List<WidgetAxis> YAxes { get; set; }
+        public List<WidgetAxis> yAxes { get; set; }
         public WidgetScales()
         {
-            YAxes = new List<WidgetAxis>();
-            YAxes.Add(new WidgetAxis());
+            yAxes = new List<WidgetAxis>();
+            yAxes.Add(new WidgetAxis());
         }
     }
     //------------------------------------------------------------------------------------
     public class WidgetOptions
     {
-        public WidgetTitle Title { get; set; }
-        public WidgetLegend Legend { get; set; }
-        public WidgetScales Scales { get; set; }
-        public bool Responsive { get; set; }
-        public bool MaintainAspectRatio { get; set; }
+        public WidgetTitle title { get; set; }
+        public WidgetLegend legend { get; set; }
+        public WidgetScales scales { get; set; }
+        public bool responsive { get; set; }
+        public bool maintainAspectRatio { get; set; }
         public WidgetOptions()
         {
-            Title = new WidgetTitle();
-            Legend = new WidgetLegend();
-            Scales = new WidgetScales();
+            title = new WidgetTitle();
+            legend = new WidgetLegend();
+            scales = new WidgetScales();
+            responsive = true;
         }
     }
     //------------------------------------------------------------------------------------
     public class Widget
     {
-        public string ChartType { get; set; }
-        public WidgetData Data { get; set; }
-        public WidgetOptions Options { get; set; }
+        public string type { get; set; }
+        public WidgetData data { get; set; }
+        public WidgetOptions options { get; set; }
 
         public Widget()
         {
-            Data = new WidgetData();
-            Options = new WidgetOptions();
+            data = new WidgetData();
+            options = new WidgetOptions();
         }
     }
     //------------------------------------------------------------------------------------
