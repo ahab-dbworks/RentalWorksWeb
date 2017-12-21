@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Modules\Administrator\Designer\Services\" />
     <Folder Include="Modules\Reports\" />
   </ItemGroup>
   <ItemGroup>

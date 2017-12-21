@@ -187,7 +187,8 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/user/,                        getScreen: function() { return UserController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/customfields/,                getScreen: function () { return CustomFieldsController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/duplicaterules/,              getScreen: function () { return DuplicateRulesController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/settingspage$/,               getScreen: function() { return SettingsPageController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/settingspage$/, getScreen: function () { return SettingsPageController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/designer$/, getScreen: function () { return DesignerController.loadDesigner({}, {}); } }
     //Exports                                             
   , { urlpattern: /^module\/example/,                     getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
 ];

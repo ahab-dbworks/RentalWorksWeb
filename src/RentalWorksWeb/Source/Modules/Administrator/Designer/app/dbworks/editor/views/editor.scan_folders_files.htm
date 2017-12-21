@@ -1,0 +1,72 @@
+﻿<script id="designer_scan_folders_files_template" type="text/x-handlebars-template">
+    <style>
+        .btn-dark {
+            color: #fff !important;
+            background-color: #343a40 !important;
+            border-color: #343a40 !important;
+        }
+    </style>
+
+    <div style="margin-bottom: 10px;">
+        {{#each breadcrumbs}}
+        <div style="display: inline;">
+            <div style="display: inline;" class="scan_breadcrumb" data-path="{{this.path}}">{{this.name}}</div>
+            <div style="display: inline;"><i class="material-icons scan_breadcrumb_icons">keyboard_arrow_right</i></div>
+        </div>
+        {{/each}}
+    </div>
+
+    <!--<h5 class="truncate">{{folder.folderName}}<i class="material-icons scan_open_module">open_in_new</i></h5>-->
+    <div class="scan_folder_navigation_content">
+        <div>
+            {{#if folder.folders}}
+
+            <h5>Folders <i class="material-icons scan_toggle_icon">keyboard_arrow_down</i></h5>
+            <div class="scan_toggle_container">
+                {{#each folder.folders}}
+                <div>
+                    {{#doesfolderhavefolders this}}
+                    <div class="scan_folder_section hover_background_gray" style="display: inline;" data-path="{{this.path}}" data-node="{{this.folderName}}" data-depth="{{this.depth}}">
+                        <div class="scan_icon_folder" style="display: inline-block;">
+                            <i class="material-icons" style="position: relative; top: 6px;">folder</i><a class="scan_folder_title" style="margin-left: 4px;">{{this.folderName}}</a>
+                        </div>                        
+                    </div>
+                    <div style="display: inline-block;">
+                        {{#if this.isValidModuleFolder}}                        
+                        <button type="button" class="dcss_btn dcss_btn_green dcss_btn_small scan_open_module" style="cursor: pointer; position: relative;bottom: 2px;" data-path="{{this.path}}" data-name="{{this.folderName}}">Open</button>
+                        {{/if}}
+                    </div>
+                    {{else}}
+                    <div class="no_folders_or_files" title="No supported folders or files found." data-path="{{this.path}}" data-node="{{this.folderName}}" data-depth="{{this.depth}}">
+                        <div class="scan_icon_folder">
+                            <i class="material-icons">folder</i>
+                        </div>
+                        <div style="display: inline-block;">{{this.folderName}}</div>
+                    </div>
+                    {{/doesfolderhavefolders}}
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+            <!--<span>No folders found.</span>-->
+            {{/if}}
+        </div>
+        <div style="margin-left: 15px;">
+            {{#if folder.files}}
+            <h5>Files<i class="material-icons scan_toggle_icon" data-toggletarget=".scan_file_section">keyboard_arrow_down</i></h5>
+            <div class="scan_toggle_container">
+                {{#each folder.files}}
+                <div class="scan_file_section hover_background_gray">
+                    <div class="scan_icon_folder">
+                        <i class="material-icons">description</i>
+                        <a class="scan_folder_title" style="position: relative; bottom: 2px;">{{this.fileName}}</a>
+                    </div>                    
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+            <!--<span>No files found.</span>-->
+            {{/if}}
+        </div>
+    </div>
+</script>
