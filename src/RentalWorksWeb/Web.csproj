@@ -1190,7 +1190,7 @@
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Integration\QBOIntegration\images&quot; &quot;$(FwDeploymentDirectory)\Integration\QBOIntegration\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" ContinueOnError="false" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" ContinueOnError="false" />
+    <!--<Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" ContinueOnError="false" />-->
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" ContinueOnError="false" />
