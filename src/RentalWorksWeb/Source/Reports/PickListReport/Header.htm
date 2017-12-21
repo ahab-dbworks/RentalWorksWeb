@@ -1,24 +1,96 @@
 ﻿<!-- Pick List Report -->
 <div style="width:1008px;overflow:hidden;padding-top:2px;font-family:Arial;">
     <!--<div style="float:left;width:300px;height:72px;box-sizing:border-box;overflow:hidden;">[logo]</div>-->
+    {{#header}}
     <div>
-        <p class="alignleft">[Warehouse]</p>
-        <p class="aligncenter">[Company]</p>
-        <p class="alignright">Pick Number</p>
+        <p class="alignleft">Warehouse: {{warehouse}}</p>
+        <p class="aligncenter"><b>4Wall Entertainment</b></p>
+        <p class="alignright">Pick Number:</p>
     </div>
     <div>
-        <p class="alignleft">[DeliveryType]</p>
+        <p class="alignleft">Devliery Type: {{delivertype}}</p>
         <p class="aligncenter">[LBLREPORTNAME]</p>
-        <p class="alignright">[PickNumber]</p>
+        <p class="alignright">{{pickno}}</p>
     </div>
     <div>
-        <p class="alignleft">[AssignedTo]</p>
-        <p class="aligncenter">[RequiredBy]</p>
-        <p class="alignright">Order Number</p>
+        <p class="alignleft">Assigned To:</p>
+        <p class="aligncenter">Required By: {{requireddatetime}}</p>
+        <p class="alignright">Order Number:</p>
     </div>
     <div>
-        <p class="alignleft">[PickDateTime]</p>
-        <p class="aligncenter">[TargetShip]</p>
-        <p class="alignright">[OrderNumber]</p>
+        <p class="alignleft">Pick Date/Time: {{pickdatetime}}</p>
+        <p class="aligncenter">Target Ship: {{targetshipdate}}</p>
+        <p class="alignright">{{orderno}}</p>
     </div>
+
+    <table id="tblpicklistreportheader" class="body">
+        <thead>
+            <tr>
+                <td>
+                    <div>Start Rental: {{estrentfrom}}</div>
+                </td>
+                <td></td>
+                <td>
+                    <div>End Rental: {{estrentto}}</div>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>Order: {{orderno}}</div>
+                </td>
+                <td>
+                    <div>{{plorderdesc}}</div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div>PO No: {{pono}}</div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <div>Customer: {{custno}}</div>
+                </td>
+                <td>
+                    <div>{{customer}}</div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div>Ext: {{phoneextension}}</div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <div>Deal: {{dealno}}</div>
+                </td>
+                <td>
+                    <div>{{deal}}</div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <div>Agent: {{agent}}</div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+    </table>
+    {{/header}}
 </div>
+
+
+
+
+
