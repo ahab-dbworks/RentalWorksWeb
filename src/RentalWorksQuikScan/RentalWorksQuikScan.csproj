@@ -373,7 +373,6 @@
     <Content Include="theme\images\icons\128\transfer.001.png" />
     <Content Include="theme\images\icons\128\package-truck.001.png" />
     <Content Include="theme\images\icons\128\logoff.001.png" />
-    <Content Include="FwApplicationSchema.config" />
     <None Include="JSAppBuilder.config">
       <SubType>Designer</SubType>
     </None>
@@ -564,10 +563,9 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\index.htm" DestinationFiles="$(FwDeploymentDirectory)\index.htm" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" />
+    <!--<Copy SourceFiles="$(FwApplicationDirectory)\FwApplicationSchema.config" DestinationFiles="$(FwDeploymentDirectory)\FwApplicationSchema.config" />-->
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" />
     <Copy SourceFiles="$(FwApplicationDirectory)\app_startupscript.js" DestinationFiles="$(FwDeploymentDirectory)\app_startupscript.js" />
