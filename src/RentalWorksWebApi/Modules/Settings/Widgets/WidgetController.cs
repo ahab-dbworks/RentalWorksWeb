@@ -17,6 +17,7 @@ namespace WebApi.Modules.Settings.Widgets
         public WidgetController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
 
         //------------------------------------------------------------------------------------
+        #pragma warning disable 4014 // suppress the warning about running synchronously
         private async Task<IActionResult> DoGetWidget(string widgetName)
         {
             if (!ModelState.IsValid)
@@ -81,6 +82,7 @@ namespace WebApi.Modules.Settings.Widgets
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
+        #pragma warning restore 4014
         //------------------------------------------------------------------------------------
 
         // GET api/v1/widget/ordersbystatus
