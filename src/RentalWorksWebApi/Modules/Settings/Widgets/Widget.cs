@@ -68,11 +68,15 @@ namespace WebApi.Modules.Settings.Widgets
     //------------------------------------------------------------------------------------
     public class WidgetScales
     {
+        public List<WidgetAxis> xAxes { get; set; }
+
         public List<WidgetAxis> yAxes { get; set; }
         public WidgetScales()
         {
             yAxes = new List<WidgetAxis>();
             yAxes.Add(new WidgetAxis());
+            xAxes = new List<WidgetAxis>();
+            xAxes.Add(new WidgetAxis());
         }
     }
     //------------------------------------------------------------------------------------
