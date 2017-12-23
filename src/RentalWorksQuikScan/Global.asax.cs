@@ -15,12 +15,10 @@ namespace RentalWorksQuikScan
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            string pathFwApplicationSchema;
-
             FwFunc.WriteLog("Begin Application Start");
             AccountService.Current = new AccountService();
-            pathFwApplicationSchema = this.Server.MapPath("FwApplicationSchema.config");
-            FwApplicationSchema.Load(pathFwApplicationSchema);
+            //string pathFwApplicationSchema = this.Server.MapPath("FwApplicationSchema.config");
+            //FwApplicationSchema.Load(pathFwApplicationSchema);
             FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
             FwReport.AddLicense();
             SqlServerConfig sqlServerConfig = new SqlServerConfig();
