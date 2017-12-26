@@ -94,8 +94,10 @@ namespace dbworks.editor.controllers {
                 this.toggle_view(file, 0);
             });          
 
-            $parent.on('click', '#recents', (e) => {                
-                jQuery('#recents_modal').modal('show');
+            $parent.on('click', '#recents', (e) => {       
+                this.bind_recents().done(() => {
+                    jQuery('#recents_modal').modal('show');
+                });                
             });
 
             $parent.on('click', '.clear_recent_options', (e) => {

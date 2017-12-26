@@ -16,39 +16,22 @@
                 border-right: none;
             }
     </style>
-    <!--<ul id="file_nav" class="navbar-nav">
-        {{#each folders}}
-        <li class="nav-item" title="Edit {{folderName}}" data-toggle="dropdown" data-index="{{@index}}" style="cursor: pointer;">
-            <div class="dropdown">
-                <a class="file_menu_option" id="dropdownMenuButton2" data-toggle="dropdown">{{folderName}}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    {{#each files}}
-                    <a class="editable_file dropdown-item" title="Edit {{fileName}}" data-index="{{@index}}">{{fileName}}</a>
-                    {{/each}}
-                    <div class="dropdown-divider"></div>
-                    <a class="expand_module_folder dropdown-item">Expand All</a>
-                    <a class="edit_module_folder dropdown-item">Edit</a>
-                    <a class="delete_module_folder dropdown-item">Delete</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="close_full_module dropdown-item">Close</a>
-                </div>
-            </div>
-        </li>
-        {{/each}}
-    </ul>-->
     <div class="designercssnav">
         <nav style="padding: 0px;">
             <ul>
                 {{#each folders}}
                 <li title="Edit {{folderName}}" data-index="{{@index}}">
-                    <a>{{folderName}}</a>                    
+                    <a>{{folderName}}</a>
                     <ul class="hidden_nav designercssnav_sub">
                         {{#each files}}
                         <li><a class="editable_file" title="Edit {{fileName}}" data-index="{{@index}}">{{fileName}}</a></li>
                         {{/each}}
-                    </ul>                    
+                        <li class="divider"><div></div></li>
+                        <li style="display: inline-block;"><a class="expand_module_folder">Expand</a></li>
+                        <li style="display: inline-block;"><a>Close</a></li>
+                    </ul>
                 </li>
-                {{/each}}
+                {{/each}}                
             </ul>
         </nav>    
     </div>    

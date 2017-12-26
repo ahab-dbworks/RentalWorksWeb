@@ -42,6 +42,14 @@ div.designercss label, div.designercss_modal label {
     margin-right: 4px;
     cursor: pointer;
 }
+
+.divider {
+    width: 100%;
+    border-bottom: 1px solid white;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+}
+
 /** radio **/
 .dcss_radio {
     display: block;
@@ -568,4 +576,17 @@ div.alert button {
 
 #master_loader .loader {
     display: none;
+}
+
+/** recents **/
+.open_recent_option {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: #495057;
+    border-radius: 4px;
+    color: white;
+    padding: 7px;
+    margin-right: 4px;
+    cursor: pointer;    
 }

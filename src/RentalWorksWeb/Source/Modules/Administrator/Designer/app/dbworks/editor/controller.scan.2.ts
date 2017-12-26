@@ -130,9 +130,11 @@
                 var pathParts = path.split('\\');
                 pathParts.pop();
 
+                this._editor.store_recently_used_module_data(folderName, path);
+
                 this._editor.api_open_module(pathParts.join('\\'), folderName, null).done((_folder) => {                    
                     this._editor.bind_file_nav(_folder).done(() => {                    
-                        //jQuery('ul.tabs').tabs();
+                        //jQuery('ul.tabs').tabs();                        
                         dbworksutil.message.message_success('Added the ' + _folder.folderName + ' module to the module navigation tool bar.');
                     });
                 });

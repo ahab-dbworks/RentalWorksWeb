@@ -67,7 +67,9 @@ var dbworks;
                         _this.toggle_view(file, 0);
                     });
                     $parent.on('click', '#recents', function (e) {
-                        jQuery('#recents_modal').modal('show');
+                        _this.bind_recents().done(function () {
+                            jQuery('#recents_modal').modal('show');
+                        });
                     });
                     $parent.on('click', '.clear_recent_options', function (e) {
                         localStorage.setItem("recent_modules", null);

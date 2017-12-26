@@ -1,10 +1,10 @@
 ﻿<script id="designer_recents_template" type="text/x-handlebars-template">
     {{#if recent}}
     {{#each recent}}
-    <a class="open_recent_option dropdown-item" data-path="{{value}}" data-name="{{key}}">{{key}}</a>
-    {{/each}}
-    <div class="dropdown-divider"></div>
-    <a class="clear_recent_options dropdown-item">Clear</a>
+    <div style="margin-bottom: 15px;">
+        <a class="open_recent_option hover_background_gray" data-path="{{value}}" data-name="{{key}}">{{key}}</a>
+    </div>    
+    {{/each}}    
     {{else}}
     <a class="dropdown-item disabled">No recents found.</a>
     {{/if}}
