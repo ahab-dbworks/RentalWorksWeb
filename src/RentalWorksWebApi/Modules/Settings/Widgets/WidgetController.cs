@@ -24,53 +24,12 @@ namespace WebApi.Modules.Settings.Widgets
                 }
                 switch (widgetName)
                 {
-                    case "orderbystatus":
+                    case "ordersbystatus":
                         try
                         {
-                            Widget w = new Widget();
-                            w.type = "bar";
-                            w.data.labels.Add("Confirmed");
-                            w.data.labels.Add("Hold");
-                            w.data.labels.Add("Active");
-                            w.data.labels.Add("Complete");
-                            w.data.labels.Add("Closed");
-                            w.data.labels.Add("Cancelled");
-
-                            w.options.title.text = "Orders By Status";
-
-                            List<int> data = new List<int>();
-                            data.Add(251);  // confirmed
-                            data.Add(5);    // hold
-                            data.Add(170);  // active
-                            data.Add(102);  // complete
-                            data.Add(84);   // closed
-                            data.Add(200);  // cancelled
-
-                            w.data.datasets.Add(new WidgetDataSet());
-                            w.data.datasets[0].data = data;
-
-
-                            List<string> backgroundColor = new List<string>();
-                            backgroundColor.Add("rgba(255, 99, 132, 0.2)");
-                            backgroundColor.Add("rgba(54, 162, 235, 0.2)");
-                            backgroundColor.Add("rgba(255, 206, 86, 0.2)");
-                            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-                            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-                            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-
-                            w.data.datasets[0].backgroundColor = backgroundColor;
-
-                            List<string> borderColor = new List<string>();
-                            borderColor.Add("rgba(255,99,132,1)");
-                            borderColor.Add("rgba(54, 162, 235, 1)");
-                            borderColor.Add("rgba(255, 206, 86, 1)");
-                            borderColor.Add("rgba(75, 192, 192, 1)");
-                            borderColor.Add("rgba(153, 102, 255, 1)");
-                            borderColor.Add("rgba(255, 159, 64, 1)");
-
-                            w.data.datasets[0].borderColor = borderColor;
-
-
+                            WidgetOrdersByStatus w = new WidgetOrdersByStatus();
+                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 
                         }
@@ -197,6 +156,6 @@ namespace WebApi.Modules.Settings.Widgets
         {
             return await DoGetWidget(widgetName);
         }
-
+        //------------------------------------------------------------------------------------
     }
 }

@@ -23,7 +23,7 @@ var RwHome = /** @class */ (function () {
     ;
     RwHome.prototype.renderBar = function () {
         var ctx = document.getElementById("myChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/orderbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myChart = new Chart(ctx, response);
             }

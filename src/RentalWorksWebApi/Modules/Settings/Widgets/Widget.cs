@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using FwStandard.Models;
+using System.Threading.Tasks;
 
 namespace WebApi.Modules.Settings.Widgets
 {
@@ -96,18 +98,29 @@ namespace WebApi.Modules.Settings.Widgets
         }
     }
     //------------------------------------------------------------------------------------
-    public class Widget
+    public /*abstract*/ class Widget
     {
+        protected SqlServerConfig _dbConfig { get; set; }
+
         public string type { get; set; }
         public WidgetData data { get; set; }
         public WidgetOptions options { get; set; }
+
+
 
         public Widget()
         {
             data = new WidgetData();
             options = new WidgetOptions();
         }
-    }
-    //------------------------------------------------------------------------------------
 
-}
+        public void SetDbConfig(SqlServerConfig dbConfig)
+        {
+            _dbConfig = dbConfig;
+        }
+        //public abstract Task<bool> LoadAsync();
+        //------------------------------------------------------------------------------------
+        }
+        //------------------------------------------------------------------------------------
+
+    }
