@@ -84,59 +84,65 @@ namespace WebApi.Modules.Administrator.User
         public string TransportationDepartmentId { get { return user.TransportationDepartmentId; } set { user.TransportationDepartmentId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TransportationDepartment { get; set; }
-
-
-
-
-        //public bool? Webaccess { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Webadministrator { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Webadministratortext { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Webpassword { get; set; }
-        //public bool? Lockaccount { get { return user.Lockaccount; } set { user.Lockaccount = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Registered { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Registerdate { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Tmppassword { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Changepasswordatlogin { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Resetpassword { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string PrimarydepartmentId { get; set; }
-        //public string RentaldepartmentId { get { return user.RentaldepartmentId; } set { user.RentaldepartmentId = value; } }
-        //public string SalesdepartmentId { get { return user.SalesdepartmentId; } set { user.SalesdepartmentId = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string RentalagentusersId { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string SalesagentusersId { get; set; }
-        //public string PartsdepartmentId { get { return user.PartsdepartmentId; } set { user.PartsdepartmentId = value; } }
-        //public string LabordepartmentId { get { return user.LabordepartmentId; } set { user.LabordepartmentId = value; } }
-        //public string MiscdepartmentId { get { return user.MiscdepartmentId; } set { user.MiscdepartmentId = value; } }
-        //public string SpacedepartmentId { get { return user.SpacedepartmentId; } set { user.SpacedepartmentId = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Sourceid1 { get; set; }
-        //public string Department { get { return user.Department; } set { user.Department = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string DepartmentId { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Webreports { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Webquoterequest { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string DefaultpoordertypeId { get; set; }
-        //public string WebcatalogId { get { return user.WebcatalogId; } set { user.WebcatalogId = value; } }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public bool? Iscrew { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Usertype { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
-        //public string WebusersId { get; set; }
+        public string RentalInventoryTypeId { get { return user.RentalInventoryTypeId; } set { user.RentalInventoryTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RentalInventoryType { get; set; }
+        public string SalesInventoryTypeId { get { return user.SalesInventoryTypeId; } set { user.SalesInventoryTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SalesInventoryType { get; set; }
+        public string PartsInventoryTypeId { get { return user.PartsInventoryTypeId; } set { user.PartsInventoryTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PartsInventoryType { get; set; }
+        public string MiscTypeId { get { return user.MiscTypeId; } set { user.MiscTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MiscType { get; set; }
+        public string LaborTypeId { get { return user.LaborTypeId; } set { user.LaborTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string LaborType { get; set; }
+        public string FacilityTypeId { get { return user.FacilityTypeId; } set { user.FacilityTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FacilityType { get; set; }
+        public string TransportationTypeId { get { return user.TransportationTypeId; } set { user.TransportationTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TransportationType { get; set; }
+        public bool? NoMiscellaneousOnQuotes { get { return user.NoMiscellaneousOnQuotes; } set { user.NoMiscellaneousOnQuotes = value; } }
+        public bool? NoMiscellaneousOnOrders { get { return user.NoMiscellaneousOnOrders; } set { user.NoMiscellaneousOnOrders = value; } }
+        public bool? NoMiscellaneousOnPurchaseOrders { get { return user.NoMiscellaneousOnPurchaseOrders; } set { user.NoMiscellaneousOnPurchaseOrders = value; } }
+        public bool? LimitDaysPerWeek { get { return user.LimitDaysPerWeek; } set { user.LimitDaysPerWeek = value; } }
+        public decimal? MinimumDaysPerWeek { get { return user.MinimumDaysPerWeek; } set { user.MinimumDaysPerWeek = value; } }
+        public bool? AllowCreditLimitOverride { get { return user.AllowCreditLimitOverride; } set { user.AllowCreditLimitOverride = value; } }
+        public bool? CumulativeDiscountOverride { get { return user.CumulativeDiscountOverride; } set { user.CumulativeDiscountOverride = value; } }
+        public bool? LimitAllowCumulativeDiscount { get { return user.LimitAllowCumulativeDiscount; } set { user.LimitAllowCumulativeDiscount = value; } }
+        public decimal? MaximumCumulativeDiscount { get { return user.MaximumCumulativeDiscount; } set { user.MaximumCumulativeDiscount = value; } }
+        public bool? LimitDiscount { get { return user.LimitDiscount; } set { user.LimitDiscount = value; } }
+        public decimal? MaximumDiscount { get { return user.MaximumDiscount; } set { user.MaximumDiscount = value; } }
+        public bool? LimitSubDiscount { get { return user.LimitSubDiscount; } set { user.LimitSubDiscount = value; } }
+        public decimal? MaximumSubDiscount { get { return user.MaximumSubDiscount; } set { user.MaximumSubDiscount = value; } }
+        public string DiscountRule { get { return user.DiscountRule; } set { user.DiscountRule = value; } }
+        public bool? StagingAllowIncreaseDecreaseOrderQuantity { get { return user.StagingAllowIncreaseDecreaseOrderQuantity; } set { user.StagingAllowIncreaseDecreaseOrderQuantity = value; } }
+        public bool? AllowStagingOfItemsWhenReservedOnOtherOrdersQuotes { get { return user.AllowStagingOfItemsWhenReservedOnOtherOrdersQuotes; } set { user.AllowStagingOfItemsWhenReservedOnOtherOrdersQuotes = value; } }
+        public bool? AllowContractIfDealRequiresPOAndOrderHasPendingPO { get { return user.AllowContractIfDealRequiresPOAndOrderHasPendingPO; } set { user.AllowContractIfDealRequiresPOAndOrderHasPendingPO = value; } }
+        public bool? AllowContractIfPendingItemsExist { get { return user.AllowContractIfPendingItemsExist; } set { user.AllowContractIfPendingItemsExist = value; } }
+        public bool? AllowContractIfCustomerDealDoesNotHaveApprovedCredit { get { return user.AllowContractIfCustomerDealDoesNotHaveApprovedCredit; } set { user.AllowContractIfCustomerDealDoesNotHaveApprovedCredit = value; } }
+        public bool? AllowContractIfCustomerDealIsOverTheirCreditLimit { get { return user.AllowContractIfCustomerDealIsOverTheirCreditLimit; } set { user.AllowContractIfCustomerDealIsOverTheirCreditLimit = value; } }
+        public bool? AllowContractIfCustomerDealInsuranceCoverageIsLess { get { return user.AllowContractIfCustomerDealInsuranceCoverageIsLess; } set { user.AllowContractIfCustomerDealInsuranceCoverageIsLess = value; } }
+        public bool? AllowContractIfCustomerDealDoesNotHaveValidInsuranceCertificate { get { return user.AllowContractIfCustomerDealDoesNotHaveValidInsuranceCertificate; } set { user.AllowContractIfCustomerDealDoesNotHaveValidInsuranceCertificate = value; } }
+        public bool? AllowContractIfCustomerDealDoesNotHaveValidNonTaxCertificate { get { return user.AllowContractIfCustomerDealDoesNotHaveValidNonTaxCertificate; } set { user.AllowContractIfCustomerDealDoesNotHaveValidNonTaxCertificate = value; } }
+        public bool? AllowReceiveSubsWhenPositiveConflictExists { get { return user.AllowReceiveSubsWhenPositiveConflictExists; } set { user.AllowReceiveSubsWhenPositiveConflictExists = value; } }
+        public bool? AllowStagingOfUnreservedConsignedItems { get { return user.AllowStagingOfUnreservedConsignedItems; } set { user.AllowStagingOfUnreservedConsignedItems = value; } }
+        public bool? AllowStagingOfUnapprovedItems { get { return user.AllowStagingOfUnapprovedItems; } set { user.AllowStagingOfUnapprovedItems = value; } }
+        public bool? AllowSubstitutesAtStaging { get { return user.AllowSubstitutesAtStaging; } set { user.AllowSubstitutesAtStaging = value; } }
+        public bool? DeleteOriginalOnSubstitution { get { return user.DeleteOriginalOnSubstitution; } set { user.DeleteOriginalOnSubstitution = value; } }
+        public bool? AllowCancelContract { get { return user.AllowCancelContract; } set { user.AllowCancelContract = value; } }
+        public bool? QuikActivityAllowPrintDollarAmounts { get { return user.QuikActivityAllowPrintDollarAmounts; } set { user.QuikActivityAllowPrintDollarAmounts = value; } }
+        public bool? QuikScanAllowCreateContract { get { return user.QuikScanAllowCreateContract; } set { user.QuikScanAllowCreateContract = value; } }
+        public bool? QuikScanAllowApplyAll { get { return user.QuikScanAllowApplyAll; } set { user.QuikScanAllowApplyAll = value; } }
+        public bool? AllowCrossICodeExchange { get { return user.AllowCrossICodeExchange; } set { user.AllowCrossICodeExchange = value; } }
+        public bool? AllowCrossICodePendingExchange { get { return user.AllowCrossICodePendingExchange; } set { user.AllowCrossICodePendingExchange = value; } }
+        public bool? AllowChangeAvailabilityPriority { get { return user.AllowChangeAvailabilityPriority; } set { user.AllowChangeAvailabilityPriority = value; } }
+        public string Memo { get { return user.Memo; } set { user.Memo = value; } }
         public bool? Inactive { get { return user.Inactive; } set { user.Inactive = value; } }
+        public string DateStamp { get { return user.DateStamp; } set { user.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }
