@@ -981,7 +981,7 @@ namespace FwStandard.SqlServer
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns = true, int pageNo = 0, int pageSize = 0, int top = 0)
+        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns = true, int pageNo = 0, int pageSize = 0, int top = 0, bool doParse = true)
         {
             FwJsonDataTable dt;
 
@@ -991,8 +991,11 @@ namespace FwStandard.SqlServer
             select.PageSize = pageSize;
             select.Top = top;
             select.Add(this.qryText.ToString());
-            select.Parse();
-            select.SetQuery(this);
+            if (doParse)
+            {
+                select.Parse();
+                select.SetQuery(this);
+            }
             dt = new FwJsonDataTable();
             dt.PageNo = pageNo;
             dt.PageSize = pageSize;
