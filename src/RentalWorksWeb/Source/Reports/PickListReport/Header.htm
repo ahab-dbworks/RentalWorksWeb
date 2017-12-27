@@ -3,39 +3,38 @@
     <!--<div style="float:left;width:300px;height:72px;box-sizing:border-box;overflow:hidden;">[logo]</div>-->
     {{#header}}
     <div>
-        <p class="alignleft">Warehouse: {{warehouse}}</p>
-        <p class="aligncenter"><b>4Wall Entertainment</b></p>
-        <p class="alignright">Pick Number:</p>
+        <div class="alignleft">Warehouse: {{warehouse}}</div>
+        <div class="aligncenter"><b>4Wall Entertainment</b></div>
+        <div class="alignright">Pick Number:</div>
     </div>
     <div>
-        <p class="alignleft">Devliery Type: {{delivertype}}</p>
-        <p class="aligncenter">[LBLREPORTNAME]</p>
-        <p class="alignright">{{pickno}}</p>
+        <div class="alignleft">Delivery Type: {{delivertype}}</div>
+        <div class="aligncenter">[LBLREPORTNAME]</div>
+        <div class="alignright">{{pickno}}</div>
     </div>
     <div>
-        <p class="alignleft">Assigned To:</p>
-        <p class="aligncenter">Required By: {{requireddatetime}}</p>
-        <p class="alignright">Order Number:</p>
+        <div class="alignleft">Assigned To:</div>
+        <div class="aligncenter">Required By: {{requireddatetime}}</div>
+        <div class="alignright">Order Number:</div>
     </div>
     <div>
-        <p class="alignleft">Pick Date/Time: {{pickdatetime}}</p>
-        <p class="aligncenter">Target Ship: {{targetshipdate}}</p>
-        <p class="alignright">{{orderno}}</p>
+        <div class="alignleft">Pick Date/Time: {{pickdatetime}}</div>
+        <div class="aligncenter">Target Ship: {{targetshipdate}}</div>
+        <div class="alignright">{{orderno}}</div>
     </div>
 
-    <table id="tblpicklistreportheader" class="body">
-        <thead>
+    <table id="tblpicklistreportheader" class="body" style="margin: 0; padding: 0; width:1008px;">
+        <thead style="border-color:black;">
             <tr>
                 <td>
                     <div>Start Rental: {{estrentfrom}}</div>
                 </td>
-                <td></td>
+
                 <td>
                     <div>End Rental: {{estrentto}}</div>
                 </td>
                 <td></td>
-                <td></td>
-            </tr>
+                </tr>
 
             <tr>
                 <td>
@@ -44,12 +43,9 @@
                 <td>
                     <div>{{plorderdesc}}</div>
                 </td>
-                <td></td>
-                <td></td>
                 <td>
                     <div>PO No: {{pono}}</div>
                 </td>
-
             </tr>
             <tr>
                 <td>
@@ -58,12 +54,9 @@
                 <td>
                     <div>{{customer}}</div>
                 </td>
-                <td></td>
-                <td></td>
                 <td>
                     <div>Ext: {{phoneextension}}</div>
                 </td>
-
             </tr>
             <tr>
                 <td>
@@ -73,8 +66,6 @@
                     <div>{{deal}}</div>
                 </td>
                 <td></td>
-                <td></td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -82,9 +73,7 @@
                 </td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                </tr>
         </thead>
     </table>
     {{/header}}

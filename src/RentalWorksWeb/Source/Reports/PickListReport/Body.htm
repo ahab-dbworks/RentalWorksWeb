@@ -26,37 +26,37 @@
                     </div>
                 </td>
             </tr>-->
-            <tr>
+            <tr style="border: 0px 1px 0px 1px solid black; font-size:15px; text-align:center;">
                 <td>
-                    <div class="row1" data-datafield="orderno">Order No.</div>
+                    <div>Order No.</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="masterno">I-Code</div>
+                    <div>I-Code</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="description">Description</div>
+                    <div>Description</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="itemaisleshelfloc">Location<br>Aisle/Shelf</div>
+                    <div>Location<br>Aisle/Shelf</div>
                 </td>
                 <td>
-                    <div class="row1 rotate" data-datafield="qtyordered">Ordered</div>
+                    <div>Ordered</div>
                 </td>
                 <td>
-                    <div class="row1 rotate" data-datafield="outqty">Out</div>
+                    <div>Out</div>
                 </td>
                 <td>
-                    <div class="row1 rotate" data-datafield="pickqty">Pick</div>
+                    <div>Pick</div>
                 </td>
                 <td>
-                    <div class="row1 rotate">Picked</div>
+                    <div>Picked</div>
                 </td>
                 <td>
-                    <div class="row1 rotate">Verified</div>
+                    <div>Verified</div>
                 </td>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="border:1px solid black;">
             {{#details}}
             <tr data-rowtype={{rowtype}}>
                 <td>
@@ -69,16 +69,16 @@
                     <div class="row1" data-datafield="description">{{description}}</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="itemaisleshelfloc">{{itemaisleshelfloc}}</div>
+                    <div class="row1" style="text-align:center;" data-datafield="itemaisleshelfloc">{{itemaisleshelfloc}}</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="qtyordered">{{qtyordered}}</div>
+                    <div class="row1" style="text-align:center;" data-datafield="qtyordered">{{qtyordered}}</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="outqty">{{outqty}}</div>
+                    <div class="row1" style="text-align:center;" data-datafield="outqty">{{outqty}}</div>
                 </td>
                 <td>
-                    <div class="row1" data-datafield="pickqty">{{pickqty}}</div>
+                    <div class="row1" style="text-align:center;" data-datafield="pickqty"><strong>{{pickqty}}</strong></div>
                 </td>
                 <td>
                     <div class="row1"></div>
