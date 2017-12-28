@@ -1,4 +1,4 @@
-﻿declare var Materialize: any;
+﻿declare var Materialize: Materialize.Materialize;
 
 namespace dbworksutil {
 

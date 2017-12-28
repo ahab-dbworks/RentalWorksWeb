@@ -254,6 +254,10 @@
     <Content Include="Source\Grids\ItemLocationTaxGrid\ItemLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="scripts\typings\handlebars\handlebars.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jqueryui\jqueryui.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\materialize-css\materialize-css.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\pickadate\pickadate.d.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
@@ -436,11 +440,6 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\dbworks\editor\model.file.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\dbworks\editor\model.folder.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\dbworks\error\controller.error.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\typings\globals\handlebars\index.d.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\typings\globals\jqueryui\index.d.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\typings\globals\jquery\index.d.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\typings\globals\materialize-css\index.d.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Designer\app\typings\index.d.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Designer\DesignerController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Designer\index.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
@@ -1053,16 +1052,10 @@
     <Content Include="Source\Modules\Administrator\Designer\app\dbworks\error\controller.error.js.map" />
     <Content Include="Source\Modules\Administrator\Designer\app\dbworks\error\error.hbs" />
     <Content Include="Source\Modules\Administrator\Designer\app\dbworks\error\error.less" />
-    <Content Include="Source\Modules\Administrator\Designer\app\tsconfig.json" />
     <Content Include="Source\Modules\Administrator\Designer\app\typings.json" />
-    <Content Include="Source\Modules\Administrator\Designer\app\typings\globals\handlebars\typings.json" />
-    <Content Include="Source\Modules\Administrator\Designer\app\typings\globals\jqueryui\typings.json" />
-    <Content Include="Source\Modules\Administrator\Designer\app\typings\globals\jquery\typings.json" />
-    <Content Include="Source\Modules\Administrator\Designer\app\typings\globals\materialize-css\typings.json" />
     <Content Include="Source\Modules\Administrator\Designer\DesignerController.js.map" />
     <Content Include="Source\Modules\Administrator\Designer\index.js.map" />
     <Content Include="Source\Modules\Administrator\Designer\master.less" />
-    <Content Include="Source\Modules\Administrator\Designer\tsconfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1331,9 +1324,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <Target Name="AfterClean">
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
   </Target>
+  <Import Project="..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

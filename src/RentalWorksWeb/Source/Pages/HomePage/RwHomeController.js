@@ -40,7 +40,8 @@ var RwHome = /** @class */ (function () {
                 delete response.options.legend;
                 delete response.options.scales;
                 var myPie = new Chart(pie, response);
-            } catch (ex) {
+            }
+            catch (ex) {
                 FwFunc.showError(ex);
             }
         });
@@ -50,7 +51,8 @@ var RwHome = /** @class */ (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myHoriz = new Chart(ctx, response);
-            } catch (ex) {
+            }
+            catch (ex) {
                 FwFunc.showError(ex);
             }
         });
