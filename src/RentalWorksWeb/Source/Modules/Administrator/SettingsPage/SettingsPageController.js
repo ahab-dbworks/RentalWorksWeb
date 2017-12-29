@@ -19,16 +19,20 @@ var SettingsPage = /** @class */ (function () {
             FwModule.openModuleTab($settings, 'Settings', false, 'SETTINGS', true);
             var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
             var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+            var moduleMenu = FwApplicationTree.getChildrenByType(node, 'Lv2ModuleMenu');
             var moduleTemplates = {};
             var moduleArray = [];
-            for (var i = 0; i < modules.length; i++) {
-                var moduleObj = [];
-                moduleObj.push(modules[i].properties.caption, modules[i].properties.controller.slice(0, -10), i);
-                moduleArray.push(moduleObj);
+            for (var k = 0; k < moduleMenu.length; k++) {
+                for (var l = 0; l < moduleMenu[k].children.length; l++) {
+                    var moduleObj = [];
+                    moduleObj.push(moduleMenu[k].children[l].properties.caption, moduleMenu[k].children[l].properties.controller.slice(0, -10), moduleMenu[k].properties.caption.slice(0, -9), l);
+                    moduleArray.push(moduleObj);
+                }
             }
+            console.log(modules);
             moduleArray.sort();
             for (var j = 0; j < moduleArray.length; j++) {
-                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][2]].properties.color, moduleArray[j][1]);
+                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][3]].properties.color, moduleArray[j][1], moduleArray[j][2]);
                 FwSettings.renderRecordHtml($settings, moduleArray[j][1]);
             }
             FwSettings.getCaptions(screen);
