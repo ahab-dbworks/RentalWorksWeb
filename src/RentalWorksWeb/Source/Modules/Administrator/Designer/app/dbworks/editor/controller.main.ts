@@ -300,7 +300,8 @@ namespace dbworks.editor.controllers {
                     jQuery('#preview_view').show();
                     //this.evaluate_form_javascript();
                     this.render(file);
-                    this._process_fwgrid.process_2(jQuery('<div>' + file.fileContents + '</div>'));
+                    //this._process_fwgrid.process_2(jQuery('<div>' + file.fileContents + '</div>'));
+                    this._process_fwgrid.process();
                     //this._process_fwgrid.process(file);
                     break;
                 default:

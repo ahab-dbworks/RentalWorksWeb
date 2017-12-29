@@ -268,6 +268,7 @@ class Deal {
     }
 
     renderGrids($form: any) {
+        console.log($form);
         var $resaleGrid,
             $resaleControl,
             $taxOptionGrid,

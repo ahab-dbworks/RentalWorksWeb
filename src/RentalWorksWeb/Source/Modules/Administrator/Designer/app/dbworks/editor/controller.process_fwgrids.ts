@@ -12,58 +12,26 @@ namespace dbworks.editor.controllers {
         constructor(editor_controller: editor.controllers.main) {
             this._editor = editor_controller;
             this.grids = [];
+        }                
+
+        process(): void {
+            var $container = jQuery('.fwcontrol.fwtabs');            
+            this.find_grids($container);
+            this.render_grid($container);
         }        
 
-        process(file: editor.models.file): void {
-            var $body = jQuery(file.fileContents);
-            this.find_grids($body);            
-            this.evaluate_grid_javascript().done(() => {
-                this.render_grid($body);
-            });
-            
-        }
-
-        process_2($container: JQuery): void {
-
-            var $grids = $container.find('[data-control="FwGrid"]');
-
-            $grids.each((_i, _e) => {
-
-                var $grid = jQuery(_e), gridName: string = $grid.data('grid');
-
-                for (var i = 0; i < this._editor.files.length; i++) {
-                    if (this._editor.files[i].fileName.indexOf(gridName) != -1) {
-                        this.render_grid_2($grid, this._editor.files[i]);
-                        break;
-                    }
-                }                                
-
-            });
-
-        }
-
-
-
-        find_grids($body: JQuery): void {            
-
+        find_grids($body: JQuery): void {
             var $grids = $body.find('[data-control="FwGrid"]');
-            
+
             $grids.each((_i, _e) => {
-                var grid = new fw_grid();
-                grid.$grid = jQuery(_e);
-                grid.name = jQuery(_e).data('grid');
-                var modGridName: string = jQuery(_e).data('grid');
-                modGridName = modGridName.replace('Grid', '');
-                this._editor.files.forEach((_f) => {                    
-                    if (_f.fileName.indexOf(modGridName) != -1 && _f.ext == 'js') {
-                        grid.javascript = _f.fileContents;
-                    }
 
-                });
-                this.grids.push(grid);
+                var newGrid = new fw_grid;
+                newGrid.$grid = jQuery(_e);
+                newGrid.name = this.clean_browse_names(jQuery(_e).data('grid'));
+                newGrid.controllerName = newGrid.name + 'Controller';
+                newGrid.$browseHTML = jQuery(jQuery('#tmpl-grids-' + newGrid.name + 'Browse').html());
+                this.grids.push(newGrid);
             });
-
-            this.update_grids_with_content();            
         }
 
         update_grids_with_content(): void {
@@ -84,7 +52,7 @@ namespace dbworks.editor.controllers {
         }        
 
         evaluate_grid_javascript(): JQueryDeferred<boolean> {
-            var $promise = $.Deferred<any>(), i = 0;
+            var $promise = jQuery.Deferred<any>(), i = 0;
 
             while(i < this.grids.length) {
                 var x = this.grids[i].javascript;
@@ -100,46 +68,26 @@ namespace dbworks.editor.controllers {
             }
             
             return $promise;
-        }
+        }        
 
-        render_grid($control: JQuery): void {
-
-            this.grids.forEach((_v) => {                
-                var $form = jQuery('#preview_view').next(),
-                    $grid = $form.find('div[data-grid="' + _v.name + '"]'),
-                    $gridControl: JQuery = jQuery(_v.body);
-
-                $grid.empty().append($gridControl);
-                $gridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        OrderTypeId: FwFormField.getValueByDataField($control, 'OrderTypeId')
-                    };
-                });
-                $gridControl.data('beforesave', function (request) {
-                    request.OrderTypeId = FwFormField.getValueByDataField($control, 'OrderTypeId')
-                });
-                FwBrowse.init($gridControl);
-                FwBrowse.renderRuntimeHtml($gridControl);
+        render_grid($container: JQuery): void {            
+            this.grids.forEach((_v, _i) => {                
+                var gridName: string = _v.name;
+                var $grid: any = $container.find('div[data-grid="' + gridName + '"]');
+                var $control: any = FwBrowse.loadGridFromTemplate(gridName);               
+                $grid.empty().append($control);                
+                FwBrowse.init($control);
+                FwBrowse.renderRuntimeHtml($control);                
+                var $finalGrid: any = $container.find('[data-name="' + gridName + '"]');
+                FwBrowse.search($finalGrid);
 
             });
-            
         }
 
-        render_grid_2($container: JQuery, file: editor.models.file): void {
-            var content = file.fileContents, $root = jQuery('<div>' + content + '</div>'), $fwControls = $root.find('.fwcontrol');
-            if (file.ext === 'htm') {
-                $container.empty();
-                $container.html(file.fileContents);
-                var $controls = $container.find('.fwcontrol');
-                FwBrowse.init($container);
-                FwBrowse.renderRuntimeHtml($container);
-                var $grid = $container.find('[data-name="' + $container.data('grid') + '"]');
-                FwBrowse.search($grid);
-
-            } else {
-                $container.html('<strong>File type ' + file.ext.toUpperCase() + ' not supported in preview.</strong>');
-            }
-
+        clean_browse_names(browseName: string): string {
+            //browseName = browseName.replace('Grid', '');
+            browseName = browseName.replace('Browse', '');
+            return browseName;
         }
 
     }
@@ -148,6 +96,8 @@ namespace dbworks.editor.controllers {
 
         $grid?: JQuery;
         name?: string;
+        controllerName?: string;
+        $browseHTML?: JQuery;
         body?: string;
         javascript: string;
         

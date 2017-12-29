@@ -221,6 +221,7 @@ var Deal = /** @class */ (function () {
         });
     };
     Deal.prototype.renderGrids = function ($form) {
+        console.log($form);
         var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
         $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
         $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
