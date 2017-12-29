@@ -3,24 +3,24 @@
     <!--<div style="float:left;width:300px;height:72px;box-sizing:border-box;overflow:hidden;">[logo]</div>-->
     {{#header}}
     <div>
-        <div class="alignleft">Warehouse: {{warehouse}}</div>
+        <div class="alignleft">Warehouse: <strong>{{warehouse}}</strong></div>
         <div class="aligncenter"><b>4Wall Entertainment</b></div>
         <div class="alignright">Pick Number:</div>
     </div>
     <div>
-        <div class="alignleft">Delivery Type: {{delivertype}}</div>
+        <div class="alignleft">Delivery Type: <strong>{{delivertype}}</strong></div>
         <div class="aligncenter">[LBLREPORTNAME]</div>
-        <div class="alignright">{{pickno}}</div>
+        <div class="alignright"><strong>{{pickno}}</strong></div>
     </div>
     <div>
         <div class="alignleft">Assigned To:</div>
-        <div class="aligncenter">Required By: {{requireddatetime}}</div>
+        <div class="aligncenter"><strong>Required By: {{requireddatetime}}</strong></div>
         <div class="alignright">Order Number:</div>
     </div>
     <div>
-        <div class="alignleft">Pick Date/Time: {{pickdatetime}}</div>
-        <div class="aligncenter">Target Ship: {{targetshipdate}}</div>
-        <div class="alignright">{{orderno}}</div>
+        <div class="alignleft">Pick Date/Time: <strong>{{pickdatetime}}</strong></div>
+        <div class="aligncenter"><strong>Target Ship: {{targetshipdate}}</strong></div>
+        <div class="alignright"><strong>{{orderno}}</strong></div>
     </div>
 
     <table id="tblpicklistreportheader" class="body" style="margin: 0; padding: 0; width:1008px;">
@@ -34,6 +34,7 @@
                     <div>End Rental: {{estrentto}}</div>
                 </td>
                 <td></td>
+                <td></td>
                 </tr>
 
             <tr>
@@ -46,6 +47,7 @@
                 <td>
                     <div>PO No: {{pono}}</div>
                 </td>
+                <td></td>
             </tr>
             <tr>
                 <td>
@@ -54,6 +56,7 @@
                 <td>
                     <div>{{customer}}</div>
                 </td>
+                <td></td>
                 <td>
                     <div>Ext: {{phoneextension}}</div>
                 </td>
@@ -66,11 +69,13 @@
                     <div>{{deal}}</div>
                 </td>
                 <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>
                     <div>Agent: {{agent}}</div>
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 </tr>

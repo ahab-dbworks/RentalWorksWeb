@@ -3,7 +3,7 @@
 .body {page-break-after: always;}
 .body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
 .body .header {position:relative;}
-.body thead td {background-color: #d2cccc; border: 1px solid black;}
+.body thead td {background-color: #cccccc; border: 1px solid black;}
 .alignleft {
     float: left;
     width: 33.33333%;
@@ -47,6 +47,7 @@ td div.row1 {
 td div.row2 {padding:0 0 0 10px;min-height: 16px;}
 td div.row3 {padding:0 0 0 20px;min-height: 16px;}
 td div.row4 {padding:0 0 0 30px;min-height: 16px;}
+tbody tr td {border: 1px solid black;}
 tr td div {padding: 5px 0px 5px 0px; min-height: 16px;}
 .exportedcaption {font-weight:bold;font-size:16px;}
 .body tfoot tr {border-top: 1px solid black;}
