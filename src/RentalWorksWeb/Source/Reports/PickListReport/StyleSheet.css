@@ -1,6 +1,6 @@
 ﻿/* Pick List Report */
 [applicationstylesheet]
-.body {page-break-after: always;}
+/*.body {page-break-after: always;}*/
 .body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
 .body .header {position:relative;}
 .body thead td {background-color: #cccccc; border: 1px solid black;}
