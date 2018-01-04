@@ -39,19 +39,35 @@ class SettingsPage {
             var moduleMenu = FwApplicationTree.getChildrenByType(node, 'Lv2ModuleMenu');
 
             var moduleTemplates = {};
-            var moduleArray = [];            
-            for (var k = 0; k < moduleMenu.length; k++) {
-                for (var l = 0; l < moduleMenu[k].children.length; l++) {
-                    var moduleObj = [];
-                    moduleObj.push(moduleMenu[k].children[l].properties.caption, moduleMenu[k].children[l].properties.controller.slice(0, -10), moduleMenu[k].properties.caption.slice(0, -9), l);
-                    moduleArray.push(moduleObj);
+            var moduleArray = [];
+            console.log(node);
+            console.log(modules);
+            console.log(moduleMenu);
+
+            for (var i = 0; i < node.children.length; i++) {
+                for (var j = 0; j < node.children[i].children.length; j++) {
+                    if (node.children[i].properties.nodetype === 'Module') {
+                        var moduleObj = [];
+                        moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0,-10), node.children[i].properties.caption, j);
+                        moduleArray.push(moduleObj);
+                    } else {
+                        var moduleObj = [];
+                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), j);
+                        moduleArray.push(moduleObj);
+                    }                    
                 }
             }
-            console.log(modules);
-            moduleArray.sort();
-            for (var j = 0; j < moduleArray.length; j++) {
-                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[j][0], moduleArray[j][1], modules[moduleArray[j][3]].properties.color, moduleArray[j][1], moduleArray[j][2]);
-                FwSettings.renderRecordHtml($settings, moduleArray[j][1]);
+
+            //for (var k = 0; k < moduleMenu.length; k++) {
+            //    for (var l = 0; l < moduleMenu[k].children.length; l++) {
+            //        var moduleObj = [];
+            //        moduleObj.push(moduleMenu[k].children[l].properties.caption, moduleMenu[k].children[l].properties.controller.slice(0, -10), moduleMenu[k].properties.caption.slice(0, -9), l);
+            //        moduleArray.push(moduleObj);
+            //    }
+            //}
+            for (var k = 0; k < moduleArray.length; k++) {
+                FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[k][0], moduleArray[k][1], modules[moduleArray[k][3]].properties.color, moduleArray[k][1], moduleArray[k][2]);
+                FwSettings.renderRecordHtml($settings, moduleArray[k][1]);
             }
             FwSettings.getCaptions(screen);
 
