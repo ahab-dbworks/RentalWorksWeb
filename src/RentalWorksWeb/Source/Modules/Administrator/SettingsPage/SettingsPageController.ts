@@ -45,16 +45,16 @@ class SettingsPage {
             console.log(moduleMenu);
 
             for (var i = 0; i < node.children.length; i++) {
-                for (var j = 0; j < node.children[i].children.length; j++) {
-                    if (node.children[i].properties.nodetype === 'Module') {
-                        var moduleObj = [];
-                        moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0,-10), node.children[i].properties.caption, j);
-                        moduleArray.push(moduleObj);
-                    } else {
+                if (node.children[i].properties.nodetype === 'Module') {
+                    var moduleObj = [];
+                    moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, j);
+                    moduleArray.push(moduleObj);
+                } else {                
+                    for (var j = 0; j < node.children[i].children.length; j++) {
                         var moduleObj = [];
                         moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), j);
                         moduleArray.push(moduleObj);
-                    }                    
+                    }
                 }
             }
 

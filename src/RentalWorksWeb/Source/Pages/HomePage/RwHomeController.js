@@ -26,6 +26,15 @@ var RwHome = /** @class */ (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myChart = new Chart(ctx, response);
+                ctx.onclick = function (evt) {
+                    var activePoint = myChart.getElementAtEvent(evt)[0];
+                    var data = activePoint._chart.data;
+                    var datasetIndex = activePoint._datasetIndex;
+                    var label = data.labels[activePoint._index];
+                    var value = data.datasets[datasetIndex].data[activePoint._index];
+                    console.log(label, value);
+                    FwFunc.showError(label + value);
+                };
             }
             catch (ex) {
                 FwFunc.showError(ex);
