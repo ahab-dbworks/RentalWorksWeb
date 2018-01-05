@@ -82,7 +82,7 @@ class RwHome {
                 labels: ["January", "February", "March", "April"],
                 datasets: [{
                         label: "Hoffman, Justin",
-                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        backgroundColor: 'rgba(#350C0C)',
                         data: [5000, 6000, 8000, 4000]
                     }, {
                         label: "Wang, Oliver",

@@ -44,44 +44,11 @@ namespace WebApi.Modules.Settings.Widgets
                     case "ordersbyagent":
                         try
                         {
-                            Widget w = new Widget();
-                            w.type = "pie";
-                            w.data.labels.Add("Garrett, Tyler");
-                            w.data.labels.Add("Guirguis, Ahab");
-                            w.data.labels.Add("Hoffman, Justin");
-
-                            w.options.title.text = "Orders By Agent";
-
-                            List<int> data = new List<int>();
-                            data.Add(33);  // confirmed
-                            data.Add(356);    // hold
-                            data.Add(623);  // active
-
-                            w.data.datasets.Add(new WidgetDataSet());
-                            w.data.datasets[0].data = data;
-
-
-                            List<string> backgroundColor = new List<string>();
-                            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-                            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-                            backgroundColor.Add("rgba(54, 162, 235, 0.2)");
-                            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-                            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-                            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-
-                            w.data.datasets[0].backgroundColor = backgroundColor;
-
-                            List<string> borderColor = new List<string>();
-                            borderColor.Add("rgba(153, 102, 255, 1");
-                            borderColor.Add("rgba(75, 192, 192, 1)");
-                            borderColor.Add("rgba(54, 162, 235, 1)");
-                            borderColor.Add("rgba(75, 192, 192, 1)");
-                            borderColor.Add("rgba(153, 102, 255, 1)");
-                            borderColor.Add("rgba(255, 159, 64, 1)");
-
-                            w.data.datasets[0].borderColor = borderColor;
-                        
+                            WidgetOrdersByAgent w = new WidgetOrdersByAgent();
+                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
+
                         }
                         catch (Exception ex)
                         {
@@ -90,48 +57,15 @@ namespace WebApi.Modules.Settings.Widgets
                             jsonException.Message = ex.Message;
                             jsonException.StackTrace = ex.StackTrace;
                             return StatusCode(jsonException.StatusCode, jsonException);
-                        }
+                        };
                     case "dealsbytype":
                         try
                         {
-                            Widget w = new Widget();
-                            w.type = "horizontalBar";
-                            w.data.labels.Add("Original Show");
-                            w.data.labels.Add("Movie");
-                            w.data.labels.Add("Customer Rentals");
-
-                            w.options.title.text = "Deals by Type";
-
-                            List<int> data = new List<int>();
-                            data.Add(5);  // confirmed
-                            data.Add(3);    // hold
-                            data.Add(58);  // active
-
-                            w.data.datasets.Add(new WidgetDataSet());
-                            w.data.datasets[0].data = data;
-
-
-                            List<string> backgroundColor = new List<string>();
-                            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-                            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-                            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-                            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-                            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-                            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-
-                            w.data.datasets[0].backgroundColor = backgroundColor;
-
-                            List<string> borderColor = new List<string>();
-                            borderColor.Add("rgba(153, 102, 255, 1");
-                            borderColor.Add("'rgba(75, 192, 192, 1)");
-                            borderColor.Add("rgba(255, 159, 64, 1)");
-                            borderColor.Add("rgba(75, 192, 192, 1)");
-                            borderColor.Add("rgba(153, 102, 255, 1)");
-                            borderColor.Add("rgba(255, 159, 64, 1)");
-
-                            w.data.datasets[0].borderColor = borderColor;
-                        
+                            WidgetDealsByType w = new WidgetDealsByType();
+                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
+
                         }
                         catch (Exception ex)
                         {
@@ -140,7 +74,7 @@ namespace WebApi.Modules.Settings.Widgets
                             jsonException.Message = ex.Message;
                             jsonException.StackTrace = ex.StackTrace;
                             return StatusCode(jsonException.StatusCode, jsonException);
-                        }
+                        };
                     default:
                         FwApiException widgetException = new FwApiException();
                         widgetException.StatusCode = StatusCodes.Status500InternalServerError;
