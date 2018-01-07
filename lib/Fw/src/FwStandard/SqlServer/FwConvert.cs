@@ -536,6 +536,12 @@ namespace FwStandard.SqlServer
             return htmlColor;
         }
         //---------------------------------------------------------------------------------------------
+        public static string OleColorToHtmlColor(int oleColor, double opacity)
+        {
+            string htmlColor = FwColorTranslator.OleColorToHtmlColor(oleColor, opacity);
+            return htmlColor;
+        }
+        //---------------------------------------------------------------------------------------------
         public static int HtmlColorToOleColor(string htmlColor)
         {
             int oleColor = FwColorTranslator.HtmlColorToOleColor(htmlColor);
