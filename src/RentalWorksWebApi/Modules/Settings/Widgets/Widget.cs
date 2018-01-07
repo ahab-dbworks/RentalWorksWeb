@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Settings.Widgets
 {
+      
     //------------------------------------------------------------------------------------
     public class WidgetDataSet
     {
@@ -106,8 +107,6 @@ namespace WebApi.Modules.Settings.Widgets
         public WidgetData data { get; set; }
         public WidgetOptions options { get; set; }
 
-
-
         public Widget()
         {
             data = new WidgetData();
@@ -120,7 +119,7 @@ namespace WebApi.Modules.Settings.Widgets
         }
         //public abstract Task<bool> LoadAsync();
         //------------------------------------------------------------------------------------
-        }
-        //------------------------------------------------------------------------------------
 
+        //------------------------------------------------------------------------------------
     }
+}

@@ -10,8 +10,8 @@ namespace WebApi.Modules.Settings.Widgets
     {
         public WidgetDealsByType() : base()
         {
-            type = "pie";
-            options.title.text = "Orders By Agent";
+            type = "horizontalBar";
+            options.title.text = "Deals by Type";
         }
 
         public async Task<bool> LoadAsync()
@@ -25,20 +25,26 @@ namespace WebApi.Modules.Settings.Widgets
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add("exec widgetdealsbytype");
-                qry.AddColumn("ordercount");
-                qry.AddColumn("status");
+                qry.AddColumn("dealcount");
+                qry.AddColumn("dealtype");
                 qry.AddColumn("backgroundcolor");
                 qry.AddColumn("bordercolor");
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true, doParse: false);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    int statusCount = Convert.ToInt32(table.Rows[r][0]);
-                    string orderStatus = table.Rows[r][1].ToString();
+                    int dealCount = Convert.ToInt32(table.Rows[r][0]);
+                    string dealType = table.Rows[r][1].ToString();
+                    int dealTypeColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    double opacity = 0.2;
+                    string dealTypeColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, 1);
 
-                    data.labels.Add(orderStatus);
-                    dataList.Add(statusCount);
-                    //need to load backgroundColor here
-                    //need to load borderColor here
+
+
+                    data.labels.Add(dealType);
+                    dataList.Add(dealCount);
+                    backgroundColor.Add(dealTypeColorStr);
+                    borderColor.Add(borderColorStr);
 
                     loaded = true;
                 }
@@ -46,21 +52,6 @@ namespace WebApi.Modules.Settings.Widgets
 
             data.datasets.Add(new WidgetDataSet());
             data.datasets[0].data = dataList;
-
-            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-
-            borderColor.Add("rgba(153, 102, 255, 1");
-            borderColor.Add("'rgba(75, 192, 192, 1)");
-            borderColor.Add("rgba(255, 159, 64, 1)");
-            borderColor.Add("rgba(75, 192, 192, 1)");
-            borderColor.Add("rgba(153, 102, 255, 1)");
-            borderColor.Add("rgba(255, 159, 64, 1)");
-
             data.datasets[0].backgroundColor = backgroundColor;
             data.datasets[0].borderColor = borderColor;
 

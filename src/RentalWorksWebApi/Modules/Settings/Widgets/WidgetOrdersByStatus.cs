@@ -33,11 +33,15 @@ namespace WebApi.Modules.Settings.Widgets
                 {
                     int statusCount = Convert.ToInt32(table.Rows[r][0]);
                     string orderStatus = table.Rows[r][1].ToString();
+                    int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    double opacity = 0.2;
+                    string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
 
                     data.labels.Add(orderStatus);
                     dataList.Add(statusCount);
-                    //need to load backgroundColor here
-                    //need to load borderColor here
+                    backgroundColor.Add(statusColorStr);
+                    borderColor.Add(borderColorStr);
 
                     loaded = true;
                 }
@@ -46,22 +50,6 @@ namespace WebApi.Modules.Settings.Widgets
 
             data.datasets.Add(new WidgetDataSet());
             data.datasets[0].data = dataList;
-
-            backgroundColor.Add("rgba(255, 99, 132, 0.2)");
-            backgroundColor.Add("rgba(54, 162, 235, 0.2)");
-            backgroundColor.Add("rgba(255, 206, 86, 0.2)");
-            backgroundColor.Add("rgba(75, 192, 192, 0.2)");
-            backgroundColor.Add("rgba(153, 102, 255, 0.2)");
-            backgroundColor.Add("rgba(255, 159, 64, 0.2)");
-
-
-            borderColor.Add("rgba(255,99,132,1)");
-            borderColor.Add("rgba(54, 162, 235, 1)");
-            borderColor.Add("rgba(255, 206, 86, 1)");
-            borderColor.Add("rgba(75, 192, 192, 1)");
-            borderColor.Add("rgba(153, 102, 255, 1)");
-            borderColor.Add("rgba(255, 159, 64, 1)");
-
             data.datasets[0].backgroundColor = backgroundColor;
             data.datasets[0].borderColor = borderColor;
 
