@@ -275,6 +275,10 @@ namespace FwStandard.BusinessLogic
             }
             if (isValid)
             {
+                //check for duplicate Business Logic here
+            }
+            if (isValid)
+            {
                 isValid = Validate(saveMode, ref validateMsg);
             }
             return isValid;
