@@ -353,7 +353,11 @@ namespace FwStandard.BusinessLogic
                         }
                         if (propertyValue is string)
                         {
-                            title = title + (propertyValue as string).TrimEnd(); ;
+                            title = title + (propertyValue as string).TrimEnd(); 
+                        }
+                        else if (propertyValue is int)
+                        {
+                            title = title + ((int)propertyValue).ToString().TrimEnd(); 
                         }
                         else
                         {
