@@ -9,7 +9,7 @@ namespace WebApi.Modules.Administrator.User
     [FwSqlTable("webusersview")]
     public class UserLoader : AppDataLoadRecord
     {
-        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string UserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
