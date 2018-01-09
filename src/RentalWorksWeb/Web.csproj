@@ -402,7 +402,6 @@
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
-    <Content Include="Source\Modules\Administrator\User\UserController.js" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
@@ -445,6 +444,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\DuplicateRules\DuplicateRules.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
@@ -982,7 +982,6 @@
     <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\Modules\Administrator\Group\Group.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
-    <Compile Include="Source\Modules\Administrator\User\User.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
@@ -1003,7 +1002,6 @@
     <Compile Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidation.cs" />
     <Compile Include="Source\Validations\OrderUnitValidation\OrderUnitValidation.cs" />
     <Compile Include="Source\Validations\EventValidation\EventValidation.cs" />
-    <Compile Include="Source\Validations\GroupValidation\GroupValidation.cs" />
     <Compile Include="Source\Validations\LanguageValidation\LanguageValidation.cs" />
     <Compile Include="Source\Validations\OrderTypeValidation\OrderTypeValidation.cs" />
     <Compile Include="Source\Validations\PayTypeValidation\PayTypeValidation.cs" />
