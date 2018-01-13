@@ -1252,7 +1252,8 @@ namespace FwStandard.SqlServer
                     }
                     else
                     {
-                        data = FwConvert.OleColorToHtmlColor(0);
+                        //data = FwConvert.OleColorToHtmlColor(0);
+                        data = String.Empty;
                     }
                     break;
                 case FwDataTypes.Integer:

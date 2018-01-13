@@ -1236,7 +1236,8 @@ namespace Fw.Json.SqlServer
                                         }
                                         else
                                         {
-                                            data = FwConvert.OleToHex(0);
+                                            //data = FwConvert.OleToHex(0);
+                                            data = String.Empty;
                                         }
                                         break;
                                     case FwJsonDataTableColumn.DataTypes.Integer:
@@ -1816,7 +1817,8 @@ namespace Fw.Json.SqlServer
                                         }
                                         else
                                         {
-                                            data = FwConvert.OleToHex(0);
+                                            //data = FwConvert.OleToHex(0);
+                                            data = String.Empty;
                                         }
                                         break;
                                     case FwJsonDataTableColumn.DataTypes.Integer:
