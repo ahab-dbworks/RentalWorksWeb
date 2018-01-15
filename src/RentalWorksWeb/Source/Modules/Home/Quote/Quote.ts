@@ -42,11 +42,13 @@ class Quote {
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
 
-        self.ActiveView = 'ALL'; 
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
 
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
+
         FwBrowse.addLegend($browse, 'Prospect', '#ffffff');
         FwBrowse.addLegend($browse, 'Active', '#fffa00');
         FwBrowse.addLegend($browse, 'Reserved', '#0080ff');
@@ -129,6 +131,34 @@ class Quote {
         viewSubitems.push($closed);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+        //Location filter
+
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $allLocations: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=ALL';
+            FwBrowse.databind($browse);
+        });
+        $userWarehouse.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse'); 
+            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            FwBrowse.databind($browse);
+        });
+
+
+        var viewLocation: Array<JQuery> = [];
+        viewLocation.push($userWarehouse);
+        viewLocation.push($all);
+
+        var $locationView;
+        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+
 
         return $menuObject;
     };
