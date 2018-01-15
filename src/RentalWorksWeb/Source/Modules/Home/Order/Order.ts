@@ -82,7 +82,7 @@ class Order {
 
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL', true);
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
         var $confirmed: JQuery = FwMenu.generateDropDownViewBtn('Confirmed', false);
         var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
         var $hold: JQuery = FwMenu.generateDropDownViewBtn('Hold', false);
@@ -145,6 +145,32 @@ class Order {
 
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+        //Location Filter
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $allLocations: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=ALL';
+            FwBrowse.databind($browse);
+        });
+        $userWarehouse.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            FwBrowse.databind($browse);
+        });
+
+
+        var viewLocation: Array<JQuery> = [];
+        viewLocation.push($userWarehouse);
+        viewLocation.push($all);
+
+        var $locationView;
+        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
 
         return $menuObject;
     };
