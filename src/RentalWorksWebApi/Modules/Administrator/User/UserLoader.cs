@@ -306,6 +306,21 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "memo", modeltype: FwDataTypes.Text)]
         public string Memo { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer)]
+        public int? PasswordExpireDays { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.UTCDateTime)]
+        public string PasswordUpdatedDateTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]
+        public bool? PasswordExpires { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mustchangepwflg", modeltype: FwDataTypes.Boolean)]
+        public bool? UserMustChangePassword { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
+        public bool? AccountLocked { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -7,6 +7,10 @@ namespace WebApi.Modules.Administrator.User
     [FwSqlTable("users")]
     public class UserRecord : AppDataReadWriteRecord
     {
+        public UserRecord() : base()
+        {
+            BeforeSaves += OnBeforeSaveUser;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string UserId { get; set; } = "";
@@ -20,8 +24,14 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarylocationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PrimaryOfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarywarehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string PrimaryWarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string UserTitleId { get; set; }
@@ -127,6 +137,9 @@ namespace WebApi.Modules.Administrator.User
         ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mustchangepwflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? UserMustChangePassword { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AccountLocked { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "email", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Email { get; set; }
@@ -314,5 +327,11 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveUser(object sender, SaveEventArgs e)
+        {
+            PrimaryOfficeLocationId = OfficeLocationId;
+            PrimaryWarehouseId = WarehouseId;
+        }
+        //-------------------------------------------------------------------------------------------------------   
     }
 }

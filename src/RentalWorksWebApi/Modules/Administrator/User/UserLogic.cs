@@ -140,6 +140,11 @@ namespace WebApi.Modules.Administrator.User
         public bool? AllowCrossICodeExchange { get { return user.AllowCrossICodeExchange; } set { user.AllowCrossICodeExchange = value; } }
         public bool? AllowCrossICodePendingExchange { get { return user.AllowCrossICodePendingExchange; } set { user.AllowCrossICodePendingExchange = value; } }
         public bool? AllowChangeAvailabilityPriority { get { return user.AllowChangeAvailabilityPriority; } set { user.AllowChangeAvailabilityPriority = value; } }
+        public bool? UserMustChangePassword { get { return user.UserMustChangePassword; } set { user.UserMustChangePassword = value; } }
+        public bool? PasswordExpires { get { return user.PasswordExpires; } set { user.PasswordExpires = value; } }
+        public int? PasswordExpireDays { get { return user.PasswordExpireDays; } set { user.PasswordExpireDays = value; } }
+        public string PasswordUpdatedDateTime { get { return user.PasswordUpdatedDateTime; } set { user.PasswordUpdatedDateTime = value; } }
+        public bool? AccountLocked { get { return user.AccountLocked; } set { user.AccountLocked = value; } }
         public string Memo { get { return user.Memo; } set { user.Memo = value; } }
         public bool? Inactive { get { return user.Inactive; } set { user.Inactive = value; } }
         public string DateStamp { get { return user.DateStamp; } set { user.DateStamp = value; } }
