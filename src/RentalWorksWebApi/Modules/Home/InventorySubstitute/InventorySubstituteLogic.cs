@@ -25,6 +25,8 @@ namespace WebApi.Modules.Home.InventorySubstitute
         public string ManufacturerId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Manufacturer { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Rate { get; set; }
         public string DateStamp { get { return inventorySubstitute.DateStamp; } set { inventorySubstitute.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

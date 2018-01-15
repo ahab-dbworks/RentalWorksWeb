@@ -53,6 +53,12 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         public string PrimaryInventoryId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string UnitId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? DailyRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyRate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyRate { get; set; }
         public string DateStamp { get { return inventoryPackageInventory.DateStamp; } set { inventoryPackageInventory.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }

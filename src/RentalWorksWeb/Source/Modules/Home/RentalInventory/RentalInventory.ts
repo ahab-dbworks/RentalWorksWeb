@@ -248,6 +248,8 @@ class RentalInventory {
         var $wardrobeInventoryMaterialGrid: any;
         var $wardrobeInventoryMaterialGridControl: any;
 
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
@@ -325,7 +327,8 @@ class RentalInventory {
         $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
         $inventorySubstituteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
             };
         });
         $inventorySubstituteGridControl.data('beforesave', function (request) {
@@ -424,7 +427,8 @@ class RentalInventory {
         $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
         $inventoryCompleteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
             };
         });
         $inventoryCompleteGridControl.data('beforesave', function (request) {
