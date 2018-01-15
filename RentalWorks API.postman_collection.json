@@ -13819,7 +13819,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{OrderId\n:\n\"00001DHD\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{OrderId\n:\n\"0000149Y\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -13851,6 +13851,87 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"00003NB8\",\"RecType\":\"R\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Status History",
+			"description": "",
+			"item": [
+				{
+					"name": "Order Status History: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderstatushistory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Status History: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderstatushistory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Status History: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderstatushistory/2~",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
