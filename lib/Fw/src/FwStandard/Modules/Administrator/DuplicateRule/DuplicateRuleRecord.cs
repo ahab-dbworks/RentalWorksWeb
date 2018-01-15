@@ -1,14 +1,15 @@
-using FwStandard.BusinessLogic; 
+//using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Data;
+//using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
+using FwStandard.DataLayer;
 
-namespace WebApi.Modules.Administrator.DuplicateRule
+namespace FwStandard.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicaterule")]
-    public class DuplicateRuleRecord : AppDataReadWriteRecord
+    public class DuplicateRuleRecord : FwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duplicateruleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

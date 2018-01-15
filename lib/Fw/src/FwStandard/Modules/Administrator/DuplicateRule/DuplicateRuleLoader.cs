@@ -2,12 +2,12 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
-using System.Collections.Generic;
-namespace WebApi.Modules.Administrator.DuplicateRule
+//using WebApi.Data; 
+//using System.Collections.Generic;
+namespace FwStandard.Modules.Administrator.DuplicateRule
 {
     [FwSqlTable("duplicateruleview")]
-    public class DuplicateRuleLoader : AppDataLoadRecord
+    public class DuplicateRuleLoader : FwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duplicateruleid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

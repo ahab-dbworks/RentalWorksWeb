@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using FwStandard.Modules.Administrator.DuplicateRule;
+
 namespace WebApi.Modules.Administrator.DuplicateRule
 {
     [Route("api/v1/[controller]")]

@@ -1,10 +1,11 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
-using WebApi.Logic;
+//using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-namespace WebApi.Modules.Administrator.DuplicateRule
+namespace FwStandard.Modules.Administrator.DuplicateRule
 {
-    public class DuplicateRuleLogic : AppBusinessLogic
+    public class DuplicateRuleLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         DuplicateRuleRecord duplicateRule = new DuplicateRuleRecord();
