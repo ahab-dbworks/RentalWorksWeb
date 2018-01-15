@@ -1,6 +1,6 @@
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
-namespace WebApi.Modules.Administration.CustomField
+namespace WebApi.Modules.Administrator.CustomField
 {
     public class CustomFieldLogic : AppBusinessLogic
     {

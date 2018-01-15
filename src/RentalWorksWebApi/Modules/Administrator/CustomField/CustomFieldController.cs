@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Administration.CustomField
+namespace WebApi.Modules.Administrator.CustomField
 {
     [Route("api/v1/[controller]")]
     public class CustomFieldController : AppDataController

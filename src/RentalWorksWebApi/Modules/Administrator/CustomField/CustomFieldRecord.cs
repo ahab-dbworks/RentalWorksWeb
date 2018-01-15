@@ -2,7 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Administration.CustomField
+namespace WebApi.Modules.Administrator.CustomField
 {
     [FwSqlTable("customfield")]
     public class CustomFieldRecord : AppDataReadWriteRecord
