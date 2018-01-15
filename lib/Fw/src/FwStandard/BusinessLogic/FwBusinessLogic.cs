@@ -2,10 +2,12 @@
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -253,8 +255,79 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
-            //override this method on a derived class to implement custom validation logic
             bool isValid = true;
+            string moduleName = this.GetType().Name;
+            string module = moduleName.Substring(0, moduleName.Length - 5);
+
+            BrowseRequest browseRequest = new BrowseRequest();
+            browseRequest.module = "DuplicateRules";
+            browseRequest.searchfieldoperators = new String[] { "=" };
+            browseRequest.searchfields = new String[] { "ModuleName" };
+            browseRequest.searchfieldvalues = new String[] { module };
+
+            DuplicateRuleLogic l = new DuplicateRuleLogic();
+            l.SetDbConfig(dataRecords[0].GetDbConfig());
+            FwJsonDataTable rules = l.BrowseAsync(browseRequest).Result;
+
+            if (rules.Rows.Count > 0)
+            {
+                foreach (var rule in rules.Rows)
+                {
+                    string fields = rule[4].ToString();
+                    string[] field = fields.Split(',').ToArray();
+
+                    BrowseRequest browseRequest2 = new BrowseRequest();
+                    browseRequest2.module = module;
+
+                    List<string> searchOperators = new List<string>();
+
+                    for (int i = 0; i < field.Count(); i++)
+                    {
+                        searchOperators.Add("=");
+                    }
+
+                    browseRequest2.searchfieldoperators = searchOperators.ToArray();
+                    browseRequest2.searchfields = field;
+
+                    Type type = this.GetType();
+                    PropertyInfo[] propertyInfo;
+                    propertyInfo = type.GetProperties();
+
+                    int dupes = 0;
+                    List<string> searchFieldVals = new List<string>();
+
+                    foreach (PropertyInfo property in propertyInfo)
+                    {
+                        if (fields.IndexOf(property.Name) != -1)
+                        {
+                            var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+
+                            if (value != null)
+                            {
+                             searchFieldVals.Add(value.ToString());
+                            } else
+                            {
+                                searchFieldVals.Add("");
+                            }
+                        }
+
+                    }
+                    browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
+                    FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                    l2.SetDbConfig(dataRecords[0].GetDbConfig());
+                    FwJsonDataTable dt = l2.BrowseAsync(browseRequest2).Result;
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        dupes++;
+                    }
+
+                    if (dupes == field.Count())
+                    {
+                        throw new Exception("A record of this type already exists. " + "(" + rule[2] + ")");
+                    }
+                }
+            }
             return isValid;
         }
         //------------------------------------------------------------------------------------
