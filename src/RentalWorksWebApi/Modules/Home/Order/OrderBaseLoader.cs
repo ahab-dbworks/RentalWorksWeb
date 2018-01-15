@@ -203,7 +203,6 @@ namespace WebApi.Modules.Home.Order
                         break;
                 }
 
-
                 if (request.activeview.Contains("WarehouseId="))
                 {
                     string whId = request.activeview.Replace("WarehouseId=", "");
@@ -211,6 +210,16 @@ namespace WebApi.Modules.Home.Order
                     {
                         select.AddWhere("(warehouseid = @whid)");
                         select.AddParameter("@whid", whId);
+                    }
+                }
+
+                if (request.activeview.Contains("LocationId="))
+                {
+                    string locId = request.activeview.Replace("LocationId=", "");
+                    if (!locId.Equals("ALL"))
+                    {
+                        select.AddWhere("(locationid = @locid)");
+                        select.AddParameter("@locid", locId);
                     }
                 }
 
