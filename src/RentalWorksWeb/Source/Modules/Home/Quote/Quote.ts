@@ -171,7 +171,22 @@ class Quote {
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
         }
+
         $form = FwModule.openForm($form, mode);
+
+        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            }
+        });
+
+     
 
         return $form;
     }
@@ -197,6 +212,15 @@ class Quote {
     }
 
     afterLoad($form: any) {
+        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+
+        if ($pending === true) {
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        } else {
+            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        }
 
     }
 }
