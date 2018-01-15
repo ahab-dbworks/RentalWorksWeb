@@ -182,6 +182,7 @@
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
     <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
@@ -263,6 +264,7 @@
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />

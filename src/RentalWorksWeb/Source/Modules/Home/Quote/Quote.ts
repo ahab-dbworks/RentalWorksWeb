@@ -211,8 +211,29 @@ class Quote {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    renderGrids($form: any) {
+        var $orderStatusHistoryGrid: any;
+        var $orderStatusHistoryGridControl: any;
+
+        $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        $orderStatusHistoryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusHistoryGridBrowse').html());
+        $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
+        $orderStatusHistoryGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: $form.find('div.fwformfield[data-datafield="QuoteId"] input').val()
+            };
+        })
+        FwBrowse.init($orderStatusHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
+    }
+
     afterLoad($form: any) {
+        var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+
+        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
+        FwBrowse.search($orderStatusHistoryGrid);
+
 
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
