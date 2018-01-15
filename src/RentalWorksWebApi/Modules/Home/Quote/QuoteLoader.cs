@@ -19,6 +19,9 @@ namespace WebApi.Modules.Home.Quote
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string QuoteDate { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
+        public int VersionNumber { get; set; }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

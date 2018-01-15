@@ -1,5 +1,7 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Home.DealOrder
@@ -95,11 +97,34 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
+        public int VersionNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount)
+        {
+            bool saved = false;
+            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", _dbConfig.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
+                qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
+                qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
+                await qry.ExecuteNonQueryAsync(true);
+                saved = true;
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

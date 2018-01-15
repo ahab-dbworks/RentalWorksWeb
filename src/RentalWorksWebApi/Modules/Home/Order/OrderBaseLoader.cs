@@ -28,6 +28,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string Warehousecode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------
@@ -51,6 +54,12 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
+        public string PoNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "poamount", modeltype: FwDataTypes.Decimal)]
+        public decimal? PoAmount { get; set; }
         //------------------------------------------------------------------------------------
 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
@@ -100,6 +109,12 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
         public string RateType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
+        public string AgentId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
+        public string Agent { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
         public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------
@@ -117,6 +132,9 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
         public string ReferenceNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------
 
 
@@ -138,6 +156,8 @@ namespace WebApi.Modules.Home.Order
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
+
+
 
             if ((request != null) && (request.activeview != null))
             {
@@ -182,6 +202,18 @@ namespace WebApi.Modules.Home.Order
                     case "ALL":
                         break;
                 }
+
+
+                if (request.activeview.Contains("WarehouseId="))
+                {
+                    string whId = request.activeview.Replace("WarehouseId=", "");
+                    if (!whId.Equals("ALL"))
+                    {
+                        select.AddWhere("(warehouseid = @whid)");
+                        select.AddParameter("@whid", whId);
+                    }
+                }
+
             }
         }
         //------------------------------------------------------------------------------------    

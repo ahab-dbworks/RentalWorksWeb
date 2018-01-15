@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
+using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Home.Order
         {
             dataRecords.Add(dealOrder);
             dataRecords.Add(dealOrderDetail);
+            dealOrder.AfterSaves += OnAfterSavesDealOrder;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -29,6 +31,9 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------
         public string DepartmentId { get { return dealOrder.DepartmentId; } set { dealOrder.DepartmentId = value; } }
         //------------------------------------------------------------------------------------
@@ -53,6 +58,11 @@ namespace WebApi.Modules.Home.Order
         public string DealNumber { get; set; }
         //------------------------------------------------------------------------------------
         public string RateType { get { return dealOrder.RateType; } set { dealOrder.RateType = value; } }
+        //------------------------------------------------------------------------------------
+        public string AgentId { get { return dealOrder.AgentId; } set { dealOrder.AgentId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Agent { get; set; }
         //------------------------------------------------------------------------------------
 
         public bool? Rental { get { return dealOrder.Rental; } set { dealOrder.Rental = value; } }
@@ -90,9 +100,18 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public bool? PendingPo { get { return dealOrder.PendingPo; } set { dealOrder.PendingPo = value; } }
         //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PoNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PoAmount { get; set; }
+        //------------------------------------------------------------------------------------
         public string Location { get { return dealOrder.Location; } set { dealOrder.Location = value; } }
         //------------------------------------------------------------------------------------
         public string ReferenceNumber { get { return dealOrder.ReferenceNumber; } set { dealOrder.ReferenceNumber = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------
 
 
@@ -109,6 +128,12 @@ namespace WebApi.Modules.Home.Order
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }
         //------------------------------------------------------------------------------------
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSavesDealOrder(object sender, SaveEventArgs e)
+        {
+            bool saved = false;
+            saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+        }
         //------------------------------------------------------------------------------------
     }
 }
