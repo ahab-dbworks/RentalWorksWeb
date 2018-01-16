@@ -32,6 +32,28 @@ var User = /** @class */ (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $form.find('[data-datafield="LimitDiscount"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="DiscountRule"]'));
+                FwFormField.enable($form.find('[data-datafield="MaximumDiscount"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="DiscountRule"]'));
+                FwFormField.disable($form.find('[data-datafield="MaximumDiscount"]'));
+            }
+        });
+        $form.find('[data-datafield="LimitSubDiscount"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="DiscountRule"]'));
+                FwFormField.enable($form.find('[data-datafield="MaximumSubDiscount"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="DiscountRule"]'));
+                FwFormField.disable($form.find('[data-datafield="MaximumSubDiscount"]'));
+            }
+        });
         //$form
         //    .on('change', '.cbSecurityExpirePassword, .cbNetExpirePassword', function () {
         //        this.setFormProperties($form);
@@ -83,6 +105,24 @@ var User = /** @class */ (function () {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     };
     User.prototype.afterLoad = function ($form) {
+        var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');
+        var $subDiscount = $form.find('div.fwformfield[data-datafield="LimitSubDiscount"] input').prop('checked');
+        if ($discount === true) {
+            FwFormField.enable($form.find('[data-datafield="DiscountRule"]'));
+            FwFormField.enable($form.find('[data-datafield="MaximumDiscount"]'));
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="DiscountRule"]'));
+            FwFormField.disable($form.find('[data-datafield="MaximumDiscount"]'));
+        }
+        if ($subDiscount === true) {
+            FwFormField.enable($form.find('[data-datafield="DiscountRule"]'));
+            FwFormField.enable($form.find('[data-datafield="MaximumSubDiscount"]'));
+        }
+        else {
+            FwFormField.disable($form.find('[data-datafield="DiscountRule"]'));
+            FwFormField.disable($form.find('[data-datafield="MaximumSubDiscount"]'));
+        }
     };
     return User;
 }());
