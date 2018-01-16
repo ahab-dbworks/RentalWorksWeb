@@ -186,6 +186,18 @@ class Order {
 
         $form = FwModule.openForm($form, mode);
 
+        $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            }
+            else {
+                FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+                FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            }
+        });
+
         return $form;
     }
 
@@ -217,6 +229,20 @@ class Order {
         })
         FwBrowse.init($orderPickListGridControl);
         FwBrowse.renderRuntimeHtml($orderPickListGridControl);
+
+        var $orderStatusHistoryGrid: any;
+        var $orderStatusHistoryGridControl: any;
+
+        $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        $orderStatusHistoryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusHistoryGridBrowse').html());
+        $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
+        $orderStatusHistoryGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
+            };
+        })
+        FwBrowse.init($orderStatusHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
     }
 
     loadAudit($form: any) {
@@ -261,6 +287,21 @@ class Order {
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
 
+        var $orderStatusHistoryGrid: any;
+    
+        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
+        FwBrowse.search($orderStatusHistoryGrid);
+
+
+        var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+
+        if ($pending === true) {
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        } else {
+            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        }
     }
 }
 
