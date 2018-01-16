@@ -1250,8 +1250,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.-->
+  <Import Project="$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(AppSolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
   <Target Name="BeforeBuild">
     <!--<Exec Command="echo &quot;AppSolutionDir: $(AppSolutionDir)&quot;" />-->
     <Version VersionFile="$(FwApplicationDirectory)\version.txt" BuildType="None" RevisionType="None" ContinueOnError="false">
@@ -1318,17 +1323,9 @@
     <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />
   </Target>
-  <Import Project="$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets" Condition="Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(AppSolutionDir)\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets'))" />
-    <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets'))" />
-  </Target>
   <Target Name="AfterClean">
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
   </Target>
-  <Import Project="..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  
 </Project>
