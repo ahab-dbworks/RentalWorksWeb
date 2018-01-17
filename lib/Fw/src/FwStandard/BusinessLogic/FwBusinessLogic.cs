@@ -276,6 +276,9 @@ namespace FwStandard.BusinessLogic
                 Type type = this.GetType();
                 PropertyInfo[] propertyInfo;
                 propertyInfo = type.GetProperties();
+                FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                l2.SetDbConfig(dataRecords[0].GetDbConfig());
+
                 foreach (var rule in rules.Rows)
                 {
                     string fields = rule[4].ToString();
@@ -296,9 +299,10 @@ namespace FwStandard.BusinessLogic
 
                     List<string> searchFieldVals = new List<string>();
 
+
                     foreach (PropertyInfo property in propertyInfo)
                     {
-                        if (fields.IndexOf(property.Name) != -1)
+                        if ((Array.IndexOf(field, property.Name)) != -1)
                         {
                             var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
                             if (value != null)
@@ -307,21 +311,43 @@ namespace FwStandard.BusinessLogic
                             }
                             else
                             {
-                                FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
-                                l2.SetDbConfig(dataRecords[0].GetDbConfig());
                                 var recordFound = l2.LoadAsync<Type>(ids).Result;
                                 var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
                                 searchFieldVals.Add(databaseValue.ToString());
                             }
+
+                            if (searchOperators.Count == searchFieldVals.Count)
+                            {
+                                break;
+                            }
                         }
+
                     }
+
                     browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
                     FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                     l3.SetDbConfig(dataRecords[0].GetDbConfig());
                     FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
+
                     if (dt.Rows.Count > 0)
                     {
-                        throw new Exception("A record of this type already exists. " + "(" + rule[2] + ")");
+                        var dtToArray = dt.Rows[0].Select(i => i.ToString()).ToArray();
+                      
+                        foreach (string id in ids)
+                        {
+                            int indexOfId = Array.IndexOf(dtToArray, id);
+                            int dupe = 0;
+                            if (indexOfId != -1)
+                            {
+                                dupe++;
+                            }
+
+                            if (dupe == ids.Count())
+                            {
+                                throw new Exception("A record of this type already exists. " + "(" + rule[2] + ")");
+                            }
+                        }
+                       
                     }
                 }
             }
