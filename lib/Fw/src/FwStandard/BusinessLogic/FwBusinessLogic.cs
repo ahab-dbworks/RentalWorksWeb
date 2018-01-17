@@ -101,7 +101,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues) 
+        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues)
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -256,6 +256,7 @@ namespace FwStandard.BusinessLogic
         protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
+            string[] ids = GetPrimaryKeys();
             string moduleName = this.GetType().Name;
             string module = moduleName.Substring(0, moduleName.Length - 5);
 
@@ -269,8 +270,12 @@ namespace FwStandard.BusinessLogic
             l.SetDbConfig(dataRecords[0].GetDbConfig());
             FwJsonDataTable rules = l.BrowseAsync(browseRequest).Result;
 
+
             if (rules.Rows.Count > 0)
             {
+                Type type = this.GetType();
+                PropertyInfo[] propertyInfo;
+                propertyInfo = type.GetProperties();
                 foreach (var rule in rules.Rows)
                 {
                     string fields = rule[4].ToString();
@@ -289,11 +294,6 @@ namespace FwStandard.BusinessLogic
                     browseRequest2.searchfieldoperators = searchOperators.ToArray();
                     browseRequest2.searchfields = field;
 
-                    Type type = this.GetType();
-                    PropertyInfo[] propertyInfo;
-                    propertyInfo = type.GetProperties();
-
-                    int dupes = 0;
                     List<string> searchFieldVals = new List<string>();
 
                     foreach (PropertyInfo property in propertyInfo)
@@ -301,28 +301,25 @@ namespace FwStandard.BusinessLogic
                         if (fields.IndexOf(property.Name) != -1)
                         {
                             var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
-
                             if (value != null)
                             {
-                             searchFieldVals.Add(value.ToString());
-                            } else
+                                searchFieldVals.Add(value.ToString());
+                            }
+                            else
                             {
-                                searchFieldVals.Add("");
+                                FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                                l2.SetDbConfig(dataRecords[0].GetDbConfig());
+                                var recordFound = l2.LoadAsync<Type>(ids).Result;
+                                var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
+                                searchFieldVals.Add(databaseValue.ToString());
                             }
                         }
-
                     }
                     browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
-                    FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
-                    l2.SetDbConfig(dataRecords[0].GetDbConfig());
-                    FwJsonDataTable dt = l2.BrowseAsync(browseRequest2).Result;
-
+                    FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
+                    l3.SetDbConfig(dataRecords[0].GetDbConfig());
+                    FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
                     if (dt.Rows.Count > 0)
-                    {
-                        dupes++;
-                    }
-
-                    if (dupes == field.Count())
                     {
                         throw new Exception("A record of this type already exists. " + "(" + rule[2] + ")");
                     }
@@ -426,11 +423,11 @@ namespace FwStandard.BusinessLogic
                         }
                         if (propertyValue is string)
                         {
-                            title = title + (propertyValue as string).TrimEnd(); 
+                            title = title + (propertyValue as string).TrimEnd();
                         }
                         else if (propertyValue is int)
                         {
-                            title = title + ((int)propertyValue).ToString().TrimEnd(); 
+                            title = title + ((int)propertyValue).ToString().TrimEnd();
                         }
                         else
                         {
