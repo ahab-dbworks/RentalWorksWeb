@@ -72,6 +72,16 @@ class User {
             }
         });
 
+        $form.find('[data-datafield="PasswordExpires"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="PasswordExpireDays"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
+            }
+        });
+
 
 
         //$form
@@ -133,6 +143,7 @@ class User {
     afterLoad($form: any) {
         var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');
         var $subDiscount = $form.find('div.fwformfield[data-datafield="LimitSubDiscount"] input').prop('checked');
+        var $passwordExpires = $form.find('div.fwformfield[data-datafield="PasswordExpires"] input').prop('checked');
 
         if ($discount === true) {
             FwFormField.enable($form.find('[data-datafield="DiscountRule"]'));
@@ -149,7 +160,12 @@ class User {
             FwFormField.disable($form.find('[data-datafield="DiscountRule"]'));
             FwFormField.disable($form.find('[data-datafield="MaximumSubDiscount"]'));
         }
- 
+
+        if ($passwordExpires === true) {
+            FwFormField.enable($form.find('[data-datafield="PasswordExpireDays"]'));
+        } else {
+            FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
+         }
     }
 
     //setFormProperties = function ($form) {
