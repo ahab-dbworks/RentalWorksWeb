@@ -114,6 +114,12 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "defaultdepttype", modeltype: FwDataTypes.Text)]
         public string DefaultDepartmentType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydepartmentid", modeltype: FwDataTypes.Text)]
+        public string PrimaryDepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydepartment", modeltype: FwDataTypes.Text)]
+        public string PrimaryDepartment { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaldepartmentid", modeltype: FwDataTypes.Text)]
         public string RentalDepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 

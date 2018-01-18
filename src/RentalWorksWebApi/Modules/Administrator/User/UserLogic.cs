@@ -63,6 +63,10 @@ namespace WebApi.Modules.Administrator.User
         public string HomePhone { get { return user.HomePhone; } set { user.HomePhone = value; } }
 
         public string DefaultDepartmentType { get { return user.DefaultDepartmentType; } set { user.DefaultDepartmentType = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PrimaryDepartmentId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PrimaryDepartment { get; set; }
         public string RentalDepartmentId { get { return user.RentalDepartmentId; } set { user.RentalDepartmentId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RentalDepartment { get; set; }
