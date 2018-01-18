@@ -2,12 +2,9 @@
 
 class OrderStatus {
     Module: string;
-    //apiurl: string;
 
     constructor() {
         this.Module = 'OrderStatus';
-        //this.apiurl = 'api/v1/order';
-
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -16,7 +13,7 @@ class OrderStatus {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.loadForm();
+        var $form = this.openForm('EDIT');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Order Status', false, 'FORM', true);
@@ -33,14 +30,9 @@ class OrderStatus {
         $form = jQuery(jQuery('#tmpl-modules-OrderStatusForm').html());
         $form = FwModule.openForm($form, mode);
 
-        this.getOrder($form);
+        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm() {
-        var $form = this.openForm('EDIT');
-        FwModule.loadForm(this.Module, $form);
+        this.getOrder($form);
 
         return $form;
     }
