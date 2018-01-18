@@ -77,17 +77,6 @@ html.theme-material.mobile .fwformfield[data-type="date"][data-enabled="true"] .
 html.theme-material.mobile .fwformfield[data-type="date"] .fwformfield-value {height:31px;}*/
 /*#endregion*/
 
-/*#region Time CSS*/
-html.theme-material.desktop .fwformfield[data-type="time"] .fwformfield-control {position:relative;height:24px;line-height:24px;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
-html.theme-material.desktop .fwformfield[data-type="time"] input.fwformfield-value {height:22px;padding:0 35px 0 3px;position:absolute;top:0;bottom:0;left:0;display:block;border:0;width:100%;box-sizing:border-box;}
-html.theme-material.desktop .fwformfield[data-type="time"] .add-on {box-sizing:border-box;width:32px;position:absolute;top:0;right:0;bottom:0;border-top-right-radius:3px;border-bottom-right-radius:3px;display:table-cell;vertical-align:middle;text-align:center;}
-html.theme-material.desktop .fwformfield[data-type="time"] .icon-timepicker {display:inline-block;width: 16px;height: 16px;background-image:url("../fwimages/icons/128/timepicker.png");background-size: 16px 16px;background-repeat: no-repeat;}
-html.theme-material.desktop .fwformfield[data-type="time"][data-enabled="true"] .add-on {cursor:pointer;}
-
-html.theme-material.mobile .fwformfield[data-type="time"] .fwformfield-control {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
-html.theme-material.mobile .fwformfield[data-type="time"] .fwformfield-value {width:100%;height:42px;flex:1 1 0;box-sizing:border-box;padding:0 10px;border:0;border-radius: 1;}
-/*#endregion*/
-
 /*#region Checkbox CSS*/
 html.theme-material .fwformfield[data-type="checkbox"] {overflow:hidden;position:relative;line-height:52px;}
 html.theme-material .fwformfield[data-type="checkbox"] label {position: relative;padding-left:35px;cursor:pointer;display:inline-block;line-height:18px;-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none}
@@ -201,10 +190,12 @@ html.theme-material.mobile .fwformfield[data-type="searchbox"] .fwformfield-valu
 /*#region Multi-Select Validation CSS*/
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text {flex:1 0 auto;width:5px;background-color: transparent;padding:6px;font-size:14px;border:1px solid #E0E0E0;border-right:none;outline:0;transition: all 0.3s;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text:focus {border: 1px solid #2196f3;border-right:none;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .add-on {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] input.fwformfield-text:focus+.add-on {border: 1px solid #2196f3;border-left:none;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .btnvalidate {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] input.fwformfield-text:focus+.btnvalidate {border: 1px solid #2196f3;border-left:none;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control input.fwformfield-text {color: #757575;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .add-on {cursor:default;color: #9E9E9E;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .btnvalidate {cursor:default;color: #9E9E9E;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control input.fwformfield-text {border: 1px solid #f44336;border-right:none;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control .btnvalidate {border: 1px solid #f44336;border-left:none;}
 /*#endregion*/
 
 /*#region Old Button CSS*/
@@ -246,13 +237,6 @@ html.theme-material .fwformfield[data-type="searchbox"] .fwformfield-control:hov
 html.theme-material .fwformfield[data-type="searchbox"] .fwformfield-value {border:none;}
 html.theme-material .fwformfield[data-type="searchbox"] .btnvalidate {border-left:1px solid #bdbdbd;background:#e9e9e9;}
 html.theme-material .fwformfield[data-type="searchbox"][data-enabled="true"] .btnvalidate:hover {background-color:#bcb4b0;}
-/*#endregion*/
-
-/*#region Default Theme - Time CSS*/
-html.theme-material .fwformfield[data-type="time"] .fwformfield-control {border:1px solid #bcbcbc;}
-html.theme-material .fwformfield[data-type="time"] .fwformfield-value {border:none;}
-html.theme-material .fwformfield[data-type="time"] .add-on {border-left: 1px solid #bdbdbd;background:#e9e9e9;}
-html.theme-material .fwformfield[data-type="time"][data-enabled="true"] .add-on:hover {background-color:#bcb4b0;}
 /*#endregion*/
 
 /*#region Default Theme - Color CSS*/
