@@ -253,7 +253,7 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
             string[] ids = GetPrimaryKeys();
@@ -300,57 +300,86 @@ namespace FwStandard.BusinessLogic
                     List<string> searchFieldVals = new List<string>();
 
 
-                    foreach (PropertyInfo property in propertyInfo)
+                    for (int i = 0; i < field.Count(); i++)
                     {
-                        if ((Array.IndexOf(field, property.Name)) != -1)
+                        string fieldName = field[i];
+                        foreach (PropertyInfo property in propertyInfo)
                         {
-                            var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
-                            if (value != null)
+                            if (property.Name.Equals(fieldName))
                             {
-                                searchFieldVals.Add(value.ToString());
-                            }
-                            else
-                            {
-                                var recordFound = l2.LoadAsync<Type>(ids).Result;
-                                var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                searchFieldVals.Add(databaseValue.ToString());
-                            }
+                                var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+                                if (value != null)
+                                {
+                                    searchFieldVals.Add(value.ToString());
+                                }
+                                else
+                                {
+                                    if (saveMode == TDataRecordSaveMode.smUpdate)
+                                    {
+                                        var recordFound = l2.LoadAsync<Type>(ids).Result;
+                                        var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
+                                        searchFieldVals.Add(databaseValue.ToString());
+                                    }
+                                    else
+                                    {
+                                        searchFieldVals.Add("");
+                                    }
+                                }
 
-                            if (searchOperators.Count == searchFieldVals.Count)
-                            {
-                                break;
+                                if (searchOperators.Count == searchFieldVals.Count)
+                                {
+                                    break;
+                                }
                             }
                         }
-
                     }
+
+
+                    
 
                     browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
                     FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
                     l3.SetDbConfig(dataRecords[0].GetDbConfig());
                     FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
 
-                    if (dt.Rows.Count > 0)
+                    bool isDuplicate = false;
+                    for (int r = 0; r<= dt.Rows.Count-1; r++)
                     {
-                        var dtToArray = dt.Rows[0].Select(i => i.ToString()).ToArray();
-                      
-                        foreach (string id in ids)
+                        isDuplicate = true;
+                        if (saveMode == TDataRecordSaveMode.smUpdate)
                         {
-                            int indexOfId = Array.IndexOf(dtToArray, id);
-                            int dupe = 0;
-                            if (indexOfId != -1)
+                            var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
+                            bool pkFound = true;
+                            foreach (string id in ids)
                             {
-                                dupe++;
+                                int indexOfId = Array.IndexOf(dtToArray, id);
+                                pkFound = (indexOfId >= 0);
+                                if (!pkFound)
+                                {
+                                    break;
+                                }
                             }
-
-                            if (dupe == ids.Count())
-                            {
-                                throw new Exception("A record of this type already exists. " + "(" + rule[2] + ")");
-                            }
+                            isDuplicate = (!pkFound);
                         }
-                       
+                        if (isDuplicate)
+                        {
+                            break;
+                        }
+                    }
+                    if (isDuplicate)
+                    {
+                        isValid = false;
+                        validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
                     }
                 }
             }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            //override this method on a derived class to implement custom validation logic
+            bool isValid = true;
             return isValid;
         }
         //------------------------------------------------------------------------------------
@@ -372,6 +401,7 @@ namespace FwStandard.BusinessLogic
             if (isValid)
             {
                 //check for duplicate Business Logic here
+                isValid = CheckDuplicates(saveMode, ref validateMsg);
             }
             if (isValid)
             {
