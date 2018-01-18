@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.Order
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
-        public string Warehousecode { get; set; }
+        public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
