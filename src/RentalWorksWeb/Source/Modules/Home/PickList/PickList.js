@@ -1,21 +1,8 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwServices: any;
-declare var FwMenu: any;
-declare var Mustache: any;
-declare var FwFunc: any;
-declare var FwTabs: any;
-declare var FwNotification: any;
-
-class PickList {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
+﻿var PickList = (function () {
+    function PickList() {
         this.Module = 'PickList';
         this.apiurl = 'api/v1/picklist';
         var self = this;
-
         //Cancel Pick List confirmation button
         FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
             var $form, pickListId, pickListNumber;
@@ -24,23 +11,33 @@ class PickList {
                 pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
                 pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
                 self.cancelPickList(pickListId, pickListNumber);
-            } catch (ex) {
+            }
+            catch (ex) {
                 FwFunc.showError(ex);
             }
         };
-
-        
+        //Print Pick List
+        FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
+            var $form, pickListNumber;
+            try {
+                $form = jQuery(this).closest('.fwform');
+                pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+                $form = RwPickListReportController.openForm();
+                FwModule.openModuleTab($form, 'Pick List Report for ' + pickListNumber, false, 'REPORT', true);
+                $form.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListNumber);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
     }
-
-    getModuleScreen() {
+    PickList.prototype.getModuleScreen = function () {
         var self = this;
-        var screen: any = {};
+        var screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
-
-        var $browse: JQuery = this.openBrowse();
-
+        var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, "Pick List", false, 'BROWSE', true);
             FwBrowse.databind($browse);
@@ -49,63 +46,48 @@ class PickList {
         screen.unload = function () {
             FwBrowse.screenunload($browse);
         };
-
         return screen;
-    }
-
-    openBrowse() {
+    };
+    PickList.prototype.openBrowse = function () {
         var self = this;
-        var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         FwBrowse.init($browse);
-  
         return $browse;
-       
-    }
-
-    openForm(mode: string) {
+    };
+    PickList.prototype.openForm = function (mode) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
         return $form;
-    }
-
-    loadForm(uniqueids: any) {
+    };
+    PickList.prototype.loadForm = function (uniqueids) {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
-
         return $form;
-    }
-
-    saveForm($form: JQuery, closetab: boolean, navigationpath: string) {
+    };
+    PickList.prototype.saveForm = function ($form, closetab, navigationpath) {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
-    }
-
-    renderGrids($form: JQuery) {
-        var $pickListItemGrid: JQuery = $form.find('div[data-grid="PickListItemGrid"]');
-        var $pickListItemGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
+    };
+    PickList.prototype.renderGrids = function ($form) {
+        var $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
+        var $pickListItemGridControl = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
         $pickListItemGrid.empty().append($pickListItemGridControl);
         $pickListItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 PickListId: FwFormField.getValueByDataField($form, 'PickListId')
             };
-        })
+        });
         FwBrowse.init($pickListItemGridControl);
         FwBrowse.renderRuntimeHtml($pickListItemGridControl);
-    
-    }
-
-
-    cancelPickList(pickListId: any, pickListNumber: any) {
+    };
+    PickList.prototype.cancelPickList = function (pickListId, pickListNumber) {
         var $confirmation, $yes, $no, self;
-
         self = this;
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
             'Cancel Pick List ' + pickListNumber + ' ?</div>');
         $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
         $no = FwConfirmation.addButton($confirmation, 'No');
-
         $yes.on('click', function () {
             FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
@@ -117,7 +99,8 @@ class PickList {
                     var $form = jQuery('#' + $tab.attr('data-tabpageid')).find('.fwform');
                     if (typeof $form !== 'undefined') {
                         FwModule.closeForm($form, $tab);
-                    } else {
+                    }
+                    else {
                         var isactivetab = $tab.hasClass('active');
                         var $newactivetab = (($tab.next().length > 0) ? $tab.next() : $tab.prev());
                         FwTabs.removeTab($tab);
@@ -125,18 +108,17 @@ class PickList {
                             FwTabs.setActiveTab($control, $newactivetab);
                         }
                     }
-
-                } catch (ex) {
+                }
+                catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
-        }); 
-    }
-
-    afterLoad($form: JQuery) {
-        var $pickListItemGrid: JQuery = $form.find('[data-name="PickListItemGrid"]');
+        });
+    };
+    PickList.prototype.afterLoad = function ($form) {
+        var $pickListItemGrid = $form.find('[data-name="PickListItemGrid"]');
         FwBrowse.search($pickListItemGrid);
-    }
-}
-
-(<any>window).PickListController = new PickList();
+    };
+    return PickList;
+}());
+window.PickListController = new PickList();

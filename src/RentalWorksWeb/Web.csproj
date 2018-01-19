@@ -447,12 +447,12 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomFields\CustomFields.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
+    <Content Include="Source\Modules\Home\PickList\PickList.js" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
@@ -1327,5 +1327,4 @@
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" />
   </Target>
-  
 </Project>
