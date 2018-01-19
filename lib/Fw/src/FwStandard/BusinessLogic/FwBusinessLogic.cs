@@ -2,10 +2,12 @@
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -417,6 +419,7 @@ namespace FwStandard.BusinessLogic
             if (isValid)
             {
                 //check for duplicate Business Logic here
+                isValid = CheckDuplicates(saveMode, ref validateMsg);
             }
             if (isValid)
             {
