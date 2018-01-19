@@ -2,12 +2,10 @@
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.DataLayer;
 using FwStandard.Models;
-using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -101,7 +99,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues)
+        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues) 
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -253,129 +251,6 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, ref string validateMsg)
-        {
-            bool isValid = true;
-            string[] ids = GetPrimaryKeys();
-            string moduleName = this.GetType().Name;
-            string module = moduleName.Substring(0, moduleName.Length - 5);
-
-            BrowseRequest browseRequest = new BrowseRequest();
-            browseRequest.module = "DuplicateRules";
-            browseRequest.searchfieldoperators = new String[] { "=" };
-            browseRequest.searchfields = new String[] { "ModuleName" };
-            browseRequest.searchfieldvalues = new String[] { module };
-
-            DuplicateRuleLogic l = new DuplicateRuleLogic();
-            l.SetDbConfig(dataRecords[0].GetDbConfig());
-            FwJsonDataTable rules = l.BrowseAsync(browseRequest).Result;
-
-
-            if (rules.Rows.Count > 0)
-            {
-                Type type = this.GetType();
-                PropertyInfo[] propertyInfo;
-                propertyInfo = type.GetProperties();
-                FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
-                l2.SetDbConfig(dataRecords[0].GetDbConfig());
-
-                foreach (var rule in rules.Rows)
-                {
-                    string fields = rule[4].ToString();
-                    string[] field = fields.Split(',').ToArray();
-
-                    BrowseRequest browseRequest2 = new BrowseRequest();
-                    browseRequest2.module = module;
-
-                    List<string> searchOperators = new List<string>();
-
-                    for (int i = 0; i < field.Count(); i++)
-                    {
-                        searchOperators.Add("=");
-                    }
-
-                    browseRequest2.searchfieldoperators = searchOperators.ToArray();
-                    browseRequest2.searchfields = field;
-
-                    List<string> searchFieldVals = new List<string>();
-
-
-                    for (int i = 0; i < field.Count(); i++)
-                    {
-                        string fieldName = field[i];
-                        foreach (PropertyInfo property in propertyInfo)
-                        {
-                            if (property.Name.Equals(fieldName))
-                            {
-                                var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
-                                if (value != null)
-                                {
-                                    searchFieldVals.Add(value.ToString());
-                                }
-                                else
-                                {
-                                    if (saveMode == TDataRecordSaveMode.smUpdate)
-                                    {
-                                        var recordFound = l2.LoadAsync<Type>(ids).Result;
-                                        var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                        searchFieldVals.Add(databaseValue.ToString());
-                                    }
-                                    else
-                                    {
-                                        searchFieldVals.Add("");
-                                    }
-                                }
-
-                                if (searchOperators.Count == searchFieldVals.Count)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-
-                    
-
-                    browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
-                    FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
-                    l3.SetDbConfig(dataRecords[0].GetDbConfig());
-                    FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
-
-                    bool isDuplicate = false;
-                    for (int r = 0; r<= dt.Rows.Count-1; r++)
-                    {
-                        isDuplicate = true;
-                        if (saveMode == TDataRecordSaveMode.smUpdate)
-                        {
-                            var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
-                            bool pkFound = true;
-                            foreach (string id in ids)
-                            {
-                                int indexOfId = Array.IndexOf(dtToArray, id);
-                                pkFound = (indexOfId >= 0);
-                                if (!pkFound)
-                                {
-                                    break;
-                                }
-                            }
-                            isDuplicate = (!pkFound);
-                        }
-                        if (isDuplicate)
-                        {
-                            break;
-                        }
-                    }
-                    if (isDuplicate)
-                    {
-                        isValid = false;
-                        validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
-                    }
-                }
-            }
-            return isValid;
-        }
-        //------------------------------------------------------------------------------------
         protected virtual bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
@@ -401,7 +276,6 @@ namespace FwStandard.BusinessLogic
             if (isValid)
             {
                 //check for duplicate Business Logic here
-                isValid = CheckDuplicates(saveMode, ref validateMsg);
             }
             if (isValid)
             {
@@ -479,11 +353,11 @@ namespace FwStandard.BusinessLogic
                         }
                         if (propertyValue is string)
                         {
-                            title = title + (propertyValue as string).TrimEnd();
+                            title = title + (propertyValue as string).TrimEnd(); 
                         }
                         else if (propertyValue is int)
                         {
-                            title = title + ((int)propertyValue).ToString().TrimEnd();
+                            title = title + ((int)propertyValue).ToString().TrimEnd(); 
                         }
                         else
                         {

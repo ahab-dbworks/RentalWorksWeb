@@ -21,6 +21,8 @@ namespace FwStandard.SqlServer
         public int PageSize {get;set;} = 10;
         public FwSqlConnection SqlConnection;
         public FwSqlCommand SqlCommand;
+        public enum PagingCompatibilities { AutoDetect, PreSql2012, Sql2012 } // AutoDetect logic is handled in FwController, since the Database Connection info is dependency injected there
+        public static PagingCompatibilities PagingCompatibility { get; set; } = PagingCompatibilities.AutoDetect;
 
         private bool parsed = false;
         //---------------------------------------------------------------------------------------------
@@ -227,24 +229,19 @@ namespace FwStandard.SqlServer
             }
             sb = new StringBuilder();
 
-            if (EnablePaging)
+            if (EnablePaging && PagingCompatibility == PagingCompatibilities.PreSql2012)
             {
                 rowNoStart = ((PageNo - 1) * PageSize) + 1;
-                rowNoEnd   = ((PageNo - 1) * PageSize) + PageSize;
+                rowNoEnd = ((PageNo - 1) * PageSize) + PageSize;
                 AddParameter("@fwrownostart", rowNoStart);
                 AddParameter("@fwrownoend", rowNoEnd);
-                sb.AppendLine("select *");
-                sb.AppendLine("from (");
-                sb.Append("select top(@fwrownoend)");
-                sb.Append(" row_number() over (");
-                foreach (string line in OrderBy)
-                {
-                    sb.Append(line);
-                }
-                sb.AppendLine(") as rowno,");
-                sb.AppendLine("count(*) over () as totalrows,");
-                sb.AppendLine("*");
-                sb.AppendLine("from (");
+                sb.AppendLine(";WITH Main_CTE AS(");
+            }
+            if (EnablePaging && PagingCompatibility == PagingCompatibilities.Sql2012)
+            {
+                AddParameter("@fwpageno", PageNo);
+                AddParameter("@fwpagesize", PageSize);
+                sb.AppendLine(";WITH Main_CTE AS(");
             }
             foreach (FwSqlSelectStatement selectStatement in SelectStatements)
             {
@@ -257,8 +254,6 @@ namespace FwStandard.SqlServer
                     string line = selectStatement.Select[i];
                     if ((i == 0) && (!EnablePaging) && (Top > 0))
                     {
-                        //line = line.Insert("select ".Length, "top (@fwtop) ");
-                        //AddParameter("@fwtop", Top);
                         line = line.Insert("select ".Length, "top " + Top.ToString() + " ");
                     }
                     sb.AppendLine(line);
@@ -280,12 +275,25 @@ namespace FwStandard.SqlServer
                     sb.AppendLine(line);
                 }
             }
-            if (EnablePaging)
+            if (EnablePaging && PagingCompatibility == PagingCompatibilities.PreSql2012)
             {
-                sb.AppendLine(") as unioncontainer");
-                sb.AppendLine(") as pagingtable");
+                sb.AppendLine(")");
+                sb.AppendLine(", Count_CTE AS (");
+                sb.AppendLine("    SELECT COUNT(*) AS [totalrows]");
+                sb.AppendLine("    FROM Main_CTE");
+                sb.AppendLine(")");
+                sb.AppendLine(", Paging_CTE AS (");
+                sb.AppendLine("    SELECT top(@fwrownoend) row_number() over (");
+                foreach (string line in OrderBy)
+                {
+                    sb.Append(line);
+                }
+                sb.AppendLine(") as rowno, *");
+                sb.AppendLine("    FROM Main_CTE, Count_CTE");
+                sb.AppendLine(")");
+                sb.AppendLine("select *");
+                sb.AppendLine("from Paging_CTE");
                 sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
-
             }
             if (!EnablePaging)
             {
@@ -294,8 +302,24 @@ namespace FwStandard.SqlServer
                     sb.Append(line);
                 }
             }
+            if (EnablePaging && PagingCompatibility == PagingCompatibilities.Sql2012)
+            {
+                sb.AppendLine(")");
+                sb.AppendLine(", Count_CTE AS (");
+                sb.AppendLine("  SELECT COUNT(*) AS [totalrows]");
+                sb.AppendLine("  FROM Main_CTE");
+                sb.AppendLine(")");
+                sb.AppendLine("SELECT *");
+                sb.AppendLine("FROM Main_CTE, Count_CTE");
+                foreach (string line in OrderBy)
+                {
+                    sb.Append(line);
+                }
+                sb.AppendLine();
+                sb.AppendLine("  OFFSET (@fwpageno - 1) * @fwpagesize ROWS");
+                sb.AppendLine("  FETCH NEXT @fwpagesize ROWS ONLY");
+            }
             query = sb.ToString();
-            //query = Mustache.Render.StringToString(query, tags);
             cmd.Clear();
             cmd.Add(query);
             foreach (KeyValuePair<string, SqlParameter> item in Parameters)

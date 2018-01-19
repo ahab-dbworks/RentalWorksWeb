@@ -96,13 +96,12 @@ html.theme-default .fwbrowse table thead tr td .field .fieldcaption .columnoptio
 html.theme-default .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {float:left;white-space:nowrap;height: 32px;line-height: 32px;padding: 0 15px;}
 
 html.theme-default .fwbrowse table thead tr td .field .search {position:relative;padding:2px 1px;}
-html.theme-default .fwbrowse table thead tr td .field .search input {box-sizing:border-box;height:24px;width:100%;vertical-align:top;padding:0 15px 0 3px;border-radius:4px;font-size:12px;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
+html.theme-default .fwbrowse table thead tr td .field .search input {box-sizing:border-box;height:24px;width:100%;vertical-align:top;padding:0 16px 0 3px;border-radius:4px;font-size:12px;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
 html.theme-default .fwbrowse table thead tr td .field .search input:focus {outline:0;-webkit-box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);}
 
-html.theme-default .fwbrowse table thead tr td .field .search .searchclear {display:none;cursor:pointer;text-align:center;line-height:24px;position:absolute;top:0;right:5px;width:10px;color:#717171;}
+html.theme-default .fwbrowse table thead tr td .field .search .searchclear {display:none;cursor:pointer;position:absolute;top:50%;right:0;color:#717171;height:1em;width:1em;font-size:16px;margin-right:3px;transform:translateY(-50%);}
 html.theme-default .fwbrowse table thead tr td .field .search .searchclear.visible {display:block;}
-html.theme-default .fwbrowse table thead tr td .field .search .searchclear:hover {color:inherit;}
-html.theme-default .fwbrowse table thead tr td .field .search .searchclear:after {content:'x';font-size:1rem;}
+html.theme-default .fwbrowse table thead tr td .field .search .searchclear i {font-size:inherit;}
 
 
 /* tbody */

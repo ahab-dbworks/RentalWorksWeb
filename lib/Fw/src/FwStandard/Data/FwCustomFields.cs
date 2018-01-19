@@ -29,12 +29,11 @@ namespace FwStandard.DataLayer
                 //AddRange(customFields);
 
                 //jh 07/24/2017 temporary workaround. can't get SelectAsync to work
-                qry.Add("select modulename, fieldname, customtablename, customfieldname  from customfield where modulename = @modulename");
+                qry.Add("select modulename, fieldname, customtablename, customfieldname");
+                qry.Add("from customfield with (nolock)");
+                qry.Add("where modulename = @modulename");
+                qry.Add("order by fieldname");
                 qry.AddParameter("@modulename", moduleName);
-                qry.AddColumn("modulename");
-                qry.AddColumn("fieldname");
-                qry.AddColumn("customtablename");
-                qry.AddColumn("customfieldname");
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++) {
                     FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString());

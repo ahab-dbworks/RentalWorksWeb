@@ -67,6 +67,10 @@ namespace FwStandard.DataLayer
                             {
                                 primaryKeyProperties.Add(property);
                             }
+                            if (dataFieldAttribute.IsCustomPrimaryKey)
+                            {
+                                primaryKeyProperties.Add(property);
+                            }
                         }
                     }
                 }
@@ -249,7 +253,8 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         protected virtual void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            select.Add("select");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select ");
             PropertyInfo[] properties = this.GetType().GetTypeInfo().GetProperties();
             int colNo = 0;
             Dictionary<string, string> columns = new Dictionary<string, string>();
@@ -270,7 +275,7 @@ namespace FwStandard.DataLayer
                         prefix = ",";
                     }
                     qry.AddColumn("", property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    select.Add(prefix + " " + "t.[" + sqlColumnName + "] as " + property.Name);
+                    sb.Append(prefix + " " + "t.[" + sqlColumnName + "] as " + property.Name);
                     colNo++;
                 }
             }
@@ -302,19 +307,19 @@ namespace FwStandard.DataLayer
                     }
 
                     qry.AddColumn("", customField.FieldName, FwDataTypes.Text, true, false, false);
-                    select.Add(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
+                    sb.Append(" ,[" + customField.FieldName + "] = " + customTableAlias + "." + customField.CustomFieldName);
 
                     customFieldIndex++;
                 }
             }
+            select.Add(sb.ToString());
 
-            //select.Add(" from " + TableName + " t with (nolock)");
-            select.Add(" from " + TableName + " t ");
+            string withNoLock = string.Empty;
             if (useWithNoLock)
             {
-                select.Add(" with (nolock) ");
+                withNoLock = " with (nolock)";
             }
-
+            select.Add("from " + TableName + " t" + withNoLock);
 
             if ((customFields != null) && (customFields.Count > 0))
             {
@@ -322,7 +327,7 @@ namespace FwStandard.DataLayer
 
                 foreach (FwCustomTable customTable in customTables)
                 {
-                    select.Add(" left outer join " + customTable.TableName + " " + customTable.Alias + " with (nolock) on ");
+                    select.Add("  left outer join " + customTable.TableName + " " + customTable.Alias + " with (nolock) on ");
                     select.Add(" ( ");
 
                     int k = 1;
@@ -483,7 +488,7 @@ namespace FwStandard.DataLayer
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
+                //select.EnablePaging = false;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry, customFields: customFields, request: request);

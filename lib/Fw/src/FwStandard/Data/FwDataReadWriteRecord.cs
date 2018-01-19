@@ -13,7 +13,8 @@ namespace FwStandard.DataLayer
 
         public class SaveEventArgs : EventArgs
         {
-            public TDataRecordSaveMode SaveMode { get; set; }
+            public TDataRecordSaveMode SaveMode    { get; set; }
+            public bool                PerformSave { get; set; } = true;
         }
         public delegate void BeforeSavesEventHandler(SaveEventArgs e);
         public delegate void AfterSavesEventHandler(SaveEventArgs e);
@@ -87,41 +88,40 @@ namespace FwStandard.DataLayer
                 {
                     //insert
                     await SetPrimaryKeyIdsForInsertAsync(conn);
+                    SaveEventArgs saveArgs = new SaveEventArgs();
+                    saveArgs.SaveMode = TDataRecordSaveMode.smInsert;
                     if (BeforeSaves != null)
                     {
-                        SaveEventArgs args = new SaveEventArgs();
-                        args.SaveMode = TDataRecordSaveMode.smInsert;
-                        BeforeSaves(this, args);
+                        BeforeSaves(this, saveArgs);
                     }
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    if (saveArgs.PerformSave)
                     {
-                        rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
-                    }
-                    if (AfterSaves != null)
-                    {
-                        SaveEventArgs args = new SaveEventArgs();
-                        args.SaveMode = TDataRecordSaveMode.smInsert;
-                        AfterSaves(this, args);
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                        {
+                            rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
+                            if ((AfterSaves != null) && (rowsAffected > 0))
+                            {
+                                AfterSaves(this, saveArgs);
+                            }
+                        }
                     }
                 }
                 else if (AllPrimaryKeysHaveValues)
                 {
                     // update
+                    SaveEventArgs args = new SaveEventArgs();
+                    args.SaveMode = TDataRecordSaveMode.smUpdate;
                     if (BeforeSaves != null)
                     {
-                        SaveEventArgs args = new SaveEventArgs();
-                        args.SaveMode = TDataRecordSaveMode.smUpdate;
                         BeforeSaves(this, args);
                     }
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                     {
                         rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                    }
-                    if (AfterSaves != null)
-                    {
-                        SaveEventArgs args = new SaveEventArgs();
-                        args.SaveMode = TDataRecordSaveMode.smUpdate;
-                        AfterSaves(this, args);
+                        if ((AfterSaves != null) && (rowsAffected > 0))
+                        {
+                            AfterSaves(this, args);
+                        }
                     }
                 }
                 else

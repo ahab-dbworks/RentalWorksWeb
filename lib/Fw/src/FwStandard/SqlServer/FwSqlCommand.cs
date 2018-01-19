@@ -27,9 +27,9 @@ namespace FwStandard.SqlServer
         private FwFields fields;
         private StringBuilder sql;
         private FwSqlLogEntry sqlLogEntry;
-        //------------------------------------------------------------------------------------                
+        //------------------------------------------------------------------------------------
         public string Sql { get { return sql.ToString(); } }
-        //------------------------------------------------------------------------------------                
+        //------------------------------------------------------------------------------------
         public int RowCount { get; private set; }
         public List<string> FieldNames { get { return new List<string>(fields.Keys); } }
         public SqlParameterCollection Parameters { get { return this.sqlCommand.Parameters; } }
@@ -1253,7 +1253,7 @@ namespace FwStandard.SqlServer
                     else
                     {
                         //data = FwConvert.OleColorToHtmlColor(0);
-                        data = String.Empty;
+						data = String.Empty;
                     }
                     break;
                 case FwDataTypes.Integer:
@@ -1772,7 +1772,7 @@ namespace FwStandard.SqlServer
                             {
                                 sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-                            if ((sqlDataFieldAttribute.IsPrimaryKey) && (!sqlDataFieldAttribute.IsPrimaryKeyOptional) && (!isIdentity))
+                            if ((sqlDataFieldAttribute.IsPrimaryKey) && (!sqlDataFieldAttribute.IsPrimaryKeyOptional) && (!isIdentity) && (!sqlDataFieldAttribute.IsCustomPrimaryKey))
                             {
                                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                                 {

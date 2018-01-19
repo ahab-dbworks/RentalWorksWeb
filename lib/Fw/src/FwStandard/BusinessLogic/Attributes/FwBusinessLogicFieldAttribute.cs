@@ -9,13 +9,15 @@ namespace FwStandard.BusinessLogic.Attributes
         public readonly bool IsRecordTitle;
         public readonly bool IsReadOnly;
         public readonly bool IsPrimaryKeyOptional;
+        public readonly bool IsCustomPrimaryKey;
         //---------------------------------------------------------------------------------------------------------------------------
-        public FwBusinessLogicFieldAttribute(bool isPrimaryKey = false, bool isRecordTitle = false, bool isReadOnly = false, bool isPrimaryKeyOptional = false)
+        public FwBusinessLogicFieldAttribute(bool isPrimaryKey = false, bool isRecordTitle = false, bool isReadOnly = false, bool isPrimaryKeyOptional = false, bool isCustomPrimaryKey = false)
         {
-            this.IsPrimaryKey = isPrimaryKey;
-            this.IsRecordTitle = isRecordTitle;
-            this.IsReadOnly = isReadOnly;
+            this.IsPrimaryKey         = isPrimaryKey;
+            this.IsRecordTitle        = isRecordTitle;
+            this.IsReadOnly           = isReadOnly;
             this.IsPrimaryKeyOptional = isPrimaryKeyOptional;
+            this.IsCustomPrimaryKey   = isCustomPrimaryKey;
         }
         //---------------------------------------------------------------------------------------------------------------------------
     }

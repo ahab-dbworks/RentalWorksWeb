@@ -112,7 +112,21 @@ namespace FwStandard.SqlServer
                 return sqlVersion;
             }
         }
-        //----------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        public static async Task<bool> IsSqlVersionGreaterThanOrEqualTo(FwSqlConnection conn, SqlServerConfig dbConfig, int version)
+        {
+            using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+            {
+                qry.Add("select version = @@version");
+                await qry.ExecuteAsync();
+                string versionString = qry.GetField("version").ToString().TrimEnd();
+                string[] versionParts = versionString.Split(' ');
+                int sqlVersion = FwConvert.ToInt32(versionParts[3]);
+                bool result = version >= sqlVersion;
+                return result;
+            }
+        }
+        //------------------------------------------------------------------------------
         public static async Task<string> GetUsersIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig, string webUsersId)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
