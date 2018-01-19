@@ -31,7 +31,8 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         {
             bool saved = false;
             saved = duplicateRule.SaveFields(Fields).Result;
+            getDuplicateRules();
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------ 
     }
 }
