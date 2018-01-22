@@ -44,15 +44,15 @@ namespace WebApi.Modules.Settings.VehicleType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSavesCategory(object sender, SaveEventArgs e)
+        public void OnBeforeSavesCategory(object sender, BeforeSaveEventArgs e)
         {
             Category = VehicleTypeId;  // jh - remove TEMP value
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCategory(object sender, SaveEventArgs e)
+        public void OnAfterSavesCategory(object sender, AfterSaveEventArgs e)
         {
             CategoryId = VehicleTypeId;
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (MasterId == null))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))
             {
                 VehicleTypeLogic l2 = new VehicleTypeLogic();
                 l2.SetDbConfig(inventoryCategory.GetDbConfig());

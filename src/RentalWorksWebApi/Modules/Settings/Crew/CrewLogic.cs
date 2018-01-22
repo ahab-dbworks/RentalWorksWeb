@@ -95,9 +95,9 @@ namespace WebApi.Modules.Settings.Crew
         }
         //------------------------------------------------------------------------------------
 
-        private void Crew_AfterSaves(object sender, SaveEventArgs e)
+        private void Crew_AfterSaves(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (string.IsNullOrEmpty(webUser.WebUserId)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
                 CrewLogic crew2 = new CrewLogic();
                 var dbConfig = this.crew.GetDbConfig();
@@ -112,9 +112,10 @@ namespace WebApi.Modules.Settings.Crew
             }
         }
         //------------------------------------------------------------------------------------
-        private void WebUser_AfterSaves(object sender, SaveEventArgs e)
+        private void WebUser_AfterSaves(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {
                 this.WebUserId = webUser.WebUserId;
                 int i = SaveAsync().Result;

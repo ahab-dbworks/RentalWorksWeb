@@ -619,9 +619,9 @@ namespace WebApi.Modules.Settings.PoType
             OrdType = "PO";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesPoType(object sender, SaveEventArgs e)
+        public void OnAfterSavesPoType(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 PoTypeLogic l2 = new PoTypeLogic();
                 l2.SetDbConfig(poType.GetDbConfig());
@@ -638,9 +638,9 @@ namespace WebApi.Modules.Settings.PoType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesRepairFields(object sender, SaveEventArgs e)
+        public void OnAfterSavesRepairFields(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {
                 PurchaseOrderTypeFieldsId = purchaseOrderTypeFields.OrderTypeFieldsId;
                 SubRentalOrderTypeFieldsId = subRentalOrderTypeFields.OrderTypeFieldsId;

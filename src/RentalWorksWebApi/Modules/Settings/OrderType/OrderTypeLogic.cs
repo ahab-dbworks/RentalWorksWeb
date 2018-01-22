@@ -677,9 +677,9 @@ namespace WebApi.Modules.Settings.OrderType
         public bool? Inactive { get { return orderType.Inactive; } set { orderType.Inactive = value; } }
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesOrderType(object sender, SaveEventArgs e)
+        public void OnAfterSavesOrderType(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 OrderTypeLogic l2 = new OrderTypeLogic();
                 l2.SetDbConfig(orderType.GetDbConfig());
@@ -696,9 +696,9 @@ namespace WebApi.Modules.Settings.OrderType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesFinalLandDFields(object sender, SaveEventArgs e)
+        public void OnAfterSavesFinalLandDFields(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {
                 RentalOrderTypeFieldsId = rentalOrderTypeFields.OrderTypeFieldsId;
                 SalesOrderTypeFieldsId = salesOrderTypeFields.OrderTypeFieldsId;

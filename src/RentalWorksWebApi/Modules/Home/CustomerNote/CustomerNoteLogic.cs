@@ -30,10 +30,13 @@ namespace WebApi.Modules.Home.CustomerNote
         public bool? Notify { get { return customerNote.Notify; } set { customerNote.Notify = value; } }
         public string DateStamp { get { return customerNote.DateStamp; } set { customerNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCustomerNote(object sender, SaveEventArgs e)
+        public void OnAfterSavesCustomerNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
-            saved = customerNote.SaveNoteASync(Notes).Result;
+            if (e.SavePerformed)
+            {
+                saved = customerNote.SaveNoteASync(Notes).Result;
+            }
         }
         //------------------------------------------------------------------------------------
     }

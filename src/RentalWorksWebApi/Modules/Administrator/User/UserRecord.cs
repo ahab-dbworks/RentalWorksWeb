@@ -327,7 +327,7 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public void OnBeforeSaveUser(object sender, SaveEventArgs e)
+        public void OnBeforeSaveUser(object sender, BeforeSaveEventArgs e)
         {
             PrimaryOfficeLocationId = OfficeLocationId;
             PrimaryWarehouseId = WarehouseId;

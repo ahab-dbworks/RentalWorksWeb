@@ -30,10 +30,13 @@ namespace WebApi.Modules.Home.DealNote
         public bool? Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesDealNote(object sender, SaveEventArgs e)
+        public void OnAfterSavesDealNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
-            saved = dealNote.SaveNoteASync(Notes).Result;
+            if (e.SavePerformed)
+            {
+                saved = dealNote.SaveNoteASync(Notes).Result;
+            }
         }
         //------------------------------------------------------------------------------------
     }

@@ -38,15 +38,15 @@ namespace WebApi.Modules.Settings.GeneratorType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSavesCategory(object sender, SaveEventArgs e)
+        public void OnBeforeSavesCategory(object sender, BeforeSaveEventArgs e)
         {
             Category = GeneratorTypeId;  // jh - remove TEMP value
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCategory(object sender, SaveEventArgs e)
+        public void OnAfterSavesCategory(object sender, AfterSaveEventArgs e)
         {
             CategoryId = GeneratorTypeId;
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (MasterId == null))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))
             {
                 GeneratorTypeLogic l2 = new GeneratorTypeLogic();
                 l2.SetDbConfig(inventoryCategory.GetDbConfig());

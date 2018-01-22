@@ -474,9 +474,9 @@ namespace WebApi.Modules.Settings.EventType
             OrdType = "EVENT";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesEventType(object sender, SaveEventArgs e)
+        public void OnAfterSavesEventType(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 EventTypeLogic l2 = new EventTypeLogic();
                 l2.SetDbConfig(eventType.GetDbConfig());
@@ -491,9 +491,9 @@ namespace WebApi.Modules.Settings.EventType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesFinalLandDFields(object sender, SaveEventArgs e)
+        public void OnAfterSavesFinalLandDFields(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {
                 RentalOrderTypeFieldsId = rentalOrderTypeFields.OrderTypeFieldsId;
                 SalesOrderTypeFieldsId = salesOrderTypeFields.OrderTypeFieldsId;

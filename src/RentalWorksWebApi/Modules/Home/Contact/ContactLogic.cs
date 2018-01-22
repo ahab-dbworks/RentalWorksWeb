@@ -102,9 +102,9 @@ namespace WebApi.Modules.Home.Contact
 
         //public string GroupId { get { return webUser.GroupId; } set { webUser.GroupId = value; } }
         //------------------------------------------------------------------------------------
-        private void Contact_AfterSaves(object sender, SaveEventArgs e)
+        private void Contact_AfterSaves(object sender, AfterSaveEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (string.IsNullOrEmpty(webUser.WebUserId)))
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
                 ContactLogic contact2 = new ContactLogic();
                 var dbConfig = this.contact.GetDbConfig();
@@ -119,9 +119,9 @@ namespace WebApi.Modules.Home.Contact
             }
         }
         //------------------------------------------------------------------------------------
-        private void WebUser_AfterSaves(object sender, SaveEventArgs e)
+        private void WebUser_AfterSaves(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {
                 this.WebUserId = webUser.WebUserId;
                 int i = SaveAsync().Result;

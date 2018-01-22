@@ -101,7 +101,7 @@ namespace WebApi.Modules.Settings.VehicleType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeValidateCategory(object sender, SaveEventArgs e)
+        public void OnBeforeValidateCategory(object sender, BeforeValidateEventArgs e)
         {
             if (inventoryCategory.Category.Equals(string.Empty))
             {

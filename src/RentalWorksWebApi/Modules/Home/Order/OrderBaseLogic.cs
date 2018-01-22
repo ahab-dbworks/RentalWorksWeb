@@ -129,10 +129,13 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesDealOrder(object sender, SaveEventArgs e)
+        public void OnAfterSavesDealOrder(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
-            saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+            if (e.SavePerformed)
+            {
+                saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+            }
         }
         //------------------------------------------------------------------------------------
     }

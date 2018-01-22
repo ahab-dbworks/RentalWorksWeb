@@ -125,11 +125,14 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string WardrobeDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override void OnAfterSavesMaster(object sender, SaveEventArgs e)
+        public override void OnAfterSavesMaster(object sender, AfterSaveEventArgs e)
         {
             base.OnAfterSavesMaster(sender, e);
             bool saved = false;
-            saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+            if (e.SavePerformed)
+            {
+                saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+            }
         }
         //------------------------------------------------------------------------------------
 

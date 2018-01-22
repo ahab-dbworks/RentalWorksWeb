@@ -3,6 +3,9 @@ using FwStandard.BusinessLogic.Attributes;
 //using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
+//post to Fw
+
+
 namespace FwStandard.Modules.Administrator.DuplicateRule
 {
     public class DuplicateRuleLogic : FwBusinessLogic
@@ -27,7 +30,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesDuplicateRule(object sender, SaveEventArgs e)
+        public void OnAfterSavesDuplicateRule(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             saved = duplicateRule.SaveFields(Fields).Result;

@@ -26,10 +26,13 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         public string Notes { get; set; }
         public string DateStamp { get { return orderTypeNote.DateStamp; } set { orderTypeNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesOrderTypeNote(object sender, SaveEventArgs e)
+        public void OnAfterSavesOrderTypeNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
-            saved = orderTypeNote.SaveNoteASync(Notes).Result;
+            if (e.SavePerformed)
+            {
+                saved = orderTypeNote.SaveNoteASync(Notes).Result;
+            }
         }
         //------------------------------------------------------------------------------------
     }
