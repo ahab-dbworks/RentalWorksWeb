@@ -7,38 +7,49 @@ namespace FwStandard.DataLayer
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
-        public event EventHandler<SaveEventArgs> BeforeSaves;
-        public event EventHandler<SaveEventArgs> AfterSaves;
-        public event EventHandler<SaveEventArgs> BeforeValidate;
+        public event EventHandler<BeforeSaveEventArgs> BeforeSaves;
+        public event EventHandler<AfterSaveEventArgs> AfterSaves;
+        public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
 
-        public class SaveEventArgs : EventArgs
+        public class BeforeSaveEventArgs : EventArgs
         {
             public TDataRecordSaveMode SaveMode    { get; set; }
             public bool                PerformSave { get; set; } = true;
         }
-        public delegate void BeforeSavesEventHandler(SaveEventArgs e);
-        public delegate void AfterSavesEventHandler(SaveEventArgs e);
-        public delegate void BeforeValidateEventHandler(SaveEventArgs e);
 
-        protected virtual void OnBeforeSaves(SaveEventArgs e)
+        public class AfterSaveEventArgs : EventArgs
         {
-            EventHandler<SaveEventArgs> handler = BeforeSaves;
+            public TDataRecordSaveMode SaveMode { get; set; }
+            public bool SavePerformed { get; set; } = true;
+        }
+
+        public class BeforeValidateEventArgs : EventArgs
+        {
+            public TDataRecordSaveMode SaveMode { get; set; }
+        }
+        public delegate void BeforeSavesEventHandler(BeforeSaveEventArgs e);
+        public delegate void AfterSavesEventHandler(AfterSaveEventArgs e);
+        public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
+
+        protected virtual void OnBeforeSaves(BeforeSaveEventArgs e)
+        {
+            EventHandler<BeforeSaveEventArgs> handler = BeforeSaves;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-        protected virtual void OnAfterSaves(SaveEventArgs e)
+        protected virtual void OnAfterSaves(AfterSaveEventArgs e)
         {
-            EventHandler<SaveEventArgs> handler = AfterSaves;
+            EventHandler<AfterSaveEventArgs> handler = AfterSaves;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-        protected virtual void OnBeforeValidate(SaveEventArgs e)
+        protected virtual void OnBeforeValidate(BeforeValidateEventArgs e)
         {
-            EventHandler<SaveEventArgs> handler = BeforeValidate;
+            EventHandler<BeforeValidateEventArgs> handler = BeforeValidate;
             if (handler != null)
             {
                 handler(this, e);
@@ -63,7 +74,7 @@ namespace FwStandard.DataLayer
 
             if (BeforeValidate != null)
             {
-                SaveEventArgs args = new SaveEventArgs();
+                BeforeValidateEventArgs args = new BeforeValidateEventArgs();
                 args.SaveMode = saveMode;
                 BeforeValidate(this, args);
             }
@@ -88,20 +99,22 @@ namespace FwStandard.DataLayer
                 {
                     //insert
                     await SetPrimaryKeyIdsForInsertAsync(conn);
-                    SaveEventArgs saveArgs = new SaveEventArgs();
-                    saveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+                    BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
+                    AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
+                    beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
                     if (BeforeSaves != null)
                     {
-                        BeforeSaves(this, saveArgs);
+                        BeforeSaves(this, beforeSaveArgs);
                     }
-                    if (saveArgs.PerformSave)
+                    if (beforeSaveArgs.PerformSave)
                     {
                         using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                         {
                             rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
-                            if ((AfterSaves != null) && (rowsAffected > 0))
+                            afterSaveArgs.SavePerformed = (rowsAffected > 0);
+                            if (AfterSaves != null)
                             {
-                                AfterSaves(this, saveArgs);
+                                AfterSaves(this, afterSaveArgs);
                             }
                         }
                     }
@@ -109,18 +122,23 @@ namespace FwStandard.DataLayer
                 else if (AllPrimaryKeysHaveValues)
                 {
                     // update
-                    SaveEventArgs args = new SaveEventArgs();
-                    args.SaveMode = TDataRecordSaveMode.smUpdate;
+                    BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
+                    AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
+                    beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
                     if (BeforeSaves != null)
                     {
-                        BeforeSaves(this, args);
+                        BeforeSaves(this, beforeSaveArgs);
                     }
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    if (beforeSaveArgs.PerformSave)
                     {
-                        rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                        if ((AfterSaves != null) && (rowsAffected > 0))
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                         {
-                            AfterSaves(this, args);
+                            rowsAffected = await cmd.UpdateAsync(true, TableName, this);
+                            afterSaveArgs.SavePerformed = (rowsAffected > 0);
+                            if (AfterSaves != null) 
+                            {
+                                AfterSaves(this, afterSaveArgs);
+                            }
                         }
                     }
                 }
