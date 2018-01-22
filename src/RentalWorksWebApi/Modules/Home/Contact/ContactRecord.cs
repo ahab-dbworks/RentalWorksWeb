@@ -102,11 +102,11 @@ namespace WebApi.Modules.Home.Contact
         public string InputDate { get; set; }
 	    //------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "moddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        public string LastModifiedDate { get; set; }
+        public string ModifiedDate { get; set; }
 	    //------------------------------------------------------------------------------------
-	    [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, precision: 0, scale: 0)]
-        public string Company { get; set; }
-	    //------------------------------------------------------------------------------------
+	    //[FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50, precision: 0, scale: 0)]
+     //   public string Company { get; set; }
+	    ////------------------------------------------------------------------------------------
 	    [FwSqlDataField(column: "contactrecordtype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, precision: 0, scale: 0)]
         public string ContactRecordType { get; set; }
 	    //------------------------------------------------------------------------------------

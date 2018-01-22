@@ -16,6 +16,12 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwSqlDataField(column: "companyid", modeltype: FwDataTypes.Text)]
         public string CompanyId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
+        public string Company { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "companytype", modeltype: FwDataTypes.Text)]
+        public string CompanyType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -106,7 +112,21 @@ namespace WebApi.Modules.Home.CompanyContact
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("CompanyId", "companyid", select, request); 
-            addFilterToSelect("ContactId", "contactid", select, request); 
+            addFilterToSelect("ContactId", "contactid", select, request);
+
+
+            if ((request != null) && (request.activeview != null) && (!request.activeview.Equals(string.Empty)))
+            {
+                switch (request.activeview)
+                {
+                    case "ALL":
+                        break;
+                    default:
+                        select.AddWhere("(companytype = @companytype)");
+                        select.AddParameter("@companytype", request.activeview);
+                        break;
+                }
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

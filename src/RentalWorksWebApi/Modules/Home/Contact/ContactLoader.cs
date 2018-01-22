@@ -6,7 +6,7 @@ using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Home.Contact
 {
-    [FwSqlTable("contactview")]
+    [FwSqlTable("webcontactview2")]
     public class ContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -28,11 +28,11 @@ namespace WebApi.Modules.Home.Contact
         [FwSqlDataField(column: "fname", modeltype: FwDataTypes.Text)]
         public string FirstName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
-        public string Address1 { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mi", modeltype: FwDataTypes.Text)]
         public string MiddleInitial { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
+        public string Address1 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "add2", modeltype: FwDataTypes.Text)]
         public string Address2 { get; set; }
@@ -136,14 +136,14 @@ namespace WebApi.Modules.Home.Contact
         [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
         public bool? LockAccount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
-        public string GroupId { get; set; }
+        [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
+        public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webpassword", modeltype: FwDataTypes.Text)]
         public string WebPassword { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "changepasswordatlogin", modeltype: FwDataTypes.Boolean)]
-        public bool? ChangePasswordAtLogin { get; set; }
+        public bool? ChangePasswordAtNextLogin { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expireflg", modeltype: FwDataTypes.Boolean)]
         public bool? ExpirePassword { get; set; }
@@ -154,20 +154,11 @@ namespace WebApi.Modules.Home.Contact
         [FwSqlDataField(column: "pwupdated", modeltype: FwDataTypes.Date)]
         public string PasswordLastUpdated { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text)]
-        public string Password { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
-        public string Company { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "companyid", modeltype: FwDataTypes.Text)]
-        public string CompanyId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text)]
-        public string CompanyContactId { get; set; }
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -177,34 +168,34 @@ namespace WebApi.Modules.Home.Contact
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
 
 
-            if ((request != null) && (request.activeview != null))
-            {
-                switch (request.activeview)
-                {
-                    case "CUSTOMER":
-                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
-                        select.AddParameter("@contactrecordtype", "CUSTOMER");
-                        break;
-                    case "VENDOR":
-                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
-                        select.AddParameter("@contactrecordtype", "VENDOR");
-                        break;
-                    case "DEAL":
-                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
-                        select.AddParameter("@contactrecordtype", "DEAL");
-                        break;
-                    case "LEAD":
-                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
-                        select.AddParameter("@contactrecordtype", "LEAD");
-                        break;
-                    case "PROSPECT":
-                        select.AddWhere("(contactrecordtype = @contactrecordtype)");
-                        select.AddParameter("@contactrecordtype", "PROSPECT");
-                        break;
-                    case "ALL":
-                        break;
-                }
-            }
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    switch (request.activeview)
+            //    {
+            //        case "CUSTOMER":
+            //            select.AddWhere("(contactrecordtype = @contactrecordtype)");
+            //            select.AddParameter("@contactrecordtype", "CUSTOMER");
+            //            break;
+            //        case "VENDOR":
+            //            select.AddWhere("(contactrecordtype = @contactrecordtype)");
+            //            select.AddParameter("@contactrecordtype", "VENDOR");
+            //            break;
+            //        case "DEAL":
+            //            select.AddWhere("(contactrecordtype = @contactrecordtype)");
+            //            select.AddParameter("@contactrecordtype", "DEAL");
+            //            break;
+            //        case "LEAD":
+            //            select.AddWhere("(contactrecordtype = @contactrecordtype)");
+            //            select.AddParameter("@contactrecordtype", "LEAD");
+            //            break;
+            //        case "PROSPECT":
+            //            select.AddWhere("(contactrecordtype = @contactrecordtype)");
+            //            select.AddParameter("@contactrecordtype", "PROSPECT");
+            //            break;
+            //        case "ALL":
+            //            break;
+            //    }
+            //}
 
 
         }
