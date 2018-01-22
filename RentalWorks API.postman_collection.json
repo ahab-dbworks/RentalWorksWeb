@@ -15833,6 +15833,37 @@
 			]
 		},
 		{
+			"name": "Pick List Report",
+			"description": "",
+			"item": [
+				{
+					"name": "Pick List Report: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/picklistreport/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PickListId\":\"00000ZG5\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "PoApprover",
 			"description": "",
 			"item": [
