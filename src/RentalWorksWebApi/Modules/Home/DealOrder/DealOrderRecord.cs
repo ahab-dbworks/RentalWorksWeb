@@ -112,15 +112,34 @@ namespace WebApi.Modules.Home.DealOrder
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount)
         {
             bool saved = false;
+            if ((PoNumber != null) && (PoAmount != null))  // temporary: actual solution is to force the PO number and Amount with the post
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
+                    qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
+                    qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public async Task<bool> SetNumber()
+        {
+            bool saved = false;
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", _dbConfig.QueryTimeout);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
-                qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
-                qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
+                FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", _dbConfig.QueryTimeout);
+                qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, "QUOTE");
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "A000001Q");  // temporary: todo: get logged-in usersid
+                qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
+                OrderNumber = qry.GetParameter("@newcounter").ToString().TrimEnd();
                 saved = true;
             }
             return saved;
