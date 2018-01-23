@@ -58,8 +58,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "printfa", modeltype: FwDataTypes.Boolean)]
         public bool? PrintFixedAsset { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "deptbarcode", modeltype: FwDataTypes.Boolean)]
-        public bool? AssignBarCodesBy { get; set; }
+        [FwSqlDataField(column: "deptbarcode", modeltype: FwDataTypes.Text)]
+        public string AssignBarCodesBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesmarkuppct", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesMarkupPercent { get; set; }
@@ -246,6 +246,9 @@ namespace WebApi.Modules.Settings.Warehouse
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
         public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currency", modeltype: FwDataTypes.Text)]
         public string Currency { get; set; }

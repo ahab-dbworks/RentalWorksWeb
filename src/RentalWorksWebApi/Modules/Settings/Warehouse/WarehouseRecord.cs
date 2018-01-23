@@ -47,8 +47,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "fax", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20)]
         public string Fax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "deptbarcode", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? AssignBarCodesBy { get; set; }
+        [FwSqlDataField(column: "deptbarcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
+        public string AssignBarCodesBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesmarkuppct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 2)]
         public decimal? SalesMarkupPercent { get; set; }

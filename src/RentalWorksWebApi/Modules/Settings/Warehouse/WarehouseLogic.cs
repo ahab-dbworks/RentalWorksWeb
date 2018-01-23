@@ -32,7 +32,7 @@ namespace WebApi.Modules.Settings.Warehouse
         public string Country { get; set; }
         public string Phone { get { return warehouse.Phone; } set { warehouse.Phone = value; } }
         public string Fax { get { return warehouse.Fax; } set { warehouse.Fax = value; } }
-        public bool? AssignBarCodesBy { get { return warehouse.AssignBarCodesBy; } set { warehouse.AssignBarCodesBy = value; } }
+        public string AssignBarCodesBy { get { return warehouse.AssignBarCodesBy; } set { warehouse.AssignBarCodesBy = value; } }
         public decimal? SalesMarkupPercent { get { return warehouse.SalesMarkupPercent; } set { warehouse.SalesMarkupPercent = value; } }
         public decimal? PartsMarkupPercent { get { return warehouse.PartsMarkupPercent; } set { warehouse.PartsMarkupPercent = value; } }
         public bool? MarkupSales { get { return warehouse.MarkupSales; } set { warehouse.MarkupSales = value; } }
@@ -100,6 +100,8 @@ namespace WebApi.Modules.Settings.Warehouse
         public decimal? RentalWeeklyRateMultipleOfDailyRate { get { return warehouse.RentalWeeklyRateMultipleOfDailyRate; } set { warehouse.RentalWeeklyRateMultipleOfDailyRate = value; } }
         public bool? CheckInEnableScanningToAisleShelf { get { return warehouse.CheckInEnableScanningToAisleShelf; } set { warehouse.CheckInEnableScanningToAisleShelf = value; } }
         public string CurrencyId { get { return warehouse.CurrencyId; } set { warehouse.CurrencyId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrencyCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Currency { get; set; }
         public string RentalBarCodeRangeId { get { return warehouse.RentalBarCodeRangeId; } set { warehouse.RentalBarCodeRangeId = value; } }
