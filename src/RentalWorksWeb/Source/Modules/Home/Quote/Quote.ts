@@ -167,12 +167,30 @@ class Quote {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true')
-        }
 
-        $form = FwModule.openForm($form, mode);
+            var today = new Date(Date.now()).toLocaleString();
+            var date = today.split(',');
+            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));;
+            var office = JSON.parse(sessionStorage.getItem('location'));;
+
+            FwFormField.setValueByDataField($form, 'PickDate', date[0]);
+            FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
+            FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
+            FwFormField.setValueByDataField($form, 'OfficeLocation', office.location);
+            FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
+            FwFormField.setValueByDataField($form, 'VersionNumber', 1);
+
+            $form.find('div[data-datafield="DealId"]').attr('data-required', false);
+            $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
+            $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
+            $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+            $form.find('div[data-datafield="OfficeLocation"]').attr('data-originalvalue', office.locationid);
+            $form.find('div[data-datafield="Warehouse"]').attr('data-originalvalue', warehouse.warehouseid);
+        }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -185,9 +203,6 @@ class Quote {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
-
-     
-
         return $form;
     }
 
@@ -227,7 +242,7 @@ class Quote {
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
     }
 
-    afterLoad($form: any) {
+    afterLoad($form: any, mode: string) {
         var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
 
@@ -242,7 +257,6 @@ class Quote {
             FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
-
     }
 }
 
