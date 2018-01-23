@@ -45,20 +45,74 @@ class Contact {
         var self = this;
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
-        });
-        FwBrowse.addLegend($browse, 'Lead', '#ff8040');
-        FwBrowse.addLegend($browse, 'Prospect', '#ff0080');
-        FwBrowse.addLegend($browse, 'Customer', '#ffff80');
-        FwBrowse.addLegend($browse, 'Deal', '#03de3a');
-        FwBrowse.addLegend($browse, 'Vendor', '#20b7ff');
+        FwBrowse.init($browse);
 
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject: any) {
+    openForm(mode: string) {
+        var $form;
+
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.openForm($form, mode);
+
+        return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        var $form: JQuery = this.openForm('EDIT');
+
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    saveForm($form: any, closetab: boolean, navigationpath: string) {
+        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+    };
+    //----------------------------------------------------------------------------------------------
+    renderGrids = function ($form: JQuery) {
+        var $contactNoteGrid: any;
+        var $contactNoteGridControl: any;
+
+        $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+        $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+        $contactNoteGrid.empty().append($contactNoteGridControl);
+        $contactNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+            };
+        })
+        $contactNoteGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+        FwBrowse.init($contactNoteGridControl);
+        FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+
+        //Company Contact grid
+        var $companyContactGrid: any;
+        var $companyContactGridControl: any;
+
+        $companyContactGrid = $form.find('div[data-grid="ContactCompanyContactGrid"]');
+        $companyContactGridControl = jQuery(jQuery('#tmpl-grids-ContactCompanyContactGridBrowse').html());
+        $companyContactGrid.empty().append($companyContactGridControl);
+        $companyContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+            };
+        })
+        $companyContactGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+
+        FwBrowse.init($companyContactGridControl);
+        FwBrowse.renderRuntimeHtml($companyContactGridControl);
+    };
+    //----------------------------------------------------------------------------------------------
+    addGridFilter($form: any) {
+        var $menuObject = $form.find('[data-name="ContactCompanyContactGrid"] .fwmenu');
         var self = this;
         var $all: JQuery = FwMenu.generateDropDownViewBtn('All Contacts', true);
         var $lead: JQuery = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
@@ -66,7 +120,6 @@ class Contact {
         var $customer: JQuery = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
         var $deal: JQuery = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
         var $vendor: JQuery = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
-        //var $signup   = FwMenu.generateDropDownViewBtn('View Sign Up', false);
 
         $all.on('click', function () {
             var $browse;
@@ -104,12 +157,6 @@ class Contact {
             self.ActiveView = 'VENDOR';
             FwBrowse.databind($browse);
         });
-        //$signup.on('click', function() {
-        //    var $browse;
-        //    $browse = jQuery(this).closest('.fwbrowse');
-        //    this.ActiveView = 'SIGNUP';
-        //    FwBrowse.databind($browse);
-        //});
 
         FwMenu.addVerticleSeparator($menuObject);
 
@@ -120,296 +167,95 @@ class Contact {
         viewSubitems.push($customer);
         viewSubitems.push($deal);
         viewSubitems.push($vendor);
-        //viewSubitems.push($signup);
+
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
-        return $menuObject;
     };
-    //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-        var viewModel: any = {};
-  
-        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > [data-formdatafield="CompanyContactId"]').text();
-
-        if (companyContactId == "" || undefined || null) {
-            this.apiurl = 'api/v1/contact';
-            var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-ContactForm').html(), viewModel));
-        } else {
-            this.apiurl = 'api/v1/companycontact';
-            var $form: JQuery = jQuery(Mustache.render(jQuery('#tmpl-modules-CompanyContactForm').html(), viewModel));
-        }
-        $form = FwModule.openForm($form, mode);
-
-
-        if (mode == 'NEW') {
-            FwFormField.setValueByDataField($form, 'ActiveDate', FwFunc.getDate());
-        }
-
-        $form
-            .on('change', 'div[data-datafield="WebPassword"]', function () {
-                //throw 'not implented!';
-                //// need to create web service in new api
-                //var $this, request;
-                //$this = jQuery(this);
-                //request = {
-                //    method: 'CheckPasswordComplexity',
-                //    value:  FwFormField.getValueByDataField($form, 'WebPassword'),
-                //    first:  FwFormField.getValueByDataField($form, 'FirstName'),
-                //    last:   FwFormField.getValueByDataField($form, 'LastName')
-                //}
-                //FwModule.getData($form, request, function(response) {
-                //    try {
-                //        if (response.passwordcomplexity.error == true) {
-                //            $this.addClass('error');
-                //            FwNotification.renderNotification('ERROR', response.passwordcomplexity.errmsg);
-                //        } else {
-                //            $this.removeClass('error');
-                //        }
-                //    } catch (ex) {
-                //        FwFunc.showError(ex);
-                //    }
-                //}, $form);
-            })
-            .on('change', 'div[data-datafield="WebAccess"]', function () {
-                //this.setFormProperties($form);
-            })
-            .on('change', 'div[data-datafield="Inactive"]', function () {
-                //var $this;
-                //$this = jQuery(this);
-                //this.setFormProperties($form);
-                //if (FwFormField.getValue2($this) === 'T') {
-                //    FwFormField.setValueByDataField($form, 'InactiveDate"]', FwFunc.getDate());
-                //} else {
-                //    FwFormField.setValueByDataField($form, 'InactiveDate', '');
-                //}
-            })
-            .on('change', 'div[data-datafield="PersonType"]', function () {
-                //this.setFormProperties($form);
-            })
-            .on('change', 'div[data-datafield="FirstName"], div[data-datafield="LastName"]', function () {
-                //throw 'not implemented';
-                //// need to add web service in api
-                //var fname, lname, persontype, $request;
-                //var fname      = FwFormField.getValueByDataField($form, 'FirstName');
-                //var lname      = FwFormField.getValueByDataField($form, 'LastName');
-                //var persontype = FwFormField.getValueByDataField($form, 'PersonType');
-                //if ((persontype === 'DRIVER') && (fname !== '') && (lname !== '')) {
-                //    var request = {
-                //        method: 'GetDriverInfo',
-                //        fname:  fname,
-                //        lname:  lname
-                //    }
-                //    FwModule.getData($form, request, function(response) {
-                //        try {
-                //            if (response.getdriverinfo != null) {
-                //                FwFormField.setValueByDataField($form, 'Address1',        response.getdriverinfo.add1);
-                //                FwFormField.setValueByDataField($form, 'Address2',        response.getdriverinfo.add2);
-                //                FwFormField.setValueByDataField($form, 'City',        response.getdriverinfo.city);
-                //                FwFormField.setValueByDataField($form, 'State',       response.getdriverinfo.state);
-                //                FwFormField.setValueByDataField($form, 'ZipCode',         response.getdriverinfo.zip);
-                //                FwFormField.setValueByDataField($form, 'MobilePhone',    response.getdriverinfo.cellular);
-                //                FwFormField.setValueByDataField($form, 'Phone',       response.getdriverinfo.phonehome);
-                //                FwFormField.setValueByDataField($form, 'OfficePhone', response.getdriverinfo.officephone);
-                //            }
-                //        } catch (ex) {
-                //            FwFunc.showError(ex);
-                //        }
-                //    }, $form);
-                //}
-            });
-
-        return $form;
-    };
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form: JQuery = this.openForm('EDIT');
-
-        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > [data-formdatafield="CompanyContactId"]').text();
-
-        if (companyContactId == "" || undefined || null) {
-            FwFormField.setValueByDataField($form, 'ContactId', uniqueids.ContactId);
-        } else {
-            FwFormField.setValueByDataField($form, 'CompanyContactId', uniqueids.CompanyContactId);
-        }
-
-        FwModule.loadForm(this.Module, $form);
-        //$form.find('.contactphoto > .runtime > .image > img').attr('src', 'fwappimage.ashx?uniqueid1=' + uniqueids.contactid + '&uniqueid2=&uniqueid3=&orderby=0');
-
-        return $form;
-    };
-    //----------------------------------------------------------------------------------------------
-    saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
-    };
-    //----------------------------------------------------------------------------------------------
-    loadAudit($form: JQuery) {
-        //var uniqueid;
-        //uniqueid = $form.find('div.fwformfield[data-datafield="contact.contactid"] input').val();
-        //FwModule.loadAudit($form, uniqueid);
-    };
-    //----------------------------------------------------------------------------------------------
-    renderGrids = function ($form: JQuery) {
-        // load ContactCompany Grid
-        //var nameContactCompany = 'ContactCompany';
-        //var $contactCompanyGrid: JQuery = $form.find('div[data-grid="' + nameContactCompany + '"]');
-        //var $contactCompanyGridControl: JQuery = FwBrowse.loadGridFromTemplate(nameContactCompany);
-        //$contactCompanyGrid.empty().append($contactCompanyGridControl);
-        //$contactCompanyGridControl.data('ondatabind', function(request) {
-        //    request.module = 'ContactCompany';
-        //    request.uniqueids = {
-        //        contactid: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //    FwServices.grid.method(request,'ContactCompany', 'Browse', $contactCompanyGridControl, function(response) {
-        //        FwBrowse.databindcallback($contactCompanyGridControl, response.browse);
-        //    });
-        //});
-        //FwBrowse.init($contactCompanyGridControl);
-        //FwBrowse.renderRuntimeHtml($contactCompanyGridControl);
-        //FwBrowse.addLegend($contactCompanyGridControl, 'Customer', '#ffff80');
-        //FwBrowse.addLegend($contactCompanyGridControl, 'Project',  '#03de3a');
-        //FwBrowse.addLegend($contactCompanyGridControl, 'Vendor',   '#20b7ff');
-
-        // load ContactPersonalEvent Grid
-        //var nameContactPersonalEvent = 'ContactPersonalEvent';
-        //var $contactPersonalEventGrid: JQuery = $form.find('div[data-grid="' + nameContactPersonalEvent + '"]');
-        //var $contactPersonalEventGridControl: JQuery = FwBrowse.loadGridFromTemplate(nameContactPersonalEvent);
-        //$contactPersonalEventGrid.empty().append($contactPersonalEventGridControl);
-        //$contactPersonalEventGridControl.data('ondatabind', function(request) {
-        //    request.module = 'ContactPersonalEvent';
-        //    request.uniqueids = {
-        //        contactid: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //    FwServices.grid.method(request,'ContactPersonalEvent', 'Browse', $contactPersonalEventGridControl, function(response) {
-        //        FwBrowse.databindcallback($contactPersonalEventGridControl, response.browse);
-        //    });
-        //});
-        //FwBrowse.init($contactPersonalEventGridControl);
-        //FwBrowse.renderRuntimeHtml($contactPersonalEventGridControl);
-
-        // load ContactNote Grid
-        var companyContactId = jQuery('[data-name="Contact"]').find('div > table > tbody > .selected > td > [data-formdatafield="CompanyContactId"]').text();
-        if (companyContactId == "" || undefined || null) {
-            var $contactNoteGrid: any;
-            var $contactNoteGridControl: any;
-
-            $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-            $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
-            $contactNoteGrid.empty().append($contactNoteGridControl);
-            $contactNoteGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
-                };
-            })
-            $contactNoteGridControl.data('beforesave', function (request) {
-                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-            });
-            FwBrowse.init($contactNoteGridControl);
-            FwBrowse.renderRuntimeHtml($contactNoteGridControl);
-        } else {
-            var $contactNoteGrid: any;
-            var $contactNoteGridControl: any;
-
-            $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-            $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
-            $contactNoteGrid.empty().append($contactNoteGridControl);
-            $contactNoteGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val(),
-                    CompanyContactId: $form.find('div.fwformfield[data-datafield="CompanyContactId"] input').val()
-                };
-            })
-            $contactNoteGridControl.data('beforesave', function (request) {
-                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-                request.CompanyContactId = FwFormField.getValueByDataField($form, 'CompanyContactId');
-            });
-            FwBrowse.init($contactNoteGridControl);
-            FwBrowse.renderRuntimeHtml($contactNoteGridControl);
-        }
-       
-
-        // load ContactDocument Grid
-        //var nameContactDocument = 'ContactDocument';
-        //var $contactDocumentGrid: JQuery = $form.find('div[data-grid="' + nameContactDocument + '"]');
-        //var $contactDocumentGridControl: JQuery = FwBrowse.loadGridFromTemplate(nameContactDocument);
-        //$contactDocumentGrid.empty().append($contactDocumentGridControl);
-        //$contactDocumentGridControl.data('ondatabind', function(request) {
-        //    request.module = 'ContactDocument';
-        //    request.uniqueids = {
-        //        contactid: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //    FwServices.grid.method(request,'ContactDocument', 'Browse', $contactDocumentGridControl, function(response) {
-        //        FwBrowse.databindcallback($contactDocumentGridControl, response.browse);
-        //    });
-        //});
-        //FwBrowse.init($contactDocumentGridControl);
-        //FwBrowse.renderRuntimeHtml($contactDocumentGridControl);
-
-        // load ContactEmailHistory Grid
-        //var nameContactEmailHistory = 'ContactEmailHistory';
-        //var $contactEmailHistoryGrid: JQuery = $form.find('div[data-grid="' + nameContactEmailHistory + '"]');
-        //var $contactEmailHistoryGridControl: JQuery = FwBrowse.loadGridFromTemplate(nameContactEmailHistory);
-        //$contactEmailHistoryGrid.empty().append($contactEmailHistoryGridControl);
-        //$contactEmailHistoryGridControl.data('ondatabind', function(request) {
-        //    request.module = 'ContactEmailHistory';
-        //    request.uniqueids = {
-        //        contactid: FwFormField.getValueByDataField($form, 'ContactId')
-        //    };
-        //    FwServices.grid.method(request,'ContactEmailHistory', 'Browse', $contactEmailHistoryGridControl, function(response) {
-        //        FwBrowse.databindcallback($contactEmailHistoryGridControl, response.browse);
-        //    });
-        //});
-        //FwBrowse.init($contactEmailHistoryGridControl);
-        //FwBrowse.renderRuntimeHtml($contactEmailHistoryGridControl);
-    };
-    //----------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------- 
     afterLoad($form: JQuery) {
-        //var $contactCompanyGrid: JQuery = $form.find('#contactCompanyBrowse');
-        //FwBrowse.search($contactCompanyGrid);
-
-        //var $contactPersonalEventGrid: JQuery = $form.find('#contactEventsBrowse');
-        //FwBrowse.search($contactPersonalEventGrid);
-
         var $contactNoteGrid: any;
 
         $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
         FwBrowse.search($contactNoteGrid);
 
-        //var $contactDocumentGrid: JQuery = $form.find('#contactDocumentBrowse');
-        //FwBrowse.search($contactDocumentGrid);
+        var $companyContactGrid: any;
 
-        //var $contactEmailHistoryGrid: JQuery = $form.find('#emailHistoryBrowse');
-        //FwBrowse.search($contactEmailHistoryGrid);
+        $companyContactGrid = $form.find('[data-name="ContactCompanyContactGrid"]');
+        FwBrowse.search($companyContactGrid);
+
+        FwBrowse.addLegend($companyContactGrid, 'Lead', '#ff8040');
+        FwBrowse.addLegend($companyContactGrid, 'Prospect', '#ff0080');
+        FwBrowse.addLegend($companyContactGrid, 'Customer', '#ffff80');
+        FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
+        FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
+
+        this.addGridFilter($form);
     };
-    //----------------------------------------------------------------------------------------------
-    //setFormProperties($form: JQuery) {
-    //    var $webaccess = $form.find('div[data-datafield="WebAccess"]');
-    //    var $email = $form.find('div[data-datafield="Email"]');
-    //    var $webpassword = $form.find('div[data-datafield="WebPassword"]');
-    //    var $inactive = $form.find('div[data-datafield="Inactive"]');
-    //    var $inactivedate = $form.find('div[data-datafield="InactiveDate"]');
-    //    var $persontype = $form.find('div[data-datafield="PersonType"]');
-    //    var $addressfields = $form.find('div[data-type="groupbox"][data-caption="Address"] div[data-control="FwFormField"]');
-    //    var $cellular = $form.find('div[data-datafield="MobilePhone"]');
-    //    var $phone = $form.find('div[data-datafield="Phone"]');
-    //    var $officephone = $form.find('div[data-datafield="OfficePhone"]');
+    //--
 
-    //    if (FwFormField.getValue2($webaccess) === 'T') {
-    //        $webpassword.attr('data-required', 'true');
-    //        $email.attr('data-required', 'true');
-    //    } else {
-    //        $webpassword.removeClass('error');
-    //        $email.removeClass('error');
-    //        $webpassword.attr('data-required', 'false');
-    //        $email.attr('data-required', 'false');
-    //    }
+    addBrowseMenuItems($menuObject: any) {
+       
+        var self = this;
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Contacts', true);
+        var $lead: JQuery = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
+        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect Contacts', false);
+        var $customer: JQuery = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
+        var $deal: JQuery = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
+        var $vendor: JQuery = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
 
-    //    if (FwFormField.getValue2($inactive) === 'T') {
-    //        FwFormField.enable($inactivedate);
-    //    } else {
-    //        FwFormField.disable($inactivedate);
-    //    }
-    //};
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.databind($browse);
+        });
+        $lead.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'LEAD';
+            FwBrowse.databind($browse);
+        });
+        $prospect.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'PROSPECT';
+            FwBrowse.databind($browse);
+        });
+        $customer.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'CUSTOMER';
+            FwBrowse.databind($browse);
+        });
+        $deal.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'DEAL';
+            FwBrowse.databind($browse);
+        });
+        $vendor.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'VENDOR';
+            FwBrowse.databind($browse);
+        });
+
+        FwMenu.addVerticleSeparator($menuObject);
+
+        var viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all);
+        viewSubitems.push($lead);
+        viewSubitems.push($prospect);
+        viewSubitems.push($customer);
+        viewSubitems.push($deal);
+        viewSubitems.push($vendor);
+
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+    };
+
 }
 
 (window as any).ContactController = new Contact();

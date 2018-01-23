@@ -50,6 +50,19 @@
                                     <div data-control="FwFormField" data-type="email" class="fwcontrol fwformfield" data-caption="E-mail" data-datafield="Email"></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="flexcolumn">
+
+                            <!-- Status -->
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
+                                <div class="flexrow">
+                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive"></div>
+                                </div>
+                                <div class="flexrow">
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Active Date" data-datafield="ActiveDate" style="flex:1 0 0;"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Inactive Date" data-datafield="InactiveDate" data-enabled="false" style="flex:1 0 0;"></div>
+                                </div>
+                            </div>
 
                             <!-- Address -->
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Address">
@@ -68,37 +81,20 @@
                                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-datafield="CountryId" data-displayfield="Country" data-validationname="CountryValidation"></div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="flexcolumn">
-
-                            <!-- Status -->
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
-                                <div class="flexrow">
-                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive"></div>
-                                </div>
-                                <div class="flexrow">
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Active Date" data-datafield="ActiveDate" style="flex:1 0 0;"></div>
-                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Inactive Date" data-datafield="InactiveDate" data-enabled="false" style="flex:1 0 0;"></div>
-                                </div>
-                            </div>
-
-                            <!-- Company -->
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Company">
-                                <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Salutation" data-datafield="Salutation" style="float:left;width:35%;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Job Title" data-datafield="JobTitle" style="float:left;width:65%;"></div>
-                                </div>-->
-
-                                <div class="flexrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Production" data-datafield="Company"></div>
-                                </div>
-                                <div class="flexrow">
-                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contact Title" data-datafield="ContactTitleId" data-displayfield="ContactTitle" data-validationname="ContactTitleValidation"></div>
-                                </div>
+                    </div>
+                    <!-- Company -->
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Company" style="width:70%">
+                        <div class="flexrow" style="width:300px;">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contact Title" data-datafield="ContactTitleId" data-displayfield="ContactTitle" data-validationname="ContactTitleValidation"></div>
+                        </div>
+                        <div class="flexrow">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                <div data-control="FwGrid" data-grid="ContactCompanyContactGrid" data-securitycaption="Company Contact"></div>
                             </div>
                         </div>
                     </div>
+
                     <div class="flexrow">
                         <div data-control="FwGrid" data-grid="ContactCompany" data-securitycaption="Contact Company"></div>
                     </div>
@@ -129,65 +125,65 @@
                 </div>
             </div>
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
-                    <div class="formpage">
-                        <div class="formrow" style="width:700px;">
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwGrid" data-grid="ContactNoteGrid" data-securitycaption="Contact Notes"></div>
-                                </div>
+                <div class="formpage">
+                    <div class="formrow" style="width:700px;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                <div data-control="FwGrid" data-grid="ContactNoteGrid" data-securitycaption="Contact Notes"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                    <!-- <div data-type="tabpage" id="documenttabpage" class="tabpage" data-tabid="documenttab">
+            </div>
+            <!-- <div data-type="tabpage" id="documenttabpage" class="tabpage" data-tabid="documenttab">
               <div class="flexpage">
                 <div data-control="FwGrid" data-grid="ContactDocument" data-securitycaption="Contact Document"></div>
               </div>
             </div> -->
-                    <div data-type="tabpage" id="accesstabpage" class="tabpage" data-tabid="accesstab">
-                        <div class="flexpage">
-                            <div class="flexrow"></div>
-                            <div class="flexcolumn">
-                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Permissions">
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Web Access" data-datafield="WebAccess" style="float:left;width:300px;"></div>
-                                    </div>
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Account is locked out" data-datafield="LockAccount" style="float:left;width:300px;"></div>
-                                    </div>
-                                    <!--<div class="flexrow">
+            <div data-type="tabpage" id="accesstabpage" class="tabpage" data-tabid="accesstab">
+                <div class="flexpage">
+                    <div class="flexrow"></div>
+                    <div class="flexcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Permissions">
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Web Access" data-datafield="WebAccess" style="float:left;width:300px;"></div>
+                            </div>
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Account is locked out" data-datafield="LockAccount" style="float:left;width:300px;"></div>
+                            </div>
+                            <!--<div class="flexrow">
                               <div data-control="FwFormField" data-type="validation" data-validationname="GroupValidation" class="fwcontrol fwformfield" data-caption="Group" data-datafield="GroupId"></div>
                             </div>-->
-                                </div>
+                        </div>
+                    </div>
+                    <div class="flexcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password">
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Web Password" data-datafield="WebPassword"></div>
                             </div>
-                            <div class="flexcolumn">
-                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password">
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Web Password" data-datafield="WebPassword"></div>
-                                    </div>
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password at next login" data-datafield="ChangePasswordAtNextLogin" style="float:left;width:300px;"></div>
-                                    </div>
-                                </div>
-                                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password Expiration">
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Expire Password" data-datafield="ExpirePassword"></div>
-                                    </div>
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Expires In (Days)" data-datafield="ExpireDays"></div>
-                                    </div>
-                                    <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Change" data-datafield="PasswordLastUpdated" data-enabled="false"></div>
-                                    </div>
-                                </div>
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password at next login" data-datafield="ChangePasswordAtNextLogin" style="float:left;width:300px;"></div>
+                            </div>
+                        </div>
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password Expiration">
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Expire Password" data-datafield="ExpirePassword"></div>
+                            </div>
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Expires In (Days)" data-datafield="ExpireDays"></div>
+                            </div>
+                            <div class="flexrow">
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Change" data-datafield="PasswordLastUpdated" data-enabled="false"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- <div data-type="tabpage" id="emailhistorytabpage" class="tabpage" data-tabid="emailhistorytab">
+            </div>
+        </div>
+        <!-- <div data-type="tabpage" id="emailhistorytabpage" class="tabpage" data-tabid="emailhistorytab">
           <div class="flexpage">
             <div data-control="FwGrid" data-grid="ContactEmailHistory" data-securitycaption="Contact Email History"></div>
           </div>
         </div> -->
-            </div>
+    </div>
 </div>

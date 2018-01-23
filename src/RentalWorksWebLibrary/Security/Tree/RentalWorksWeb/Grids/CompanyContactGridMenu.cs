@@ -8,9 +8,9 @@
         public override void BuildBranch(FwSecurityTree tree)
         {
             var nodeGridMenuBar = tree.AddMenuBar("{B54A8AD6-B81D-40CC-A2A4-4D93FA841313}", MODULEID);
-            //tree.AddNewMenuBarButton("{D06EC9BE-2A02-4B5E-92D9-8530868A565A}", nodeGridMenuBar.Id);
-            //tree.AddEditMenuBarButton("{1C79206D-7071-45B1-BC03-7D969A81022E}", nodeGridMenuBar.Id);
-            //tree.AddDeleteMenuBarButton("{BA816B39-A08B-4B21-B32B-69484701BD9E}", nodeGridMenuBar.Id);
+            tree.AddNewMenuBarButton("{5CFE8084-B5CD-497E-8808-D776361B89DE}", nodeGridMenuBar.Id);
+            tree.AddEditMenuBarButton("{15D53BDF-BF12-42E8-A3D5-F3376723D23D}", nodeGridMenuBar.Id);
+            tree.AddDeleteMenuBarButton("{A36AF5AD-1EF2-47F8-88F3-A6CC802719F3}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }
