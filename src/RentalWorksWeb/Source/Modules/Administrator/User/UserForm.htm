@@ -13,35 +13,37 @@
         <div class="tabpages">
             <div data-type="tabpage" id="usertabpage" class="tabpage" data-tabid="usertab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="MI" data-datafield="MiddleInitial" style="float:left;width:50px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" data-noduplicate="true" style="float:left;width:250px;"></div>
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:120px;"></div>
-                        </div>
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Login">
+                    <div class="formcolumn">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="UserName" data-noduplicate="true" style="float:left; width: 250px;"></div>
-                                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="" style="float:left; width:250px;"></div>-->
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-noduplicate="true" style="float:left;width:250px;"></div>
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="MI" data-datafield="MiddleInitial" style="float:left;width:50px;"></div>
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" data-noduplicate="true" style="float:left;width:250px;"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:120px;"></div>
                             </div>
-                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="float:left; width:250px;"></div>
-                                <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Single Sign On" data-datafield="" style="float:left; width:250px;"></div>-->
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Login">
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="UserName" data-noduplicate="true" style="float:left; width: 250px;"></div>
+                                    <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="" style="float:left; width:250px;"></div>-->
+                                </div>
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="float:left; width:250px;"></div>
+                                    <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Single Sign On" data-datafield="" style="float:left; width:250px;"></div>-->
+                                </div>
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Group" data-datafield="GroupId" data-validationname="GroupValidation" data-displayfield="GroupName" style="float:left; width:340px;" data-required="true"></div>
+                                    <div data-control="FwFormField" data-type="color" class="fwcontrol fwformfield" data-caption="Schedule Color" data-datafield="ScheduleColor" data-required="true" style="float:left; width:160px;"></div>
+                                </div>
                             </div>
-                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Group" data-datafield="GroupId" data-validationname="GroupValidation" data-displayfield="GroupName" style="float:left; width:340px;" data-required="true"></div>
-                                <div data-control="FwFormField" data-type="color" class="fwcontrol fwformfield" data-caption="Schedule Color" data-datafield="ScheduleColor" data-required="true" style="float:left; width:160px;"></div>
-                            </div>
-                        </div>
-                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Working">
-                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left; width: 250px;"></div>
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left; width: 250px;"></div>
-                            </div>
-                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Title" data-datafield="UserTitleId" data-displayfield="UserTitle" data-validationname="ContactTitleValidation" style="float:left; width: 250px;"></div>
-                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="float:left; width: 250px;"></div>
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Working">
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left; width: 250px;"></div>
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left; width: 250px;"></div>
+                                </div>
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Title" data-datafield="UserTitleId" data-displayfield="UserTitle" data-validationname="ContactTitleValidation" style="float:left; width: 250px;"></div>
+                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="float:left; width: 250px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,7 +52,7 @@
             <div data-type="tabpage" id="contacttabpage" class="tabpage" data-tabid="contacttab">
                 <div class="formpage">
                     <div class="formrow">
-                        <div class="formcolumn">
+                        <div class="formcolumn" style="width:25%;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Address">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="Address1"></div>
@@ -68,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="formcolumn">
+                        <div class="formcolumn" style="width:25%;">
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Phone">
                                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                     <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficePhone" style="float:left;width:50%;"></div>
@@ -231,20 +233,22 @@
             </div>
             <div data-type="tabpage" id="securitytabpage" class="tabpage" data-tabid="securitytab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password on next login" data-datafield="UserMustChangePassword"></div>
-                        </div>
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Login is locked out" data-datafield="AccountLocked"></div>
-                        </div>
+                    <div class="formcolumn" style="width:25%;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield cbSecurityExpirePassword" data-caption="Expire password" data-datafield="PasswordExpires"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password on next login" data-datafield="UserMustChangePassword"></div>
                             </div>
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield txtSecurityExpire" data-caption="Expire (days)" data-datafield="PasswordExpireDays" data-enabled="false" style="float:left;width:49%"></div>
-                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Last Changed" data-datafield="PasswordUpdatedDateTime" data-enabled="false" style="float:left;width:49%"></div>
+                                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Login is locked out" data-datafield="AccountLocked"></div>
+                            </div>
+                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="">
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield cbSecurityExpirePassword" data-caption="Expire password" data-datafield="PasswordExpires"></div>
+                                </div>
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield txtSecurityExpire" data-caption="Expire (days)" data-datafield="PasswordExpireDays" data-enabled="false" style="float:left;width:49%"></div>
+                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Last Changed" data-datafield="PasswordUpdatedDateTime" data-enabled="false" style="float:left;width:49%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -261,19 +265,23 @@
             </div>-->
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Note">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo" style="width:250px;"></div>
+                    <div class="formcolumn" style="width:25%;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Note">
+                            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo" style="width:250px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div data-type="tabpage" id="picturetabpage" class="tabpage" data-tabid="picturetab">
                 <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Photo">
-                        <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                            <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="users.usersid" data-description="" data-rectype="F"></div>
-                        </div>-->
+                    <div class="formcolumn" style="width:25%;">
+                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Photo">
+                            <!--<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="users.usersid" data-description="" data-rectype="F"></div>
+                            </div>-->
+                        </div>
                     </div>
                 </div>
             </div>
