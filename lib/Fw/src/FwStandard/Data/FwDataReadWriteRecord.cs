@@ -102,6 +102,7 @@ namespace FwStandard.DataLayer
                     BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
                     AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                     beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+                    afterSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
                     if (BeforeSaves != null)
                     {
                         BeforeSaves(this, beforeSaveArgs);
@@ -125,6 +126,7 @@ namespace FwStandard.DataLayer
                     BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
                     AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                     beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
+                    afterSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
                     if (BeforeSaves != null)
                     {
                         BeforeSaves(this, beforeSaveArgs);
