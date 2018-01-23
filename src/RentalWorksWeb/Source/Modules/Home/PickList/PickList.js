@@ -18,13 +18,34 @@
         };
         //Print Pick List
         FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
-            var $form, pickListNumber;
+            var $form, pickListNumber, pickListId;
             try {
                 $form = jQuery(this).closest('.fwform');
                 pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+                pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
                 $form = RwPickListReportController.openForm();
-                FwModule.openModuleTab($form, 'Pick List Report for ' + pickListNumber, false, 'REPORT', true);
-                $form.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListNumber);
+                FwModule.openModuleTab($form, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+                $form.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        };
+
+        //Browse Print Pick List
+        FwApplicationTree.clickEvents['{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}'] = function (event) {
+            var $browse, pickListId, pickListNumber;
+            try {
+                $browse = jQuery(this).closest('.fwbrowse');
+                pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+                pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+                if (pickListId != null) {
+                    $browse = RwPickListReportController.openForm();
+                    FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+                    $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+                } else {
+                    throw new Error("Please select a Pick List to print");
+                }
             }
             catch (ex) {
                 FwFunc.showError(ex);
