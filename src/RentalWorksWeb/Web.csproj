@@ -939,6 +939,7 @@
     <Content Include="Source\Validations\ContactValidation\ContactValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
+    <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
