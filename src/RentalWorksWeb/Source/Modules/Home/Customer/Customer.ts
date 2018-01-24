@@ -215,13 +215,5 @@ class Customer {
             FwFormField.enable($form.find('.shippingaddress'));
         };
     }
-
-    loadRelatedValidationFields(validationName: any, $valuefield, $tr) {
-        var $form;
-        $form = $valuefield.closest('.fwform');
-
-        $form.find('.email .value').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
-    };
 }
-
 (window as any).CustomerController = new Customer();
