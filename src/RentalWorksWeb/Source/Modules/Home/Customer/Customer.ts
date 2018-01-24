@@ -20,7 +20,7 @@ class Customer {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse : any = this.openBrowse();
+        var $browse: any = this.openBrowse();
 
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
@@ -43,7 +43,7 @@ class Customer {
                 FwFunc.showError(ex);
             }
         });
-        
+
     }
 
     updateExternalInputsWithGridValues($tr: JQuery): void {
@@ -78,7 +78,7 @@ class Customer {
                 FwFormField.disable($form.find('.discount-validation'))
             }
         });
-        
+
 
         $form.find('[data-datafield="DisableQuoteOrderActivity"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -94,7 +94,7 @@ class Customer {
             if ($this.val() === 'OTHER') {
                 FwFormField.enable($form.find('.billingaddress'));
             } else {
-                FwFormField.disable($form.find('.billingaddress'));                
+                FwFormField.disable($form.find('.billingaddress'));
             }
         });
 
@@ -109,12 +109,12 @@ class Customer {
 
         this.events($form);
 
-        
+
         return $form;
     }
 
     loadForm(uniqueids: any) {
-        var $form : any = this.openForm('EDIT');
+        var $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
         FwModule.loadForm(this.Module, $form);
 
@@ -126,7 +126,7 @@ class Customer {
     }
 
     loadAudit($form: any) {
-        var uniqueid : string = FwFormField.getValueByDataField($form, 'CustomerId');
+        var uniqueid: string = FwFormField.getValueByDataField($form, 'CustomerId');
         FwModule.loadAudit($form, uniqueid);
     }
 
@@ -155,7 +155,7 @@ class Customer {
         $customerNoteGrid.empty().append($customerNoteGridControl);
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
-        
+
 
         // ----------
         var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
@@ -215,6 +215,13 @@ class Customer {
             FwFormField.enable($form.find('.shippingaddress'));
         };
     }
+
+    loadRelatedValidationFields(validationName: any, $valuefield, $tr) {
+        var $form;
+        $form = $valuefield.closest('.fwform');
+
+        $form.find('.email .value').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
+    };
 }
 
 (window as any).CustomerController = new Customer();

@@ -162,61 +162,14 @@ var Contact = /** @class */ (function () {
         this.addGridFilter($form);
     };
     ;
-    //--
-    Contact.prototype.addBrowseMenuItems = function ($menuObject) {
-        var self = this;
-        var $all = FwMenu.generateDropDownViewBtn('All Contacts', true);
-        var $lead = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
-        var $prospect = FwMenu.generateDropDownViewBtn('Prospect Contacts', false);
-        var $customer = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
-        var $deal = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
-        var $vendor = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
-            FwBrowse.databind($browse);
-        });
-        $lead.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LEAD';
-            FwBrowse.databind($browse);
-        });
-        $prospect.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'PROSPECT';
-            FwBrowse.databind($browse);
-        });
-        $customer.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CUSTOMER';
-            FwBrowse.databind($browse);
-        });
-        $deal.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'DEAL';
-            FwBrowse.databind($browse);
-        });
-        $vendor.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'VENDOR';
-            FwBrowse.databind($browse);
-        });
-        FwMenu.addVerticleSeparator($menuObject);
-        var viewSubitems = [];
-        viewSubitems.push($all);
-        viewSubitems.push($lead);
-        viewSubitems.push($prospect);
-        viewSubitems.push($customer);
-        viewSubitems.push($deal);
-        viewSubitems.push($vendor);
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+    //--------------------------------------------------------------------------------------------
+    Contact.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
+        var $form;
+        $form = $valuefield.closest('.fwform');
+        switch (validationName) {
+            case 'CompanyValidation':
+                $form.find('.tdselectrow [data-browsedatafield="Email"] input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
+        }
     };
     ;
     return Contact;

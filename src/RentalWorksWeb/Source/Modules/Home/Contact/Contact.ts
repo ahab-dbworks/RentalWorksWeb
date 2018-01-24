@@ -192,6 +192,16 @@ class Contact {
 
         this.addGridFilter($form);
     };
+    //--------------------------------------------------------------------------------------------
+    loadRelatedValidationFields(validationName, $valuefield, $tr) {
+        var $form;
+
+        $form = $valuefield.closest('.fwform');
+        switch (validationName) {
+            case 'CompanyValidation':
+                $form.find('.tdselectrow [data-browsedatafield="Email"] input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
+        }
+    };
 }
 
 (window as any).ContactController = new Contact();
