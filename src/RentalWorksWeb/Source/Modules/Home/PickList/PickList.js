@@ -26,6 +26,7 @@
                 $form = RwPickListReportController.openForm();
                 FwModule.openModuleTab($form, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
                 $form.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+                $form.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -43,6 +44,7 @@
                     $browse = RwPickListReportController.openForm();
                     FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
                     $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+                    $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
                 } else {
                     throw new Error("Please select a Pick List to print");
                 }

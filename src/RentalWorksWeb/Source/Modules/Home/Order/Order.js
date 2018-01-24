@@ -9,7 +9,6 @@ var Order = (function () {
 
         //Grid Print Pick List
         FwApplicationTree.clickEvents['{EE96992B-47EB-4F4B-A91A-AC9B7138D03B}'] = function (event) {
-            console.log("TEST1");
             var $browse, pickListId, pickListNumber;
             try {
                 $browse = jQuery(this).closest('.fwbrowse');
@@ -20,6 +19,7 @@ var Order = (function () {
                     $browse = RwPickListReportController.openForm();
                     FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
                     $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+                    $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
                 } else {
                     throw new Error("Please select a Pick List to print");
                 }
@@ -32,7 +32,6 @@ var Order = (function () {
 
         //Confirmation for cancelling Pick List
         FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
-            console.log("test2")
             var $form, pickListId, pickListNumber;
             $form = jQuery(this).closest('.fwform');
             pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
