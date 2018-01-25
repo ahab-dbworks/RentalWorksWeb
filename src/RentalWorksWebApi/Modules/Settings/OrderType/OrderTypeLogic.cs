@@ -683,7 +683,7 @@ namespace WebApi.Modules.Settings.OrderType
             {
                 OrderTypeLogic l2 = new OrderTypeLogic();
                 l2.SetDbConfig(orderType.GetDbConfig());
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<OrderTypeLogic>(pk).Result;
                 rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;
                 salesOrderTypeFields.OrderTypeFieldsId = l2.SalesOrderTypeFieldsId;

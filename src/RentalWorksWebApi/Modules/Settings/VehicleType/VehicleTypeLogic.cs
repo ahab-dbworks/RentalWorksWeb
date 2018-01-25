@@ -56,7 +56,7 @@ namespace WebApi.Modules.Settings.VehicleType
             {
                 VehicleTypeLogic l2 = new VehicleTypeLogic();
                 l2.SetDbConfig(inventoryCategory.GetDbConfig());
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<VehicleTypeLogic>(pk).Result;
                 MasterId = l2.MasterId;
             }

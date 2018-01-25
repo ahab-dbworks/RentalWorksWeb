@@ -102,7 +102,7 @@ namespace WebApi.Modules.Settings.Crew
                 CrewLogic crew2 = new CrewLogic();
                 var dbConfig = this.crew.GetDbConfig();
                 crew2.SetDbConfig(dbConfig);
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = crew2.LoadAsync<CrewLogic>(pk).Result;
                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                 {

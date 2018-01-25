@@ -625,7 +625,7 @@ namespace WebApi.Modules.Settings.PoType
             {
                 PoTypeLogic l2 = new PoTypeLogic();
                 l2.SetDbConfig(poType.GetDbConfig());
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<PoTypeLogic>(pk).Result;
                 purchaseOrderTypeFields.OrderTypeFieldsId = l2.PurchaseOrderTypeFieldsId;
                 subRentalOrderTypeFields.OrderTypeFieldsId = l2.SubRentalOrderTypeFieldsId;

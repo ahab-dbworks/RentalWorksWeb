@@ -50,7 +50,7 @@ namespace WebApi.Modules.Settings.GeneratorType
             {
                 GeneratorTypeLogic l2 = new GeneratorTypeLogic();
                 l2.SetDbConfig(inventoryCategory.GetDbConfig());
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<GeneratorTypeLogic>(pk).Result;
                 MasterId = l2.MasterId;
             }

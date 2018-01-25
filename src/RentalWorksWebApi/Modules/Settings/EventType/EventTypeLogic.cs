@@ -480,7 +480,7 @@ namespace WebApi.Modules.Settings.EventType
             {
                 EventTypeLogic l2 = new EventTypeLogic();
                 l2.SetDbConfig(eventType.GetDbConfig());
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<EventTypeLogic>(pk).Result;
                 rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;
                 salesOrderTypeFields.OrderTypeFieldsId = l2.SalesOrderTypeFieldsId;

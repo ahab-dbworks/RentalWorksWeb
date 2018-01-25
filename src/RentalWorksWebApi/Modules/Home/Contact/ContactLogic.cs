@@ -83,7 +83,7 @@ namespace WebApi.Modules.Home.Contact
                 ContactLogic contact2 = new ContactLogic();
                 var dbConfig = this.contact.GetDbConfig();
                 contact2.SetDbConfig(dbConfig);
-                string[] pk = GetPrimaryKeys();
+                object[] pk = GetPrimaryKeys();
                 bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
                 using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
                 {
