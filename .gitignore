@@ -17,7 +17,6 @@
 /src/RentalWorksQuikScan/app_head.htm
 /src/RentalWorksQuikScan/app_scripts.json
 /src/RentalWorksQuikScan/app_startupscript.js
-/src/RentalWorksQuikScan/Application.config
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
 /src/RentalWorksQuikScan/scripts/_references.js
@@ -29,7 +28,6 @@
 
 /src/RentalWorksWeb/App_Data/Temp/
 /src/RentalWorksWeb/app_scripts.json
-/src/RentalWorksWeb/Application.config
 /src/RentalWorksWeb/ApplicationConfig.js
 /src/RentalWorksWeb/FwApplicationSchema.config
 /src/RentalWorksWeb/index.htm
@@ -42,7 +40,6 @@
 /src/RentalWorksWeb/theme/fwfonts/*
 /src/RentalWorksWeb/theme/fwimages/*
 
-/src/RentalWorksWebApi/appsettings.json
 
 /src/*/Properties/PublishProfiles/
 
