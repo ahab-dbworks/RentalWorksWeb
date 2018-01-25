@@ -363,6 +363,8 @@ namespace WebLibrary.Security
             AddGrid("Contact Company Contact",                "{68E99935-E0AB-4552-BBFF-46ED2965E4F0}", lv1menuGrids.Id, "ContactCompanyContactGridController");
             AddGrid("Warehouse Department",                   "{CB4CE3A5-6DCC-497D-84D1-0B3FBAAEB19B}", lv1menuGrids.Id, "WarehouseDepartmentGridController");
             AddGrid("Warehouse Inventory Type",               "{D90C2659-F1FB-419D-89B6-738766DFCAD2}", lv1menuGrids.Id, "WarehouseInventoryTypeGridController");
+            AddGrid("Warehouse Department User",              "{4B3FB84E-CC4D-4EAE-917A-1291B733AC89}", lv1menuGrids.Id, "WarehouseDepartmentUserGridController");
+            AddGrid("Warehouse Availability Hour",            "{DF40BE8D-BAAA-45E8-A6AE-78057281C1EC}", lv1menuGrids.Id, "WarehouseAvailabilityHourGridController");
         }
 
         //---------------------------------------------------------------------------------------------

@@ -65,6 +65,48 @@ class Warehouse {
             }
         });
 
+        $form.find('[data-datafield="MarkupSales"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="SalesMarkupPercent"]'))
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="SalesMarkupPercent"]'))
+            }
+        });
+
+        $form.find('[data-datafield="MarkupParts"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="PartsMarkupPercent"]'))
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="PartsMarkupPercent"]'))
+            }
+        });
+
+        $form.find('[data-datafield="MarkupReplacementCost"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="ReplacementCostMarkupPercent"]'))
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="ReplacementCostMarkupPercent"]'))
+            }
+        });
+
+        $form.find('[data-datafield="CalculateDefaultRentalRates"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="RentalDailyRatePercentOfReplacementCost"]'))
+                FwFormField.enable($form.find('[data-datafield="RentalWeeklyRateMultipleOfDailyRate"]'))
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="RentalDailyRatePercentOfReplacementCost"]'))
+                FwFormField.disable($form.find('[data-datafield="RentalWeeklyRateMultipleOfDailyRate"]'))
+            }
+        });
+
         return $form;
     }
 
@@ -93,6 +135,10 @@ class Warehouse {
         var $warehouseDepartmentGridControl: any;
         var $warehouseInventoryTypeGrid: any;
         var $warehouseInventoryTypeGridControl: any;
+        var $warehouseAvailabilityHourGrid: any;
+        var $warehouseAvailabilityHourGridControl: any;
+        var $warehouseDepartmentUserGrid: any;
+        var $warehouseDepartmentUserGridControl: any;
 
         $warehouseDepartmentGrid = $form.find('div[data-grid="WarehouseDepartmentGrid"]');
         $warehouseDepartmentGridControl = jQuery(jQuery('#tmpl-grids-WarehouseDepartmentGridBrowse').html());
@@ -121,18 +167,54 @@ class Warehouse {
         });
         FwBrowse.init($warehouseInventoryTypeGridControl);
         FwBrowse.renderRuntimeHtml($warehouseInventoryTypeGridControl);
+
+        $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
+        $warehouseAvailabilityHourGridControl = jQuery(jQuery('#tmpl-grids-WarehouseAvailabilityHourGridBrowse').html());
+        $warehouseAvailabilityHourGrid.empty().append($warehouseAvailabilityHourGridControl);
+        $warehouseAvailabilityHourGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+            };
+        });
+        $warehouseAvailabilityHourGridControl.data('beforesave', function (request) {
+            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        });
+        FwBrowse.init($warehouseAvailabilityHourGridControl);
+        FwBrowse.renderRuntimeHtml($warehouseAvailabilityHourGridControl);
+
+        $warehouseDepartmentUserGrid = $form.find('div[data-grid="WarehouseDepartmentUserGrid"]');
+        $warehouseDepartmentUserGridControl = jQuery(jQuery('#tmpl-grids-WarehouseDepartmentUserGridBrowse').html());
+        $warehouseDepartmentUserGrid.empty().append($warehouseDepartmentUserGridControl);
+        $warehouseDepartmentUserGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+            };
+        });
+        $warehouseDepartmentUserGridControl.data('beforesave', function (request) {
+            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        });
+        FwBrowse.init($warehouseDepartmentUserGridControl);
+        FwBrowse.renderRuntimeHtml($warehouseDepartmentUserGridControl);
     }
 
 
     afterLoad($form: any) {
         var $warehouseDepartmentGrid: any;
         var $warehouseInventoryTypeGrid: any;
+        var $warehouseAvailabilityHourGrid: any;
+        var $warehouseDepartmentUserGrid: any;
 
         $warehouseDepartmentGrid = $form.find('[data-name="WarehouseDepartmentGrid"]');
         FwBrowse.search($warehouseDepartmentGrid);
 
         $warehouseInventoryTypeGrid = $form.find('[data-name="WarehouseInventoryTypeGrid"]');
         FwBrowse.search($warehouseInventoryTypeGrid);
+
+        $warehouseAvailabilityHourGrid = $form.find('[data-name="WarehouseAvailabilityHourGrid"]');
+        FwBrowse.search($warehouseAvailabilityHourGrid);
+
+        $warehouseDepartmentUserGrid = $form.find('[data-name="WarehouseDepartmentUserGrid"]');
+        FwBrowse.search($warehouseDepartmentUserGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'S') {
             $form.find('.singlerange').show();
@@ -143,6 +225,30 @@ class Warehouse {
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'C') {
             $form.find('.warehouseinventorytype').show();
         }
+
+        if ($form.find('[data-datafield="MarkupSales"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="SalesMarkupPercent"]'))
+        } else {
+            FwFormField.disable($form.find('[data-datafield="SalesMarkupPercent"]'))
+        }
+        if ($form.find('[data-datafield="MarkupParts"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="PartsMarkupPercent"]'))
+        } else {
+            FwFormField.disable($form.find('[data-datafield="PartsMarkupPercent"]'))
+        }
+        if ($form.find('[data-datafield="MarkupReplacementCost"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="ReplacementCostMarkupPercent"]'))
+        } else {
+            FwFormField.disable($form.find('[data-datafield="ReplacementCostMarkupPercent"]'))
+        }
+        if ($form.find('[data-datafield="CalculateDefaultRentalRates"] .fwformfield-value').prop('checked')) {
+            FwFormField.enable($form.find('[data-datafield="RentalDailyRatePercentOfReplacementCost"]'));
+            FwFormField.enable($form.find('[data-datafield="RentalWeeklyRateMultipleOfDailyRate"]'));
+        } else {
+            FwFormField.disable($form.find('[data-datafield="RentalDailyRatePercentOfReplacementCost"]'));
+            FwFormField.disable($form.find('[data-datafield="RentalWeeklyRateMultipleOfDailyRate"]'));
+        }
+
     }
 }
 

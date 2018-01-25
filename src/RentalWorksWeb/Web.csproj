@@ -415,6 +415,8 @@
     <Content Include="Source\Grids\VendorGrid\VendorGridBrowse.htm" />
     <Content Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridBrowse.htm" />
     <Content Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseGrid\WarehouseGridBrowse.htm" />
@@ -490,6 +492,8 @@
     <TypeScriptCompile Include="Source\Grids\VendorGrid\VendorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseGrid\WarehouseGridController.ts" />
