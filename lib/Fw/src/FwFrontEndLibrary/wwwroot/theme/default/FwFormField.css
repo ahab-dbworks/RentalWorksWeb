@@ -82,7 +82,7 @@ html.theme-default.mobile .fwformfield[data-type="time"] .fwformfield-value {wid
 
 /*#region Checkbox CSS*/
 html.theme-default .fwformfield[data-type="checkbox"] {overflow:hidden;position:relative;height:32px;margin: 16px 0 0 0;}
-html.theme-default .fwformfield[data-type="checkbox"] label {position: relative;padding-left: 35px;cursor: pointer;display: inline-block;height: 25px;line-height: 25px;/*font-size: 1rem;*/-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none}
+html.theme-default .fwformfield[data-type="checkbox"] label {position: relative;padding-left: 35px;cursor: pointer;display: inline-block;height: 25px;line-height: 25px;/*font-size: 1rem;*/-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none;white-space: nowrap;}
 html.theme-default .fwformfield[data-type="checkbox"][data-enabled="false"] label {cursor:default;}
 html.theme-default .fwformfield[data-type="checkbox"] input.fwformfield-value + label:after {border-radius:2px;box-sizing:border-box;}
 html.theme-default .fwformfield[data-type="checkbox"] input.fwformfield-value + label:before,
@@ -329,3 +329,13 @@ html.theme-default .fwformfield ol.sortable > li > .wrapper .orderbydirection {d
 html.theme-default .fwformfield ol.sortable > li > .wrapper > .checkbox:checked + label {font-weight:bold;}
 html.theme-default .fwformfield ol.sortable > li > .wrapper > .checkbox:checked ~ .orderbydirection {display:block;}
 /* End Checkboxlist*/
+
+/*#region Toggle Switch*/
+html.theme-default .fwformfield[data-type="toggleswitch"] .switch {position: relative;display: inline-block;width: 60px;height: 34px;}
+html.theme-default .fwformfield[data-type="toggleswitch"] .switch input {display:none;}
+html.theme-default .fwformfield[data-type="toggleswitch"] .slider {border-radius: 34px;position: absolute;cursor: pointer;top: 0;left: 0;right: 0;bottom: 0;background-color: #ccc;-webkit-transition: .4s;transition: .4s;}
+html.theme-default .fwformfield[data-type="toggleswitch"] .slider:before {border-radius: 50%;position: absolute;content: "";height: 26px;width: 26px;left: 4px;bottom: 4px;background-color: white;-webkit-transition: .4s;transition: .4s;}
+html.theme-default .fwformfield[data-type="toggleswitch"] input:checked + .slider {background-color: #4CAF50;}
+html.theme-default .fwformfield[data-type="toggleswitch"] input:focus + .slider {box-shadow: 0 0 1px #4CAF50;}
+html.theme-default .fwformfield[data-type="toggleswitch"] input:checked + .slider:before {-webkit-transform: translateX(26px);-ms-transform: translateX(26px);transform: translateX(26px);}
+/*#endregion Toggle Switch*/

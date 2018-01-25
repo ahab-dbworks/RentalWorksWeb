@@ -250,21 +250,10 @@ namespace Fw.Json.SqlServer
             if (EnablePaging)
             {
                 rowNoStart = ((PageNo - 1) * PageSize) + 1;
-                rowNoEnd   = ((PageNo - 1) * PageSize) + PageSize;
+                rowNoEnd = ((PageNo - 1) * PageSize) + PageSize;
                 AddParameter("@fwrownostart", rowNoStart);
                 AddParameter("@fwrownoend", rowNoEnd);
-                sb.AppendLine("select *");
-                sb.AppendLine("from (");
-                sb.Append("select top(@fwrownoend)");
-                sb.Append(" row_number() over (");
-                foreach (string line in OrderBy)
-                {
-                    sb.Append(line);
-                }
-                sb.AppendLine(") as rowno,");
-                sb.AppendLine("count(*) over () as totalrows,");
-                sb.AppendLine("*");
-                sb.AppendLine("from (");
+                sb.AppendLine(";with main_cte as(");
             }
             foreach (FwSqlSelectStatement selectStatement in SelectStatements)
             {
@@ -301,10 +290,23 @@ namespace Fw.Json.SqlServer
             }
             if (EnablePaging)
             {
-                sb.AppendLine(") as unioncontainer");
-                sb.AppendLine(") as pagingtable");
+                sb.AppendLine(")");
+                sb.AppendLine(", count_cte as (");
+                sb.AppendLine("    select count(*) as [totalrows]");
+                sb.AppendLine("    from main_cte");
+                sb.AppendLine(")");
+                sb.AppendLine(", paging_cte as (");
+                sb.AppendLine("    select top(@fwrownoend) row_number() over (");
+                foreach (string line in OrderBy)
+                {
+                    sb.Append(line);
+                }
+                sb.AppendLine(") as rowno, *");
+                sb.AppendLine("    from main_cte, count_cte");
+                sb.AppendLine(")");
+                sb.AppendLine("select *");
+                sb.AppendLine("from paging_cte");
                 sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
-
             }
             if (!EnablePaging)
             {

@@ -343,31 +343,32 @@ namespace FwStandard.SqlServer
                     //row[indexGroupByColumn] = "Subtotal";
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        switch(Columns[indexSumColumns[sumcolno]].DataType)
-                        {
-                            case FwDataTypes.CurrencyString:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
-                                break;
-                            case FwDataTypes.CurrencyStringNoDollarSign:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
-                                break;
-                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
-                                break;
-                            case FwDataTypes.Decimal:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
-                            case FwDataTypes.Integer:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
-                            case FwDataTypes.Percentage:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
-                                break;
-                            default:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
+                        FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        //switch(Columns[indexSumColumns[sumcolno]].DataType)
+                        //{
+                        //    case FwDataTypes.CurrencyString:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.CurrencyStringNoDollarSign:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.Decimal:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
+                        //    case FwDataTypes.Integer:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
+                        //    case FwDataTypes.Percentage:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
+                        //        break;
+                        //    default:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
 
-                        }
+                        //}
                         //row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
                         subtotals[sumcolno] = 0;
                     }
@@ -439,31 +440,32 @@ namespace FwStandard.SqlServer
                     row[indexRowTypeColumn] = newTotalRowType;
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        switch(Columns[indexSumColumns[sumcolno]].DataType)
-                        {
-                            case FwDataTypes.CurrencyString:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(totals[sumcolno]);
-                                break;
-                            case FwDataTypes.CurrencyStringNoDollarSign:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]);
-                                break;
-                            case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(totals[sumcolno]);
-                                break;
-                            case FwDataTypes.Decimal:
-                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                                break;
-                            case FwDataTypes.Integer:
-                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                                break;
-                            case FwDataTypes.Percentage:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]) + "%";
-                                break;
-                            default:
-                                row[indexSumColumns[sumcolno]] = totals[sumcolno];
-                                break;
+                        FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        //switch (Columns[indexSumColumns[sumcolno]].DataType)
+                        //{
+                        //    case FwDataTypes.CurrencyString:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(totals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.CurrencyStringNoDollarSign:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(totals[sumcolno]);
+                        //        break;
+                        //    case FwDataTypes.Decimal:
+                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                        //        break;
+                        //    case FwDataTypes.Integer:
+                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                        //        break;
+                        //    case FwDataTypes.Percentage:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(totals[sumcolno]) + "%";
+                        //        break;
+                        //    default:
+                        //        row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                        //        break;
 
-                        }
+                        //}
                         //row[indexSumColumns[sumcolno]] = totals[sumcolno];
                     }
                     Rows.Insert(rowno + 1, row);
@@ -500,6 +502,9 @@ namespace FwStandard.SqlServer
                         break;
                     case FwDataTypes.Percentage:
                         this.Rows[rowno][colno] = FwConvert.ToCurrencyStringNoDollarSign(new FwDatabaseField(cell).ToDecimal()) + "%";
+                        break;
+                    case FwDataTypes.DateTime:
+                        this.Rows[rowno][colno] = new FwDatabaseField(cell).ToDateTime().ToString("yyyy-MM-dd hh:mm:ss tt");
                         break;
                     default:
                         this.Rows[rowno][colno] = new FwDatabaseField(cell).ToString();

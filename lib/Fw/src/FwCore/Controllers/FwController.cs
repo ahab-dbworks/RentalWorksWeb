@@ -44,22 +44,6 @@ namespace FwCore.Controllers
         public FwController(IOptions<FwApplicationConfig> appConfig)
         {
             _appConfig = appConfig.Value;
-
-            if (FwSqlSelect.PagingCompatibility == FwSqlSelect.PagingCompatibilities.AutoDetect)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.Value.DatabaseSettings.ConnectionString))
-                {
-                    bool isGte = FwSqlData.IsSqlVersionGreaterThanOrEqualTo(conn, appConfig.Value.DatabaseSettings, 2012).Result;
-                    if (isGte)
-                    {
-                        FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
-                    }
-                    else
-                    {
-                        FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
-                    }
-                }
-            }
         }
         //------------------------------------------------------------------------------------
     }

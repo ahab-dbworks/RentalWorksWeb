@@ -103,7 +103,7 @@ namespace FwStandard.BusinessLogic
             return records;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> LoadAsync<T>(string[] primaryKeyValues) 
+        public virtual async Task<bool> LoadAsync<T>(object[] primaryKeyValues) 
         {
             bool blLoaded = false;
             bool recLoaded = false;
@@ -219,39 +219,41 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        public virtual string[] GetPrimaryKeys()
+        public virtual object[] GetPrimaryKeys()
         {
-            int pkIndex = 0;
             List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
-            string[] ids = new string[pkProperties.Count];
-            foreach (PropertyInfo pkProperty in pkProperties)
+            object[] ids                    = new object[pkProperties.Count];
+
+            for (int i = 0; i < pkProperties.Count; i++)
             {
-                ids[pkIndex] = pkProperty.GetValue(this).ToString();
-                pkIndex++;
+                PropertyInfo pkProperty = pkProperties[i];
+                ids[i]                  = pkProperty.GetValue(this);
             }
+
             return ids;
         }
         //------------------------------------------------------------------------------------
-        public virtual void SetPrimaryKeys(string[] ids)
+        public virtual void SetPrimaryKeys(object[] ids)
         {
-            int pkIndex = 0;
             List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
-            foreach (PropertyInfo pkProperty in pkProperties)
+
+            for (int i = 0; i < pkProperties.Count; i++)
             {
-                //pkProperty.SetValue(this, ids[pkIndex]);
+                PropertyInfo pkProperty = pkProperties[i];
+                Type propertyType       = pkProperty.PropertyType;
 
-                object propertyValue = pkProperty.GetValue(this);
-
-                if (propertyValue is Int32)
+                if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
                 {
-                    pkProperty.SetValue(this, Convert.ToInt32(ids[pkIndex]));
+                    pkProperty.SetValue(this, Convert.ToInt32(ids[i]));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    pkProperty.SetValue(this, ids[i]);
                 }
                 else
                 {
-                    pkProperty.SetValue(this, ids[pkIndex]);
+                    throw new Exception("Primary key property type not implemented for " +  propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
-
-                pkIndex++;
             }
         }
         //------------------------------------------------------------------------------------
@@ -277,7 +279,7 @@ namespace FwStandard.BusinessLogic
                 getDuplicateRules();
             }
 
-            string[] ids = GetPrimaryKeys();
+            object[] ids = GetPrimaryKeys();
             string moduleName = this.GetType().Name;
             string module = moduleName.Substring(0, moduleName.Length - 5);
 
@@ -368,7 +370,7 @@ namespace FwStandard.BusinessLogic
                         {
                             var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
                             bool pkFound = true;
-                            foreach (string id in ids)
+                            foreach (object id in ids)
                             {
                                 int indexOfId = Array.IndexOf(dtToArray, id);
                                 pkFound = (indexOfId >= 0);

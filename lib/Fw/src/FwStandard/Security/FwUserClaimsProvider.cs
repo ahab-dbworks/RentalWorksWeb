@@ -15,7 +15,7 @@ namespace FwStandard.Security
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                 {
-                    qry.Add("select top 1 webusersid, usersid, contactid, groupsid");
+                    qry.Add("select top 1 *");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where (upper(userloginname) = upper(@username) and upper(userpassword) = dbo.encrypt(upper(@password)))");
                     qry.Add("  or (upper(email) = upper(@username) and upper(webpassword) = dbo.encrypt(upper(@password)))");
@@ -24,26 +24,38 @@ namespace FwStandard.Security
                     await qry.ExecuteAsync(true);
                     if (qry.RowCount > 0)
                     {
-                        string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
-                        string usersid = qry.GetField("usersid").ToString().TrimEnd();
-                        string contactid = qry.GetField("contactid").ToString().TrimEnd();
-                        string groupsid = qry.GetField("groupsid").ToString().TrimEnd();
                         identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
-                        if (!string.IsNullOrEmpty(webusersid))
+                        if (qry.FieldNames.Contains("webusersid"))
                         {
-                            identity.AddClaim(new Claim("http://www.dbworks.com/claims/webusersid", webusersid));
+                            string webusersid = qry.GetField("webusersid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(webusersid))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/webusersid", webusersid));
+                            }
                         }
-                        if (!string.IsNullOrEmpty(usersid))
+                        if (qry.FieldNames.Contains("usersid"))
                         {
-                            identity.AddClaim(new Claim("http://www.dbworks.com/claims/usersid", usersid));
+                            string usersid = qry.GetField("usersid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(usersid))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/usersid", usersid));
+                            }
                         }
-                        if (!string.IsNullOrEmpty(contactid))
+                        if (qry.FieldNames.Contains("contactid"))
                         {
-                            identity.AddClaim(new Claim("http://www.dbworks.com/claims/contactid", contactid));
+                            string contactid = qry.GetField("contactid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(contactid))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/contactid", contactid));
+                            }
                         }
-                        if (!string.IsNullOrEmpty(groupsid))
+                        if (qry.FieldNames.Contains("groupsid"))
                         {
-                            identity.AddClaim(new Claim("http://www.dbworks.com/claims/groupsid", groupsid));
+                            string groupsid = qry.GetField("groupsid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(groupsid))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/groupsid", groupsid));
+                            }
                         }
                     }
                 }

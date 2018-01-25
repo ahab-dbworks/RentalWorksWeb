@@ -235,13 +235,13 @@ namespace FwStandard.SqlServer
                 rowNoEnd = ((PageNo - 1) * PageSize) + PageSize;
                 AddParameter("@fwrownostart", rowNoStart);
                 AddParameter("@fwrownoend", rowNoEnd);
-                sb.AppendLine(";WITH Main_CTE AS(");
+                sb.AppendLine(";with main_cte as(");
             }
             if (EnablePaging && PagingCompatibility == PagingCompatibilities.Sql2012)
             {
                 AddParameter("@fwpageno", PageNo);
                 AddParameter("@fwpagesize", PageSize);
-                sb.AppendLine(";WITH Main_CTE AS(");
+                sb.AppendLine(";with main_cte as(");
             }
             foreach (FwSqlSelectStatement selectStatement in SelectStatements)
             {
@@ -278,21 +278,21 @@ namespace FwStandard.SqlServer
             if (EnablePaging && PagingCompatibility == PagingCompatibilities.PreSql2012)
             {
                 sb.AppendLine(")");
-                sb.AppendLine(", Count_CTE AS (");
-                sb.AppendLine("    SELECT COUNT(*) AS [totalrows]");
-                sb.AppendLine("    FROM Main_CTE");
+                sb.AppendLine(", count_cte as (");
+                sb.AppendLine("    select count(*) as [totalrows]");
+                sb.AppendLine("    from main_cte");
                 sb.AppendLine(")");
-                sb.AppendLine(", Paging_CTE AS (");
-                sb.AppendLine("    SELECT top(@fwrownoend) row_number() over (");
+                sb.AppendLine(", paging_cte as (");
+                sb.AppendLine("    select top(@fwrownoend) row_number() over (");
                 foreach (string line in OrderBy)
                 {
                     sb.Append(line);
                 }
                 sb.AppendLine(") as rowno, *");
-                sb.AppendLine("    FROM Main_CTE, Count_CTE");
+                sb.AppendLine("    from main_cte, count_cte");
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
-                sb.AppendLine("from Paging_CTE");
+                sb.AppendLine("from paging_cte");
                 sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
             }
             if (!EnablePaging)
@@ -305,19 +305,19 @@ namespace FwStandard.SqlServer
             if (EnablePaging && PagingCompatibility == PagingCompatibilities.Sql2012)
             {
                 sb.AppendLine(")");
-                sb.AppendLine(", Count_CTE AS (");
-                sb.AppendLine("  SELECT COUNT(*) AS [totalrows]");
-                sb.AppendLine("  FROM Main_CTE");
+                sb.AppendLine(", count_cte as (");
+                sb.AppendLine("  select count(*) as [totalrows]");
+                sb.AppendLine("  from main_cte");
                 sb.AppendLine(")");
-                sb.AppendLine("SELECT *");
-                sb.AppendLine("FROM Main_CTE, Count_CTE");
+                sb.AppendLine("select *");
+                sb.AppendLine("from main_cte, count_cte");
                 foreach (string line in OrderBy)
                 {
                     sb.Append(line);
                 }
                 sb.AppendLine();
-                sb.AppendLine("  OFFSET (@fwpageno - 1) * @fwpagesize ROWS");
-                sb.AppendLine("  FETCH NEXT @fwpagesize ROWS ONLY");
+                sb.AppendLine("  offset (@fwpageno - 1) * @fwpagesize rows");
+                sb.AppendLine("  fetch next @fwpagesize rows only");
             }
             query = sb.ToString();
             cmd.Clear();

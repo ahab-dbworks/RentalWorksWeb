@@ -108,8 +108,8 @@ FwDesignerHandle
 .droppableregion {background-color: yellow;}
 .fwcontrol[data-rendermode="designer"] {background-color: #ffffff;}
 
-.flexrow {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-direction:row;}
-.flexrow > [data-control="FwFormField"] {flex:1 1 auto;}
+.flexrow {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-direction:row;flex-wrap:wrap;}
+.flexrow > [data-control="FwFormField"] {flex:1 1 auto;min-width:16em;max-width:24em;}
 .flexcolumn {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-direction:column;}
 .flexwrap {flex-wrap:wrap;}
 .flexalignitemscenter {align-items:center;}

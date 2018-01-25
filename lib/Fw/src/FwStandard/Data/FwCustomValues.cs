@@ -27,7 +27,7 @@ namespace FwStandard.DataLayer
             await CustomFields.LoadAsync(moduleName);
         }
         //------------------------------------------------------------------------------------
-        //public virtual async Task<bool> LoadAsync(string[] primaryKeyValues)
+        //public virtual async Task<bool> LoadAsync(object[] primaryKeyValues)
         //{
         //    bool loaded = false;
         //    Clear();
@@ -162,7 +162,7 @@ namespace FwStandard.DataLayer
             Add(new FwCustomValue(fieldName, value));
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<bool> SaveAsync(string[] primaryKeyValues)
+        public virtual async Task<bool> SaveAsync(object[] primaryKeyValues)
         {
             bool saved = false;
             if (primaryKeyValues.Length > 0)
@@ -173,7 +173,7 @@ namespace FwStandard.DataLayer
 
                     string paramName = "";
                     int k = 1;
-                    foreach (string key in primaryKeyValues)
+                    foreach (object key in primaryKeyValues)
                     {
                         paramName = "@uniqueid" + k.ToString().PadLeft(2, '0');
                         qry.AddParameter(paramName, SqlDbType.NVarChar, ParameterDirection.Input, key);

@@ -1145,7 +1145,7 @@ namespace FwStandard.SqlServer
                 case FwDataTypes.DateTime:
                     if (!reader.IsDBNull(columnIndex))
                     {
-                        data = new FwDatabaseField(reader.GetDateTime(columnIndex)).ToShortDateTimeString();
+                        data = reader.GetDateTime(columnIndex).ToString("yyyy-MM-dd hh:mm:ss tt");
                     }
                     else
                     {
@@ -1156,7 +1156,7 @@ namespace FwStandard.SqlServer
                     if (!reader.IsDBNull(columnIndex))
                     {
                         //data = new FwDatabaseField(reader.GetDateTimeOffset(ordinal)).ToShortDateTimeString();
-                        data = (reader.GetDateTimeOffset(columnIndex)).LocalDateTime;
+                        data = (reader.GetDateTimeOffset(columnIndex)).LocalDateTime.ToString("yyyy-MM-dd hh:mm:ss tt");
                     }
                     else
                     {
@@ -1684,7 +1684,7 @@ namespace FwStandard.SqlServer
                     break;
                 case FwDataTypes.DateTime:
                     if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                    data = ((string)propertyValue).Trim();
+                    data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
                     break;
                 case FwDataTypes.DateTimeOffset:
                     if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");

@@ -3,8 +3,6 @@ using FwStandard.BusinessLogic.Attributes;
 //using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
-//post to Fw
-
 
 namespace FwStandard.Modules.Administrator.DuplicateRule
 {
