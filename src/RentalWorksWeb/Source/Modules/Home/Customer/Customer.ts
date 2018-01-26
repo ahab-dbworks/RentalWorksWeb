@@ -189,7 +189,16 @@ class Customer {
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
+    //--------------------
+    beforeValidateProjectMessage($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
 
+        request.uniqueids = {
+            Insurance: true
+        }
+    }
+    //--------------------
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
         FwBrowse.search($customerResaleGrid);
