@@ -12,7 +12,7 @@ namespace WebApi.Modules.Home.Master
         public MasterLogic()
         {
             dataRecords.Add(master);
-            master.AfterSaves += OnAfterSavesMaster;
+            master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.Master
         public bool? Inactive { get { return master.Inactive; } set { master.Inactive = value; } }
         public string DateStamp { get { return master.DateStamp; } set { master.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public virtual void OnAfterSavesMaster(object sender, AfterSaveEventArgs e)
+        public virtual void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

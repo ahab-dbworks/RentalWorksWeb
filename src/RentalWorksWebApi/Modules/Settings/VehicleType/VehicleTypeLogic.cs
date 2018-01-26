@@ -15,8 +15,8 @@ namespace WebApi.Modules.Settings.VehicleType
         public VehicleTypeLogic() : base()
         {
             dataLoader = vehicleTypeLoader;
-            inventoryCategory.BeforeSaves += OnBeforeSavesCategory;
-            inventoryCategory.AfterSaves += OnAfterSavesCategory;
+            inventoryCategory.BeforeSave += OnBeforeSaveCategory;
+            inventoryCategory.AfterSave += OnAfterSaveCategory;
         }
         //------------------------------------------------------------------------------------
 
@@ -44,12 +44,12 @@ namespace WebApi.Modules.Settings.VehicleType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSavesCategory(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveCategory(object sender, BeforeSaveEventArgs e)
         {
             Category = VehicleTypeId;  // jh - remove TEMP value
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCategory(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCategory(object sender, AfterSaveEventArgs e)
         {
             CategoryId = VehicleTypeId;
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))

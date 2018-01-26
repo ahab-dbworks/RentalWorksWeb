@@ -9,7 +9,7 @@ namespace WebApi.Modules.Administrator.User
     {
         public UserRecord() : base()
         {
-            BeforeSaves += OnBeforeSaveUser;
+            BeforeSave += OnBeforeSaveUser;
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

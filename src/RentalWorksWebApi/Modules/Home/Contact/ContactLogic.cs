@@ -17,8 +17,8 @@ namespace WebApi.Modules.Home.Contact
             dataRecords.Add(contact);
             dataRecords.Add(webUser);
             dataLoader = contactLoader;
-            contact.AfterSaves += Contact_AfterSaves;
-            webUser.AfterSaves += WebUser_AfterSaves;
+            contact.AfterSave += Contact_AfterSave;
+            webUser.AfterSave += WebUser_AfterSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -76,7 +76,7 @@ namespace WebApi.Modules.Home.Contact
         public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
         public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
         //------------------------------------------------------------------------------------
-        private void Contact_AfterSaves(object sender, AfterSaveEventArgs e)
+        private void Contact_AfterSave(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
@@ -93,7 +93,7 @@ namespace WebApi.Modules.Home.Contact
             }
         }
         //------------------------------------------------------------------------------------
-        private void WebUser_AfterSaves(object sender, AfterSaveEventArgs e)
+        private void WebUser_AfterSave(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {

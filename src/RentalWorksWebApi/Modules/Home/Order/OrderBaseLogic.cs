@@ -16,8 +16,8 @@ namespace WebApi.Modules.Home.Order
         {
             dataRecords.Add(dealOrder);
             dataRecords.Add(dealOrderDetail);
-            dealOrder.BeforeSaves += OnBeforeSavesDealOrder;
-            dealOrder.AfterSaves += OnAfterSavesDealOrder;
+            dealOrder.BeforeSave += OnBeforeSaveDealOrder;
+            dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -130,7 +130,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSavesDealOrder(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveDealOrder(object sender, BeforeSaveEventArgs e)
         {
             bool saved = false;
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -139,7 +139,7 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesDealOrder(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

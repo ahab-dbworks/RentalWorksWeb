@@ -16,7 +16,7 @@ namespace WebApi.Modules.Home.Inventory
         {
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
-            master.AfterSaves += OnAfterSavesMaster;
+            master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 
 
@@ -125,9 +125,9 @@ namespace WebApi.Modules.Home.Inventory
         [FwBusinessLogicField(isReadOnly: true)]
         public string WardrobeDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override void OnAfterSavesMaster(object sender, AfterSaveEventArgs e)
+        public override void OnAfterSaveMaster(object sender, AfterSaveEventArgs e)
         {
-            base.OnAfterSavesMaster(sender, e);
+            base.OnAfterSaveMaster(sender, e);
             bool saved = false;
             if (e.SavePerformed)
             {

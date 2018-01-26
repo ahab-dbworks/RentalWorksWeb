@@ -30,8 +30,8 @@ namespace WebApi.Modules.Settings.EventType
             dataRecords.Add(finalLandDOrderTypeFields);
             dataLoader = eventTypeLoader;
 
-            eventType.AfterSaves += OnAfterSavesEventType;
-            finalLandDOrderTypeFields.AfterSaves += OnAfterSavesFinalLandDFields;
+            eventType.AfterSave += OnAfterSaveEventType;
+            finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -474,7 +474,7 @@ namespace WebApi.Modules.Settings.EventType
             OrdType = "EVENT";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesEventType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveEventType(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
@@ -491,7 +491,7 @@ namespace WebApi.Modules.Settings.EventType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesFinalLandDFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveFinalLandDFields(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {

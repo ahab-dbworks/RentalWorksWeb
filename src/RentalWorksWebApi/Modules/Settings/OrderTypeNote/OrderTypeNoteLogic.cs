@@ -13,7 +13,7 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         {
             dataRecords.Add(orderTypeNote);
             dataLoader = orderTypeNoteLoader;
-            orderTypeNote.AfterSaves += OnAfterSavesOrderTypeNote;
+            orderTypeNote.AfterSave += OnAfterSaveOrderTypeNote;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         public string Notes { get; set; }
         public string DateStamp { get { return orderTypeNote.DateStamp; } set { orderTypeNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesOrderTypeNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveOrderTypeNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

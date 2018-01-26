@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.VendorNote
         {
             dataRecords.Add(vendorNoteRecord);
             dataLoader = vendorNoteLoader;
-            vendorNoteRecord.AfterSaves += OnAfterSavesVendorNote;
+            vendorNoteRecord.AfterSave += OnAfterSaveVendorNote;
         }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string VendorNoteId { get { return vendorNoteRecord.VendorNoteId; } set { vendorNoteRecord.VendorNoteId = value; } }
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.VendorNote
         public string NotesBy { get; set; }
         public string DateStamp { get { return vendorNoteRecord.DateStamp; } set { vendorNoteRecord.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesVendorNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveVendorNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

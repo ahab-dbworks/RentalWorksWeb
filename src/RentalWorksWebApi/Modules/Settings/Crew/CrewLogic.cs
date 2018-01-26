@@ -20,8 +20,8 @@ namespace WebApi.Modules.Settings.Crew
             dataRecords.Add(crew);
             dataRecords.Add(webUser);
             dataLoader = crewLoader;
-            crew.AfterSaves += Crew_AfterSaves;
-            webUser.AfterSaves += WebUser_AfterSaves;
+            crew.AfterSave += Crew_AfterSave;
+            webUser.AfterSave += WebUser_AfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -95,7 +95,7 @@ namespace WebApi.Modules.Settings.Crew
         }
         //------------------------------------------------------------------------------------
 
-        private void Crew_AfterSaves(object sender, AfterSaveEventArgs e)
+        private void Crew_AfterSave(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
@@ -112,7 +112,7 @@ namespace WebApi.Modules.Settings.Crew
             }
         }
         //------------------------------------------------------------------------------------
-        private void WebUser_AfterSaves(object sender, AfterSaveEventArgs e)
+        private void WebUser_AfterSave(object sender, AfterSaveEventArgs e)
         {
 
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))

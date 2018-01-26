@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.CustomerNote
         {
             dataRecords.Add(customerNote);
             dataLoader = customerNoteLoader;
-            customerNote.AfterSaves += OnAfterSavesCustomerNote;
+            customerNote.AfterSave += OnAfterSaveCustomerNote;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.CustomerNote
         public bool? Notify { get { return customerNote.Notify; } set { customerNote.Notify = value; } }
         public string DateStamp { get { return customerNote.DateStamp; } set { customerNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCustomerNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCustomerNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

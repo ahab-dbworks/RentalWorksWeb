@@ -35,8 +35,8 @@ namespace WebApi.Modules.Settings.OrderType
             dataRecords.Add(finalLandDOrderTypeFields);
             dataLoader = orderTypeLoader;
 
-            orderType.AfterSaves += OnAfterSavesOrderType;
-            finalLandDOrderTypeFields.AfterSaves += OnAfterSavesFinalLandDFields;
+            orderType.AfterSave += OnAfterSaveOrderType;
+            finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -677,7 +677,7 @@ namespace WebApi.Modules.Settings.OrderType
         public bool? Inactive { get { return orderType.Inactive; } set { orderType.Inactive = value; } }
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesOrderType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
@@ -696,7 +696,7 @@ namespace WebApi.Modules.Settings.OrderType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesFinalLandDFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveFinalLandDFields(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {

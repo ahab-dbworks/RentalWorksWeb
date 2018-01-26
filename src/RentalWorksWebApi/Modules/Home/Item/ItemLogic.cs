@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.Item
         {
             dataRecords.Add(item);
             dataLoader = itemLoader;
-            item.AfterSaves += OnAfterSavesItem;
+            item.AfterSave += OnAfterSaveItem;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -276,7 +276,7 @@ namespace WebApi.Modules.Home.Item
 
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesItem(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveItem(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

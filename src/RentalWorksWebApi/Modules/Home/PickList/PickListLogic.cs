@@ -14,7 +14,7 @@ namespace WebApi.Modules.Home.PickList
         {
             dataRecords.Add(pickList);
             dataLoader = pickListLoader;
-            pickList.AfterSaves += OnAfterSavesPickList;
+            pickList.AfterSave += OnAfterSavePickList;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -90,7 +90,7 @@ namespace WebApi.Modules.Home.PickList
         public string DateStamp { get { return pickList.DateStamp; } set { pickList.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
 
-        public void OnAfterSavesPickList(object sender, AfterSaveEventArgs e)
+        public void OnAfterSavePickList(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)

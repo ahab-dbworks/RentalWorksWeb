@@ -16,8 +16,8 @@ namespace WebApi.Modules.Settings.GeneratorType
         public GeneratorTypeLogic() : base()
         {
             dataLoader = generatorTypeLoader;
-            inventoryCategory.BeforeSaves += OnBeforeSavesCategory;
-            inventoryCategory.AfterSaves += OnAfterSavesCategory;
+            inventoryCategory.BeforeSave += OnBeforeSaveCategory;
+            inventoryCategory.AfterSave += OnAfterSaveCategory;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -38,12 +38,12 @@ namespace WebApi.Modules.Settings.GeneratorType
             AvailFor = "V";
         }
         //------------------------------------------------------------------------------------
-        public void OnBeforeSavesCategory(object sender, BeforeSaveEventArgs e)
+        public void OnBeforeSaveCategory(object sender, BeforeSaveEventArgs e)
         {
             Category = GeneratorTypeId;  // jh - remove TEMP value
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesCategory(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveCategory(object sender, AfterSaveEventArgs e)
         {
             CategoryId = GeneratorTypeId;
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))

@@ -34,8 +34,8 @@ namespace WebApi.Modules.Settings.PoType
             dataRecords.Add(repairOrderTypeFields);
             dataLoader = poTypeLoader;
 
-            poType.AfterSaves += OnAfterSavesPoType;
-            repairOrderTypeFields.AfterSaves += OnAfterSavesRepairFields;
+            poType.AfterSave += OnAfterSavePoType;
+            repairOrderTypeFields.AfterSave += OnAfterSaveRepairFields;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -619,7 +619,7 @@ namespace WebApi.Modules.Settings.PoType
             OrdType = "PO";
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesPoType(object sender, AfterSaveEventArgs e)
+        public void OnAfterSavePoType(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
@@ -638,7 +638,7 @@ namespace WebApi.Modules.Settings.PoType
             }
         }
         //------------------------------------------------------------------------------------   
-        public void OnAfterSavesRepairFields(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveRepairFields(object sender, AfterSaveEventArgs e)
         {
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) && (e.SavePerformed))
             {

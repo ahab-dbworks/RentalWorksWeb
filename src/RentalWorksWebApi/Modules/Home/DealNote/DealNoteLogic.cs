@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.DealNote
         {
             dataRecords.Add(dealNote);
             dataLoader = dealNoteLoader;
-            dealNote.AfterSaves += OnAfterSavesDealNote;
+            dealNote.AfterSave += OnAfterSaveDealNote;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.DealNote
         public bool? Notify { get { return dealNote.Notify; } set { dealNote.Notify = value; } }
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public void OnAfterSavesDealNote(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveDealNote(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             if (e.SavePerformed)
