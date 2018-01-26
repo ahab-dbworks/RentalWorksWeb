@@ -7,9 +7,11 @@ namespace FwStandard.DataLayer
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
-        public event EventHandler<BeforeSaveEventArgs> BeforeSaves;
-        public event EventHandler<AfterSaveEventArgs> AfterSaves;
+        public event EventHandler<BeforeSaveEventArgs> BeforeSave;
+        public event EventHandler<AfterSaveEventArgs> AfterSave;
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
+        public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
+        public event EventHandler<AfterDeleteEventArgs> AfterDelete;
 
         public class BeforeSaveEventArgs : EventArgs
         {
@@ -20,28 +22,40 @@ namespace FwStandard.DataLayer
         public class AfterSaveEventArgs : EventArgs
         {
             public TDataRecordSaveMode SaveMode { get; set; }
-            public bool SavePerformed { get; set; } = true;
+            public bool SavePerformed { get; set; } = true;  //jh - I'm not sure this is necessary.  considering removing
         }
 
         public class BeforeValidateEventArgs : EventArgs
         {
             public TDataRecordSaveMode SaveMode { get; set; }
         }
-        public delegate void BeforeSavesEventHandler(BeforeSaveEventArgs e);
-        public delegate void AfterSavesEventHandler(AfterSaveEventArgs e);
-        public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
 
-        protected virtual void OnBeforeSaves(BeforeSaveEventArgs e)
+        public class BeforeDeleteEventArgs : EventArgs
         {
-            EventHandler<BeforeSaveEventArgs> handler = BeforeSaves;
+            public bool PerformDelete { get; set; } = true;
+        }
+
+        public class AfterDeleteEventArgs : EventArgs { }
+
+
+
+        public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
+        public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
+        public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
+        public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
+        public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
+
+        protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
+        {
+            EventHandler<BeforeSaveEventArgs> handler = BeforeSave;
             if (handler != null)
             {
                 handler(this, e);
             }
         }
-        protected virtual void OnAfterSaves(AfterSaveEventArgs e)
+        protected virtual void OnAfterSave(AfterSaveEventArgs e)
         {
-            EventHandler<AfterSaveEventArgs> handler = AfterSaves;
+            EventHandler<AfterSaveEventArgs> handler = AfterSave;
             if (handler != null)
             {
                 handler(this, e);
@@ -55,8 +69,24 @@ namespace FwStandard.DataLayer
                 handler(this, e);
             }
         }
+        protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
+        {
+            EventHandler<BeforeDeleteEventArgs> handler = BeforeDelete;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
+        {
+            EventHandler<AfterDeleteEventArgs> handler = AfterDelete;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
-        
+
         //------------------------------------------------------------------------------------
         public FwDataReadWriteRecord() : base() { }
         //------------------------------------------------------------------------------------
@@ -103,9 +133,9 @@ namespace FwStandard.DataLayer
                     AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                     beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
                     afterSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
-                    if (BeforeSaves != null)
+                    if (BeforeSave != null)
                     {
-                        BeforeSaves(this, beforeSaveArgs);
+                        BeforeSave(this, beforeSaveArgs);
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
@@ -113,9 +143,9 @@ namespace FwStandard.DataLayer
                         {
                             rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
                             afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                            if (AfterSaves != null)
+                            if (AfterSave != null)
                             {
-                                AfterSaves(this, afterSaveArgs);
+                                AfterSave(this, afterSaveArgs);
                             }
                         }
                     }
@@ -127,9 +157,9 @@ namespace FwStandard.DataLayer
                     AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                     beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
                     afterSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
-                    if (BeforeSaves != null)
+                    if (BeforeSave != null)
                     {
-                        BeforeSaves(this, beforeSaveArgs);
+                        BeforeSave(this, beforeSaveArgs);
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
@@ -137,9 +167,9 @@ namespace FwStandard.DataLayer
                         {
                             rowsAffected = await cmd.UpdateAsync(true, TableName, this);
                             afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                            if (AfterSaves != null) 
+                            if (AfterSave != null) 
                             {
-                                AfterSaves(this, afterSaveArgs);
+                                AfterSave(this, afterSaveArgs);
                             }
                         }
                     }
@@ -154,15 +184,30 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> DeleteAsync()
         {
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            bool success = false;
+            BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
+            AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
+            if (BeforeDelete != null)
             {
-                using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                BeforeDelete(this, beforeDeleteArgs);
+            }
+            if (beforeDeleteArgs.PerformDelete)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
                 {
-                    int rowcount = await cmd.DeleteAsync(true, TableName, this);
-                    bool success = (rowcount > 0);
-                    return success;
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    {
+                        int rowcount = await cmd.DeleteAsync(true, TableName, this);
+                        success = (rowcount > 0);
+
+                        if (AfterDelete != null)
+                        {
+                            AfterDelete(this, afterDeleteArgs);
+                        }
+                    }
                 }
             }
+            return success;
         }
         //------------------------------------------------------------------------------------
     }

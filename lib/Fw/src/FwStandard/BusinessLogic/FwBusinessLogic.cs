@@ -257,7 +257,7 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual bool getDuplicateRules()
+        protected virtual bool refreshDuplicateRules()
         {
             bool rulesLoaded = false;
 
@@ -276,7 +276,7 @@ namespace FwStandard.BusinessLogic
 
             if (duplicateRules == null)
             {
-                getDuplicateRules();
+                refreshDuplicateRules();
             }
 
             object[] ids = GetPrimaryKeys();

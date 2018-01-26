@@ -15,7 +15,8 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         {
             dataRecords.Add(duplicateRule);
             dataLoader = duplicateRuleLoader;
-            duplicateRule.AfterSaves += OnAfterSavesDuplicateRule;
+            duplicateRule.AfterSave += OnAfterSaveDuplicateRule;
+            duplicateRule.AfterDelete += OnAfterDeleteDuplicateRule;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -28,11 +29,16 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSavesDuplicateRule(object sender, AfterSaveEventArgs e)
+        public void OnAfterSaveDuplicateRule(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             saved = duplicateRule.SaveFields(Fields).Result;
-            getDuplicateRules();
+            refreshDuplicateRules();
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterDeleteDuplicateRule(object sender, AfterDeleteEventArgs e)
+        {
+            refreshDuplicateRules();
         }
         //------------------------------------------------------------------------------------ 
     }
