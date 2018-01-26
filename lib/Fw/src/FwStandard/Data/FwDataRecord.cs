@@ -534,21 +534,23 @@ namespace FwStandard.DataLayer
         public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null)
         {
             List<PropertyInfo> primaryKeyProperties = GetPrimaryKeyProperties();
-            int k = 0;
-            foreach (PropertyInfo primaryKeyProperty in primaryKeyProperties)
+            for (int i = 0; i < primaryKeyProperties.Count; i++)
             {
-                //primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
-                object propertyValue = primaryKeyProperty.GetValue(this);
-                if (propertyValue is Int32)
+                PropertyInfo pkProperty = primaryKeyProperties[i];
+                Type propertyType       = pkProperty.PropertyType;
+
+                if ((propertyType == typeof(int?)) || (propertyType == typeof(Int32)))
                 {
-                    primaryKeyProperty.SetValue(this, Convert.ToInt32(primaryKeyValues[k]));
+                    pkProperty.SetValue(this, Convert.ToInt32(primaryKeyValues[i]));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    pkProperty.SetValue(this, primaryKeyValues[i]);
                 }
                 else
                 {
-                    primaryKeyProperty.SetValue(this, primaryKeyValues[k]);
+                    throw new Exception("Primary key property type not implemented for " +  propertyType.ToString() + ". [FwBusinessLogic.SetPrimaryKeys]");
                 }
-
-                k++;
             }
             return await GetAsync<T>(customFields);
         }
@@ -671,5 +673,18 @@ namespace FwStandard.DataLayer
             return id;
         }
         //------------------------------------------------------------------------------------
+        public virtual object[] GetPrimaryKeys()
+        {
+            int pkIndex = 0;
+            List<PropertyInfo> pkProperties = GetPrimaryKeyProperties();
+            object[] ids = new object[pkProperties.Count];
+            foreach (PropertyInfo pkProperty in pkProperties)
+            {
+                ids[pkIndex] = pkProperty.GetValue(this);
+                pkIndex++;
+            }
+            return ids;
+        }
+
     }
 }
