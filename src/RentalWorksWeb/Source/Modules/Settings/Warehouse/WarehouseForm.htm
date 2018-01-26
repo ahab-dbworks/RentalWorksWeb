@@ -35,7 +35,7 @@
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="Address1" style="float:left;width:300px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Address2" style="float:left;width:300px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address 2" data-datafield="Address2" style="float:left;width:300px;"></div>
               </div>
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="City" style="float:left;width:300px;"></div>
@@ -127,7 +127,7 @@
             </div>
           </div>
           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Default Sales Restocking Percent" data-datafield="SalesRestockPercent" style="float:left;width:200px;"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Default Sales Restocking Percent" data-datafield="SalesRestockPercent" style="float:left;width:200px;"></div>
           </div>
           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Default Rental Rates for I-Codes" data-datafield="CalculateDefaultRentalRates" style="float:left;width:300px;"></div>
@@ -160,7 +160,7 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Inventory after PO Purchase is approved" data-datafield="CalculateOnPoAfterApproved" style="float:left;width:400px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Inventory 'Quantity on PO' only after Purchase Order is approved" data-datafield="CalculateOnPoAfterApproved" style="float:left;width:400px;"></div>
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Days to pre-calculate availability data in advance (data stored on server in cache)" data-datafield="AvailabilityCacheDays" style="float:left;width:500px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Days allowed beyond 'Rent To' date before itesm are late and counted as out indefinitely" data-datafield="AvailabilityCacheDays" style="float:left;width:500px;"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Days allowed beyond 'Rent To' date before items are late and counted as out indefinitely" data-datafield="AvailabilityCacheDays" style="float:left;width:500px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Preserve Reservation Conflicts on specific Quotes/Orders" data-datafield="AvailabilityPreserveConflicts" style="float:left;width:400px;"></div>
@@ -195,10 +195,10 @@
           </div>
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hourly Availability">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Start" data-datafield="AvailabilityStartHour" style="float:left;width:50px;"></div><div>:00</div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Start (XX:00)" data-datafield="AvailabilityStartHour" style="float:left;width:50px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="AvailabilityStopHour" style="float:left;width:50px;"></div><div>:00</div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Stop (XX:00)" data-datafield="AvailabilityStopHour" style="float:left;width:50px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Hours allowed beyond 'Rent To' time before items are late and counted as out indefinitely" data-datafield="AvailabilityLateHours" style="float:left;width:500px;"></div>
@@ -271,7 +271,7 @@
       <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div class="formcolumn" style="width:500px;">
+            <div class="formcolumn" style="width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Staging">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Staging Complete Components" data-datafield="StagingCompleteComponents" style="width:480px;border:1px solid silver;">
@@ -291,7 +291,7 @@
             <div class="formcolumn" style="width:500px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check Out">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warn user if pending items exist before creating an out contract" data-datafield="StageQuantityAccessories" style="float:left;width:350px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Warn user if pending items exist before creating an out contract" data-datafield="StageQuantityAccessories" style="float:left;width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -323,7 +323,7 @@
           </div>
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rentals">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show checked-in sub-rental items in holding of staging" data-datafield="StagingShowCheckedInHoldingItems" style="float:left;width:300px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show checked-in sub-rental items in holding of staging" data-datafield="StagingShowCheckedInHoldingItems" style="float:left;width:400px;"></div>
             </div>
           </div>
         </div>
@@ -382,7 +382,7 @@
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Default return column to yes and auto-create a return transfer order" data-datafield="ExchangedItemsRepairByDefault" style="float:left;width:400px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Not available for QuikLocate or transfers" data-datafield="QuikLocateCannotTransfer" style="float:left;width:400px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="This Warehouse is not available for QuikLocate or Transfers" data-datafield="QuikLocateCannotTransfer" style="float:left;width:500px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwGrid" data-grid="WarehouseDepartmentUserGrid" data-securitycaption="Warehouse Department User"></div>

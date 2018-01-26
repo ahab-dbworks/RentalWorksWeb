@@ -57,10 +57,10 @@ class Warehouse {
             if ($this.val() === 'S') {
                 $form.find('.singlerange').show();
             }
-            if ($this.val() === 'D') {
+            if ($this.val() === 'C') {
                 $form.find('.warehousedepartment').show();
             }
-            if ($this.val() === 'C') {
+            if ($this.val() === 'D') {
                 $form.find('.warehouseinventorytype').show();
             }
         });
@@ -219,10 +219,10 @@ class Warehouse {
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'S') {
             $form.find('.singlerange').show();
         }
-        if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'D') {
+        if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'C') {
             $form.find('.warehousedepartment').show();
         }
-        if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'C') {
+        if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'D') {
             $form.find('.warehouseinventorytype').show();
         }
 
