@@ -13521,16 +13521,18 @@
 				{
 					"name": "Orders: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/order/000026P1",
+						"url": "http://localhost:57949/api/v1/order/00007NU0",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -13997,6 +13999,37 @@
 					"name": "Order Status History: Get One",
 					"request": {
 						"url": "http://localhost:57949/api/v1/orderstatushistory/2~",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Summary",
+			"description": "",
+			"item": [
+				{
+					"name": "Order Summary: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordersummary/00007NU0",
 						"method": "GET",
 						"header": [
 							{
