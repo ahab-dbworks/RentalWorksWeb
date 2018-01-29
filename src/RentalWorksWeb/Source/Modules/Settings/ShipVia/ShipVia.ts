@@ -71,6 +71,15 @@ class ShipVia {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    beforeValidateFreightVendor($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
+
+        request.uniqueids = {
+            Freight: true
+        }
+    }
+
     afterLoad($form: any) {
 
     }
