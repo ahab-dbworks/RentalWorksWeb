@@ -189,6 +189,11 @@ var Order = (function () {
 
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
+
+
+            $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
         }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
