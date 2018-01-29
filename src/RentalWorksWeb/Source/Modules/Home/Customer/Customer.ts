@@ -190,7 +190,7 @@ class Customer {
         FwBrowse.renderRuntimeHtml($companyContactControl);
     }
     //--------------------
-    beforeValidateProjectMessage($browse, $grid, request) {
+    beforeValidateInsuranceVendor($browse, $grid, request) {
         var $form;
         $form = $grid.closest('.fwform');
 
