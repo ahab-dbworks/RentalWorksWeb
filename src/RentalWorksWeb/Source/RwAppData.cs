@@ -312,6 +312,24 @@ namespace Web.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetDepartmentInfo(FwSqlConnection conn, string departmentid)
+        {
+            FwSqlCommand qry;
+            dynamic result;
+
+            qry = new FwSqlCommand(conn);
+            qry.Add("select departmentid, department");
+            qry.Add("  from department with (nolock)");
+            qry.Add(" where departmentid = @departmentid");
+            qry.AddParameter("@departmentid", departmentid);
+            result = qry.QueryToDynamicObject2();
+
+            result.departmentid = FwCryptography.AjaxEncrypt(result.departmentid);
+            result.department = FwCryptography.AjaxEncrypt(result.department);
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
         public static bool HasAppOption(string option)
         {
             FwSqlCommand qry;

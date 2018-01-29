@@ -124,6 +124,7 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                                             sessionStorage.setItem('clientCode',         response.clientcode);
                                             sessionStorage.setItem('location',           JSON.stringify(response.webUser.location));
                                             sessionStorage.setItem('warehouse',          JSON.stringify(response.webUser.warehouse));
+                                            sessionStorage.setItem('department',         JSON.stringify(response.webUser.department));
                                             jQuery('html').removeClass('theme-material'); 
                                             program.navigate('home');
                                         } else if (response.errNo !== 0) {

@@ -23,7 +23,7 @@ var RwHome = /** @class */ (function () {
     ;
     RwHome.prototype.renderBar = function () {
         var ctx = document.getElementById("myChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myChart = new Chart(ctx, response);
                 ctx.onclick = function (evt) {
@@ -44,7 +44,7 @@ var RwHome = /** @class */ (function () {
     ;
     RwHome.prototype.renderPie = function () {
         var pie = document.getElementById("myPieChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 delete response.options.legend;
                 delete response.options.scales;
@@ -57,7 +57,7 @@ var RwHome = /** @class */ (function () {
     };
     RwHome.prototype.renderHorizontal = function () {
         var ctx = document.getElementById("myHorizontalChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myHoriz = new Chart(ctx, response);
             }

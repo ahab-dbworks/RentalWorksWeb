@@ -98,6 +98,7 @@ namespace Web.Source
             response.authToken         = AccountService.Current.GetAuthToken(token.Name, authTokenData);
             response.location          = RwAppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
             response.warehouse         = RwAppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
+            response.department        = RwAppData.GetDepartmentInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.department));
         }
         //---------------------------------------------------------------------------------------------
         public static void ModuleRouting(dynamic request, dynamic response, dynamic session)
