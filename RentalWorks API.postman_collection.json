@@ -27237,6 +27237,318 @@
 			]
 		},
 		{
+			"name": "Warehouse Office Location",
+			"description": "",
+			"item": [
+				{
+					"name": "Warehouse Office Location: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Office Location: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OfficeLocation,Warehouse\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Office Location: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation/0000884Q",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Office Location: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseId\": \"WH1\",\n    \"OfficeLocationId\": \"OL1\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Office Location: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"WarehouseLocationId\": \"0000884U\",\n    \"WarehouseId\": \"WH21\",\n    \"OfficeLocationId\": \"OL2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse Office Location: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehouselocation/0000884U",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouse QuikLocate Approver",
+			"description": "",
+			"item": [
+				{
+					"name": "Warehouse QuikLocate Approver: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse QuikLocate Approver: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Warehouse,UserName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse QuikLocate Approver: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover/00001JAD",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse QuikLocate Approver: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseId\": \"00000VWE\",\n    \"UsersId\": \"test\",\n    \"SendEmail\": true,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse QuikLocate Approver: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WarehouseQuikLocateApproverId\": \"00008856\",\n    \"UsersId\": \"test2\",\n    \"SendEmail\": false,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Warehouse QuikLocate Approver: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/warehousequiklocateapprover/00008856",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Widgets",
 			"description": "",
 			"item": [

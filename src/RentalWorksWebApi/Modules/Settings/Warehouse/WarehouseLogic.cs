@@ -21,6 +21,28 @@ namespace WebApi.Modules.Settings.Warehouse
         public string TaxOptionId { get { return warehouse.TaxOptionId; } set { warehouse.TaxOptionId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxOption { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxCountry { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxRule { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? RentalExempt { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? SalesExempt { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? LaborExempt { get; set; }
         public string Attention { get { return warehouse.Attention; } set { warehouse.Attention = value; } }
         public string Address1 { get { return warehouse.Address1; } set { warehouse.Address1 = value; } }
         public string Address2 { get { return warehouse.Address2; } set { warehouse.Address2 = value; } }

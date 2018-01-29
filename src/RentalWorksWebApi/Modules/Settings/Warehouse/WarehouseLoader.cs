@@ -25,6 +25,39 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, required: true)]
+        public string TaxCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxrule", modeltype: FwDataTypes.Text)]
+        public string TaxRule { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentaltaxrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentaltaxrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "donottaxrental", modeltype: FwDataTypes.Boolean)]
+        public bool? RentalExempt { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salestaxrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salestaxrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "donottaxsales", modeltype: FwDataTypes.Boolean)]
+        public bool? SalesExempt { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labortaxrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labortaxrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "donottaxlabor", modeltype: FwDataTypes.Boolean)]
+        public bool? LaborExempt { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text)]
         public string Attention { get; set; }
         //------------------------------------------------------------------------------------ 
