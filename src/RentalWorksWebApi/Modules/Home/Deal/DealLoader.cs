@@ -32,10 +32,10 @@ namespace WebApi.Modules.Home.Deal
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealtypeid", modeltype: FwDataTypes.Text)]
-        public string DealtypeId { get; set; }
+        public string DealTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealtype", modeltype: FwDataTypes.Text)]
-        public string Dealtype { get; set; }
+        public string DealType { get; set; }
         //------------------------------------------------------------------------------------ 
 
         [FwSqlDataField(column: "add1", modeltype: FwDataTypes.Text)]
