@@ -22,6 +22,9 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwSqlDataField(column: "companytype", modeltype: FwDataTypes.Text)]
         public string CompanyType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "companytypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CompanyTypeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
         //------------------------------------------------------------------------------------ 

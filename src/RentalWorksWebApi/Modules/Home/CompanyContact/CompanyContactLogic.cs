@@ -20,6 +20,8 @@ namespace WebApi.Modules.Home.CompanyContact
         public string Company { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CompanyType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompanyTypeColor { get; set; }
         public string ContactId { get { return companyContact.ContactId; } set { companyContact.ContactId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Salutation { get; set; }
