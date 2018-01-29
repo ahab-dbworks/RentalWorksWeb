@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
 
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         {
             dataRecords.Add(wardrobeColor);
             dataLoader = wardrobeColorLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -23,7 +25,7 @@ namespace WebApi.Modules.Settings.WardrobeColor
         public bool? Inactive { get { return wardrobeColor.Inactive; } set { wardrobeColor.Inactive = value; } }
         public string DateStamp { get { return wardrobeColor.DateStamp; } set { wardrobeColor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             ColorType = "W";
         }

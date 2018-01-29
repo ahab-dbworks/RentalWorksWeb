@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -18,6 +19,7 @@ namespace WebApi.Modules.Settings.GeneratorType
             dataLoader = generatorTypeLoader;
             inventoryCategory.BeforeSave += OnBeforeSaveCategory;
             inventoryCategory.AfterSave += OnAfterSaveCategory;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -28,7 +30,7 @@ namespace WebApi.Modules.Settings.GeneratorType
         [JsonIgnore]
         public string CategoryId { get { return GeneratorTypeId; } set { GeneratorTypeId = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "V";
             InternalVehicleType = "GENERATOR";

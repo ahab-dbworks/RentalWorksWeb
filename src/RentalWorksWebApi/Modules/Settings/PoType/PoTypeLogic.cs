@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
@@ -36,7 +37,7 @@ namespace WebApi.Modules.Settings.PoType
 
             poType.AfterSave += OnAfterSavePoType;
             repairOrderTypeFields.AfterSave += OnAfterSaveRepairFields;
-
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -614,7 +615,7 @@ namespace WebApi.Modules.Settings.PoType
         public bool? Inactive { get { return poType.Inactive; } set { poType.Inactive = value; } }
         public string DateStamp { get { return poType.DateStamp; } set { poType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrdType = "PO";
         }

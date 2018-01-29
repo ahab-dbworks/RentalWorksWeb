@@ -16,13 +16,13 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 16)]
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15, required: true)]
         public string Type { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -31,10 +31,10 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

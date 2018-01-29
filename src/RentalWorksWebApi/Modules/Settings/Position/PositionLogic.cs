@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.Position
         public PositionLogic()
         {
             dataLoader = positionLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -22,7 +24,7 @@ namespace WebApi.Modules.Settings.Position
         [FwBusinessLogicField(isReadOnly: true)]
         public string LaborType { get; set; }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = "L";
             Classification = "LP";

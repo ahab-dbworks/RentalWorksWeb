@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleMake;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.GeneratorMake
         {
             dataRecords.Add(generatorMake);
             dataLoader = generatorMakeLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -25,7 +27,7 @@ namespace WebApi.Modules.Settings.GeneratorMake
         public bool? Inactive { get { return generatorMake.Inactive; } set { generatorMake.Inactive = value; } }
         public string DateStamp { get { return generatorMake.DateStamp; } set { generatorMake.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RowType = "GENERATOR";
         }

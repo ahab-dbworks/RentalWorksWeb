@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.MiscCategory
@@ -10,6 +11,7 @@ namespace WebApi.Modules.Settings.MiscCategory
         public MiscCategoryLogic()
         {
             dataLoader = inventoryCategoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         public string MiscTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
@@ -19,7 +21,7 @@ namespace WebApi.Modules.Settings.MiscCategory
 
         public bool? DiscountCategoryItems100PercentByDefault { get { return inventoryCategory.DiscountCategoryItems100PercentByDefault; } set { inventoryCategory.DiscountCategoryItems100PercentByDefault = value; } }
         public bool? ExcludeCategoryItemsFromInvoicing { get { return inventoryCategory.ExcludeCategoryItemsFromInvoicing; } set { inventoryCategory.ExcludeCategoryItemsFromInvoicing = value; } }
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "M";
         }

@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
@@ -20,6 +21,7 @@ namespace WebApi.Modules.Settings.Crew
             dataRecords.Add(crew);
             dataRecords.Add(webUser);
             dataLoader = crewLoader;
+            BeforeSave += OnBeforeSaveCrewLogic;
             crew.AfterSave += Crew_AfterSave;
             webUser.AfterSave += WebUser_AfterSave;
         }
@@ -88,9 +90,9 @@ namespace WebApi.Modules.Settings.Crew
 
         public string DateStamp { get { return crew.DateStamp; } set { crew.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSaveCrewLogic(object sender, BeforeSaveEventArgs e)
         {
-            base.BeforeSave();
+            //base.BeforeSave(saveMode);
             ContactRecordType = "CREW";
         }
         //------------------------------------------------------------------------------------

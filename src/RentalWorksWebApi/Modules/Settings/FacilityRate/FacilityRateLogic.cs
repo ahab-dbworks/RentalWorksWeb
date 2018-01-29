@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         public FacilityRateLogic()
         {
             dataLoader = inventoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -22,7 +24,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         [FwBusinessLogicField(isReadOnly: true)]
         public string FacilityType { get; set; }
 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = "M";
             Classification = "SP";

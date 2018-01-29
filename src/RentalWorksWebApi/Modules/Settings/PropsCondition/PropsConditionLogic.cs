@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.InventoryCondition;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.PropsCondition
         {
             dataRecords.Add(propsCondition);
             dataLoader = propsConditionLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -33,7 +35,7 @@ namespace WebApi.Modules.Settings.PropsCondition
         public bool? Inactive { get { return propsCondition.Inactive; } set { propsCondition.Inactive = value; } }
         public string DateStamp { get { return propsCondition.DateStamp; } set { propsCondition.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             Props = true;
         }

@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.InventoryCondition;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         {
             dataRecords.Add(wardrobeCondition);
             dataLoader = wardrobeConditionLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -33,7 +35,7 @@ namespace WebApi.Modules.Settings.WardrobeCondition
         public bool? Inactive { get { return wardrobeCondition.Inactive; } set { wardrobeCondition.Inactive = value; } }
         public string DateStamp { get { return wardrobeCondition.DateStamp; } set { wardrobeCondition.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             Wardrobe = true;
         }

@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.FuelType;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         {
             dataRecords.Add(fuelType);
             dataLoader = fuelTypeLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -25,7 +27,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         public bool? Inactive { get { return fuelType.Inactive; } set { fuelType.Inactive = value; } }
         public string DateStamp { get { return fuelType.DateStamp; } set { fuelType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RowType = "GENERATOR";
         }

@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -17,6 +18,7 @@ namespace WebApi.Modules.Settings.VehicleType
             dataLoader = vehicleTypeLoader;
             inventoryCategory.BeforeSave += OnBeforeSaveCategory;
             inventoryCategory.AfterSave += OnAfterSaveCategory;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
 
@@ -34,7 +36,7 @@ namespace WebApi.Modules.Settings.VehicleType
         [JsonIgnore]
         public string CategoryId { get { return VehicleTypeId; } set { VehicleTypeId = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "V";
             InternalVehicleType = "VEHICLE";

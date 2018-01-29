@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
@@ -12,6 +13,7 @@ namespace WebApi.Modules.Settings.Building
         {
             dataRecords.Add(building);
             dataLoader = buildingLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -46,7 +48,7 @@ namespace WebApi.Modules.Settings.Building
         //public string Primarycontact { get; set; }
         public bool? Inactive { get { return building.Inactive; } set { building.Inactive = value; } }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             BuildingType = "BUILDING";
         }

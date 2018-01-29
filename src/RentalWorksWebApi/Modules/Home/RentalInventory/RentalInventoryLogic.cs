@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -12,9 +13,10 @@ namespace WebApi.Modules.Home.RentalInventory
         public RentalInventoryLogic()
         {
             dataLoader = inventoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = "R";
         }

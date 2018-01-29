@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.VehicleRating;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         {
             dataRecords.Add(generatorRating);
             dataLoader = generatorRatingLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -25,7 +27,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         public bool? Inactive { get { return generatorRating.Inactive; } set { generatorRating.Inactive = value; } }
         public string DateStamp { get { return generatorRating.DateStamp; } set { generatorRating.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RowType = "GENERATOR";
         }

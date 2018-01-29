@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.Template
         {
             dataRecords.Add(template);
             dataLoader = templateLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -38,7 +40,7 @@ namespace WebApi.Modules.Settings.Template
         public int? Lines { get; set; }
         public string DateStamp { get { return template.DateStamp; } set { template.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             Type = "M";
         }

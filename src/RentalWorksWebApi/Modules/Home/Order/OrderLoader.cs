@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Order
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.AddWhere("ordertype = 'O'");
+            select.AddWhere("ordertype = '" + RwConstants.ORDER_TYPE_ORDER + "'");
             //addFilterToSelect("WarehouseId", "warehouseid", select, request);
         }
         //------------------------------------------------------------------------------------    

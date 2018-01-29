@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
@@ -32,6 +33,7 @@ namespace WebApi.Modules.Settings.EventType
 
             eventType.AfterSave += OnAfterSaveEventType;
             finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;
+            BeforeSave += OnBeforeSave;
 
         }
         //------------------------------------------------------------------------------------ 
@@ -469,7 +471,7 @@ namespace WebApi.Modules.Settings.EventType
         public bool? Inactive { get { return eventType.Inactive; } set { eventType.Inactive = value; } }
         public string DateStamp { get { return eventType.DateStamp; } set { eventType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             OrdType = "EVENT";
         }

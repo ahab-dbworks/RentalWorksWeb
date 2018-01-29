@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.AppRole;
@@ -15,6 +16,7 @@ namespace WebApi.Modules.Settings.PoApproverRole
         {
             dataRecords.Add(poApproverRole);
             dataLoader = poApproverRoleLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -27,7 +29,7 @@ namespace WebApi.Modules.Settings.PoApproverRole
         public bool? Inactive { get { return poApproverRole.Inactive; } set { poApproverRole.Inactive = value; } }
         public string DateStamp { get { return poApproverRole.DateStamp; } set { poApproverRole.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RoleType = "POAPPROVER";
         }

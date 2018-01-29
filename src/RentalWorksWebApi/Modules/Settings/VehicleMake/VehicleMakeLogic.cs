@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.VehicleMake
         {
             dataRecords.Add(vehicleMake);
             dataLoader = vehicleMakeLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -24,7 +26,7 @@ namespace WebApi.Modules.Settings.VehicleMake
         public bool? Inactive { get { return vehicleMake.Inactive; } set { vehicleMake.Inactive = value; } }
         public string DateStamp { get { return vehicleMake.DateStamp; } set { vehicleMake.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RowType = "VEHICLE";
         }

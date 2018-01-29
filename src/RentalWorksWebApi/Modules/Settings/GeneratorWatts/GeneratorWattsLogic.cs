@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 
@@ -11,6 +12,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         public GeneratorWattsLogic()
         {
             dataRecords.Add(generatorWatts);
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -22,7 +24,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         public bool? Inactive { get { return generatorWatts.Inactive; } set { generatorWatts.Inactive = value; } }
         public string DateStamp { get { return generatorWatts.DateStamp; } set { generatorWatts.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RowType = "GENERATOR";
         }

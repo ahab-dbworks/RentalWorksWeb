@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -20,6 +21,7 @@ namespace WebApi.Modules.Settings.VehicleType
             //dataLoader = vehicleTypeLoader;
             inventoryCategory.Category = "TEMP";  //jh - temporary value because the field is required
             inventoryCategory.BeforeValidate += OnBeforeValidateCategory;
+            //BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         public string InventoryTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
@@ -91,15 +93,15 @@ namespace WebApi.Modules.Settings.VehicleType
         public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
-        {
-            RecType = "V";
-            InternalVehicleType = "VEHICLE";
-            HasMaintenance = true;
-            Classification = "V";
-            AvailableFrom = "W";
-            AvailFor = "V";
-        }
+        //public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        //{
+        //    RecType = "V";
+        //    InternalVehicleType = "VEHICLE";
+        //    HasMaintenance = true;
+        //    Classification = "V";
+        //    AvailableFrom = "W";
+        //    AvailFor = "V";
+        //}
         //------------------------------------------------------------------------------------
         public void OnBeforeValidateCategory(object sender, BeforeValidateEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Settings.Color;
 
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.VehicleColor
         {
             dataRecords.Add(vehicleColor);
             dataLoader = vehicleColorLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -23,7 +25,7 @@ namespace WebApi.Modules.Settings.VehicleColor
         public bool? Inactive { get { return vehicleColor.Inactive; } set { vehicleColor.Inactive = value; } }
         public string DateStamp { get { return vehicleColor.DateStamp; } set { vehicleColor.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             ColorType = "V";
         }

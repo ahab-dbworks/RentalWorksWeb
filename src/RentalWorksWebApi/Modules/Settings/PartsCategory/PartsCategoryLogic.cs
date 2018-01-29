@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.PartsCategory
@@ -10,6 +11,7 @@ namespace WebApi.Modules.Settings.PartsCategory
         public PartsCategoryLogic()
         {
             dataLoader = inventoryCategoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         public string InventoryTypeId { get { return inventoryCategory.TypeId; } set { inventoryCategory.TypeId = value; } }
@@ -29,7 +31,7 @@ namespace WebApi.Modules.Settings.PartsCategory
 
         public string BarCodeType { get { return inventoryCategory.BarCodeType; } set { inventoryCategory.BarCodeType = value; } }
 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "P";
         }

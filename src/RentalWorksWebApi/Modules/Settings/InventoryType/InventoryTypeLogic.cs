@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.InventoryType
@@ -12,6 +13,7 @@ namespace WebApi.Modules.Settings.InventoryType
         {
             dataRecords.Add(inventoryType);
             dataLoader = inventoryTypeLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -32,7 +34,7 @@ namespace WebApi.Modules.Settings.InventoryType
         public bool? Inactive { get { return inventoryType.Inactive; } set { inventoryType.Inactive = value; } }
         public string DateStamp { get { return inventoryType.DateStamp; } set { inventoryType.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             bool rental = (Rental.HasValue ? ((bool)Rental) : false);
             bool sales = (Sales.HasValue ? ((bool)Sales) : false);

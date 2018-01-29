@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
@@ -13,6 +14,7 @@ namespace WebApi.Modules.Settings.MiscRate
         public MiscRateLogic()
         {
             dataLoader = inventoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -22,8 +24,7 @@ namespace WebApi.Modules.Settings.MiscRate
         [FwBusinessLogicField(isReadOnly: true)]
         public string MiscType { get; set; }
         //------------------------------------------------------------------------------------ 
-
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             AvailFor = "M";
         }

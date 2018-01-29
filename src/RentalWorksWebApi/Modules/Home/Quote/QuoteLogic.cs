@@ -1,9 +1,12 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Order;
+using WebApi;
+using System;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -14,6 +17,8 @@ namespace WebApi.Modules.Home.Quote
         public QuoteLogic()
         {
             dataLoader = quoteLoader;
+            Type = RwConstants.ORDER_TYPE_QUOTE;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -23,5 +28,22 @@ namespace WebApi.Modules.Home.Quote
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
         public int VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
         //------------------------------------------------------------------------------------
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                StatusDate = DateTime.Now.ToString("M/d/yyyy");
+                QuoteDate = DateTime.Now.ToString("M/d/yyyy");
+                if (DealId.Equals(string.Empty))
+                {
+                    Status = RwConstants.QUOTE_STATUS_PROSPECT;
+                }
+                else
+                {
+                    Status = RwConstants.QUOTE_STATUS_ACTIVE;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

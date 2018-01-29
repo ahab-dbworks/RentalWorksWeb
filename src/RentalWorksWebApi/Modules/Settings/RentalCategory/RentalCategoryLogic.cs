@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Settings.Category;
 
 namespace WebApi.Modules.Settings.RentalCategory
@@ -10,6 +11,7 @@ namespace WebApi.Modules.Settings.RentalCategory
         public RentalCategoryLogic()
         {
             dataLoader = inventoryCategoryLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
 
@@ -35,7 +37,7 @@ namespace WebApi.Modules.Settings.RentalCategory
         public int? PreventiveMaintenanceCyclePeriod { get { return inventoryCategory.PreventiveMaintenanceCyclePeriod; } set { inventoryCategory.PreventiveMaintenanceCyclePeriod = value; } }
         public int? DepreciationMonths { get { return inventoryCategory.DepreciationMonths; } set { inventoryCategory.DepreciationMonths = value; } }
 
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "R";
         }

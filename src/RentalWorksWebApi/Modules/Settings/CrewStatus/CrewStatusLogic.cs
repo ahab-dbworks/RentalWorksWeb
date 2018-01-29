@@ -1,4 +1,5 @@
-﻿using FwStandard.BusinessLogic.Attributes;
+﻿using FwStandard.BusinessLogic;
+using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Settings.ResourceStatus;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         {
             dataRecords.Add(resourceStatus);
             dataLoader = resourceStatusLoader;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -28,7 +30,7 @@ namespace WebApi.Modules.Settings.CrewStatus
         public bool? Inactive { get { return resourceStatus.Inactive; } set { resourceStatus.Inactive = value; } }
         public string DateStamp { get { return resourceStatus.DateStamp; } set { resourceStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
-        public override void BeforeSave()
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
             RecType = "C";
         }
