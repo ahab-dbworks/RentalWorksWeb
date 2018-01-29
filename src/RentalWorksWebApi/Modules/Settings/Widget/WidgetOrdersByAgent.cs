@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
-using FwStandard.SqlServer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System;
+using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Settings.Widgets
+namespace WebApi.Modules.Settings.Widget
 {
-    public class WidgetOrdersByStatus : Widget
+    public class WidgetOrdersByAgent : Widget
     {
-        public WidgetOrdersByStatus() : base()
+        public WidgetOrdersByAgent() : base()
         {
-            type = "bar";
-            options.title.text = "Orders By Status";
+            type = "pie";
+            options.title.text = "Orders By Agent";
         }
-        //------------------------------------------------------------------------------------
+
         public async Task<bool> LoadAsync()
         {
             bool loaded = false;
@@ -23,30 +24,29 @@ namespace WebApi.Modules.Settings.Widgets
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add("exec widgetordersbystatus");
+                qry.Add("exec widgetordersbyagent");
                 qry.AddColumn("ordercount");
-                qry.AddColumn("status");
+                qry.AddColumn("agent");
                 qry.AddColumn("backgroundcolor");
                 qry.AddColumn("bordercolor");
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true, doParse: false);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    int statusCount = Convert.ToInt32(table.Rows[r][0]);
-                    string orderStatus = table.Rows[r][1].ToString();
-                    int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    int orderCount = Convert.ToInt32(table.Rows[r][0]);
+                    string agent = table.Rows[r][1].ToString();
+                    int agentColorInt = Convert.ToInt32(table.Rows[r][2]);
                     double opacity = 0.2;
-                    string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
-                    string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
+                    string agentColorStr = FwConvert.OleColorToHtmlColor(agentColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(agentColorInt, 1);
 
-                    data.labels.Add(orderStatus);
-                    dataList.Add(statusCount);
-                    backgroundColor.Add(statusColorStr);
+                    data.labels.Add(agent);
+                    dataList.Add(orderCount);
+                    backgroundColor.Add(agentColorStr);
                     borderColor.Add(borderColorStr);
 
                     loaded = true;
                 }
             }
-
 
             data.datasets.Add(new WidgetDataSet());
             data.datasets[0].data = dataList;
@@ -54,8 +54,6 @@ namespace WebApi.Modules.Settings.Widgets
             data.datasets[0].borderColor = borderColor;
 
             return loaded;
-
         }
-        //------------------------------------------------------------------------------------
     }
-}
+};

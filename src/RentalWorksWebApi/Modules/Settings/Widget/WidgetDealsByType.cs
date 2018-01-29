@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 
-namespace WebApi.Modules.Settings.Widgets
+namespace WebApi.Modules.Settings.Widget
 {
-    public class WidgetOrdersByAgent : Widget
+    public class WidgetDealsByType : Widget
     {
-        public WidgetOrdersByAgent() : base()
+        public WidgetDealsByType() : base()
         {
-            type = "pie";
-            options.title.text = "Orders By Agent";
+            type = "horizontalBar";
+            options.title.text = "Deals by Type";
         }
 
         public async Task<bool> LoadAsync()
@@ -24,24 +24,26 @@ namespace WebApi.Modules.Settings.Widgets
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add("exec widgetordersbyagent");
-                qry.AddColumn("ordercount");
-                qry.AddColumn("agent");
+                qry.Add("exec widgetdealsbytype");
+                qry.AddColumn("dealcount");
+                qry.AddColumn("dealtype");
                 qry.AddColumn("backgroundcolor");
                 qry.AddColumn("bordercolor");
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true, doParse: false);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    int orderCount = Convert.ToInt32(table.Rows[r][0]);
-                    string agent = table.Rows[r][1].ToString();
-                    int agentColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    int dealCount = Convert.ToInt32(table.Rows[r][0]);
+                    string dealType = table.Rows[r][1].ToString();
+                    int dealTypeColorInt = Convert.ToInt32(table.Rows[r][2]);
                     double opacity = 0.2;
-                    string agentColorStr = FwConvert.OleColorToHtmlColor(agentColorInt, opacity);
-                    string borderColorStr = FwConvert.OleColorToHtmlColor(agentColorInt, 1);
+                    string dealTypeColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, 1);
 
-                    data.labels.Add(agent);
-                    dataList.Add(orderCount);
-                    backgroundColor.Add(agentColorStr);
+
+
+                    data.labels.Add(dealType);
+                    dataList.Add(dealCount);
+                    backgroundColor.Add(dealTypeColorStr);
                     borderColor.Add(borderColorStr);
 
                     loaded = true;

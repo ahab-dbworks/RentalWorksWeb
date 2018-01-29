@@ -2,7 +2,7 @@
 using FwStandard.Models;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.Widgets
+namespace WebApi.Modules.Settings.Widget
 {
       
     //------------------------------------------------------------------------------------

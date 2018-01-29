@@ -30,7 +30,7 @@ class RwHome {
     renderBar() {
         var ctx = document.getElementById("myChart");
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 
                 var myChart = new Chart(ctx, response);
@@ -53,7 +53,7 @@ class RwHome {
 
     renderPie() {
         var pie = document.getElementById("myPieChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 delete response.options.legend;
                 delete response.options.scales;
@@ -66,7 +66,7 @@ class RwHome {
 
     renderHorizontal() {
         var ctx = document.getElementById("myHorizontalChart");
-        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myHoriz = new Chart(ctx, response);
             } catch (ex) {

@@ -1,19 +1,62 @@
-﻿using FwStandard.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using WebApi.Controllers;
+using FwStandard.Models; 
+using Microsoft.AspNetCore.Mvc; 
+using Microsoft.Extensions.Options; 
+using WebApi.Controllers; 
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 
-namespace WebApi.Modules.Settings.Widgets
+namespace WebApi.Modules.Settings.Widget
 {
     [Route("api/v1/[controller]")]
     public class WidgetController : AppDataController
     {
         public WidgetController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/widget/browse 
+        [HttpPost("browse")]
+        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest, typeof(WidgetLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/widget 
+        [HttpGet]
+        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        {
+            return await DoGetAsync<WidgetLogic>(pageno, pagesize, sort, typeof(WidgetLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/widget/A0000001 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<WidgetLogic>(id, typeof(WidgetLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/widget 
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]WidgetLogic l)
+        {
+            return await DoPostAsync<WidgetLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // DELETE api/v1/widget/A0000001 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        {
+            return await DoDeleteAsync(id, typeof(WidgetLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/widget/validateduplicate 
+        [HttpPost("validateduplicate")]
+        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
+        {
+            return await DoValidateDuplicateAsync(request);
+        }
+        //------------------------------------------------------------------------------------ 
+
+
         private async Task<IActionResult> DoGetWidget(string widgetName)
         {
             return await Task<IActionResult>.Run(() =>
@@ -84,12 +127,13 @@ namespace WebApi.Modules.Settings.Widgets
             });
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/widget/ordersbystatus
-        [HttpGet("{widgetName}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string widgetName)
+        // GET api/v1/widget/loadbyname/ordersbystatus
+        [HttpGet("loadbyname/{widgetApiName}")]
+        public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName)
         {
-            return await DoGetWidget(widgetName);
+            return await DoGetWidget(widgetApiName);
         }
         //------------------------------------------------------------------------------------
+
     }
 }

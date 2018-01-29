@@ -26998,29 +26998,6 @@
 						"description": ""
 					},
 					"response": []
-				},
-				{
-					"name": "Warehouse Catalog: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/warehousecatalog/00003EOT",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
 				}
 			]
 		},
@@ -27549,13 +27526,163 @@
 			]
 		},
 		{
-			"name": "Widgets",
+			"name": "Widget",
 			"description": "",
 			"item": [
 				{
-					"name": "Orders By Status",
+					"name": "Widget: Get Many",
 					"request": {
-						"url": "http://localhost:57949/api/v1/widget/ordersbystatus",
+						"url": "http://localhost:57949/api/v1/widget",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Widget: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Widget\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Widget: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/00008858",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Widget: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Widget\": \"foo\",\n    \"ApiName\": \"bar\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Widget: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WidgetId\": \"000088NN\",\n    \"Widget\": \"foo2\",\n    \"ApiName\": \"bar2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Widget: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/000088NN",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Orders By Status",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/loadbyname/ordersbystatus",
 						"method": "GET",
 						"header": [
 							{

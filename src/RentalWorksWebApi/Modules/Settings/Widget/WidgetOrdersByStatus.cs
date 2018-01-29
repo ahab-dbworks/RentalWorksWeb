@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using FwStandard.SqlServer;
+using System.Threading.Tasks;
+using System;
 
-namespace WebApi.Modules.Settings.Widgets
+namespace WebApi.Modules.Settings.Widget
 {
-    public class WidgetDealsByType : Widget
+    public class WidgetOrdersByStatus : Widget
     {
-        public WidgetDealsByType() : base()
+        public WidgetOrdersByStatus() : base()
         {
-            type = "horizontalBar";
-            options.title.text = "Deals by Type";
+            type = "bar";
+            options.title.text = "Orders By Status";
         }
-
+        //------------------------------------------------------------------------------------
         public async Task<bool> LoadAsync()
         {
             bool loaded = false;
@@ -24,31 +23,30 @@ namespace WebApi.Modules.Settings.Widgets
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add("exec widgetdealsbytype");
-                qry.AddColumn("dealcount");
-                qry.AddColumn("dealtype");
+                qry.Add("exec widgetordersbystatus");
+                qry.AddColumn("ordercount");
+                qry.AddColumn("status");
                 qry.AddColumn("backgroundcolor");
                 qry.AddColumn("bordercolor");
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true, doParse: false);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    int dealCount = Convert.ToInt32(table.Rows[r][0]);
-                    string dealType = table.Rows[r][1].ToString();
-                    int dealTypeColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    int statusCount = Convert.ToInt32(table.Rows[r][0]);
+                    string orderStatus = table.Rows[r][1].ToString();
+                    int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
                     double opacity = 0.2;
-                    string dealTypeColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, opacity);
-                    string borderColorStr = FwConvert.OleColorToHtmlColor(dealTypeColorInt, 1);
+                    string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
 
-
-
-                    data.labels.Add(dealType);
-                    dataList.Add(dealCount);
-                    backgroundColor.Add(dealTypeColorStr);
+                    data.labels.Add(orderStatus);
+                    dataList.Add(statusCount);
+                    backgroundColor.Add(statusColorStr);
                     borderColor.Add(borderColorStr);
 
                     loaded = true;
                 }
             }
+
 
             data.datasets.Add(new WidgetDataSet());
             data.datasets[0].data = dataList;
@@ -56,6 +54,8 @@ namespace WebApi.Modules.Settings.Widgets
             data.datasets[0].borderColor = borderColor;
 
             return loaded;
+
         }
+        //------------------------------------------------------------------------------------
     }
-};
+}
