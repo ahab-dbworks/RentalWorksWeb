@@ -351,11 +351,10 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
-    <Content Include="Source\Grids\ContactCompanyContactGrid\ContactCompanyContactGridBrowse.htm" />
+    <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
-    <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
@@ -437,12 +436,11 @@
     <TypeScriptCompile Include="scripts\typings\jqueryui\jqueryui.d.ts" />
     <TypeScriptCompile Include="scripts\typings\materialize-css\materialize-css.d.ts" />
     <TypeScriptCompile Include="scripts\typings\pickadate\pickadate.d.ts" />
-    <TypeScriptCompile Include="Source\Grids\ContactCompanyContactGrid\ContactCompanyContactGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />

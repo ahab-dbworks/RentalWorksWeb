@@ -5,6 +5,7 @@ declare var FwMenu: any;
 declare var Mustache: any;
 declare var FwFunc: any;
 declare var FwNotification: any;
+declare var FwGridMenu: any;
 
 class Contact {
     Module: string;
@@ -95,8 +96,8 @@ class Contact {
         var $companyContactGrid: any;
         var $companyContactGridControl: any;
 
-        $companyContactGrid = $form.find('div[data-grid="ContactCompanyContactGrid"]');
-        $companyContactGridControl = jQuery(jQuery('#tmpl-grids-ContactCompanyContactGridBrowse').html());
+        $companyContactGrid = $form.find('div[data-grid="CompanyContactGrid"]');
+        $companyContactGridControl = jQuery(jQuery('#tmpl-grids-CompanyContactGridBrowse').html());
         $companyContactGrid.empty().append($companyContactGridControl);
         $companyContactGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -111,67 +112,67 @@ class Contact {
         FwBrowse.renderRuntimeHtml($companyContactGridControl);
     };
     //----------------------------------------------------------------------------------------------
-    addGridFilter($form: any) {
-        var $menuObject = $form.find('[data-name="ContactCompanyContactGrid"] .fwmenu');
-        var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Contacts', true);
-        var $lead: JQuery = FwMenu.generateDropDownViewBtn('Lead Contacts', false);
-        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect Contacts', false);
-        var $customer: JQuery = FwMenu.generateDropDownViewBtn('Customer Contacts', false);
-        var $deal: JQuery = FwMenu.generateDropDownViewBtn('Deal Contacts', false);
-        var $vendor: JQuery = FwMenu.generateDropDownViewBtn('Vendor Contacts', false);
+    //addGridFilter($form: any) {
+    //    var $menuObject = $form.find('[data-name="CompanyContactGrid"] .fwmenu');
+    //    var self = this;
+    //    var $all: JQuery = FwGridMenu.generateDropDownViewBtn('All Contacts', true);
+    //    var $lead: JQuery = FwGridMenu.generateDropDownViewBtn('Lead Contacts', false);
+    //    var $prospect: JQuery = FwGridMenu.generateDropDownViewBtn('Prospect Contacts', false);
+    //    var $customer: JQuery = FwGridMenu.generateDropDownViewBtn('Customer Contacts', false);
+    //    var $deal: JQuery = FwGridMenu.generateDropDownViewBtn('Deal Contacts', false);
+    //    var $vendor: JQuery = FwGridMenu.generateDropDownViewBtn('Vendor Contacts', false);
 
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
-            FwBrowse.databind($browse);
-        });
-        $lead.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LEAD';
-            FwBrowse.databind($browse);
-        });
-        $prospect.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'PROSPECT';
-            FwBrowse.databind($browse);
-        });
-        $customer.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CUSTOMER';
-            FwBrowse.databind($browse);
-        });
-        $deal.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'DEAL';
-            FwBrowse.databind($browse);
-        });
-        $vendor.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'VENDOR';
-            FwBrowse.databind($browse);
-        });
+    //    $all.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'ALL';
+    //        FwBrowse.databind($browse);
+    //    });
+    //    $lead.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'LEAD';
+    //        FwBrowse.databind($browse);
+    //    });
+    //    $prospect.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'PROSPECT';
+    //        FwBrowse.databind($browse);
+    //    });
+    //    $customer.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'CUSTOMER';
+    //        FwBrowse.databind($browse);
+    //    });
+    //    $deal.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'DEAL';
+    //        FwBrowse.databind($browse);
+    //    });
+    //    $vendor.on('click', function () {
+    //        var $browse;
+    //        $browse = jQuery(this).closest('.fwbrowse');
+    //        self.ActiveView = 'VENDOR';
+    //        FwBrowse.databind($browse);
+    //    });
 
-        FwMenu.addVerticleSeparator($menuObject);
+    //    FwGridMenu.addVerticleSeparator($menuObject);
 
-        var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all);
-        viewSubitems.push($lead);
-        viewSubitems.push($prospect);
-        viewSubitems.push($customer);
-        viewSubitems.push($deal);
-        viewSubitems.push($vendor);
+    //    var viewSubitems: Array<JQuery> = [];
+    //    viewSubitems.push($all);
+    //    viewSubitems.push($lead);
+    //    viewSubitems.push($prospect);
+    //    viewSubitems.push($customer);
+    //    viewSubitems.push($deal);
+    //    viewSubitems.push($vendor);
 
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+    //    var $view;
+    //    $view = FwGridMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
-    };
+    //};
     //---------------------------------------------------------------------------------------------- 
     afterLoad($form: JQuery) {
         var $contactNoteGrid: any;
@@ -181,7 +182,7 @@ class Contact {
 
         var $companyContactGrid: any;
 
-        $companyContactGrid = $form.find('[data-name="ContactCompanyContactGrid"]');
+        $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
 
         FwBrowse.addLegend($companyContactGrid, 'Lead', '#ff8040');
@@ -190,18 +191,10 @@ class Contact {
         FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
         FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
 
-        this.addGridFilter($form);
+        //this.addGridFilter($form);
     };
     //--------------------------------------------------------------------------------------------
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
-        var $form;
 
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'CompanyValidation':
-                $form.find('.tdselectrow [data-browsedatafield="Email"] input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
-        }
-    };
 }
 
 (window as any).ContactController = new Contact();

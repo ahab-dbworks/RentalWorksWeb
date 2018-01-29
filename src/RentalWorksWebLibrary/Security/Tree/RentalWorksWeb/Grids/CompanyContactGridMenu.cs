@@ -3,14 +3,14 @@
     public class CompanyContactGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public CompanyContactGridMenu() : base("{12C1C7E7-FC37-4ED2-807B-FFD5D6BF73C6}") { }
+        public CompanyContactGridMenu() : base("{68E99935-E0AB-4552-BBFF-46ED2965E4F0}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
-            var nodeGridMenuBar = tree.AddMenuBar("{B54A8AD6-B81D-40CC-A2A4-4D93FA841313}", MODULEID);
-            tree.AddNewMenuBarButton("{5CFE8084-B5CD-497E-8808-D776361B89DE}", nodeGridMenuBar.Id);
-            tree.AddEditMenuBarButton("{15D53BDF-BF12-42E8-A3D5-F3376723D23D}", nodeGridMenuBar.Id);
-            tree.AddDeleteMenuBarButton("{A36AF5AD-1EF2-47F8-88F3-A6CC802719F3}", nodeGridMenuBar.Id);
+            var nodeGridMenuBar = tree.AddMenuBar("{CCE48C43-8E43-4F7B-B0FF-06A055C398AB}", MODULEID);
+            tree.AddNewMenuBarButton("{6D2C8640-BABA-46EC-A6C6-4440EB1219E8}", nodeGridMenuBar.Id);
+            tree.AddEditMenuBarButton("{60C5E33D-7243-4C8A-A46E-FCA633B49FDE}", nodeGridMenuBar.Id);
+            tree.AddDeleteMenuBarButton("{96A29C0A-3A75-43B4-8DE3-357F703C5C06}", nodeGridMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

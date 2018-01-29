@@ -1,12 +1,15 @@
 ﻿<div data-name="CompanyContactGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Company Contact" data-rendermode="template" data-showsearch="false" data-controller="CompanyContactGridController">
     <div class="column" data-width="0" data-visible="false">
         <div class="field" data-isuniqueid="true" data-browsedatafield="CompanyContactId" data-browsedatatype="key" data-formdatafield="CompanyContactId" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
-    </div>    
-    <div class="column" data-width="auto" data-visible="true">
-        <div class="field" data-caption="Contact" data-browsedatafield="Person" data-browsedatatype="text" data-formdatafield="ContactId" data-validationname="ContactValidation" data-formdatatype="validation" data-sort="asc" data-formrequired="true" data-formnoduplicate="true"></div>
     </div>
     <div class="column" data-width="auto" data-visible="true">
-        <div class="field" data-caption="Contact Title" data-browsedatafield="ContactTitle" data-browsedatatype="text" data-formdatafield="ContactTitleId" data-formdisplayfield="ContactTitle" data-validationname="ContactTitleValidation" data-formdatatype="validation" data-sort="off" data-formrequired="true" data-formnoduplicate="true"></div>
+        <div class="field" data-caption="Company" data-browsedatafield="Company" data-browsedatatype="text" data-cellcolor="CompanyTypeColor" data-validationname="CompanyValidation" data-formdatafield="CompanyId" data-formdatatype="validation" data-sort="asc" data-formnoduplicate="true"></div>
+    </div>
+    <div class="column" data-width="auto" data-visible="true">
+        <div class="field type" data-caption="Company Type" data-browsedatafield="CompanyType" data-browsedatatype="text" data-formdatafield="CompanyType" data-formdatatype="text" data-sort="off" data-formrequired="true" data-formnoduplicate="true"></div>
+    </div>
+    <div class="column" data-width="auto" data-visible="true">
+        <div class="field" data-caption="Contact Title" data-browsedatafield="ContactTitle" data-browsedatatype="text" data-formdatafield="ContactTitleId" data-validationname="ContactTitleValidation" data-formdatatype="validation" data-sort="off" data-formrequired="true" data-formnoduplicate="true"></div>
     </div>
     <div class="column" data-width="auto" data-visible="true">
         <div class="field" data-caption="Office Phone" data-browsedatafield="OfficePhone" data-browsedatatype="phone" data-formdatafield="OfficePhone" data-formdatatype="phone" data-sort="off" data-formnoduplicate="true"></div>
