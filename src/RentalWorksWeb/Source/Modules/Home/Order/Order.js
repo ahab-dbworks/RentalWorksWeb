@@ -186,8 +186,9 @@ var Order = (function () {
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="OfficeLocation"]').attr('data-originalvalue', office.locationid);
-            $form.find('div[data-datafield="Warehouse"]').attr('data-originalvalue', warehouse.warehouseid);
+
+            FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
+            FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
         }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
