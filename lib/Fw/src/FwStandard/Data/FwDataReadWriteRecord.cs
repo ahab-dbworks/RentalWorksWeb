@@ -13,32 +13,6 @@ namespace FwStandard.DataLayer
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
 
-        public class BeforeSaveEventArgs : EventArgs
-        {
-            public TDataRecordSaveMode SaveMode    { get; set; }
-            public bool                PerformSave { get; set; } = true;
-        }
-
-        public class AfterSaveEventArgs : EventArgs
-        {
-            public TDataRecordSaveMode SaveMode { get; set; }
-            public bool SavePerformed { get; set; } = true;  //jh - I'm not sure this is necessary.  considering removing
-        }
-
-        public class BeforeValidateEventArgs : EventArgs
-        {
-            public TDataRecordSaveMode SaveMode { get; set; }
-        }
-
-        public class BeforeDeleteEventArgs : EventArgs
-        {
-            public bool PerformDelete { get; set; } = true;
-        }
-
-        public class AfterDeleteEventArgs : EventArgs { }
-
-
-
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);

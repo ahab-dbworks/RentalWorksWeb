@@ -15,6 +15,30 @@ namespace FwStandard.BusinessLogic
 {
     public enum TDataRecordSaveMode { smInsert, smUpdate };
 
+    public class BeforeSaveEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public bool PerformSave { get; set; } = true;
+    }
+
+    public class AfterSaveEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public bool SavePerformed { get; set; } = true;  //jh - I'm not sure this is necessary.  considering removing
+    }
+
+    public class BeforeValidateEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+    }
+
+    public class BeforeDeleteEventArgs : EventArgs
+    {
+        public bool PerformDelete { get; set; } = true;
+    }
+
+    public class AfterDeleteEventArgs : EventArgs { }
+
     public class FwBusinessLogic
     {
         [JsonIgnore]
@@ -23,9 +47,63 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         protected FwDataRecord dataLoader = null;
 
+        [JsonIgnore]
         protected static FwJsonDataTable duplicateRules = null;
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
+
+        public event EventHandler<BeforeSaveEventArgs> BeforeSave;
+        public event EventHandler<AfterSaveEventArgs> AfterSave;
+        public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
+        public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
+        public event EventHandler<AfterDeleteEventArgs> AfterDelete;
+
+        public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
+        public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
+        public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
+        public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
+        public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
+
+        protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
+        {
+            EventHandler<BeforeSaveEventArgs> handler = BeforeSave;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnAfterSave(AfterSaveEventArgs e)
+        {
+            EventHandler<AfterSaveEventArgs> handler = AfterSave;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnBeforeValidate(BeforeValidateEventArgs e)
+        {
+            EventHandler<BeforeValidateEventArgs> handler = BeforeValidate;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
+        {
+            EventHandler<BeforeDeleteEventArgs> handler = BeforeDelete;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
+        {
+            EventHandler<AfterDeleteEventArgs> handler = AfterDelete;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
@@ -430,30 +508,55 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual void BeforeSave() { }
-        //------------------------------------------------------------------------------------
-        public virtual void AfterSave() { }
-        //------------------------------------------------------------------------------------
         public virtual async Task<int> SaveAsync()
         {
-            BeforeSave();
             int rowsAffected = 0;
-            foreach (FwDataReadWriteRecord rec in dataRecords)
+            TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
+
+            BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
+            AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
+            beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+            afterSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+            if (BeforeSave != null)
             {
-                rowsAffected += await rec.SaveAsync();
+                BeforeSave(this, beforeSaveArgs);
             }
-            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
-            await _Custom.SaveAsync(GetPrimaryKeys());
-            AfterSave();
+            if (beforeSaveArgs.PerformSave)
+            {
+                foreach (FwDataReadWriteRecord rec in dataRecords)
+                {
+                    rowsAffected += await rec.SaveAsync();
+                }
+                await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
+                await _Custom.SaveAsync(GetPrimaryKeys());
+                afterSaveArgs.SavePerformed = (rowsAffected > 0);
+                if (AfterSave != null)
+                {
+                    AfterSave(this, afterSaveArgs);
+                }
+            }
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> DeleteAsync()
         {
             bool success = true;
-            foreach (FwDataReadWriteRecord rec in dataRecords)
+            BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
+            AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
+            if (BeforeDelete != null)
             {
-                success &= await rec.DeleteAsync();
+                BeforeDelete(this, beforeDeleteArgs);
+            }
+            if (beforeDeleteArgs.PerformDelete)
+            {
+                foreach (FwDataReadWriteRecord rec in dataRecords)
+                {
+                    success &= await rec.DeleteAsync();
+                }
+                if (AfterDelete != null)
+                {
+                    AfterDelete(this, afterDeleteArgs);
+                }
             }
             return success;
         }
