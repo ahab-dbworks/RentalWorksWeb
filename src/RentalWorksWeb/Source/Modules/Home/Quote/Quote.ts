@@ -174,8 +174,9 @@ class Quote {
 
             var today = new Date(Date.now()).toLocaleString();
             var date = today.split(',');
-            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));;
-            var office = JSON.parse(sessionStorage.getItem('location'));;
+            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            var office = JSON.parse(sessionStorage.getItem('location'));
+            var department = JSON.parse(sessionStorage.getItem('department'));
 
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
@@ -188,9 +189,11 @@ class Quote {
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-
+          
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
+            FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
+            $form.find('div[data-datafield="Department"] input').val(department.department);
 
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
