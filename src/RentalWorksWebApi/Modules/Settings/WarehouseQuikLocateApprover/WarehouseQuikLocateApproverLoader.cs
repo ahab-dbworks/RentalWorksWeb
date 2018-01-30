@@ -54,6 +54,7 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
         }
         //------------------------------------------------------------------------------------ 

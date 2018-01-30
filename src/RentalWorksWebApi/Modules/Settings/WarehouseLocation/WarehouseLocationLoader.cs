@@ -33,7 +33,7 @@ namespace WebApi.Modules.Settings.WarehouseLocation
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("Warehouse", "warehouseid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
             addFilterToSelect("OfficeLocation", "locationid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
