@@ -90,52 +90,52 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                     var timeoutSeconds = null;
                     var onError = null;
                     var $elementToBlock = $loginWindow;
-                    FwAppData.apiMethod(requiresAuthToken, method, url, apiRequest, timeoutSeconds, function onSuccess(response) {
-                        if ((response.statuscode == 0) && (typeof response.access_token !== 'undefined')) {
-                            sessionStorage.setItem('apiToken', response.access_token);
+                    FwAppData.apiMethod(requiresAuthToken, method, url, apiRequest, timeoutSeconds, function onSuccess(responseRestApi) {
+                        if ((responseRestApi.statuscode == 0) && (typeof responseRestApi.access_token !== 'undefined')) {
+                            sessionStorage.setItem('apiToken', responseRestApi.access_token);
                             // get a token to connect to RentalWorksWeb
                             var request = {
                                 email:    $email.val(),
                                 password: $password.val()
                             };
-                            FwServices.account.getAuthToken(request, $loginWindow, function (response) {
+                            FwServices.account.getAuthToken(request, $loginWindow, function (responseOriginalApi) {
                                 try {
-                                    if (typeof response.exception !== 'undefined') {
+                                    if (typeof responseOriginalApi.exception !== 'undefined') {
                                         if (applicationConfig.debugMode) {
-                                            //throw new Error(response.exception + response.stacktrace);
-                                            $loginWindow.find('.errormessage').html('').html(response.exception + response.stacktrace).show();
+                                            //throw new Error(responseOriginalApi.exception + responseOriginalApi.stacktrace);
+                                            $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception + responseOriginalApi.stacktrace).show();
                                         } else {
-                                            //throw new Error(response.exception);
-                                            $loginWindow.find('.errormessage').html('').html(response.exception).show();
+                                            //throw new Error(responseOriginalApi.exception);
+                                            $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception).show();
                                         }
                                     } else {
-                                        if ((response.errNo === 0) && (typeof response.authToken !== 'undefined')) {
+                                        if ((responseOriginalApi.errNo === 0) && (typeof responseOriginalApi.authToken !== 'undefined')) {
                                             localStorage.setItem('email',                request.email);
-                                            sessionStorage.setItem('authToken',          response.authToken);
-                                            sessionStorage.setItem('fullname',           response.webUser.fullname);
-                                            sessionStorage.setItem('browsedefaultrows',  response.webUser.browsedefaultrows);
-                                            sessionStorage.setItem('applicationtheme',   response.webUser.applicationtheme);
+                                            sessionStorage.setItem('authToken',          responseOriginalApi.authToken);
+                                            sessionStorage.setItem('fullname',           responseOriginalApi.webUser.fullname);
+                                            sessionStorage.setItem('browsedefaultrows',  responseOriginalApi.webUser.browsedefaultrows);
+                                            sessionStorage.setItem('applicationtheme',   responseOriginalApi.webUser.applicationtheme);
                                             sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
-                                            sessionStorage.setItem('serverVersion',      response.serverVersion);
-                                            sessionStorage.setItem('applicationOptions', JSON.stringify(response.applicationOptions));
-                                            sessionStorage.setItem('userType',           response.webUser.usertype);
-                                            sessionStorage.setItem('applicationtree',    JSON.stringify(response.applicationtree.Result));
-                                            sessionStorage.setItem('siteName',           response.site.name);
-                                            sessionStorage.setItem('clientCode',         response.clientcode);
-                                            sessionStorage.setItem('location',           JSON.stringify(response.webUser.location));
-                                            sessionStorage.setItem('warehouse',          JSON.stringify(response.webUser.warehouse));
-                                            sessionStorage.setItem('department',         JSON.stringify(response.webUser.department));
+                                            sessionStorage.setItem('serverVersion',      responseOriginalApi.serverVersion);
+                                            sessionStorage.setItem('applicationOptions', JSON.stringify(responseOriginalApi.applicationOptions));
+                                            sessionStorage.setItem('userType',           responseOriginalApi.webUser.usertype);
+                                            sessionStorage.setItem('applicationtree',    JSON.stringify(responseOriginalApi.applicationtree.Result));
+                                            sessionStorage.setItem('siteName',           responseOriginalApi.site.name);
+                                            sessionStorage.setItem('clientCode',         responseOriginalApi.clientcode);
+                                            sessionStorage.setItem('location',           JSON.stringify(responseOriginalApi.webUser.location));
+                                            sessionStorage.setItem('warehouse',          JSON.stringify(responseOriginalApi.webUser.warehouse));
+                                            sessionStorage.setItem('department',         JSON.stringify(responseOriginalApi.webUser.department));
                                             jQuery('html').removeClass('theme-material'); 
                                             program.navigate('home');
-                                        } else if (response.errNo !== 0) {
-                                            //throw new Error(response.errMsg);
-                                            $loginWindow.find('.errormessage').html('').html(response.errMsg).show();
-                                        } else if (typeof response.authToken === 'undefined') {
+                                        } else if (responseOriginalApi.errNo !== 0) {
+                                            //throw new Error(responseOriginalApi.errMsg);
+                                            $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();
+                                        } else if (typeof responseOriginalApi.authToken === 'undefined') {
                                             if (applicationConfig.debugMode) {
-                                                //throw new Error('FwServices.account.getAuthToken: response.authToken is undefined.');
-                                                $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: response.authToken is undefined.').show();
+                                                //throw new Error('FwServices.account.getAuthToken: responseOriginalApi.authToken is undefined.');
+                                                $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: responseOriginalApi.authToken is undefined.').show();
                                             } else {
-                                                //throw new Error(response.exception);
+                                                //throw new Error(responseOriginalApi.exception);
                                                 $loginWindow.find('.errormessage').html('').html('There is an issue with the authorization token.').show();
                                             }
                                         }
