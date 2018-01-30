@@ -63,7 +63,7 @@ class Warehouse {
             if ($this.val() === 'D') {
                 $form.find('.warehouseinventorytype').show();
             }
-        });
+        });        
 
         $form.find('[data-datafield="MarkupSales"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -139,6 +139,10 @@ class Warehouse {
         var $warehouseAvailabilityHourGridControl: any;
         var $warehouseDepartmentUserGrid: any;
         var $warehouseDepartmentUserGridControl: any;
+        var $warehouseOfficeLocationGrid: any;
+        var $warehouseOfficeLocationGridControl: any;
+        var $warehouseQuikLocateApproverGrid: any;
+        var $warehouseQuikLocateApproverGridControl: any;
 
         $warehouseDepartmentGrid = $form.find('div[data-grid="WarehouseDepartmentGrid"]');
         $warehouseDepartmentGridControl = jQuery(jQuery('#tmpl-grids-WarehouseDepartmentGridBrowse').html());
@@ -195,6 +199,34 @@ class Warehouse {
         });
         FwBrowse.init($warehouseDepartmentUserGridControl);
         FwBrowse.renderRuntimeHtml($warehouseDepartmentUserGridControl);
+
+        $warehouseOfficeLocationGrid = $form.find('div[data-grid="WarehouseOfficeLocationGrid"]');
+        $warehouseOfficeLocationGridControl = jQuery(jQuery('#tmpl-grids-WarehouseOfficeLocationGridBrowse').html());
+        $warehouseOfficeLocationGrid.empty().append($warehouseOfficeLocationGridControl);
+        $warehouseOfficeLocationGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+            };
+        });
+        $warehouseOfficeLocationGridControl.data('beforesave', function (request) {
+            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        });
+        FwBrowse.init($warehouseOfficeLocationGridControl);
+        FwBrowse.renderRuntimeHtml($warehouseOfficeLocationGridControl);
+
+        $warehouseQuikLocateApproverGrid = $form.find('div[data-grid="WarehouseQuikLocateApproverGrid"]');
+        $warehouseQuikLocateApproverGridControl = jQuery(jQuery('#tmpl-grids-WarehouseQuikLocateApproverGridBrowse').html());
+        $warehouseQuikLocateApproverGrid.empty().append($warehouseQuikLocateApproverGridControl);
+        $warehouseQuikLocateApproverGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+            };
+        });
+        $warehouseQuikLocateApproverGridControl.data('beforesave', function (request) {
+            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        });
+        FwBrowse.init($warehouseQuikLocateApproverGridControl);
+        FwBrowse.renderRuntimeHtml($warehouseQuikLocateApproverGridControl);
     }
 
 
@@ -203,6 +235,8 @@ class Warehouse {
         var $warehouseInventoryTypeGrid: any;
         var $warehouseAvailabilityHourGrid: any;
         var $warehouseDepartmentUserGrid: any;
+        var $warehouseOfficeLocationGrid: any;
+        var $warehouseQuikLocateApproverGrid: any;
 
         $warehouseDepartmentGrid = $form.find('[data-name="WarehouseDepartmentGrid"]');
         FwBrowse.search($warehouseDepartmentGrid);
@@ -216,6 +250,12 @@ class Warehouse {
         $warehouseDepartmentUserGrid = $form.find('[data-name="WarehouseDepartmentUserGrid"]');
         FwBrowse.search($warehouseDepartmentUserGrid);
 
+        $warehouseOfficeLocationGrid = $form.find('[data-name="WarehouseOfficeLocationGrid"]');
+        FwBrowse.search($warehouseOfficeLocationGrid);
+
+        $warehouseQuikLocateApproverGrid = $form.find('[data-name="WarehouseQuikLocateApproverGrid"]');
+        FwBrowse.search($warehouseQuikLocateApproverGrid);
+
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'S') {
             $form.find('.singlerange').show();
         }
@@ -224,6 +264,15 @@ class Warehouse {
         }
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'D') {
             $form.find('.warehouseinventorytype').show();
+        }
+
+        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'USA') {
+            $form.find('.ustax').show();
+            $form.find('.catax').hide();
+        }
+        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'CA') {
+            $form.find('.catax').show();
+            $form.find('.ustax').hide();
         }
 
         if ($form.find('[data-datafield="MarkupSales"] .fwformfield-value').prop('checked')) {
@@ -250,6 +299,30 @@ class Warehouse {
         }
 
     }
+
+    loadRelatedValidationFields(validationName, $valuefield, $tr) {
+        var $form;
+
+        $form = $valuefield.closest('.fwform');
+        switch (validationName) {
+            case 'TaxOptionValidation':
+
+                FwFormField.setValueByDataField($form, 'RentalTaxRate1', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'SalesTaxRate1', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'LaborTaxRate1', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+
+                if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'U') {
+                    $form.find('.ustax').show();
+                    $form.find('.catax').hide();
+                } else {
+                    FwFormField.setValueByDataField($form, 'RentalTaxRate2', $tr.find('.field[data-browsedatafield="RentalTaxRate2"]').attr('data-originalvalue'));
+                    FwFormField.setValueByDataField($form, 'SalesTaxRate2', $tr.find('.field[data-browsedatafield="SalesTaxRate2"]').attr('data-originalvalue'));
+                    FwFormField.setValueByDataField($form, 'LaborTaxRate2', $tr.find('.field[data-browsedatafield="LaborTaxRate2"]').attr('data-originalvalue'));
+                    $form.find('.catax').show();
+                    $form.find('.ustax').hide();
+                };
+        }
+    };
 }
 
 (window as any).WarehouseController = new Warehouse();

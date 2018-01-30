@@ -415,6 +415,8 @@
     <Content Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridBrowse.htm" />
     <Content Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridBrowse.htm" />
     <Content Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridBrowse.htm" />
@@ -491,6 +493,8 @@
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryColorGrid\WardrobeInventoryColorGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WardrobeInventoryMaterialGrid\WardrobeInventoryMaterialGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridController.ts" />
@@ -949,6 +953,7 @@
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
+    <Content Include="Source\Validations\RegionValidation\RegionValidationBrowse.htm" />
     <Content Include="Source\Validations\RateTypeValidation\RateTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PickListValidation\PickListValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidationBrowse.htm" />
