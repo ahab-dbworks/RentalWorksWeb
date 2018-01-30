@@ -1633,41 +1633,8 @@ namespace FwStandard.SqlServer
 
                     foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
                     {
-                        int i = -1;
-
-                        //first, attempt to find the column index by the Key name (logical name)
-                        if (i < 0)
-                        {
-                            try
-                            {
-                                i = columnIndex[attribute.Key];
-                            }
-                            catch (System.Collections.Generic.KeyNotFoundException e)
-                            {
-                                i = -1;
-                            }
-                        }
-
-                        //second, attempt to find the column index by the ColumnName (physical name)
-                        if (i < 0)
-                        {
-                            try
-                            {
-                                i = columnIndex[attribute.Value.ColumnName];
-                            }
-                            catch (System.Collections.Generic.KeyNotFoundException e)
-                            {
-                                i = -1;
-                            }
-                        }
-
-                        //if neither fields are found, give a meaningful error message
-                        if (i < 0)
-                        {
-                            throw new Exception("Invalid field name: " + attribute.Key + " or " + attribute.Value.ColumnName);
-                        }
-                        FwDatabaseField field = new FwDatabaseField(reader.GetValue(i));
-                        object data = FormatReaderData(attribute.Value.ModelType, i, reader);
+                        FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[attribute.Key]));
+                        object data = FormatReaderData(attribute.Value.ModelType, columnIndex[attribute.Key], reader);
                         sqlDataFieldPropertyInfos[attribute.Key].SetValue(obj, data);
                     }
 

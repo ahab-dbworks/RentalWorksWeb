@@ -284,6 +284,10 @@ namespace FwStandard.SqlServer
                 sb.AppendLine(")");
                 sb.AppendLine(", paging_cte as (");
                 sb.AppendLine("    select top(@fwrownoend) row_number() over (");
+                if (OrderBy.Count == 0)
+                {
+                    throw new Exception("A sort expression is required for paged queries.");
+                }
                 foreach (string line in OrderBy)
                 {
                     sb.Append(line);
@@ -311,13 +315,17 @@ namespace FwStandard.SqlServer
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
                 sb.AppendLine("from main_cte, count_cte");
+                if (OrderBy.Count == 0)
+                {
+                    throw new Exception("A sort expression is required for paged queries.");
+                }
                 foreach (string line in OrderBy)
                 {
                     sb.Append(line);
                 }
                 sb.AppendLine();
-                sb.AppendLine("  offset (@fwpageno - 1) * @fwpagesize rows");
-                sb.AppendLine("  fetch next @fwpagesize rows only");
+                sb.AppendLine("offset (@fwpageno - 1) * @fwpagesize rows");
+                sb.AppendLine("fetch next @fwpagesize rows only");
             }
             query = sb.ToString();
             cmd.Clear();

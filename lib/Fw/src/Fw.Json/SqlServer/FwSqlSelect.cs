@@ -297,6 +297,10 @@ namespace Fw.Json.SqlServer
                 sb.AppendLine(")");
                 sb.AppendLine(", paging_cte as (");
                 sb.AppendLine("    select top(@fwrownoend) row_number() over (");
+                if (OrderBy.Count == 0)
+                {
+                    throw new Exception("A sort expression is required for paged queries.");
+                }
                 foreach (string line in OrderBy)
                 {
                     sb.Append(line);

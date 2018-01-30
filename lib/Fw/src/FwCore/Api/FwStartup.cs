@@ -222,10 +222,13 @@ namespace FwCore.Api
                 c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/reports-v1/swagger.json", SystemName + " Reports API v1");
                 c.SwaggerEndpoint(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger/administrator-v1/swagger.json", SystemName + " Administrator API v1");
             });
-            app.Run(context => {
-                context.Response.Redirect(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger");
-                return Task.CompletedTask;
-            });
+            if (!env.IsDevelopment())
+            {
+                app.Run(context => {
+                    context.Response.Redirect(Configuration["ApplicationConfig:VirtualDirectory"] + "/swagger");
+                    return Task.CompletedTask;
+                });
+            }
         }
         //------------------------------------------------------------------------------------
     }
