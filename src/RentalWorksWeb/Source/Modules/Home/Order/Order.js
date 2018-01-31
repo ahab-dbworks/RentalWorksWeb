@@ -185,8 +185,6 @@ var Order = (function () {
             FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
 
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
 
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
@@ -197,6 +195,7 @@ var Order = (function () {
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+
         }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -210,6 +209,10 @@ var Order = (function () {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
+
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+
         return $form;
     };
     Order.prototype.loadForm = function (uniqueids) {

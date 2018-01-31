@@ -146,7 +146,7 @@ class Quote {
         });
         $userWarehouse.on('click', function () {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse'); 
+            $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
             FwBrowse.databind($browse);
         });
@@ -187,9 +187,7 @@ class Quote {
 
             $form.find('div[data-datafield="DealId"]').attr('data-required', false);
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-          
+
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
             FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
@@ -198,7 +196,7 @@ class Quote {
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-  
+
         }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -212,6 +210,11 @@ class Quote {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
+
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+
+
         return $form;
     }
 
@@ -223,6 +226,23 @@ class Quote {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
+    }
+
+
+    renderFrames($form: any) {
+        var orderId;
+        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+
+        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+            var key;
+            for (key in response) {
+                if (response.hasOwnProperty(key)) {
+                    $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
+                }
+            }
+        });
+
+        FwFormField.disable($form.find('.frame'));
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
@@ -249,6 +269,7 @@ class Quote {
         })
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
+
     }
 
     afterLoad($form: any, mode: string) {
@@ -266,6 +287,8 @@ class Quote {
             FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
+
+        this.renderFrames($form);
     }
 }
 
