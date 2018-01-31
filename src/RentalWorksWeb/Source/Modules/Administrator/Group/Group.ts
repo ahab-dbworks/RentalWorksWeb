@@ -1,6 +1,7 @@
 ﻿declare var FwModule: any;
 declare var FwBrowse: any;
 declare var FwConfirmation: any;
+declare var FwApplicationTree: any;
 
 class Group {
     Module: string;
