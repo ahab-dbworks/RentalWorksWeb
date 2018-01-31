@@ -116,11 +116,11 @@ html.theme-material .fwformfield[data-type="color"] .fwformfield-colorselect .ic
 /*#endregion*/
 
 /*#region Validation CSS*/
-html.theme-material.desktop .fwformfield[data-type="combobox"] .fwformfield-control {padding-right:30px;position:relative;vertical-align:middle;box-sizing:border-box;border-radius:4px;height:24px;line-height:24px;}
+html.theme-material.desktop .fwformfield[data-type="combobox"] .fwformfield-control {padding-right:30px;position:relative;vertical-align:middle;box-sizing:border-box;height:24px;line-height:24px;}
 html.theme-material.mobile .fwformfield[data-type="combobox"] .fwformfield-control {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;border-radius:4px;overflow:hidden;}
 html.theme-material.desktop .fwformfield[data-type="combobox"] input.fwformfield-text {font-size:14px;height: 22px;position:absolute;top:0;right:24px;bottom:0;left:0;display:block;border:0;width:100%;box-sizing:border-box;padding:0 5px;border-radius:4px;}
 html.theme-material.mobile .fwformfield[data-type="combobox"] input.fwformfield-text {font-size:18px;width:100%;height:42px;flex:1 1 0;box-sizing:border-box;padding:0 10px;border:0;border-radius:0;}
-html.theme-material.desktop .fwformfield[data-type="combobox"] .btnvalidate {box-sizing:border-box;width: 32px;position:absolute;top:0;right:0;bottom:0;border-top-right-radius:3px;border-bottom-right-radius:3px;display:table-cell;vertical-align:middle;text-align:center;}
+html.theme-material.desktop .fwformfield[data-type="combobox"] .btnvalidate {box-sizing:border-box;width: 32px;position:absolute;top:0;right:0;bottom:0;display:table-cell;vertical-align:middle;text-align:center;}
 html.theme-material.desktop .fwformfield[data-type="combobox"] .icon-validation {width:16px;height:16px;display:inline-block;background-image:url("../fwimages/icons/128/dropdownarrow.001.png");background-size:cover;background-repeat: no-repeat;}
 html.theme-material.mobile .fwformfield[data-type="combobox"] i.btnvalidate {font-size:42px;flex:0 0 42px;padding:0 5px;}
 html.theme-material .fwformfield[data-type="combobox"][data-enabled="true"] .btnvalidate {cursor:pointer;}
@@ -132,7 +132,7 @@ html.theme-material.desktop .fwformfield[data-type="combobox"] .dropdown .row {h
 html.theme-material.mobile .fwformfield[data-type="combobox"] .dropdown .row {/*height:32px;line-height:32px;padding:0 5px;*/text-indent: -10px;padding: 7px 5px 7px 15px;border-bottom:1px solid #f0f0f0;}
 html.theme-material .fwformfield[data-type="combobox"] .dropdown .row.selected,
 html.theme-material.mobile .fwformfield[data-type="combobox"] .dropdown .row:active {background-color:#000077;color:#ffffff;}
-html.theme-material .fwformfield[data-type="combobox"] .pager {vertical-align:middle;text-align:center;border-top:1px solid #000000;padding:0;background-color:#cccccc;}
+html.theme-material .fwformfield[data-type="combobox"] .pager {vertical-align:middle;text-align:center;border-top:1px solid #000000;padding:0;background-color:#E0E0E0;}
 html.theme-material.desktop .fwformfield[data-type="combobox"] .pager {height:26px;line-height:26px;padding:2px 0;}
 html.theme-material.mobile .fwformfield[data-type="combobox"] .pager {height:38px;line-height:38px;padding:5px 0;}
 html.theme-material .fwformfield[data-type="combobox"] .pager .btnFirstPage,

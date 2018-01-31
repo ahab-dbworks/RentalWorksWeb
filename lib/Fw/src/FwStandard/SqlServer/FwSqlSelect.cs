@@ -24,7 +24,7 @@ namespace FwStandard.SqlServer
         public enum PagingCompatibilities { AutoDetect, PreSql2012, Sql2012 } // AutoDetect logic is handled in FwController, since the Database Connection info is dependency injected there
         public static PagingCompatibilities PagingCompatibility { get; set; } = PagingCompatibilities.AutoDetect;
 
-        private bool parsed = false;
+        public bool Parsed { get; private set; } = false;
         //---------------------------------------------------------------------------------------------
         public FwSqlSelect()
         {
@@ -37,7 +37,7 @@ namespace FwStandard.SqlServer
             Clauses lastClause;
             Clauses currentClause;
 
-            if (parsed)
+            if (Parsed)
             {
                 throw new Exception("Query was already parsed.");
             }
@@ -58,7 +58,7 @@ namespace FwStandard.SqlServer
                 }
                 lastClause = currentClause;
             }
-            parsed = true;
+            Parsed = true;
         }
         //---------------------------------------------------------------------------------------------
         private Clauses GetCurrentClause(string line)
@@ -156,7 +156,7 @@ namespace FwStandard.SqlServer
         //---------------------------------------------------------------------------------------------
         public void AddWhere(string conjunction, string line)
         {
-            if (!parsed)
+            if (!Parsed)
             {
                 throw new Exception("Need to parse select statement before calling AddWhere.");
             }
@@ -223,7 +223,7 @@ namespace FwStandard.SqlServer
             StringBuilder sb;
             int rowNoStart, rowNoEnd;
 
-            if (!parsed)
+            if (!Parsed)
             {
                 this.Parse();
             }
@@ -328,7 +328,8 @@ namespace FwStandard.SqlServer
                 sb.AppendLine("fetch next @fwpagesize rows only");
             }
             query = sb.ToString();
-            cmd.Clear();
+            //cmd.Clear();
+            //cmd.Parameters.Clear();
             cmd.Add(query);
             foreach (KeyValuePair<string, SqlParameter> item in Parameters)
             {

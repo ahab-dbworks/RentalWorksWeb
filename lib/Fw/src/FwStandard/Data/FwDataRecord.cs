@@ -501,12 +501,13 @@ namespace FwStandard.DataLayer
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
-                //select.EnablePaging = false;
+                select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
+                select.PageNo = request.pageno;
+                select.PageSize = request.pagesize;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
-                    select.SetQuery(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(includeAllColumns: false, pageNo: request.pageno, pageSize: request.pagesize);
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
             return dt;

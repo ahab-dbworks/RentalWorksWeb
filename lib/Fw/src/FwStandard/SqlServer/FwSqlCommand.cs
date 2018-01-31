@@ -981,44 +981,53 @@ namespace FwStandard.SqlServer
         //    return dt;
         //}
         //------------------------------------------------------------------------------------
-        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns = true, int pageNo = 0, int pageSize = 0, int top = 0, bool doParse = true)
+        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(bool includeAllColumns = true, int pageNo = 0, int pageSize = 0, int top = 0)
         {
-            FwJsonDataTable dt;
-
             FwSqlSelect select = new FwSqlSelect();
             select.EnablePaging = (pageNo != 0) && (pageSize != 0);
             select.PageNo = pageNo;
             select.PageSize = pageSize;
             select.Top = top;
             select.Add(this.qryText.ToString());
-            if (doParse)
-            {
-                select.Parse();
-                select.SetQuery(this);
-            }
-            dt = new FwJsonDataTable();
-            dt.PageNo = pageNo;
-            dt.PageSize = pageSize;
-            await QueryToFwJsonTableAsync(dt, this.qryText.ToString(), includeAllColumns);
-            // mv 2017-09-24 this was overwriting the correct result
-            //dt.TotalRows = dt.Rows.Count;
-
+            FwJsonDataTable dt = await QueryToFwJsonTableAsync(select, includeAllColumns);
             return dt;
         }
         //------------------------------------------------------------------------------------
-        private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(FwJsonDataTable dt, string qryText, bool includeAllColumns)
+        public async Task<FwJsonDataTable> QueryToFwJsonTableAsync(FwSqlSelect select, bool includeAllColumns)
+        {
+            if (!select.Parsed)
+            {
+                select.Parse();
+            }
+            select.SetQuery(this);
+            return await QueryToFwJsonTableAsync(select.PageNo, select.PageSize, includeAllColumns);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageno">This is the pageno you want returned in the DataTable.  This will not page your query for you.</param>
+        /// <param name="pagesize">This is the size you want returned in the DataTable.  This will not page your query for you.</param>
+        /// <param name="query">Pass null if you already set the query on this FwSqlCommand.</param>
+        /// <param name="includeAllColumns"></param>
+        /// <returns></returns>
+        private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(int pageNo, int pageSize, bool includeAllColumns)
         {
             List<string> readerColumns;
             List<object> row;
             int ordinal;
             string fieldName;
             object data;
+            FwJsonDataTable dt;
 
             try
             {
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToFwJsonTable()");
-                this.sqlCommand.CommandText = qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
+                this.sqlCommand.CommandText = this.qryText.ToString();
+                dt = new FwJsonDataTable();
+                dt.PageNo = pageNo;
+                dt.PageSize = pageSize;
                 await this.sqlCommand.Connection.OpenAsync();
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
@@ -1031,21 +1040,31 @@ namespace FwStandard.SqlServer
                         for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
                         {
                             bool found = false;
-                            string colname = string.Empty;
-                            for (int colno = 0; colno < columns.Count; colno++)
+                            bool pagingEnabled = (pageNo != 0 || pageSize != 0);
+                            if (pagingEnabled && (fieldno == 0 || fieldno == reader.FieldCount - 1))
                             {
-                                colname = reader.GetName(fieldno);
-                                if (colname == columns[colno].DataField)
-                                {
-                                    found = true;
-                                    dt.Columns.Add(columns[colno]);
-                                    break;
-                                }
+                                dt.Columns.Add(columns[0]);
+                                found = true;
                             }
                             if (!found)
                             {
-                                dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
+                                string colname = string.Empty;
+                                for (int colno = 0; colno < columns.Count; colno++)
+                                {
+                                    colname = reader.GetName(fieldno);
+                                    if (colname == columns[colno].DataField)
+                                    {
+                                        found = true;
+                                        dt.Columns.Add(columns[colno]);
+                                        break;
+                                    }
+                                }
+                                if (!found)
+                                {
+                                    dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
+                                }
                             }
+                            
                         }
                         columns = dt.Columns;
                     }
