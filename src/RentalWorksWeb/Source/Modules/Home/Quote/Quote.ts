@@ -197,6 +197,9 @@ class Quote {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
+            FwFormField.disable($form.find('.frame'));
+            $form.find(".frame .add-on").children().hide();
+
         }
 
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
@@ -231,7 +234,7 @@ class Quote {
 
     renderFrames($form: any) {
         var orderId;
-        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+        orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
@@ -243,6 +246,8 @@ class Quote {
         });
 
         FwFormField.disable($form.find('.frame'));
+
+        $form.find(".frame .add-on").children().hide();
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
@@ -287,8 +292,6 @@ class Quote {
             FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
-
-        this.renderFrames($form);
     }
 }
 
