@@ -28,7 +28,7 @@ namespace WebApi.Modules.Settings.Widget
                 qry.AddColumn("status");
                 qry.AddColumn("backgroundcolor");
                 qry.AddColumn("bordercolor");
-                FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true, doParse: false);
+                FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
                     int statusCount = Convert.ToInt32(table.Rows[r][0]);
