@@ -45,7 +45,7 @@ class RwHome {
                     console.log(label, value);
 
                     FwFunc.showError(label + value);
-                    program.getModule('module/order/' + label);
+                    program.getModule('module/order/status/' + label);
                 };
             } catch (ex) {
                 FwFunc.showError(ex);

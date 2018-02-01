@@ -46,10 +46,11 @@ var Order = /** @class */ (function () {
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse();
+        var $browse = this.openBrowse(filter);
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
-            $browse.find('div[data-browsedatafield="Status"]').find('input').val(filter);
+            filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
+            $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -59,7 +60,7 @@ var Order = /** @class */ (function () {
         return screen;
     };
     ;
-    Order.prototype.openBrowse = function () {
+    Order.prototype.openBrowse = function (filter) {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
