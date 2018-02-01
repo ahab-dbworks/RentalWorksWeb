@@ -37,6 +37,9 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "rentalsub", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSubTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentaltax", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------
@@ -60,6 +63,9 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salessub", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salestax", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal)]
         public decimal? SalesTotal { get; set; }
@@ -85,6 +91,9 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "partssub", modeltype: FwDataTypes.Decimal)]
         public decimal? PartsSubTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partstax", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsTax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal)]
         public decimal? PartsTotal { get; set; }
         //------------------------------------------------------------------------------------
@@ -108,6 +117,9 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "spacesub", modeltype: FwDataTypes.Decimal)]
         public decimal? FacilitiesSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacetax", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? FacilitiesTotal { get; set; }
@@ -133,6 +145,9 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "vehiclesub", modeltype: FwDataTypes.Decimal)]
         public decimal? TransporationSubTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicletax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationTax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicletotal", modeltype: FwDataTypes.Decimal)]
         public decimal? TransporationTotal { get; set; }
         //------------------------------------------------------------------------------------
@@ -156,6 +171,9 @@ namespace WebApi.Modules.Home.OrderSummary
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "laborsub", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labortax", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborTotal { get; set; }
@@ -181,6 +199,9 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "miscsub", modeltype: FwDataTypes.Decimal)]
         public decimal? MiscSubTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "misctax", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscTax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.Decimal)]
         public decimal? MiscTotal { get; set; }
         //------------------------------------------------------------------------------------
@@ -205,8 +226,41 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "rentalsalesub", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSaleSubTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsaletax", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleTax { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalsaletotal", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalSaleTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totaldisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalmarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalmargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totalsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "totaltax", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalTax { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "total", modeltype: FwDataTypes.Decimal)]
+        public decimal? TotalTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? TaxCost { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "replacement", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCostTotal { get; set; }
