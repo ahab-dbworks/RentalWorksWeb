@@ -49,6 +49,7 @@ var Order = /** @class */ (function () {
         var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+            $browse.find('div[data-browsedatafield="Status"]').find('input').val(filter);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -188,10 +189,6 @@ var Order = /** @class */ (function () {
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
-            FwFormField.disable($form.find('.frame'));
-            $form.find(".frame .add-on").children().hide();
-
         }
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -204,11 +201,6 @@ var Order = /** @class */ (function () {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
-
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-
-
         return $form;
     };
     ;
@@ -283,24 +275,7 @@ var Order = /** @class */ (function () {
             });
         });
     };
-
-    Order.prototype.renderFrames = function ($form) {
-        var orderId;
-        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
-
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-            var key;
-            for (key in response) {
-                if (response.hasOwnProperty(key)) {
-                    $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
-                }
-            }
-        });
-
-        FwFormField.disable($form.find('.frame'));
-        $form.find(".frame .add-on").children().hide();
-    }
-
+    ;
     Order.prototype.afterLoad = function ($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');

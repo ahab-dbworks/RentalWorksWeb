@@ -61,6 +61,7 @@ class Order {
         var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+            $browse.find('div[data-browsedatafield="Status"]').find('input').val(filter)
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

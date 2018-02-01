@@ -34,6 +34,7 @@ var RwHome = /** @class */ (function () {
                     var value = data.datasets[datasetIndex].data[activePoint._index];
                     console.log(label, value);
                     FwFunc.showError(label + value);
+                    program.getModule('module/order/' + label);
                 };
             }
             catch (ex) {

@@ -2,6 +2,7 @@
 declare var FwAppData: any;
 declare var program: any;
 declare var Chart: any;
+declare var OrderController: any;
 //----------------------------------------------------------------------------------------------
 class RwHome {
     getHomeScreen(viewModel, properties) {
@@ -44,6 +45,7 @@ class RwHome {
                     console.log(label, value);
 
                     FwFunc.showError(label + value);
+                    program.getModule('module/order/' + label);
                 };
             } catch (ex) {
                 FwFunc.showError(ex);

@@ -22,7 +22,8 @@ Program.prototype.modules = [
   //, { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
   { urlpattern: /^module\/contact$/,                    getScreen: function () { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendor$/,                   getScreen: function () { return VendorController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen(); } }
+  , { urlpattern: /^module\/order\/(\w+)/,              getScreen: function(match) { var filter = match[1]; return OrderController.getModuleScreen(filter); } }
   , { urlpattern: /^module\/picklist$/,                 getScreen: function () { return PickListController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/picklistreport$/,           getScreen: function () { return RwPickListReportController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/orderstatus$/,              getScreen: function () { return OrderStatusController.getModuleScreen({}, {}); } }
@@ -279,7 +280,7 @@ Program.prototype.navigate = function(path) {
     }
 };
 //---------------------------------------------------------------------------------
-Program.prototype.getModule = function(path) {
+Program.prototype.getModule = function(path, properties) {
     var screen, match, $bodyContainer, $modifiedForms, $form, $tab;
 
     $bodyContainer = jQuery('#master-body');
