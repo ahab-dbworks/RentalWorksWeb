@@ -234,7 +234,7 @@ class Quote {
 
     renderFrames($form: any) {
         var orderId;
-        orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
@@ -292,6 +292,8 @@ class Quote {
             FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
+
+        this.renderFrames($form);
     }
 }
 
