@@ -58,7 +58,7 @@ class Order {
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse(filter);
+        var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);

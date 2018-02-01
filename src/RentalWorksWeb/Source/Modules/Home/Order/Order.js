@@ -46,7 +46,7 @@ var Order = /** @class */ (function () {
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse(filter);
+        var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
@@ -60,7 +60,7 @@ var Order = /** @class */ (function () {
         return screen;
     };
     ;
-    Order.prototype.openBrowse = function (filter) {
+    Order.prototype.openBrowse = function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
