@@ -40,6 +40,216 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesdisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salescost", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesmarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesmargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salessub", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partsprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partsdisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partscost", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partsprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partsmarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partsmargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partssub", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? PartsTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spaceprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacedisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacecost", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spaceprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacemarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacemargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacesub", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? FacilitiesTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicleprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicledisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehiclecost", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicleprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehiclemarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehiclemargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehiclesub", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "vehicletotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? TransporationTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labordisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labormarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labormargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscPrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscdisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "misccost", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscmarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscmargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "miscsub", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? MiscTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsaleprice", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSalePrice { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsaledisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleDiscount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsalecost", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleCost { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsaleprofit", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleProfit { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsalemarkup", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleMarkup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsalemargin", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleMargin { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsalesub", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleSubTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalsaletotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalSaleTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "replacement", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCostTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "value", modeltype: FwDataTypes.Decimal)]
+        public decimal? ValueTotal { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ownedreplacement", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCostOwned { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ownedvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? ValueOwned { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "replacement", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCostSubs { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "value", modeltype: FwDataTypes.Decimal)]
+        public decimal? ValueSubs { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weightlbs", modeltype: FwDataTypes.Integer)]
+        public int? WeightPounds { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weightoz", modeltype: FwDataTypes.Integer)]
+        public int? WeightOunces { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weightkg", modeltype: FwDataTypes.Integer)]
+        public int? WeightKilograms { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "weightgr", modeltype: FwDataTypes.Integer)]
+        public int? WeightGrams { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "caseweightlbs", modeltype: FwDataTypes.Integer)]
+        public int? WeightInCasePounds { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "caseweightoz", modeltype: FwDataTypes.Integer)]
+        public int? WeightInCaseOunces { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "caseweightkg", modeltype: FwDataTypes.Integer)]
+        public int? WeightInCaseKilograms { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "caseweightgr", modeltype: FwDataTypes.Integer)]
+        public int? WeightInCaseGrams { get; set; }
+        //------------------------------------------------------------------------------------
         //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         //{
         //    select.Add("exec getordersummaryasresultset '" + OrderId + "'");
