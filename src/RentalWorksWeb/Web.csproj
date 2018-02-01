@@ -417,7 +417,7 @@
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
-    <Content Include="Source\Modules\Home\Order\Order.js" />
+    <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />

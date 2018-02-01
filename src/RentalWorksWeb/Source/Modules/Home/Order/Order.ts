@@ -1,10 +1,20 @@
-var Order = /** @class */ (function () {
-    function Order() {
+declare var FwModule: any;
+declare var FwBrowse: any;
+declare var RwPickListReportController: any;
+
+class Order {
+    Module: string;
+    apiurl: string;
+    caption: string;
+    ActiveView: string;
+
+    constructor() {
         this.Module = 'Order';
         this.apiurl = 'api/v1/order';
         this.caption = 'Order';
         this.ActiveView = 'ALL';
         var self = this;
+
         FwApplicationTree.clickEvents['{EE96992B-47EB-4F4B-A91A-AC9B7138D03B}'] = function (event) {
             var $browse, pickListId, pickListNumber;
             try {
@@ -17,15 +27,16 @@ var Order = /** @class */ (function () {
                     FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
                     $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
                     $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-                }
-                else {
+                } else {
                     throw new Error("Please select a Pick List to print");
                 }
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
+
         };
+
         //Confirmation for cancelling Pick List
         FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
             var $form, pickListId, pickListNumber;
@@ -40,9 +51,10 @@ var Order = /** @class */ (function () {
             }
         };
     }
-    Order.prototype.getModuleScreen = function (filter) {
+
+    getModuleScreen(filter) {
         var self = this;
-        var screen = {};
+        var screen : any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -57,8 +69,8 @@ var Order = /** @class */ (function () {
         };
         return screen;
     };
-    ;
-    Order.prototype.openBrowse = function () {
+
+    openBrowse() {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -75,8 +87,8 @@ var Order = /** @class */ (function () {
         FwBrowse.addLegend($browse, 'L&D', '#20b7ff');
         return $browse;
     };
-    ;
-    Order.prototype.addBrowseMenuItems = function ($menuObject) {
+
+    addBrowseMenuItems($menuObject) {
         var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All', true);
         var $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false);
@@ -161,11 +173,12 @@ var Order = /** @class */ (function () {
         return $menuObject;
     };
     ;
-    ;
-    Order.prototype.openForm = function (mode) {
+
+    openForm(mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             var today = new Date(Date.now()).toLocaleString();
@@ -173,26 +186,28 @@ var Order = /** @class */ (function () {
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
+
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
             FwFormField.setValueByDataField($form, 'OfficeLocation', office.location);
             FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
+
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+
             FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
             FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
             $form.find('div[data-datafield="Department"] input').val(department.department);
+
+
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
-            FwFormField.disable($form.find('.frame'));
-            $form.find(".frame .add-on").children().hide();
-
         }
+
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -204,27 +219,22 @@ var Order = /** @class */ (function () {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
-
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-
-
         return $form;
     };
-    ;
-    Order.prototype.loadForm = function (uniqueids) {
+
+    loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    ;
-    Order.prototype.saveForm = function ($form, closetab, navigationpath) {
+
+    saveForm($form, closetab, navigationpath) {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     };
-    ;
-    Order.prototype.renderGrids = function ($form) {
+
+    renderGrids($form) {
         var $orderPickListGrid;
         var $orderPickListGridControl;
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
@@ -250,14 +260,14 @@ var Order = /** @class */ (function () {
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
     };
-    ;
-    Order.prototype.loadAudit = function ($form) {
+
+    loadAudit($form) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
-    ;
-    Order.prototype.cancelPickList = function (pickListId, pickListNumber, $form) {
+
+    cancelPickList(pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no, self;
         self = this;
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
@@ -284,24 +294,7 @@ var Order = /** @class */ (function () {
         });
     };
 
-    Order.prototype.renderFrames = function ($form) {
-        var orderId;
-        orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
-
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
-            var key;
-            for (key in response) {
-                if (response.hasOwnProperty(key)) {
-                    $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
-                }
-            }
-        });
-
-        FwFormField.disable($form.find('.frame'));
-        $form.find(".frame .add-on").children().hide();
-    }
-
-    Order.prototype.afterLoad = function ($form) {
+    afterLoad($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
@@ -318,8 +311,5 @@ var Order = /** @class */ (function () {
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
     };
-    ;
-    return Order;
-}());
-window.OrderController = new Order();
-//# sourceMappingURL=Order.js.map
+}
+(<any>window).OrderController = new Order();
