@@ -136,10 +136,12 @@ RwMasterController.getUserControl = function($userControl) {
     $userControl.append($logoff);
 };
 //----------------------------------------------------------------------------------------------
-RwMasterController.buildOfficeLocationClassic = function($userControl) {
+RwMasterController.buildOfficeLocationClassic = function ($userControl) {
     var $officelocation, userlocation;
 
     userlocation = JSON.parse(sessionStorage.getItem('location'));
+    userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    userdepartment = JSON.parse(sessionStorage.getItem('department'));
 
     $officelocation = jQuery('<div id="officelocation" class="item"><div class="caption">Office Location:</div><div class="value"></div></div>');
     $userControl.append($officelocation);
@@ -158,37 +160,21 @@ RwMasterController.buildOfficeLocationClassic = function($userControl) {
         html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation"></div>');
         html.push('</div>');
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        $confirmation
-            .on('change', 'div[data-datafield="Location"] .fwformfield-value', function() {
-                $confirmation.find('div[data-datafield="Location"]').removeClass('error');
-                if (this.value == '') {
-                    FwFormField.disable($confirmation.find('div[data-datafield="Warehouse"]'));
-                } else {
-                    FwFormField.enable($confirmation.find('div[data-datafield="Warehouse"]'));
-                }
-                $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val('').change();
-                $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-text').val('');
-            })
-            .on('change', 'div[data-datafield="Warehouse"] .fwformfield-value', function () {
-                $confirmation.find('div[data-datafield="Warehouse"]').removeClass('error');
-                if (this.value == '') {
-                    FwFormField.disable($confirmation.find('div[data-datafield="Department"]'));
-                } else {
-                    FwFormField.enable($confirmation.find('div[data-datafield="Department"]'));
-                }
-                $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val('').change();
-                $confirmation.find('div[data-datafield="Department"] .fwformfield-text').val('');
-            })
-        ;
+        $confirmation.find('div[data-datafield="Location"] input.fwformfield-text').val(userlocation.location);
+        $confirmation.find('div[data-datafield="Location"] input.fwformfield-value').val(userlocation.locationid);
+        $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-text').val(userwarehouse.warehouse);
+        $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-value').val(userwarehouse.warehouseid);
+        $confirmation.find('div[data-datafield="Department"] input.fwformfield-text').val(userdepartment.department);
+        $confirmation.find('div[data-datafield="Department"] input.fwformfield-value').val(userdepartment.departmentid);
 
         $select.on('click', function() {
             var valid = true, request, location, warehouse;
@@ -325,6 +311,8 @@ RwMasterController.buildOfficeLocation = function($view) {
     var $officelocation, userlocation, $userControl;
 
     userlocation = JSON.parse(sessionStorage.getItem('location'));
+    userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    userdepartment = JSON.parse(sessionStorage.getItem('department'));
     $userControl = $view.find('.user-controls');
 
     $officelocation = jQuery('<div class="officelocation"><div class="locationcolor" style="background-color:' + userlocation.locationcolor + '"></div><div class="value">' + userlocation.location + '</div></div>');
@@ -332,52 +320,36 @@ RwMasterController.buildOfficeLocation = function($view) {
 
     $officelocation = jQuery('<div class="item officelocationbtn">Office Location</div>');
     $userControl.find('.user-dropdown').prepend($officelocation);
-    $officelocation.on('click', function() {
+    $officelocation.on('click', function () {
         var $confirmation, $ok, $cancel, html = [];
         $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
-        $select       = FwConfirmation.addButton($confirmation, 'Select', false);
-        $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
+        $select = FwConfirmation.addButton($confirmation, 'Select', false);
+        $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
         html.push('</div>');
         html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="Location" data-enabled="false"></div>');
+        html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="Location"></div>');
         html.push('</div>');
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        $confirmation
-            .on('change', 'div[data-datafield="Location"] .fwformfield-value', function() {
-                $confirmation.find('div[data-datafield="Location"]').removeClass('error');
-                if (this.value == '') {
-                    FwFormField.disable($confirmation.find('div[data-datafield="Warehouse"]'));
-                } else {
-                    FwFormField.enable($confirmation.find('div[data-datafield="Warehouse"]'));
-                }
-                $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val('').change();
-                $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-text').val('');
-            })
-            .on('change', 'div[data-datafield="Warehouse"] .fwformfield-value', function() {
-                $confirmation.find('div[data-datafield="Warehouse"]').removeClass('error');
-                if (this.value == '') {
-                    FwFormField.disable($confirmation.find('div[data-datafield="Department"]'));
-                } else {
-                    FwFormField.enable($confirmation.find('div[data-datafield="Department"]'));
-                }
-                $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val('').change();
-                $confirmation.find('div[data-datafield="Department"] .fwformfield-text').val('');
-            })
-        ;
+        $confirmation.find('div[data-datafield="Location"] input.fwformfield-text').val(userlocation.location);
+        $confirmation.find('div[data-datafield="Location"] input.fwformfield-value').val(userlocation.locationid);
+        $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-text').val(userwarehouse.warehouse);
+        $confirmation.find('div[data-datafield="Warehouse"] input.fwformfield-value').val(userwarehouse.warehouseid);
+        $confirmation.find('div[data-datafield="Department"] input.fwformfield-text').val(userdepartment.department);
+        $confirmation.find('div[data-datafield="Department"] input.fwformfield-value').val(userdepartment.departmentid);
 
-        $select.on('click', function() {
+        $select.on('click', function () {
             var valid = true, request, location, warehouse;
-            location  = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
+            location = $confirmation.find('div[data-datafield="Location"] .fwformfield-value').val();
             warehouse = $confirmation.find('div[data-datafield="Warehouse"] .fwformfield-value').val();
             department = $confirmation.find('div[data-datafield="Department"] .fwformfield-value').val();
             if (location == '') {
@@ -394,11 +366,11 @@ RwMasterController.buildOfficeLocation = function($view) {
             }
             if (valid) {
                 request = {
-                    location:  location,
+                    location: location,
                     warehouse: warehouse,
                     department: department
                 };
-                RwServices.session.updatelocation(request, function(response) {
+                RwServices.session.updatelocation(request, function (response) {
                     sessionStorage.setItem('authToken', response.authToken);
                     sessionStorage.setItem('location', JSON.stringify(response.location));
                     sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
