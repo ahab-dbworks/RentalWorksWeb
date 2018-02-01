@@ -495,6 +495,8 @@
     <Content Include="Source\Modules\Settings\LaborPosition\LaborPositionForm.htm" />
     <Content Include="Source\Modules\Settings\POType\POTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\POType\POTypeForm.htm" />
+    <Content Include="Source\Modules\Settings\Widget\WidgetBrowse.htm" />
+    <Content Include="Source\Modules\Settings\Widget\WidgetForm.htm" />
     <Content Include="Source\Modules\Settings\Template\TemplateBrowse.htm" />
     <Content Include="Source\Modules\Settings\Template\TemplateForm.htm" />
     <Content Include="Source\Modules\Administrator\Control\ControlBrowse.htm" />
@@ -740,6 +742,7 @@
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <Content Include="Source\Pages\Base\RwBaseController.js" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
+    <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Reports\ChargeProcessing\Body.htm" />
     <Content Include="Source\Reports\ChargeProcessing\Footer.htm" />

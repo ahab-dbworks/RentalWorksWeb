@@ -246,6 +246,8 @@ namespace WebLibrary.Security
 
             AddModule("Warehouse", "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
 
+            AddModule("Widget", "{0CAF7264-D1FB-46EC-96B9-68D242985812}", lv1menuSettings.Id, "WidgetController", "module/widget", settingsiconbaseurl + "placeholder.png");
+
             //Reports 
             var lv2menuDealReports = AddLv2ModuleMenu("Deal Reports", "{B14EC8FA-15B6-470C-B871-FB83E7C24CB2}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png", "Deal Reports");
                                              AddModule("Deal Outstanding", "{007F72D4-8767-472D-9706-8CDE8C8A9981}", lv2menuDealReports.Id, "RwDealOutstandingController", "module/dealoutstanding", reportsiconbaseurl + "placeholder.png", "Deal<br/>Outstanding", "", "");
