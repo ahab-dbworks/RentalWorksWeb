@@ -78,7 +78,7 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Codes">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Assign Bar Codes By" data-datafield="AssignBarCodesBy" style="width:280px;border:1px solid silver;">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Assign Bar Codes By" data-datafield="AssignBarCodesBy" style="width:280px;">
                 <div data-value="S" data-caption="Single Range"></div>
                 <div data-value="D" data-caption="Inventory Type"></div>
                 <div data-value="C" data-caption="Company Department"></div>
@@ -110,8 +110,6 @@
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Bar Code Label Designer" data-datafield="UseBarCodeLabelDesigner" style="float:left;width:300px;"></div>
             </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            </div>
           </div>
         </div>
       </div>
@@ -142,16 +140,24 @@
               </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Default Sales Restocking Percent" data-datafield="SalesRestockPercent" style="float:left;width:200px;"></div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Default Rental Rates for I-Codes" data-datafield="CalculateDefaultRentalRates" style="float:left;width:300px;"></div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Daily Rate (Percentage of Unit Replacement Cost)" data-datafield="RentalDailyRatePercentOfReplacementCost" data-enabled="false" style="float:left;width:300px;"></div>
-            </div>
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Weekly Rate (x Daily Rate)" data-datafield="RentalWeeklyRateMultipleOfDailyRate" data-enabled="false" style="float:left;width:300px;"></div>
+              <div class="formcolumn" style="width:300px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Restocking">
+                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Default Sales Restocking Percent" data-datafield="SalesRestockPercent" style="float:left;width:200px;"></div>
+                </div>
+              </div>
+              <div class="formcolumn" style="width:400px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Rental Rates">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Default Rental Rates for I-Codes" data-datafield="CalculateDefaultRentalRates" style="float:left;width:300px;"></div>
+                  </div>
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Daily Rate (Percentage of Unit Replacement Cost)" data-datafield="RentalDailyRatePercentOfReplacementCost" data-enabled="false" style="float:left;width:300px;"></div>
+                  </div>
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Weekly Rate (x Daily Rate)" data-datafield="RentalWeeklyRateMultipleOfDailyRate" data-enabled="false" style="float:left;width:300px;"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Internal Vendor and Deal">
@@ -176,7 +182,7 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Inventory 'Quantity on PO' only after Purchase Order is approved" data-datafield="CalculateOnPoAfterApproved" style="float:left;width:400px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Calculate Inventory 'Quantity on PO' only after Purchase Order is approved" data-datafield="CalculateOnPoAfterApproved" style="float:left;width:500px;"></div>
             </div>
           </div>
         </div>
@@ -248,7 +254,7 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Package Truck Tax Option">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default Package Truck Schedule Mode" data-datafield="DefaultPackageTruckScheduleMethod" style="width:380px;border:1px solid silver;">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default Package Truck Schedule Mode" data-datafield="DefaultPackageTruckScheduleMethod" style="width:380px;">
                 <div data-value="NEW" data-caption="Create New Order"></div>
                 <div data-value="EXTRA" data-caption="Use 'Extra' Order"></div>
               </div>
@@ -289,7 +295,7 @@
             <div class="formcolumn" style="width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Staging">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Staging Complete Components" data-datafield="StagingCompleteComponents" style="width:480px;border:1px solid silver;">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Staging Complete Components" data-datafield="StagingCompleteComponents" style="width:480px;">
                     <div data-value="AUTO" data-caption="Auto-Stage when main item is staged"></div>
                     <div data-value="MANUAL" data-caption="Prompt for items when main item is staged"></div>
                     <div data-value="NONE" data-caption="Do nothing when main item is staged"></div>
@@ -323,9 +329,9 @@
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable scanning into aisle/shelf (Required Aisle/Shelf Format: XXXX-XXXX)" data-datafield="CheckInEnableScanningToAisleShelf" style="float:left;width:500px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Check In/QuikIn Default Sort By" data-datafield="CheckInSortBy" style="width:480px;border:1px solid silver;">
-                <div data-value="AUTO" data-caption="Inventory (Group items)"></div>
-                <div data-value="MANUAL" data-caption="Sequence on Orders"></div>
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Check In/QuikIn Default Sort By" data-datafield="CheckInSortBy" style="width:480px;">
+                <div data-value="I" data-caption="Inventory (Group items)"></div>
+                <div data-value="O" data-caption="Sequence on Orders"></div>
               </div>
             </div>
           </div>
@@ -374,7 +380,7 @@
               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Default expected days in repair (Use -1 for indefinite)" data-datafield="DefaultRepairDays" style="float:left;width:400px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Agent for billable orders comes from" data-datafield="RepairBillableOrderAgentFrom" style="width:480px;border:1px solid silver;">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Agent for billable orders comes from" data-datafield="RepairBillableOrderAgentFrom" style="width:480px;">
                 <div data-value="USER" data-caption="User who creates the orders"></div>
                 <div data-value="DEAL" data-caption="CSR for deal"></div>
               </div>
@@ -386,7 +392,7 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default outgoing delivery type" data-datafield="DefaultDeliveryType" style="width:480px;border:1px solid silver;">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default outgoing delivery type" data-datafield="DefaultDeliveryType" style="width:480px;">
                 <div data-value="DELIVER" data-caption="Deliver"></div>
                 <div data-value="PICK UP" data-caption="Pickup"></div>
                 <div data-value="SHIP" data-caption="Ship"></div>
@@ -408,14 +414,14 @@
         <div class="formpage">
           <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="QuikLocate">
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default delivery type" data-datafield="QuikLocateDefaultDeliveryType" style="width:480px;border:1px solid silver;">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default delivery type" data-datafield="QuikLocateDefaultDeliveryType" style="width:480px;">
                 <div data-value="DELIVER" data-caption="Deliver"></div>
                 <div data-value="PICK UP" data-caption="Pickup"></div>
                 <div data-value="SHIP" data-caption="Ship"></div>
               </div>
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default required date" data-datafield="QuikLocateDefaultRequiredDate" style="width:480px;border:1px solid silver;overflow:visible;">
-                <div data-value="DELIVER" data-caption="Number of days before pick date"></div>
-                <div data-value="PICK UP" data-caption="Number of days before load in date"></div>
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Default required date" data-datafield="QuikLocateDefaultRequiredDate" style="width:480px;overflow:visible;">
+                <div data-value="P" data-caption="Number of days before pick date"></div>
+                <div data-value="L" data-caption="Number of days before load in date"></div>
               </div>
               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Days" data-datafield="QuikLocateRequiredDaysBefore" style="float:left;width:100px;"></div>
             </div>
