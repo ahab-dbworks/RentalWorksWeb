@@ -125,31 +125,31 @@ namespace WebApi.Modules.Home.OrderSummary
         public decimal? FacilitiesTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicleprice", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationPrice { get; set; }
+        public decimal? TransportationPrice { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicledisc", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationDiscount { get; set; }
+        public decimal? TransportationDiscount { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclecost", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationCost { get; set; }
+        public decimal? TransportationCost { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicleprofit", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationProfit { get; set; }
+        public decimal? TransportationProfit { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemarkup", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationMarkup { get; set; }
+        public decimal? TransportationMarkup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclemargin", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationMargin { get; set; }
+        public decimal? TransportationMargin { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehiclesub", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationSubTotal { get; set; }
+        public decimal? TransportationSubTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicletax", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationTax { get; set; }
+        public decimal? TransportationTax { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vehicletotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? TransporationTotal { get; set; }
+        public decimal? TransportationTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "laborprice", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborPrice { get; set; }

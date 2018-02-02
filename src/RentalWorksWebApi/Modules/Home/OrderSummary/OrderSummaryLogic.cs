@@ -94,23 +94,23 @@ namespace WebApi.Modules.Home.OrderSummary
         public decimal? FacilitiesTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationPrice { get; set; }
+        public decimal? TransportationPrice { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationDiscount { get; set; }
+        public decimal? TransportationDiscount { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationCost { get; set; }
+        public decimal? TransportationCost { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationProfit { get; set; }
+        public decimal? TransportationProfit { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationMarkup { get; set; }
+        public decimal? TransportationMarkup { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationMargin { get; set; }
+        public decimal? TransportationMargin { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationSubTotal { get; set; }
+        public decimal? TransportationSubTotal { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationTax { get; set; }
+        public decimal? TransportationTax { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? TransporationTotal { get; set; }
+        public decimal? TransportationTotal { get; set; }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? LaborPrice { get; set; }
