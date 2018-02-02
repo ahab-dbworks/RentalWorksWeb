@@ -33,6 +33,7 @@ var Contact = /** @class */ (function () {
             });
             FwBrowse.init($companyContactGridControl);
             FwBrowse.renderRuntimeHtml($companyContactGridControl);
+            this.addLegend($form);
         };
         this.Module = 'Contact';
         this.apiurl = 'api/v1/contact';
@@ -146,6 +147,16 @@ var Contact = /** @class */ (function () {
     //    $view = FwGridMenu.addViewBtn($menuObject, 'View', viewSubitems);
     //};
     //---------------------------------------------------------------------------------------------- 
+    Contact.prototype.addLegend = function ($form) {
+        var $companyContactGrid;
+        $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
+        FwBrowse.addLegend($companyContactGrid, 'Lead', '#ff8040');
+        FwBrowse.addLegend($companyContactGrid, 'Prospect', '#ff0080');
+        FwBrowse.addLegend($companyContactGrid, 'Customer', '#ffff80');
+        FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
+        FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
+    };
+    //----------------------------------------------------------------------------------------------
     Contact.prototype.afterLoad = function ($form) {
         var $contactNoteGrid;
         $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
@@ -153,11 +164,6 @@ var Contact = /** @class */ (function () {
         var $companyContactGrid;
         $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
-        FwBrowse.addLegend($companyContactGrid, 'Lead', '#ff8040');
-        FwBrowse.addLegend($companyContactGrid, 'Prospect', '#ff0080');
-        FwBrowse.addLegend($companyContactGrid, 'Customer', '#ffff80');
-        FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
-        FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
         //this.addGridFilter($form);
     };
     ;
