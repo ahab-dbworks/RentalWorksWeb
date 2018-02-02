@@ -18,15 +18,17 @@
                     <div class="flexrow">
                         <div class="flexcolumn">
                             <!-- Name -->
-                            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Name">
-                                <div class="flexrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-noduplicate="true" data-duplicategroup="name" style="flex:3 1 0;"></div>
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Middle Initial" data-datafield="MiddleInitial" style="flex:1 1 0;"></div>
-                                </div>
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" data-noduplicate="true" data-duplicategroup="name"></div>
-                                </div>
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Name">
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="First Name" data-datafield="FirstName" data-noduplicate="true" data-duplicategroup="name" style="flex:3 1 0;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Middle Initial" data-datafield="MiddleInitial" style="flex:1 1 0;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name" data-datafield="LastName" data-noduplicate="true" data-duplicategroup="name"></div>
+                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contact Title" data-datafield="ContactTitleId" data-displayfield="ContactTitle" data-validationname="ContactTitleValidation"></div>
+
                             </div>
+                            <div class="flexrow" style="width:300px;">
+                                </div>
+                          </div>
 
                             <!-- Contact Info -->
                             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Info">
@@ -84,10 +86,7 @@
                         </div>
                     </div>
                     <!-- Company -->
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Company" style="width:70%">
-                        <div class="flexrow" style="width:300px;">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Contact Title" data-datafield="ContactTitleId" data-displayfield="ContactTitle" data-validationname="ContactTitleValidation"></div>
-                        </div>
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Company" style="width:75%">
                         <div class="flexrow">
                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                                 <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Company Contact"></div>
