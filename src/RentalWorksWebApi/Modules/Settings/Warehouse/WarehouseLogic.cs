@@ -66,7 +66,7 @@ namespace WebApi.Modules.Settings.Warehouse
         public string DefaultDeliveryType { get { return warehouse.DefaultDeliveryType; } set { warehouse.DefaultDeliveryType = value; } }
         public bool? ExchangedItemsRepairByDefault { get { return warehouse.ExchangedItemsRepairByDefault; } set { warehouse.ExchangedItemsRepairByDefault = value; } }
         public string StagingCompleteComponents { get { return warehouse.StagingCompleteComponents; } set { warehouse.StagingCompleteComponents = value; } }
-        public bool? CheckInSortBy { get { return warehouse.CheckInSortBy; } set { warehouse.CheckInSortBy = value; } }
+        public string CheckInSortBy { get { return warehouse.CheckInSortBy; } set { warehouse.CheckInSortBy = value; } }
         public string DefaultPackageTruckScheduleMethod { get { return warehouse.DefaultPackageTruckScheduleMethod; } set { warehouse.DefaultPackageTruckScheduleMethod = value; } }
         public bool? StageQuantityAccessories { get { return warehouse.StageQuantityAccessories; } set { warehouse.StageQuantityAccessories = value; } }
         public bool? PromptForCheckOutExceptions { get { return warehouse.PromptForCheckOutExceptions; } set { warehouse.PromptForCheckOutExceptions = value; } }
@@ -115,7 +115,7 @@ namespace WebApi.Modules.Settings.Warehouse
         public bool? TransferDefaultReturnToWarehouse { get { return warehouse.TransferDefaultReturnToWarehouse; } set { warehouse.TransferDefaultReturnToWarehouse = value; } }
         public bool? AvailabilityCalculateInBackground { get { return warehouse.AvailabilityCalculateInBackground; } set { warehouse.AvailabilityCalculateInBackground = value; } }
         public bool? QuikLocateCannotTransfer { get { return warehouse.QuikLocateCannotTransfer; } set { warehouse.QuikLocateCannotTransfer = value; } }
-        public bool? QuikLocateDefaultRequiredDate { get { return warehouse.QuikLocateDefaultRequiredDate; } set { warehouse.QuikLocateDefaultRequiredDate = value; } }
+        public string QuikLocateDefaultRequiredDate { get { return warehouse.QuikLocateDefaultRequiredDate; } set { warehouse.QuikLocateDefaultRequiredDate = value; } }
         public int? QuikLocateRequiredDaysBefore { get { return warehouse.QuikLocateRequiredDaysBefore; } set { warehouse.QuikLocateRequiredDaysBefore = value; } }
         public bool? CalculateDefaultRentalRates { get { return warehouse.CalculateDefaultRentalRates; } set { warehouse.CalculateDefaultRentalRates = value; } }
         public decimal? RentalDailyRatePercentOfReplacementCost { get { return warehouse.RentalDailyRatePercentOfReplacementCost; } set { warehouse.RentalDailyRatePercentOfReplacementCost = value; } }
