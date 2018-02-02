@@ -515,8 +515,8 @@ namespace FwStandard.BusinessLogic
 
             BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
             AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
-            beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
-            afterSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+            beforeSaveArgs.SaveMode = saveMode;
+            afterSaveArgs.SaveMode = saveMode;
             if (BeforeSave != null)
             {
                 BeforeSave(this, beforeSaveArgs);
