@@ -10,7 +10,7 @@ namespace WebApi.Modules.Settings.GeneratorType
     public class GeneratorTypeLoader : VehicleTypeBaseLoader 
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string GeneratorTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]

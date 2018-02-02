@@ -9,7 +9,7 @@ namespace WebApi.Modules.Settings.VehicleType
     public class VehicleTypeLoader : VehicleTypeBaseLoader 
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string VehicleTypeId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
