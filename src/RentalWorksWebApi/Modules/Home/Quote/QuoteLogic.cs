@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.Quote
             {
                 StatusDate = DateTime.Now.ToString("M/d/yyyy");
                 QuoteDate = DateTime.Now.ToString("M/d/yyyy");
-                if (DealId.Equals(string.Empty))
+                if ((DealId == null) || (DealId.Equals(string.Empty)))
                 {
                     Status = RwConstants.QUOTE_STATUS_PROSPECT;
                 }
