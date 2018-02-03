@@ -23,7 +23,7 @@ Program.prototype.modules = [
   { urlpattern: /^module\/contact$/,                    getScreen: function () { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/vendor$/,                   getScreen: function () { return VendorController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen(); } }
-  , { urlpattern: /^module\/order\/(\w+)\/(\w+)/,       getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return OrderController.getModuleScreen(filter); } }
+  , { urlpattern: /^module\/order\/(\w+)\/(\S+)/,       getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return OrderController.getModuleScreen(filter); } }
   , { urlpattern: /^module\/picklist$/,                 getScreen: function () { return PickListController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/picklistreport$/,           getScreen: function () { return RwPickListReportController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/orderstatus$/,              getScreen: function () { return OrderStatusController.getModuleScreen({}, {}); } }

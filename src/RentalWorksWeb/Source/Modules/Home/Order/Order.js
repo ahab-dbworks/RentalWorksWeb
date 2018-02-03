@@ -49,8 +49,13 @@ var Order = /** @class */ (function () {
         var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
-            filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-            $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            if (filter.datafield === 'agent') {
+                filter.search = filter.search.split('%20').reverse().join(', ');
+            }
+            if (typeof filter !== 'undefined') {
+                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

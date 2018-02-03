@@ -32,8 +32,6 @@ var RwHome = /** @class */ (function () {
                     var datasetIndex = activePoint._datasetIndex;
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
-                    console.log(label, value);
-                    FwFunc.showError(label + value);
                     program.getModule('module/order/status/' + label);
                 };
             }
@@ -50,6 +48,14 @@ var RwHome = /** @class */ (function () {
                 delete response.options.legend;
                 delete response.options.scales;
                 var myPie = new Chart(pie, response);
+                pie.onclick = function (evt) {
+                    var activePoint = myPie.getElementAtEvent(evt)[0];
+                    var data = activePoint._chart.data;
+                    var datasetIndex = activePoint._datasetIndex;
+                    var label = data.labels[activePoint._index];
+                    var value = data.datasets[datasetIndex].data[activePoint._index];
+                    program.getModule('module/order/agent/' + label.replace(/ /g, '%20'));
+                };
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -61,6 +67,14 @@ var RwHome = /** @class */ (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 var myHoriz = new Chart(ctx, response);
+                ctx.onclick = function (evt) {
+                    var activePoint = myHoriz.getElementAtEvent(evt)[0];
+                    var data = activePoint._chart.data;
+                    var datasetIndex = activePoint._datasetIndex;
+                    var label = data.labels[activePoint._index];
+                    var value = data.datasets[datasetIndex].data[activePoint._index];
+                    program.getModule('module/deal/type/' + label.replace(/ /g, '%20'));
+                };
             }
             catch (ex) {
                 FwFunc.showError(ex);
