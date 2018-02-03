@@ -83,7 +83,7 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "accstagingopt", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 6)]
         public string StagingCompleteComponents { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "chkinnonbcsort", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        [FwSqlDataField(column: "chkinnonbcsort", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
         public string CheckInSortBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "truckschedulemethod", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 5)]
@@ -200,7 +200,7 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "cannottransfer", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? QuikLocateCannotTransfer { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qldefaultrequireddate", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        [FwSqlDataField(column: "qldefaultrequireddate", modeltype: FwDataTypes.Text, sqltype: "char")]
         public string QuikLocateDefaultRequiredDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qlrequireddaysbefore", modeltype: FwDataTypes.Integer, sqltype: "smallint")]

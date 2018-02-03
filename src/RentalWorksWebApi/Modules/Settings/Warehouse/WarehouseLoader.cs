@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, required: true)]
+        [FwSqlDataField(column: "taxcountry", modeltype: FwDataTypes.Text, required: true)]
         public string TaxCountry { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxrule", modeltype: FwDataTypes.Text)]
@@ -127,8 +127,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "accstagingopt", modeltype: FwDataTypes.Text)]
         public string StagingCompleteComponents { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "chkinnonbcsort", modeltype: FwDataTypes.Boolean)]
-        public bool? CheckInSortBy { get; set; }
+        [FwSqlDataField(column: "chkinnonbcsort", modeltype: FwDataTypes.Text)]
+        public string CheckInSortBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "truckschedulemethod", modeltype: FwDataTypes.Text)]
         public string DefaultPackageTruckScheduleMethod { get; set; }
@@ -259,8 +259,8 @@ namespace WebApi.Modules.Settings.Warehouse
         [FwSqlDataField(column: "cannottransfer", modeltype: FwDataTypes.Boolean)]
         public bool? QuikLocateCannotTransfer { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qldefaultrequireddate", modeltype: FwDataTypes.Boolean)]
-        public bool? QuikLocateDefaultRequiredDate { get; set; }
+        [FwSqlDataField(column: "qldefaultrequireddate", modeltype: FwDataTypes.Text)]
+        public string QuikLocateDefaultRequiredDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qlrequireddaysbefore", modeltype: FwDataTypes.Integer)]
         public int? QuikLocateRequiredDaysBefore { get; set; }
