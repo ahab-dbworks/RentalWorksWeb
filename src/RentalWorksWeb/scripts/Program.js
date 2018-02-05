@@ -152,7 +152,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/fiscalyear$/,                 getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectasbuild$/,             getScreen: function () { return ProjectAsBuildController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/projectitemsordered$/,        getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/deal$/,                       getScreen: function () { return DealController.getModuleScreen({}, {}); } }
+  , { urlpattern: /^module\/deal$/,                       getScreen: function () { return DealController.getModuleScreen(); } }
   , { urlpattern: /^module\/deal\/(\S+)\/(\S+)/,          getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return DealController.getModuleScreen(filter); } }
   , { urlpattern: /^module\/vehicletype$/,                getScreen: function () { return VehicleTypeController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }

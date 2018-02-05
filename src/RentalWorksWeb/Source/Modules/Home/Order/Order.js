@@ -49,7 +49,7 @@ var Order = /** @class */ (function () {
         var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
-            if (filter.datafield === 'agent') {
+            if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
                 filter.search = filter.search.split('%20').reverse().join(', ');
             }
             if (typeof filter !== 'undefined') {
