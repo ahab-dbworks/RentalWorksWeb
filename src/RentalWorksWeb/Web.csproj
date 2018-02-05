@@ -178,6 +178,7 @@
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
     <Content Include="Source\Controls\RwMasterController.js" />
+    <Content Include="Source\Grids\CompanyContactContactGrid\CompanyContactContactGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
@@ -193,8 +194,6 @@
     <Content Include="Source\Grids\OrderTypeActivityDatesGrid\OrderTypeActivityDatesGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js" />
-    <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
-    <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.js" />
     <Content Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeContactTitleGrid\OrderTypeContactTitleGridBrowse.htm" />
     <Content Include="Source\Grids\DocumentGrid\DocumentGridBrowse.htm" />
@@ -265,6 +264,7 @@
     <TypeScriptCompile Include="scripts\typings\jqueryui\jqueryui.d.ts" />
     <TypeScriptCompile Include="scripts\typings\materialize-css\materialize-css.d.ts" />
     <TypeScriptCompile Include="scripts\typings\pickadate\pickadate.d.ts" />
+    <TypeScriptCompile Include="Source\Grids\CompanyContactContactGrid\CompanyContactContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />

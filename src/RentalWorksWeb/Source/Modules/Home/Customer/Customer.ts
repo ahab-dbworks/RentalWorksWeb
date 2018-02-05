@@ -174,7 +174,7 @@ class Customer {
         FwBrowse.renderRuntimeHtml($companyTaxControl);
 
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
+        var nameCompanyContactGrid: string = 'CompanyContactContactGrid'
         var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
         var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
         $companyContactGrid.empty().append($companyContactControl);
@@ -209,7 +209,7 @@ class Customer {
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxGrid);
 
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+        var $companyContactGrid: any = $form.find('[data-name="CompanyContactContactGrid"]');
         FwBrowse.search($companyContactGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
