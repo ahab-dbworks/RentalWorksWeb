@@ -317,6 +317,12 @@ var Order = /** @class */ (function () {
         this.renderFrames($form);
     };
     ;
+    Order.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr, $datafield) {
+        var $form;
+        $form = $valuefield.closest('.fwform');
+        $form.find('[data-datafield="DealNumber"] input').val($tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+    };
+    ;
     return Order;
 }());
 window.OrderController = new Order();

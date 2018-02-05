@@ -345,5 +345,13 @@ class Order {
 
         this.renderFrames($form);
     };
+
+    loadRelatedValidationFields(validationName, $valuefield, $tr, $datafield) {
+        var $form;
+        $form = $valuefield.closest('.fwform');
+
+        $form.find('[data-datafield="DealNumber"] input').val($tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+
+    }; 
 }
 (<any>window).OrderController = new Order();
