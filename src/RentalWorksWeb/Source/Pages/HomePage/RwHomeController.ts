@@ -75,19 +75,19 @@ class RwHome {
     }
 
     renderHorizontal() {
-        var ctx = document.getElementById("myHorizontalChart");
+        var horizontal = document.getElementById("myHorizontalChart");
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                var myHoriz = new Chart(ctx, response);
+                var myHoriz = new Chart(horizontal, response);
 
-                ctx.onclick = function (evt) {
+                horizontal.onclick = function (evt) {
                     var activePoint = myHoriz.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
                     
-                    program.getModule('module/deal/type/' + label.replace(/ /g, '%20'));
+                    program.getModule('module/deal/deal%20type/' + label.replace(/ /g, '%20'));
                 };
             } catch (ex) {
                 FwFunc.showError(ex);

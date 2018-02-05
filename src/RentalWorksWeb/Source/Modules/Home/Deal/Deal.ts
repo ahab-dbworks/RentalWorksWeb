@@ -10,7 +10,7 @@ class Deal {
         this.apiurl = 'api/v1/deal';
     }
 
-    getModuleScreen() {
+    getModuleScreen(filter) {
         var screen, $browse;
 
         screen = {};
@@ -22,6 +22,17 @@ class Deal {
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Deal', false, 'BROWSE', true);
+
+            if (typeof filter !== 'undefined') {
+                filter.search = filter.search.replace(/%20/, ' ');
+                filter.datafield = filter.datafield.split('%20');
+                for (var i = 0; i < filter.datafield.length; i++) {
+                    filter.datafield[i] = filter.datafield[i].charAt(0).toUpperCase() + filter.datafield[i].substr(1);
+                }
+                filter.datafield = filter.datafield.join('')
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
+
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
