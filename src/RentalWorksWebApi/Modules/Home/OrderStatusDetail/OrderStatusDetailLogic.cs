@@ -21,6 +21,7 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         public string Description { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
         public string InventoryId { get; set; }
         public string OutWarehouseId { get; set; }
         public string InWarehouseId { get; set; }
@@ -38,21 +39,26 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         public string OutContractId { get; set; }
         public bool? IsSuspendOut { get; set; }
         public string OutDateTime { get; set; }
+        public string OutDateTimeColor { get; set; }
         public bool? IsExchangeOut { get; set; }
         public bool? IsTruckOut { get; set; }
         public string InContractId { get; set; }
         public bool? IsSuspendIn { get; set; }
         public string InDateTime { get; set; }
+        public string InDateTimeColor { get; set; }
         public bool? IsExchangeIn { get; set; }
         public bool? IsTruckIn { get; set; }
         public decimal? Quantity { get; set; }
+        public string QuantityColor { get; set; }
         public string ItemId { get; set; }
         public string BarCodeSerialRfid { get; set; }
+        public string BarCodeSerialRfidColor { get; set; }
         public string ManufacturerPartNumber { get; set; }
         public int? ExchangeOrderTranId { get; set; }
         public string ExchangeInternalChar { get; set; }
         public string VendorId { get; set; }
         public string Vendor { get; set; }
+        public string VendorColor { get; set; }
         public bool? Consignment { get; set; }
         public string ItemStatus { get; set; }
         public string DealId { get; set; }

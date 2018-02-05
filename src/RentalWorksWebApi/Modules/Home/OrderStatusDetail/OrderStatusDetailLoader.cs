@@ -5,6 +5,8 @@ using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using WebApi.Data; 
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.OrderStatusDetail
 {
     [FwSqlTable("masteritem")]
@@ -42,6 +44,9 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
+        public string SubCategoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------  
@@ -93,6 +98,9 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "outdatetime", modeltype: FwDataTypes.DateTime)]
         public string OutDateTime { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "outdatetimecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OutDateTimeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isexchangeout", modeltype: FwDataTypes.Boolean)]
         public bool? IsExchangeOut { get; set; }
         //------------------------------------------------------------------------------------  
@@ -108,6 +116,9 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "indatetime", modeltype: FwDataTypes.DateTime)]
         public string InDateTime { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "indatetimecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InDateTimeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isexchangein", modeltype: FwDataTypes.Boolean)]
         public bool? IsExchangeIn { get; set; }
         //------------------------------------------------------------------------------------  
@@ -117,12 +128,18 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "qtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
         public string ItemId { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCodeSerialRfid { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "barcodecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BarCodeSerialRfidColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------  
@@ -138,6 +155,9 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "consignment", modeltype: FwDataTypes.Boolean)]
         public bool? Consignment { get; set; }
         //------------------------------------------------------------------------------------  
@@ -188,19 +208,56 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            string filterStatus = string.Empty;
             useWithNoLock = false;
-            if ((request != null) && (request.uniqueids != null))
+            if (request != null) 
             {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("OrderId"))
+                if (request.uniqueids != null)
                 {
-                    orderId = uniqueIds["OrderId"].ToString();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    if (uniqueIds.ContainsKey("OrderId"))
+                    {
+                        orderId = uniqueIds["OrderId"].ToString();
+                    }
+                }
+
+                if (request.filterfields != null)
+                {
+                    IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
+                    if (filterfields.ContainsKey("Status"))
+                    {
+                        filterStatus = filterfields["Status"].ToString();
+                    }
                 }
             }
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')");  
             addFilterToSelect("RecType", "rectype", select, request);
+
+            AddFilterFieldToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+            AddFilterFieldToSelect("CategoryId", "categoryid", select, request);
+            AddFilterFieldToSelect("SubCategoryId", "subcategoryid", select, request);
+            AddFilterFieldToSelect("WarehouseId", "outwarehouseid", select, request);
+            AddFilterFieldToSelect("InventoryId", "masterid", select, request);
+            AddFilterFieldToSelect("Description", "description", select, request);
+            AddFilterFieldToSelect("BarCode", "barcode", select, request);
+
+            switch (filterStatus)
+            {
+                case RwConstants.ORDER_STATUS_FILTER_STAGED_ONLY:
+                    select.AddWhere("(outcontractid = '')");
+                    break;
+                case RwConstants.ORDER_STATUS_FILTER_NOT_YET_STAGED:
+                    select.AddWhere("(orderid = 'ABC')");
+                    break;
+                case RwConstants.ORDER_STATUS_FILTER_STILL_OUT:
+                    select.AddWhere("((outcontractid > '') and (incontractid = ''))");
+                    break;
+                case RwConstants.ORDER_STATUS_FILTER_IN_ONLY:
+                    select.AddWhere("(incontractid > '')");
+                    break;
+                default: break;
+            }
         }
         //------------------------------------------------------------------------------------  
 

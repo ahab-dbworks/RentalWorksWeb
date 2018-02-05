@@ -10,5 +10,11 @@ namespace WebLibrary
         public const string QUOTE_STATUS_ACTIVE = "ACTIVE";
 
         public const string ORDER_STATUS_CONFIRMED = "CONFIRMED";
+
+
+        public const string ORDER_STATUS_FILTER_STAGED_ONLY = "STAGEDONLY";
+        public const string ORDER_STATUS_FILTER_NOT_YET_STAGED = "NOTYETSTAGED";
+        public const string ORDER_STATUS_FILTER_STILL_OUT = "STILLOUT";
+        public const string ORDER_STATUS_FILTER_IN_ONLY = "INONLY";
     }
 }

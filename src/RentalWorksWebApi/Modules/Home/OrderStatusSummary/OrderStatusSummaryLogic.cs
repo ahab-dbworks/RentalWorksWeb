@@ -15,6 +15,7 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         public string ICodeDisplay { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
         public string Description { get; set; }
         public string InventoryId { get; set; }
         public string MasterItemId { get; set; }
@@ -29,13 +30,16 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         public decimal? QuantityOrdered { get; set; }
         public string QuantityOrderedColor { get; set; }
         public decimal? SubQuantity { get; set; }
-        public decimal? StageQuantity { get; set; }
-        public decimal? StageQuantityFilter { get; set; }
+        public decimal? StagedQuantity { get; set; }
+        public decimal? StagedQuantityFilter { get; set; }
+        public string StagedQuantityColor { get; set; }
         public decimal? OutQuantity { get; set; }
         public decimal? OutQuantityfilter { get; set; }
+        public string OutQuantityColor { get; set; }
         public bool? IsSuspendOut { get; set; }
         public decimal? InQuantity { get; set; }
         public decimal? InQuantityFilter { get; set; }
+        public string InQuantityColor { get; set; }
         public bool? IsSuspendIn { get; set; }
         public decimal? ReturnedQuantity { get; set; }
         public decimal? ActivityQuantity { get; set; }
@@ -46,6 +50,7 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         public bool? TooManyStagedOut { get; set; }
         public decimal? NotYetStagedQuantityFilter { get; set; }
         public decimal? StillOutQuantity { get; set; }
+        public string StillOutQuantityColor { get; set; }
         public string ItemOrder { get; set; }
         public string ItemClass { get; set; }
         public string RecType { get; set; }
