@@ -191,6 +191,13 @@ namespace WebApi.Modules.Home.OrderSummary
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? TaxCost { get; set; }
         //------------------------------------------------------------------------------------
+        public decimal? ReplacementCostTotal { get; set; }
+        public decimal? ValueTotal { get; set; }
+        public decimal? ReplacementCostOwned { get; set; }
+        public decimal? ValueOwned { get; set; }
+        public decimal? ReplacementCostSubs { get; set; }
+        public decimal? ValueSubs { get; set; }
+        //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isReadOnly: true)]
         public int? WeightPounds { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
