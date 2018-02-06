@@ -33,6 +33,10 @@ class OrderStatus {
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         this.getOrder($form);
+        this.toggleView($form);
+
+        $form.find('.rentalview').hide();
+        $form.find('.salesview').hide();
 
         return $form;
     }
@@ -94,6 +98,7 @@ class OrderStatus {
         var $orderStatusSummaryGrid: any;
         var $orderStatusSummaryGridControl: any;
         var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+   
 
         $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
         $orderStatusSummaryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSummaryGridBrowse').html());
@@ -105,6 +110,7 @@ class OrderStatus {
         })
         FwBrowse.init($orderStatusSummaryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSummaryGridControl);
+        this.addLegend($form, $orderStatusSummaryGrid);
 
         var $orderStatusRentalDetailGrid: any;
         var $orderStatusRentalDetailGridControl: any;
@@ -119,6 +125,7 @@ class OrderStatus {
         })
         FwBrowse.init($orderStatusRentalDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusRentalDetailGridControl);
+        this.addLegend($form, $orderStatusRentalDetailGrid);
 
         var $orderStatusSalesDetailGrid: any;
         var $orderStatusSalesDetailGridControl: any;
@@ -133,24 +140,92 @@ class OrderStatus {
         })
         FwBrowse.init($orderStatusSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSalesDetailGridControl);
+        this.addLegend($form, $orderStatusSalesDetailGrid);
+
+        var $filter = $form.find('.filter[data-type="radio"]');
+        $filter.on("change", function () {
+            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+            var filterValue = $form.find('.filter input[type="radio"]:checked').val().toUpperCase();
+
+            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId
+                };
+                request.filterfields = {
+                    Status: filterValue
+                }
+            })
+            FwBrowse.search($orderStatusSummaryGridControl);
+
+            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "R"
+                };
+                request.filterfields = {
+                    Status: filterValue
+                }
+            })
+            FwBrowse.search($orderStatusRentalDetailGridControl);
+
+            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "S"
+                };
+                request.filterfields = {
+                    Status: filterValue
+                }
+            })
+            FwBrowse.search($orderStatusSalesDetailGridControl);
+
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $orderStatusSummaryGrid: any;
-
-        $orderStatusSummaryGrid = $form.find('[data-name="OrderStatusSummaryGrid"]');
-        FwBrowse.search($orderStatusSummaryGrid);
-
-        var $orderStatusRentalDetailGrid: any;
-
-        $orderStatusRentalDetailGrid = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
-        FwBrowse.search($orderStatusRentalDetailGrid);
-
-        var $orderStatusSalesDetailGrid: any;
-
-        $orderStatusSalesDetailGrid = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
-        FwBrowse.search($orderStatusSalesDetailGrid);
 
     }
+    //----------------------------------------------------------------------------------------------
+    toggleView($form: any) {
+        var $toggle = $form.find('.toggle[data-type="radio"]');
+        $toggle.on("change", function () {
+            var view = $form.find('.toggle input[type="radio"]:checked').val();
+            console.log(view, "view");
+            switch (view) {
+                case 'Summary':
+                    $form.find('.summaryview').show();
+                    $form.find('.rentalview').hide();
+                    $form.find('.salesview').hide();
+                    break;
+                case 'Rentals':
+                    $form.find('.summaryview').hide();
+                    $form.find('.rentalview').show();
+                    $form.find('.salesview').hide();
+                    break;
+                case 'Sales':
+                    $form.find('.summaryview').hide();
+                    $form.find('.rentalview').hide();
+                    $form.find('.salesview').show();
+                    break;
+            }
+                
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    addLegend($form: any, $grid) {
+        FwBrowse.addLegend($grid, 'Complete', '#8888ff');
+        FwBrowse.addLegend($grid, 'Kit', '#03d337');
+        FwBrowse.addLegend($grid, 'Exchange', '#a0cdb4');
+        FwBrowse.addLegend($grid, 'Sub Vendor', '#ffb18c');
+        FwBrowse.addLegend($grid, 'Consignor', '#8080ff');
+        FwBrowse.addLegend($grid, 'Truck', '#ffff00');
+        FwBrowse.addLegend($grid, 'Suspended', '#0000a0');
+        FwBrowse.addLegend($grid, 'Lost', '#ff8080');
+        FwBrowse.addLegend($grid, 'Sales', '#ff0080');
+        FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
+        FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
+    }
+    //----------------------------------------------------------------------------------------------
+    
 }
 (window as any).OrderStatusController = new OrderStatus();
