@@ -22846,6 +22846,62 @@
 			]
 		},
 		{
+			"name": "User Settings",
+			"description": "",
+			"item": [
+				{
+					"name": "User Settings: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/usersettings/A000001S",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Settings: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/usersettings",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UserId\": \"A000001S\",\n    \"BrowseDefaultRows\": \"15\",\n    \"ApplicationTheme\": \"theme-material\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User Status",
 			"description": "",
 			"item": [
