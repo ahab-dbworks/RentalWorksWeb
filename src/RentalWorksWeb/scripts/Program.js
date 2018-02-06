@@ -171,6 +171,7 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/crew$/,                       getScreen: function () { return CrewController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/quote$/,                      getScreen: function () { return QuoteController.getModuleScreen({}, {}); } } 
   , { urlpattern: /^module\/widget$/,                     getScreen: function () { return WidgetController.getModuleScreen({}, {}); } } 
+  , { urlpattern: /^module\/dashboard$/,                  getScreen: function () { return DashboardController.loadDashboard(); } } 
 
     //Reports                                             
   , { urlpattern: /^module\/dealoutstanding/, getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }

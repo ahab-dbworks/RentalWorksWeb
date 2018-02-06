@@ -743,6 +743,7 @@
     <Content Include="Source\Pages\Base\RwBaseController.js" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Reports\ChargeProcessing\Body.htm" />
     <Content Include="Source\Reports\ChargeProcessing\Footer.htm" />
@@ -1097,7 +1098,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
-    <Folder Include="Source\Modules\Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
