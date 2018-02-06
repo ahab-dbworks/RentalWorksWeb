@@ -61,7 +61,6 @@ class Customer {
     openBrowse() {
         var $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
 
         return $browse;
     }

@@ -28,7 +28,6 @@ var RwAsset = /** @class */ (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
         $browse.data('ondatabind', function (request) {

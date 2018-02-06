@@ -41,7 +41,6 @@ class VehicleType {
 
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
 
         return $browse;
     }

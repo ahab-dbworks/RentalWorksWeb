@@ -75,7 +75,6 @@
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
         return $browse;
     };
     PickList.prototype.openForm = function (mode) {

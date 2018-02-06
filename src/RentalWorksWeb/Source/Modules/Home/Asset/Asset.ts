@@ -48,7 +48,6 @@ class RwAsset {
         var self = this;
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
 
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;

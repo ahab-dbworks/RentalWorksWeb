@@ -167,8 +167,6 @@ declare var FwBrowse: any;
             $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
             $browse = FwModule.openBrowse($browse);
 
-            FwBrowse.init($browse);
-
             return $browse;
         }
 

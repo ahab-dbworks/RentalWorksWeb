@@ -40,7 +40,6 @@ class Quote {
 
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
 
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;

@@ -69,7 +69,6 @@ var Order = /** @class */ (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
