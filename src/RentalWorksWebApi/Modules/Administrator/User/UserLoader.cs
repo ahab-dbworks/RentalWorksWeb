@@ -10,7 +10,7 @@ namespace WebApi.Modules.Administrator.User
     public class UserLoader : AppDataLoadRecord
     {
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
         public string Name { get; set; }
@@ -342,6 +342,6 @@ namespace WebApi.Modules.Administrator.User
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
             addFilterToSelect("GroupId", "groupsid", select, request); 
         }
-        //------------------------------------------------------------------------------------    } 
+        //------------------------------------------------------------------------------------     
     }
 }
