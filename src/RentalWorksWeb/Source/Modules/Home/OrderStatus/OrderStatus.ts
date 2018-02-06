@@ -57,6 +57,28 @@ class OrderStatus {
                     FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
                     FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
                     FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
+
+                    var rental = response.Rental;
+                    var sales = response.Sales;
+                    if (rental === false && sales === false) {
+                        $form.find('div[data-value="Details"]').hide();
+                    } else {
+                        $form.find('div[data-value="Details"]').show();
+                    }
+
+                    if (rental === true) {
+                        $form.find('.rentalview').show();
+                    } else {
+                        $form.find('.rentalview').hide();
+                    }
+
+                    if (sales === true) {
+                        $form.find('.salesview').show();
+                    } else {
+                        $form.find('.salesview').hide();
+                    }
+
+                    $form.find('.details').hide();
                 });
 
                 var $orderStatusSummaryGridControl: any;
@@ -88,17 +110,17 @@ class OrderStatus {
                 })
                 FwBrowse.search($orderStatusSalesDetailGridControl);
             }
-            catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            });
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $orderStatusSummaryGrid: any;
         var $orderStatusSummaryGridControl: any;
         var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-   
+
 
         $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
         $orderStatusSummaryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSummaryGridBrowse').html());
@@ -180,6 +202,148 @@ class OrderStatus {
             FwBrowse.search($orderStatusSalesDetailGridControl);
 
         });
+
+        var $filterValidations = $form.find('#filters [data-type="validation"] input.fwformfield-value');
+
+        $filterValidations.on("change", function () {
+            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+            var validationName = jQuery(jQuery(this).closest('[data-type="validation"]')).attr('data-validationname');
+
+            var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
+            var WarehouseId = $form.find('[data-type="validation"][data-datafield="WarehouseId"] input.fwformfield-value').val();
+            var CategoryId = $form.find('[data-type="validation"][data-datafield="CategoryId"] input.fwformfield-value').val();
+            var ICode = $form.find('[data-type="validation"][data-datafield="ICode"] input.fwformfield-value').val();
+            var SubCategoryId = $form.find('[data-type="validation"][data-datafield="SubCategoryId"] input.fwformfield-value').val();
+
+            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId
+                };
+
+                if (InventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: InventoryTypeId }
+                }
+                if (WarehouseId !== "") {
+                    var whObj = { WarehouseId: WarehouseId }
+                }
+                if (CategoryId !== "") {
+                    var catObj = { CategoryId: CategoryId }
+                }
+                if (ICode !== "") {
+                    var iObj = { ICode: ICode }
+                }
+                if (SubCategoryId !== "") {
+                    var subObj = { SubCategoryId: SubCategoryId }
+                }
+                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
+
+            })
+            FwBrowse.search($orderStatusSummaryGridControl);
+
+            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "R"
+                };
+                if (InventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: InventoryTypeId }
+                }
+                if (WarehouseId !== "") {
+                    var whObj = { WarehouseId: WarehouseId }
+                }
+                if (CategoryId !== "") {
+                    var catObj = { CategoryId: CategoryId }
+                }
+                if (ICode !== "") {
+                    var iObj = { ICode: ICode }
+                }
+                if (SubCategoryId !== "") {
+                    var subObj = { SubCategoryId: SubCategoryId }
+                }
+                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
+            })
+            FwBrowse.search($orderStatusRentalDetailGridControl);
+
+            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "S"
+                };
+                if (InventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: InventoryTypeId }
+                }
+                if (WarehouseId !== "") {
+                    var whObj = { WarehouseId: WarehouseId }
+                }
+                if (CategoryId !== "") {
+                    var catObj = { CategoryId: CategoryId }
+                }
+                if (ICode !== "") {
+                    var iObj = { ICode: ICode }
+                }
+                if (SubCategoryId !== "") {
+                    var subObj = { SubCategoryId: SubCategoryId }
+                }
+                request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
+            })
+            FwBrowse.search($orderStatusSalesDetailGridControl);
+        });
+
+        var $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
+        $textFilter.on("blur", function () {
+
+            var Description = $form.find('.textfilter[data-caption="Description"] input.fwformfield-value').val();
+            var BarCode = $form.find('.textfilter[data-caption^="Bar Code"] input.fwformfield-value').val();
+
+            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId
+                };
+
+                if (Description !== "") {
+                    var descObj = { Description: Description }
+                }
+                if (BarCode !== "") {
+                    var barObj = { BarCode: BarCode }
+                }
+                request.filterfields = jQuery.extend(descObj, barObj);
+
+            })
+            FwBrowse.search($orderStatusSummaryGridControl);
+
+            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "R"
+                };
+                if (Description !== "") {
+                    var descObj = { Description: Description }
+                }
+                if (BarCode !== "") {
+                    var barObj = { BarCode: BarCode }
+                }
+                request.filterfields = jQuery.extend(descObj, barObj);
+
+            })
+            FwBrowse.search($orderStatusRentalDetailGridControl);
+
+            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: orderId,
+                    RecType: "S"
+                };
+                if (Description !== "") {
+                    var descObj = { Description: Description }
+                }
+                if (BarCode !== "") {
+                    var barObj = { BarCode: BarCode }
+                }
+                request.filterfields = jQuery.extend(descObj, barObj);
+
+            })
+            FwBrowse.search($orderStatusSalesDetailGridControl);
+
+        });
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
@@ -190,25 +354,17 @@ class OrderStatus {
         var $toggle = $form.find('.toggle[data-type="radio"]');
         $toggle.on("change", function () {
             var view = $form.find('.toggle input[type="radio"]:checked').val();
-            console.log(view, "view");
             switch (view) {
                 case 'Summary':
                     $form.find('.summaryview').show();
-                    $form.find('.rentalview').hide();
-                    $form.find('.salesview').hide();
+                    $form.find('.details').hide();
                     break;
-                case 'Rentals':
+                case 'Details':
+                    $form.find('.details').show();
                     $form.find('.summaryview').hide();
-                    $form.find('.rentalview').show();
-                    $form.find('.salesview').hide();
-                    break;
-                case 'Sales':
-                    $form.find('.summaryview').hide();
-                    $form.find('.rentalview').hide();
-                    $form.find('.salesview').show();
                     break;
             }
-                
+
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -226,6 +382,6 @@ class OrderStatus {
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
     }
     //----------------------------------------------------------------------------------------------
-    
+
 }
 (window as any).OrderStatusController = new OrderStatus();
