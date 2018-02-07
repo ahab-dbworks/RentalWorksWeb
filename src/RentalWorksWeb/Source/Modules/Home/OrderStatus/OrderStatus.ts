@@ -207,6 +207,7 @@ class OrderStatus {
 
         $filterValidations.on("change", function () {
             var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+ 
             var validationName = jQuery(jQuery(this).closest('[data-type="validation"]')).attr('data-validationname');
 
             var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
@@ -291,6 +292,7 @@ class OrderStatus {
 
         var $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
         $textFilter.on("blur", function () {
+            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
 
             var Description = $form.find('.textfilter[data-caption="Description"] input.fwformfield-value').val();
             var BarCode = $form.find('.textfilter[data-caption^="Bar Code"] input.fwformfield-value').val();
@@ -300,13 +302,17 @@ class OrderStatus {
                     OrderId: orderId
                 };
 
-                if (Description !== "") {
-                    var descObj = { Description: Description }
-                }
-                if (BarCode !== "") {
-                    var barObj = { BarCode: BarCode }
-                }
-                request.filterfields = jQuery.extend(descObj, barObj);
+                if (Description !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("Description");
+                    request.searchfieldvalues.push(Description);
+                };
+                if (BarCode !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("BarCode");
+                    request.searchfieldvalues.push(BarCode);
+                };
+
 
             })
             FwBrowse.search($orderStatusSummaryGridControl);
@@ -316,13 +322,17 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "R"
                 };
-                if (Description !== "") {
-                    var descObj = { Description: Description }
-                }
-                if (BarCode !== "") {
-                    var barObj = { BarCode: BarCode }
-                }
-                request.filterfields = jQuery.extend(descObj, barObj);
+                if (Description !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("Description");
+                    request.searchfieldvalues.push(Description);
+                };
+                if (BarCode !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("BarCode");
+                    request.searchfieldvalues.push(BarCode);
+                };
+
 
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
@@ -332,13 +342,16 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "S"
                 };
-                if (Description !== "") {
-                    var descObj = { Description: Description }
-                }
-                if (BarCode !== "") {
-                    var barObj = { BarCode: BarCode }
-                }
-                request.filterfields = jQuery.extend(descObj, barObj);
+                if (Description !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("Description");
+                    request.searchfieldvalues.push(Description);
+                };
+                if (BarCode !== "" || null) {
+                    request.searchfieldoperators.push("like");
+                    request.searchfields.push("BarCode");
+                    request.searchfieldvalues.push(BarCode);
+                };
 
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
