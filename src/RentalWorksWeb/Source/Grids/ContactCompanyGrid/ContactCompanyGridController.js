@@ -1,10 +1,10 @@
-var CompanyContactContactGrid = /** @class */ (function () {
-    function CompanyContactContactGrid() {
-        this.Module = 'CompanyContactContactGrid';
+var ContactCompanyGrid = /** @class */ (function () {
+    function ContactCompanyGrid() {
+        this.Module = 'ContactCompanyGrid';
         this.apiurl = 'api/v1/companycontact';
         this.ActiveView = 'ALL';
     }
-    CompanyContactContactGrid.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
+    ContactCompanyGrid.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
         var $form;
         $form = $valuefield.closest('.fwform');
         if (validationName === 'ContactValidation') {
@@ -15,8 +15,8 @@ var CompanyContactContactGrid = /** @class */ (function () {
         }
     };
     ;
-    return CompanyContactContactGrid;
+    return ContactCompanyGrid;
 }());
-window.CompanyContactContactGridController = new CompanyContactContactGrid();
+window.ContactCompanyGridController = new ContactCompanyGrid();
 //---------------------------------------------------------------------------------------------- 
-//# sourceMappingURL=CompanyContactContactGridController.js.map
+//# sourceMappingURL=ContactCompanyGridController.js.map

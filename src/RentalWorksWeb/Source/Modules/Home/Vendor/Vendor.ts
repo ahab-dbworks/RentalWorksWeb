@@ -144,7 +144,7 @@ declare var FwBrowse: any;
             FwBrowse.renderRuntimeHtml($vendorNoteControl);
 
             // ----------
-            var nameCompanyContactGrid: string = 'CompanyContactContactGrid'
+            var nameCompanyContactGrid: string = 'CompanyContactGrid'
             var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
             var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
             $companyContactGrid.empty().append($companyContactControl);
@@ -219,7 +219,7 @@ declare var FwBrowse: any;
             var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
             FwBrowse.search($vendorNoteGrid);
 
-            var $companyContactGrid: any = $form.find('[data-name="CompanyContactContactGrid"]');
+            var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
             FwBrowse.search($companyContactGrid);
 
             //this.events($form);

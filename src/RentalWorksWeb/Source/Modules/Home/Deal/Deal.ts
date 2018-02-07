@@ -356,7 +356,7 @@ class Deal {
         FwBrowse.renderRuntimeHtml($vendorControl);
 
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactContactGrid'
+        var nameCompanyContactGrid: string = 'CompanyContactGrid'
         var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
         var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
         $companyContactGrid.empty().append($companyContactControl);
@@ -437,7 +437,7 @@ class Deal {
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
 
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactContactGrid"]');
+        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);

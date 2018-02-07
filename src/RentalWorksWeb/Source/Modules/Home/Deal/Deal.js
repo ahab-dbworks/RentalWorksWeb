@@ -291,7 +291,7 @@ var Deal = /** @class */ (function () {
         FwBrowse.init($vendorControl);
         FwBrowse.renderRuntimeHtml($vendorControl);
         // ----------
-        var nameCompanyContactGrid = 'CompanyContactContactGrid';
+        var nameCompanyContactGrid = 'CompanyContactGrid';
         var $companyContactGrid = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
         var $companyContactControl = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
         $companyContactGrid.empty().append($companyContactControl);
@@ -348,7 +348,7 @@ var Deal = /** @class */ (function () {
         FwBrowse.search($dealNotesGrid);
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
-        var $companyContactGrid = $form.find('[data-name="CompanyContactContactGrid"]');
+        var $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));

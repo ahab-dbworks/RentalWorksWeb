@@ -361,8 +361,8 @@ namespace WebLibrary.Security
             AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
             AddGrid("Order Pick List",                        "{ABE29218-C144-4CA7-825F-3FDA7DC860A5}", lv1menuGrids.Id, "OrderPickListGridController");
             AddGrid("Order Status History",                   "{D5B97814-9FD7-4821-9553-28D276F67797}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
-            AddGrid("Company Contact",                        "{68E99935-E0AB-4552-BBFF-46ED2965E4F0}", lv1menuGrids.Id, "CompanyContactGridController");
-            AddGrid("Company Contact Contact",                "{4172C587-7968-4664-A836-83A14A5B2B48}", lv1menuGrids.Id, "CompanyContactContactGridController");
+            AddGrid("Contact Company",                        "{68E99935-E0AB-4552-BBFF-46ED2965E4F0}", lv1menuGrids.Id, "ContactCompanyGridController");
+            AddGrid("Company Contact",                        "{4172C587-7968-4664-A836-83A14A5B2B48}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Warehouse Department",                   "{CB4CE3A5-6DCC-497D-84D1-0B3FBAAEB19B}", lv1menuGrids.Id, "WarehouseDepartmentGridController");
             AddGrid("Warehouse Inventory Type",               "{D90C2659-F1FB-419D-89B6-738766DFCAD2}", lv1menuGrids.Id, "WarehouseInventoryTypeGridController");
             AddGrid("Warehouse Department User",              "{4B3FB84E-CC4D-4EAE-917A-1291B733AC89}", lv1menuGrids.Id, "WarehouseDepartmentUserGridController");
