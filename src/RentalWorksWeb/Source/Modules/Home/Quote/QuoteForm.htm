@@ -361,42 +361,60 @@
             </div>
           </div>
         </div>
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Value / Replacement Cost / Weight">
-          <div class="formrow">
-            <div class="formcolumn" style="text-align:center;width:20%;">US Customary weight (lbs./oz.)</div>
-            <div class="formcolumn" style="text-align:center;width:20%;">Metric weight (kg./g.)</div>
+
+        <div class="formrow">
+          <div class="formcolumn" style="text-align:center;width:40%;">Value / Replacement Cost / Weight</div>
+          <div class="formcolumn" style="text-align:center;width:20%;">US Customary weight (lbs./oz.)</div>
+          <div class="formcolumn" style="text-align:center;width:20%;">Metric weight (kg./g.)</div>
+        </div>
+        <div class="formrow">
+          <div class="formcolumn" style="text-align:center;width:40%;">&#160;</div>
+
+          <div class="formcolumn" style="text-align:center;width:10%;">Shipping</div>
+          <div class="formcolumn" style="text-align:center;width:10%;">In Shipping Case</div>
+          <div class="formcolumn" style="text-align:center;width:10%;">Shipping</div>
+          <div class="formcolumn" style="text-align:center;width:10%;">In Shipping Case</div>
+        </div>
+        <div class="formrow">
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Total Value" data-datafield="" data-framedatafield="ValueTotal" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Total Replacement" data-datafield="" data-framedatafield="ReplacementCostTotal" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+          <div class="formcolumn" style="width:10%;">
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightPounds" data-formreadonly="true" style="float:left;width:100px;"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="float:left;width:70px;"></div>
           </div>
-          <div class="formrow">
-            <div class="formcolumn" style="text-align:center;width:10%;">Shipping</div>
-            <div class="formcolumn" style="text-align:center;width:10%;">In Shipping Case</div>
-            <div class="formcolumn" style="text-align:center;width:10%;">Shipping</div>
-            <div class="formcolumn" style="text-align:center;width:10%;">In Shipping Case</div>
+          <div class="formcolumn" style="width:10%;">
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCasePounds" data-formreadonly="true" style="float:left;width:100px;"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseOunces" data-formreadonly="true" style="float:left;width:70px;"></div>
           </div>
-          <div class="formrow">
-            <div class="formcolumn" style="width:10%;">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightPounds" data-formreadonly="true" style="float:left;width:100px;"></div>
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightOunces" data-formreadonly="true" style="float:left;width:70px;"></div>
-            </div>
-            <div class="formcolumn" style="width:10%;">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCasePounds" data-formreadonly="true" style="float:left;width:100px;"></div>
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseOunces" data-formreadonly="true" style="float:left;width:70px;"></div>
-            </div>
-            <div class="formcolumn" style="width:10%;">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightKilograms" data-formreadonly="true" style="float:left;width:100px;"></div>
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightGrams" data-formreadonly="true" style="float:left;width:70px;"></div>
-            </div>
-            <div class="formcolumn" style="width:10%;">
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseKilograms" data-formreadonly="true" style="float:left;width:100px;"></div>
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseGrams" data-formreadonly="true" style="float:left;width:70px;"></div>
-            </div>
+          <div class="formcolumn" style="width:10%;">
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightKilograms" data-formreadonly="true" style="float:left;width:100px;"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightGrams" data-formreadonly="true" style="float:left;width:70px;"></div>
           </div>
+          <div class="formcolumn" style="width:10%;">
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseKilograms" data-formreadonly="true" style="float:left;width:100px;"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield frame" data-caption="" data-datafield="" data-framedatafield="WeightInCaseGrams" data-formreadonly="true" style="float:left;width:70px;"></div>
           </div>
         </div>
-      <div data-type="tabpage" id="historytabpage" class="tabpage" data-tabid="historytab">
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Status History">
-          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-            <div data-control="FwGrid" data-grid="OrderStatusHistoryGrid" data-securitycaption="Quote Status History"></div>
-          </div>
+        <div class="formrow">
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Owned Value" data-datafield="" data-framedatafield="ValueOwned" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Owned Replacement" data-datafield="" data-framedatafield="ReplacementCostOwned" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+        </div>
+        <div class="formrow">
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Sub Value" data-datafield="" data-framedatafield="ValueSubs" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div data-control="FwFormField" data-type="number" class="formcolumn fwcontrol fwformfield frame" data-caption="Sub Replacement" data-datafield="" data-framedatafield="ReplacementCostSubs" data-formreadonly="true" style="text-align:center;width:10%;"></div>
+          <div class="formcolumn" style="text-align:center;width:10%;">&#160;</div>
+        </div>
+      </div>
+    </div>
+    <div data-type="tabpage" id="historytabpage" class="tabpage" data-tabid="historytab">
+      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Status History">
+        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+          <div data-control="FwGrid" data-grid="OrderStatusHistoryGrid" data-securitycaption="Quote Status History"></div>
         </div>
       </div>
     </div>
