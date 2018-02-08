@@ -22,6 +22,7 @@ namespace WebApi.Modules.Settings.LaborCategory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rectype='L')");
+            addFilterToSelect("LaborTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

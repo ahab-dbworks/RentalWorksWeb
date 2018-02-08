@@ -21,6 +21,7 @@ namespace WebApi.Modules.Settings.MiscCategory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rectype='M')");
+            addFilterToSelect("MiscTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

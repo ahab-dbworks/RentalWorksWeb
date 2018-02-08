@@ -22,6 +22,7 @@ namespace WebApi.Modules.Settings.FacilityCategory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rectype='SP')");
+            addFilterToSelect("FacilityTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

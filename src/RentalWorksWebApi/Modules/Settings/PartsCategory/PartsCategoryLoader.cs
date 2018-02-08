@@ -22,6 +22,7 @@ namespace WebApi.Modules.Settings.PartsCategory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rectype='P')");
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
     }
