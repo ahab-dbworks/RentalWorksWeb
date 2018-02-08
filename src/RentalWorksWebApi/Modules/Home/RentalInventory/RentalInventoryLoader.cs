@@ -16,6 +16,9 @@ namespace WebApi.Modules.Home.RentalInventory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
             select.AddWhere("(availfor='R')");
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+            addFilterToSelect("CategoryId", "categoryid", select, request);
+            addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
         }
         //------------------------------------------------------------------------------------
     }
