@@ -19,8 +19,8 @@ Section
 ***************************/
 /*#region Default Theme*/
 html.theme-material .fwform-section {/*margin:0 6px;*/margin: .5rem .5rem 1rem .5rem;padding: 5px;/*box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);background-color: #F5F5F5;border: 1px solid #E0E0E0;*/}
-html.theme-material .fwform-section-title {padding:0 4px;font-size:20px;cursor:default;color:#2196f3;border-bottom:1px solid;}
-html.theme-material .fwform-section-body {min-height:1px;padding:10px;/*overflow: auto; mv 2018-01-21 this was causing combobox popup to get cutoff */}
+html.theme-material .fwform-section-title {padding:0 .25em;font-size:1.25em;cursor:default;color:#2196f3;border-bottom:1px solid;}
+html.theme-material .fwform-section-body {min-height:1px;padding:.625em;/*overflow: auto; mv 2018-01-21 this was causing combobox popup to get cutoff */}
 /*#endregion Default Theme*/
 
 /***************************

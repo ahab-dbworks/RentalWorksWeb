@@ -293,10 +293,10 @@ namespace Fw.Json.SqlServer
                 sb.AppendLine(")");
                 sb.AppendLine(", count_cte as (");
                 sb.AppendLine("    select count(*) as [totalrows]");
-                sb.AppendLine("    from main_cte");
+                sb.AppendLine("    from main_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine(", paging_cte as (");
-                sb.AppendLine("    select top(@fwrownoend) row_number() over (");
+                sb.Append("    select top(@fwrownoend) row_number() over (");
                 if (OrderBy.Count == 0)
                 {
                     throw new Exception("A sort expression is required for paged queries.");
@@ -306,10 +306,10 @@ namespace Fw.Json.SqlServer
                     sb.Append(line);
                 }
                 sb.AppendLine(") as rowno, *");
-                sb.AppendLine("    from main_cte, count_cte");
+                sb.AppendLine("    from main_cte with (nolock), count_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
-                sb.AppendLine("from paging_cte");
+                sb.AppendLine("from paging_cte with (nolock)");
                 sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
             }
             if (!EnablePaging)

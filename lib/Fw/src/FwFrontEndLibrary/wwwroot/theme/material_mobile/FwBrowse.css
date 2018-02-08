@@ -1,3 +1,4 @@
+html.theme-materialmobile .fwbrowse .tablewrapper {overflow-x:auto;}
 html.theme-materialmobile .fwbrowse td {vertical-align:top;}
 
 html.theme-materialmobile .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}

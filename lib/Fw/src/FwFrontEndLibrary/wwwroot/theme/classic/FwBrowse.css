@@ -1,3 +1,4 @@
+html.theme-classic .fwbrowse .tablewrapper {overflow-x:auto;}
 html.theme-classic .fwbrowse td{vertical-align:top;}
 
 html.theme-classic .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;}
