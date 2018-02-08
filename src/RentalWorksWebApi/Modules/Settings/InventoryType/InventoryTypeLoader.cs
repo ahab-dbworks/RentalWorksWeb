@@ -60,6 +60,13 @@ namespace WebApi.Modules.Settings.InventoryType
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(rental='T' or sales = 'T' or parts='T' or sets='T' or props='T' or wardrobe='T' or vehicle ='T')");
+            addFilterToSelect("Rental", "rental", select, request);
+            addFilterToSelect("Sales", "sales", select, request);
+            addFilterToSelect("Parts", "parts", select, request);
+            addFilterToSelect("Sets", "sets", select, request);
+            addFilterToSelect("Props", "props", select, request);
+            addFilterToSelect("Wardrobe", "wardrobe", select, request);
+            addFilterToSelect("Vehicle", "vehicle", select, request);
         }
         //------------------------------------------------------------------------------------
     }
