@@ -648,7 +648,8 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         protected void AddFilterFieldToSelect(string filterFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
         {
-            if ((request != null) && (request.uniqueids != null))
+            //if ((request != null) && (request.uniqueids != null))
+            if ((request != null) && (request.filterfields != null))  //jh 02/09/2018
             {
                 Dictionary<string, string> filterfields = ((Dictionary<string, string>)request.filterfields);
                 if (filterfields.ContainsKey(filterFieldName))
