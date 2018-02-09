@@ -8,6 +8,7 @@ namespace WebApi.Modules.Settings.Widget
     //------------------------------------------------------------------------------------
     public class WidgetDataSet
     {
+        public string label { get; set; }
         public List<int> data { get; set; }
         public List<string> backgroundColor { get; set; }
         public List<string> borderColor { get; set; }
@@ -96,6 +97,7 @@ namespace WebApi.Modules.Settings.Widget
             legend = new WidgetLegend();
             scales = new WidgetScales();
             responsive = true;
+            maintainAspectRatio = true;
         }
     }
     //------------------------------------------------------------------------------------

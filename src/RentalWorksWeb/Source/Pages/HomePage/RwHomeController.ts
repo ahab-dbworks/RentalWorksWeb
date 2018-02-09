@@ -95,45 +95,57 @@ class RwHome {
         });
     };
     renderGroup() {
-        var ctx = document.getElementById("myGroupChart");
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["January", "February", "March", "April"],
-                datasets: [{
-                        label: "Hoffman, Justin",
-                        backgroundColor: 'rgba(#350C0C)',
-                        data: [5000, 6000, 8000, 4000]
-                    }, {
-                        label: "Wang, Oliver",
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        data: [5000, 8000, 10000, 9000]
-                    }, {
-                        label: "Hoang, Jason",
-                        backgroundColor: 'rgba(255, 206, 86, 0.7)',
-                        data: [10000, 9000, 4500, 9000]
-                    }, {
-                        label: "Sandoval, Antonio",
-                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                        data: [9000, 9000, 9000, 9000]
-                    }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Billing'
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                responsive: true,
-                maintainAspectRatio: false
+        //var ctx = document.getElementById("myGroupChart");
+        //var myChart = new Chart(ctx, {
+        //    type: 'bar',
+        //    data: {
+        //        labels: ["January", "February", "March", "April"],
+        //        datasets: [{
+        //                label: "Hoffman, Justin",
+        //                backgroundColor: 'rgba(#350C0C)',
+        //                data: [5000, 6000, 8000, 4000]
+        //            }, {
+        //                label: "Wang, Oliver",
+        //                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        //                data: [5000, 8000, 10000, 9000]
+        //            }, {
+        //                label: "Hoang, Jason",
+        //                backgroundColor: 'rgba(255, 206, 86, 0.7)',
+        //                data: [10000, 9000, 4500, 9000]
+        //            }, {
+        //                label: "Sandoval, Antonio",
+        //                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+        //                data: [9000, 9000, 9000, 9000]
+        //            }]
+        //    },
+        //    options: {
+        //        title: {
+        //            display: true,
+        //            text: 'Billing'
+        //        },
+        //        scales: {
+        //            yAxes: [{
+        //                ticks: {
+        //                    beginAtZero: true
+        //                }
+        //            }]
+        //        },
+        //        responsive: true,
+        //        maintainAspectRatio: false
+        //    }
+        //});
+
+
+        var groupChart = document.getElementById("myGroupChart");
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/billingbyagentbymonth', {}, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                var myGroup = new Chart(groupChart, response);
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         });
+
+
     };
 };
 
