@@ -13592,6 +13592,137 @@
 			]
 		},
 		{
+			"name": "Order Item",
+			"description": "",
+			"item": [
+				{
+					"name": "Order Item: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderitem/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderItemId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"00008L8G\", \"RecType\":\"L\"}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderitem/00008L8G~00008L90",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderitem",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderId\": \"00008L8G\",\n    \"InventoryId\": \"000011E9\",\n    \"Description\": \"SERIALIZED ITEM - ABC\",\n    \"QuantityOrdered\": 200,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderitem",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderId\": \"00008L8G\",\n    \"OrderItemId\": \"00008L90\",\n    \"QuantityOrdered\": 2,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/orderitem/00008L8G~00008L9G",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Order Location",
 			"description": "",
 			"item": [
@@ -27772,6 +27903,81 @@
 					"name": "Load: Orders By Status",
 					"request": {
 						"url": "http://localhost:57949/api/v1/widget/loadbyname/ordersbystatus",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Orders By Agent",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/loadbyname/ordersbyagent",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Deals By Type",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/loadbyname/dealsbytype",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Billing By Agent By Month",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/loadbyname/billingbyagentbymonth",
 						"method": "GET",
 						"header": [
 							{

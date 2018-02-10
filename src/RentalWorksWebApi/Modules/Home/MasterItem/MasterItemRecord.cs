@@ -2,17 +2,18 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
+
 namespace WebApi.Modules.Home.MasterItem
 {
     [FwSqlTable("masteritem")]
     public class MasterItemRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKeyOptional: true, required: true)]
+        public string OrderId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string MasterItemId { get; set; } = "";
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required:true)]
-        public string OrderId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InventoryId { get; set; }
