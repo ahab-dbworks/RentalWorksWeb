@@ -48,7 +48,6 @@ var SettingsPage = /** @class */ (function () {
             //}
             for (var k = 0; k < moduleArray.length; k++) {
                 FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[k][0], moduleArray[k][1], modules[moduleArray[k][3]].properties.color, moduleArray[k][1], moduleArray[k][2]);
-                FwSettings.renderRecordHtml($settings, moduleArray[k][1]);
             }
             //FwAppData.apiMethod(false, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'SettingsPage.json', null, null, function onSuccess(response) {
             //    response.Modules.forEach(function (module) {
@@ -86,23 +85,6 @@ var SettingsPage = /** @class */ (function () {
             //            }).closest('div.panel-group').show();
             //        }
             //    }      
-            //});
-            //$settings.find('.fwcontrol .fwmenu').on('click', '.')
-            //$control.on('keypress', '#settingsSearch', function (e) {
-            //    if (e.which === 13) {
-            //        e.preventDefault();
-            //        var $settings, val;
-            //        $settings = jQuery('a#title');
-            //        val = jQuery.trim(this.value).toUpperCase();
-            //        if (val === "") {
-            //            $settings.parent().show();
-            //        } else {
-            //            $settings.closest('div.panel-group').hide();
-            //            $settings.filter(function () {
-            //                return -1 != jQuery(this).text().toUpperCase().indexOf(val);
-            //            }).closest('div.panel-group').show();
-            //        }
-            //    }
             //});
         };
         screen.unload = function () {
