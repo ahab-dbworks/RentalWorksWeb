@@ -24,6 +24,7 @@
                     break;
                 case 'SubCategoryValidation':
                     request.uniqueids = {
+                        TypeId: LaborTypeValue,
                         CategoryId: CategoryValue
                     };
                     break;

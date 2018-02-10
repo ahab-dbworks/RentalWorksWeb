@@ -145,7 +145,14 @@ class RwFacilityRate {
 
     }
 
- 
+    beforeValidate = function ($browse, $grid, request) {
+        var FacilityTypeValue = jQuery($grid.find('[data-validationname="FacilityTypeValidation"] input')).val();
+
+        request.uniqueids = {
+            FacilityTypeId: FacilityTypeValue
+        };
+
+    } 
 }
 
 (<any>window).FacilityRateController = new RwFacilityRate();

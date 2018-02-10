@@ -419,9 +419,28 @@ var SalesInventory = /** @class */ (function () {
     };
     ;
     SalesInventory.prototype.beforeValidate = function ($browse, $grid, request) {
-        request.uniqueids = {
-            Sales: true
-        };
+        var validationName = request.module;
+        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                request.uniqueids = {
+                    Sales: true
+                };
+                break;
+            case 'SalesCategoryValidation':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
+                };
+                break;
+            case 'SubCategoryValidation':
+                request.uniqueids = {
+                    TypeId: InventoryTypeValue,
+                    CategoryId: CategoryTypeId
+                };
+                break;
+        }
+        ;
     };
     return SalesInventory;
 }());

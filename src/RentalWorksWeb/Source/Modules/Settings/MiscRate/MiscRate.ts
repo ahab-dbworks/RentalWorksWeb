@@ -40,7 +40,7 @@ class RwMiscRate {
 
         return $browse;
     }
-     
+
     openForm(mode: string) {
         var $form;
 
@@ -72,7 +72,7 @@ class RwMiscRate {
             else {
                 FwFormField.enable($form.find('[data-datafield="OverrideProfitAndLossCategory"]'))
             }
-        }); 
+        });
 
         return $form;
     }
@@ -143,6 +143,16 @@ class RwMiscRate {
             FwFormField.disable($form.find('.category [data-type="validation"]'))
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
         }
+    }
+
+
+    beforeValidate = function ($browse, $grid, request) {
+        var MiscTypeValue = jQuery($grid.find('[data-validationname="MiscTypeValidation"] input')).val();
+
+        request.uniqueids = {
+            MiscTypeId: MiscTypeValue
+        };
+
     }
 }
 

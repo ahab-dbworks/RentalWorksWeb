@@ -604,10 +604,28 @@ class RentalInventory {
     }
 
     beforeValidate($browse, $grid, request) {
-
-        request.uniqueids = {
-            Rental: true
-        }
+        var validationName = request.module;
+        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        var CategoryTypeId = jQuery($grid.find('[data-validationname="RentalCategoryValidation"] input')).val();
+       
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                request.uniqueids = {
+                    Rental: true
+                };
+                break;
+            case 'RentalCategoryValidation':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
+                };
+                break;
+            case 'SubCategoryValidation':
+                request.uniqueids = {
+                    TypeId: InventoryTypeValue,
+                    CategoryId: CategoryTypeId
+                };
+                break;
+        };
     }
 
 

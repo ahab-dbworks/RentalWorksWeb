@@ -4,8 +4,11 @@ var DiscountItemSalesGrid = /** @class */ (function () {
             var validationName = request.module;
             if (validationName != null) {
                 var InventoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="InventoryTypeValidation"] input')).val();
-                var CategoryTypeId = jQuery($grid.find('tr.editrow [data-validationname="SalesCategoryValidation"] input')).val();
-                var SubCategoryTypeId = jQuery($grid.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+                var CategoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="SalesCategoryValidation"] input')).val();
+                var SubCategoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+                console.log(InventoryTypeValue);
+                console.log(CategoryTypeValue);
+                console.log(SubCategoryTypeValue);
                 switch (validationName) {
                     case 'InventoryTypeValidation':
                         request.uniqueids = {
@@ -20,14 +23,14 @@ var DiscountItemSalesGrid = /** @class */ (function () {
                     case 'SubCategoryValidation':
                         request.uniqueids = {
                             TypeId: InventoryTypeValue,
-                            CategoryId: CategoryTypeId
+                            CategoryId: CategoryTypeValue
                         };
                         break;
                     case 'SalesInventoryValidation':
                         request.uniqueids = {
                             InventoryTypeId: InventoryTypeValue,
-                            CategoryId: CategoryTypeId,
-                            SubCategoryId: SubCategoryTypeId
+                            CategoryId: CategoryTypeValue,
+                            SubCategoryId: SubCategoryTypeValue
                         };
                         break;
                 }

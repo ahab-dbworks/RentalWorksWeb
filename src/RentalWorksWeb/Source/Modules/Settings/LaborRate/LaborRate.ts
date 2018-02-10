@@ -146,6 +146,16 @@ class RwLaborRate {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategory"]'))
         }
     }
+
+
+    beforeValidate = function ($browse, $grid, request) {
+        var LaborTypeValue = jQuery($grid.find('[data-validationname="LaborTypeValidation"] input')).val();
+
+        request.uniqueids = {
+            LaborTypeId: LaborTypeValue
+        };
+
+    } 
 }
 
 (<any>window).LaborRateController = new RwLaborRate();

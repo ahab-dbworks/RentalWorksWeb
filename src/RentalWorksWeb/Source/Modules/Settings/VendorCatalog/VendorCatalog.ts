@@ -73,7 +73,6 @@ class VendorCatalog {
 
     beforeValidateInventoryType($browse, $grid, request) {
         var value = $grid.find('input[type="radio"]:checked').val();
-
         switch (value){
             case 'RENTAL':
                 request.uniqueids = {
@@ -88,6 +87,32 @@ class VendorCatalog {
             case 'PARTS':
                 request.uniqueids = {
                     Parts: true
+                }
+                break;
+
+        }
+
+    } 
+
+    beforeValidateCategory($browse, $grid, request) {
+        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        var validationName = request.module;
+
+        console.log(InventoryTypeValue, "INV")
+        switch (validationName) {
+            case 'PartsCategoryValidation':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
+                }
+                break;
+            case 'RentalCategoryValidation':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
+                }
+                break;
+            case 'SalesCategoryValidation':
+                request.uniqueids = {
+                    InventoryTypeId: InventoryTypeValue
                 }
                 break;
 
