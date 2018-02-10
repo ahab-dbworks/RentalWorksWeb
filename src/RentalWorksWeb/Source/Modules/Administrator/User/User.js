@@ -1,5 +1,47 @@
 var User = /** @class */ (function () {
     function User() {
+        //setFormProperties = function ($form) {
+        //    var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
+        //    $cbSecurityExpirePassword = $form.find('.cbSecurityExpirePassword');
+        //    $txtSecurityExpire = $form.find('.txtSecurityExpire');
+        //    $cbNetExpirePassword = $form.find('.cbNetExpirePassword');
+        //    $txtNetExpire = $form.find('.txtNetExpire');
+        //    if ($cbSecurityExpirePassword.find('input').prop('checked')) {
+        //        FwFormField.enable($txtSecurityExpire);
+        //    } else {
+        //        FwFormField.disable($txtSecurityExpire);
+        //    }
+        //    if ($cbNetExpirePassword.find('input').prop('checked')) {
+        //        FwFormField.enable($txtNetExpire);
+        //    } else {
+        //        FwFormField.disable($txtNetExpire);
+        //    }
+        //};
+        this.beforeValidate = function ($browse, $grid, request, datafield) {
+            switch (datafield) {
+                case 'RentalInventoryTypeId':
+                    request.uniqueids = {
+                        Rental: true
+                    };
+                    break;
+                case 'SalesInventoryTypeId':
+                    request.uniqueids = {
+                        Sales: true
+                    };
+                    break;
+                case 'PartsInventoryTypeId':
+                    request.uniqueids = {
+                        Parts: true
+                    };
+                    break;
+                case 'TransportationTypeId':
+                    request.uniqueids = {
+                        Transportation: true
+                    };
+                    break;
+            }
+            ;
+        };
         this.Module = 'User';
         this.apiurl = 'api/v1/user';
         this.caption = 'User';

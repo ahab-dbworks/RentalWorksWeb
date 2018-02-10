@@ -137,6 +137,13 @@ declare var FwBrowse: any;
             }
         }
 
+        beforeValidate($browse, $grid, request) {
+
+            request.uniqueids = {
+                Rental: true
+            }
+        }
+
     }
 
 (<any>window).RentalCategoryController = new RentalCategory();

@@ -118,6 +118,13 @@ declare var FwBrowse: any;
             FwBrowse.search($laborCategoryGrid);
         }
 
+        beforeValidate($browse, $grid, request) {
+
+            request.uniqueids = {
+                Parts: true
+            }
+        }
+
     }
 
 (<any>window).PartsCategoryController = new PartsCategory();

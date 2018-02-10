@@ -603,6 +603,14 @@ class RentalInventory {
         };
     }
 
+    beforeValidate($browse, $grid, request) {
+
+        request.uniqueids = {
+            Rental: true
+        }
+    }
+
+
     loadRelatedValidationFields(validationName, $valuefield, $tr) {
         var $form;
 

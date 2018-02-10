@@ -418,6 +418,11 @@ var SalesInventory = /** @class */ (function () {
         }
     };
     ;
+    SalesInventory.prototype.beforeValidate = function ($browse, $grid, request) {
+        request.uniqueids = {
+            Sales: true
+        };
+    };
     return SalesInventory;
 }());
 window.SalesInventoryController = new SalesInventory();

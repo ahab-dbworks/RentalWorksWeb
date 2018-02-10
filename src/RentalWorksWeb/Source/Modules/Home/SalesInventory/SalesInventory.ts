@@ -150,7 +150,7 @@ class SalesInventory {
             { value: 'C', text: 'C' },
             { value: 'D', text: 'D' }
         ], true);
-        
+
         return $form;
     }
 
@@ -468,7 +468,14 @@ class SalesInventory {
                     $form.find('.wardrobetab').hide();
                 }
         }
-    }; 
+    };
+
+    beforeValidate($browse, $grid, request) {
+
+        request.uniqueids = {
+            Sales: true
+        }
+    }
 }
 
 (<any>window).SalesInventoryController = new SalesInventory();

@@ -71,6 +71,30 @@ class VendorCatalog {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    beforeValidateInventoryType($browse, $grid, request) {
+        var value = $grid.find('input[type="radio"]:checked').val();
+
+        switch (value){
+            case 'RENTAL':
+                request.uniqueids = {
+                    Rental: true
+                }
+                break;
+            case 'SALES':
+                request.uniqueids = {
+                    Sales: true
+                }
+                break;
+            case 'PARTS':
+                request.uniqueids = {
+                    Parts: true
+                }
+                break;
+
+        }
+
+    } 
+
     afterLoad($form: any) {
         var value = $form.find('input[type="radio"]:checked').val();
         var hideAll = function () {

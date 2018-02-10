@@ -137,6 +137,12 @@ declare var FwBrowse: any;
             }
         }
 
+        beforeValidate($browse, $grid, request) {
+
+            request.uniqueids = {
+                Sales: true
+            }
+        }
     }
 
 (<any>window).SalesCategoryController = new SalesCategory();

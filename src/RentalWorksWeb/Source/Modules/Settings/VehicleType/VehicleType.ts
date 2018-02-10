@@ -100,6 +100,13 @@ class VehicleType {
         this.disableFields();
 
     }
+
+    beforeValidate = function ($browse, $grid, request) {
+        request.uniqueids = {
+            Transportation: true
+        };
+     
+    }
 }
 
 (<any>window).VehicleTypeController = new VehicleType();

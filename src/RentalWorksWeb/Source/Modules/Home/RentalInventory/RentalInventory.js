@@ -538,6 +538,11 @@ var RentalInventory = /** @class */ (function () {
         }
         ;
     };
+    RentalInventory.prototype.beforeValidate = function ($browse, $grid, request) {
+        request.uniqueids = {
+            Rental: true
+        };
+    };
     RentalInventory.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
         var $form;
         $form = $valuefield.closest('.fwform');

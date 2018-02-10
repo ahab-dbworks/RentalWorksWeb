@@ -35,7 +35,7 @@ class User {
 
     openBrowse() {
         var self = this;
-        var $browse= FwBrowse.loadBrowseFromTemplate(this.Module);
+        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
@@ -131,14 +131,14 @@ class User {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(uniqueids.UserId);
         FwModule.loadForm(this.Module, $form);
- 
+
         return $form;
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
         FwModule.saveForm(this.Module, $form, closetab, navigationpath);
     }
- 
+
     afterLoad($form: any) {
         var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');
         var $subDiscount = $form.find('div.fwformfield[data-datafield="LimitSubDiscount"] input').prop('checked');
@@ -164,7 +164,7 @@ class User {
             FwFormField.enable($form.find('[data-datafield="PasswordExpireDays"]'));
         } else {
             FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
-         }
+        }
     }
 
     //setFormProperties = function ($form) {
@@ -187,6 +187,34 @@ class User {
     //        FwFormField.disable($txtNetExpire);
     //    }
     //};
+
+    beforeValidate = function ($browse, $grid, request, datafield) {
+
+
+        switch (datafield) {
+            case 'RentalInventoryTypeId':
+                request.uniqueids = {
+                    Rental: true
+                };
+                break;
+            case 'SalesInventoryTypeId':
+                request.uniqueids = {
+                    Sales: true
+                };
+                break;
+            case 'PartsInventoryTypeId':
+                request.uniqueids = {
+                    Parts: true
+                };
+                break;
+            case 'TransportationTypeId':
+                request.uniqueids = {
+                    Transportation: true
+                };
+                break;
+        };
+    }
+
 }
 
 (<any>window).UserController = new User();
