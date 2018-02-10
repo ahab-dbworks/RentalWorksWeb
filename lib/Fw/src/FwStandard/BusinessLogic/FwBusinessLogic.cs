@@ -242,7 +242,7 @@ namespace FwStandard.BusinessLogic
                         if (attribute.GetType() == typeof(FwBusinessLogicFieldAttribute))
                         {
                             FwBusinessLogicFieldAttribute businessLogicFieldAttribute = (FwBusinessLogicFieldAttribute)attribute;
-                            if (businessLogicFieldAttribute.IsPrimaryKey)
+                            if ((businessLogicFieldAttribute.IsPrimaryKey) || (businessLogicFieldAttribute.IsPrimaryKeyOptional))
                             {
                                 primaryKeyProperties.Add(property);
                             }
