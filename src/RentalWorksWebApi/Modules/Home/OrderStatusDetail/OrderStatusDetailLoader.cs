@@ -89,8 +89,11 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "inwarehouse", modeltype: FwDataTypes.Text)]
         public string InWarehouse { get; set; }
         //------------------------------------------------------------------------------------  
-        [FwSqlDataField(column: "outreceivecontractid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "outcontractid", modeltype: FwDataTypes.Text)]
         public string OutContractId { get; set; }
+        //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "outcontractno", modeltype: FwDataTypes.Text)]
+        public string OutContractNumber { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendOut { get; set; }
@@ -107,8 +110,11 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "istruckout", modeltype: FwDataTypes.Boolean)]
         public bool? IsTruckOut { get; set; }
         //------------------------------------------------------------------------------------  
-        [FwSqlDataField(column: "inreturncontractid", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "incontractid", modeltype: FwDataTypes.Text)]
         public string InContractId { get; set; }
+        //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "incontractno", modeltype: FwDataTypes.Text)]
+        public string InContractNumber { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendIn { get; set; }

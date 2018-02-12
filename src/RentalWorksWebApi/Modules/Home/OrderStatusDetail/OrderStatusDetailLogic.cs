@@ -37,12 +37,14 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         public string InWarehouseCode { get; set; }
         public string InWarehouse { get; set; }
         public string OutContractId { get; set; }
+        public string OutContractNumber { get; set; }
         public bool? IsSuspendOut { get; set; }
         public string OutDateTime { get; set; }
         public string OutDateTimeColor { get; set; }
         public bool? IsExchangeOut { get; set; }
         public bool? IsTruckOut { get; set; }
         public string InContractId { get; set; }
+        public string InContractNumber { get; set; }
         public bool? IsSuspendIn { get; set; }
         public string InDateTime { get; set; }
         public string InDateTimeColor { get; set; }
