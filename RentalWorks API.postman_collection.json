@@ -13614,7 +13614,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderItemId\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"00008L8G\", \"RecType\":\"L\"}\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RowNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"00008L8G\", \"RecType\":\"R\"}\n}"
 						},
 						"description": ""
 					},
@@ -13689,7 +13689,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"OrderId\": \"00008L8G\",\n    \"OrderItemId\": \"00008L90\",\n    \"QuantityOrdered\": 2,\n}"
+							"raw": "{\n    \"OrderId\": \"00008L8G\",\n    \"OrderItemId\": \"00008L90\",\n      \"Notes\": \"DEF note\",\n}"
 						},
 						"description": ""
 					},
@@ -13867,6 +13867,162 @@
 			]
 		},
 		{
+			"name": "Order Note",
+			"description": "",
+			"item": [
+				{
+					"name": "Order Note: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Note: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"NotesDescription\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"00001JAI\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Note: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote/00001JAI~A0004FE0",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Note: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderId\": \"00001JAI\",\n    \"NoteDate\": \"05/07/2015\",\n    \"UserId\": \"A000001Q\",\n    \"NotesDescription\": \"JUSTIN TEST\",\n    \"Notes\": \"New test note\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Note: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderId\": \"00001JAI\",\n    \"OrderNoteId\": \"00008R8M\",\n    \"Notes\": \"New test note - DEF\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Note: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordernote/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Order Set No.",
 			"description": "",
 			"item": [
@@ -14033,7 +14189,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{OrderId\n:\n\"0000149Y\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{OrderId\n:\n\"00001CYP\"}\n\t\n}"
 						},
 						"description": ""
 					},
