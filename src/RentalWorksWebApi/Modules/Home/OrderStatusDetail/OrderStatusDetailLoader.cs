@@ -32,12 +32,18 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------  
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------  
@@ -148,6 +154,9 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "mfgpartnocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ManufacturerPartNumberColor { get; set; }
         //------------------------------------------------------------------------------------  
         [FwSqlDataField(column: "exchordertranid", modeltype: FwDataTypes.Integer)]
         public int? ExchangeOrderTranId { get; set; }

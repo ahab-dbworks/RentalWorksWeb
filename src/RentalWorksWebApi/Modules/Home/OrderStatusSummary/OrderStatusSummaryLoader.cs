@@ -23,6 +23,9 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -35,6 +38,9 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -17,8 +17,10 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         public string ParentId { get; set; }
         public string ICode { get; set; }
         public string ICodeDisplay { get; set; }
+        public string ICodeColor { get; set; }
         public string TrackedBy { get; set; }
         public string Description { get; set; }
+        public string DescriptionColor { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
         public string SubCategoryId { get; set; }
@@ -56,6 +58,7 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         public string BarCodeSerialRfid { get; set; }
         public string BarCodeSerialRfidColor { get; set; }
         public string ManufacturerPartNumber { get; set; }
+        public string ManufacturerPartNumberColor { get; set; }
         public int? ExchangeOrderTranId { get; set; }
         public string ExchangeInternalChar { get; set; }
         public string VendorId { get; set; }
