@@ -63,11 +63,17 @@ namespace FwStandard.DataLayer
                         if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                         {
                             FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                            if (dataFieldAttribute.IsPrimaryKey)
-                            {
-                                primaryKeyProperties.Add(property);
-                            }
-                            if (dataFieldAttribute.IsCustomPrimaryKey)
+                            //if (dataFieldAttribute.IsPrimaryKey)  
+                            //{
+                            //    primaryKeyProperties.Add(property);
+                            //}
+                            //if (dataFieldAttribute.IsCustomPrimaryKey)
+                            //{
+                            //    primaryKeyProperties.Add(property);
+                            //}
+
+                            //justin 02/12/2018
+                            if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsCustomPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
                             {
                                 primaryKeyProperties.Add(property);
                             }
@@ -128,22 +134,41 @@ namespace FwStandard.DataLayer
                 bool noPrimaryKeysHaveValues = true;
                 foreach (PropertyInfo property in primaryKeys)
                 {
-                    object propertyValue = property.GetValue(this);
-                    if (propertyValue == null)
+                    bool isPrimaryKeyOptional = false;
+                    if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
                     {
-                        noPrimaryKeysHaveValues = true;
+                        foreach (Attribute attribute in property.GetCustomAttributes())
+                        {
+                            if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                            {
+                                FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                                if (dataFieldAttribute.IsPrimaryKeyOptional)
+                                {
+                                    isPrimaryKeyOptional = true;
+                                }
+                            }
+                        }
                     }
-                    else if (propertyValue is string)
+
+                    if (!isPrimaryKeyOptional)
                     {
-                        noPrimaryKeysHaveValues &= (propertyValue as string).Length == 0;
-                    }
-                    else if (propertyValue is Int32)
-                    {
-                        noPrimaryKeysHaveValues &= (((Int32)propertyValue) == 0);
-                    }
-                    else
-                    {
-                        throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.NoPrimaryKeysHaveValues]");
+                        object propertyValue = property.GetValue(this);
+                        if (propertyValue == null)
+                        {
+                            noPrimaryKeysHaveValues = true;
+                        }
+                        else if (propertyValue is string)
+                        {
+                            noPrimaryKeysHaveValues &= (propertyValue as string).Length == 0;
+                        }
+                        else if (propertyValue is Int32)
+                        {
+                            noPrimaryKeysHaveValues &= (((Int32)propertyValue) == 0);
+                        }
+                        else
+                        {
+                            throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwDataRecord.NoPrimaryKeysHaveValues]");
+                        }
                     }
 
                 }
