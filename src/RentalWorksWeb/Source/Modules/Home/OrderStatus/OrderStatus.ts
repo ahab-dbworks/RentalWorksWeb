@@ -43,8 +43,11 @@ class OrderStatus {
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         var order = $form.find('[data-datafield="OrderId"]');
+        var max = 9999;
         order.on('change', function () {
             try {
+                $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
+                $form.find('.summaryview').show();
                 var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
                 FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
@@ -77,7 +80,7 @@ class OrderStatus {
                     } else {
                         $form.find('.salesview').hide();
                     }
-
+                  
                     $form.find('.details').hide();
                 });
 
@@ -87,6 +90,7 @@ class OrderStatus {
                     request.uniqueids = {
                         OrderId: orderId
                     }
+                    request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -97,6 +101,7 @@ class OrderStatus {
                         OrderId: orderId,
                         RecType: "R"
                     }
+                    request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusRentalDetailGridControl);
 
@@ -107,6 +112,7 @@ class OrderStatus {
                         OrderId: orderId,
                         RecType: "S"
                     }
+                    request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusSalesDetailGridControl);
             }
@@ -120,7 +126,7 @@ class OrderStatus {
         var $orderStatusSummaryGrid: any;
         var $orderStatusSummaryGridControl: any;
         var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-
+        var max = 9999;
 
         $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
         $orderStatusSummaryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSummaryGridBrowse').html());
@@ -129,6 +135,7 @@ class OrderStatus {
             request.uniqueids = {
                 OrderId: orderId
             };
+            request.pagesize = max;
         })
         FwBrowse.init($orderStatusSummaryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSummaryGridControl);
@@ -144,6 +151,7 @@ class OrderStatus {
                 OrderId: orderId,
                 RecType: "R"
             };
+            request.pagesize = max;
         })
         FwBrowse.init($orderStatusRentalDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusRentalDetailGridControl);
@@ -159,6 +167,7 @@ class OrderStatus {
                 OrderId: orderId,
                 RecType: "S"
             };
+            request.pagesize = max;
         })
         FwBrowse.init($orderStatusSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSalesDetailGridControl);
@@ -173,9 +182,11 @@ class OrderStatus {
                 request.uniqueids = {
                     OrderId: orderId
                 };
+                request.pagesize = max;
                 request.filterfields = {
                     Status: filterValue
                 }
+                console.log(request, "SUMMARY REQ")
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -184,9 +195,11 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "R"
                 };
+                request.pagesize = max;
                 request.filterfields = {
                     Status: filterValue
                 }
+                console.log(request, "RENT REQ")
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
@@ -195,9 +208,11 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "S"
                 };
+                request.pagesize = max;
                 request.filterfields = {
                     Status: filterValue
                 }
+                console.log(request, "SALES REQ")
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
 
@@ -213,14 +228,14 @@ class OrderStatus {
             var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
             var WarehouseId = $form.find('[data-type="validation"][data-datafield="WarehouseId"] input.fwformfield-value').val();
             var CategoryId = $form.find('[data-type="validation"][data-datafield="CategoryId"] input.fwformfield-value').val();
-            var ICode = $form.find('[data-type="validation"][data-datafield="ICode"] input.fwformfield-value').val();
+            var InventoryId = $form.find('[data-type="validation"][data-datafield="ICode"] input.fwformfield-value').val();
             var SubCategoryId = $form.find('[data-type="validation"][data-datafield="SubCategoryId"] input.fwformfield-value').val();
 
             $orderStatusSummaryGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
                     OrderId: orderId
                 };
-
+                request.pagesize = max;
                 if (InventoryTypeId !== "") {
                     var invObj = { InventoryTypeId: InventoryTypeId }
                 }
@@ -230,8 +245,8 @@ class OrderStatus {
                 if (CategoryId !== "") {
                     var catObj = { CategoryId: CategoryId }
                 }
-                if (ICode !== "") {
-                    var iObj = { ICode: ICode }
+                if (InventoryId !== "") {
+                    var iObj = { InventoryId: InventoryId }
                 }
                 if (SubCategoryId !== "") {
                     var subObj = { SubCategoryId: SubCategoryId }
@@ -246,6 +261,7 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "R"
                 };
+                request.pagesize = max;
                 if (InventoryTypeId !== "") {
                     var invObj = { InventoryTypeId: InventoryTypeId }
                 }
@@ -255,8 +271,8 @@ class OrderStatus {
                 if (CategoryId !== "") {
                     var catObj = { CategoryId: CategoryId }
                 }
-                if (ICode !== "") {
-                    var iObj = { ICode: ICode }
+                if (InventoryId !== "") {
+                    var iObj = { InventoryId: InventoryId }
                 }
                 if (SubCategoryId !== "") {
                     var subObj = { SubCategoryId: SubCategoryId }
@@ -270,6 +286,7 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "S"
                 };
+                request.pagesize = max;
                 if (InventoryTypeId !== "") {
                     var invObj = { InventoryTypeId: InventoryTypeId }
                 }
@@ -279,8 +296,8 @@ class OrderStatus {
                 if (CategoryId !== "") {
                     var catObj = { CategoryId: CategoryId }
                 }
-                if (ICode !== "") {
-                    var iObj = { ICode: ICode }
+                if (InventoryId !== "") {
+                    var iObj = { InventoryId: InventoryId }
                 }
                 if (SubCategoryId !== "") {
                     var subObj = { SubCategoryId: SubCategoryId }
@@ -301,7 +318,7 @@ class OrderStatus {
                 request.uniqueids = {
                     OrderId: orderId
                 };
-
+                request.pagesize = max;
                 if (Description !== "" || null) {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
@@ -324,6 +341,7 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "R"
                 };
+                request.pagesize = max;
                 if (Description !== "" || null) {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
@@ -345,6 +363,7 @@ class OrderStatus {
                     OrderId: orderId,
                     RecType: "S"
                 };
+                request.pagesize = max;
                 if (Description !== "" || null) {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
