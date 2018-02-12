@@ -307,11 +307,13 @@ class OrderStatus {
                     request.searchfields.push("Description");
                     request.searchfieldvalues.push(Description);
                 };
-                if (BarCode !== "" || null) {
-                    request.searchfieldoperators.push("like");
-                    request.searchfields.push("BarCode");
-                    request.searchfieldvalues.push(BarCode);
-                };
+
+                //justin 02/11/2018 (commmented - Bar Code column not present in data set)
+                //if (BarCode !== "" || null) {
+                //    request.searchfieldoperators.push("like");
+                //    request.searchfields.push("BarCode");
+                //    request.searchfieldvalues.push(BarCode);
+                //};
 
 
             })
@@ -329,7 +331,8 @@ class OrderStatus {
                 };
                 if (BarCode !== "" || null) {
                     request.searchfieldoperators.push("like");
-                    request.searchfields.push("BarCode");
+                    //request.searchfields.push("BarCode");
+                    request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
                     request.searchfieldvalues.push(BarCode);
                 };
 
@@ -349,7 +352,8 @@ class OrderStatus {
                 };
                 if (BarCode !== "" || null) {
                     request.searchfieldoperators.push("like");
-                    request.searchfields.push("BarCode");
+                    //request.searchfields.push("BarCode");
+                    request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
                     request.searchfieldvalues.push(BarCode);
                 };
 
