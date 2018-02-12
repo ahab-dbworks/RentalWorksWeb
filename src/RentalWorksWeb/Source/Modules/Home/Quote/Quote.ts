@@ -233,6 +233,9 @@ class Quote {
 
     renderFrames($form: any) {
         var orderId;
+
+        $form.find('.frame input').css('width', '100%');
+
         orderId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {

@@ -287,6 +287,7 @@ var Order = /** @class */ (function () {
     Order.prototype.renderFrames = function ($form) {
         var orderId;
         orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        $form.find('.frame input').css('width', '100%');
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
