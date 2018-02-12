@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 using WebApi.Modules.Home.MasterItem;
@@ -13,18 +14,59 @@ namespace WebApi.Modules.Home.OrderItem
         {
             dataRecords.Add(orderItem);
             dataLoader = orderItemLoader;
+            orderItem.AfterSave += OnAfterSaveOrderItem;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKeyOptional: true)]
         public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; } }
-        public string InventoryId { get { return orderItem.InventoryId; } set { orderItem.InventoryId = value; } }
         public string RecType { get { return orderItem.RecType; } set { orderItem.RecType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public int? RowNumber { get; set; }
+        public string InventoryId { get { return orderItem.InventoryId; } set { orderItem.InventoryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
+        public string ICodeColor { get; set; }
         public string Description { get { return orderItem.Description; } set { orderItem.Description = value; } }
+        public string DescriptionColor { get; set; }
+        public string PickDate { get { return orderItem.PickDate; } set { orderItem.PickDate = value; } }
+        public string PickTime { get { return orderItem.PickTime; } set { orderItem.PickTime = value; } }
+        public string FromDate { get { return orderItem.FromDate; } set { orderItem.FromDate = value; } }
+        public string FromTime { get { return orderItem.FromTime; } set { orderItem.FromTime = value; } }
+        public string ToDate { get { return orderItem.ToDate; } set { orderItem.ToDate = value; } }
+        public string ToTime { get { return orderItem.ToTime; } set { orderItem.ToTime = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? BillablePeriods { get; set; }
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
+        public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? AvailableQuantity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? AvailableQuantityColor { get; set; }
+        public decimal? Price { get { return orderItem.Price; } set { orderItem.Price = value; } }
+        public decimal? Price2 { get { return orderItem.Price2; } set { orderItem.Price2 = value; } }
+        public decimal? Price3 { get { return orderItem.Price3; } set { orderItem.Price3 = value; } }
+        public decimal? Price4 { get { return orderItem.Price4; } set { orderItem.Price4 = value; } }
+        public decimal? Price5 { get { return orderItem.Price5; } set { orderItem.Price5 = value; } }
+        public decimal? DaysPerWeek { get { return orderItem.DaysPerWeek; } set { orderItem.DaysPerWeek = value; } }
+        public decimal? DiscountPercent { get { return orderItem.DiscountPercent; } set { orderItem.DiscountPercent = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? DiscountPercentDisplay { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodDiscountAmount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodExtended { get; set; }
+        public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
+
+        public string WarehouseId { get { return orderItem.WarehouseId; } set { orderItem.WarehouseId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WarehouseCode { get; set; }
+        public string ReturnToWarehouseId { get { return orderItem.ReturnToWarehouseId; } set { orderItem.ReturnToWarehouseId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ReturnToWarehouseCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Notes { get; set; }
 
 
         //[FwBusinessLogicField(isReadOnly: true)]
@@ -89,14 +131,11 @@ namespace WebApi.Modules.Home.OrderItem
         //public decimal? Premiumpct { get { return orderItem.Premiumpct; } set { orderItem.Premiumpct = value; } }
         //public int? Split { get { return orderItem.Split; } set { orderItem.Split = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public string Whcode { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
         //public string Whcodesummary { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Returntowhcode { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Returntowhcodesummary { get; set; }
-        //public string WarehouseId { get { return orderItem.WarehouseId; } set { orderItem.WarehouseId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Warehouseidsummary { get; set; }
         //public string ReturntowarehouseId { get { return orderItem.ReturntowarehouseId; } set { orderItem.ReturntowarehouseId = value; } }
@@ -362,8 +401,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwBusinessLogicField(isReadOnly: true)]
         //public decimal? InQuantity { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
-        //public int? Ident { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
         //public bool? Rowsummarized { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public bool? Isprimary { get; set; }
@@ -423,5 +460,14 @@ namespace WebApi.Modules.Home.OrderItem
         //public decimal? Quantityreturned { get; set; }
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterSaveOrderItem(object sender, AfterSaveEventArgs e)
+        {
+            bool saved = false;
+            if (e.SavePerformed)
+            {
+                saved = orderItem.SaveNoteASync(Notes).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

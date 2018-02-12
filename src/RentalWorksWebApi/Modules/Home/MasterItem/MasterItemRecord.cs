@@ -1,6 +1,8 @@
 using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer.Attributes;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Home.MasterItem
@@ -15,32 +17,77 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string MasterItemId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
+        public string RecType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string PickDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
+        public string PickTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentfromdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentfromtime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
+        public string FromTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "renttodate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "renttotime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
+        public string ToTime { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
         public decimal? QuantityOrdered { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
+        public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string WarehouseId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
-        public string RecType { get; set; }
+        [FwSqlDataField(column: "price2", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? Price2 { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price3", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? Price3 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price4", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? Price4 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "price5", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
+        public decimal? Price5 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
+        public decimal? DaysPerWeek { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
+        public decimal? DiscountPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? Taxable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "returntowarehouseid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string ReturnToWarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         //[FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RepairId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 3)]
         //public decimal? Cost { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        //public bool? Taxable { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Locked { get; set; }
@@ -90,12 +137,6 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "ratemasterid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RatemasterId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentfromdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        //public string Rentfromdate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "renttodate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        //public string Renttodate { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "split", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Split { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -105,20 +146,8 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "meterrate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         //public decimal? Meterrate { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
-        //public string Pickdate { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "daysinwk", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 3)]
-        //public decimal? Daysinwk { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
-        //public decimal? Discountpct { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ldoutcontractid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string LdoutcontractId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
-        //public decimal? Subqty { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Bold { get; set; }
@@ -174,15 +203,6 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "primarymasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string PrimarymasteritemId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "rentfromtime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
-        //public string Rentfromtime { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "renttotime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
-        //public string Renttotime { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "returntowarehouseid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string ReturntowarehouseId { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "schedulestatusid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string SchedulestatusId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -207,18 +227,6 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "linkedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string LinkedmasteritemId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
-        //public string Picktime { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "price2", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
-        //public decimal? Price2 { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "price3", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
-        //public decimal? Price3 { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "price4", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
-        //public decimal? Price4 { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string UnitId { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -230,9 +238,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string RetiredreasonId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "price5", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
-        //public decimal? Price5 { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         //public int? Consignqty { get; set; }
@@ -267,5 +272,31 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveNoteASync(string Note)
+        {
+            bool saved = false;
+            if (Note != null)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
+                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+
+                    qry = new FwSqlCommand(conn, "syncorderitem", _dbConfig.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
