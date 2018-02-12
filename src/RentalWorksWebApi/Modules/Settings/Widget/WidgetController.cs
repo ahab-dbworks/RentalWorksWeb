@@ -67,6 +67,23 @@ namespace WebApi.Modules.Settings.Widget
                 }
                 switch (widgetName)
                 {
+                    case "quotesbystatus":
+                        try
+                        {
+                            WidgetQuotesByStatus w = new WidgetQuotesByStatus();
+                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            bool b = w.LoadAsync().Result;
+                            return new OkObjectResult(w);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            FwApiException jsonException = new FwApiException();
+                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                            jsonException.Message = ex.Message;
+                            jsonException.StackTrace = ex.StackTrace;
+                            return StatusCode(jsonException.StatusCode, jsonException);
+                        };
                     case "ordersbystatus":
                         try
                         {
