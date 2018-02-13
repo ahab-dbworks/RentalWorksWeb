@@ -1,4 +1,4 @@
-var OrderStatusHistoryGrid = /** @class */ (function () {
+var OrderStatusHistoryGrid = (function () {
     function OrderStatusHistoryGrid() {
         this.Module = 'OrderStatusHistoryGrid';
         this.apiurl = 'api/v1/orderstatushistory';
@@ -6,5 +6,4 @@ var OrderStatusHistoryGrid = /** @class */ (function () {
     return OrderStatusHistoryGrid;
 }());
 window.OrderStatusHistoryGridController = new OrderStatusHistoryGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderStatusHistoryGridController.js.map

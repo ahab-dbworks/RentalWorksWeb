@@ -1,4 +1,4 @@
-var PresentationLayerActivityOverrideGrid = /** @class */ (function () {
+var PresentationLayerActivityOverrideGrid = (function () {
     function PresentationLayerActivityOverrideGrid() {
         this.Module = 'PresentationLayerActivityOverrideGrid';
         this.apiurl = 'api/v1/presentationlayeractivityoverride';
@@ -12,5 +12,4 @@ var PresentationLayerActivityOverrideGrid = /** @class */ (function () {
     return PresentationLayerActivityOverrideGrid;
 }());
 window.PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=PresentationLayerActivityOverrideGridController.js.map

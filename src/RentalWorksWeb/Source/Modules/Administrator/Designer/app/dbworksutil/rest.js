@@ -1,12 +1,12 @@
 var dbworksutil;
 (function (dbworksutil) {
-    var rest = /** @class */ (function () {
+    var rest = (function () {
         function rest() {
         }
         rest.GET = function (url, reconstitueResponse, failRepsonse) {
             jQuery('#master_loader').fadeIn('fast');
             var $promise = jQuery.Deferred();
-            var auth = 'Bearer ' + sessionStorage.getItem('apiToken'); // this is part of the RWW auth process.
+            var auth = 'Bearer ' + sessionStorage.getItem('apiToken');
             jQuery.ajax({
                 type: 'GET',
                 url: url,
@@ -17,13 +17,6 @@ var dbworksutil;
                     Authorization: auth
                 }
             }).done(function (data) {
-                //jQuery.get(url).fail((xhr, textstatus, error) => {
-                //    if (xhr.status != (200 || 203 || 206 || 226)) {
-                //        dbworksutil.message.message_danger('An error occured. See console for details.');
-                //        console.error(xhr.status + ' status code captured.');
-                //        $promise.reject(xhr, textstatus, error);
-                //    }
-                //}).done((data) => {
                 $promise.resolve(data);
             }).fail(function (xhr, textstatus, error) {
                 if (xhr.status != (200 || 203 || 206 || 226)) {
@@ -49,7 +42,7 @@ var dbworksutil;
             var $promise = jQuery.Deferred();
             if (data.length != 0 && data != null) {
                 jQuery('#master_loader').fadeIn('fast');
-                var auth = 'Bearer ' + sessionStorage.getItem('apiToken'); // this is part of the RWW auth process.
+                var auth = 'Bearer ' + sessionStorage.getItem('apiToken');
                 jQuery.ajax({
                     type: type,
                     url: url,
@@ -61,7 +54,6 @@ var dbworksutil;
                         Authorization: auth
                     }
                 }).done(function (data) {
-                    //fourwallutil.message.message_success('Save successful.');
                     $promise.resolve(data);
                 }).fail(function (xhr, textstatus, error) {
                     if (xhr.status != (200 || 203 || 206 || 226)) {

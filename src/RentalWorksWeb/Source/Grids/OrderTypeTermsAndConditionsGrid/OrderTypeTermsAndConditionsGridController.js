@@ -1,4 +1,4 @@
-var OrderTypeTermsAndConditionsGrid = /** @class */ (function () {
+var OrderTypeTermsAndConditionsGrid = (function () {
     function OrderTypeTermsAndConditionsGrid() {
         this.Module = 'OrderTypeTermsAndConditions';
         this.apiurl = 'api/v1/ordertypelocation';
@@ -6,5 +6,4 @@ var OrderTypeTermsAndConditionsGrid = /** @class */ (function () {
     return OrderTypeTermsAndConditionsGrid;
 }());
 window.OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderTypeTermsAndConditionsGridController.js.map

@@ -1,4 +1,4 @@
-var Dashboard = /** @class */ (function () {
+var Dashboard = (function () {
     function Dashboard() {
     }
     Dashboard.prototype.loadDashboard = function () {

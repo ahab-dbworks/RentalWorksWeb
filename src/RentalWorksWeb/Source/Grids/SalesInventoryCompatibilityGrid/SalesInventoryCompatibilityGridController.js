@@ -6,5 +6,4 @@ var SalesInventoryCompatibilityGrid = (function () {
     return SalesInventoryCompatibilityGrid;
 }());
 window.SalesInventoryCompatibilityGridController = new SalesInventoryCompatibilityGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=SalesInventoryCompatibilityGridController.js.map

@@ -1,4 +1,4 @@
-var ItemAttributeValueGrid = /** @class */ (function () {
+var ItemAttributeValueGrid = (function () {
     function ItemAttributeValueGrid() {
         this.Module = 'ItemAttributeValueGrid';
         this.apiurl = 'api/v1/itemattributevalue';
@@ -12,5 +12,4 @@ var ItemAttributeValueGrid = /** @class */ (function () {
     return ItemAttributeValueGrid;
 }());
 window.ItemAttributeValueGridController = new ItemAttributeValueGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=ItemAttributeValueGridController.js.map

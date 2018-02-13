@@ -1,4 +1,4 @@
-var Order = /** @class */ (function () {
+var Order = (function () {
     function Order() {
         this.Module = 'Order';
         this.apiurl = 'api/v1/order';
@@ -26,7 +26,6 @@ var Order = /** @class */ (function () {
                 FwFunc.showError(ex);
             }
         };
-        //Confirmation for cancelling Pick List
         FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
             var $form, pickListId, pickListNumber;
             $form = jQuery(this).closest('.fwform');
@@ -73,7 +72,7 @@ var Order = /** @class */ (function () {
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
-        FwBrowse.addLegend($browse, 'On Hold', '#ff8040'); //placeholder colors
+        FwBrowse.addLegend($browse, 'On Hold', '#ff8040');
         FwBrowse.addLegend($browse, 'No Charge', '#ff0080');
         FwBrowse.addLegend($browse, 'Late', '#ffff80');
         FwBrowse.addLegend($browse, 'Foreign Currency', '#03de3a');
@@ -144,7 +143,6 @@ var Order = /** @class */ (function () {
         viewSubitems.push($closed);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
-        //Location Filter
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $allLocations = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
         var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
@@ -221,7 +219,7 @@ var Order = /** @class */ (function () {
     };
     ;
     Order.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     ;
     Order.prototype.renderGrids = function ($form) {
@@ -252,8 +250,7 @@ var Order = /** @class */ (function () {
     };
     ;
     Order.prototype.loadAudit = function ($form) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        var uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
     ;
@@ -280,7 +277,7 @@ var Order = /** @class */ (function () {
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            });
+            }, null, $form);
         });
     };
     ;
@@ -295,7 +292,7 @@ var Order = /** @class */ (function () {
                     $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
                 }
             }
-        });
+        }, null, $form);
         FwFormField.disable($form.find('.frame'));
         $form.find(".frame .add-on").children().hide();
     };

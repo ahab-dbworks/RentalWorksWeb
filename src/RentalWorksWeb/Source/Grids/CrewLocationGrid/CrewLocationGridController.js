@@ -1,4 +1,4 @@
-var CrewLocationGrid = /** @class */ (function () {
+var CrewLocationGrid = (function () {
     function CrewLocationGrid() {
         this.Module = 'CrewLocationGrid';
         this.apiurl = 'api/v1/crewlocation';
@@ -6,5 +6,4 @@ var CrewLocationGrid = /** @class */ (function () {
     return CrewLocationGrid;
 }());
 window.CrewLocationGridController = new CrewLocationGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=CrewLocationGridController.js.map

@@ -1,8 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwSettings: any;
-declare var FwApplication: any;
-
 class DuplicateRules {
     Module: string;
     apiurl: string;
@@ -97,7 +92,7 @@ class DuplicateRules {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath });
     }
 
     getFields($form: JQuery): void {
@@ -152,9 +147,12 @@ class DuplicateRules {
                     } else {
                         separateFields = separateFields.filter((item) => item !== field)
                     }
-                    FwFormField.setValueByDataField($form, 'Fields', separateFields);
+                    if (separateFields.length !== 1) {
+                        throw 'Expected 1 element, but got: ' + separateFields.length;
+                    }
+                    FwFormField.setValueByDataField($form, 'Fields', separateFields[0]);
                 });
-            });
+            }, null, $form);
         });
     }
 
@@ -211,7 +209,7 @@ class DuplicateRules {
                 }
                 FwFormField.setValueByDataField($form, 'Fields', separateFields);
             });
-        });
+        }, null, $form); 
     }
 }
 

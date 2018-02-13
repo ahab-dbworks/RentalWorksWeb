@@ -54,8 +54,8 @@
             //this.config.isAutoSave = jQuery('#autosave_setting').is(':checked');
             this.config.isAutoSaveOn = jQuery('#autosave_1').is(':checked');
             this.config.isAutoSaveOff = jQuery('#autosave_2').is(':checked');
-            this.config.defaultModuleSavePath = jQuery('#default_save_module_path_setting').val();
-            this.config.defaultMenuSavePath = jQuery('#default_save_menu_path_setting').val();
+            this.config.defaultModuleSavePath = jQuery('#default_save_module_path_setting').val().toString();
+            this.config.defaultMenuSavePath = jQuery('#default_save_menu_path_setting').val().toString();
             this.execute_saved_setting_process();
         }
 

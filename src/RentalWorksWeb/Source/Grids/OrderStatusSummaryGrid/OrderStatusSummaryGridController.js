@@ -1,4 +1,4 @@
-var OrderStatusSummaryGrid = /** @class */ (function () {
+var OrderStatusSummaryGrid = (function () {
     function OrderStatusSummaryGrid() {
         this.Module = 'OrderStatusSummaryGrid';
         this.apiurl = 'api/v1/orderstatussummary';
@@ -6,5 +6,4 @@ var OrderStatusSummaryGrid = /** @class */ (function () {
     return OrderStatusSummaryGrid;
 }());
 window.OrderStatusSummaryGridController = new OrderStatusSummaryGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderStatusSummaryGridController.js.map

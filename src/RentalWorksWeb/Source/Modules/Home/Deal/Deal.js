@@ -1,4 +1,4 @@
-var Deal = /** @class */ (function () {
+var Deal = (function () {
     function Deal() {
         this.Module = 'Deal';
         this.apiurl = 'api/v1/deal';
@@ -46,7 +46,6 @@ var Deal = /** @class */ (function () {
             }
         });
         $form.on('change', '.billing_use_discount_template input[type=checkbox]', function (e) {
-            //this.useDiscountTemplate(jQuery(e.currentTarget).is(':checked'));            
             _this.toggleBillingUseDiscount($form, jQuery(e.currentTarget).is(':checked'));
         });
         $form.on('change', '.billing_use_customer input[type=checkbox]', function (e) {
@@ -64,9 +63,6 @@ var Deal = /** @class */ (function () {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             _this.toggleInsurTabIfUseCustomer($form, isChecked);
         });
-        //$form.on('change', '.billing_potype input[type=radio]', (e) => {
-        //    FwFormField.setValue($form, jQuery(e.currentTarget))
-        //});
         $form.on('change', '.tax_use_customer input[type=checkbox]', function (e) {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             _this.toggleTaxTabIfUseCustomer($form, isChecked);
@@ -76,17 +72,6 @@ var Deal = /** @class */ (function () {
             _this.toggleOptionsTabIfExcludeQuote($form, isChecked);
         });
     };
-    //useDiscountTemplate(isChecked: boolean): void {
-    //    var $temp: JQuery = jQuery('.billing_template');
-    //    // DiscountTemplateId
-    //    if (!isChecked) {
-    //        $temp.attr('data-enabled', 'false');
-    //        $temp.find('input').prop('disabled', true);
-    //    } else {
-    //        $temp.attr('data-enabled', 'true');
-    //        $temp.find('input').prop('disabled', false);
-    //    }
-    //}
     Deal.prototype.useCustomer = function (isChecked) {
         var $discTemp = jQuery('.billing_use_discount_template'), $useCust = jQuery('.billing_use_customer'), $temp = jQuery('.billing_template');
         if (isChecked) {
@@ -148,9 +133,6 @@ var Deal = /** @class */ (function () {
             'CreditResponsiblePartyOnFile',
             'DepletingDepositThresholdAmount',
             'DepletingDepositThresholdPercent'
-            //'DepletingDepositTotal',
-            //'DepletingDepositApplied',
-            //'DepletingDepositRemaining'
         ];
         isCustomer ? this.disableFields($form, list) : this.enableFields($form, list);
     };
@@ -290,7 +272,6 @@ var Deal = /** @class */ (function () {
         });
         FwBrowse.init($vendorControl);
         FwBrowse.renderRuntimeHtml($vendorControl);
-        // ----------
         var nameCompanyContactGrid = 'CompanyContactGrid';
         var $companyContactGrid = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
         var $companyContactControl = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
@@ -310,12 +291,6 @@ var Deal = /** @class */ (function () {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-        //$defaultrate = $form.find('.defaultrate');
-        //FwFormField.loadItems($defaultrate, [
-        //    { value: 'DAILY', text: 'Daily Rate' }
-        //    , { value: 'WEEKLY', text: 'Weekly Rate' }
-        //    , { value: 'MONTHLY', text: 'Monthly Rate' }
-        //]);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         this.events($form);
         return $form;
@@ -329,7 +304,7 @@ var Deal = /** @class */ (function () {
         return $form;
     };
     Deal.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     Deal.prototype.loadAudit = function ($form) {
         var uniqueid;
@@ -351,7 +326,6 @@ var Deal = /** @class */ (function () {
         var $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
-        //this.useDiscountTemplate(FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
         this.toggleBillingUseDiscount($form, FwFormField.getValueByDataField($form, 'UseDiscountTemplate'));
         this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;

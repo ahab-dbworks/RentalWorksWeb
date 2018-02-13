@@ -1,4 +1,4 @@
-var WarehouseQuikLocateApproverGrid = /** @class */ (function () {
+var WarehouseQuikLocateApproverGrid = (function () {
     function WarehouseQuikLocateApproverGrid() {
         this.Module = 'WarehouseQuikLocateApprover';
         this.apiurl = 'api/v1/warehousequiklocateapprover';
@@ -6,5 +6,4 @@ var WarehouseQuikLocateApproverGrid = /** @class */ (function () {
     return WarehouseQuikLocateApproverGrid;
 }());
 window.WarehouseQuikLocateApproverGridController = new WarehouseQuikLocateApproverGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=WarehouseQuikLocateApproverGridController.js.map

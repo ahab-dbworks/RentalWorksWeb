@@ -1,4 +1,4 @@
-var Group = /** @class */ (function () {
+var Group = (function () {
     function Group() {
         this.Module = 'Group';
         this.apiurl = 'api/v1/group';
@@ -82,20 +82,19 @@ var Group = /** @class */ (function () {
                     jQuery(node).attr('data-expanded', 'T');
                 }
             };
-            jQuery.fn.checkParents = function () {
-                checkParents(jQuery(this).parent().closest('li'));
-            };
             if (val === "") {
                 $node.attr('data-expanded', 'T');
             }
             else {
                 $node.attr('data-expanded', 'F').children('div.content').css('background-color', 'rgba(100,100,100,.1)');
-                $node.filter(function () {
+                var $nodes = $node.filter(function () {
                     return -1 != jQuery(this).data().propertyCaption.toUpperCase().indexOf(val);
-                }).attr('data-expanded', 'T').children('div.content').css('background-color', 'cornflowerblue').checkParents();
+                });
+                $nodes.attr('data-expanded', 'T');
+                $nodes.children('div.content').css('background-color', 'cornflowerblue');
+                checkParents($nodes);
             }
         });
-        //TwGroupController.renderGroupTreePreview($form);
     };
     ;
     Group.prototype.renderGroupTreePreview = function ($form) {
@@ -264,7 +263,6 @@ var Group = /** @class */ (function () {
             properties: {},
             children: []
         };
-        // process node's attributes
         for (index = 0; index < $node[0].attributes.length; index++) {
             attribute = $node[0].attributes[index];
             if (attribute.name.indexOf('data-property-') === 0) {
@@ -277,7 +275,6 @@ var Group = /** @class */ (function () {
                 }
             }
         }
-        // process node's children
         $children = $node.find('> .childrencontainer > ul.children > li');
         for (index = 0; index < $children.length; index++) {
             $child = $children.eq(index);
@@ -314,7 +311,7 @@ var Group = /** @class */ (function () {
         return $form;
     };
     Group.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     Group.prototype.loadAudit = function ($form) {
         var uniqueid;

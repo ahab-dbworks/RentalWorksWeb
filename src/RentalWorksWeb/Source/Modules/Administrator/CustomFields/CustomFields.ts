@@ -1,7 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwSettings: any;
-
 class CustomFields {
     Module: string;
     apiurl: string;
@@ -94,7 +90,7 @@ class CustomFields {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
         FwFormField.disable($form.find('.ifnew'));
     }
 

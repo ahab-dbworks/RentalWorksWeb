@@ -1,4 +1,4 @@
-var DealNotesGrid = /** @class */ (function () {
+var DealNotesGrid = (function () {
     function DealNotesGrid() {
         this.Module = 'Generator Type Warehouse';
         this.apiurl = 'api/v1/dealnote';
@@ -6,5 +6,4 @@ var DealNotesGrid = /** @class */ (function () {
     return DealNotesGrid;
 }());
 window.DealNotesGridController = new DealNotesGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=DealNotesGridController.js.map

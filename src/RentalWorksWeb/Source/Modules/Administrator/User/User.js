@@ -1,22 +1,5 @@
-var User = /** @class */ (function () {
+var User = (function () {
     function User() {
-        //setFormProperties = function ($form) {
-        //    var $cbSecurityExpirePassword, $txtSecurityExpire, $cbNetExpirePassword, $txtNetExpire;
-        //    $cbSecurityExpirePassword = $form.find('.cbSecurityExpirePassword');
-        //    $txtSecurityExpire = $form.find('.txtSecurityExpire');
-        //    $cbNetExpirePassword = $form.find('.cbNetExpirePassword');
-        //    $txtNetExpire = $form.find('.txtNetExpire');
-        //    if ($cbSecurityExpirePassword.find('input').prop('checked')) {
-        //        FwFormField.enable($txtSecurityExpire);
-        //    } else {
-        //        FwFormField.disable($txtSecurityExpire);
-        //    }
-        //    if ($cbNetExpirePassword.find('input').prop('checked')) {
-        //        FwFormField.enable($txtNetExpire);
-        //    } else {
-        //        FwFormField.disable($txtNetExpire);
-        //    }
-        //};
         this.beforeValidate = function ($browse, $grid, request, datafield) {
             switch (datafield) {
                 case 'RentalInventoryTypeId':
@@ -104,44 +87,6 @@ var User = /** @class */ (function () {
                 FwFormField.disable($form.find('[data-datafield="PasswordExpireDays"]'));
             }
         });
-        //$form
-        //    .on('change', '.cbSecurityExpirePassword, .cbNetExpirePassword', function () {
-        //        this.setFormProperties($form);
-        //    })
-        //    .on('change', 'div[data-datafield="Inactive"]', function () {
-        //        var $this, $invaliddate, date;
-        //        $this = jQuery(this);
-        //        $invaliddate = $form.find('div[data-datafield="users.inactivedate"]');
-        //        if ($this.find('input.fwformfield-value').prop('checked')) {
-        //            date = FwFunc.getDate();
-        //            $invaliddate.find('input.fwformfield-value').val(date);
-        //        } else {
-        //            $invaliddate.find('input.fwformfield-value').val('');
-        //        }
-        //    })
-        //    .on('change', 'div[data-datafield="webusers.webpassword"]', function () {
-        //        var $this, request;
-        //        $this = jQuery(this);
-        //        request = {
-        //            method: 'CheckPasswordComplexity',
-        //            value: FwFormField.getValue2($this),
-        //            first: FwFormField.getValue2($form.find('div[data-datafield="users.firstname"]')),
-        //            last: FwFormField.getValue2($form.find('div[data-datafield="users.lastname"]'))
-        //        }
-        //        FwModule.getData($form, request, function (response) {
-        //            try {
-        //                if (response.passwordcomplexity.error == true) {
-        //                    $this.addClass('error');
-        //                    FwNotification.renderNotification('ERROR', response.passwordcomplexity.errmsg);
-        //                } else {
-        //                    $this.removeClass('error');
-        //                }
-        //            } catch (ex) {
-        //                FwFunc.showError(ex);
-        //            }
-        //        }, $form);
-        //    })
-        //    ;
         return $form;
     };
     User.prototype.loadForm = function (uniqueids) {
@@ -152,7 +97,7 @@ var User = /** @class */ (function () {
         return $form;
     };
     User.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     User.prototype.afterLoad = function ($form) {
         var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');

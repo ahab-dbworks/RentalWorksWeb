@@ -1,4 +1,4 @@
-var Control = /** @class */ (function () {
+var Control = (function () {
     function Control() {
         this.Module = 'Control';
         this.apiurl = 'api/v1/control';
@@ -46,7 +46,7 @@ var Control = /** @class */ (function () {
         return $form;
     };
     Control.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     Control.prototype.loadAudit = function ($form) {
         var uniqueid;

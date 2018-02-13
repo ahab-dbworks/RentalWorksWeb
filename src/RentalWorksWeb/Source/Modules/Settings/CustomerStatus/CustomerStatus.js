@@ -1,4 +1,4 @@
-var CustomerStatus = /** @class */ (function () {
+var CustomerStatus = (function () {
     function CustomerStatus() {
         this.Module = 'CustomerStatus';
         this.apiurl = 'api/v1/customerstatus';
@@ -40,7 +40,7 @@ var CustomerStatus = /** @class */ (function () {
         return $form;
     };
     CustomerStatus.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     CustomerStatus.prototype.loadAudit = function ($form) {
         var uniqueid;

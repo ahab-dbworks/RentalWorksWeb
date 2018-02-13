@@ -1,7 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-
-class Region {
+﻿class Region {
     Module: string;
     apiurl: string;
 
@@ -61,7 +58,7 @@ class Region {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

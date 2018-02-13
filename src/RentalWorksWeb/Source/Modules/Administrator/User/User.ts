@@ -1,6 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class User {
     Module: string;
     apiurl: string;
@@ -136,7 +133,7 @@ class User {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     afterLoad($form: any) {

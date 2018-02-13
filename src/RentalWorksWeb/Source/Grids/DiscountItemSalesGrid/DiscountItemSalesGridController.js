@@ -1,4 +1,4 @@
-var DiscountItemSalesGrid = /** @class */ (function () {
+var DiscountItemSalesGrid = (function () {
     function DiscountItemSalesGrid() {
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
@@ -49,5 +49,4 @@ var DiscountItemSalesGrid = /** @class */ (function () {
     return DiscountItemSalesGrid;
 }());
 window.DiscountItemSalesGridController = new DiscountItemSalesGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=DiscountItemSalesGridController.js.map

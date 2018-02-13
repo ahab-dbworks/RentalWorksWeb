@@ -1,4 +1,4 @@
-var RateLocationTaxGrid = /** @class */ (function () {
+var RateLocationTaxGrid = (function () {
     function RateLocationTaxGrid() {
         this.Module = 'RateLocationTaxGrid';
         this.apiurl = 'api/v1/ratelocationtax';
@@ -6,5 +6,4 @@ var RateLocationTaxGrid = /** @class */ (function () {
     return RateLocationTaxGrid;
 }());
 window.RateLocationTaxGridController = new RateLocationTaxGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=RateLocationTaxGridController.js.map

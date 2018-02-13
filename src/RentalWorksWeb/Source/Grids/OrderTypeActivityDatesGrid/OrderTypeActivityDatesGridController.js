@@ -1,4 +1,4 @@
-var OrderTypeActivityDatesGrid = /** @class */ (function () {
+var OrderTypeActivityDatesGrid = (function () {
     function OrderTypeActivityDatesGrid() {
         this.Module = 'OrderTypeActivityDatesGrid';
         this.apiurl = 'api/v1/ordertypedatetype';
@@ -6,5 +6,4 @@ var OrderTypeActivityDatesGrid = /** @class */ (function () {
     return OrderTypeActivityDatesGrid;
 }());
 window.OrderTypeActivityDatesGridController = new OrderTypeActivityDatesGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderTypeActivityDatesGridController.js.map

@@ -4,7 +4,7 @@ var dbworks;
     (function (editor) {
         var controllers;
         (function (controllers) {
-            var options_context = /** @class */ (function () {
+            var options_context = (function () {
                 function options_context(editor_controller) {
                     this._editor = editor_controller;
                 }
@@ -39,7 +39,6 @@ var dbworks;
                             break;
                         case 1:
                             jQuery('#preview_options').show();
-                            //jQuery('#').show();
                             break;
                         default:
                             jQuery('#default_options').show();

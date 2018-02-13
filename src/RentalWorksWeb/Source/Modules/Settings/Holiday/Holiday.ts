@@ -1,7 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-
-class Holiday {
+﻿class Holiday {
     Module: string;
     apiurl: string;
 
@@ -94,9 +91,9 @@ class Holiday {
         });
 
         $form.find('.datepicker').change(function () {
-            var month = jQuery('div.datepicker').find('input').val().slice(0, 2);
-            var day = jQuery('div.datepicker').find('input').val().slice(3, 5);
-            var year = jQuery('div.datepicker').find('input').val().slice(6);
+            var month = jQuery('div.datepicker').find('input').val().toString().slice(0, 2);
+            var day = jQuery('div.datepicker').find('input').val().toString().slice(3, 5);
+            var year = jQuery('div.datepicker').find('input').val().toString().slice(6);
             FwFormField.setValueByDataField($form, 'FixedMonth', month, null, false);
             FwFormField.setValueByDataField($form, 'FixedDay', day, null, false);
             FwFormField.setValueByDataField($form, 'FixedYear', year, null, false);
@@ -139,7 +136,7 @@ class Holiday {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

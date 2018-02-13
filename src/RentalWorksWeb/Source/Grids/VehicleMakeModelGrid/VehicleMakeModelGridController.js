@@ -1,4 +1,4 @@
-var VehicleMakeModelGrid = /** @class */ (function () {
+var VehicleMakeModelGrid = (function () {
     function VehicleMakeModelGrid() {
         this.Module = 'VehicleMakeModelGrid';
         this.apiurl = 'api/v1/vehiclemodel';
@@ -6,5 +6,4 @@ var VehicleMakeModelGrid = /** @class */ (function () {
     return VehicleMakeModelGrid;
 }());
 window.VehicleMakeModelGridController = new VehicleMakeModelGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=VehicleMakeModelGridController.js.map

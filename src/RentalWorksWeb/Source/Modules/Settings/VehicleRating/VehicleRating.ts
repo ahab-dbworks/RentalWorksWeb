@@ -1,79 +1,73 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class VehicleRating {
-Module: string;
-apiurl: string;
+    Module: string;
+    apiurl: string;
 
-constructor() {
-    this.Module = 'VehicleRating';
-    this.apiurl = 'api/v1/vehiclerating';
-}
+    constructor() {
+        this.Module = 'VehicleRating';
+        this.apiurl = 'api/v1/vehiclerating';
+    }
 
-getModuleScreen() {
-    var screen, $browse;
+    getModuleScreen() {
+        var screen, $browse;
 
-    screen = {};
-    screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
-    screen.viewModel = {};
-    screen.properties = {};
+        screen = {};
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
 
-    $browse = this.openBrowse();
+        $browse = this.openBrowse();
 
-    screen.load = function () {
-        FwModule.openModuleTab($browse, 'Vehicle Rating', false, 'BROWSE', true);
-        FwBrowse.databind($browse);
-        FwBrowse.screenload($browse);
-    };
-    screen.unload = function () {
-        FwBrowse.screenunload($browse);
-    };
+        screen.load = function () {
+            FwModule.openModuleTab($browse, 'Vehicle Rating', false, 'BROWSE', true);
+            FwBrowse.databind($browse);
+            FwBrowse.screenload($browse);
+        };
+        screen.unload = function () {
+            FwBrowse.screenunload($browse);
+        };
 
-    return screen;
-}
+        return screen;
+    }
 
-openBrowse() {
-    var $browse;
+    openBrowse() {
+        var $browse;
 
-    $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
-    $browse = FwModule.openBrowse($browse);
+        $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
+        $browse = FwModule.openBrowse($browse);
 
-    return $browse;
-}
+        return $browse;
+    }
 
-openForm(mode: string) {
-    var $form;
+    openForm(mode: string) {
+        var $form;
 
-    $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-    $form = FwModule.openForm($form, mode);
-
-    return $form;
-}
-
-loadForm(uniqueids: any) {
-    var $form;
-
-    $form = this.openForm('EDIT');
-    $form.find('div.fwformfield[data-datafield="VehicleRatingId"] input').val(uniqueids.VehicleRatingId);
-    FwModule.loadForm(this.Module, $form);
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.openForm($form, mode);
 
         return $form;
     }
 
-saveForm($form: any, closetab: boolean, navigationpath: string)
-    {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+    loadForm(uniqueids: any) {
+        var $form;
+
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="VehicleRatingId"] input').val(uniqueids.VehicleRatingId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
     }
 
-loadAudit($form: any)
-    {
+    saveForm($form: any, closetab: boolean, navigationpath: string) {
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    }
+
+    loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="VehicleRatingId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
-afterLoad($form: any)
-    {
+    afterLoad($form: any) {
 
     }
 }

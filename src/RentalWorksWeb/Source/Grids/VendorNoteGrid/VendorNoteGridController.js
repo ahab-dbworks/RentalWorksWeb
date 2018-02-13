@@ -1,4 +1,4 @@
-var VendorNoteGrid = /** @class */ (function () {
+var VendorNoteGrid = (function () {
     function VendorNoteGrid() {
         this.Module = 'VendorNoteGrid';
         this.apiurl = 'api/v1/vendornote';
@@ -6,5 +6,4 @@ var VendorNoteGrid = /** @class */ (function () {
     return VendorNoteGrid;
 }());
 window.VendorNoteGridController = new VendorNoteGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=VendorNoteGridController.js.map

@@ -1,4 +1,4 @@
-var InventoryGroupInvGrid = /** @class */ (function () {
+var InventoryGroupInvGrid = (function () {
     function InventoryGroupInvGrid() {
         this.Module = 'InventoryGroupInvGrid';
         this.apiurl = 'api/v1/inventorygroupinventory';
@@ -12,5 +12,4 @@ var InventoryGroupInvGrid = /** @class */ (function () {
     return InventoryGroupInvGrid;
 }());
 window.InventoryGroupInvGridController = new InventoryGroupInvGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryGroupInvGridController.js.map

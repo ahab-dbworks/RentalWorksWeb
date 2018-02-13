@@ -1,0 +1,20 @@
+﻿#FwEPS-instruction{padding:5px;}
+
+#FwEPS-tblTotal {background-color:#333333;}
+#FwEPS-CreditCardSale {width:310px;border: 1px solid #000000;border-radius: 4px;background-color: #424242;margin:0 auto;}
+#FwEPS-CreditCardSaleTitle {height:20px;padding:4px;text-align:center;font-weight:bold;background-color:#398ef1;border-top-left-radius:3px;border-top-right-radius:3px;}
+#FwEPS-tblTotal {width:100%;border-collapse:collapse;font-size:18px;}
+#FwEPS-divTotalDueLabel {padding-left:5px;}
+#FwEPS-divTotalDue{text-align:right;padding-right:10px;white-space:nowrap;}
+#FwEPS-divRemainingBalanceLabel{padding-left:5px;}
+#FwEPS-divRemainingBalance {text-align:right;padding-right:10px;}
+#FwEPS-CardReaderStatus {padding:5px;border-top:1px solid #000000;}
+#FwEPS-tdApprovedAmountValue {white-space:nowrap;}
+#FwEPS-spanApprovedAmount {margin:0 0 0 5px;}
+#FwEPS-TransactionAmount{padding:5px 0;overflow:hidden;height:52px;border-top:1px solid #000000;}
+#FwEPS-txtTransactionAmount{width:120px;height:42px;font-size:18px;box-sizing:border-box;text-align:center;margin:0 0 0 5px;}
+#FwEPS-tblResponse {width:100%;border-collapse:collapse;margin:0 0 5px 0;}
+#FwEPS-tblResponse td {border-collapse:collapse;border-top:1px solid #000000;border-bottom:1px solid #000000;padding:0 5px;}
+#FwEPS-tblResponse td:first-child {border-right:1px solid #000000;}
+#FwEPS-buttonPanel{text-align:center;vertical-align:middle;}
+/*#FwEPS-buttonPanel span.button {height:42px;line-height:42px;vertical-align:middle;font-size:14px;display:inline-block;width:100px;padding:0;text}*/

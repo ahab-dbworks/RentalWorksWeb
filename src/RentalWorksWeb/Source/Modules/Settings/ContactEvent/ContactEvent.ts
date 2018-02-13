@@ -1,6 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class ContactEvent {
     Module: string;
     apiurl: string;
@@ -61,7 +58,7 @@ class ContactEvent {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

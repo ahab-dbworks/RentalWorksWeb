@@ -1,9 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwApplicationTree: any;
-declare var TaxOptionController: any;
-
-class TaxOption {
+﻿class TaxOption {
     Module: string;
     apiurl: string;
 
@@ -50,7 +45,7 @@ class TaxOption {
     events($form: JQuery): void {
 
         $form.on('change', '.countryradio input[type="radio"]:checked', (e) => {            
-            this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val());
+            this.canadaOnlyConfiguration($form, jQuery(e.currentTarget).val().toString());
         });
 
         $form.on('change', '.exempttype', (e) => {
@@ -158,7 +153,7 @@ class TaxOption {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {
@@ -199,7 +194,7 @@ class TaxOption {
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            });
+            }, null, null);
         });
         
     }

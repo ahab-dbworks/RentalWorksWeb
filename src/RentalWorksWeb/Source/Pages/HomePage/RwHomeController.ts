@@ -1,10 +1,4 @@
-﻿declare var RwMasterController: any;
-declare var FwAppData: any;
-declare var program: any;
-declare var Chart: any;
-declare var OrderController: any;
-//----------------------------------------------------------------------------------------------
-class RwHome {
+﻿class RwHome {
     getHomeScreen(viewModel, properties) {
         var combinedViewModel, screen, applicationOptions;
         var self = this;
@@ -29,15 +23,12 @@ class RwHome {
     };
 
     renderBar() {
-        var ctx = document.getElementById("myChart");
-
+        var canvas = <HTMLCanvasElement> document.getElementById("myChart");
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                
-                var myChart = new Chart(ctx, response);
-
-                ctx.onclick = function (evt) {
-                    var activePoint = myChart.getElementAtEvent(evt)[0];
+                var chart = new Chart(canvas, response);
+                canvas.onclick = function (evt) {
+                    var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
                     var label = data.labels[activePoint._index];
@@ -48,19 +39,19 @@ class RwHome {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, null, jQuery(canvas));
     };
 
     renderPie() {
-        var pie = document.getElementById("myPieChart");
+        var canvas = <HTMLCanvasElement> document.getElementById("myPieChart");
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 delete response.options.legend;
                 delete response.options.scales;
-                var myPie = new Chart(pie, response);
-
-                pie.onclick = function (evt) {
-                    var activePoint = myPie.getElementAtEvent(evt)[0];
+                var chart = new Chart(canvas, response);
+                
+                canvas.onclick = function (evt) {
+                    var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
                     var label = data.labels[activePoint._index];
@@ -71,17 +62,17 @@ class RwHome {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, null, jQuery(canvas));
     }
 
     renderHorizontal() {
-        var horizontal = document.getElementById("myHorizontalChart");
+        var canvas = <HTMLCanvasElement> document.getElementById("myHorizontalChart");
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                var myHoriz = new Chart(horizontal, response);
+                var chart = new Chart(canvas, response);
 
-                horizontal.onclick = function (evt) {
-                    var activePoint = myHoriz.getElementAtEvent(evt)[0];
+                canvas.onclick = function (evt) {
+                    var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
                     var label = data.labels[activePoint._index];
@@ -92,7 +83,7 @@ class RwHome {
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, null, jQuery(canvas));
     };
     renderGroup() {
         //var ctx = document.getElementById("myGroupChart");
@@ -136,14 +127,14 @@ class RwHome {
         //});
 
 
-        var groupChart = document.getElementById("myGroupChart");
+        var canvas = <HTMLCanvasElement> document.getElementById("myGroupChart");
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/billingbyagentbymonth', {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                var myGroup = new Chart(groupChart, response);
+                var chart = new Chart(canvas, response);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        });
+        }, null, jQuery(canvas));
 
 
     };

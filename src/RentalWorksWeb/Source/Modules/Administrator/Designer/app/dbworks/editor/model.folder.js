@@ -4,7 +4,7 @@ var dbworks;
     (function (editor) {
         var models;
         (function (models) {
-            var folder = /** @class */ (function () {
+            var folder = (function () {
                 function folder(folder) {
                     if (folder == null || undefined)
                         folder = {};

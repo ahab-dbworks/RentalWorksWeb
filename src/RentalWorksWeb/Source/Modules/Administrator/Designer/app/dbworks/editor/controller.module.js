@@ -4,7 +4,7 @@ var dbworks;
     (function (editor) {
         var controllers;
         (function (controllers) {
-            var module = /** @class */ (function () {
+            var module = (function () {
                 function module(editor_controller) {
                     this._editor = editor_controller;
                 }
@@ -48,7 +48,6 @@ var dbworks;
                         _this._editor.bind_file_nav(_folder).done(function () {
                             _this._editor.bind_recents().done(function () {
                                 jQuery('#structure_success, .structure_response_container').show();
-                                //jQuery('ul.tabs').tabs();     
                                 jQuery('#module_modal').modal('hide');
                                 _this._editor._developer.clear_editor();
                                 dbworksutil.message.message_success('New module generated successfully.');

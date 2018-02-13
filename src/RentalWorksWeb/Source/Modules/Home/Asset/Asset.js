@@ -1,4 +1,4 @@
-var RwAsset = /** @class */ (function () {
+var RwAsset = (function () {
     function RwAsset() {
         this.Module = 'Asset';
         this.apiurl = 'api/v1/item';
@@ -37,7 +37,7 @@ var RwAsset = /** @class */ (function () {
             for (var i = 0; i < response.length; i++) {
                 FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
             }
-        });
+        }, null, $browse);
         return $browse;
     };
     RwAsset.prototype.addBrowseMenuItems = function ($menuObject) {
@@ -77,7 +77,7 @@ var RwAsset = /** @class */ (function () {
         return $form;
     };
     RwAsset.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     RwAsset.prototype.loadAudit = function ($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');

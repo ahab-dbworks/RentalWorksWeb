@@ -1,4 +1,4 @@
-var DiscountItemLaborGrid = /** @class */ (function () {
+var DiscountItemLaborGrid = (function () {
     function DiscountItemLaborGrid() {
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
@@ -41,5 +41,4 @@ var DiscountItemLaborGrid = /** @class */ (function () {
     return DiscountItemLaborGrid;
 }());
 window.DiscountItemLaborGridController = new DiscountItemLaborGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=DiscountItemLaborGridController.js.map

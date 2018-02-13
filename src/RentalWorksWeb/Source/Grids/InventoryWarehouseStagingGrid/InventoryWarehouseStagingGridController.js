@@ -6,5 +6,4 @@ var InventoryWarehouseStagingGrid = (function () {
     return InventoryWarehouseStagingGrid;
 }());
 window.InventoryWarehouseStagingGridController = new InventoryWarehouseStagingGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryWarehouseStagingGridController.js.map

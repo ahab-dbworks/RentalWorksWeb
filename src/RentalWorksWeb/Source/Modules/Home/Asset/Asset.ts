@@ -1,11 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwServices: any;
-declare var FwMenu: any;
-declare var Mustache: any;
-declare var FwFunc: any;
-declare var FwNotification: any;
-
 class RwAsset {
     Module: string;
     apiurl: string;
@@ -60,10 +52,9 @@ class RwAsset {
             for (var i = 0; i < response.length; i++) {
                 FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
             }
-        });
+        }, null, $browse);
             
         return $browse;
-       
     }
 
     addBrowseMenuItems($menuObject: any) {
@@ -112,7 +103,7 @@ class RwAsset {
     }
 
     saveForm($form: JQuery, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath});
     }
 
     loadAudit($form: JQuery) {

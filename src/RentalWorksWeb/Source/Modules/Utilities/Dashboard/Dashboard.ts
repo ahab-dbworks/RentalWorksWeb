@@ -1,6 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class Dashboard {
 
     constructor() {

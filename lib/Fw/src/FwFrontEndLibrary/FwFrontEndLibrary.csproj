@@ -2,12 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="node_modules\%40types\jquery\package.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="node_modules\%40types\jquery\LICENSE" />
+    <None Include="node_modules\%40types\jquery\README.md" />
     <None Include="wwwroot\scripts\fastclick.js" />
-    <None Include="wwwroot\scripts\FwAppData.js" />
-    <None Include="wwwroot\scripts\FwApplication.js" />
+    <None Include="wwwroot\scripts\FwAppData.ts" />
+    <None Include="wwwroot\scripts\FwApplication.ts" />
     <None Include="wwwroot\scripts\FwControls\FwAppImage.js" />
     <None Include="wwwroot\scripts\FwControls\FwApplicationTree.js" />
     <None Include="wwwroot\scripts\FwControls\FwAudit.js" />
@@ -39,9 +46,9 @@
     <None Include="wwwroot\scripts\FwControls\FwConfirmation.js" />
     <None Include="wwwroot\scripts\FwControls\FwContainer.js" />
     <None Include="wwwroot\scripts\FwControls\FwContextMenu.js" />
-    <None Include="wwwroot\scripts\FwControls\FwControl.js" />
+    <None Include="wwwroot\scripts\FwControls\FwControl.ts" />
     <None Include="wwwroot\scripts\FwControls\FwFileMenu.js" />
-    <None Include="wwwroot\scripts\FwControls\FwFormField.js" />
+    <None Include="wwwroot\scripts\FwControls\FwFormField.ts" />
     <None Include="wwwroot\scripts\FwControls\FwFormFields\FwFormField_checkbox.js" />
     <None Include="wwwroot\scripts\FwControls\FwFormFields\FwFormField_checkboxlist.js" />
     <None Include="wwwroot\scripts\FwControls\FwFormFields\FwFormField_color.js" />
@@ -71,11 +78,11 @@
     <None Include="wwwroot\scripts\FwControls\FwFormFields\FwFormField_zipcode.js" />
     <None Include="wwwroot\scripts\FwControls\FwListView.js" />
     <None Include="wwwroot\scripts\FwControls\FwMenu.js" />
-    <None Include="wwwroot\scripts\FwControls\FwModule.js" />
+    <None Include="wwwroot\scripts\FwControls\FwModule.ts" />
     <None Include="wwwroot\scripts\FwControls\FwMultiSelectValidation.js" />
-    <None Include="wwwroot\scripts\FwControls\FwNotification.js" />
-    <None Include="wwwroot\scripts\FwControls\FwOverlay.js" />
-    <None Include="wwwroot\scripts\FwControls\FwPopup.js" />
+    <None Include="wwwroot\scripts\FwControls\FwNotification.ts" />
+    <None Include="wwwroot\scripts\FwControls\FwOverlay.ts" />
+    <None Include="wwwroot\scripts\FwControls\FwPopup.ts" />
     <None Include="wwwroot\scripts\FwControls\FwReport.js" />
     <None Include="wwwroot\scripts\FwControls\FwRibbon.js" />
     <None Include="wwwroot\scripts\FwControls\FwScheduler.js" />
@@ -321,6 +328,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="node_modules\%40types\jquery\index.d.ts" />
   </ItemGroup>
 
 </Project>

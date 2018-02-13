@@ -4,8 +4,7 @@ var dbworks;
     (function (error_1) {
         var controllers;
         (function (controllers) {
-            var error = /** @class */ (function () {
-                //export class error extends main.controllers.main {
+            var error = (function () {
                 function error() {
                 }
                 error.prototype.init = function () {

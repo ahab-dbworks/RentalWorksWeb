@@ -1,4 +1,4 @@
-var InventoryAttributeValueGrid = /** @class */ (function () {
+var InventoryAttributeValueGrid = (function () {
     function InventoryAttributeValueGrid() {
         this.Module = 'InventoryAttributeValueGrid';
         this.apiurl = 'api/v1/inventoryattributevalue';
@@ -6,5 +6,4 @@ var InventoryAttributeValueGrid = /** @class */ (function () {
     return InventoryAttributeValueGrid;
 }());
 window.InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryAttributeValueGridController.js.map

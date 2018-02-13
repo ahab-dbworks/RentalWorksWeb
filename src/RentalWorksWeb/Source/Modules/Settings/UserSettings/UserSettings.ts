@@ -1,7 +1,4 @@
-﻿declare var FwFormField;
-declare var FwModule: any;
-
-class UserSettings {
+﻿class UserSettings {
     Module: string;
     apiurl: string;
 

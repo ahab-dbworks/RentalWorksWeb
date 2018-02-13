@@ -1,8 +1,6 @@
 var dbworksutil;
 (function (dbworksutil) {
-    // TODO
-    // - kill events that take longer than the _timer property
-    var warden = /** @class */ (function () {
+    var warden = (function () {
         function warden() {
             this._timer = 500;
             this._interval = null;

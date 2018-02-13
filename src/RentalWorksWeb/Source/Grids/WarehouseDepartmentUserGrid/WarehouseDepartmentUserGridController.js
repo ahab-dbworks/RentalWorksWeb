@@ -1,4 +1,4 @@
-var WarehouseDepartmentUserGrid = /** @class */ (function () {
+var WarehouseDepartmentUserGrid = (function () {
     function WarehouseDepartmentUserGrid() {
         this.Module = 'WarehouseDepartmentUser';
         this.apiurl = 'api/v1/warehousedepartment';
@@ -6,5 +6,4 @@ var WarehouseDepartmentUserGrid = /** @class */ (function () {
     return WarehouseDepartmentUserGrid;
 }());
 window.WarehouseDepartmentUserGridController = new WarehouseDepartmentUserGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=WarehouseDepartmentUserGridController.js.map

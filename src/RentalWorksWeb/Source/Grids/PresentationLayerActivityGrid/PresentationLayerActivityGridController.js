@@ -1,4 +1,4 @@
-var PresentationLayerActivityGrid = /** @class */ (function () {
+var PresentationLayerActivityGrid = (function () {
     function PresentationLayerActivityGrid() {
         this.Module = 'PresentationLayerActivityGrid';
         this.apiurl = 'api/v1/presentationlayeractivity';
@@ -6,5 +6,4 @@ var PresentationLayerActivityGrid = /** @class */ (function () {
     return PresentationLayerActivityGrid;
 }());
 window.PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=PresentationLayerActivityGridController.js.map

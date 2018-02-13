@@ -1,4 +1,4 @@
-var DesignerStaging = /** @class */ (function () {
+var DesignerStaging = (function () {
     function DesignerStaging() {
         this.Module = 'Designer';
     }

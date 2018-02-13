@@ -1,4 +1,4 @@
-var DuplicateRules = /** @class */ (function () {
+var DuplicateRules = (function () {
     function DuplicateRules() {
         this.Module = 'DuplicateRules';
         this.apiurl = 'api/v1/duplicaterule';
@@ -47,7 +47,6 @@ var DuplicateRules = /** @class */ (function () {
             allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
         }
         ;
-        //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
                 return -1;
@@ -69,7 +68,7 @@ var DuplicateRules = /** @class */ (function () {
         return $form;
     };
     DuplicateRules.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     DuplicateRules.prototype.getFields = function ($form) {
         $form.find('div.modules').on("change", function () {
@@ -118,9 +117,12 @@ var DuplicateRules = /** @class */ (function () {
                     else {
                         separateFields = separateFields.filter(function (item) { return item !== field; });
                     }
-                    FwFormField.setValueByDataField($form, 'Fields', separateFields);
+                    if (separateFields.length !== 1) {
+                        throw 'Expected 1 element, but got: ' + separateFields.length;
+                    }
+                    FwFormField.setValueByDataField($form, 'Fields', separateFields[0]);
                 });
-            });
+            }, null, $form);
         });
     };
     DuplicateRules.prototype.afterLoad = function ($form) {
@@ -171,7 +173,7 @@ var DuplicateRules = /** @class */ (function () {
                 }
                 FwFormField.setValueByDataField($form, 'Fields', separateFields);
             });
-        });
+        }, null, $form);
     };
     return DuplicateRules;
 }());

@@ -1,4 +1,4 @@
-var FiscalMonthGrid = /** @class */ (function () {
+var FiscalMonthGrid = (function () {
     function FiscalMonthGrid() {
         this.Module = 'FiscalMonthGrid';
         this.apiurl = 'api/v1/fiscalmonth';
@@ -6,5 +6,4 @@ var FiscalMonthGrid = /** @class */ (function () {
     return FiscalMonthGrid;
 }());
 window.FiscalMonthGridController = new FiscalMonthGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=FiscalMonthGridController.js.map

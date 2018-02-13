@@ -1,6 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class Quote {
     Module: string;
     apiurl: string;
@@ -245,7 +242,7 @@ class Quote {
                     $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
                 }
             }
-        });
+        }, null, $form);
 
         FwFormField.disable($form.find('.frame'));
 
@@ -253,7 +250,7 @@ class Quote {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

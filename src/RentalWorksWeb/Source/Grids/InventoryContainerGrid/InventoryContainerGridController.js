@@ -1,4 +1,4 @@
-var InventoryContainerGrid = /** @class */ (function () {
+var InventoryContainerGrid = (function () {
     function InventoryContainerGrid() {
         this.Module = 'InventoryContainerGrid';
         this.apiurl = 'api/v1/inventorycontaineritem';
@@ -12,5 +12,4 @@ var InventoryContainerGrid = /** @class */ (function () {
     return InventoryContainerGrid;
 }());
 window.InventoryContainerGridController = new InventoryContainerGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryContainerGridController.js.map

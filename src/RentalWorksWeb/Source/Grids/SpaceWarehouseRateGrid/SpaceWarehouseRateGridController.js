@@ -1,4 +1,4 @@
-var SpaceWarehouseRateGrid = /** @class */ (function () {
+var SpaceWarehouseRateGrid = (function () {
     function SpaceWarehouseRateGrid() {
         this.Module = 'SpaceWarehouseRateGrid';
         this.apiurl = 'api/v1/ratewarehouse';
@@ -6,5 +6,4 @@ var SpaceWarehouseRateGrid = /** @class */ (function () {
     return SpaceWarehouseRateGrid;
 }());
 window.SpaceWarehouseRateGridController = new SpaceWarehouseRateGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=SpaceWarehouseRateGridController.js.map

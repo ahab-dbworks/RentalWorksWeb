@@ -1,7 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-
-class BillingCycle {
+﻿class BillingCycle {
     Module: string;
     apiurl: string;
 
@@ -72,7 +69,7 @@ class BillingCycle {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

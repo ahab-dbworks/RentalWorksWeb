@@ -4,7 +4,7 @@ var dbworks;
     (function (editor) {
         var controllers;
         (function (controllers) {
-            var developer = /** @class */ (function () {
+            var developer = (function () {
                 function developer(editor_controller) {
                     this._editor = editor_controller;
                     this.code_mirror = null;
@@ -76,18 +76,16 @@ var dbworks;
                             };
                             break;
                     }
-                    var code = document.getElementById('code_editor');
-                    this.code_mirror = CodeMirror.fromTextArea(code, config);
+                    var textarea = document.getElementById('code_editor');
+                    this.code_mirror = CodeMirror.fromTextArea(textarea, config);
                     this.code_mirror.on('keyup', function () {
                         var content = _this.code_mirror.getValue(), folderIndex = jQuery('#main_content_body').data('activefolderindex'), fileIndex = jQuery('#main_content_body').data('activefileindex'), file = _this._editor.get_file_from_folder(folderIndex, fileIndex);
                         file.fileContents = content;
                         file.hasChanged = true;
                     });
-                    //this.code_mirror.foldCode(CodeMirror.Pos(13, 0));
                     this.code_mirror.setSize('100%', jQuery('#main_content_body').height() + 'px');
                 };
                 developer.prototype.edit_file = function (file) {
-                    //jQuery('#codeview').data('index', index);
                     jQuery('#code_editor').empty();
                     this.code_mirror.getDoc().setValue(file.fileContents);
                 };

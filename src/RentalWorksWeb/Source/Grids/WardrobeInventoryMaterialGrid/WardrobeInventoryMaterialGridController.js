@@ -1,4 +1,4 @@
-var WardrobeInventoryMaterialGrid = /** @class */ (function () {
+var WardrobeInventoryMaterialGrid = (function () {
     function WardrobeInventoryMaterialGrid() {
         this.Module = 'WardrobeInventoryMaterial';
         this.apiurl = 'api/v1/inventorymaterial';
@@ -6,5 +6,4 @@ var WardrobeInventoryMaterialGrid = /** @class */ (function () {
     return WardrobeInventoryMaterialGrid;
 }());
 window.WardrobeInventoryMaterialGridController = new WardrobeInventoryMaterialGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=WardrobeInventoryMaterialGridController.js.map

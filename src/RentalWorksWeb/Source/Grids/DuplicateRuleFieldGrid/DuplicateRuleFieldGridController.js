@@ -1,4 +1,4 @@
-var DuplicateRuleFieldGrid = /** @class */ (function () {
+var DuplicateRuleFieldGrid = (function () {
     function DuplicateRuleFieldGrid() {
         this.Module = 'DuplicateRuleFieldGrid';
         this.apiurl = 'api/v1/duplicaterulefield';
@@ -6,5 +6,4 @@ var DuplicateRuleFieldGrid = /** @class */ (function () {
     return DuplicateRuleFieldGrid;
 }());
 window.DuplicateRuleFieldGridController = new DuplicateRuleFieldGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=DuplicateRuleFieldGridController.js.map

@@ -1,6 +1,6 @@
 var dbworksutil;
 (function (dbworksutil) {
-    var message = /** @class */ (function () {
+    var message = (function () {
         function message() {
         }
         message.message = function (res) {
@@ -12,7 +12,6 @@ var dbworksutil;
                 res.duration = 5000;
             if (res.alertType == undefined || null)
                 res.alertType = 'warning';
-            //var $container = jQuery('<div id="master_notification_container"></div>').appendTo('body');
             var $alert = jQuery('<div class="alert alert_' + res.alertType + '"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + res.message + '&nbsp;&nbsp;</div>').appendTo('#master_designer_container');
             setTimeout(function () {
                 $alert.fadeOut('fast', function () {

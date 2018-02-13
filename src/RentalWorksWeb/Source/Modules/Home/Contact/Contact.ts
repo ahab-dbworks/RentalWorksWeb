@@ -1,13 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwServices: any;
-declare var FwMenu: any;
-declare var Mustache: any;
-declare var FwFunc: any;
-declare var FwNotification: any;
-declare var FwGridMenu: any;
-
-class Contact {
+﻿class Contact {
     Module: string;
     apiurl: string;
     caption: string;
@@ -70,7 +61,7 @@ class Contact {
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     //----------------------------------------------------------------------------------------------
     renderGrids = function ($form: JQuery) {

@@ -1,7 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-declare var RwPickListReportController: any;
-
 class Order {
     Module: string;
     apiurl: string;
@@ -245,7 +241,7 @@ class Order {
     };
 
     saveForm($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
 
     renderGrids($form) {
@@ -276,8 +272,7 @@ class Order {
     };
 
     loadAudit($form) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        var uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
 
@@ -304,7 +299,7 @@ class Order {
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            });
+            }, null, $form);
         });
     };
 
@@ -319,7 +314,7 @@ class Order {
                     $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
                 }
             }
-        });
+        }, null, $form);
 
         FwFormField.disable($form.find('.frame'));
 

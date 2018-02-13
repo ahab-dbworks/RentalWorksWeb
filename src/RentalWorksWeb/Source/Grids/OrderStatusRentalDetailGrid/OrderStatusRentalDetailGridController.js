@@ -1,4 +1,4 @@
-var OrderStatusRentalDetailGrid = /** @class */ (function () {
+var OrderStatusRentalDetailGrid = (function () {
     function OrderStatusRentalDetailGrid() {
         this.Module = 'OrderStatusRentalDetailGrid';
         this.apiurl = 'api/v1/orderstatusdetail';
@@ -6,5 +6,4 @@ var OrderStatusRentalDetailGrid = /** @class */ (function () {
     return OrderStatusRentalDetailGrid;
 }());
 window.OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderStatusRentalDetailGridController.js.map

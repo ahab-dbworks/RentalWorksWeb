@@ -1,6 +1,6 @@
 var dbworksutil;
 (function (dbworksutil) {
-    var generator = /** @class */ (function () {
+    var generator = (function () {
         function generator() {
         }
         generator.number_id = function () {

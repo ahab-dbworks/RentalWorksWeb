@@ -5,7 +5,7 @@ var dbworks;
     (function (editor) {
         var controllers;
         (function (controllers) {
-            var ts_to_js_compiler = /** @class */ (function () {
+            var ts_to_js_compiler = (function () {
                 function ts_to_js_compiler() {
                 }
                 ts_to_js_compiler.compile = function (tscript) {

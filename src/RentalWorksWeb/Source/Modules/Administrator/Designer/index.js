@@ -1,9 +1,8 @@
-var index = /** @class */ (function () {
+var index = (function () {
     function index() {
         this.main = new dbworks.editor.controllers.main();
     }
     index.prototype.start = function () {
-        //this.default_start_page();
         this.main.init();
     };
     index.prototype.default_start_page = function () {

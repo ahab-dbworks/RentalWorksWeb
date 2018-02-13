@@ -1,4 +1,4 @@
-var CustomerType = /** @class */ (function () {
+var CustomerType = (function () {
     function CustomerType() {
         this.Module = 'CustomerType';
         this.apiurl = 'api/v1/customertype';
@@ -40,7 +40,7 @@ var CustomerType = /** @class */ (function () {
         return $form;
     };
     CustomerType.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     CustomerType.prototype.loadAudit = function ($form) {
         var uniqueid;

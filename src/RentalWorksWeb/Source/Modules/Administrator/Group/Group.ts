@@ -1,9 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwConfirmation: any;
-declare var FwApplicationTree: any;
-
-class Group {
+﻿class Group {
     Module: string;
     apiurl: string;
 
@@ -111,17 +106,20 @@ class Group {
                     jQuery(node).attr('data-expanded', 'T');
                 }
             }
-            jQuery.fn.checkParents = function () {
-                checkParents(jQuery(this).parent().closest('li'));
-            }
+            //jQuery.fn.checkParents = function () {
+            //    checkParents(jQuery(this).parent().closest('li'));
+            //}
             if (val === "") {
                 $node.attr('data-expanded', 'T');
             }
             else {
                 $node.attr('data-expanded', 'F').children('div.content').css('background-color', 'rgba(100,100,100,.1)');
-                $node.filter(function () {
+                var $nodes: JQuery = $node.filter(function () {
                     return -1 != jQuery(this).data().propertyCaption.toUpperCase().indexOf(val);
-                }).attr('data-expanded', 'T').children('div.content').css('background-color', 'cornflowerblue').checkParents();
+                });
+                $nodes.attr('data-expanded', 'T');
+                $nodes.children('div.content').css('background-color', 'cornflowerblue');
+                checkParents($nodes);
             }
         });
 
@@ -358,7 +356,7 @@ class Group {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

@@ -1,6 +1,3 @@
-declare var FwModule: any;
-declare var FwBrowse: any;
-
 class RwMiscRate {
     Module: string;
     apiurl: string;
@@ -88,7 +85,7 @@ class RwMiscRate {
     }
 
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {

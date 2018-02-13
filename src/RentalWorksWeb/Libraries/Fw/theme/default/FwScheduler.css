@@ -1,0 +1,38 @@
+﻿html.theme-default .fwscheduler {overflow:hidden;}
+html.theme-default .fwscheduler .schedulerbtns {overflow:auto;}
+html.theme-default .fwscheduler .lblView {float:left;font-weight:bold;cursor:default;}
+html.theme-default .fwscheduler .toggleView {float:left;overflow:hidden;}
+html.theme-default .fwscheduler .changeview {float:left;cursor:pointer;padding:0 10px;box-sizing:border-box;transition: .3s;}
+html.theme-default .fwscheduler .topnavigation {float:left;overflow:hidden;margin:0 0 0 10px;}
+html.theme-default .fwscheduler .datecallout {float:left;margin:0 0 0 10px;font-weight:bold;cursor:default;}
+
+html.theme-default .fwscheduler > .content {min-width:1400px;padding:10px;}
+html.theme-default .fwscheduler .calendarcontainer {overflow:hidden;}
+html.theme-default .fwscheduler .navcalendarcontainer {float:left;width:145px;}
+html.theme-default .fwscheduler .dpcalendarcontainer {float:left;width:1200px;}
+html.theme-default .fwscheduler .monthcontainer {overflow:hidden;}
+html.theme-default .fwscheduler .navmonthcontainer {float:left;width:145px;}
+html.theme-default .fwscheduler .dpmonthcontainer {float:left;width:1200px;}
+html.theme-default .fwscheduler .schedulercontainer {overflow:hidden;}
+html.theme-default .fwscheduler .navschedulercontainer {float:left;width:145px;}
+html.theme-default .fwscheduler .dpschedulercontainer {float:left;width:1200px;}
+
+html.theme-default .fwscheduler .month_default_main {border:1px solid rgb(160,160,160);}
+html.theme-default .fwscheduler .month_default_header {}
+html.theme-default .fwscheduler .month_default_header_inner {line-height:25px;vertical-align:middle;background: #e2e2e2;background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2e2e2), color-stop(50%,#dbdbdb), color-stop(51%,#d1d1d1), color-stop(100%,#fefefe));background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);background: -o-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);background: -ms-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%);}
+html.theme-default .fwscheduler .month_default_cell {border:1px solid #cccccc;}
+html.theme-default .fwscheduler .month_default_cell_header {color:#000000;}
+html.theme-default .fwscheduler .selecteddate .month_default_cell_header {color:#ffffff;background-color:rgba(0,0,100,1);}
+html.theme-default .fwscheduler .month_default_event_inner {border:0px solid transparent;text-align:center;}
+html.theme-default .fwscheduler .month_default_event {border:1px solid rgb(160,160,160);}
+
+html.theme-default .fwscheduler .topnavigation button {float:left;cursor:pointer;box-sizing: border-box;border: none;background-color: transparent;color: inherit;font-size: inherit;padding: 0 10px;transition: .3s;}
+
+
+
+html.theme-default .fwscheduler .changeview {border-top:4px solid transparent;line-height:33px;height:40px;}
+html.theme-default .fwscheduler .changeview:hover {border-top:4px solid #2e7d32;}
+html.theme-default .fwscheduler .changeview[data-selected="true"] {background-color:#2e7d32;}
+html.theme-default .fwscheduler .topnavigation button {border-top:4px solid transparent;line-height: 36px;}
+html.theme-default .fwscheduler .topnavigation button:hover{border-top:4px solid #2e7d32;}
+

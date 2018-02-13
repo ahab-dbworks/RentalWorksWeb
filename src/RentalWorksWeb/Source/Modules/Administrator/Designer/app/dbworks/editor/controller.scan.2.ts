@@ -38,18 +38,18 @@
 
             $parent.on('click', '#open_file, #scan_files, #scan_rescan', (e) => {
 
-                var $loader = jQuery(e.target).parent().parent().find('.loader');                
+                var $loader = jQuery(e.target).parent().parent().find('.loader');
 
                 $loader.fadeIn('fast');
 
                 jQuery('#scan_files').addClass('disabled');
-                var path = jQuery('#scan_path').val();
+                var path = jQuery('#scan_path').val().toString();
                 this.folder.files = [];
                 this.folder.folders = [];
                 this.folder.folderName = "root";
                 this.folder.path = path;
-                var folderName = jQuery('#scan_module_name').val();
-                var menuPath = jQuery('#scan_module_menu_path').val();
+                var folderName = jQuery('#scan_module_name').val().toString();
+                var menuPath = jQuery('#scan_module_menu_path').val().toString();
 
                 if (menuPath == '') {
                     menuPath = null;

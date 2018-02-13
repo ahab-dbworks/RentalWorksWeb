@@ -1,4 +1,4 @@
-var InventoryConsignmentGrid = /** @class */ (function () {
+var InventoryConsignmentGrid = (function () {
     function InventoryConsignmentGrid() {
         this.Module = 'InventoryConsignmentGrid';
         this.apiurl = 'api/v1/inventoryconsignor';
@@ -6,5 +6,4 @@ var InventoryConsignmentGrid = /** @class */ (function () {
     return InventoryConsignmentGrid;
 }());
 window.InventoryConsignmentGridController = new InventoryConsignmentGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryConsignmentGridController.js.map

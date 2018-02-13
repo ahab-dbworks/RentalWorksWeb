@@ -1,10 +1,9 @@
 var dbworksutil;
 (function (dbworksutil) {
-    var debug = /** @class */ (function () {
+    var debug = (function () {
         function debug() {
         }
         debug.display_log = function (obj, message) {
-            // this is dumb
             console.log(obj);
             console.log(message);
             var overlay_log = document.createElement('div');

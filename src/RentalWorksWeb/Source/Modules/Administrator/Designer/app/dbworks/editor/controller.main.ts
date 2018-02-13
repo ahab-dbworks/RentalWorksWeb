@@ -1,9 +1,4 @@
-﻿declare var applicationConfig: any;
-declare var FwControl: any;
-declare var product: any;
-var geval = eval;
-
-namespace dbworks.editor.controllers {
+﻿namespace dbworks.editor.controllers {
 
     export class main {
 

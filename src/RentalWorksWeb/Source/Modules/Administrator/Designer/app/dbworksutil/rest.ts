@@ -1,6 +1,4 @@
-﻿declare var Materialize: Materialize.Materialize;
-
-namespace dbworksutil {
+﻿namespace dbworksutil {
 
     export class rest {
 

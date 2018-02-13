@@ -1,4 +1,4 @@
-var DiscountItemMiscGrid = /** @class */ (function () {
+var DiscountItemMiscGrid = (function () {
     function DiscountItemMiscGrid() {
         this.beforeValidate = function ($browse, $grid, request) {
             var validationName = request.module;
@@ -41,5 +41,4 @@ var DiscountItemMiscGrid = /** @class */ (function () {
     return DiscountItemMiscGrid;
 }());
 window.DiscountItemMiscGridController = new DiscountItemMiscGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=DiscountItemMiscGridController.js.map

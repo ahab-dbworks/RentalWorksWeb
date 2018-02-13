@@ -1,4 +1,4 @@
-var InventoryPrepGrid = /** @class */ (function () {
+var InventoryPrepGrid = (function () {
     function InventoryPrepGrid() {
         this.Module = 'InventoryPrepGrid';
         this.apiurl = 'api/v1/inventoryprep';
@@ -12,5 +12,4 @@ var InventoryPrepGrid = /** @class */ (function () {
     return InventoryPrepGrid;
 }());
 window.InventoryPrepGridController = new InventoryPrepGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=InventoryPrepGridController.js.map

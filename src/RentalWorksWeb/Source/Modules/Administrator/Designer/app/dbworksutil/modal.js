@@ -1,7 +1,6 @@
 var dbworksutil;
 (function (dbworksutil) {
-    // we use bootstrap's modal
-    var modal = /** @class */ (function () {
+    var modal = (function () {
         function modal(target, config) {
             if (typeof target === 'string') {
                 this.targetID = target;
@@ -14,7 +13,6 @@ var dbworksutil;
             this._configure();
         }
         modal.prototype._configure = function () {
-            //var config: Materialize.ModalOptions = { complete: function () { alert('MODAL CLOSING'); } };
             var config;
             config;
             this.$target.modal(config);
@@ -38,7 +36,7 @@ var dbworksutil;
         return modal;
     }());
     dbworksutil.modal = modal;
-    var modal_config = /** @class */ (function () {
+    var modal_config = (function () {
         function modal_config() {
         }
         return modal_config;

@@ -1,13 +1,4 @@
-﻿declare var FwModule: any;
-declare var FwBrowse: any;
-declare var FwHybridMasterController: any;
-declare var FwAppData: any;
-declare var applicationConfig: any;
-declare var FwControl: any;
-declare var FwSettings: any;
-declare var FwApplicationTree: any;
-
-class SettingsPage {
+﻿class SettingsPage {
     Module: string;
 
     constructor() {

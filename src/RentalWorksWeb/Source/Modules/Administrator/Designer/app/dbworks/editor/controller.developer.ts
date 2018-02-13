@@ -1,6 +1,4 @@
-﻿declare var CodeMirror: any;
-
-namespace dbworks.editor.controllers{
+﻿namespace dbworks.editor.controllers{
 
     export class developer {
 
@@ -83,8 +81,8 @@ namespace dbworks.editor.controllers{
                     };
                     break;                
             }
-            var code = document.getElementById('code_editor');
-            this.code_mirror = CodeMirror.fromTextArea(code, config);            
+            var textarea = <HTMLTextAreaElement> document.getElementById('code_editor');
+            this.code_mirror = CodeMirror.fromTextArea(textarea, config);            
 
             this.code_mirror.on('keyup', () => {
                 var content = this.code_mirror.getValue(),

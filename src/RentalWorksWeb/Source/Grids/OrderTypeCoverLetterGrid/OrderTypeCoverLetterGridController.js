@@ -1,4 +1,4 @@
-var OrderTypeCoverLetterGrid = /** @class */ (function () {
+var OrderTypeCoverLetterGrid = (function () {
     function OrderTypeCoverLetterGrid() {
         this.Module = 'OrderTypeCoverLetter';
         this.apiurl = 'api/v1/ordertypelocation';
@@ -6,5 +6,4 @@ var OrderTypeCoverLetterGrid = /** @class */ (function () {
     return OrderTypeCoverLetterGrid;
 }());
 window.OrderTypeCoverLetterGridController = new OrderTypeCoverLetterGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=OrderTypeCoverLetterGridController.js.map

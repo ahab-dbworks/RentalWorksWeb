@@ -1,4 +1,4 @@
-var SubCategoryGrid = /** @class */ (function () {
+var SubCategoryGrid = (function () {
     function SubCategoryGrid() {
         this.Module = 'SubCategoryGrid';
         this.apiurl = 'api/v1/subcategory';
@@ -6,5 +6,4 @@ var SubCategoryGrid = /** @class */ (function () {
     return SubCategoryGrid;
 }());
 window.SubCategoryGridController = new SubCategoryGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=SubCategoryGridController.js.map

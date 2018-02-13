@@ -1,4 +1,4 @@
-var WarehouseInventoryTypeGrid = /** @class */ (function () {
+var WarehouseInventoryTypeGrid = (function () {
     function WarehouseInventoryTypeGrid() {
         this.Module = 'WarehouseInventoryType';
         this.apiurl = 'api/v1/warehouseinventorytype';
@@ -6,5 +6,4 @@ var WarehouseInventoryTypeGrid = /** @class */ (function () {
     return WarehouseInventoryTypeGrid;
 }());
 window.WarehouseInventoryTypeGridController = new WarehouseInventoryTypeGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=WarehouseInventoryTypeGridController.js.map

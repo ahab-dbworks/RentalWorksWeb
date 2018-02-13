@@ -1,4 +1,4 @@
-var ItemQcGrid = /** @class */ (function () {
+var ItemQcGrid = (function () {
     function ItemQcGrid() {
         this.Module = 'ItemQcGrid';
         this.apiurl = 'api/v1/itemqc';
@@ -6,5 +6,4 @@ var ItemQcGrid = /** @class */ (function () {
     return ItemQcGrid;
 }());
 window.ItemQcGridController = new ItemQcGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=ItemQcGridController.js.map

@@ -1,6 +1,5 @@
-var Contact = /** @class */ (function () {
+var Contact = (function () {
     function Contact() {
-        //----------------------------------------------------------------------------------------------
         this.renderGrids = function ($form) {
             var $contactNoteGrid;
             var $contactNoteGridControl;
@@ -17,7 +16,6 @@ var Contact = /** @class */ (function () {
             });
             FwBrowse.init($contactNoteGridControl);
             FwBrowse.renderRuntimeHtml($contactNoteGridControl);
-            //Company Contact grid
             var $companyContactGrid;
             var $companyContactGridControl;
             $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
@@ -58,7 +56,6 @@ var Contact = /** @class */ (function () {
         return screen;
     };
     ;
-    //----------------------------------------------------------------------------------------------
     Contact.prototype.openBrowse = function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -66,7 +63,6 @@ var Contact = /** @class */ (function () {
         return $browse;
     };
     ;
-    //----------------------------------------------------------------------------------------------
     Contact.prototype.openForm = function (mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -74,7 +70,6 @@ var Contact = /** @class */ (function () {
         return $form;
     };
     ;
-    //----------------------------------------------------------------------------------------------
     Contact.prototype.loadForm = function (uniqueids) {
         var $form = this.openForm('EDIT');
         $form = this.openForm('EDIT');
@@ -83,12 +78,10 @@ var Contact = /** @class */ (function () {
         return $form;
     };
     ;
-    //----------------------------------------------------------------------------------------------
     Contact.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     ;
-    //---------------------------------------------------------------------------------------------- 
     Contact.prototype.addLegend = function ($form) {
         var $companyContactGrid;
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
@@ -98,7 +91,6 @@ var Contact = /** @class */ (function () {
         FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
         FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
     };
-    //----------------------------------------------------------------------------------------------
     Contact.prototype.afterLoad = function ($form) {
         var $contactNoteGrid;
         $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');

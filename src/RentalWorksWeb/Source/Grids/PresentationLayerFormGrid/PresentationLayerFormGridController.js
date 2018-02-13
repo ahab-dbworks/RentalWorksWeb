@@ -1,4 +1,4 @@
-var PresentationLayerFormGrid = /** @class */ (function () {
+var PresentationLayerFormGrid = (function () {
     function PresentationLayerFormGrid() {
         this.Module = 'PresentationLayerFormGrid';
         this.apiurl = 'api/v1/presentationlayerform';
@@ -6,5 +6,4 @@ var PresentationLayerFormGrid = /** @class */ (function () {
     return PresentationLayerFormGrid;
 }());
 window.PresentationLayerFormGridController = new PresentationLayerFormGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=PresentationLayerFormGridController.js.map

@@ -1,6 +1,4 @@
-﻿declare var FwFormField;
-
-class OrderStatus {
+﻿class OrderStatus {
     Module: string;
 
     constructor() {
@@ -86,7 +84,7 @@ class OrderStatus {
                     }
                   
                     $form.find('.details').hide();
-                });
+                }, null, $form);
 
                 var $orderStatusSummaryGridControl: any;
                 $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');

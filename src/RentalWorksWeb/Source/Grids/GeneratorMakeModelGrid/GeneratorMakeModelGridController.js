@@ -1,4 +1,4 @@
-var GeneratorMakeModelGrid = /** @class */ (function () {
+var GeneratorMakeModelGrid = (function () {
     function GeneratorMakeModelGrid() {
         this.Module = 'GeneratorMakeModelGrid';
         this.apiurl = 'api/v1/generatormodel';
@@ -6,5 +6,4 @@ var GeneratorMakeModelGrid = /** @class */ (function () {
     return GeneratorMakeModelGrid;
 }());
 window.GeneratorMakeModelGridController = new GeneratorMakeModelGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=GeneratorMakeModelGridController.js.map

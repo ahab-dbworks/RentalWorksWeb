@@ -1,0 +1,315 @@
+html.theme-materialmobile [data-control="FwFormField"] {padding:0 5px;box-sizing:border-box;}
+html.theme-materialmobile .fwformfield .fwformfield-caption {height:18px;line-height:18px;position:static;padding-left:4px;cursor:default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;font-size:12px;color: #757575;}
+html.theme-materialmobile .fwformfield .fwformfield-control    input.fwformfield-value {background-color: transparent;width:100%;box-sizing:border-box;padding:3px;font-size:14px;border:none;border-bottom:1px solid #9e9e9e;outline:0;transition: all 0.3s;}
+html.theme-materialmobile .fwformfield .fwformfield-control    input.fwformfield-value:focus {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+html.theme-materialmobile .fwformfield.error .fwformfield-control input.fwformfield-value {border-bottom: 1px solid #f44336 !important;box-shadow: 0 1px 0 0 #f44336;}
+html.theme-materialmobile .fwformfield .fwformfield-control textarea.fwformfield-value {background-color: transparent;min-height:100px;width:100%;box-sizing:border-box;resize:none;padding:3px;font-size:14px;border:none;border-bottom:1px solid #9e9e9e;outline:0;transition: all 0.3s;}
+html.theme-materialmobile .fwformfield .fwformfield-control textarea.fwformfield-value:focus {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+html.theme-materialmobile .fwformfield .fwformfield-control   select.fwformfield-value {background-color: transparent;width:100%;box-sizing:border-box;padding:3px;font-size:14px;border:none;border-bottom:1px solid #9e9e9e;outline:0;transition: all 0.3s;}
+html.theme-materialmobile .fwformfield .fwformfield-control   select.fwformfield-value:focus {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+
+/*.mobile .fwformfield .fwformfield-control    input.fwformfield-value {font-size:18px;padding:5px;}
+.mobile .fwformfield .fwformfield-control   select.fwformfield-value {font-size:18px;padding:5px;min-height:33px;}*/
+html.theme-materialmobile.mobile .fwformfield .fwformfield-control .fwformfield-value {font-size:18px;height:44px;box-sizing:border-box}
+
+html.theme-materialmobile .fwformfield[data-enabled="false"] .fwformfield-value {border-bottom:1px dashed #9e9e9e !important;color: #757575;}
+html.theme-materialmobile .fwformfield[data-required="true"]:not([data-enabled="false"]) .fwformfield-caption {color:#f44336;}
+
+html.theme-materialmobile .fwformfield[data-captionlocation="left"] {display:flex;}
+html.theme-materialmobile .fwformfield[data-captionlocation="left"] .fwformfield-caption {}
+html.theme-materialmobile .fwformfield[data-captionlocation="left"] .fwformfield-control {}
+
+/*#region Select CSS*/
+html.theme-materialmobile .fwformfield[data-type="select"][data-enabled="true"] select.fwformfield-value {cursor:pointer;}
+/*#endregion*/
+
+/*#region Number CSS*/
+html.theme-materialmobile.desktop .fwformfield[data-type="number"] .fwformfield-control {height:24px;display:flex;}
+html.theme-materialmobile.desktop .fwformfield[data-type="number"] .add-on {width:20px;border-bottom: 1px solid #9e9e9e;outline: 0;transition: all 0.3s;cursor:pointer;}
+html.theme-materialmobile.desktop .fwformfield[data-type="number"] .icon-n {height:12px;background-repeat: no-repeat;box-sizing: border-box;background-image:url("../fwimages/icons/128/arrow-north.png");background-size: 8px 8px;background-position: center;}
+html.theme-materialmobile.desktop .fwformfield[data-type="number"] .icon-s {height:12px;background-repeat: no-repeat;background-image:url("../fwimages/icons/128/arrow-south.png");background-size: 8px 8px;background-position: center;}
+html.theme-materialmobile.desktop .fwformfield[data-type="number"] input.fwformfield-value:focus+.add-on {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+html.theme-materialmobile.desktop .fwformfield[data-type="number"][data-enabled="false"] .add-on {cursor:default;border-bottom:1px dashed #9e9e9e !important;color: #9E9E9E;}
+
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] .fwformfield-control {background-color:#ffffff;overflow:hidden;border-radius:4px;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] input.fwformfield-value {text-align:center !important;height:44px;padding:0;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] input.fwformfield-value::-webkit-inner-spin-button, 
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] input.fwformfield-value::-webkit-outer-spin-button {-webkit-appearance: none;margin: 0;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] i {flex:0 0 44px;font-size:44px;padding:0 5px;background-color:#e9e9e9;cursor:pointer;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] i.add {border-left:1px solid #bdbdbd;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] i.subtract {border-right:1px solid #bdbdbd;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"] .fwformfield-value {flex:1 1 0;border-radius:0;}
+html.theme-materialmobile.mobile .fwformfield[data-type="number"][data-enabled="false"] i.material-icons {opacity:.3;cursor:default;}
+/*#endregion*/
+
+/*#region Date CSS*/
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .fwformfield-control {height:24px;display:flex;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .add-on {width: 32px;text-align: center;cursor:pointer;border-bottom: 1px solid #9e9e9e;outline: 0;transition: all 0.3s;color: #616161;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] input.fwformfield-value:focus+.add-on {border-bottom: 1px solid #2196f3;box-shadow: 0 1px 0 0 #2196f3;}
+
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav {font:13px Arial;line-height:23px;display:flex;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav .today {width:52px;height:22px;text-align:center;box-sizing:border-box;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav .tomorrow {height:22px;width:29px;box-sizing: border-box;border-top-right-radius:3px;border-bottom-right-radius:3px;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav .tomorrow .icon-eastarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-east.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav .yesterday {height:22px;width:29px;box-sizing: border-box;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"] .date-nav .yesterday .icon-westarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-west.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"][data-enabled="false"] .add-on {cursor:default;border-bottom:1px dashed #9e9e9e;color: #9E9E9E;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"][data-enabled="true"] .today {cursor:pointer;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"][data-enabled="true"] .tomorrow {cursor:pointer;}
+html.theme-materialmobile.desktop .fwformfield[data-type="date"][data-enabled="true"] .yesterday {cursor:pointer;}
+
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .fwformfield-control {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;flex-direction:row;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] input.fwformfield-value {width:100%;height:42px;flex:1 1 0;box-sizing:border-box;padding:0 10px;border:0;border-radius:3px 0 0 3px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .add-on {box-sizing:border-box;border-top-right-radius:3px;border-bottom-right-radius:3px;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .icon-datepicker {display:inline-block;width:16px;height:16px;background-image:url("../fwimages/icons/16/datepicker.001.png");background-size: 16px 16px;background-repeat: no-repeat;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] i.btnvalidate {font-size:32px;flex:0 0 42px;padding:5px 10px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"][data-datenav="true"] .add-on {right:110px;border-top-right-radius:0;border-bottom-right-radius:0;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav {width:110px;height:22px;position:absolute;right:0;font:13px Arial;line-height:23px;background:#e9e9e9;border-top-right-radius:3px;border-bottom-right-radius:3px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav .today {float:left;width:52px;height:22px;text-align:center;box-sizing:border-box;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav .tomorrow {float:left;height:22px;width:29px;box-sizing: border-box;border-top-right-radius:3px;border-bottom-right-radius:3px;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav .tomorrow .icon-eastarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-east.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav .yesterday {float:left;height:22px;width:29px;box-sizing: border-box;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .date-nav .yesterday .icon-westarrow {height:11px;width:11px;background-image:url("../fwimages/icons/128/arrow-west.png");background-size: 11px 11px;background-repeat: no-repeat;display:inline-block;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"][data-enabled="true"] .add-on {cursor:pointer;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"][data-enabled="true"] .today {cursor:pointer;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"][data-enabled="true"] .tomorrow {cursor:pointer;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"][data-enabled="true"] .yesterday {cursor:pointer;}
+
+/*html.theme-materialmobile.mobile .fwformfield[data-type="date"] .fwformfield-control {height:33px;line-height:33px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="date"] .fwformfield-value {height:31px;}*/
+/*#endregion*/
+
+/*#region Checkbox CSS*/
+html.theme-materialmobile .fwformfield[data-type="checkbox"] {overflow:hidden;position:relative;/*height:32px;margin: 16px 0 0 0;*/line-height:42px;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] label {position: relative;padding-left: 35px;cursor: pointer;display: inline-block;height: 25px;line-height: 25px;/*font-size: 1rem;*/-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none}
+html.theme-materialmobile .fwformfield[data-type="checkbox"][data-enabled="false"] label {cursor:default;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value + label:after {border-radius:2px;box-sizing:border-box;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value + label:before,
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value + label:after {content: '';left: 0;position: absolute;transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;z-index: 1;box-sizing:border-box;border-radius: 1px;margin-top: 2px;width: 18px;height: 18px;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value:not(:checked) + label:before {width: 0;height: 0;border: 3px solid transparent;left: 6px;top: 10px;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 20% 40%;transform-origin: 100% 100%;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value:not(:checked) + label:after {height: 20px;width: 20px;background-color: transparent;border: 2px solid #5a5a5a;top: 0px;z-index: 0;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value:checked + label:before {top: 2px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value:checked + label:after {top: 0;width: 20px;height: 20px;z-index: 0;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value {box-sizing:border-box;opacity:0;padding:0;position: absolute;}
+/*#endregion*/
+
+/*#region Radio CSS*/
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control > div {position:relative;height:28px;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value {box-sizing:border-box;opacity:0;padding:0;position: absolute;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:not(:checked) + label,
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:checked + label {position: relative;padding-left: 35px;cursor: pointer;display: inline-block;height: 25px;line-height: 25px;font-size:12px;-webkit-transition: 0.28s ease;-moz-transition: 0.28s ease;-o-transition: 0.28s ease;-ms-transition: 0.28s ease;transition: 0.28s ease;-webkit-user-select: none;-moz-user-select: none;-khtml-user-select: none;-ms-user-select: none;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value + label:before,
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value + label:after {content: '';position: absolute;left: 0;top: 0;margin: 4px;width: 16px;height: 16px;z-index: 0;-webkit-transition: 0.28s ease;-moz-transition: 0.28s ease;-o-transition: 0.28s ease;-ms-transition: 0.28s ease;transition: 0.28s ease;box-sizing:border-box;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:not(:checked) + label:before {border-radius: 50%;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:not(:checked) + label:after {border-radius: 50%;z-index: -1;-webkit-transform: scale(0);-moz-transform: scale(0);-ms-transform: scale(0);-o-transform: scale(0);transform: scale(0);}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:checked + label:before {border-radius: 50%;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:checked + label:after {border-radius: 50%;z-index: 0;-webkit-transform: scale(0.5);-moz-transform: scale(0.5);-ms-transform: scale(0.5);-o-transform: scale(0.5);transform: scale(0.5);}
+
+html.theme-materialmobile.mobile .fwformfield[data-type="radio"] .fwformfield-control label:before {line-height:16px;}
+/*#endregion*/
+
+/*#region Color CSS*/
+html.theme-materialmobile .fwformfield[data-type="color"] input.fwformfield-value {display:none;}
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselector {border-radius:4px;width:120px;position:relative;}
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-color {border-top-left-radius:4px;border-bottom-left-radius:4px;background-color:#ffffff;width:95px;height:22px;}
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselect {border-top-right-radius:4px;border-bottom-right-radius:4px;height:22px;width:24px;position:absolute;top:0;right:0;}
+html.theme-materialmobile .fwformfield[data-type="color"][data-enabled="true"] .fwformfield-colorselect {cursor:pointer;}
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselect .icon-selectdownarrow {width:18px;height:18px;background-image:url("../fwimages/icons/128/downarrow.png");background-size:12px 12px;background-repeat:no-repeat;margin:5px 0 0 6px;}
+/*#endregion*/
+
+/*#region Validation CSS*/
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .fwformfield-control {padding-right:30px;position:relative;vertical-align:middle;box-sizing:border-box;height:24px;line-height:24px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .fwformfield-control {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;border-radius:4px;overflow:hidden;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] input.fwformfield-text {font-size:14px;height: 22px;position:absolute;top:0;right:24px;bottom:0;left:0;display:block;border:0;width:100%;box-sizing:border-box;padding:0 5px;border-radius:4px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] input.fwformfield-text {font-size:18px;width:100%;height:42px;flex:1 1 0;box-sizing:border-box;padding:0 10px;border:0;border-radius:0;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .btnvalidate {box-sizing:border-box;width: 32px;position:absolute;top:0;right:0;bottom:0;display:table-cell;vertical-align:middle;text-align:center;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .icon-validation {width:16px;height:16px;display:inline-block;background-image:url("../fwimages/icons/128/dropdownarrow.001.png");background-size:cover;background-repeat: no-repeat;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] i.btnvalidate {font-size:42px;flex:0 0 42px;padding:0 5px;}
+html.theme-materialmobile .fwformfield[data-type="combobox"][data-enabled="true"] .btnvalidate {cursor:pointer;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .dropdown {position:absolute;/*z-index:2;*/color:#000000;background-color:#ffffff;border: 1px solid #ccc;border-top-color: #d9d9d9;box-shadow: 0 2px 4px rgba(0,0,0,0.4);-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.4);border-radius:4px;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .dropdown {font-size:14px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .dropdown {font-size:14px;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .dropdown .row {cursor:pointer;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .dropdown .row {height:22px;line-height:22px;padding:0 5px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .dropdown .row {/*height:32px;line-height:32px;padding:0 5px;*/text-indent: -10px;padding: 7px 5px 7px 15px;border-bottom:1px solid #f0f0f0;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .dropdown .row.selected,
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .dropdown .row:active {background-color:#000077;color:#ffffff;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager {vertical-align:middle;text-align:center;border-top:1px solid #000000;padding:0;background-color:#E0E0E0;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager {height:26px;line-height:26px;padding:2px 0;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager {height:38px;line-height:38px;padding:5px 0;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .btnFirstPage,
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .btnPreviousPage,
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .btnNextPage,
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .btnLastPage {display:inline-block;vertical-align:middle;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .txtPageNo {box-sizing:border-box;display:inline-block;vertical-align:middle;text-align:center;border:0;border-radius:0;margin:0 5px;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .txtPageNo {height:22px;line-height:22px;width:32px;font-size:14px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .txtPageNo {height:32px;/*line-height:32px;*/width:42px;/*font-size:18px;*/}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .of {display:inline-block;vertical-align: middle;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .of {height:22px;line-height:22px;width:22px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .of {height:32px;line-height:32px;/*width:22px;*/}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .txtTotalPages {display:inline-block;vertical-align:middle;}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .txtTotalPages {height:22px;line-height:22px;width:22px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .txtTotalPages {height:32px;line-height:32px;/*width:32px;*/}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .pagerbutton {cursor:pointer;font-size:32px;padding:0 5px;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .pagerbutton[data-enabled="false"] {opacity:.6;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .firsticon {background-size:cover;background-image:url(../fwimages/icons/128/pager_first.001.png);}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .previousicon {background-size:cover;background-image:url(../fwimages/icons/128/pager_prev.001.png);}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .nexticon {background-size:cover;background-image:url(../fwimages/icons/128/pager_next.001.png);}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .pager .lasticon {background-size:cover;background-image:url(../fwimages/icons/128/pager_last.001.png);}
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .firsticon,
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .previousicon,
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .nexticon,
+html.theme-materialmobile.desktop .fwformfield[data-type="combobox"] .pager .lasticon {width:16px;height:16px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .firsticon,
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .previousicon,
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .nexticon,
+html.theme-materialmobile.mobile .fwformfield[data-type="combobox"] .pager .lasticon {width:32px;height:32px;margin:0 5px;}
+/*#endregion*/
+
+/*#region Validation CSS*/
+html.theme-materialmobile .fwformfield[data-type="validation"] .fwformfield-control input.fwformfield-text {flex:1 0 auto;width:5px;background-color: transparent;padding:6px;font-size:14px;border:1px solid #E0E0E0;border-right:none;outline:0;transition: all 0.3s;}
+html.theme-materialmobile .fwformfield[data-type="validation"] .fwformfield-control input.fwformfield-text:focus {border: 1px solid #2196f3;border-right:none;}
+html.theme-materialmobile .fwformfield[data-type="validation"] .fwformfield-control .btnpeek {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
+html.theme-materialmobile .fwformfield[data-type="validation"] .fwformfield-control .btnvalidate {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
+html.theme-materialmobile .fwformfield[data-type="validation"] input.fwformfield-text:focus+.btnvalidate {border: 1px solid #2196f3;border-left:none;}
+html.theme-materialmobile .fwformfield[data-type="validation"][data-enabled="false"] .fwformfield-control input.fwformfield-text {color: #757575;}
+html.theme-materialmobile .fwformfield[data-type="validation"][data-enabled="false"] .fwformfield-control .btnvalidate {cursor:default;color: #9E9E9E;}
+html.theme-materialmobile .fwformfield[data-type="validation"].error .fwformfield-control input.fwformfield-text {border: 1px solid #f44336;border-right:none;}
+html.theme-materialmobile .fwformfield[data-type="validation"].error .fwformfield-control .btnvalidate {border: 1px solid #f44336;border-left:none;}
+/*#endregion*/
+
+/*#region Searchbox CSS*/
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .fwformfield-control {padding-right:30px;position:relative;height:24px;line-height:24px;vertical-align:middle;box-sizing:border-box;border-radius: 4px;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .fwformfield-value {height: 22px;position:absolute;top:0; right:24px;bottom:0;left:0;display:block;border:0;width: 100%;box-sizing: border-box;padding: 3px;border-radius: 4px;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .btnvalidate {box-sizing:border-box;width: 32px;position:absolute;top:0;right:0;bottom:0;border-top-right-radius:3px;border-bottom-right-radius:3px;display:table-cell;vertical-align:middle;text-align:center;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .icon-validation {display:inline-block;width:16px;height:16px;background-image:url("../fwimages/icons/128/browsesearch.001.png");background-size: 16px 16px;background-repeat: no-repeat;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"][data-enabled="true"] .btnvalidate {cursor:pointer;}
+
+html.theme-materialmobile.mobile .fwformfield[data-type="searchbox"] .fwformfield-control {height:44px;line-height:44px;}
+html.theme-materialmobile.mobile .fwformfield[data-type="searchbox"] .fwformfield-value {height:42px;}
+/*#endregion*/
+
+/*#region Multi-Select Validation CSS*/
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text {flex:1 0 auto;width:5px;background-color: transparent;padding:6px;font-size:14px;border:1px solid #E0E0E0;border-right:none;outline:0;transition: all 0.3s;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text:focus {border: 1px solid #2196f3;border-right:none;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .btnvalidate {cursor:pointer;border: 1px solid #E0E0E0;border-left:none;outline: 0;transition: all 0.3s;color: #616161;padding:2px;height:24px;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] input.fwformfield-text:focus+.btnvalidate {border: 1px solid #2196f3;border-left:none;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control input.fwformfield-text {color: #757575;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control .btnvalidate {cursor:default;color: #9E9E9E;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control input.fwformfield-text {border: 1px solid #f44336;border-right:none;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control .btnvalidate {border: 1px solid #f44336;border-left:none;}
+/*#endregion*/
+
+/*#region Old Button CSS*/
+html.theme-materialmobile .button.theme {border-radius:5px;padding:8px 10px;font-weight:normal;text-decoration:none;cursor:pointer;display:inline-block;background-size:auto 200%;background-position:0 80%;transition:color 0.2s,background-position 0.2s;background-image:linear-gradient(transparent, rgba(0, 0, 0, .6));}
+html.theme-materialmobile .button.theme:hover {background-position:0 20%;}
+html.theme-materialmobile .button.theme:active {background-image:linear-gradient(rgba(0, 0, 0, .6), transparent);}
+/*#endregion*/
+
+html.theme-materialmobile .fwformcontrol[data-type="button"] {border-radius: 2px;padding: 0 1rem;cursor: pointer;display: inline-block;height: 36px;letter-spacing: .5px;line-height: 36px;font-size: 15px;text-transform: uppercase;will-change: opacity, transform;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;-o-transition: all 0.3s ease-out;-ms-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
+
+html.theme-materialmobile .fwformcontrol[data-type="button"] {background-color: #01579b;color: #ffffff;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}
+html.theme-materialmobile .fwformcontrol[data-type="button"]:hover {box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);}
+html.theme-materialmobile .fwformcontrol[data-type="button"]:active {background-color:#1e88e5;}
+
+/********************
+Theme
+********************/
+
+/*#region Default Theme - Date CSS*/
+html.theme-materialmobile .fwformfield[data-type="date"] .date-nav .today {border-left: 1px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="date"] .date-nav .yesterday {border-left: 1px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="date"] .date-nav .tomorrow {border-left: 1px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="date"][data-enabled="true"] .add-on:hover {}
+html.theme-materialmobile .fwformfield[data-type="date"][data-enabled="true"] .date-nav .today:hover {background-color:#bcb4b0;}
+html.theme-materialmobile .fwformfield[data-type="date"][data-enabled="true"] .date-nav .yesterday:hover {background-color:#bcb4b0;}
+html.theme-materialmobile .fwformfield[data-type="date"][data-enabled="true"] .date-nav .tomorrow:hover {background-color:#bcb4b0;}
+/*#endregion*/
+
+/*#region Default Theme - Combobox CSS*/
+html.theme-materialmobile .fwformfield[data-type="combobox"] .fwformfield-control {border:1px solid #bcbcbc;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .fwformfield-control:hover {border:1px solid #adadad;}
+html.theme-materialmobile .fwformfield[data-type="combobox"].error input.fwformfield-text {background-color:rgba(255, 0, 0, .3);border:1px solid red !important;}
+html.theme-materialmobile .fwformfield[data-type="combobox"] .btnvalidate {border-left:1px solid #bdbdbd;background:#e9e9e9;}
+html.theme-materialmobile .fwformfield[data-type="combobox"][data-enabled="true"] .btnvalidate:hover {background-color:#bcb4b0;}
+/*#endregion*/
+
+/*#region Default Theme - Searchbox CSS*/
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .fwformfield-control {border:1px solid #bcbcbc;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .fwformfield-control:hover {border:1px solid #adadad;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .fwformfield-value {border:none;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"] .btnvalidate {border-left:1px solid #bdbdbd;background:#e9e9e9;}
+html.theme-materialmobile .fwformfield[data-type="searchbox"][data-enabled="true"] .btnvalidate:hover {background-color:#bcb4b0;}
+/*#endregion*/
+
+/*#region Default Theme - Multi-Selection Validation CSS*/
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] .fwformfield-control:hover {border:1px solid #adadad;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"] .add-on {border-left:1px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="multiselectvalidation"][data-enabled="true"] .add-on:hover {background-color:#bcb4b0;}
+/*#endregion*/
+
+/*#region Default Theme - Color CSS*/
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselector { border: 1px solid #bdbdbd; color: black; }
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselect {background:#e9e9e9;border-left: 1px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="color"] .fwformfield-colorselector .fwformfield-colorselect:hover {background:#bcb4b0}
+/*#endregion*/
+
+/*#region Default Theme - Checkbox CSS*/
+html.theme-materialmobile .fwformfield[data-type="checkbox"] input.fwformfield-value:checked + label:after {border: 2px solid #4caf50;background-color: #4caf50;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"][data-enabled="false"] input.fwformfield-value:not(:checked) + label:before {background-color: transparent;border: 2px solid transparent;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"][data-enabled="false"] input.fwformfield-value:not(:checked) + label:after {border-color: transparent;background-color: #BDBDBD}
+html.theme-materialmobile .fwformfield[data-type="checkbox"][data-enabled="false"] input.fwformfield-value:checked + label:before {background-color: transparent;}
+html.theme-materialmobile .fwformfield[data-type="checkbox"][data-enabled="false"] input.fwformfield-value:checked + label:after {background-color: #BDBDBD;border-color: #BDBDBD;}
+/*#endregion*/
+
+/*#region Default Theme - Radio CSS*/
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:not(:checked) + label:before {border: 2px solid #5a5a5a;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:not(:checked) + label:after {border: 2px solid #5a5a5a;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:checked + label:before {border: 2px solid #4caf50;}
+html.theme-materialmobile .fwformfield[data-type="radio"] .fwformfield-control input.fwformfield-value:checked + label:after {border: 2px solid #4caf50;background-color: #4caf50;}
+html.theme-materialmobile .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:checked + label:before {border: 2px solid #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:checked + label:after {border: 2px solid #bdbdbd;background-color:#bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control input.fwformfield-value:not(:checked) + label:before {background-color: transparent;border-color: #bdbdbd;}
+html.theme-materialmobile .fwformfield[data-type="radio"][data-enabled="false"] .fwformfield-control label {color: #bdbdbd;cursor:default;}
+/*#endregion*/
+
+/*#region Default Theme - Button CSS*/
+html.theme-materialmobile .button.theme {background-color:#1F76BA;border:1px solid #193f5c;color:rgba(255, 255, 255, 0.8);box-shadow: 1px 2px 3px rgba(0,0,0,.4);}
+html.theme-materialmobile .button.theme:hover {color:#ffffff;}
+/*#endregion*/
+
+/***************************
+FwDesignerHandle
+***************************/
+html.theme-materialmobile .fwformfield .fwdesignerhandle { background-color: lightgreen; }
+
+
+/* Begin Checkboxlist */
+/* need a way to eliminate such generic styles, but will probably replace the sorting library anyway because of lack of touch support */
+html.theme-materialmobile body.dragging, body.dragging *{cursor: move !important;}
+html.theme-materialmobile .dragged {position: absolute;top: 0;opacity: .5;z-index: 2000;}
+
+html.theme-materialmobile .fwformfield ol {margin:0;padding:0;min-height: 10px;list-style:decimal;list-style-type:none;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-materialmobile .fwformfield ol.sortable > li {display: block;margin:2px;padding:2px;border: 1px solid #CCC;color: #000000;background: #eeeeee;border-radius:2px;background-color:#ffffff;}
+html.theme-materialmobile .fwformfield ol.sortable > li.placeholder {position:relative;margin:0;padding:0;border:none;}
+html.theme-materialmobile .fwformfield ol.sortable > li.placeholder:before {position: absolute;content:"";width:0;height:0;margin-top:-5px;left:-5px;top:-4px;border:5px solid transparent;border-left-color: #ff0000;border-right: none;}
+html.theme-materialmobile .fwformfield ol.sortable > li[data-orderbydirection="asc"] div.orderbydirection {background-image:url(../fwimages/icons/128/orderbydirection_asc2.001.png);}
+html.theme-materialmobile .fwformfield ol.sortable > li[data-orderbydirection="desc"] div.orderbydirection {background-image:url(../fwimages/icons/128/orderbydirection_desc2.001.png);}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper {overflow:hidden;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper > .handle{float:left;cursor:move;padding:0 5px 0 2px;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper > .checkbox{float:left;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper > label{float:left;color:#000000;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper .orderbydirection {display:none;cursor:pointer;overflow:hidden;width:22px;height:22px;float:right;background-size:cover;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper > .checkbox:checked + label {font-weight:bold;}
+html.theme-materialmobile .fwformfield ol.sortable > li > .wrapper > .checkbox:checked ~ .orderbydirection {display:block;}
+/* End Checkboxlist*/
+
+/*#region Toggle Switch*/
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] .switch {position: relative;display: inline-block;width: 60px;height: 34px;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] .switch input {display:none;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] .slider {border-radius: 34px;position: absolute;cursor: pointer;top: 0;left: 0;right: 0;bottom: 0;background-color: #ccc;-webkit-transition: .4s;transition: .4s;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] .slider:before {border-radius: 50%;position: absolute;content: "";height: 26px;width: 26px;left: 4px;bottom: 4px;background-color: white;-webkit-transition: .4s;transition: .4s;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] input:checked + .slider {background-color: #4CAF50;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] input:focus + .slider {box-shadow: 0 0 1px #4CAF50;}
+html.theme-materialmobile .fwformfield[data-type="toggleswitch"] input:checked + .slider:before {-webkit-transform: translateX(26px);-ms-transform: translateX(26px);transform: translateX(26px);}
+/*#endregion Toggle Switch*/

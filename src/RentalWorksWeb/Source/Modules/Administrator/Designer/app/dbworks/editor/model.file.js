@@ -4,7 +4,7 @@ var dbworks;
     (function (editor) {
         var models;
         (function (models) {
-            var file = /** @class */ (function () {
+            var file = (function () {
                 function file(file) {
                     if (file == null || undefined)
                         file = {};
@@ -16,7 +16,6 @@ var dbworks;
                     this.hasChanged = file.hasChanged == null ? true : false;
                 }
                 file.prototype.update = function (prop, value) {
-                    //file.fileContents = this.code_mirror.getValue();
                     this.hasChanged = true;
                     return this;
                 };

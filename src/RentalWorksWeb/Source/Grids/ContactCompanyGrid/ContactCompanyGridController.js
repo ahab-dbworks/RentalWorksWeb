@@ -1,4 +1,4 @@
-var ContactCompanyGrid = /** @class */ (function () {
+var ContactCompanyGrid = (function () {
     function ContactCompanyGrid() {
         this.Module = 'ContactCompanyGrid';
         this.apiurl = 'api/v1/companycontact';
@@ -18,5 +18,4 @@ var ContactCompanyGrid = /** @class */ (function () {
     return ContactCompanyGrid;
 }());
 window.ContactCompanyGridController = new ContactCompanyGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=ContactCompanyGridController.js.map

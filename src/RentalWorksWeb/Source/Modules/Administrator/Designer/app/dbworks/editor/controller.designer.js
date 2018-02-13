@@ -4,14 +4,12 @@ var dbworks;
     (function (editor) {
         var controllers;
         (function (controllers) {
-            var desginer = /** @class */ (function () {
+            var desginer = (function () {
                 function desginer(editor_controller) {
                     this._editor = editor_controller;
                 }
                 desginer.prototype.init = function () {
                     this.bind().done(function () {
-                        //this.setup()
-                        //this.events();
                     });
                 };
                 desginer.prototype.setup = function () {
@@ -24,7 +22,6 @@ var dbworks;
                         scroll: true,
                         zIndex: 9999
                     }).disableSelection();
-                    //jQuery('.design_module').draggable({ appendTo: 'body' });
                 };
                 desginer.prototype.events = function () {
                     var _this = this;

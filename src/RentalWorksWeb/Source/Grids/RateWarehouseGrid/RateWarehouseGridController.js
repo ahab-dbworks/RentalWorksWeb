@@ -1,4 +1,4 @@
-var RateWarehouseGrid = /** @class */ (function () {
+var RateWarehouseGrid = (function () {
     function RateWarehouseGrid() {
         this.Module = 'RateWarehouseGrid';
         this.apiurl = 'api/v1/ratewarehouse';
@@ -6,5 +6,4 @@ var RateWarehouseGrid = /** @class */ (function () {
     return RateWarehouseGrid;
 }());
 window.RateWarehouseGridController = new RateWarehouseGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=RateWarehouseGridController.js.map

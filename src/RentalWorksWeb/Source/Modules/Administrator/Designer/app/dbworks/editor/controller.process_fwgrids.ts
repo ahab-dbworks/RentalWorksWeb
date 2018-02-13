@@ -1,8 +1,4 @@
-﻿declare var FwBrowse: any;
-declare var FwFormField: any;
-var geval = eval;
-
-namespace dbworks.editor.controllers {
+﻿namespace dbworks.editor.controllers {
 
     export class process_fwgrids {
 

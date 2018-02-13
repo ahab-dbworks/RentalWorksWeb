@@ -1,4 +1,4 @@
-var CustomFields = /** @class */ (function () {
+var CustomFields = (function () {
     function CustomFields() {
         this.Module = 'CustomFields';
         this.apiurl = 'api/v1/customfield';
@@ -45,7 +45,6 @@ var CustomFields = /** @class */ (function () {
             allModules.push({ value: moduleNav, text: moduleCaption });
         }
         ;
-        //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
                 return -1;
@@ -66,7 +65,7 @@ var CustomFields = /** @class */ (function () {
         return $form;
     };
     CustomFields.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
         FwFormField.disable($form.find('.ifnew'));
     };
     CustomFields.prototype.loadAudit = function ($form) {

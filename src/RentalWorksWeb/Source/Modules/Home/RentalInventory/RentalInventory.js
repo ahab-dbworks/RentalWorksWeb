@@ -1,4 +1,4 @@
-var RentalInventory = /** @class */ (function () {
+var RentalInventory = (function () {
     function RentalInventory() {
         this.Module = 'RentalInventory';
         this.apiurl = 'api/v1/rentalinventory';
@@ -25,7 +25,7 @@ var RentalInventory = /** @class */ (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        self.ActiveView = 'ALL'; // Resets view to all when revisting module page
+        self.ActiveView = 'ALL';
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });
@@ -168,7 +168,7 @@ var RentalInventory = /** @class */ (function () {
         return $form;
     };
     RentalInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     RentalInventory.prototype.loadAudit = function ($form) {
         var uniqueid;
@@ -211,7 +211,6 @@ var RentalInventory = /** @class */ (function () {
         var $wardrobeInventoryMaterialGrid;
         var $wardrobeInventoryMaterialGridControl;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);

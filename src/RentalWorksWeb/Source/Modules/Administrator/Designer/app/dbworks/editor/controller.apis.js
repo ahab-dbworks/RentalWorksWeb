@@ -2,7 +2,7 @@ var dbworks;
 (function (dbworks) {
     var editor;
     (function (editor) {
-        var apis = /** @class */ (function () {
+        var apis = (function () {
             function apis() {
             }
             apis.prototype.init = function () {

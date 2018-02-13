@@ -1,4 +1,4 @@
-var BillingCycleEventsGrid = /** @class */ (function () {
+var BillingCycleEventsGrid = (function () {
     function BillingCycleEventsGrid() {
         this.Module = 'BillingCycleEventsGrid';
         this.apiurl = 'api/v1/billingcycleevent';
@@ -6,5 +6,4 @@ var BillingCycleEventsGrid = /** @class */ (function () {
     return BillingCycleEventsGrid;
 }());
 window.BillingCycleEventsGridController = new BillingCycleEventsGrid();
-//---------------------------------------------------------------------------------------------- 
 //# sourceMappingURL=BillingCycleEventsGridController.js.map

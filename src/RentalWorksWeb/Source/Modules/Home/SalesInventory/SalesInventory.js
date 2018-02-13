@@ -1,4 +1,4 @@
-var SalesInventory = /** @class */ (function () {
+var SalesInventory = (function () {
     function SalesInventory() {
         this.Module = 'SalesInventory';
         this.apiurl = 'api/v1/salesinventory';
@@ -127,7 +127,7 @@ var SalesInventory = /** @class */ (function () {
         return $form;
     };
     SalesInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     SalesInventory.prototype.loadAudit = function ($form) {
         var uniqueid;
@@ -161,7 +161,6 @@ var SalesInventory = /** @class */ (function () {
         var $wardrobeInventoryColorGridControl;
         var $wardrobeInventoryMaterialGrid;
         var $wardrobeInventoryMaterialGridControl;
-        // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
