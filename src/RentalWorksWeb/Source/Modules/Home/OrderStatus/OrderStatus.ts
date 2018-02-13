@@ -186,7 +186,6 @@ class OrderStatus {
                 request.filterfields = {
                     Status: filterValue
                 }
-                console.log(request, "SUMMARY REQ")
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
@@ -199,7 +198,6 @@ class OrderStatus {
                 request.filterfields = {
                     Status: filterValue
                 }
-                console.log(request, "RENT REQ")
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
@@ -212,7 +210,6 @@ class OrderStatus {
                 request.filterfields = {
                     Status: filterValue
                 }
-                console.log(request, "SALES REQ")
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
 

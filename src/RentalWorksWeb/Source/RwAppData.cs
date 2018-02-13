@@ -330,6 +330,24 @@ namespace Web.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static dynamic GetUserInfo(FwSqlConnection conn, string webusersid)
+        {
+            FwSqlCommand qry;
+            dynamic result;
+
+            qry = new FwSqlCommand(conn);
+            qry.Add("select webusersid");
+            qry.Add("  from webusers with (nolock)");
+            qry.Add(" where webusersid = @webusersid");
+            qry.AddParameter("@webusersid", webusersid);
+            result = qry.QueryToDynamicObject2();
+
+            result.webusersid = FwCryptography.AjaxEncrypt(result.webusersid);
+      
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
         public static bool HasAppOption(string option)
         {
             FwSqlCommand qry;

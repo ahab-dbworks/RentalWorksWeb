@@ -99,6 +99,7 @@ namespace Web.Source
             response.location          = RwAppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
             response.warehouse         = RwAppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
             response.department        = RwAppData.GetDepartmentInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.department));
+            response.userid            = RwAppData.GetUserInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.userid));
         }
         //---------------------------------------------------------------------------------------------
         public static void ModuleRouting(dynamic request, dynamic response, dynamic session)

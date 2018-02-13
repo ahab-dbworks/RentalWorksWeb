@@ -205,6 +205,7 @@ RwMasterController.buildOfficeLocationClassic = function ($userControl) {
                     sessionStorage.setItem('location', JSON.stringify(response.location));
                     sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
                     sessionStorage.setItem('department', JSON.stringify(response.department));
+                    sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                     $officelocation.find('.value').html(response.location.location);
                     $officelocation.css('background-color', response.location.locationcolor);
                     FwConfirmation.destroyConfirmation($confirmation);
@@ -375,6 +376,7 @@ RwMasterController.buildOfficeLocation = function($view) {
                     sessionStorage.setItem('location', JSON.stringify(response.location));
                     sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
                     sessionStorage.setItem('department', JSON.stringify(response.department));
+                    sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                     FwConfirmation.destroyConfirmation($confirmation);
                     program.navigate('home');
                 });

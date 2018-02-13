@@ -1,10 +1,13 @@
 ﻿declare var FwFormField;
+declare var FwModule: any;
 
 class UserSettings {
     Module: string;
+    apiurl: string;
 
     constructor() {
         this.Module = 'UserSettings';
+        this.apiurl = 'api/v1/usersettings';
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -13,7 +16,7 @@ class UserSettings {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.loadForm();
+        var $form = this.openForm('EDIT');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'User Settings', false, 'FORM', true);
@@ -27,7 +30,9 @@ class UserSettings {
     openForm(mode: string) {
         var $form, $browsedefaultrows, $applicationtheme;
 
-        $form = jQuery(jQuery('#tmpl-modules-UserSettingsForm').html());
+        var userId = JSON.parse(sessionStorage.getItem('userid'));
+
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
         $browsedefaultrows = $form.find('.browsedefaultrows');
@@ -56,53 +61,32 @@ class UserSettings {
             { value: 'theme-classic', text: 'Classic' }
         ]);
 
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm() {
-        var $form = this.openForm('EDIT');
-        var request: any = {};
-        request.method = 'LoadSettings';
-        FwModule.getData($form, request, function (response) {
-            FwFormField.setValue($form, 'div[data-datafield="#settings.browsedefaultrows"]', response.usersettings.browsedefaultrows);
-            FwFormField.setValue($form, 'div[data-datafield="#settings.applicationtheme"]', response.usersettings.applicationtheme);
-        }, $form);
+        $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
+        FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        var $fwformfields = $form.find('.fwformfield');
-        var fields = {};
-        $fwformfields.each(function (index, element) {
-            var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
+        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
 
-            $fwformfield = jQuery(element);
-            dataField = $fwformfield.attr('data-datafield');
-            value = FwFormField.getValue2($fwformfield);
+        var browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val();
+        var applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val();
 
-            var field = {
-                datafield: dataField,
-                value: value
-            };
-            fields[dataField] = field;
-        });
+        sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
+        sessionStorage.setItem('applicationtheme', applicationTheme);
 
-        var request = {
-            method: 'SaveSettings',
-            fields: fields
-        }
-        request.method = 'SaveSettings';
-        request.fields = fields;
-        FwModule.getData($form, request, function (response) {
-            $form.attr('data-modified', false);
-            $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
-            jQuery('#' + $form.parent().attr('data-tabid')).find('.modified').html('');
-            sessionStorage.setItem('browsedefaultrows', response.usersettings.browsedefaultrows);
-            sessionStorage.setItem('applicationtheme', response.usersettings.applicationtheme);
-            //jQuery('html').removeClassPrefix('theme-').addClass(response.usersettings.applicationtheme)
-            location.reload();
-        }, $form);
+        //setTimeout(function () {
+        //    location.reload();
+        //}, 1000);
     }
+
+    //afterLoad($form) {
+    //    var browserows = sessionStorage.getItem('browsedefaultrows');
+    //    var theme = sessionStorage.getItem('applicationtheme');
+    //    jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browserows);
+    //    jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
+    //}
+    //----------------------------------------------------------------------------------------------
 }
 (window as any).UserSettingsController = new UserSettings();
