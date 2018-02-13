@@ -47,6 +47,10 @@ class FacilityCategory {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
         return $form;
     }
 
@@ -71,8 +75,8 @@ class FacilityCategory {
     }
 
     afterLoad($form: any) {
-
-    }
+            
+    };
 }
 
 (<any>window).FacilityCategoryController = new FacilityCategory();

@@ -47,6 +47,10 @@ class GlDistribution {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $form.find('div[data-datafield="GlAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="GlAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
         return $form;
     }
 
@@ -73,6 +77,7 @@ class GlDistribution {
     afterLoad($form: any) {
 
     }
+    
 }
 
 (window as any).GlDistributionController = new GlDistribution();

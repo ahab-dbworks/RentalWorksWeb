@@ -106,6 +106,26 @@ class Warehouse {
             }
         });
 
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+            $form.find('.ustax').hide();
+            $form.find('.catax').hide();
+
+            if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'U') {
+                $form.find('.ustax').show();
+            }; 
+
+            if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'C') {
+                FwFormField.setValueByDataField($form, 'RentalTaxRate2', $tr.find('.field[data-browsedatafield="RentalTaxRate2"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'SalesTaxRate2', $tr.find('.field[data-browsedatafield="SalesTaxRate2"]').attr('data-originalvalue'));
+                FwFormField.setValueByDataField($form, 'LaborTaxRate2', $tr.find('.field[data-browsedatafield="LaborTaxRate2"]').attr('data-originalvalue'));
+                $form.find('.catax').show();
+            };
+
+        });
+
         return $form;
     }
 
@@ -265,11 +285,11 @@ class Warehouse {
             $form.find('.warehouseinventorytype').show();
         }
 
-        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'USA') {
+        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'U') {
             $form.find('.ustax').show();
             $form.find('.catax').hide();
         }
-        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'CA') {
+        if (FwFormField.getValue($form, 'div[data-datafield="TaxCountry"]') === 'C') {
             $form.find('.catax').show();
             $form.find('.ustax').hide();
         }
@@ -299,29 +319,6 @@ class Warehouse {
 
     }
 
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
-        var $form;
-
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'TaxOptionValidation':
-
-                FwFormField.setValueByDataField($form, 'RentalTaxRate1', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'SalesTaxRate1', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-                FwFormField.setValueByDataField($form, 'LaborTaxRate1', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-
-                if ($tr.find('.field[data-browsedatafield="TaxCountry"]').attr('data-originalvalue') === 'U') {
-                    $form.find('.ustax').show();
-                    $form.find('.catax').hide();
-                } else {
-                    FwFormField.setValueByDataField($form, 'RentalTaxRate2', $tr.find('.field[data-browsedatafield="RentalTaxRate2"]').attr('data-originalvalue'));
-                    FwFormField.setValueByDataField($form, 'SalesTaxRate2', $tr.find('.field[data-browsedatafield="SalesTaxRate2"]').attr('data-originalvalue'));
-                    FwFormField.setValueByDataField($form, 'LaborTaxRate2', $tr.find('.field[data-browsedatafield="LaborTaxRate2"]').attr('data-originalvalue'));
-                    $form.find('.catax').show();
-                    $form.find('.ustax').hide();
-                };
-        }
-    };
 }
 
 (window as any).WarehouseController = new Warehouse();

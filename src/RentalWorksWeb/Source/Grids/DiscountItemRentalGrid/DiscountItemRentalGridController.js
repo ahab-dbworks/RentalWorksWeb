@@ -38,6 +38,12 @@ var DiscountItemRentalGrid = /** @class */ (function () {
         this.Module = 'DiscountItemRentalGrid';
         this.apiurl = 'api/v1/discountitem';
     }
+    DiscountItemRentalGrid.prototype.generateRow = function ($control, $generatedtr) {
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+    };
+    ;
     return DiscountItemRentalGrid;
 }());
 window.DiscountItemRentalGridController = new DiscountItemRentalGrid();

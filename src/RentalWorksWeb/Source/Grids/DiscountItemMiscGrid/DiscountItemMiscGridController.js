@@ -32,6 +32,12 @@ var DiscountItemMiscGrid = /** @class */ (function () {
         this.Module = 'DiscountItemMiscGrid';
         this.apiurl = 'api/v1/discountitem';
     }
+    DiscountItemMiscGrid.prototype.generateRow = function ($control, $generatedtr) {
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+    };
+    ;
     return DiscountItemMiscGrid;
 }());
 window.DiscountItemMiscGridController = new DiscountItemMiscGrid();

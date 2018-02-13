@@ -88,6 +88,18 @@ declare var FwBrowse: any;
 
             this.toggleEnabled($form.find('.overridecheck input[type=checkbox]'), $form.find('.catvalidation'));
 
+            $form.find('div[data-datafield="IncomeAccountId"]').data('onchange', function ($tr) {
+                FwFormField.setValue($form, 'div[data-datafield="IncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+            });
+
+            $form.find('div[data-datafield="SubIncomeAccountId"]').data('onchange', function ($tr) {
+                FwFormField.setValue($form, 'div[data-datafield="SubIncomeAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+            });
+
+            $form.find('div[data-datafield="ExpenseAccountId"]').data('onchange', function ($tr) {
+                FwFormField.setValue($form, 'div[data-datafield="ExpenseAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+            });
+
             return $form;
         }
 

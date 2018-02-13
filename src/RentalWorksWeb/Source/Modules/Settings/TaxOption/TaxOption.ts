@@ -131,6 +131,18 @@ class TaxOption {
             FwFormField.setValueByDataField($form, 'SalesTaxRate2', 0);
             FwFormField.setValueByDataField($form, 'LaborTaxRate2', 0);
         }        
+
+        $form.find('div[data-datafield="TaxAccountId1"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="TaxAccountDescription1"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="TaxAccountId2"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="TaxAccountDescription2"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
+
+        $form.find('div[data-datafield="TaxOnTaxAccountId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="TaxOnTaxAccountDescription"]', $tr.find('.field[data-browsedatafield="GlAccountDescription"]').attr('data-originalvalue'));
+        });
         
         return $form;
     }

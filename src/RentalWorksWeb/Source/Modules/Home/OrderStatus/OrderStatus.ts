@@ -38,6 +38,10 @@ class OrderStatus {
         $form.find('.rentalview').hide();
         $form.find('.salesview').hide();
 
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------

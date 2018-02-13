@@ -32,6 +32,12 @@ var DiscountItemLaborGrid = /** @class */ (function () {
         this.Module = 'DiscountItemLaborGrid';
         this.apiurl = 'api/v1/discountitem';
     }
+    DiscountItemLaborGrid.prototype.generateRow = function ($control, $generatedtr) {
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+    };
+    ;
     return DiscountItemLaborGrid;
 }());
 window.DiscountItemLaborGridController = new DiscountItemLaborGrid();

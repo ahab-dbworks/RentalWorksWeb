@@ -6,6 +6,12 @@
         this.Module = 'DiscountItemSalesGrid';
         this.apiurl = 'api/v1/discountitem';
     }
+    
+    generateRow($control, $generatedtr) {
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+    };
 
     beforeValidate = function ($browse, $grid, request) {
 
