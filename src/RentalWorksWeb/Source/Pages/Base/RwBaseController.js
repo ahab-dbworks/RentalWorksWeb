@@ -145,8 +145,8 @@ RwBaseController.getLoginScreen = function(viewModel, properties) {
                                     FwFunc.showError(ex);
                                 }
                             });
-                        } else if (response.statuscode !== 0) {
-                            $loginWindow.find('.errormessage').html('').html(response.statusmessage).show();
+                        } else if (responseRestApi.statuscode !== 0) {
+                            $loginWindow.find('.errormessage').html('').html(responseRestApi.statusmessage).show();
                         }
                     }, onError, $elementToBlock);
                 }
