@@ -6,8 +6,7 @@
         this.Module = 'DiscountItemLaborGrid';
         this.apiurl = 'api/v1/discountitem';
     }
-
-<<<<<<< refs/remotes/origin/develop
+    
     beforeValidate = function ($browse, $grid, request) {
 
         var validationName = request.module;
@@ -39,13 +38,12 @@
             };
         }
     }
-=======
+
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
->>>>>>> Validations load proper related description fields with GlAccount,  Inventory and Rate and related Grids.
 }
 
 (<any>window).DiscountItemLaborGridController = new DiscountItemLaborGrid();

@@ -12,7 +12,6 @@
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
-}
 
     beforeValidate = function ($browse, $grid, request) {
 
@@ -50,7 +49,6 @@
             };
         }
     }
-    }
-
+}
         (<any>window).DiscountItemRentalGridController = new DiscountItemRentalGrid();
 //----------------------------------------------------------------------------------------------
