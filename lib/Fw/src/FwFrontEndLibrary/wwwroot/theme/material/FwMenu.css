@@ -41,7 +41,7 @@ html.theme-material .fwmenu.default .buttonbar .btn {cursor:pointer;padding:0 10
 
 
 html.theme-material .fwmenu.default .buttonbar .ddviewbtn {display:flex;padding:0 10px;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
-html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-caption {margin-right:5px;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-caption {display:flex;align-items:center;margin-right:5px;}
 html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select {display:flex;cursor:pointer;}
 html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-select-value {padding-left:5px;}
 html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > i {line-height:40px;height:auto;}
