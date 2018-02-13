@@ -65,10 +65,10 @@
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, closetab, navigationpath);
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
 
-        var browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val();
-        var applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val();
+        var browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
+        var applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
 
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
