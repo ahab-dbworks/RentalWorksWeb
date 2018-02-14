@@ -1313,7 +1313,6 @@
     <Compile Include="Source\Modules\Administrator\Group\Group.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
-    <Compile Include="Source\Modules\Settings\UserSettings\UserSettings.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />

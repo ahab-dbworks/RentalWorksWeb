@@ -13,7 +13,7 @@
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        var $form = this.openForm('NEW');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'User Settings', false, 'FORM', true);
@@ -73,9 +73,9 @@
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
 
-        //setTimeout(function () {
-        //    location.reload();
-        //}, 1000);
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
     }
 
     //afterLoad($form) {
