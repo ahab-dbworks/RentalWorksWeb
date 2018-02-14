@@ -229,6 +229,11 @@ class Order {
                 FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
         });
+
+        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
+        });
+
         return $form;
     };
 
@@ -252,10 +257,9 @@ class Order {
         $orderPickListGrid.empty().append($orderPickListGridControl);
         $orderPickListGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
             };
         });
-
         FwBrowse.init($orderPickListGridControl);
         FwBrowse.renderRuntimeHtml($orderPickListGridControl);
         var $orderStatusHistoryGrid;
@@ -265,74 +269,11 @@ class Order {
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
         $orderStatusHistoryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
             };
         });
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
-
-        var $orderItemGridRental;
-        var $orderItemGridRentalControl;
-        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRentalControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'R'
-            };
-
-        });
-        FwBrowse.init($orderItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
-
-        var $orderItemGridSales;
-        var $orderItemGridSalesControl;
-        $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridSales.empty().append($orderItemGridSalesControl);
-        $orderItemGridSalesControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'S'
-            };
-
-        });
-        FwBrowse.init($orderItemGridSalesControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
-
-        var $orderItemGridLabor;
-        var $orderItemGridLaborControl;
-        $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridLabor.empty().append($orderItemGridLaborControl);
-        $orderItemGridLaborControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'L'
-            };
-
-        });
-        FwBrowse.init($orderItemGridLaborControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
-
-        var $orderItemGridMisc;
-        var $orderItemGridMiscControl;
-        $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridMisc.empty().append($orderItemGridMiscControl);
-        $orderItemGridMiscControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
-                RecType: 'M'
-            };
-
-        });
-        FwBrowse.init($orderItemGridMiscControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
-
     };
 
     loadAudit($form) {
@@ -392,21 +333,6 @@ class Order {
         var $orderStatusHistoryGrid;
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         FwBrowse.search($orderStatusHistoryGrid);
-        var $orderItemGridRental;
-        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
-        var $orderItemGridSales;
-        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
-
-
-
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
@@ -419,13 +345,5 @@ class Order {
 
         this.renderFrames($form);
     };
-
-    loadRelatedValidationFields(validationName, $valuefield, $tr, $datafield) {
-        var $form;
-        $form = $valuefield.closest('.fwform');
-
-        $form.find('[data-datafield="DealNumber"] input').val($tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
-
-    }; 
 }
 (<any>window).OrderController = new Order();

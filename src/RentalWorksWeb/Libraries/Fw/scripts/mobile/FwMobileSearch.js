@@ -152,7 +152,6 @@
         _load: function(searchresults) {
             var $record, plugin;
             plugin = this;
-            this._clearSearchResults();
             if (searchresults !== null) {
                 this._totalPages = searchresults.TotalPages;
                 jQuery(window).off('scroll');
@@ -257,9 +256,11 @@
         },
 
         search: function() {
+            this._clearSearchResults();
             this._search();
         },
         load: function(searchresults) {
+            this._clearSearchResults();
             this._load(searchresults);
         },
         destroy: function() {

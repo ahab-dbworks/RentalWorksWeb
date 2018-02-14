@@ -185,6 +185,14 @@ class RentalInventory {
             { value: '4', text: '4' }
         ], true);
 
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
+            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                $form.find('.wardrobetab').show();
+            } else {
+                $form.find('.wardrobetab').hide();
+            }
+        });
+
         return $form;
     }
 
@@ -624,20 +632,6 @@ class RentalInventory {
         };
     }
 
-
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
-        var $form;
-
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                    $form.find('.wardrobetab').show();
-                } else {
-                    $form.find('.wardrobetab').hide();
-                }
-        }
-    };
 }
 
 (<any>window).RentalInventoryController = new RentalInventory();

@@ -39,17 +39,12 @@ var DuplicateRules = (function () {
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
         var modules = FwApplicationTree.getChildrenByType(node, 'Module');
         var allModules = [];
-        for (var i = 1; i < modules.length; i++) {
+        for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption;
-            if (moduleCaption === "Designer") {
-                continue;
-            }
             var moduleController = modules[i].properties.controller;
-            if (window[moduleController].hasOwnProperty('apiurl')) {
-                var moduleUrl = window[moduleController].apiurl;
-                allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
-            }
+            var moduleUrl = window[moduleController].apiurl;
+            allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
         }
         ;
         function compare(a, b) {
@@ -125,9 +120,7 @@ var DuplicateRules = (function () {
                     if (separateFields.length !== 1) {
                         throw 'Expected 1 element, but got: ' + separateFields.length;
                     }
-                    var joinFields = separateFields.join(',');
-                    console.log(separateFields);
-                    FwFormField.setValueByDataField($form, 'Fields', joinFields);
+                    FwFormField.setValueByDataField($form, 'Fields', separateFields[0]);
                 });
             }, null, $form);
         });
@@ -178,8 +171,7 @@ var DuplicateRules = (function () {
                 else {
                     separateFields = separateFields.filter(function (item) { return item !== field; });
                 }
-                var joinFields = separateFields.join(',');
-                FwFormField.setValueByDataField($form, 'Fields', joinFields);
+                FwFormField.setValueByDataField($form, 'Fields', separateFields);
             });
         }, null, $form);
     };

@@ -110,6 +110,14 @@ var SalesInventory = (function () {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
         }
         ;
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
+            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                $form.find('.wardrobetab').show();
+            }
+            else {
+                $form.find('.wardrobetab').hide();
+            }
+        });
         return $form;
     };
     SalesInventory.prototype.loadForm = function (uniqueids) {
@@ -403,20 +411,6 @@ var SalesInventory = (function () {
         }
         ;
     };
-    SalesInventory.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
-        var $form;
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                    $form.find('.wardrobetab').show();
-                }
-                else {
-                    $form.find('.wardrobetab').hide();
-                }
-        }
-    };
-    ;
     SalesInventory.prototype.beforeValidate = function ($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();

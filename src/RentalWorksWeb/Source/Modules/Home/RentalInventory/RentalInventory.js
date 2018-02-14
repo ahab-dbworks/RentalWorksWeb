@@ -158,6 +158,14 @@ var RentalInventory = (function () {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
+            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                $form.find('.wardrobetab').show();
+            }
+            else {
+                $form.find('.wardrobetab').hide();
+            }
+        });
         return $form;
     };
     RentalInventory.prototype.loadForm = function (uniqueids) {
@@ -561,20 +569,6 @@ var RentalInventory = (function () {
         }
         ;
     };
-    RentalInventory.prototype.loadRelatedValidationFields = function (validationName, $valuefield, $tr) {
-        var $form;
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                    $form.find('.wardrobetab').show();
-                }
-                else {
-                    $form.find('.wardrobetab').hide();
-                }
-        }
-    };
-    ;
     return RentalInventory;
 }());
 window.RentalInventoryController = new RentalInventory();

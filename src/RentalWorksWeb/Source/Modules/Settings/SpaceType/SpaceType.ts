@@ -53,6 +53,11 @@ class SpaceType {
             }
         });
 
+        $form.find('div[data-datafield="RateId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RateDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="RateUnit"]', $tr.find('.field[data-browsedatafield="Unit"]').attr('data-originalvalue'));
+        });
+        
         return $form;
     }
 
@@ -97,15 +102,6 @@ class SpaceType {
 
         $spaceWarehouseRateGrid = $form.find('[data-name="SpaceWarehouseRateGrid"]');
         FwBrowse.search($spaceWarehouseRateGrid);
-    }
-
-    loadRelatedValidationFields(validationname: any, $valuefield, $tr) {
-        var $form
-
-        $form = $valuefield.closest('.fwform');
-
-        $form.find('.ratedescription .fwformfield-value').val($tr.find('.field[data-browsedatafield=Description]').attr('data-originalvalue'));
-        $form.find('.rateunit .fwformfield-value').val($tr.find('.field[data-browsedatafield=Unit]').attr('data-originalvalue'));
     }
 
 }

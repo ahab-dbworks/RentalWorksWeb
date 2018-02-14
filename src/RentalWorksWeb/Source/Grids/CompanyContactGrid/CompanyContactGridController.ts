@@ -1,27 +1,18 @@
 ﻿class CompanyContactGrid {
     Module: string;
     apiurl: string;
-    ActiveView: string;
 
     constructor() {
         this.Module = 'CompanyContactGrid';
         this.apiurl = 'api/v1/companycontact';
-        this.ActiveView = 'ALL';
     }
 
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
-        var $form;
-        $form = $valuefield.closest('.fwform');
-
-        if (validationName === 'ContactValidation') {
-            $form.find('.editrow .email input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
-        }
-
-        if (validationName === 'CompanyValidation') {
-            $form.find('.editrow .type input').val($tr.find('.field[data-browsedatafield="CompanyType"]').attr('data-originalvalue'));
-        }
-
-    }; 
+    generateRow($control, $generatedtr) {
+        $generatedtr.find('div[data-browsedatafield="ContactId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="OfficePhone"] input').val($tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));            
+            $generatedtr.find('.field[data-browsedatafield="Email"] input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
+        });
+    };
 }
 
 (<any>window).CompanyContactGridController = new CompanyContactGrid();

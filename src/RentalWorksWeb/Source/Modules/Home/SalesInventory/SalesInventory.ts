@@ -130,6 +130,14 @@ class SalesInventory {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
         };
 
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
+            if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
+                $form.find('.wardrobetab').show();
+            } else {
+                $form.find('.wardrobetab').hide();
+            }
+        });
+
         return $form;
     }
 
@@ -452,20 +460,6 @@ class SalesInventory {
             $form.find('.wardrobetab').show();
         };
     }
-
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
-        var $form;
-
-        $form = $valuefield.closest('.fwform');
-        switch (validationName) {
-            case 'InventoryTypeValidation':
-                if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
-                    $form.find('.wardrobetab').show();
-                } else {
-                    $form.find('.wardrobetab').hide();
-                }
-        }
-    };
 
     beforeValidate($browse, $grid, request) {
         var validationName = request.module;

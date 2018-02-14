@@ -551,7 +551,6 @@
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
-    <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridBrowse.htm" />
@@ -648,7 +647,6 @@
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridController.ts" />
