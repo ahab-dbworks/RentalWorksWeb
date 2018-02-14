@@ -277,6 +277,83 @@ class Quote {
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
 
+
+        var $orderItemGridRental;
+        var $orderItemGridRentalControl;
+        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridRental.empty().append($orderItemGridRentalControl);
+        $orderItemGridRentalControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                RecType: 'R'
+            };
+
+        });
+        FwBrowse.init($orderItemGridRentalControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+
+        var $orderItemGridSales;
+        var $orderItemGridSalesControl;
+        $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridSales.empty().append($orderItemGridSalesControl);
+        $orderItemGridSalesControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                RecType: 'S'
+            };
+
+        });
+        FwBrowse.init($orderItemGridSalesControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
+
+
+        var $orderItemGridLabor;
+        var $orderItemGridLaborControl;
+        $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridLabor.empty().append($orderItemGridLaborControl);
+        $orderItemGridLaborControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                RecType: 'L'
+            };
+
+        });
+        FwBrowse.init($orderItemGridLaborControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
+
+
+        var $orderItemGridMisc;
+        var $orderItemGridMiscControl;
+        $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
+        $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGridMisc.empty().append($orderItemGridMiscControl);
+        $orderItemGridMiscControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                RecType: 'M'
+            };
+
+        });
+        FwBrowse.init($orderItemGridMiscControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
+
+        var $orderNoteGrid;
+        var $orderNoteGridControl;
+        $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
+        $orderNoteGridControl = jQuery(jQuery('#tmpl-grids-OrderNoteGridBrowse').html());
+        $orderNoteGrid.empty().append($orderNoteGridControl);
+        $orderNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+            };
+
+        });
+        FwBrowse.init($orderNoteGridControl);
+        FwBrowse.renderRuntimeHtml($orderNoteGridControl);
+
     }
 
     afterLoad($form: any, mode: string) {
@@ -286,6 +363,23 @@ class Quote {
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         FwBrowse.search($orderStatusHistoryGrid);
 
+
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridRental);
+        var $orderItemGridSales;
+        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridSales);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
+
+        var $orderNoteGrid;
+        $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
+        FwBrowse.search($orderNoteGrid);
 
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));

@@ -548,6 +548,7 @@
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderNoteGrid\OrderNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderPickListGrid\OrderPickListGridBrowse.htm" />
@@ -644,6 +645,7 @@
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderNoteGrid\OrderNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderPickListGrid\OrderPickListGridController.ts" />
@@ -730,8 +732,8 @@
     <Content Include="Source\Grids\QuikEntryDepartment\RwQuikEntryDepartmentGridController.js" />
     <Content Include="Source\Grids\QuikEntryItems\QuikEntryItemsBrowse.htm" />
     <Content Include="Source\Grids\QuikEntryItems\RwQuikEntryItemsGridController.js" />
-    <Content Include="Source\Grids\OrderNote\OrderNoteBrowse.htm" />
-    <Content Include="Source\Grids\OrderNote\RwOrderNoteGridController.js" />
+    <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
+    <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <Content Include="Source\Grids\Contact\ContactBrowse.htm" />
     <Content Include="Source\Grids\Contact\RwContactGridController.js" />
     <Content Include="Source\Grids\MasterItem\RwMasterItemGridController.js" />
