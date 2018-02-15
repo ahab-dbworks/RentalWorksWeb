@@ -4,7 +4,7 @@ class Dashboard {
     }
 
     loadDashboard() {
-        window.location.href = window.location.origin + '/rentalworksweb/'
+        program.navigate('home');
     }
  
 }

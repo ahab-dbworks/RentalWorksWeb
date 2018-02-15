@@ -296,12 +296,16 @@ RwMasterController.getHeaderView = function() {
     $view.find('.user-controls .copyright').html('Database Works © ' + new Date().getFullYear());
     $view.find('.user-controls .version').html('RentalWorks v' + applicationConfig.version);
     RwMasterController.buildOfficeLocation($view);
+    RwMasterController.buildDashboard($view);
     $view
         .on('click', '.user-controls .usersettings', function() {
             try { program.getModule('module/usersettings'); } catch (ex) { FwFunc.showError(ex); }
         })
         .on('click', '.user-controls .logoff', function() {
             try { program.navigate('logoff'); } catch (ex) { FwFunc.showError(ex); }
+        })
+        .on('click', '.bgothm', function () {
+            try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
         })
     ;
 
@@ -384,4 +388,16 @@ RwMasterController.buildOfficeLocation = function($view) {
         });
     });
 };
+//----------------------------------------------------------------------------------------------
+RwMasterController.buildDashboard = function ($view) {
+    var $dashboard, $userControl;
+    $dashboard = jQuery('<div class="dashboard">Dashboard</div>');
+    $userControl = $view.find('.user-controls');
+
+    $userControl.prepend($dashboard)
+
+    $dashboard.on('click', function () {
+        try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
+    })
+}
 //----------------------------------------------------------------------------------------------

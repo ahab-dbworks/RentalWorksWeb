@@ -2,7 +2,7 @@ var Dashboard = (function () {
     function Dashboard() {
     }
     Dashboard.prototype.loadDashboard = function () {
-        window.location.href = window.location.origin + '/rentalworksweb/';
+        program.navigate('home');
     };
     return Dashboard;
 }());

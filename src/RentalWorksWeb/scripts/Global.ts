@@ -14,6 +14,7 @@ declare var FwTabs: any;
 declare var RwMasterController: any;
 declare var RwPickListReportController: any;
 declare var OrderController: any;
+declare var RwHomeController: any;
 
 //declare var Chart: any;
 //declare var Mustache: any;
