@@ -11,27 +11,27 @@ class Order {
         this.ActiveView = 'ALL';
         var self = this;
 
-        FwApplicationTree.clickEvents['{EE96992B-47EB-4F4B-A91A-AC9B7138D03B}'] = function (event) {
-            var $browse, pickListId, pickListNumber;
-            try {
-                $browse = jQuery(this).closest('.fwbrowse');
-                pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
-                pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
-                console.log(pickListNumber, pickListId);
-                if (pickListId != null) {
-                    $browse = RwPickListReportController.openForm();
-                    FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-                    $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-                    $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-                } else {
-                    throw new Error("Please select a Pick List to print");
-                }
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
+        //FwApplicationTree.clickEvents['{EE96992B-47EB-4F4B-A91A-AC9B7138D03B}'] = function (event) {
+        //    var $browse, pickListId, pickListNumber;
+        //    try {
+        //        $browse = jQuery(this).closest('.fwbrowse');
+        //        pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+        //        pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+        //        console.log(pickListNumber, pickListId);
+        //        if (pickListId != null) {
+        //            $browse = RwPickListReportController.openForm();
+        //            FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+        //            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+        //            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        //        } else {
+        //            throw new Error("Please select a Pick List to print");
+        //        }
+        //    }
+        //    catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
 
-        };
+        //};
 
         //Confirmation for cancelling Pick List
         FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
@@ -50,7 +50,7 @@ class Order {
 
     getModuleScreen(filter) {
         var self = this;
-        var screen : any = {};
+        var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
@@ -181,9 +181,31 @@ class Order {
     ;
 
     openForm(mode) {
-        var $form;
+        var $form, $submodulePickListReport;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+
+        //$submodulePickListReport = this.openPickListReport($form);
+        //$form.find('.pickList').append($submodulePickListReport);
+        //$submodulePickListReport.find('div[data-grid="OrderPickListGrid"] td.column').off('click');
+        //$submodulePickListReport.find('div[data-grid="OrderPickListGrid"] td.column').on('click', function () {
+        //    console.log("in click event");
+        //    var $pickListForm, controller, $browse, orderforminfo: any = {};
+        //    try {
+        //        $browse = jQuery(this).closest('.fwbrowse');
+        //        controller = $browse.attr('data-controller');
+        //        orderforminfo.Module             = this.Module;
+        //        orderforminfo.OrderId            = FwFormField.getValue2($form.find('div[data-datafield="OrderId"]'));
+        //        orderforminfo.PickListNumber     = $form.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+        //        orderforminfo.PickListId         = $form.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+        //        if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+        //        if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+        //        $pickListForm = window[controller]['openForm']('NEW', orderforminfo);
+        //        FwModule.openSubModuleTab($browse, $pickListForm);
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -237,6 +259,18 @@ class Order {
         return $form;
     };
 
+    //openPickListReport($form: any) {
+    //    var $browse;
+    //    $browse = RwPickListReportController.openForm();
+
+    //    $browse.data('ondatabind', function (request) {
+    //        request.ActiveView = RwPickListReportController.ActiveView;
+    //        request.PickListId = $form.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+    //    });
+
+    //    return $browse;
+    //}
+
     loadForm(uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -252,12 +286,13 @@ class Order {
     renderGrids($form) {
         var $orderPickListGrid;
         var $orderPickListGridControl;
+
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
         $orderPickListGrid.empty().append($orderPickListGridControl);
         $orderPickListGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
         });
         FwBrowse.init($orderPickListGridControl);
@@ -269,7 +304,7 @@ class Order {
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
         $orderStatusHistoryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: $form.find('div.fwformfield[data-datafield="OrderId"] input').val()
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
         });
         FwBrowse.init($orderStatusHistoryGridControl);
@@ -287,6 +322,9 @@ class Order {
             };
 
         });
+        $orderItemGridRentalControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
 
@@ -302,6 +340,9 @@ class Order {
             };
 
         });
+        $orderItemGridSalesControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
 
@@ -316,7 +357,9 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'L'
             };
-
+        });
+        $orderItemGridLaborControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -332,7 +375,9 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'M'
             };
-
+        });
+        $orderItemGridMiscControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -344,23 +389,31 @@ class Order {
         $orderNoteGrid.empty().append($orderNoteGridControl);
         $orderNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
-
+        });
+        $orderNoteGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
 
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+
     };
 
     loadAudit($form) {
-        var uniqueid = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
     };
 
     cancelPickList(pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no, self;
         self = this;
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
             'Cancel Pick List ' + pickListNumber + '?</div>');
         $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
@@ -373,7 +426,7 @@ class Order {
                     var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
                     $pickListGridControl.data('ondatabind', function (request) {
                         request.uniqueids = {
-                            OrderId: $form.find('[data-datafield="OrderId"] input').val()
+                            OrderId: orderId
                         };
                     });
                     FwBrowse.search($pickListGridControl);
@@ -387,8 +440,8 @@ class Order {
 
     renderFrames($form: any) {
         var orderId;
-        orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
-        $form.find('.frame input').css('width', '100%');
+        orderId = FwFormField.getValueByDataField($form, 'OrderId'),
+            $form.find('.frame input').css('width', '100%');
         FwAppData.apiMethod(true, 'GET', "api/v1/ordersummary/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
             var key;
             for (key in response) {
