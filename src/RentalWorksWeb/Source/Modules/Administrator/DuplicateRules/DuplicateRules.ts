@@ -58,9 +58,14 @@ class DuplicateRules {
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption;
+            if (moduleCaption === "Designer") {
+                continue;
+            } 
             var moduleController = modules[i].properties.controller;
-            var moduleUrl = window[moduleController].apiurl;
-            allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+            if (window[moduleController].hasOwnProperty('apiurl')) {
+                var moduleUrl = window[moduleController].apiurl;
+                allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+            } 
         };
 
         //Sort modules
@@ -150,7 +155,8 @@ class DuplicateRules {
                     if (separateFields.length !== 1) {
                         throw 'Expected 1 element, but got: ' + separateFields.length;
                     }
-                    FwFormField.setValueByDataField($form, 'Fields', separateFields[0]);
+                    var joinFields = separateFields.join(',');
+                    FwFormField.setValueByDataField($form, 'Fields', joinFields); 
                 });
             }, null, $form);
         });
@@ -207,7 +213,8 @@ class DuplicateRules {
                 } else {
                     separateFields = separateFields.filter((item) => item !== field)
                 }
-                FwFormField.setValueByDataField($form, 'Fields', separateFields);
+                var joinFields = separateFields.join(',');
+                FwFormField.setValueByDataField($form, 'Fields', joinFields); 
             });
         }, null, $form); 
     }

@@ -42,9 +42,14 @@ var DuplicateRules = (function () {
         for (var i = 0; i < modules.length; i++) {
             var moduleNav = modules[i].properties.controller.slice(0, -10);
             var moduleCaption = modules[i].properties.caption;
+            if (moduleCaption === "Designer") {
+                continue;
+            }
             var moduleController = modules[i].properties.controller;
-            var moduleUrl = window[moduleController].apiurl;
-            allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+            if (window[moduleController].hasOwnProperty('apiurl')) {
+                var moduleUrl = window[moduleController].apiurl;
+                allModules.push({ value: moduleNav, text: moduleCaption, apiurl: moduleUrl });
+            }
         }
         ;
         function compare(a, b) {
@@ -120,7 +125,8 @@ var DuplicateRules = (function () {
                     if (separateFields.length !== 1) {
                         throw 'Expected 1 element, but got: ' + separateFields.length;
                     }
-                    FwFormField.setValueByDataField($form, 'Fields', separateFields[0]);
+                    var joinFields = separateFields.join(',');
+                    FwFormField.setValueByDataField($form, 'Fields', joinFields);
                 });
             }, null, $form);
         });
@@ -171,7 +177,8 @@ var DuplicateRules = (function () {
                 else {
                     separateFields = separateFields.filter(function (item) { return item !== field; });
                 }
-                FwFormField.setValueByDataField($form, 'Fields', separateFields);
+                var joinFields = separateFields.join(',');
+                FwFormField.setValueByDataField($form, 'Fields', joinFields);
             });
         }, null, $form);
     };
