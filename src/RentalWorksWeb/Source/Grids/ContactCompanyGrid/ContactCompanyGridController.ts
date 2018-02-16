@@ -9,19 +9,24 @@
         this.ActiveView = 'ALL';
     }
 
-    loadRelatedValidationFields(validationName, $valuefield, $tr) {
+    generateRow($control, $generatedtr) {
         var $form;
-        $form = $valuefield.closest('.fwform');
+        $form = $control.closest('.fwform');
 
-        if (validationName === 'ContactValidation') {
-            $form.find('.editrow .email input').val($tr.find('.field[data-browsedatafield="Email"]').attr('data-originalvalue'));
-        }
+        //if ($generatedtr[0].textContent === 'more_vert') {
+        //    $generatedtr.find('.field[data-browsedatafield="OfficePhone"] input').val($control.closest('.fwform').find('div[data-datafield="OfficePhone"]').attr('data-originalvalue'));
+        //    $generatedtr.find('.field[data-browsedatafield="Email"] input').val($control.closest('.fwform').find('div[data-datafield="Email"]').attr('data-originalvalue'));
+        //}
 
-        if (validationName === 'CompanyValidation') {
-            $form.find('.editrow .type input').val($tr.find('.field[data-browsedatafield="CompanyType"]').attr('data-originalvalue'));
-        }
+        $generatedtr.find('div[data-browsedatafield="CompanyId"]').data('onchange', function ($tr) {
+            $generatedtr.find('.field[data-browsedatafield="CompanyType"]').text($tr.find('.field[data-browsedatafield="CompanyType"]').attr('data-originalvalue')) 
+            $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.value').val($form.find('div[data-datafield="ContactTitleId"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="ContactTitleId"] input.text').val($form.find('div[data-datafield="ContactTitleId"] input.fwformfield-text').val());
+            $generatedtr.find('.field[data-browsedatafield="OfficePhone"] input').val($form.find('div[data-datafield="OfficePhone"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="Email"] input').val($form.find('div[data-datafield="Email"]').attr('data-originalvalue'));
+        });
+    };
 
-    }; 
 
     //addGridMenuItems($menuObject) {
 
