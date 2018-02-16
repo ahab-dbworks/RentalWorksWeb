@@ -391,7 +391,8 @@ RwMasterController.buildOfficeLocation = function($view) {
 //----------------------------------------------------------------------------------------------
 RwMasterController.buildDashboard = function ($view) {
     var $dashboard, $userControl;
-    $dashboard = jQuery('<div class="dashboard">Dashboard</div>');
+    
+    $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
     $userControl = $view.find('.user-controls');
 
     $userControl.prepend($dashboard)
