@@ -29,7 +29,6 @@ var DiscountItemRentalGrid = (function () {
                             CategoryId: CategoryTypeId,
                             SubCategoryId: SubCategoryTypeId
                         };
-                        console.log(CategoryTypeId, InventoryTypeValue, SubCategoryTypeId);
                         break;
                 }
                 ;

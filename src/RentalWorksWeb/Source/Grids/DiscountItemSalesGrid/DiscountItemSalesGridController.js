@@ -6,9 +6,6 @@ var DiscountItemSalesGrid = (function () {
                 var InventoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="InventoryTypeValidation"] input')).val();
                 var CategoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="SalesCategoryValidation"] input')).val();
                 var SubCategoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
-                console.log(InventoryTypeValue);
-                console.log(CategoryTypeValue);
-                console.log(SubCategoryTypeValue);
                 switch (validationName) {
                     case 'InventoryTypeValidation':
                         request.uniqueids = {
