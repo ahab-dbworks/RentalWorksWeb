@@ -25,7 +25,6 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen(); } }
   , { urlpattern: /^module\/order\/(\w+)\/(\S+)/,       getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return OrderController.getModuleScreen(filter); } }
   , { urlpattern: /^module\/picklist$/,                 getScreen: function () { return PickListController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/picklistreport$/,           getScreen: function () { return RwPickListReportController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/orderstatus$/,              getScreen: function () { return OrderStatusController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
   , { urlpattern: /^module\/customer$/,                 getScreen: function() { return CustomerController.getModuleScreen({}, {}); } }
@@ -174,7 +173,9 @@ Program.prototype.modules = [
   , { urlpattern: /^module\/dashboard$/,                  getScreen: function () { return DashboardController.loadDashboard(); } } 
 
     //Reports                                             
-  , { urlpattern: /^module\/dealoutstanding/, getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/dealoutstanding/,           getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/picklistreport$/,           getScreen: function () { return RwPickListReportController.getModuleScreen({}, {}); } }
+    , { urlpattern: /^module\/invoicesummaryreport$/,     getScreen: function () { return RwInvoiceSummaryReportController.getModuleScreen({}, {}); } }
 
 
     //Utilities Modules                                   

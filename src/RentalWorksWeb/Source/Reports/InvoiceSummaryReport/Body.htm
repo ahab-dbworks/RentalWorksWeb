@@ -1,0 +1,85 @@
+﻿<div class="body">
+  <br /><br />
+  <table id="tblinvoicesummaryreport">
+    <thead>
+      <tr style="border: 0px 1px 0px 1px solid black; font-size:15px; text-align:center;">
+        <td>
+          <div>Invoice No.</div>
+        </td>
+        <td>
+          <div>Order No.</div>
+        </td>
+        <td>
+          <div>Invoice Date</div>
+        </td>
+        <td>
+          <div>Customer</div>
+        </td>
+        <td>
+          <div>Deal</div>
+        </td>
+        <td>
+          <div>Invoice Description</div>
+        </td>
+        <td>
+          <div>Bill Start</div>
+        </td>
+        <td>
+          <div>Bill End</div>
+        </td>
+        <td>
+          <div>Billing Cycle</div>
+        </td>
+        <td>
+          <div>Total Invoice Amt.</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody style="border:1px solid black;">
+      {{#details}}
+      <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1">{{invoiceno}}</div>
+        </td>
+        <td>
+          <div class="row1">{{orderno}}</div>
+        </td>
+        <td>
+          <div class="row1">{{invoicedate}}</div>
+        </td>
+        <td>
+          <div class="row1">{{customer}}</div>
+        </td>
+        <td>
+          <div class="row1">{{deal}}</div>
+        </td>
+        <td>
+          <div class="row1">{{invoicedesc}}</div>
+        </td>
+        <td>
+          <div class="row1">{{billingstart}}</div>
+        </td>
+        <td>
+          <div class="row1">{{billingend}}</div>
+        </td>
+        <td>
+          <div class="row1">{{periodtype}}</div>
+        </td>
+        <td>
+          <div class="row1">{{invoicetotal}}</div>
+        </td>
+      </tr>
+      {{/details}}
+    </tbody>
+    <tfoot>
+      <!--<tr>
+          <td colspan="3">
+              <div class="row1">[TotalRows]</div>
+          </td>
+          <td colspan="2">
+            <div class="row1">[Total]</div>
+          </td>
+      </tr>-->
+    </tfoot>
+  </table>
+</div>
