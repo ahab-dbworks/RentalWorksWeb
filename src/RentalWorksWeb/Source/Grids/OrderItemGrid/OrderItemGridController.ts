@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderItemGridController = new OrderItemGrid();
+var OrderItemGridController = new OrderItemGrid();
 //----------------------------------------------------------------------------------------------

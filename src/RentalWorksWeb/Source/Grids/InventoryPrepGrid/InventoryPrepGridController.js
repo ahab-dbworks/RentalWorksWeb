@@ -11,5 +11,5 @@ var InventoryPrepGrid = (function () {
     ;
     return InventoryPrepGrid;
 }());
-window.InventoryPrepGridController = new InventoryPrepGrid();
+var InventoryPrepGridController = new InventoryPrepGrid();
 //# sourceMappingURL=InventoryPrepGridController.js.map

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).AttributeValueGridController = new AttributeValueGrid();
+var AttributeValueGridController = new AttributeValueGrid();
 //----------------------------------------------------------------------------------------------

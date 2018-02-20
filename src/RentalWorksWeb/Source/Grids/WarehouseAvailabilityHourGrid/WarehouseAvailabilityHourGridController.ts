@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseAvailabilityHourGridController = new WarehouseAvailabilityHourGrid();
+var WarehouseAvailabilityHourGridController = new WarehouseAvailabilityHourGrid();
 //----------------------------------------------------------------------------------------------

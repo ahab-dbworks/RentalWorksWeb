@@ -1,3 +1,5 @@
+routes.push({ pattern: /^module\/order$/, action: function (match) { return OrderController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 var Order = (function () {
     function Order() {
         this.Module = 'Order';
@@ -398,5 +400,5 @@ var Order = (function () {
     ;
     return Order;
 }());
-window.OrderController = new Order();
+var OrderController = new Order();
 //# sourceMappingURL=Order.js.map

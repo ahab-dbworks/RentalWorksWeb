@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderTypeCoverLetterGridController = new OrderTypeCoverLetterGrid();
+var OrderTypeCoverLetterGridController = new OrderTypeCoverLetterGrid();
 //----------------------------------------------------------------------------------------------

@@ -141,4 +141,4 @@ class POType {
     }
 }
 
-(<any>window).POTypeController = new POType();
+var POTypeController = new POType();

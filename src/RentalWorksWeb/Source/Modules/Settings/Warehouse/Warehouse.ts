@@ -318,4 +318,4 @@
 
 }
 
-(window as any).WarehouseController = new Warehouse();
+var WarehouseController = new Warehouse();

@@ -73,4 +73,4 @@ class WardrobePeriod {
 
 }
 
-(<any>window).WardrobePeriodController = new WardrobePeriod();
+var WardrobePeriodController = new WardrobePeriod();

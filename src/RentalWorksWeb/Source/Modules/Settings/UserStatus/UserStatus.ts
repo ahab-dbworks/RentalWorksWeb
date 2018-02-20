@@ -72,4 +72,4 @@ class UserStatus {
     }
 }
 
-(<any>window).UserStatusController = new UserStatus();
+var UserStatusController = new UserStatus();

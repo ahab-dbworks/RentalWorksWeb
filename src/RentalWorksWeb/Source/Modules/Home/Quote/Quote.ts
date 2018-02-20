@@ -410,4 +410,4 @@ class Quote {
 
 }
 
-(<any>window).QuoteController = new Quote();
+var QuoteController = new Quote();

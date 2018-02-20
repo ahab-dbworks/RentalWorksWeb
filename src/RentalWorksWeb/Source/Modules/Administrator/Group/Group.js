@@ -322,5 +322,5 @@ var Group = (function () {
     };
     return Group;
 }());
-window.GroupController = new Group();
+var GroupController = new Group();
 //# sourceMappingURL=Group.js.map

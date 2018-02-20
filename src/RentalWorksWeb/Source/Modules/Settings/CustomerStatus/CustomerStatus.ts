@@ -72,4 +72,4 @@
     }
 }
 
-(window as any).CustomerStatusController = new CustomerStatus();
+var CustomerStatusController = new CustomerStatus();

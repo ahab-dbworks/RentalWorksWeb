@@ -127,4 +127,4 @@ class LaborCategory {
     }
 }
 
-(<any>window).LaborCategoryController = new LaborCategory();
+var LaborCategoryController = new LaborCategory();

@@ -72,4 +72,4 @@
     }
 }
 
-(window as any).TemplateController = new Template();
+var TemplateController = new Template();

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).ItemQcGridController = new ItemQcGrid();
+var ItemQcGridController = new ItemQcGrid();
 //----------------------------------------------------------------------------------------------

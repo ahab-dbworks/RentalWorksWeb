@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).CustomerCategoryController = new CustomerCategory();
+var CustomerCategoryController = new CustomerCategory();
 

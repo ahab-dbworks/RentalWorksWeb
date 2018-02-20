@@ -5,5 +5,5 @@ var WardrobeInventoryMaterialGrid = (function () {
     }
     return WardrobeInventoryMaterialGrid;
 }());
-window.WardrobeInventoryMaterialGridController = new WardrobeInventoryMaterialGrid();
+var WardrobeInventoryMaterialGridController = new WardrobeInventoryMaterialGrid();
 //# sourceMappingURL=WardrobeInventoryMaterialGridController.js.map

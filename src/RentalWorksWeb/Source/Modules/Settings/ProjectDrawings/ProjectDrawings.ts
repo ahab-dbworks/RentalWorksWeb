@@ -72,4 +72,4 @@ class RwProjectDrawings {
     }
 }
 
-(<any>window).ProjectDrawingsController = new RwProjectDrawings();
+var ProjectDrawingsController = new RwProjectDrawings();

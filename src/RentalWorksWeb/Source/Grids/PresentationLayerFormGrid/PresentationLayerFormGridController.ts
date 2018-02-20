@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).PresentationLayerFormGridController = new PresentationLayerFormGrid();
+var PresentationLayerFormGridController = new PresentationLayerFormGrid();
 //----------------------------------------------------------------------------------------------

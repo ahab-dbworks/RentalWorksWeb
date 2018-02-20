@@ -5,5 +5,5 @@ var OrderStatusSummaryGrid = (function () {
     }
     return OrderStatusSummaryGrid;
 }());
-window.OrderStatusSummaryGridController = new OrderStatusSummaryGrid();
+var OrderStatusSummaryGridController = new OrderStatusSummaryGrid();
 //# sourceMappingURL=OrderStatusSummaryGridController.js.map

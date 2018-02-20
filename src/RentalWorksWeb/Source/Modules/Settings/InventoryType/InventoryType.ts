@@ -72,4 +72,4 @@ class InventoryType {
     }
 }
 
-(<any>window).InventoryTypeController = new InventoryType();
+var InventoryTypeController = new InventoryType();

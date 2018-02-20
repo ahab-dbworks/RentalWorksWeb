@@ -72,4 +72,4 @@ class RepairItemStatus {
     }
 }
 
-(<any>window).RepairItemStatusController = new RepairItemStatus();
+var RepairItemStatusController = new RepairItemStatus();

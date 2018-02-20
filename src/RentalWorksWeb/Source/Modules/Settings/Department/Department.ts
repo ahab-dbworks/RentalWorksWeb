@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).DepartmentController = new Department();
+var DepartmentController = new Department();

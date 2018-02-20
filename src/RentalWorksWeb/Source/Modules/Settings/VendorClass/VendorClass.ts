@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).VendorClassController = new VendorClass();
+var VendorClassController = new VendorClass();
 

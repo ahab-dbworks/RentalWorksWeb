@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).FiscalYearGridController = new FiscalYearGrid();
+var FiscalYearGridController = new FiscalYearGrid();
 //----------------------------------------------------------------------------------------------

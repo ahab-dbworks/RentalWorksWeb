@@ -5,5 +5,5 @@ var DuplicateRuleFieldGrid = (function () {
     }
     return DuplicateRuleFieldGrid;
 }());
-window.DuplicateRuleFieldGridController = new DuplicateRuleFieldGrid();
+var DuplicateRuleFieldGridController = new DuplicateRuleFieldGrid();
 //# sourceMappingURL=DuplicateRuleFieldGridController.js.map

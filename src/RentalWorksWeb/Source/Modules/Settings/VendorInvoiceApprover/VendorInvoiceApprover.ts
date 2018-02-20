@@ -75,4 +75,4 @@ class VendorInvoiceApprover {
  
 }
 
-(<any>window).VendorInvoiceApproverController = new VendorInvoiceApprover();
+var VendorInvoiceApproverController = new VendorInvoiceApprover();

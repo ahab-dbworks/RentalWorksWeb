@@ -72,4 +72,4 @@ class VehicleStatus {
     }
 }
 
-(<any>window).VehicleStatusController = new VehicleStatus();
+var VehicleStatusController = new VehicleStatus();

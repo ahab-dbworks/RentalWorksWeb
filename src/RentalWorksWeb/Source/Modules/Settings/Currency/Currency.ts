@@ -72,4 +72,4 @@ class Currency {
     }
 }
 
-(<any>window).CurrencyController = new Currency();
+var CurrencyController = new Currency();

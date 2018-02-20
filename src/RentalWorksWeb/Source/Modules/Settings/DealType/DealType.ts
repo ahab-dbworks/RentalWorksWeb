@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).DealTypeController = new DealType();
+var DealTypeController = new DealType();
 

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
+var GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
 //----------------------------------------------------------------------------------------------

@@ -72,4 +72,4 @@ class ContactTitle {
     }
 }
 
-(<any>window).ContactTitleController = new ContactTitle();
+var ContactTitleController = new ContactTitle();

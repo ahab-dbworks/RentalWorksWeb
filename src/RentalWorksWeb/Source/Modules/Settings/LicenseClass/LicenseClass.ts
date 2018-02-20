@@ -72,4 +72,4 @@ class LicenseClass {
     }
 }
 
-(<any>window).LicenseClassController = new LicenseClass();
+var LicenseClassController = new LicenseClass();

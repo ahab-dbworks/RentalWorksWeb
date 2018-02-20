@@ -155,4 +155,4 @@ class RwLaborRate {
     } 
 }
 
-(<any>window).LaborRateController = new RwLaborRate();
+var LaborRateController = new RwLaborRate();

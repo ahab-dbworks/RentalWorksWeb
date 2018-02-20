@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).VendorGridController = new VendorGrid();
+var VendorGridController = new VendorGrid();
 //----------------------------------------------------------------------------------------------

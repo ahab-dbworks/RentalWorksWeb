@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).WardrobeLabelController = new WardrobeLabel();
+var WardrobeLabelController = new WardrobeLabel();
 

@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).WardrobeCareController = new WardrobeCare();
+var WardrobeCareController = new WardrobeCare();
 

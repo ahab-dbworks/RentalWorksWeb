@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).ItemLocationTaxGridController = new ItemLocationTaxGrid();
+var ItemLocationTaxGridController = new ItemLocationTaxGrid();
 //----------------------------------------------------------------------------------------------

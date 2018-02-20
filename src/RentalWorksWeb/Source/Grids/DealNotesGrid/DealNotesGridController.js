@@ -5,5 +5,5 @@ var DealNotesGrid = (function () {
     }
     return DealNotesGrid;
 }());
-window.DealNotesGridController = new DealNotesGrid();
+var DealNotesGridController = new DealNotesGrid();
 //# sourceMappingURL=DealNotesGridController.js.map

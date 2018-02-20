@@ -73,4 +73,4 @@ class Widget {
     }
 }
 
-(<any>window).WidgetController = new Widget();
+var WidgetController = new Widget();

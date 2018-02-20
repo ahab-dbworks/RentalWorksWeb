@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).CustomerTypeController = new CustomerType();
+var CustomerTypeController = new CustomerType();

@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
+var PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
 //----------------------------------------------------------------------------------------------

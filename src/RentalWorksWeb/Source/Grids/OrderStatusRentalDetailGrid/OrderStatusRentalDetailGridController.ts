@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
+var OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
 //----------------------------------------------------------------------------------------------

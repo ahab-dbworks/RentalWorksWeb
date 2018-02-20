@@ -5,5 +5,5 @@ var FiscalYearGrid = (function () {
     }
     return FiscalYearGrid;
 }());
-window.FiscalYearGridController = new FiscalYearGrid();
+var FiscalYearGridController = new FiscalYearGrid();
 //# sourceMappingURL=FiscalYearGridController.js.map

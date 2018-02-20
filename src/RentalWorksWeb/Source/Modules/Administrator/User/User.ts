@@ -214,4 +214,4 @@ class User {
 
 }
 
-(<any>window).UserController = new User();
+var UserController = new User();

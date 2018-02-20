@@ -72,4 +72,4 @@ class Unit {
     }
 }
 
-(<any>window).UnitController = new Unit();
+var UnitController = new Unit();

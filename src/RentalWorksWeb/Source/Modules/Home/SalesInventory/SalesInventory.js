@@ -437,5 +437,5 @@ var SalesInventory = (function () {
     };
     return SalesInventory;
 }());
-window.SalesInventoryController = new SalesInventory();
+var SalesInventoryController = new SalesInventory();
 //# sourceMappingURL=SalesInventory.js.map

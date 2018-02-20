@@ -5,5 +5,5 @@ var EventTypePersonnelTypeGrid = (function () {
     }
     return EventTypePersonnelTypeGrid;
 }());
-window.EventTypePersonnelTypeGridController = new EventTypePersonnelTypeGrid();
+var EventTypePersonnelTypeGridController = new EventTypePersonnelTypeGrid();
 //# sourceMappingURL=EventTypePersonnelTypeGridController.js.map

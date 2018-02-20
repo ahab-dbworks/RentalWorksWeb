@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).ProductionTypeController = new ProductionType();
+var ProductionTypeController = new ProductionType();

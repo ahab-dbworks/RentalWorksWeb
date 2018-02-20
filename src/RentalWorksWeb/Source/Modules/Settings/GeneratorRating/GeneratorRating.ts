@@ -72,4 +72,4 @@ class GeneratorRating {
     }
 }
 
-(<any>window).GeneratorRatingController = new GeneratorRating();
+var GeneratorRatingController = new GeneratorRating();

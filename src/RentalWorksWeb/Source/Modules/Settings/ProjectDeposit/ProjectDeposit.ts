@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).ProjectDepositController = new ProjectDeposit();
+var ProjectDepositController = new ProjectDeposit();
 

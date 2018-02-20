@@ -166,4 +166,4 @@
     }
 }
 
-(window as any).HolidayController = new Holiday();
+var HolidayController = new Holiday();

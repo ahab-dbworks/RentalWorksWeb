@@ -72,4 +72,4 @@ class GeneratorFuelType {
     }
 }
 
-(<any>window).GeneratorFuelTypeController = new GeneratorFuelType();
+var GeneratorFuelTypeController = new GeneratorFuelType();

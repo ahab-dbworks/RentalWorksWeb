@@ -57,5 +57,5 @@ var Control = (function () {
     };
     return Control;
 }());
-window.ControlController = new Control();
+var ControlController = new Control();
 //# sourceMappingURL=Control.js.map

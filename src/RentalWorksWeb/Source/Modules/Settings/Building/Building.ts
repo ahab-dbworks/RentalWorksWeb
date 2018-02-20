@@ -206,4 +206,4 @@ class RwBuilding {
 
 }
 
-(<any>window).BuildingController = new RwBuilding();
+var BuildingController = new RwBuilding();

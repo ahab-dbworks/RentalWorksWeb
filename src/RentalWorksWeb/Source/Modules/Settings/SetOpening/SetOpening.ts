@@ -72,4 +72,4 @@ class RwSetOpening {
     }
 }
 
-(<any>window).SetOpeningController = new RwSetOpening();
+var SetOpeningController = new RwSetOpening();

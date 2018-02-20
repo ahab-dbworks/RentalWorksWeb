@@ -5,5 +5,5 @@ var FloorGrid = (function () {
     }
     return FloorGrid;
 }());
-window.FloorGridController = new FloorGrid();
+var FloorGridController = new FloorGrid();
 //# sourceMappingURL=FloorGridController.js.map

@@ -95,4 +95,4 @@ class GeneratorMake {
     }
 }
 
-(<any>window).GeneratorMakeController = new GeneratorMake();
+var GeneratorMakeController = new GeneratorMake();

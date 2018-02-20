@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryConsignmentGridController = new InventoryConsignmentGrid();
+var InventoryConsignmentGridController = new InventoryConsignmentGrid();
 //----------------------------------------------------------------------------------------------

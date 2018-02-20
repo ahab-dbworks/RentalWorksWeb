@@ -72,4 +72,4 @@ class RwPOApprovalStatus {
     }
 }
 
-(<any>window).POApprovalStatusController = new RwPOApprovalStatus();
+var POApprovalStatusController = new RwPOApprovalStatus();

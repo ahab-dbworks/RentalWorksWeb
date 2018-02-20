@@ -5,5 +5,5 @@ var VendorNoteGrid = (function () {
     }
     return VendorNoteGrid;
 }());
-window.VendorNoteGridController = new VendorNoteGrid();
+var VendorNoteGridController = new VendorNoteGrid();
 //# sourceMappingURL=VendorNoteGridController.js.map

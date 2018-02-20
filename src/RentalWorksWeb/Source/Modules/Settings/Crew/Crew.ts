@@ -148,5 +148,5 @@
     }
 }
 
-(<any>window).CrewController = new Crew();
+var CrewController = new Crew();
 

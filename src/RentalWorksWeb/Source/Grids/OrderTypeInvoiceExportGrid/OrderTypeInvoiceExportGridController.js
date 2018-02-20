@@ -5,5 +5,5 @@ var OrderTypeInvoiceExportGrid = (function () {
     }
     return OrderTypeInvoiceExportGrid;
 }());
-window.OrderTypeInvoiceExportGridController = new OrderTypeInvoiceExportGrid();
+var OrderTypeInvoiceExportGridController = new OrderTypeInvoiceExportGrid();
 //# sourceMappingURL=OrderTypeInvoiceExportGridController.js.map

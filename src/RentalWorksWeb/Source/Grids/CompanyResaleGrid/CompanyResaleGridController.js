@@ -5,5 +5,5 @@ var CompanyResaleGrid = (function () {
     }
     return CompanyResaleGrid;
 }());
-window.CompanyResaleGridController = new CompanyResaleGrid();
+var CompanyResaleGridController = new CompanyResaleGrid();
 //# sourceMappingURL=CompanyResaleGridController.js.map

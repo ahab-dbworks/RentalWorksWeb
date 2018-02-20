@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).DealShipperGridController = new DealShipperGrid();
+var DealShipperGridController = new DealShipperGrid();
 //----------------------------------------------------------------------------------------------

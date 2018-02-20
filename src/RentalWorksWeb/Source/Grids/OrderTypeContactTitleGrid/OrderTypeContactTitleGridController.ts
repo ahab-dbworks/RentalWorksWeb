@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderTypeContactTitleGridController = new OrderTypeContactTitleGrid();
+var OrderTypeContactTitleGridController = new OrderTypeContactTitleGrid();
 //----------------------------------------------------------------------------------------------

@@ -76,4 +76,4 @@
     }
 }
 
-(window as any).PaymentTypeController = new PaymentType();
+var PaymentTypeController = new PaymentType();

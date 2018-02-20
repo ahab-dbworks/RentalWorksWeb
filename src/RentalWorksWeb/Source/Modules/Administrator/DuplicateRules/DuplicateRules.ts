@@ -220,4 +220,4 @@ class DuplicateRules {
     }
 }
 
-(<any>window).DuplicateRulesController = new DuplicateRules();
+var DuplicateRulesController = new DuplicateRules();

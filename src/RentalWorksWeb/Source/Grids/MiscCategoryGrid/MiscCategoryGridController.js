@@ -5,5 +5,5 @@ var MiscCategoryGrid = (function () {
     }
     return MiscCategoryGrid;
 }());
-window.MiscCategoryGridController = new MiscCategoryGrid();
+var MiscCategoryGridController = new MiscCategoryGrid();
 //# sourceMappingURL=MiscCategoryGridController.js.map

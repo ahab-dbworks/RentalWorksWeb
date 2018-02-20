@@ -72,4 +72,4 @@ class RwSetSurface {
     }
 }
 
-(<any>window).SetSurfaceController = new RwSetSurface();
+var SetSurfaceController = new RwSetSurface();

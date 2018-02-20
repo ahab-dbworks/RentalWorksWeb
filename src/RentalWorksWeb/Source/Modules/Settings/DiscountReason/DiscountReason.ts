@@ -72,4 +72,4 @@ class DiscountReason {
     }
 }
 
-(<any>window).DiscountReasonController = new DiscountReason();
+var DiscountReasonController = new DiscountReason();

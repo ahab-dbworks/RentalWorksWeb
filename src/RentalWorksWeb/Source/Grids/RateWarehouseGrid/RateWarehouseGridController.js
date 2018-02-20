@@ -5,5 +5,5 @@ var RateWarehouseGrid = (function () {
     }
     return RateWarehouseGrid;
 }());
-window.RateWarehouseGridController = new RateWarehouseGrid();
+var RateWarehouseGridController = new RateWarehouseGrid();
 //# sourceMappingURL=RateWarehouseGridController.js.map

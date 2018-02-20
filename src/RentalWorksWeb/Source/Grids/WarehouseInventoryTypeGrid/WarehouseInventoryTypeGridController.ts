@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseInventoryTypeGridController = new WarehouseInventoryTypeGrid();
+var WarehouseInventoryTypeGridController = new WarehouseInventoryTypeGrid();
 //----------------------------------------------------------------------------------------------

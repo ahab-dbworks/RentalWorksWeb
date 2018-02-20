@@ -128,5 +128,5 @@ var User = (function () {
     };
     return User;
 }());
-window.UserController = new User();
+var UserController = new User();
 //# sourceMappingURL=User.js.map

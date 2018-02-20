@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).VehicleTypeWarehouseGridController = new VehicleTypeWarehouseGrid();
+var VehicleTypeWarehouseGridController = new VehicleTypeWarehouseGrid();
 //----------------------------------------------------------------------------------------------

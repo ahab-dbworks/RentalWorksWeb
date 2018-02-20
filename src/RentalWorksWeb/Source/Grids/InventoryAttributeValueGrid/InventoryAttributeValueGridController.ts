@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
+var InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
 //----------------------------------------------------------------------------------------------

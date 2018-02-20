@@ -72,4 +72,4 @@ class RwWallDescription {
     }
 }
 
-(<any>window).WallDescriptionController = new RwWallDescription();
+var WallDescriptionController = new RwWallDescription();

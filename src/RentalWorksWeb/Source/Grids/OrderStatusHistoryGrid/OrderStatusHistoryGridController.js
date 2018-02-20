@@ -5,5 +5,5 @@ var OrderStatusHistoryGrid = (function () {
     }
     return OrderStatusHistoryGrid;
 }());
-window.OrderStatusHistoryGridController = new OrderStatusHistoryGrid();
+var OrderStatusHistoryGridController = new OrderStatusHistoryGrid();
 //# sourceMappingURL=OrderStatusHistoryGridController.js.map

@@ -196,9 +196,9 @@ FwSettings.getRows = function ($body, $control, apiurl, $modulecontainer, module
         var $settings, keys, browseKeys = [];
         $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
         keys = $settings.find('.field');
-        rowId = jQuery(keys[0]).attr('data-datafield');
+        rowId = jQuery(keys[0]).attr('data-browsedatafield');
         for (var i = 1; i < keys.length; i++) {
-            browseKeys.push(jQuery(keys[i]).attr('data-datafield'));
+            browseKeys.push(jQuery(keys[i]).attr('data-browsedatafield'));
         }
         for (var i = 0; i < response.length; i++) {
             var html = [], $moduleRows;
@@ -382,12 +382,12 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                 FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + apiurl, null, null, function onSuccess(response) {
                     $settings = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Browse').html());
                     keys = $settings.find('.field');
-                    rowId = jQuery(keys[0]).attr('data-datafield');
+                    rowId = jQuery(keys[0]).attr('data-browsedatafield');
 
                     for (var i = 1; i < keys.length; i++) {
-                        var Key = jQuery(keys[i]).attr('data-datafield');
+                        var Key = jQuery(keys[i]).attr('data-browsedatafield');
                         browseKeys.push(Key);
-                        if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-datafield') === 'Inactive') {
+                        if (i === 1 && Key !== 'Inactive' || i === 2 && jQuery(keys[1]).attr('data-browsedatafield') === 'Inactive') {
                             for (var k = 0; k < response.length - 1; k++) {
                                 for (var l = 0, sorted; l < response.length - 1; l++) {
                                     if (response[l][Key].toLowerCase() > response[l + 1][Key].toLowerCase()) {
@@ -636,7 +636,7 @@ FwSettings.getHeaderView = function ($control) {
     return $view;
 };
 //----------------------------------------------------------------------------------------------
-FwSettings.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems, moduleName) {
+FwSettings.generateDropDownModuleBtn = function ($menu, $control, securityid, caption, imgurl, subitems) {
     var $modulebtn, $settings, btnHtml, subitemHtml, $subitem, version;
 
     version = $menu.closest('.fwfilemenu').attr('data-version');
@@ -668,8 +668,8 @@ FwSettings.generateDropDownModuleBtn = function ($menu, $control, securityid, ca
 
                 $subitem.on('click', function () {
                     try {
-                        if ($control.find('#' + value.moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                            $control.find('#' + value.moduleName + ' > div > div.panel-heading').click();
+                        if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
+                            $control.find('#' + moduleName + ' > div > div.panel-heading').click();
                         }
                         jQuery('html, body').animate({
                             scrollTop: $control.find('#' + value.moduleName).offset().top

@@ -5,5 +5,5 @@ var WarehouseDepartmentGrid = (function () {
     }
     return WarehouseDepartmentGrid;
 }());
-window.WarehouseDepartmentGridController = new WarehouseDepartmentGrid();
+var WarehouseDepartmentGridController = new WarehouseDepartmentGrid();
 //# sourceMappingURL=WarehouseDepartmentGridController.js.map

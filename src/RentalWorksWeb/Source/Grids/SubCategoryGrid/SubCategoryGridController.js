@@ -5,5 +5,5 @@ var SubCategoryGrid = (function () {
     }
     return SubCategoryGrid;
 }());
-window.SubCategoryGridController = new SubCategoryGrid();
+var SubCategoryGridController = new SubCategoryGrid();
 //# sourceMappingURL=SubCategoryGridController.js.map

@@ -92,4 +92,4 @@ class Attribute {
     }
 }
 
-(<any>window).AttributeController = new Attribute();
+var AttributeController = new Attribute();

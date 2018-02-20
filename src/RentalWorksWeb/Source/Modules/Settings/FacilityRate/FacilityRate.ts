@@ -152,4 +152,4 @@ class RwFacilityRate {
     } 
 }
 
-(<any>window).FacilityRateController = new RwFacilityRate();
+var FacilityRateController = new RwFacilityRate();

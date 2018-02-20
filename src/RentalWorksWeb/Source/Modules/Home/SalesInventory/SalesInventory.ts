@@ -488,4 +488,4 @@ class SalesInventory {
 
 }
 
-(<any>window).SalesInventoryController = new SalesInventory();
+var SalesInventoryController = new SalesInventory();

@@ -86,4 +86,4 @@
     //}
     //----------------------------------------------------------------------------------------------
 }
-(window as any).UserSettingsController = new UserSettings();
+var UserSettingsController = new UserSettings();

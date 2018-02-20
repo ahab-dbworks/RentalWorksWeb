@@ -72,4 +72,4 @@ class OrganizationType {
     }
 }
 
-(<any>window).OrganizationTypeController = new OrganizationType();
+var OrganizationTypeController = new OrganizationType();

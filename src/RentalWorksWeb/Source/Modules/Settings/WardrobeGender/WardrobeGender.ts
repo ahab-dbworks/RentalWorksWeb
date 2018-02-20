@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).WardrobeGenderController = new WardrobeGender();
+var WardrobeGenderController = new WardrobeGender();
 

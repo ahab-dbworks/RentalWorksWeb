@@ -106,4 +106,4 @@ class SpaceType {
 
 }
 
-(<any>window).SpaceTypeController = new SpaceType();
+var SpaceTypeController = new SpaceType();

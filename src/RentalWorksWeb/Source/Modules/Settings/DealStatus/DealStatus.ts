@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).DealStatusController = new DealStatus();
+var DealStatusController = new DealStatus();

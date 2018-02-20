@@ -5,5 +5,5 @@ var WarehouseOfficeLocationGrid = (function () {
     }
     return WarehouseOfficeLocationGrid;
 }());
-window.WarehouseOfficeLocationGridController = new WarehouseOfficeLocationGrid();
+var WarehouseOfficeLocationGridController = new WarehouseOfficeLocationGrid();
 //# sourceMappingURL=WarehouseOfficeLocationGridController.js.map

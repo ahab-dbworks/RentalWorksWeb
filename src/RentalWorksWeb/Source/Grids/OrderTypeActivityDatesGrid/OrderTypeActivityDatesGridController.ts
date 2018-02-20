@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderTypeActivityDatesGridController = new OrderTypeActivityDatesGrid();
+var OrderTypeActivityDatesGridController = new OrderTypeActivityDatesGrid();
 //----------------------------------------------------------------------------------------------

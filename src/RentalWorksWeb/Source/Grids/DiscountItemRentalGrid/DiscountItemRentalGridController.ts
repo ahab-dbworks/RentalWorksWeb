@@ -49,5 +49,5 @@
         }
     }
 }
-        (<any>window).DiscountItemRentalGridController = new DiscountItemRentalGrid();
+var DiscountItemRentalGridController = new DiscountItemRentalGrid();
 //----------------------------------------------------------------------------------------------

@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).InventorySubstituteGridController = new InventorySubstituteGrid();
+var InventorySubstituteGridController = new InventorySubstituteGrid();
 //----------------------------------------------------------------------------------------------

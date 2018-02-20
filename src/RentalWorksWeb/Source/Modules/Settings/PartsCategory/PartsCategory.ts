@@ -135,4 +135,4 @@ class PartsCategory {
 
 }
 
-(<any>window).PartsCategoryController = new PartsCategory();
+var PartsCategoryController = new PartsCategory();

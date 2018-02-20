@@ -5,5 +5,5 @@ var RentalInventoryWarehouseGrid = (function () {
     }
     return RentalInventoryWarehouseGrid;
 }());
-window.RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
+var RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
 //# sourceMappingURL=RentalInventoryWarehouseGridController.js.map

@@ -15,5 +15,5 @@
     };
 }
 
-(<any>window).CompanyContactGridController = new CompanyContactGrid();
+var CompanyContactGridController = new CompanyContactGrid();
 //----------------------------------------------------------------------------------------------

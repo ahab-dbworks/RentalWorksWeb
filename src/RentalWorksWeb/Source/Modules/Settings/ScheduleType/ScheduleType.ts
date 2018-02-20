@@ -72,4 +72,4 @@ class ScheduleType {
     }
 }
 
-(<any>window).ScheduleTypeController = new ScheduleType();
+var ScheduleTypeController = new ScheduleType();

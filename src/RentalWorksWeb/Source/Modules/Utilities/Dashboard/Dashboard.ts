@@ -9,4 +9,4 @@ class Dashboard {
  
 }
 
-(<any>window).DashboardController = new Dashboard();
+var DashboardController = new Dashboard();

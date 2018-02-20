@@ -72,4 +72,4 @@ class VehicleRating {
     }
 }
 
-(<any>window).VehicleRatingController = new VehicleRating();
+var VehicleRatingController = new VehicleRating();

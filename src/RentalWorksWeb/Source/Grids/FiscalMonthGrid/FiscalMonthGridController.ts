@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).FiscalMonthGridController = new FiscalMonthGrid();
+var FiscalMonthGridController = new FiscalMonthGrid();
 //----------------------------------------------------------------------------------------------

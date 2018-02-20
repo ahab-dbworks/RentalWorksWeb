@@ -12,5 +12,5 @@ var CompanyContactGrid = (function () {
     ;
     return CompanyContactGrid;
 }());
-window.CompanyContactGridController = new CompanyContactGrid();
+var CompanyContactGridController = new CompanyContactGrid();
 //# sourceMappingURL=CompanyContactGridController.js.map

@@ -1,4 +1,6 @@
-﻿class Contact {
+﻿routes.push({ pattern: /^module\/contact$/, action: function (match: RegExpExecArray) { return ContactController.getModuleScreen(); } });
+
+class Contact {
     Module: string;
     apiurl: string;
     caption: string;
@@ -126,7 +128,6 @@
         FwBrowse.search($companyContactGrid);
     };
     //--------------------------------------------------------------------------------------------
-
 }
-
-(window as any).ContactController = new Contact();
+//--------------------------------------------------------------------------------------------
+var ContactController = new Contact();

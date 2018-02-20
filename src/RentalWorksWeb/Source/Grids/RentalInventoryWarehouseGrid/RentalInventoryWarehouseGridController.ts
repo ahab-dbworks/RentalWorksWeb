@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
+var RentalInventoryWarehouseGridController = new RentalInventoryWarehouseGrid();
 //----------------------------------------------------------------------------------------------

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseQuikLocateApproverGridController = new WarehouseQuikLocateApproverGrid();
+var WarehouseQuikLocateApproverGridController = new WarehouseQuikLocateApproverGrid();
 //----------------------------------------------------------------------------------------------

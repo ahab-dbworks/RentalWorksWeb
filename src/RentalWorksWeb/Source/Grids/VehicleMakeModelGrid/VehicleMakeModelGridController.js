@@ -5,5 +5,5 @@ var VehicleMakeModelGrid = (function () {
     }
     return VehicleMakeModelGrid;
 }());
-window.VehicleMakeModelGridController = new VehicleMakeModelGrid();
+var VehicleMakeModelGridController = new VehicleMakeModelGrid();
 //# sourceMappingURL=VehicleMakeModelGridController.js.map

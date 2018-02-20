@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).LaborCategoryGridController = new LaborCategoryGrid();
+var LaborCategoryGridController = new LaborCategoryGrid();
 //----------------------------------------------------------------------------------------------

@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).CoverLetterController = new CoverLetter();
+var CoverLetterController = new CoverLetter();
 

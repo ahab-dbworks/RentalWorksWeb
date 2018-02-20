@@ -72,4 +72,4 @@ class RwDocumentType {
     }
 }
 
-(<any>window).DocumentTypeController = new RwDocumentType();
+var DocumentTypeController = new RwDocumentType();

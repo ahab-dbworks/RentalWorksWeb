@@ -5,5 +5,5 @@ var InventoryVendorGrid = (function () {
     }
     return InventoryVendorGrid;
 }());
-window.InventoryVendorGridController = new InventoryVendorGrid();
+var InventoryVendorGridController = new InventoryVendorGrid();
 //# sourceMappingURL=InventoryVendorGridController.js.map

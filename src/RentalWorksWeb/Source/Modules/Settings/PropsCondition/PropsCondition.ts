@@ -72,4 +72,4 @@ class PropsCondition {
     }
 }
 
-(<any>window).PropsConditionController = new PropsCondition();
+var PropsConditionController = new PropsCondition();

@@ -117,4 +117,4 @@
     }
 }
 
-(window as any).SettingsPageController = new SettingsPage();
+var SettingsPageController = new SettingsPage();

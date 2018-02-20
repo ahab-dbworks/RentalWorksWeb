@@ -45,5 +45,5 @@ var DiscountItemRentalGrid = (function () {
     ;
     return DiscountItemRentalGrid;
 }());
-window.DiscountItemRentalGridController = new DiscountItemRentalGrid();
+var DiscountItemRentalGridController = new DiscountItemRentalGrid();
 //# sourceMappingURL=DiscountItemRentalGridController.js.map

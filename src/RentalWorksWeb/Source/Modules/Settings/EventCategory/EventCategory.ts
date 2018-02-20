@@ -72,4 +72,4 @@ class EventCategory {
     }
 }
 
-(<any>window).EventCategoryController = new EventCategory();
+var EventCategoryController = new EventCategory();

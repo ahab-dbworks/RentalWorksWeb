@@ -17,5 +17,5 @@
     }
 }
 
-(<any>window).CustomerNoteGridController = new CustomerNoteGrid();
+var CustomerNoteGridController = new CustomerNoteGrid();
 //----------------------------------------------------------------------------------------------

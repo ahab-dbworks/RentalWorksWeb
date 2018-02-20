@@ -72,4 +72,4 @@
     }
 }
 
-(window as any).CountryController = new Country();
+var CountryController = new Country();

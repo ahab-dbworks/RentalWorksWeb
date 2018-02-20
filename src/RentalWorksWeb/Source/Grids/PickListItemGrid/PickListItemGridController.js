@@ -5,5 +5,5 @@ var PickListItemGrid = (function () {
     }
     return PickListItemGrid;
 }());
-window.PickListItemGridController = new PickListItemGrid();
+var PickListItemGridController = new PickListItemGrid();
 //# sourceMappingURL=PickListItemGridController.js.map

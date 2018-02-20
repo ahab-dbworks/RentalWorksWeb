@@ -112,4 +112,4 @@ class RwInventoryGroup {
  
 }
 
-(<any>window).InventoryGroupController = new RwInventoryGroup();
+var InventoryGroupController = new RwInventoryGroup();

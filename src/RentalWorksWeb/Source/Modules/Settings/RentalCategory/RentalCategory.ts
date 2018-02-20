@@ -170,4 +170,4 @@ class RentalCategory {
 
 }
 
-(<any>window).RentalCategoryController = new RentalCategory();
+var RentalCategoryController = new RentalCategory();

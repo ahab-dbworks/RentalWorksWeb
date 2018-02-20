@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).SubCategoryGridController = new SubCategoryGrid();
+var SubCategoryGridController = new SubCategoryGrid();
 //----------------------------------------------------------------------------------------------

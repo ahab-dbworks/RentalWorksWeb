@@ -120,5 +120,5 @@ var RwAsset = (function () {
     };
     return RwAsset;
 }());
-window.AssetController = new RwAsset();
+var AssetController = new RwAsset();
 //# sourceMappingURL=Asset.js.map

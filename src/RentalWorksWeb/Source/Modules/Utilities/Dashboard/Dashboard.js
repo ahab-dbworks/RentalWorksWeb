@@ -6,5 +6,5 @@ var Dashboard = (function () {
     };
     return Dashboard;
 }());
-window.DashboardController = new Dashboard();
+var DashboardController = new Dashboard();
 //# sourceMappingURL=Dashboard.js.map

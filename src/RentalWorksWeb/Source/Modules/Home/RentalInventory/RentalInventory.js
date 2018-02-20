@@ -571,5 +571,5 @@ var RentalInventory = (function () {
     };
     return RentalInventory;
 }());
-window.RentalInventoryController = new RentalInventory();
+var RentalInventoryController = new RentalInventory();
 //# sourceMappingURL=RentalInventory.js.map

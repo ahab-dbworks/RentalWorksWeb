@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).DiscountItemGridController = new DiscountItemGrid();
+var DiscountItemGridController = new DiscountItemGrid();
 //----------------------------------------------------------------------------------------------

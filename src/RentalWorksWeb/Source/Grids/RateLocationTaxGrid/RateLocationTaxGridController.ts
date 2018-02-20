@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).RateLocationTaxGridController = new RateLocationTaxGrid();
+var RateLocationTaxGridController = new RateLocationTaxGrid();
 //----------------------------------------------------------------------------------------------

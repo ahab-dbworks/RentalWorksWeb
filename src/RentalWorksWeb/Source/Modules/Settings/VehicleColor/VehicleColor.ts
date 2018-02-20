@@ -72,4 +72,4 @@ class VehicleColor {
     }
 }
 
-(<any>window).VehicleColorController = new VehicleColor();
+var VehicleColorController = new VehicleColor();

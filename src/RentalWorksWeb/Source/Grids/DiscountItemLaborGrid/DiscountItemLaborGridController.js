@@ -40,5 +40,5 @@ var DiscountItemLaborGrid = (function () {
     ;
     return DiscountItemLaborGrid;
 }());
-window.DiscountItemLaborGridController = new DiscountItemLaborGrid();
+var DiscountItemLaborGridController = new DiscountItemLaborGrid();
 //# sourceMappingURL=DiscountItemLaborGridController.js.map

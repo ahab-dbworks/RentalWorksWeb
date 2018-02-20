@@ -5,5 +5,5 @@ var WarehouseInventoryTypeGrid = (function () {
     }
     return WarehouseInventoryTypeGrid;
 }());
-window.WarehouseInventoryTypeGridController = new WarehouseInventoryTypeGrid();
+var WarehouseInventoryTypeGridController = new WarehouseInventoryTypeGrid();
 //# sourceMappingURL=WarehouseInventoryTypeGridController.js.map

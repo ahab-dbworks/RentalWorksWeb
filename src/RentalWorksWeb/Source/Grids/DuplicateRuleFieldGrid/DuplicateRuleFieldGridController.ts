@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).DuplicateRuleFieldGridController = new DuplicateRuleFieldGrid();
+var DuplicateRuleFieldGridController = new DuplicateRuleFieldGrid();
 //----------------------------------------------------------------------------------------------

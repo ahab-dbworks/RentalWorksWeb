@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).FloorGridController = new FloorGrid();
+var FloorGridController = new FloorGrid();
 //----------------------------------------------------------------------------------------------

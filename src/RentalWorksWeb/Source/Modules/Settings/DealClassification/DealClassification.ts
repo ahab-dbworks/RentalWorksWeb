@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).DealClassificationController = new DealClassification();
+var DealClassificationController = new DealClassification();

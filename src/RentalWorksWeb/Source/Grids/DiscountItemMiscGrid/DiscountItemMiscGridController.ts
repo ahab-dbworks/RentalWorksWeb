@@ -47,5 +47,5 @@
     }
 }
 
-(<any>window).DiscountItemMiscGridController = new DiscountItemMiscGrid();
+var DiscountItemMiscGridController = new DiscountItemMiscGrid();
 //----------------------------------------------------------------------------------------------

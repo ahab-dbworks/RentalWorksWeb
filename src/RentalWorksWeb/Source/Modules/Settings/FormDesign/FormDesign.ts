@@ -49,4 +49,4 @@ class FormDesign {
     }
 }
 
-(<any>window).FormDesignController = new FormDesign();
+var FormDesignController = new FormDesign();

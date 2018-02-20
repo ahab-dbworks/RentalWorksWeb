@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).GeneratorMakeModelGridController = new GeneratorMakeModelGrid();
+var GeneratorMakeModelGridController = new GeneratorMakeModelGrid();
 //----------------------------------------------------------------------------------------------

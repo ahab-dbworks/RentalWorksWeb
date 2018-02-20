@@ -5,5 +5,5 @@ var RateLocationTaxGrid = (function () {
     }
     return RateLocationTaxGrid;
 }());
-window.RateLocationTaxGridController = new RateLocationTaxGrid();
+var RateLocationTaxGridController = new RateLocationTaxGrid();
 //# sourceMappingURL=RateLocationTaxGridController.js.map

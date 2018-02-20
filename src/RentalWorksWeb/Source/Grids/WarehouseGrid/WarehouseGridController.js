@@ -5,5 +5,5 @@ var WarehouseGrid = (function () {
     }
     return WarehouseGrid;
 }());
-window.WarehouseGridController = new WarehouseGrid();
+var WarehouseGridController = new WarehouseGrid();
 //# sourceMappingURL=WarehouseGridController.js.map

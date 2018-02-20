@@ -5,5 +5,5 @@ var DealShipperGrid = (function () {
     }
     return DealShipperGrid;
 }());
-window.DealShipperGridController = new DealShipperGrid();
+var DealShipperGridController = new DealShipperGrid();
 //# sourceMappingURL=DealShipperGridController.js.map

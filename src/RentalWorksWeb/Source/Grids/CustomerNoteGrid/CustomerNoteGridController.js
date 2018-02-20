@@ -7,5 +7,5 @@ var CustomerNoteGrid = (function () {
     };
     return CustomerNoteGrid;
 }());
-window.CustomerNoteGridController = new CustomerNoteGrid();
+var CustomerNoteGridController = new CustomerNoteGrid();
 //# sourceMappingURL=CustomerNoteGridController.js.map

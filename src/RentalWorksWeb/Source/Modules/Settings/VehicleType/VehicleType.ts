@@ -106,4 +106,4 @@ class VehicleType {
     }
 }
 
-(<any>window).VehicleTypeController = new VehicleType();
+var VehicleTypeController = new VehicleType();

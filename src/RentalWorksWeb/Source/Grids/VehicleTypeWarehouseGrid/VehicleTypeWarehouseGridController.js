@@ -5,5 +5,5 @@ var VehicleTypeWarehouseGrid = (function () {
     }
     return VehicleTypeWarehouseGrid;
 }());
-window.VehicleTypeWarehouseGridController = new VehicleTypeWarehouseGrid();
+var VehicleTypeWarehouseGridController = new VehicleTypeWarehouseGrid();
 //# sourceMappingURL=VehicleTypeWarehouseGridController.js.map

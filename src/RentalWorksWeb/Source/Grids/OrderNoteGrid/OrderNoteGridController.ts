@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderNoteGridController = new OrderNoteGrid();
+var OrderNoteGridController = new OrderNoteGrid();
 //----------------------------------------------------------------------------------------------

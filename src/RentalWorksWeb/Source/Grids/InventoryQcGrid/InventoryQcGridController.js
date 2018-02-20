@@ -5,5 +5,5 @@ var InventoryQcGrid = (function () {
     }
     return InventoryQcGrid;
 }());
-window.InventoryQcGridController = new InventoryQcGrid();
+var InventoryQcGridController = new InventoryQcGrid();
 //# sourceMappingURL=InventoryQcGridController.js.map

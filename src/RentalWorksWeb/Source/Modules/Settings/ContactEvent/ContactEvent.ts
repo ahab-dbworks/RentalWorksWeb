@@ -72,4 +72,4 @@ class ContactEvent {
     }
 }
 
-(<any>window).ContactEventController = new ContactEvent();
+var ContactEventController = new ContactEvent();

@@ -5,5 +5,5 @@ var SalesInventoryWarehouseGrid = (function () {
     }
     return SalesInventoryWarehouseGrid;
 }());
-window.SalesInventoryWarehouseGridController = new SalesInventoryWarehouseGrid();
+var SalesInventoryWarehouseGridController = new SalesInventoryWarehouseGrid();
 //# sourceMappingURL=SalesInventoryWarehouseGridController.js.map

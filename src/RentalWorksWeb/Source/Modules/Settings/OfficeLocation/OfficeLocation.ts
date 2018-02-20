@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).OfficeLocationController = new OfficeLocation();
+var OfficeLocationController = new OfficeLocation();
 

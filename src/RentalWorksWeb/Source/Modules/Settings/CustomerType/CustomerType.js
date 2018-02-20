@@ -51,5 +51,5 @@ var CustomerType = (function () {
     };
     return CustomerType;
 }());
-window.CustomerTypeController = new CustomerType();
+var CustomerTypeController = new CustomerType();
 //# sourceMappingURL=CustomerType.js.map

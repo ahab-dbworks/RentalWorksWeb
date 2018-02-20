@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).MiscCategoryGridController = new MiscCategoryGrid();
+var MiscCategoryGridController = new MiscCategoryGrid();
 //----------------------------------------------------------------------------------------------

@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).ProjectCommissioningController = new ProjectCommissioning();
+var ProjectCommissioningController = new ProjectCommissioning();
 

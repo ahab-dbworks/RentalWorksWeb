@@ -72,4 +72,4 @@ class PersonnelType {
     }
 }
 
-(<any>window).PersonnelTypeController = new PersonnelType();
+var PersonnelTypeController = new PersonnelType();

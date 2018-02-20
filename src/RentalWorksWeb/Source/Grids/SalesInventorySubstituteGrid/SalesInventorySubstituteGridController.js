@@ -11,5 +11,5 @@ var SalesInventorySubstituteGrid = (function () {
     ;
     return SalesInventorySubstituteGrid;
 }());
-window.SalesInventorySubstituteGridController = new SalesInventorySubstituteGrid();
+var SalesInventorySubstituteGridController = new SalesInventorySubstituteGrid();
 //# sourceMappingURL=SalesInventorySubstituteGridController.js.map

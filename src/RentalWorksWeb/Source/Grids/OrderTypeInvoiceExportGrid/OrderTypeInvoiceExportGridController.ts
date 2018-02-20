@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderTypeInvoiceExportGridController = new OrderTypeInvoiceExportGrid();
+var OrderTypeInvoiceExportGridController = new OrderTypeInvoiceExportGrid();
 //----------------------------------------------------------------------------------------------

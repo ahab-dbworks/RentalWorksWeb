@@ -72,4 +72,4 @@ class OrderSetNo {
     }
 }
 
-(<any>window).OrderSetNoController = new OrderSetNo();
+var OrderSetNoController = new OrderSetNo();

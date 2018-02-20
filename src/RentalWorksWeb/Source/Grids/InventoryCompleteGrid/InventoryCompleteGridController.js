@@ -11,5 +11,5 @@ var InventoryCompleteGrid = (function () {
     ;
     return InventoryCompleteGrid;
 }());
-window.InventoryCompleteGridController = new InventoryCompleteGrid();
+var InventoryCompleteGridController = new InventoryCompleteGrid();
 //# sourceMappingURL=InventoryCompleteGridController.js.map

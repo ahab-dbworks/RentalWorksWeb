@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).SpaceRateGridController = new SpaceRateGrid();
+var SpaceRateGridController = new SpaceRateGrid();
 //----------------------------------------------------------------------------------------------

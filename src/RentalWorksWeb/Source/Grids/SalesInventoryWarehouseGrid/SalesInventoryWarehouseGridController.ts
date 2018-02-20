@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).SalesInventoryWarehouseGridController = new SalesInventoryWarehouseGrid();
+var SalesInventoryWarehouseGridController = new SalesInventoryWarehouseGrid();
 //----------------------------------------------------------------------------------------------

@@ -5,5 +5,5 @@ var OrderTypeActivityDatesGrid = (function () {
     }
     return OrderTypeActivityDatesGrid;
 }());
-window.OrderTypeActivityDatesGridController = new OrderTypeActivityDatesGrid();
+var OrderTypeActivityDatesGridController = new OrderTypeActivityDatesGrid();
 //# sourceMappingURL=OrderTypeActivityDatesGridController.js.map

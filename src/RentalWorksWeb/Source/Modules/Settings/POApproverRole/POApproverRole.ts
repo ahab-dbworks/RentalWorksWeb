@@ -72,4 +72,4 @@ class POApproverRole {
     }
 }
 
-(<any>window).POApproverRoleController = new POApproverRole();
+var POApproverRoleController = new POApproverRole();

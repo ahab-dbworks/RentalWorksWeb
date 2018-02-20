@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).InventoryCompleteGridController = new InventoryCompleteGrid();
+var InventoryCompleteGridController = new InventoryCompleteGrid();
 //----------------------------------------------------------------------------------------------

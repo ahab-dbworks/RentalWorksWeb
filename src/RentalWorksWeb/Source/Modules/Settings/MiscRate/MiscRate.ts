@@ -153,4 +153,4 @@ class RwMiscRate {
     }
 }
 
-(<any>window).MiscRateController = new RwMiscRate();
+var MiscRateController = new RwMiscRate();

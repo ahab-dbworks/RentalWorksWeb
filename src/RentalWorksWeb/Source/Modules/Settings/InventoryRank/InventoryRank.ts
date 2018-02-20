@@ -95,4 +95,4 @@ class InventoryRank {
     }
 }
 
-(<any>window).InventoryRankController = new InventoryRank();
+var InventoryRankController = new InventoryRank();

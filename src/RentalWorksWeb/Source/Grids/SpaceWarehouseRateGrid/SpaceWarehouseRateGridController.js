@@ -5,5 +5,5 @@ var SpaceWarehouseRateGrid = (function () {
     }
     return SpaceWarehouseRateGrid;
 }());
-window.SpaceWarehouseRateGridController = new SpaceWarehouseRateGrid();
+var SpaceWarehouseRateGridController = new SpaceWarehouseRateGrid();
 //# sourceMappingURL=SpaceWarehouseRateGridController.js.map

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderPickListGridController = new OrderPickListGrid();
+var OrderPickListGridController = new OrderPickListGrid();
 //----------------------------------------------------------------------------------------------

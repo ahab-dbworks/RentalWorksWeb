@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).DealNotesGridController = new DealNotesGrid();
+var DealNotesGridController = new DealNotesGrid();
 //----------------------------------------------------------------------------------------------

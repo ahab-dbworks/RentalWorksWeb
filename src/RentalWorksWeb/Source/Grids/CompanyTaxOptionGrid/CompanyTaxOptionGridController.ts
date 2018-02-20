@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).CompanyTaxOptionGridController = new CompanyTaxOptionGrid();
+var CompanyTaxOptionGridController = new CompanyTaxOptionGrid();
 //----------------------------------------------------------------------------------------------

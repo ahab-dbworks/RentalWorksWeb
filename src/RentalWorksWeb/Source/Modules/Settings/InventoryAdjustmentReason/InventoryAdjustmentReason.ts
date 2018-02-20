@@ -72,4 +72,4 @@ class InventoryAdjustmentReason {
     }
 }
 
-(<any>window).InventoryAdjustmentReasonController = new InventoryAdjustmentReason();
+var InventoryAdjustmentReasonController = new InventoryAdjustmentReason();

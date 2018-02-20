@@ -5,5 +5,5 @@ var AttributeValueGrid = (function () {
     }
     return AttributeValueGrid;
 }());
-window.AttributeValueGridController = new AttributeValueGrid();
+var AttributeValueGridController = new AttributeValueGrid();
 //# sourceMappingURL=AttributeValueGridController.js.map

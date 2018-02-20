@@ -76,4 +76,4 @@ class FacilityCategory {
     };
 }
 
-(<any>window).FacilityCategoryController = new FacilityCategory();
+var FacilityCategoryController = new FacilityCategory();

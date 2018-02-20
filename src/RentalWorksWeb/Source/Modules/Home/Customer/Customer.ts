@@ -1,4 +1,6 @@
-﻿class Customer {
+﻿routes.push({ pattern: /^module\/customer$/, action: function (match: RegExpExecArray) { return CustomerController.getModuleScreen(); } });
+
+class Customer {
     Module: string;
     apiurl: string;
     caption: string;
@@ -221,4 +223,4 @@
         };
     }
 }
-(window as any).CustomerController = new Customer();
+var CustomerController = new Customer();

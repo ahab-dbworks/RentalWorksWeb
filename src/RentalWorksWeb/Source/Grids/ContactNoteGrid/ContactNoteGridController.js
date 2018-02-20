@@ -5,5 +5,5 @@ var ContactNoteGrid = (function () {
     }
     return ContactNoteGrid;
 }());
-window.ContactNoteGridController = new ContactNoteGrid();
+var ContactNoteGridController = new ContactNoteGrid();
 //# sourceMappingURL=ContactNoteGridController.js.map

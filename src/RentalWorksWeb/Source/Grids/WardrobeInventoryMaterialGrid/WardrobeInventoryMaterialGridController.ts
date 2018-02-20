@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WardrobeInventoryMaterialGridController = new WardrobeInventoryMaterialGrid();
+var WardrobeInventoryMaterialGridController = new WardrobeInventoryMaterialGrid();
 //----------------------------------------------------------------------------------------------

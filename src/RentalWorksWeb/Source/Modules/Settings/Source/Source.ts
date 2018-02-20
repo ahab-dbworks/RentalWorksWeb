@@ -175,5 +175,5 @@
     
 }
 
-(<any>window).SourceController = new Source();
+var SourceController = new Source();
 

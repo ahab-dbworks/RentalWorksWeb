@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryAvailabilityGridController = new InventoryAvailabilityGrid();
+var InventoryAvailabilityGridController = new InventoryAvailabilityGrid();
 //----------------------------------------------------------------------------------------------

@@ -73,4 +73,4 @@ class WardrobeSource {
 
 }
 
-(<any>window).WardrobeSourceController = new WardrobeSource();
+var WardrobeSourceController = new WardrobeSource();

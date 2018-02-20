@@ -72,4 +72,4 @@ class RetiredReason {
     }
 }
 
-(<any>window).RetiredReasonController = new RetiredReason();
+var RetiredReasonController = new RetiredReason();

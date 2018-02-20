@@ -72,4 +72,4 @@
     }
 }
 
-(window as any).GlAccountController = new GlAccount();
+var GlAccountController = new GlAccount();

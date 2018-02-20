@@ -5,5 +5,5 @@ var LaborCategoryGrid = (function () {
     }
     return LaborCategoryGrid;
 }());
-window.LaborCategoryGridController = new LaborCategoryGrid();
+var LaborCategoryGridController = new LaborCategoryGrid();
 //# sourceMappingURL=LaborCategoryGridController.js.map

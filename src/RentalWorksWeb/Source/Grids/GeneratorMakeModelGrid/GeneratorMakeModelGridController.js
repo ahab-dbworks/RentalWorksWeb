@@ -5,5 +5,5 @@ var GeneratorMakeModelGrid = (function () {
     }
     return GeneratorMakeModelGrid;
 }());
-window.GeneratorMakeModelGridController = new GeneratorMakeModelGrid();
+var GeneratorMakeModelGridController = new GeneratorMakeModelGrid();
 //# sourceMappingURL=GeneratorMakeModelGridController.js.map

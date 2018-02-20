@@ -5,5 +5,5 @@ var OrderTypeCoverLetterGrid = (function () {
     }
     return OrderTypeCoverLetterGrid;
 }());
-window.OrderTypeCoverLetterGridController = new OrderTypeCoverLetterGrid();
+var OrderTypeCoverLetterGridController = new OrderTypeCoverLetterGrid();
 //# sourceMappingURL=OrderTypeCoverLetterGridController.js.map

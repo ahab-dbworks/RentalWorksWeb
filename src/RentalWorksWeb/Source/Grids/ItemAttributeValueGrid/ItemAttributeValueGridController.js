@@ -11,5 +11,5 @@ var ItemAttributeValueGrid = (function () {
     };
     return ItemAttributeValueGrid;
 }());
-window.ItemAttributeValueGridController = new ItemAttributeValueGrid();
+var ItemAttributeValueGridController = new ItemAttributeValueGrid();
 //# sourceMappingURL=ItemAttributeValueGridController.js.map

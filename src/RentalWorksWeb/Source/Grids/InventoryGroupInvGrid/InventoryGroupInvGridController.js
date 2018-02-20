@@ -11,5 +11,5 @@ var InventoryGroupInvGrid = (function () {
     ;
     return InventoryGroupInvGrid;
 }());
-window.InventoryGroupInvGridController = new InventoryGroupInvGrid();
+var InventoryGroupInvGridController = new InventoryGroupInvGrid();
 //# sourceMappingURL=InventoryGroupInvGridController.js.map

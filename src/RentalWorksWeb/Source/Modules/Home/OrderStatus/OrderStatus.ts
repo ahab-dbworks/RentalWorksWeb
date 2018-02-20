@@ -1,4 +1,6 @@
-﻿class OrderStatus {
+﻿routes.push({ pattern: /^module\/orderstatus$/, action: function (match: RegExpExecArray) { return OrderStatusController.getModuleScreen(); } });
+
+class OrderStatus {
     Module: string;
 
     constructor() {
@@ -419,4 +421,4 @@
     //----------------------------------------------------------------------------------------------
 
 }
-(window as any).OrderStatusController = new OrderStatus();
+var OrderStatusController = new OrderStatus();

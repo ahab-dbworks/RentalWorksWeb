@@ -72,4 +72,4 @@ class UnretiredReason {
     }
 }
 
-(<any>window).UnretiredReasonController = new UnretiredReason();
+var UnretiredReasonController = new UnretiredReason();

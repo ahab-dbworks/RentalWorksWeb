@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseDepartmentUserGridController = new WarehouseDepartmentUserGrid();
+var WarehouseDepartmentUserGridController = new WarehouseDepartmentUserGrid();
 //----------------------------------------------------------------------------------------------

@@ -95,4 +95,4 @@ class VehicleMake {
     }
 }
 
-(<any>window).VehicleMakeController = new VehicleMake();
+var VehicleMakeController = new VehicleMake();

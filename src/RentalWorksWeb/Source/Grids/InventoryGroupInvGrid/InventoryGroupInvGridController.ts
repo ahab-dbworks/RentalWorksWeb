@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).InventoryGroupInvGridController = new InventoryGroupInvGrid();
+var InventoryGroupInvGridController = new InventoryGroupInvGrid();
 //----------------------------------------------------------------------------------------------

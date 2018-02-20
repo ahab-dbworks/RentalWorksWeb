@@ -73,4 +73,4 @@ class WardrobePattern {
 
 }
 
-(<any>window).WardrobePatternController = new WardrobePattern();
+var WardrobePatternController = new WardrobePattern();

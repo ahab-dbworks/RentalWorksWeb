@@ -92,5 +92,5 @@
     //};
 }
 
-(<any>window).ContactCompanyGridController = new ContactCompanyGrid();
+var ContactCompanyGridController = new ContactCompanyGrid();
 //----------------------------------------------------------------------------------------------

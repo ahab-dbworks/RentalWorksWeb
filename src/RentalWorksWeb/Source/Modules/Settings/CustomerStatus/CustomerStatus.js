@@ -51,5 +51,5 @@ var CustomerStatus = (function () {
     };
     return CustomerStatus;
 }());
-window.CustomerStatusController = new CustomerStatus();
+var CustomerStatusController = new CustomerStatus();
 //# sourceMappingURL=CustomerStatus.js.map

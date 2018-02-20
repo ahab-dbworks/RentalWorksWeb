@@ -5,5 +5,5 @@ var InventoryConsignmentGrid = (function () {
     }
     return InventoryConsignmentGrid;
 }());
-window.InventoryConsignmentGridController = new InventoryConsignmentGrid();
+var InventoryConsignmentGridController = new InventoryConsignmentGrid();
 //# sourceMappingURL=InventoryConsignmentGridController.js.map

@@ -73,4 +73,4 @@ class GeneratorWatts {
 
 }
 
-(<any>window).GeneratorWattsController = new GeneratorWatts();
+var GeneratorWattsController = new GeneratorWatts();

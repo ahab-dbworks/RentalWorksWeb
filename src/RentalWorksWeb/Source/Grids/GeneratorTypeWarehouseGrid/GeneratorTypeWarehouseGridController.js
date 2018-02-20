@@ -5,5 +5,5 @@ var GeneratorTypeWarehouseGrid = (function () {
     }
     return GeneratorTypeWarehouseGrid;
 }());
-window.GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
+var GeneratorTypeWarehouseGridController = new GeneratorTypeWarehouseGrid();
 //# sourceMappingURL=GeneratorTypeWarehouseGridController.js.map

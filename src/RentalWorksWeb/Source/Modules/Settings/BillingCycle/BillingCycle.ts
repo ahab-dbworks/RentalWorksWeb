@@ -112,4 +112,4 @@
     }
 }
 
-(window as any).BillingCycleController = new BillingCycle();
+var BillingCycleController = new BillingCycle();

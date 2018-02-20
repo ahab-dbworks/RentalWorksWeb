@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).CreditStatusController = new CreditStatus();
+var CreditStatusController = new CreditStatus();
 

@@ -11,5 +11,5 @@ var PresentationLayerActivityOverrideGrid = (function () {
     ;
     return PresentationLayerActivityOverrideGrid;
 }());
-window.PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
+var PresentationLayerActivityOverrideGridController = new PresentationLayerActivityOverrideGrid();
 //# sourceMappingURL=PresentationLayerActivityOverrideGridController.js.map

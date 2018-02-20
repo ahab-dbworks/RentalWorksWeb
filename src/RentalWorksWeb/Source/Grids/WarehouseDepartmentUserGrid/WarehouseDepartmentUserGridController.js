@@ -5,5 +5,5 @@ var WarehouseDepartmentUserGrid = (function () {
     }
     return WarehouseDepartmentUserGrid;
 }());
-window.WarehouseDepartmentUserGridController = new WarehouseDepartmentUserGrid();
+var WarehouseDepartmentUserGridController = new WarehouseDepartmentUserGrid();
 //# sourceMappingURL=WarehouseDepartmentUserGridController.js.map

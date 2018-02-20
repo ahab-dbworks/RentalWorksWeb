@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryVendorGridController = new InventoryVendorGrid();
+var InventoryVendorGridController = new InventoryVendorGrid();
 //----------------------------------------------------------------------------------------------

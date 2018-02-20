@@ -72,4 +72,4 @@ class POClassification {
     }
 }
 
-(<any>window).POClassificationController = new POClassification();
+var POClassificationController = new POClassification();

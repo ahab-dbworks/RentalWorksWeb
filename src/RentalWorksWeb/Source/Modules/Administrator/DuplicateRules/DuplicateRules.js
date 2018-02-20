@@ -184,5 +184,5 @@ var DuplicateRules = (function () {
     };
     return DuplicateRules;
 }());
-window.DuplicateRulesController = new DuplicateRules();
+var DuplicateRulesController = new DuplicateRules();
 //# sourceMappingURL=DuplicateRules.js.map

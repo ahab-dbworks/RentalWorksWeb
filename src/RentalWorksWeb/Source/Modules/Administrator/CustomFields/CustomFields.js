@@ -77,5 +77,5 @@ var CustomFields = (function () {
     };
     return CustomFields;
 }());
-window.CustomFieldsController = new CustomFields();
+var CustomFieldsController = new CustomFields();
 //# sourceMappingURL=CustomFields.js.map

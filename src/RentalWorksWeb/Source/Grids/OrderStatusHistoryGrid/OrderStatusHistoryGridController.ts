@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderStatusHistoryGridController = new OrderStatusHistoryGrid();
+var OrderStatusHistoryGridController = new OrderStatusHistoryGrid();
 //----------------------------------------------------------------------------------------------

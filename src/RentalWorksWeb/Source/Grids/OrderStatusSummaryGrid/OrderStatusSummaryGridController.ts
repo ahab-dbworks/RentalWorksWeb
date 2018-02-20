@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderStatusSummaryGridController = new OrderStatusSummaryGrid();
+var OrderStatusSummaryGridController = new OrderStatusSummaryGrid();
 //----------------------------------------------------------------------------------------------

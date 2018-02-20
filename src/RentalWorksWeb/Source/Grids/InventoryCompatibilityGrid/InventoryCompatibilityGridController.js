@@ -11,5 +11,5 @@ var InventoryCompatibilityGrid = (function () {
     ;
     return InventoryCompatibilityGrid;
 }());
-window.InventoryCompatibilityGridController = new InventoryCompatibilityGrid();
+var InventoryCompatibilityGridController = new InventoryCompatibilityGrid();
 //# sourceMappingURL=InventoryCompatibilityGridController.js.map

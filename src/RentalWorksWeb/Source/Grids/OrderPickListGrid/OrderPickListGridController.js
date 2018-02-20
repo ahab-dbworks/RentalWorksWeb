@@ -5,5 +5,5 @@ var OrderPickListGrid = (function () {
     }
     return OrderPickListGrid;
 }());
-window.OrderPickListGridController = new OrderPickListGrid();
+var OrderPickListGridController = new OrderPickListGrid();
 //# sourceMappingURL=OrderPickListGridController.js.map

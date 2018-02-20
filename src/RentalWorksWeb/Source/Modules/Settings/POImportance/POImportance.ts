@@ -72,4 +72,4 @@ class POImportance {
     }
 }
 
-(<any>window).POImportanceController = new POImportance();
+var POImportanceController = new POImportance();

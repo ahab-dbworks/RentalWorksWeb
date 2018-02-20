@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryQcGridController = new InventoryQcGrid();
+var InventoryQcGridController = new InventoryQcGrid();
 //----------------------------------------------------------------------------------------------

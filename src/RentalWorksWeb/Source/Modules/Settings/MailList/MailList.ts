@@ -72,4 +72,4 @@ class MailList {
     }
 }
 
-(<any>window).MailListController = new MailList();
+var MailListController = new MailList();

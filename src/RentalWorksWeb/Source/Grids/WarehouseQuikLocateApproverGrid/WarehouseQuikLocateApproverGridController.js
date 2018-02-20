@@ -5,5 +5,5 @@ var WarehouseQuikLocateApproverGrid = (function () {
     }
     return WarehouseQuikLocateApproverGrid;
 }());
-window.WarehouseQuikLocateApproverGridController = new WarehouseQuikLocateApproverGrid();
+var WarehouseQuikLocateApproverGridController = new WarehouseQuikLocateApproverGrid();
 //# sourceMappingURL=WarehouseQuikLocateApproverGridController.js.map

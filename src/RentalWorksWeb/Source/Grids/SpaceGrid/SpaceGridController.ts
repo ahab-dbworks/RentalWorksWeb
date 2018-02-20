@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).SpaceGridController = new SpaceGrid();
+var SpaceGridController = new SpaceGrid();
 //----------------------------------------------------------------------------------------------

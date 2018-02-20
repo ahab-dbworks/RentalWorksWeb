@@ -72,4 +72,4 @@ class RwSapVendorInvoiceStatus {
     }
 }
 
-(<any>window).SapVendorInvoiceStatusController = new RwSapVendorInvoiceStatus();
+var SapVendorInvoiceStatusController = new RwSapVendorInvoiceStatus();

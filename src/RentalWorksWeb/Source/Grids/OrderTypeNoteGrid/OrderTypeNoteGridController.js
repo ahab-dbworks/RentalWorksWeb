@@ -5,5 +5,5 @@ var OrderTypeNoteGrid = (function () {
     }
     return OrderTypeNoteGrid;
 }());
-window.OrderTypeNoteGridController = new OrderTypeNoteGrid();
+var OrderTypeNoteGridController = new OrderTypeNoteGrid();
 //# sourceMappingURL=OrderTypeNoteGridController.js.map

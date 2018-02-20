@@ -139,4 +139,4 @@ class PresentationLayer {
     }
 }
 
-(<any>window).PresentationLayerController = new PresentationLayer();
+var PresentationLayerController = new PresentationLayer();

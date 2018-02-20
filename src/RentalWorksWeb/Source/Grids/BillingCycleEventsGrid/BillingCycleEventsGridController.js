@@ -5,5 +5,5 @@ var BillingCycleEventsGrid = (function () {
     }
     return BillingCycleEventsGrid;
 }());
-window.BillingCycleEventsGridController = new BillingCycleEventsGrid();
+var BillingCycleEventsGridController = new BillingCycleEventsGrid();
 //# sourceMappingURL=BillingCycleEventsGridController.js.map

@@ -105,4 +105,4 @@ class CustomFields {
     }
 }
 
-(<any>window).CustomFieldsController = new CustomFields();
+var CustomFieldsController = new CustomFields();

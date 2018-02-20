@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).InventoryPrepGridController = new InventoryPrepGrid();
+var InventoryPrepGridController = new InventoryPrepGrid();
 //----------------------------------------------------------------------------------------------

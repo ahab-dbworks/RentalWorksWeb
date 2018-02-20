@@ -72,4 +72,4 @@ class ProjectAsBuild {
     }
 }
 
-(<any>window).ProjectAsBuildController = new ProjectAsBuild();
+var ProjectAsBuildController = new ProjectAsBuild();

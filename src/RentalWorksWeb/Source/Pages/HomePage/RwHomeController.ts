@@ -1,14 +1,14 @@
 ﻿class RwHome {
-    getHomeScreen(viewModel, properties) {
-        var combinedViewModel, screen, applicationOptions;
+    getHomeScreen() {
         var self = this;
-        applicationOptions = program.getApplicationOptions();
-        combinedViewModel = jQuery.extend({
+        var applicationOptions = program.getApplicationOptions();
 
-        }, viewModel);
-        combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-pages-Home').html(), combinedViewModel);
-        screen = {};
-        screen.$view = RwMasterController.getMasterView(combinedViewModel);
+        var viewModel = {
+            htmlPageBody: jQuery('#tmpl-pages-Home').html()
+        };
+        var properties = {};
+        var screen: any = {};
+        screen.$view = RwMasterController.getMasterView(viewModel, properties);
         screen.viewModel = viewModel;
         screen.properties = properties;
 
@@ -140,4 +140,4 @@
     };
 };
 
-(window as any).RwHomeController = new RwHome();
+var RwHomeController = new RwHome();

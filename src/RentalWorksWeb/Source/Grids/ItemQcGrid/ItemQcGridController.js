@@ -5,5 +5,5 @@ var ItemQcGrid = (function () {
     }
     return ItemQcGrid;
 }());
-window.ItemQcGridController = new ItemQcGrid();
+var ItemQcGridController = new ItemQcGrid();
 //# sourceMappingURL=ItemQcGridController.js.map

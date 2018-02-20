@@ -72,4 +72,4 @@ class RwWallType {
     }
 }
 
-(<any>window).WallTypeController = new RwWallType();
+var WallTypeController = new RwWallType();

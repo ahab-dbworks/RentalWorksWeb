@@ -72,4 +72,4 @@ class FacilityStatus {
     }
 }
 
-(<any>window).FacilityStatusController = new FacilityStatus();
+var FacilityStatusController = new FacilityStatus();

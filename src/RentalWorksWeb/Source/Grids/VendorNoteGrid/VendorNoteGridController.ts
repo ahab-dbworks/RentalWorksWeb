@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).VendorNoteGridController = new VendorNoteGrid();
+var VendorNoteGridController = new VendorNoteGrid();
 //----------------------------------------------------------------------------------------------

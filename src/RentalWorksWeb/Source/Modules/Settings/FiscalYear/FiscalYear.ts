@@ -92,4 +92,4 @@ class FiscalYear {
     }
 }
 
-(<any>window).FiscalYearController = new FiscalYear();
+var FiscalYearController = new FiscalYear();

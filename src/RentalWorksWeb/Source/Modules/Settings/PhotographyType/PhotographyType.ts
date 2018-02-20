@@ -72,4 +72,4 @@ class PhotographyType {
     }
 }
 
-(<any>window).PhotographyTypeController = new PhotographyType();
+var PhotographyTypeController = new PhotographyType();

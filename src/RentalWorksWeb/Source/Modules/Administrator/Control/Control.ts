@@ -80,5 +80,5 @@
     }
 }
 
-(<any>window).ControlController = new Control();
+var ControlController = new Control();
 

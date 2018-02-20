@@ -157,4 +157,4 @@ class SalesCategory {
     }
 }
 
-(<any>window).SalesCategoryController = new SalesCategory();
+var SalesCategoryController = new SalesCategory();

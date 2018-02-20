@@ -14,11 +14,11 @@ var Deal = (function () {
             FwModule.openModuleTab($browse, 'Deal', false, 'BROWSE', true);
             if (typeof filter !== 'undefined') {
                 filter.search = filter.search.replace(/%20/, ' ');
-                filter.datafield = filter.datafield.split('%20');
-                for (var i = 0; i < filter.datafield.length; i++) {
-                    filter.datafield[i] = filter.datafield[i].charAt(0).toUpperCase() + filter.datafield[i].substr(1);
+                var datafields = filter.datafield.split('%20');
+                for (var i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
-                filter.datafield = filter.datafield.join('');
+                filter.datafield = datafields.join('');
                 $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
             }
             FwBrowse.databind($browse);
@@ -338,5 +338,5 @@ var Deal = (function () {
     };
     return Deal;
 }());
-window.DealController = new Deal();
+var DealController = new Deal();
 //# sourceMappingURL=Deal.js.map

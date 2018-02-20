@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).CompanyResaleGridController = new CompanyResaleGrid();
+var CompanyResaleGridController = new CompanyResaleGrid();
 //----------------------------------------------------------------------------------------------

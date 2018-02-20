@@ -145,4 +145,4 @@ class RwLaborPosition {
     }
 }
 
-(<any>window).LaborPositionController = new RwLaborPosition();
+var LaborPositionController = new RwLaborPosition();

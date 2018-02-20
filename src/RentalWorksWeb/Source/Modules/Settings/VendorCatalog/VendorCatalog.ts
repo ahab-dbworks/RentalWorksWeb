@@ -153,5 +153,5 @@
     }
 }
 
-(<any>window).VendorCatalogController = new VendorCatalog();
+var VendorCatalogController = new VendorCatalog();
 

@@ -200,4 +200,4 @@
     }
 }
 
-(window as any).TaxOptionController = new TaxOption();
+var TaxOptionController = new TaxOption();

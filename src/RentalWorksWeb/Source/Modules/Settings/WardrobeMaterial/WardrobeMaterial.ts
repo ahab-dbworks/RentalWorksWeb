@@ -73,4 +73,4 @@ class WardrobeMaterial {
 
 }
 
-(<any>window).WardrobeMaterialController = new WardrobeMaterial();
+var WardrobeMaterialController = new WardrobeMaterial();

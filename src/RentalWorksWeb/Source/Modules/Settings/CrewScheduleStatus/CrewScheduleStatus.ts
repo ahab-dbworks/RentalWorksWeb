@@ -72,4 +72,4 @@ class CrewScheduleStatus {
     }
 }
 
-(<any>window).CrewScheduleStatusController = new CrewScheduleStatus();
+var CrewScheduleStatusController = new CrewScheduleStatus();

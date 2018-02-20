@@ -15,5 +15,5 @@
     }
 }
 
-(<any>window).ItemAttributeValueGridController = new ItemAttributeValueGrid();
+var ItemAttributeValueGridController = new ItemAttributeValueGrid();
 //----------------------------------------------------------------------------------------------

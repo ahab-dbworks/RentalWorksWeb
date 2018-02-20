@@ -72,4 +72,4 @@ class BarCodeRange {
     }
 }
 
-(<any>window).BarCodeRangeController = new BarCodeRange();
+var BarCodeRangeController = new BarCodeRange();

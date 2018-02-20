@@ -5,5 +5,5 @@ var PresentationLayerFormGrid = (function () {
     }
     return PresentationLayerFormGrid;
 }());
-window.PresentationLayerFormGridController = new PresentationLayerFormGrid();
+var PresentationLayerFormGridController = new PresentationLayerFormGrid();
 //# sourceMappingURL=PresentationLayerFormGridController.js.map

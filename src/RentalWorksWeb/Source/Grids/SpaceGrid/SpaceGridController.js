@@ -5,5 +5,5 @@ var SpaceGrid = (function () {
     }
     return SpaceGrid;
 }());
-window.SpaceGridController = new SpaceGrid();
+var SpaceGridController = new SpaceGrid();
 //# sourceMappingURL=SpaceGridController.js.map

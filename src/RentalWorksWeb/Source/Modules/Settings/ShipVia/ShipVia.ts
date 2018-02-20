@@ -81,4 +81,4 @@
     }
 }
 
-(window as any).ShipViaController = new ShipVia();
+var ShipViaController = new ShipVia();

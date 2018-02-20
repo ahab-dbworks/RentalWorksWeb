@@ -5,5 +5,5 @@ var OrderItemGrid = (function () {
     }
     return OrderItemGrid;
 }());
-window.OrderItemGridController = new OrderItemGrid();
+var OrderItemGridController = new OrderItemGrid();
 //# sourceMappingURL=OrderItemGridController.js.map

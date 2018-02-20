@@ -53,5 +53,5 @@ var SettingsPage = (function () {
     };
     return SettingsPage;
 }());
-window.SettingsPageController = new SettingsPage();
+var SettingsPageController = new SettingsPage();
 //# sourceMappingURL=SettingsPageController.js.map

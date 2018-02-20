@@ -11,5 +11,5 @@ var InventoryKitGrid = (function () {
     ;
     return InventoryKitGrid;
 }());
-window.InventoryKitGridController = new InventoryKitGrid();
+var InventoryKitGridController = new InventoryKitGrid();
 //# sourceMappingURL=InventoryKitGridController.js.map

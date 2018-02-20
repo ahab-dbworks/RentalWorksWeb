@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).PaymentTermsController = new PaymentTerms();
+var PaymentTermsController = new PaymentTerms();

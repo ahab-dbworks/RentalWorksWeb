@@ -88,4 +88,4 @@ class POApprover {
     }
 }
 
-(<any>window).POApproverController = new POApprover();
+var POApproverController = new POApprover();

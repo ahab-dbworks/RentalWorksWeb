@@ -72,4 +72,4 @@ class BlackoutStatus {
     }
 }
 
-(<any>window).BlackoutStatusController = new BlackoutStatus();
+var BlackoutStatusController = new BlackoutStatus();

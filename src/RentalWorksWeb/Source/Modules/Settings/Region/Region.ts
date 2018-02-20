@@ -74,4 +74,4 @@
     }
 }
 
-(window as any).RegionController = new Region();
+var RegionController = new Region();

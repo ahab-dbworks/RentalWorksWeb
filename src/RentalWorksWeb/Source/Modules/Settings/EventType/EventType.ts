@@ -116,4 +116,4 @@ class EventType {
     }
 }
 
-(<any>window).EventTypeController = new EventType();
+var EventTypeController = new EventType();

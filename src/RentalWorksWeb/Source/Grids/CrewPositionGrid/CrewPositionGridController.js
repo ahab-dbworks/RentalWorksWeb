@@ -5,5 +5,5 @@ var CrewPositionGrid = (function () {
     }
     return CrewPositionGrid;
 }());
-window.CrewPositionGridController = new CrewPositionGrid();
+var CrewPositionGridController = new CrewPositionGrid();
 //# sourceMappingURL=CrewPositionGridController.js.map

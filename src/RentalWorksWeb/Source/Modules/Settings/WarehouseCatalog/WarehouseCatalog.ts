@@ -72,4 +72,4 @@ class WarehouseCatalog {
     }
 }
 
-(<any>window).WarehouseCatalogController = new WarehouseCatalog();
+var WarehouseCatalogController = new WarehouseCatalog();

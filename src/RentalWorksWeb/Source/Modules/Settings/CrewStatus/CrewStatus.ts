@@ -72,4 +72,4 @@ class CrewStatus {
     }
 }
 
-(<any>window).CrewStatusController = new CrewStatus();
+var CrewStatusController = new CrewStatus();

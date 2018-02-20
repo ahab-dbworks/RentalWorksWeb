@@ -72,4 +72,4 @@ class MiscType {
     }
 }
 
-(<any>window).MiscTypeController = new MiscType();
+var MiscTypeController = new MiscType();

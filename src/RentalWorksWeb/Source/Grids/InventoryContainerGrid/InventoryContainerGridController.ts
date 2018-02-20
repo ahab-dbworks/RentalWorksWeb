@@ -14,5 +14,5 @@
     };
 }
 
-(<any>window).InventoryContainerGridController = new InventoryContainerGrid();
+var InventoryContainerGridController = new InventoryContainerGrid();
 //----------------------------------------------------------------------------------------------

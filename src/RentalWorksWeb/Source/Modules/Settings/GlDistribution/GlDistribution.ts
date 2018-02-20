@@ -77,4 +77,4 @@
     
 }
 
-(window as any).GlDistributionController = new GlDistribution();
+var GlDistributionController = new GlDistribution();

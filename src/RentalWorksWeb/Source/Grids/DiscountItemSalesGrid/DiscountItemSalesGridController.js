@@ -45,5 +45,5 @@ var DiscountItemSalesGrid = (function () {
     ;
     return DiscountItemSalesGrid;
 }());
-window.DiscountItemSalesGridController = new DiscountItemSalesGrid();
+var DiscountItemSalesGridController = new DiscountItemSalesGrid();
 //# sourceMappingURL=DiscountItemSalesGridController.js.map

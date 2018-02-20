@@ -176,5 +176,5 @@
 
 }
 
-(<any>window).DiscountTemplateController = new DiscountTemplate();
+var DiscountTemplateController = new DiscountTemplate();
 

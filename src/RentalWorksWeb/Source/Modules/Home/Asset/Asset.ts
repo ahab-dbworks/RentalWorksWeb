@@ -153,4 +153,4 @@ class RwAsset {
     }
 }
 
-(<any>window).AssetController = new RwAsset();
+var AssetController = new RwAsset();

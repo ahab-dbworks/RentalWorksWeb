@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).EventTypePersonnelTypeGridController = new EventTypePersonnelTypeGrid();
+var EventTypePersonnelTypeGridController = new EventTypePersonnelTypeGrid();
 //----------------------------------------------------------------------------------------------

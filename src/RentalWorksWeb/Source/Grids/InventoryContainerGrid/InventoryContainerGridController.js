@@ -11,5 +11,5 @@ var InventoryContainerGrid = (function () {
     ;
     return InventoryContainerGrid;
 }());
-window.InventoryContainerGridController = new InventoryContainerGrid();
+var InventoryContainerGridController = new InventoryContainerGrid();
 //# sourceMappingURL=InventoryContainerGridController.js.map

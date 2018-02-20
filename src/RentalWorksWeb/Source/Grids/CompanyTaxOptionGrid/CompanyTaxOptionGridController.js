@@ -5,5 +5,5 @@ var CompanyTaxOptionGrid = (function () {
     }
     return CompanyTaxOptionGrid;
 }());
-window.CompanyTaxOptionGridController = new CompanyTaxOptionGrid();
+var CompanyTaxOptionGridController = new CompanyTaxOptionGrid();
 //# sourceMappingURL=CompanyTaxOptionGridController.js.map

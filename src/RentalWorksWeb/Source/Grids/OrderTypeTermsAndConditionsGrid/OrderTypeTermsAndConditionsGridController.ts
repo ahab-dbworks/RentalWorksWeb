@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
+var OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
 //----------------------------------------------------------------------------------------------

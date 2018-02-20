@@ -72,4 +72,4 @@ class VehicleFuelType {
     }
 }
 
-(<any>window).VehicleFuelTypeController = new VehicleFuelType();
+var VehicleFuelTypeController = new VehicleFuelType();

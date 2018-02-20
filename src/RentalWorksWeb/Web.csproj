@@ -532,8 +532,9 @@
     <Content Include="Libraries\Fw\theme\material_mobile\FwScheduler.css" />
     <Content Include="Libraries\Fw\theme\material_mobile\FwTabs.css" />
     <Content Include="Libraries\Fw\theme\quikscan.css" />
+    <TypeScriptCompile Include="Libraries\Fw\scripts\Routes.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
-    <Content Include="scripts\Program.js" />
+    <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="Application.dev.config" />
@@ -542,7 +543,7 @@
     <Content Include="Source\Controls\Footer.htm" />
     <Content Include="Source\Controls\Header.htm" />
     <Content Include="Source\Controls\Master.htm" />
-    <Content Include="Source\Controls\RwMasterController.js" />
+    <TypeScriptCompile Include="Source\Controls\RwMasterController.ts" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
@@ -773,7 +774,7 @@
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
-    <Content Include="Source\Modules\Home\PickList\PickList.js" />
+    <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
@@ -1050,7 +1051,7 @@
     <Content Include="Source\Reports\Application\PortraitFooter.htm" />
     <Content Include="Source\Reports\Application\PortraitHeader.htm" />
     <Content Include="Source\Reports\Application\StyleSheet.css" />
-    <Content Include="Source\Pages\Base\RwBaseController.js" />
+    <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
@@ -1061,17 +1062,11 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\Body.htm" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\Footer.htm" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\FrontEnd.htm" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\Header.htm" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReportController.js" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\StyleSheet.css" />
     <Content Include="Source\Reports\PickListReport\Body.htm" />
     <Content Include="Source\Reports\PickListReport\Footer.htm" />
     <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
     <Content Include="Source\Reports\PickListReport\Header.htm" />
-    <Content Include="Source\Reports\PickListReport\RwPickListReportController.js" />
+    <TypeScriptCompile Include="Source\Reports\PickListReport\RwPickListReportController.ts" />
     <Content Include="Source\Reports\PickListReport\StyleSheet.css" />
     <Content Include="Source\Reports\DealOutstanding\Body.htm" />
     <Content Include="Source\Reports\DealOutstanding\Footer.htm" />
@@ -1320,7 +1315,6 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
-    <Compile Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReport.cs" />
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />

@@ -72,4 +72,4 @@ class OrderLocation {
     }
 }
 
-(<any>window).OrderLocationController = new OrderLocation();
+var OrderLocationController = new OrderLocation();

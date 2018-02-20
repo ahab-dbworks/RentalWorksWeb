@@ -40,5 +40,5 @@ var DiscountItemMiscGrid = (function () {
     ;
     return DiscountItemMiscGrid;
 }());
-window.DiscountItemMiscGridController = new DiscountItemMiscGrid();
+var DiscountItemMiscGridController = new DiscountItemMiscGrid();
 //# sourceMappingURL=DiscountItemMiscGridController.js.map

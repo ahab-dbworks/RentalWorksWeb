@@ -634,4 +634,4 @@ class RentalInventory {
 
 }
 
-(<any>window).RentalInventoryController = new RentalInventory();
+var RentalInventoryController = new RentalInventory();

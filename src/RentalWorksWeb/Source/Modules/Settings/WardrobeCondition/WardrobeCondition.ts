@@ -72,4 +72,4 @@ class WardrobeCondition {
     }
 }
 
-(<any>window).WardrobeConditionController = new WardrobeCondition();
+var WardrobeConditionController = new WardrobeCondition();

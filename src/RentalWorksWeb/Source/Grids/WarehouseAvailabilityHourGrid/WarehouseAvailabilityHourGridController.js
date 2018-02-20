@@ -5,5 +5,5 @@ var WarehouseAvailabilityHourGrid = (function () {
     }
     return WarehouseAvailabilityHourGrid;
 }());
-window.WarehouseAvailabilityHourGridController = new WarehouseAvailabilityHourGrid();
+var WarehouseAvailabilityHourGridController = new WarehouseAvailabilityHourGrid();
 //# sourceMappingURL=WarehouseAvailabilityHourGridController.js.map

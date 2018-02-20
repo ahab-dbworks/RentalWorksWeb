@@ -5,5 +5,5 @@ var VendorGrid = (function () {
     }
     return VendorGrid;
 }());
-window.VendorGridController = new VendorGrid();
+var VendorGridController = new VendorGrid();
 //# sourceMappingURL=VendorGridController.js.map

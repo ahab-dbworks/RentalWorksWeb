@@ -72,4 +72,4 @@ class ProjectItemsOrdered {
     }
 }
 
-(<any>window).ProjectItemsOrderedController = new ProjectItemsOrdered();
+var ProjectItemsOrderedController = new ProjectItemsOrdered();

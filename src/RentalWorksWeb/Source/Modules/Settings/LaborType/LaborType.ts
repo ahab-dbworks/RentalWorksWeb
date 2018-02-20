@@ -72,4 +72,4 @@ class LaborType {
     }
 }
 
-(<any>window).LaborTypeController = new LaborType();
+var LaborTypeController = new LaborType();

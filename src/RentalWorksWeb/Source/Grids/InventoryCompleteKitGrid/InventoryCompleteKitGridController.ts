@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).InventoryCompleteKitGridController = new InventoryCompleteKitGrid();
+var InventoryCompleteKitGridController = new InventoryCompleteKitGrid();
 //----------------------------------------------------------------------------------------------

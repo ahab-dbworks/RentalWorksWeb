@@ -72,4 +72,4 @@ class RwProjectDropShipItems {
     }
 }
 
-(<any>window).ProjectDropShipItemsController = new RwProjectDropShipItems();
+var ProjectDropShipItemsController = new RwProjectDropShipItems();

@@ -5,5 +5,5 @@ var OrderTypeTermsAndConditionsGrid = (function () {
     }
     return OrderTypeTermsAndConditionsGrid;
 }());
-window.OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
+var OrderTypeTermsAndConditionsGridController = new OrderTypeTermsAndConditionsGrid();
 //# sourceMappingURL=OrderTypeTermsAndConditionsGridController.js.map

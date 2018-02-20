@@ -72,4 +72,4 @@ class FacilityType {
     }
 }
 
-(<any>window).FacilityTypeController = new FacilityType();
+var FacilityTypeController = new FacilityType();

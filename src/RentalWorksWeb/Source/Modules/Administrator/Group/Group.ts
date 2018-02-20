@@ -370,5 +370,5 @@
     }
 }
 
-(<any>window).GroupController = new Group();
+var GroupController = new Group();
 

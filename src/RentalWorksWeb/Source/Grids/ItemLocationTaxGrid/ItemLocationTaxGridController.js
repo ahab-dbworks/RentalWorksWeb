@@ -5,5 +5,5 @@ var ItemLocationTaxGrid = (function () {
     }
     return ItemLocationTaxGrid;
 }());
-window.ItemLocationTaxGridController = new ItemLocationTaxGrid();
+var ItemLocationTaxGridController = new ItemLocationTaxGrid();
 //# sourceMappingURL=ItemLocationTaxGridController.js.map

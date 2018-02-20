@@ -5,5 +5,5 @@ var InventoryAvailabilityGrid = (function () {
     }
     return InventoryAvailabilityGrid;
 }());
-window.InventoryAvailabilityGridController = new InventoryAvailabilityGrid();
+var InventoryAvailabilityGridController = new InventoryAvailabilityGrid();
 //# sourceMappingURL=InventoryAvailabilityGridController.js.map

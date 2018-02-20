@@ -98,4 +98,4 @@ class GeneratorType {
     }
 }
 
-(<any>window).GeneratorTypeController = new GeneratorType();
+var GeneratorTypeController = new GeneratorType();

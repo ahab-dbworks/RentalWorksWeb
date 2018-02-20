@@ -5,5 +5,5 @@ var OrderTypeContactTitleGrid = (function () {
     }
     return OrderTypeContactTitleGrid;
 }());
-window.OrderTypeContactTitleGridController = new OrderTypeContactTitleGrid();
+var OrderTypeContactTitleGridController = new OrderTypeContactTitleGrid();
 //# sourceMappingURL=OrderTypeContactTitleGridController.js.map

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).SpaceWarehouseRateGridController = new SpaceWarehouseRateGrid();
+var SpaceWarehouseRateGridController = new SpaceWarehouseRateGrid();
 //----------------------------------------------------------------------------------------------

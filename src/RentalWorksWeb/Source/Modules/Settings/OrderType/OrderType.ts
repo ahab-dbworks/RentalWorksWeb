@@ -276,4 +276,4 @@ class OrderType {
     }
 }
 
-(<any>window).OrderTypeController = new OrderType();
+var OrderTypeController = new OrderType();

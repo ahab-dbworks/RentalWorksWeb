@@ -1,3 +1,5 @@
+routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return VendorController.getModuleScreen(); } });
+//---------------------------------------------------------------------------------
 class Vendor {
     Module: string;
     apiurl: string;
@@ -226,5 +228,5 @@ class Vendor {
     }
 
 }
-
-(window as any).VendorController = new Vendor();
+//---------------------------------------------------------------------------------
+var VendorController = new Vendor();

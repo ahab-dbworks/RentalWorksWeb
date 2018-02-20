@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
+var PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
 //----------------------------------------------------------------------------------------------

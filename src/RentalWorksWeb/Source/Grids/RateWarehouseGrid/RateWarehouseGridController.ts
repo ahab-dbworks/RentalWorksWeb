@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).RateWarehouseGridController = new RateWarehouseGrid();
+var RateWarehouseGridController = new RateWarehouseGrid();
 //----------------------------------------------------------------------------------------------

@@ -72,4 +72,4 @@ class PORejectReason {
     }
 }
 
-(<any>window).PORejectReasonController = new PORejectReason();
+var PORejectReasonController = new PORejectReason();

@@ -5,5 +5,5 @@ var InventoryAttributeValueGrid = (function () {
     }
     return InventoryAttributeValueGrid;
 }());
-window.InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
+var InventoryAttributeValueGridController = new InventoryAttributeValueGrid();
 //# sourceMappingURL=InventoryAttributeValueGridController.js.map

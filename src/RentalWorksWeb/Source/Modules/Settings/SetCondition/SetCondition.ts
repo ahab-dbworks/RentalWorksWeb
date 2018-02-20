@@ -72,4 +72,4 @@ class SetCondition {
     }
 }
 
-(<any>window).SetConditionController = new SetCondition();
+var SetConditionController = new SetCondition();

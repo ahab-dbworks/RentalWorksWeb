@@ -5,5 +5,5 @@ var CrewLocationGrid = (function () {
     }
     return CrewLocationGrid;
 }());
-window.CrewLocationGridController = new CrewLocationGrid();
+var CrewLocationGridController = new CrewLocationGrid();
 //# sourceMappingURL=CrewLocationGridController.js.map

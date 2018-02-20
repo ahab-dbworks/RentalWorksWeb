@@ -1,3 +1,4 @@
+routes.push({ pattern: /^module\/contact$/, action: function (match) { return ContactController.getModuleScreen(); } });
 var Contact = (function () {
     function Contact() {
         this.renderGrids = function ($form) {
@@ -102,5 +103,5 @@ var Contact = (function () {
     ;
     return Contact;
 }());
-window.ContactController = new Contact();
+var ContactController = new Contact();
 //# sourceMappingURL=Contact.js.map

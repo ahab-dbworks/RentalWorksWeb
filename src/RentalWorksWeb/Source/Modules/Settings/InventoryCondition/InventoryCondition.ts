@@ -72,4 +72,4 @@ class InventoryCondition {
     }
 }
 
-(<any>window).InventoryConditionController = new InventoryCondition();
+var InventoryConditionController = new InventoryCondition();

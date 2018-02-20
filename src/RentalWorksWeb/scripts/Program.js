@@ -1,347 +1,230 @@
-﻿var program, ScannerDevice, LineaScanner;
-Program.prototype = new FwApplication;
-Program.constructor = Program;
-//---------------------------------------------------------------------------------
-function Program() { FwApplication.call(this);
-    var me;
-    
-    me = this;
-    FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
-}
-//---------------------------------------------------------------------------------
-Program.prototype.getApplicationOptions = function() {
-    return JSON.parse(sessionStorage.getItem('applicationOptions'));
-};
-//---------------------------------------------------------------------------------
-Program.prototype.modules = [
-  //Home Modules
-  //  { urlpattern: /^module\/quote$/,                  getScreen: function() { return RwQuoteController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/order$/,                  getScreen: function() { return RwOrderController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/customer$/,               getScreen: function() { return RwCustomerController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/deal$/,                   getScreen: function() { return RwDealController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/vendor$/,                 getScreen: function() { return RwVendorController.getModuleScreen({}, {}); } }
-  { urlpattern: /^module\/contact$/,                    getScreen: function () { return ContactController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendor$/,                   getScreen: function () { return VendorController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/order$/,                    getScreen: function () { return OrderController.getModuleScreen(); } }
-  , { urlpattern: /^module\/order\/(\w+)\/(\S+)/,       getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return OrderController.getModuleScreen(filter); } }
-  , { urlpattern: /^module\/picklist$/,                 getScreen: function () { return PickListController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/orderstatus$/,              getScreen: function () { return OrderStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/contact$/,                  getScreen: function() { return ContactController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customer$/,                 getScreen: function() { return CustomerController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/rentalinventory$/,        getScreen: function() { return RwRentalInventoryController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/salesinventory$/,         getScreen: function() { return RwSalesInventoryController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/barcodeditems$/,          getScreen: function() { return RwBarCodedItemsController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/serialitems$/,            getScreen: function() { return RwSerialItemsController.getModuleScreen({}, {}); } }
-  //, { urlpattern: /^module\/repairorder$/,            getScreen: function() { return RwRepairOrderController.getModuleScreen({}, {}); } }
-    //Settings Modules
-  , { urlpattern: /^module\/country$/,                    getScreen: function() { return CountryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/state$/,                      getScreen: function() { return StateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customerstatus$/,             getScreen: function() { return CustomerStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customertype$/,               getScreen: function() { return CustomerTypeController.getModuleScreen(); } }
-  , { urlpattern: /^module\/glaccount$/,                  getScreen: function() { return GlAccountController.getModuleScreen(); } }
-  , { urlpattern: /^module\/billingcycle$/,               getScreen: function() { return BillingCycleController.getModuleScreen(); } }
-  , { urlpattern: /^module\/paymenttype$/,                getScreen: function() { return PaymentTypeController.getModuleScreen(); } }
-  , { urlpattern: /^module\/paymentterms$/,               getScreen: function() { return PaymentTermsController.getModuleScreen(); } }
-  , { urlpattern: /^module\/customersettings/,            getScreen: function() { return RwCustomerSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/ordertype$/,                  getScreen: function() { return OrderTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/usersettings/,                getScreen: function() { return UserSettingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorclass$/,                getScreen: function() { return VendorClassController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/warehouse$/,                  getScreen: function() { return WarehouseController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customercategory$/,           getScreen: function() { return CustomerCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/creditstatus$/,               getScreen: function() { return CreditStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealtype$/,                   getScreen: function() { return DealTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealstatus$/,                 getScreen: function() { return DealStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/department$/,                 getScreen: function() { return DepartmentController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/productiontype$/,             getScreen: function() { return ProductionTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/officelocation$/,             getScreen: function() { return OfficeLocationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/dealclassification$/,         getScreen: function() { return DealClassificationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/documenttype$/,               getScreen: function () { return DocumentTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/setsurface$/,                 getScreen: function () { return SetSurfaceController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/building$/,                   getScreen: function () { return BuildingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/walltype$/,                   getScreen: function () { return WallTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/walldescription$/,            getScreen: function () { return WallDescriptionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poapprovalstatus/,            getScreen: function () { return POApprovalStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/setopening$/,                 getScreen: function () { return SetOpeningController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventorygroup$/,             getScreen: function () { return InventoryGroupController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/facilityrate$/,               getScreen: function () { return FacilityRateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/potype$/,                     getScreen: function () { return POTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/sapvendorinvoicestatus$/,     getScreen: function () { return SapVendorInvoiceStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectdrawings$/,            getScreen: function () { return ProjectDrawingsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/eventcategory$/,              getScreen: function() { return EventCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/personneltype$/,              getScreen: function() { return PersonnelTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/photographytype$/,            getScreen: function() { return PhotographyTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/organizationtype$/,           getScreen: function() { return OrganizationTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poclassification$/,           getScreen: function() { return POClassificationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/region$/,                     getScreen: function() { return RegionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventoryadjustmentreason$/,  getScreen: function() { return InventoryAdjustmentReasonController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/attribute$/,                  getScreen: function() { return AttributeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventorystatus$/,            getScreen: function() { return InventoryStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/retiredreason$/,              getScreen: function() { return RetiredReasonController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/unretiredreason$/,            getScreen: function() { return UnretiredReasonController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/discountreason$/,             getScreen: function() { return DiscountReasonController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/contactevent$/,               getScreen: function() { return ContactEventController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/contacttitle$/,               getScreen: function() { return ContactTitleController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/maillist$/,                   getScreen: function() { return MailListController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/currency$/,                   getScreen: function() { return CurrencyController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/scheduletype$/,               getScreen: function() { return ScheduleTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poimportance$/,               getScreen: function() { return POImportanceController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/crewschedulestatus$/,         getScreen: function() { return CrewScheduleStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehicleschedulestatus$/,      getScreen: function() { return VehicleScheduleStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehiclecolor$/,               getScreen: function() { return VehicleColorController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/facilityschedulestatus$/,     getScreen: function() { return FacilityScheduleStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/unit$/,                       getScreen: function () { return UnitController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/asset$/,                      getScreen: function () { return AssetController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poapprover$/,                 getScreen: function () { return POApproverController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/userstatus$/,                 getScreen: function () { return UserStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/crewstatus/,                  getScreen: function () { return CrewStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehiclestatus$/,              getScreen: function () { return VehicleStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/facilitystatus$/,             getScreen: function () { return FacilityStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/blackoutstatus$/,             getScreen: function () { return BlackoutStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/coverletter$/,                getScreen: function() { return CoverLetterController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/termsconditions$/,            getScreen: function() { return TermsConditionsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobecare$/,               getScreen: function() { return WardrobeCareController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobecolor$/,              getScreen: function() { return WardrobeColorController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobegender$/,             getScreen: function() { return WardrobeGenderController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobelabel$/,              getScreen: function() { return WardrobeLabelController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobematerial$/,           getScreen: function() { return WardrobeMaterialController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehiclemake$/,                getScreen: function () { return VehicleMakeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventorytype$/,              getScreen: function() { return InventoryTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/generatorwatts$/,             getScreen: function () { return GeneratorWattsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/facilitytype$/,               getScreen: function() { return FacilityTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/labortype$/,                  getScreen: function() { return LaborTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/misctype$/,                   getScreen: function() { return MiscTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/propscondition$/,             getScreen: function() { return PropsConditionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobecondition$/,          getScreen: function() { return WardrobeConditionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventorycondition$/,         getScreen: function() { return InventoryConditionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/repairitemstatus$/,           getScreen: function () { return RepairItemStatusController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/licenseclass$/,               getScreen: function () { return LicenseClassController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/generatorfueltype$/,          getScreen: function () { return GeneratorFuelTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/generatormake$/,              getScreen: function () { return GeneratorMakeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/generatorrating$/,            getScreen: function () { return GeneratorRatingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehiclefueltype$/,            getScreen: function () { return VehicleFuelTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vehiclerating$/,              getScreen: function () { return VehicleRatingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobeperiod$/,             getScreen: function () { return WardrobePeriodController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobepattern$/,            getScreen: function () { return WardrobePatternController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/poapproverrole$/,             getScreen: function() { return POApproverRoleController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/wardrobesource$/,             getScreen: function() { return WardrobeSourceController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/formdesign$/,                 getScreen: function() { return FormDesignController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorcatalog$/,              getScreen: function () { return VendorCatalogController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorinvoiceapprover$/,      getScreen: function () { return VendorInvoiceApproverController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/partscategory$/,              getScreen: function () { return PartsCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/salescategory$/,              getScreen: function () { return SalesCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/rentalcategory$/,             getScreen: function () { return RentalCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/warehousecatalog$/,           getScreen: function() { return WarehouseCatalogController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/presentationlayer$/,          getScreen: function() { return PresentationLayerController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/taxoption$/,                  getScreen: function () { return TaxOptionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/source$/,                     getScreen: function () { return SourceController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/shipvia$/,                    getScreen: function () { return ShipViaController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/setcondition$/,               getScreen: function() { return SetConditionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/salesinventory$/,             getScreen: function() { return SalesInventoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/rentalinventory$/,            getScreen: function() { return RentalInventoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectdropshipitems$/,       getScreen: function () { return ProjectDropShipItemsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectdeposit$/,             getScreen: function() { return ProjectDepositController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectcommissioning$/,       getScreen: function() { return ProjectCommissioningController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/presentationlayeractivity$/,  getScreen: function() { return PresentationLayerActivityController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/ordersetno$/,                 getScreen: function () { return OrderSetNoController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/orderlocation$/,              getScreen: function () { return OrderLocationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/porejectreason$/,             getScreen: function () { return PORejectReasonController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/facilitycategory$/,           getScreen: function () { return FacilityCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/barcoderange$/,               getScreen: function () { return BarCodeRangeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/fiscalyear$/,                 getScreen: function () { return FiscalYearController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectasbuild$/,             getScreen: function () { return ProjectAsBuildController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/projectitemsordered$/,        getScreen: function () { return ProjectItemsOrderedController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/deal$/,                       getScreen: function () { return DealController.getModuleScreen(); } }
-  , { urlpattern: /^module\/deal\/(\S+)\/(\S+)/,          getScreen: function (match) { var filter = {'datafield': match[1], 'search': match[2]}; return DealController.getModuleScreen(filter); } }
-  , { urlpattern: /^module\/vehicletype$/,                getScreen: function () { return VehicleTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/laborcategory$/,              getScreen: function () { return LaborCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/misccategory$/,               getScreen: function () { return MiscCategoryController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/generatortype$/,              getScreen: function () { return GeneratorTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/miscrate$/,                   getScreen: function () { return MiscRateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/laborrate$/,                  getScreen: function () { return LaborRateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/holiday$/,                    getScreen: function () { return HolidayController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/discounttemplate$/,           getScreen: function () { return DiscountTemplateController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/spacetype$/,                  getScreen: function () { return SpaceTypeController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/inventoryrank$/,              getScreen: function () { return InventoryRankController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/laborposition$/,              getScreen: function () { return LaborPositionController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/eventtype$/,                  getScreen: function () { return EventTypeController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/template$/,                   getScreen: function () { return TemplateController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/gldistribution$/,             getScreen: function () { return GlDistributionController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/crew$/,                       getScreen: function () { return CrewController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/quote$/,                      getScreen: function () { return QuoteController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/widget$/,                     getScreen: function () { return WidgetController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/dashboard$/,                  getScreen: function () { return DashboardController.loadDashboard(); } } 
-
-    //Reports                                             
-    , { urlpattern: /^module\/dealoutstanding/,           getScreen: function () { return RwDealOutstandingController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/picklistreport$/,           getScreen: function () { return RwPickListReportController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/invoicesummaryreport$/,     getScreen: function () { return RwInvoiceSummaryReportController.getModuleScreen({}, {}); } }
-
-
-    //Utilities Modules                                   
-  , { urlpattern: /^module\/chargeprocessing/,            getScreen: function() { return RwChargeProcessingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/receiptprocessing/,           getScreen: function() { return RwReceiptProcessingController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/vendorinvoiceprocessing/,     getScreen: function() { return RwVendorInvoiceProcessingController.getModuleScreen({}, {}); } }
-
-
-    //Administrator
-  , { urlpattern: /^module\/control$/,                    getScreen: function() { return ControlController.getModuleScreen({}, {}); } } 
-  , { urlpattern: /^module\/group/,                       getScreen: function() { return GroupController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/integration/,                 getScreen: function() { return RwIntegrationController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/user/,                        getScreen: function() { return UserController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/customfields/,                getScreen: function () { return CustomFieldsController.getModuleScreen({}, {}); } }
-  , { urlpattern: /^module\/duplicaterules/,              getScreen: function () { return DuplicateRulesController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/settingspage$/, getScreen: function () { return SettingsPageController.getModuleScreen({}, {}); } }
-    , { urlpattern: /^module\/designer$/, getScreen: function () { return DesignerController.loadDesigner({}, {}); } }
-    //Exports                                             
-  , { urlpattern: /^module\/example/,                     getScreen: function() { return RwExampleController.getModuleScreen({}, {}); } }
-];
-//---------------------------------------------------------------------------------
-Program.prototype.routes = [
-    {
-        urlpattern: /^home$/
-      , getScreen: function() {
-            program.screens = [];
-            if (FwAppData.verifyHasAuthToken()) {
-                return RwHomeController.getHomeScreen({}, {}); 
-            } else {
-                program.navigate('default');
-            }
-        }
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var Program = (function (_super) {
+    __extends(Program, _super);
+    function Program() {
+        var _this = _super.call(this) || this;
+        FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
+        return _this;
     }
-  , {
-        urlpattern: /^default/
-      , getScreen: function() { 
-            return RwBaseController.getDefaultScreen({}, {}); 
-        }
-    }
-  , {
-        urlpattern: /^login$/
-      , getScreen: function() {
-            if (!sessionStorage.getItem('authToken')) {
-                return RwBaseController.getLoginScreen({}, {});
-            } else {
-                program.navigate('home');
-                return null;
-            }
-        }
-    }
-  , {
-        urlpattern: /^about/
-      , getScreen: function() { 
-            return RwBaseController.getAboutScreen({}, {}); 
-        }
-    }
-  , {
-        urlpattern: /^support/
-      , getScreen: function() { 
-            return RwBaseController.getSupportScreen({}, {}); 
-        }
-    }
-  , {
-        urlpattern: /^recoverpassword/
-      , getScreen: function() { 
-            return RwBaseController.getPasswordRecoveryScreen({}, {}); 
-        }
-    }
-  , {
-        urlpattern: /^logoff$/
-      , getScreen: function() {
-            sessionStorage.clear();
-            location.reload(false);
-            return null;
-        }
-    }
-];
-//---------------------------------------------------------------------------------
-Program.prototype.navigateHashChange = function(path) {
-    var me, screen, match;
-    me = this;
-    path = path.toLowerCase();
-    
-    for (var i = 0; i < program.routes.length; i++) {
-        match = program.routes[i].urlpattern.exec(path);
-        if (match != null) {
-            screen = program.routes[i].getScreen(match);
-            break;
-        }
-    }
-
-    if (screen != null) {
-        me.updateScreen(screen);
-    }
-};
-//---------------------------------------------------------------------------------
-Program.prototype.navigate = function(path) {
-    var me, screen;
-    me = this;
-    path = path.toLowerCase();
-    if (window.location.hash.replace('#/','') !== path) {
-        window.location.hash = '/' + path;
-    } else {
-        program.navigateHashChange(path);
-    }
-};
-//---------------------------------------------------------------------------------
-Program.prototype.getModule = function(path) {
-    var screen, match, $bodyContainer, $modifiedForms, $form, $tab;
-
-    $bodyContainer = jQuery('#master-body');
-    $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
-    path           = path.toLowerCase();
-    if ($modifiedForms.length > 0) {
-        $form = jQuery($modifiedForms[0]);
-        $tab  = jQuery('#' + $form.parent().attr('data-tabid'));
-        $tab.click();
-        FwModule.closeForm($form, $tab, path);
-    } else {
-        if (window.location.hash.replace('#/','') !== path) {
-            for (var i = 0; i < program.modules.length; i++) {
-                match = program.modules[i].urlpattern.exec(path);
-                if (match != null) {
-                    screen = program.modules[i].getScreen(match);
-                    break;
-                }
-            }
-            if (screen != null) {
-                window.location.hash = '/' + path;
-                if (this.screens.length > 0) {
-                    if (typeof this.screens[this.screens.length - 1].unload !== 'undefined') {
-                        this.screens[this.screens.length - 1].unload();
-                    }
-                    this.screens = [];
-                }
-                FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //Write something better
-                $bodyContainer
-                    .empty() // added this to get rid of the homepages doubling up in the support site.  Not sure about this line though, probably needs to get fixed in a better way.  MV 10/4/13
-                    .append(screen.$view);
-                this.screens.push(screen);
-                if (typeof screen.load !== 'undefined') {
-                    screen.load();
-                }
-                document.body.scrollTop = 0;
-            }
-        }
-    }
-};
-//---------------------------------------------------------------------------------
-Program.prototype.loadDefaultPage = function() {
-    var me = this;
-    if (sessionStorage.getItem('authToken')) {
-        me.navigate('home');
-    } else {
-        me.navigate('default');
-    }
-};
-//---------------------------------------------------------------------------------
+    return Program;
+}(FwApplication));
+var program = new Program();
 jQuery(function () {
-    program = new Program();
     program.load();
     program.loadDefaultPage();
 });
-//---------------------------------------------------------------------------------
-window.onhashchange = function() {
-    program.navigateHashChange(window.location.hash.replace('#/',''));
-};
-//---------------------------------------------------------------------------------
-
+routes.push({ pattern: /^module\/country$/, action: function (match) { return CountryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/state$/, action: function (match) { return StateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customerstatus$/, action: function (match) { return CustomerStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customertype$/, action: function (match) { return CustomerTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/glaccount$/, action: function (match) { return GlAccountController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/billingcycle$/, action: function (match) { return BillingCycleController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/paymenttype$/, action: function (match) { return PaymentTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/paymentterms$/, action: function (match) { return PaymentTermsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customersettings/, action: function (match) { return RwCustomerSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/ordertype$/, action: function (match) { return OrderTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/usersettings/, action: function (match) { return UserSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorclass$/, action: function (match) { return VendorClassController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/warehouse$/, action: function (match) { return WarehouseController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customercategory$/, action: function (match) { return CustomerCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/creditstatus$/, action: function (match) { return CreditStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealtype$/, action: function (match) { return DealTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealstatus$/, action: function (match) { return DealStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/department$/, action: function (match) { return DepartmentController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/productiontype$/, action: function (match) { return ProductionTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/officelocation$/, action: function (match) { return OfficeLocationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/documenttype$/, action: function (match) { return DocumentTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/setsurface$/, action: function (match) { return SetSurfaceController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/building$/, action: function (match) { return BuildingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/walltype$/, action: function (match) { return WallTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/walldescription$/, action: function (match) { return WallDescriptionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poapprovalstatus/, action: function (match) { return POApprovalStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/setopening$/, action: function (match) { return SetOpeningController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventorygroup$/, action: function (match) { return InventoryGroupController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/facilityrate$/, action: function (match) { return FacilityRateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/potype$/, action: function (match) { return POTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/sapvendorinvoicestatus$/, action: function (match) { return SapVendorInvoiceStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectdrawings$/, action: function (match) { return ProjectDrawingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/eventcategory$/, action: function (match) { return EventCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/personneltype$/, action: function (match) { return PersonnelTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/photographytype$/, action: function (match) { return PhotographyTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/organizationtype$/, action: function (match) { return OrganizationTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poclassification$/, action: function (match) { return POClassificationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/region$/, action: function (match) { return RegionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventoryadjustmentreason$/, action: function (match) { return InventoryAdjustmentReasonController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/attribute$/, action: function (match) { return AttributeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventorystatus$/, action: function (match) { return InventoryStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/retiredreason$/, action: function (match) { return RetiredReasonController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/unretiredreason$/, action: function (match) { return UnretiredReasonController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/discountreason$/, action: function (match) { return DiscountReasonController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/contactevent$/, action: function (match) { return ContactEventController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/contacttitle$/, action: function (match) { return ContactTitleController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/maillist$/, action: function (match) { return MailListController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/currency$/, action: function (match) { return CurrencyController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/scheduletype$/, action: function (match) { return ScheduleTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poimportance$/, action: function (match) { return POImportanceController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/crewschedulestatus$/, action: function (match) { return CrewScheduleStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehicleschedulestatus$/, action: function (match) { return VehicleScheduleStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehiclecolor$/, action: function (match) { return VehicleColorController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/facilityschedulestatus$/, action: function (match) { return FacilityScheduleStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/unit$/, action: function (match) { return UnitController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/asset$/, action: function (match) { return AssetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poapprover$/, action: function (match) { return POApproverController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/userstatus$/, action: function (match) { return UserStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/crewstatus/, action: function (match) { return CrewStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehiclestatus$/, action: function (match) { return VehicleStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/facilitystatus$/, action: function (match) { return FacilityStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/blackoutstatus$/, action: function (match) { return BlackoutStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/coverletter$/, action: function (match) { return CoverLetterController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/termsconditions$/, action: function (match) { return TermsConditionsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobecare$/, action: function (match) { return WardrobeCareController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobecolor$/, action: function (match) { return WardrobeColorController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobegender$/, action: function (match) { return WardrobeGenderController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobelabel$/, action: function (match) { return WardrobeLabelController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobematerial$/, action: function (match) { return WardrobeMaterialController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehiclemake$/, action: function (match) { return VehicleMakeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventorytype$/, action: function (match) { return InventoryTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/propscondition$/, action: function (match) { return PropsConditionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/generatorwatts$/, action: function (match) { return GeneratorWattsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/facilitytype$/, action: function (match) { return FacilityTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/labortype$/, action: function (match) { return LaborTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/misctype$/, action: function (match) { return MiscTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/propscondition$/, action: function (match) { return PropsConditionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobecondition$/, action: function (match) { return WardrobeConditionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventorycondition$/, action: function (match) { return InventoryConditionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/repairitemstatus$/, action: function (match) { return RepairItemStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/licenseclass$/, action: function (match) { return LicenseClassController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/generatorfueltype$/, action: function (match) { return GeneratorFuelTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/generatormake$/, action: function (match) { return GeneratorMakeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/generatorrating$/, action: function (match) { return GeneratorRatingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehiclefueltype$/, action: function (match) { return VehicleFuelTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vehiclerating$/, action: function (match) { return VehicleRatingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobeperiod$/, action: function (match) { return WardrobePeriodController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobepattern$/, action: function (match) { return WardrobePatternController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poapproverrole$/, action: function (match) { return POApproverRoleController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/wardrobesource$/, action: function (match) { return WardrobeSourceController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/formdesign$/, action: function (match) { return FormDesignController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorcatalog$/, action: function (match) { return VendorCatalogController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorinvoiceapprover$/, action: function (match) { return VendorInvoiceApproverController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/partscategory$/, action: function (match) { return PartsCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/salescategory$/, action: function (match) { return SalesCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/rentalcategory$/, action: function (match) { return RentalCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/warehousecatalog$/, action: function (match) { return WarehouseCatalogController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/presentationlayer$/, action: function (match) { return PresentationLayerController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/taxoption$/, action: function (match) { return TaxOptionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/source$/, action: function (match) { return SourceController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/shipvia$/, action: function (match) { return ShipViaController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/setcondition$/, action: function (match) { return SetConditionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/salesinventory$/, action: function (match) { return SalesInventoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/rentalinventory$/, action: function (match) { return RentalInventoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectdropshipitems$/, action: function (match) { return ProjectDropShipItemsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectdeposit$/, action: function (match) { return ProjectDepositController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectcommissioning$/, action: function (match) { return ProjectCommissioningController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/presentationlayeractivity$/, action: function (match) { return PresentationLayerActivityController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/ordersetno$/, action: function (match) { return OrderSetNoController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/orderlocation$/, action: function (match) { return OrderLocationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/porejectreason$/, action: function (match) { return PORejectReasonController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/facilitycategory$/, action: function (match) { return FacilityCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/barcoderange$/, action: function (match) { return BarCodeRangeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/fiscalyear$/, action: function (match) { return FiscalYearController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectasbuild$/, action: function (match) { return ProjectAsBuildController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/projectitemsordered$/, action: function (match) { return ProjectItemsOrderedController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/deal$/, action: function (match) { return DealController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match) { var filter = { 'datafield': match[1], 'search': match[2] }; return DealController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/vehicletype$/, action: function (match) { return VehicleTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/laborcategory$/, action: function (match) { return LaborCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/misccategory$/, action: function (match) { return MiscCategoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/generatortype$/, action: function (match) { return GeneratorTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/miscrate$/, action: function (match) { return MiscRateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/laborrate$/, action: function (match) { return LaborRateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/holiday$/, action: function (match) { return HolidayController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/discounttemplate$/, action: function (match) { return DiscountTemplateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/spacetype$/, action: function (match) { return SpaceTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/inventoryrank$/, action: function (match) { return InventoryRankController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/laborposition$/, action: function (match) { return LaborPositionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/eventtype$/, action: function (match) { return EventTypeController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/template$/, action: function (match) { return TemplateController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/gldistribution$/, action: function (match) { return GlDistributionController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/crew$/, action: function (match) { return CrewController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote$/, action: function (match) { return QuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/widget$/, action: function (match) { return WidgetController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dashboard$/, action: function (match) { return DashboardController.loadDashboard(); } });
+routes.push({ pattern: /^module\/dealoutstanding/, action: function (match) { return RwDealOutstandingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/chargeprocessing/, action: function (match) { return RwChargeProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receiptprocessing/, action: function (match) { return RwReceiptProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match) { return RwVendorInvoiceProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/control$/, action: function (match) { return ControlController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/group/, action: function (match) { return GroupController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/integration/, action: function (match) { return RwIntegrationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/user/, action: function (match) { return UserController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customfields/, action: function (match) { return CustomFieldsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/duplicaterules/, action: function (match) { return DuplicateRulesController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/settingspage$/, action: function (match) { return SettingsPageController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/designer$/, action: function (match) { return DesignerController.loadDesigner(); } });
+routes.push({ pattern: /^module\/example/, action: function (match) { return RwExampleController.getModuleScreen(); } });
+routes.push({
+    pattern: /^home$/,
+    action: function (match) {
+        program.screens = [];
+        if (FwAppData.verifyHasAuthToken()) {
+            return RwHomeController.getHomeScreen();
+        }
+        else {
+            program.navigate('default');
+        }
+    }
+});
+routes.push({
+    pattern: /^default/,
+    action: function (match) {
+        return RwBaseController.getDefaultScreen();
+    }
+});
+routes.push({
+    pattern: /^login$/,
+    action: function (match) {
+        if (!sessionStorage.getItem('authToken')) {
+            return RwBaseController.getLoginScreen();
+        }
+        else {
+            program.navigate('home');
+            return null;
+        }
+    }
+});
+routes.push({
+    pattern: /^about/,
+    action: function (match) {
+        return RwBaseController.getAboutScreen();
+    }
+});
+routes.push({
+    pattern: /^support/,
+    action: function (match) {
+        return RwBaseController.getSupportScreen();
+    }
+});
+routes.push({
+    pattern: /^recoverpassword/,
+    action: function (match) {
+        return RwBaseController.getPasswordRecoveryScreen();
+    }
+});
+routes.push({
+    pattern: /^logoff$/,
+    action: function (match) {
+        sessionStorage.clear();
+        location.reload(false);
+        return null;
+    }
+});
+//# sourceMappingURL=Program.js.map

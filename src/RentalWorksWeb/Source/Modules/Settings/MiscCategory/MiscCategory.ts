@@ -128,4 +128,4 @@ class MiscCategory {
 
 }
 
-(<any>window).MiscCategoryController = new MiscCategory();
+var MiscCategoryController = new MiscCategory();

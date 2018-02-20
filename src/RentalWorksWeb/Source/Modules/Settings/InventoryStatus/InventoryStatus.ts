@@ -72,4 +72,4 @@ class InventoryStatus {
     }
 }
 
-(<any>window).InventoryStatusController = new InventoryStatus();
+var InventoryStatusController = new InventoryStatus();

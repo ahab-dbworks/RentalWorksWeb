@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseDepartmentGridController = new WarehouseDepartmentGrid();
+var WarehouseDepartmentGridController = new WarehouseDepartmentGrid();
 //----------------------------------------------------------------------------------------------

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).CrewLocationGridController = new CrewLocationGrid();
+var CrewLocationGridController = new CrewLocationGrid();
 //----------------------------------------------------------------------------------------------

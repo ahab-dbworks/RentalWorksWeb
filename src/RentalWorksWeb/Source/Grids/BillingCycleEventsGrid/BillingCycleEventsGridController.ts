@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).BillingCycleEventsGridController = new BillingCycleEventsGrid();
+var BillingCycleEventsGridController = new BillingCycleEventsGrid();
 //----------------------------------------------------------------------------------------------

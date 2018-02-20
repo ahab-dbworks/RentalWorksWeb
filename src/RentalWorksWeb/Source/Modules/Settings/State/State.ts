@@ -72,4 +72,4 @@
     }
 }
 
-(window as any).StateController = new State();
+var StateController = new State();

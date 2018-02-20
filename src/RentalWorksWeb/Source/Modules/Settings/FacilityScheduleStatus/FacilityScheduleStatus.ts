@@ -72,4 +72,4 @@ class FacilityScheduleStatus {
     }
 }
 
-(<any>window).FacilityScheduleStatusController = new FacilityScheduleStatus();
+var FacilityScheduleStatusController = new FacilityScheduleStatus();

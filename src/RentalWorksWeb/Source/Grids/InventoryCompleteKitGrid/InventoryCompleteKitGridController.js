@@ -5,5 +5,5 @@ var InventoryCompleteKitGrid = (function () {
     }
     return InventoryCompleteKitGrid;
 }());
-window.InventoryCompleteKitGridController = new InventoryCompleteKitGrid();
+var InventoryCompleteKitGridController = new InventoryCompleteKitGrid();
 //# sourceMappingURL=InventoryCompleteKitGridController.js.map

@@ -5,5 +5,5 @@ var OrderStatusRentalDetailGrid = (function () {
     }
     return OrderStatusRentalDetailGrid;
 }());
-window.OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
+var OrderStatusRentalDetailGridController = new OrderStatusRentalDetailGrid();
 //# sourceMappingURL=OrderStatusRentalDetailGridController.js.map

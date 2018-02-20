@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).PickListItemGridController = new PickListItemGrid();
+var PickListItemGridController = new PickListItemGrid();
 //----------------------------------------------------------------------------------------------

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).ContactNoteGridController = new ContactNoteGrid();
+var ContactNoteGridController = new ContactNoteGrid();
 //----------------------------------------------------------------------------------------------

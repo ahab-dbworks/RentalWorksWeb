@@ -5,5 +5,5 @@ var WardrobeInventoryColorGrid = (function () {
     }
     return WardrobeInventoryColorGrid;
 }());
-window.WardrobeInventoryColorGridController = new WardrobeInventoryColorGrid();
+var WardrobeInventoryColorGridController = new WardrobeInventoryColorGrid();
 //# sourceMappingURL=WardrobeInventoryColorGridController.js.map

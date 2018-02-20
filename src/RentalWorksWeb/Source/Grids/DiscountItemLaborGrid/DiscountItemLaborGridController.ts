@@ -46,5 +46,5 @@
     };
 }
 
-(<any>window).DiscountItemLaborGridController = new DiscountItemLaborGrid();
+var DiscountItemLaborGridController = new DiscountItemLaborGrid();
 //----------------------------------------------------------------------------------------------

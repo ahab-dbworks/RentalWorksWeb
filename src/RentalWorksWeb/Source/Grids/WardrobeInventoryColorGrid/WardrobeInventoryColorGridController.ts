@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WardrobeInventoryColorGridController = new WardrobeInventoryColorGrid();
+var WardrobeInventoryColorGridController = new WardrobeInventoryColorGrid();
 //----------------------------------------------------------------------------------------------

@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).WarehouseOfficeLocationGridController = new WarehouseOfficeLocationGrid();
+var WarehouseOfficeLocationGridController = new WarehouseOfficeLocationGrid();
 //----------------------------------------------------------------------------------------------

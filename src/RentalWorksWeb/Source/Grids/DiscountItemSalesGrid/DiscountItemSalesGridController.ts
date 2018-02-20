@@ -50,5 +50,5 @@
     }
 }
 
-(<any>window).DiscountItemSalesGridController = new DiscountItemSalesGrid();
+var DiscountItemSalesGridController = new DiscountItemSalesGrid();
 //----------------------------------------------------------------------------------------------

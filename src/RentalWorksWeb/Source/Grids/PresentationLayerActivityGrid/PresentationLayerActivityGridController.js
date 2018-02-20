@@ -5,5 +5,5 @@ var PresentationLayerActivityGrid = (function () {
     }
     return PresentationLayerActivityGrid;
 }());
-window.PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
+var PresentationLayerActivityGridController = new PresentationLayerActivityGrid();
 //# sourceMappingURL=PresentationLayerActivityGridController.js.map

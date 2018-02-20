@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).WardrobeColorController = new WardrobeColor();
+var WardrobeColorController = new WardrobeColor();
 

@@ -5,5 +5,5 @@ var FiscalMonthGrid = (function () {
     }
     return FiscalMonthGrid;
 }());
-window.FiscalMonthGridController = new FiscalMonthGrid();
+var FiscalMonthGridController = new FiscalMonthGrid();
 //# sourceMappingURL=FiscalMonthGridController.js.map

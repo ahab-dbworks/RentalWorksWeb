@@ -72,5 +72,5 @@
     }
 }
 
-(<any>window).TermsConditionsController = new TermsConditions();
+var TermsConditionsController = new TermsConditions();
 

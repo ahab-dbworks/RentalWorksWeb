@@ -8,5 +8,5 @@
     }
 }
 
-(<any>window).VehicleMakeModelGridController = new VehicleMakeModelGrid();
+var VehicleMakeModelGridController = new VehicleMakeModelGrid();
 //----------------------------------------------------------------------------------------------

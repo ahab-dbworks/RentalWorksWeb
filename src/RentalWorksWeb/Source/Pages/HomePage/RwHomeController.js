@@ -1,14 +1,15 @@
 var RwHome = (function () {
     function RwHome() {
     }
-    RwHome.prototype.getHomeScreen = function (viewModel, properties) {
-        var combinedViewModel, screen, applicationOptions;
+    RwHome.prototype.getHomeScreen = function () {
         var self = this;
-        applicationOptions = program.getApplicationOptions();
-        combinedViewModel = jQuery.extend({}, viewModel);
-        combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-pages-Home').html(), combinedViewModel);
-        screen = {};
-        screen.$view = RwMasterController.getMasterView(combinedViewModel);
+        var applicationOptions = program.getApplicationOptions();
+        var viewModel = {
+            htmlPageBody: jQuery('#tmpl-pages-Home').html()
+        };
+        var properties = {};
+        var screen = {};
+        screen.$view = RwMasterController.getMasterView(viewModel, properties);
         screen.viewModel = viewModel;
         screen.properties = properties;
         screen.load = function () {
@@ -96,5 +97,5 @@ var RwHome = (function () {
     return RwHome;
 }());
 ;
-window.RwHomeController = new RwHome();
+var RwHomeController = new RwHome();
 //# sourceMappingURL=RwHomeController.js.map
