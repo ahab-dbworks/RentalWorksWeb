@@ -1661,7 +1661,7 @@ namespace FwStandard.SqlServer
                             {
                                 i = columnIndex[attribute.Key];
                             }
-                            catch (System.Collections.Generic.KeyNotFoundException e)
+                            catch (System.Collections.Generic.KeyNotFoundException)
                             {
                                 i = -1;
                             }
@@ -1674,7 +1674,7 @@ namespace FwStandard.SqlServer
                             {
                                 i = columnIndex[attribute.Value.ColumnName];
                             }
-                            catch (System.Collections.Generic.KeyNotFoundException e)
+                            catch (System.Collections.Generic.KeyNotFoundException)
                             {
                                 i = -1;
                             }
