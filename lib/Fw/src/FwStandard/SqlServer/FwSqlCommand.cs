@@ -1134,7 +1134,8 @@ namespace FwStandard.SqlServer
                 case FwDataTypes.Text:
                     if (!reader.IsDBNull(columnIndex))
                     {
-                        data = reader.GetValue(columnIndex).ToString().Trim();
+                        //data = reader.GetValue(columnIndex).ToString().Trim();
+                        data = reader.GetValue(columnIndex).ToString().TrimEnd();  //justin 02/20/2018 - preserve leading blanks for indenting in grids, etc.
                     }
                     else
                     {
