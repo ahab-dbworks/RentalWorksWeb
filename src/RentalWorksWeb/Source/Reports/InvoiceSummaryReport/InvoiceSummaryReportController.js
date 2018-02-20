@@ -25,7 +25,7 @@ RwInvoiceSummaryReportController.getModuleScreen = function (viewModel, properti
     return screen;
 };
 //----------------------------------------------------------------------------------------------
-RwInvoiceSummaryReportController.openForm = function (mode, parentModuleInfo) {
+RwInvoiceSummaryReportController.openForm = function (mode) {
     var $form;
 
     $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
@@ -33,13 +33,6 @@ RwInvoiceSummaryReportController.openForm = function (mode, parentModuleInfo) {
         request.parameters = FwReport.getParameters($form);
         return request;
     });
-
-
-    if (typeof parentModuleInfo !== 'undefined') {
-        $form.find('div.fwformfield[data-datafield="PickListId"] input').val(parentModuleInfo.PickListId);
-        $form.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(parentModuleInfo.PickListNumber);
-    }
-
 
     return $form;
 };

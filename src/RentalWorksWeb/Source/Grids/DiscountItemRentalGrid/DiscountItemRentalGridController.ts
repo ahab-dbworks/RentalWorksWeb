@@ -17,9 +17,9 @@
 
         var validationName = request.module;
         if (validationName != null) {
-            var InventoryTypeValue = jQuery($grid.find('tr.editrow [data-validationname="InventoryTypeValidation"] input')).val();
-            var CategoryTypeId = jQuery($grid.find('tr.editrow [data-validationname="RentalCategoryValidation"] input')).val();
-            var SubCategoryTypeId = jQuery($grid.find('tr.editrow [data-validationname="SubCategoryValidation"] input')).val();
+            var InventoryTypeValue = jQuery($grid.find('tr.editrow [data-formvalidationname="InventoryTypeValidation"] input')).val();
+            var CategoryTypeId = jQuery($grid.find('tr.editrow [data-formvalidationname="RentalCategoryValidation"] input')).val();
+            var SubCategoryTypeId = jQuery($grid.find('tr.editrow [data-formvalidationname="SubCategoryValidation"] input')).val();
 
             switch (validationName) {
                 case 'InventoryTypeValidation':
