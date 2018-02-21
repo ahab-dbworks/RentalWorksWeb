@@ -1658,27 +1658,13 @@ namespace FwStandard.SqlServer
                         //first, attempt to find the column index by the Key name (logical name)
                         if (i < 0)
                         {
-                            try
-                            {
-                                i = columnIndex[attribute.Key];
-                            }
-                            catch (System.Collections.Generic.KeyNotFoundException)
-                            {
-                                i = -1;
-                            }
+                            i = columnIndex.ContainsKey(attribute.Key) ? columnIndex[attribute.Key] : -1;
                         }
 
                         //second, attempt to find the column index by the ColumnName (physical name)
                         if (i < 0)
                         {
-                            try
-                            {
-                                i = columnIndex[attribute.Value.ColumnName];
-                            }
-                            catch (System.Collections.Generic.KeyNotFoundException)
-                            {
-                                i = -1;
-                            }
+                            i = columnIndex.ContainsKey(attribute.Value.ColumnName) ? columnIndex[attribute.Value.ColumnName] : -1;
                         }
 
                         //if neither fields are found, give a meaningful error message

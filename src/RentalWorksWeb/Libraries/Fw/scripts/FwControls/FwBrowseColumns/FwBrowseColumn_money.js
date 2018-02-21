@@ -14,8 +14,9 @@ FwBrowseColumn_money.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     if ((originalvalue.length > 0) && (!isNaN(parseFloat(originalvalue)))) {
         $field.html('$' + numberWithCommas(parseFloat(originalvalue).toFixed(2)));
+        $field.html(`<div class="fieldvalue">$${numberWithCommas(parseFloat(originalvalue).toFixed(2))}</div>`);
     } else {
-        $field.html('$0.00');
+        $field.html('<div class="fieldvalue">$0.00</div>');
     }
 };
 //---------------------------------------------------------------------------------

@@ -163,7 +163,7 @@ namespace Fw.MSBuildTasks
                             {
                                 sbModules = new StringBuilder();
                                 // Fw Controls
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls");
+                                pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Controls");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleArray = Directory.GetFiles(pathModules, "*.htm", SearchOption.AllDirectories);
@@ -181,7 +181,7 @@ namespace Fw.MSBuildTasks
                                     }
                                 }
                                 // Fw Pages
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Pages");
+                                pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Pages");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleArray = Directory.GetFiles(pathModules, "*.htm", SearchOption.AllDirectories);
@@ -247,7 +247,7 @@ namespace Fw.MSBuildTasks
                             {
                                 // Fw Modules
                                 sbModules = new StringBuilder();
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Modules");
+                                pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Modules");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -279,7 +279,7 @@ namespace Fw.MSBuildTasks
                                     }
                                 }
                                 // Fw SubModules
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\SubModules");
+                                pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\SubModules");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -430,7 +430,7 @@ namespace Fw.MSBuildTasks
                             // Grids
                             sbModules = new StringBuilder();
                             // Fw Grids
-                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Grids");
+                            pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Grids");
                             if (Directory.Exists(pathModules))
                             {
                                 pathModuleList = getModuleDirectories(pathModules);
@@ -488,7 +488,7 @@ namespace Fw.MSBuildTasks
                             // Validations
                             sbModules = new StringBuilder();
                             // Fw Validations
-                            pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Validations");
+                            pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Validations");
                             if (Directory.Exists(pathModules))
                             {
                                 pathModuleList = getModuleDirectories(pathModules);
@@ -556,7 +556,7 @@ namespace Fw.MSBuildTasks
                             {
                                 sbModules = new StringBuilder();
                                 // Fw Reports
-                                pathModules  = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Reports");
+                                pathModules  = Path.Combine(pathSite, @"libraries\Fw\source\Reports");
                                 if (Directory.Exists(pathModules))
                                 {
                                     pathModuleList = getModuleDirectories(pathModules);
@@ -668,11 +668,11 @@ namespace Fw.MSBuildTasks
                                     List<string> jsFiles;
                                     string[] newInputFiles;
                                     string fieldKey, jspath;
-                                    string fwpath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot");
+                                    string fwpath = Path.Combine(pathSite, @"libraries\Fw\");
 
                                     jsFiles = new List<string>();
 
-                                    jspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source");
+                                    jspath = Path.Combine(pathSite, @"libraries\Fw\source");
                                     if (Directory.Exists(jspath))
                                     {
                                         newInputFiles = Directory.GetFiles(jspath, "*.js", SearchOption.AllDirectories);
@@ -729,49 +729,49 @@ namespace Fw.MSBuildTasks
 
                                     cssFiles = new List<string>();
                                     
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Grids");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\Grids");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Modules");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\Modules");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Pages");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\Pages");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Reports");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\Reports");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "FrontEnd.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\SubModules");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\SubModules");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
                                         cssFiles.AddRange(newInputFiles);
                                     }
 
-                                    csspath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\source\Controls\Modules\Validations");
+                                    csspath = Path.Combine(pathSite, @"libraries\Fw\source\Controls\Modules\Validations");
                                     if (Directory.Exists(csspath))
                                     {
                                         newInputFiles = Directory.GetFiles(csspath, "*.css", SearchOption.AllDirectories);
@@ -1263,11 +1263,11 @@ namespace Fw.MSBuildTasks
             return null;
         }
         //---------------------------------------------------------------------------------------------
-        private void BuildFwReferencesJsFile(string solutionDir)
+        private void BuildFwReferencesJsFile(string solutionDir, string pathSite)
         {
             // create the Fw.Json _references.js file
             // when you open a fw script, it will intellisense against all the fw scripts
-            string fwjsoncontentpath = Path.Combine(solutionDir, @"lib\Fw\src\FwFrontEndLibrary\wwwroot\");
+            string fwjsoncontentpath = Path.Combine(pathSite, @"libraries\Fw\");
             if (Directory.Exists(fwjsoncontentpath))
             {
                 string[] fwscripts = Directory.GetFiles(fwjsoncontentpath, "*.js", SearchOption.AllDirectories);

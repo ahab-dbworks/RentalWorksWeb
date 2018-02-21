@@ -207,8 +207,6 @@
         }
     };
     //---------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------
     getModule(path) {
         var screen, $bodyContainer, $modifiedForms, $form, $tab;
 
@@ -221,33 +219,7 @@
             $tab.click();
             FwModule.closeForm($form, $tab, path);
         } else {
-            if (window.location.hash.replace('#/','') !== path) {
-                for (var i = 0; i < routes.length; i++) {
-                    var match: RegExpExecArray = routes[i].pattern.exec(path);
-                    if (match != null) {
-                        screen = routes[i].action(match);
-                        break;
-                    }
-                }
-                if (screen != null) {
-                    window.location.hash = '/' + path;
-                    if (this.screens.length > 0) {
-                        if (typeof this.screens[this.screens.length - 1].unload !== 'undefined') {
-                            this.screens[this.screens.length - 1].unload();
-                        }
-                        this.screens = [];
-                    }
-                    FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //Write something better
-                    $bodyContainer
-                        .empty() // added this to get rid of the homepages doubling up in the support site.  Not sure about this line though, probably needs to get fixed in a better way.  MV 10/4/13
-                        .append(screen.$view);
-                    this.screens.push(screen);
-                    if (typeof screen.load !== 'undefined') {
-                        screen.load();
-                    }
-                    document.body.scrollTop = 0;
-                }
-            }
+            this.navigate(path);
         }
     };
     //---------------------------------------------------------------------------------
@@ -256,29 +228,47 @@
     };
     //---------------------------------------------------------------------------------
     navigateHashChange(path) {
-        var screen, match;
-        //sessionStorage.setItem('activePath', path);
+        var screen: any;
+
+        //mv 2018-02-21 - not sure if this is still needed.  Appears to be cleanup code
+        FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //Write something better
+
         path = path.toLowerCase();
-    
+        var foundmatch = false;
         for (var i = 0; i < routes.length; i++) {
-            match = routes[i].pattern.exec(path);
+            var match = routes[i].pattern.exec(path);
             if (match != null) {
+                foundmatch = true;
                 screen = routes[i].action(match);
                 break;
             }
         }
-
-        if (screen != null) {
-            this.updateScreen(screen);
+        if (foundmatch && typeof screen !== 'undefined' && screen !== null) {
+            var $bodyContainer = jQuery('#master-body');
+            if ($bodyContainer.length > 0) {
+                $bodyContainer
+                    .empty() // added this to get rid of the homepages doubling up in the support site.  Not sure about this line though, probably needs to get fixed in a better way.  MV 10/4/13
+                    .append(screen.$view);
+                this.screens.push(screen);
+                if (typeof screen.load !== 'undefined') {
+                    screen.load();
+                }
+                document.body.scrollTop = 0;
+            } else {
+                this.updateScreen(screen);
+            }
+            
+        }
+        if (!foundmatch) {
+            FwFunc.showError(`404: Not Found - ${path}`);
         }
     };
     //---------------------------------------------------------------------------------
     navigate(path) {
         var me, screen;
         me = this;
-        //sessionStorage.setItem('activePath', path);
         path = path.toLowerCase();
-        if (window.location.hash.replace('#/','') !== path) {
+        if (window.location.hash.replace('#/', '') !== path) {
             var url = '/' + path;
             window.location.hash = url;
             //history.pushState(url, '', url);
@@ -297,8 +287,8 @@
     //---------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------
-window.onhashchange = function() {
-    program.navigateHashChange(window.location.hash.replace('#/',''));
+window.onhashchange = function () {
+    program.navigateHashChange(window.location.hash.replace('#/', ''));
 };
 //---------------------------------------------------------------------------------
 //fires when the browser history is changed through the history api and maybe other ways too

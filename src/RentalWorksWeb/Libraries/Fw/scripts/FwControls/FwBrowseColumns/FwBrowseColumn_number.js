@@ -12,7 +12,7 @@ FwBrowseColumn_number.getFieldValue = function($browse, $tr, $field, field, orig
 //---------------------------------------------------------------------------------
 FwBrowseColumn_number.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
-    $field.html(originalvalue);
+    $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_number.setFieldEditMode = function($browse, $field, $tr, html) {

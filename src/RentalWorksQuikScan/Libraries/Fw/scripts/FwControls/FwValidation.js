@@ -223,73 +223,75 @@ FwValidation.init = function($control) {
             FwFunc.showError(ex);
         }
     });
-    $btnpeek
-        .on('click', function () {
-            var $popupForm;
-            var popupModule = validationName.slice(0, -10);
-            var popupModuleId = $valuefield.val();
-            var validationDatafield = $valuefield.parent().parent().attr('data-datafield');
+    $control.find('.btnpeek').on('click', function () {
+        var $popupForm;
+        var popupModule = validationName.slice(0, -10);
+        var popupModuleId = $valuefield.val();
+        var validationDatafield = $valuefield.parent().parent().attr('data-datafield');
+        var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]'); 
 
-            if (popupModuleId !== '') {
-                $popupForm = jQuery(jQuery('#tmpl-modules-' + popupModule + 'Form').html());
-                $popupForm = FwModule.openForm($popupForm, 'EDIT');
+        if ($object.attr('data-type') === 'Grid') {
+            validationDatafield = $control.attr('data-browsedatafield');
+        } 
 
-                $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
+        if (popupModuleId !== '') {
+            $popupForm = jQuery(jQuery('#tmpl-modules-' + popupModule + 'Form').html());
+            $popupForm = FwModule.openForm($popupForm, 'EDIT');
 
-                $popupForm.css({'position': 'relative'});
+            $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
 
-                //$popupForm.find('.fwform-menu').remove();
-                $popupForm.find('.btnpeek').remove();
-                $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow':'scroll' });
-                $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(popupModuleId);
+            $popupForm.css({'position': 'relative'});
 
-                FwModule.loadForm(popupModule, $popupForm);
-                //FwModule.setFormReadOnly($popupForm);
+            //$popupForm.find('.fwform-menu').remove(); 
+            $popupForm.find('.btnpeek').remove();
+            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll' });
+            $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(popupModuleId); 
 
-                FwPopup.showPopup(FwPopup.renderPopup($popupForm));
+            FwModule.loadForm(popupModule, $popupForm);
+            //FwModule.setFormReadOnly($popupForm);
 
-                jQuery(document).find('.fwpopup').on('click', function (e) {
-                    e = e || window.event;
-                    if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm));
 
-                    } else {
-                        FwPopup.destroyPopup(this);
-                        jQuery(document).off('keydown');
-                        jQuery(document).find('.fwpopup').off('click');
-                    }                    
-                });
+            jQuery(document).find('.fwpopup').on('click', function (e) {
+                e = e || window.event;
+                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
 
-                $popupForm.find('.close-modal').one('click', function (e) {
-                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                    jQuery(document).find('.fwpopup').off('click');
+                } else {
+                    FwPopup.destroyPopup(this);
                     jQuery(document).off('keydown');
-                })
+                    jQuery(document).find('.fwpopup').off('click');
+                }                    
+            });
 
-                jQuery(document).on('keydown', function (e) {
-                    var code = e.keyCode || e.which;
-                    if (code === 27) { //ESC Key  
-                        try {
-                            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                            jQuery(document).find('.fwpopup').off('click');
-                            jQuery(document).off('keydown');
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
+            $popupForm.find('.close-modal').one('click', function (e) {
+                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                jQuery(document).find('.fwpopup').off('click');
+                jQuery(document).off('keydown');
+            })
+
+            jQuery(document).on('keydown', function (e) {
+                var code = e.keyCode || e.which;
+                if (code === 27) { //ESC Key  
+                    try {
+                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        jQuery(document).find('.fwpopup').off('click');
+                        jQuery(document).off('keydown');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
                     }
-                });
+                }
+            });
 
-                jQuery(document).find('.fwpopupbox').on('click', function (e) {
-                    e = e || window.event;
-                    if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+            jQuery(document).find('.fwpopupbox').on('click', function (e) {
+                e = e || window.event;
+                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
 
-                    } else {
-                        e.stopImmediatePropagation();
-                    }
-                });
-            };
-            
-        })
-    ;
+                } else {
+                    e.stopImmediatePropagation();
+                }
+            });
+        };            
+    });
 }
 //---------------------------------------------------------------------------------
 FwValidation.validate = function(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, useSearchFieldValue) {

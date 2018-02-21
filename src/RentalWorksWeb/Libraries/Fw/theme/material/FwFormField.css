@@ -4,7 +4,7 @@ html.theme-material .fwformfield .fwdesignerhandle { background-color: lightgree
 
 html.theme-material [data-control="FwFormField"] {padding:0 5px;box-sizing:border-box;}
 
-html.theme-material .fwformfield .fwformfield-caption {font-size:.75em;height:1.2em;padding:.25em;color: #757575;cursor:default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-material .fwformfield .fwformfield-caption {font-size:.75em;height:1.2em;padding:.25em;color: #757575;cursor:default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;white-space:nowrap;}
 
 html.theme-material .fwformfield .fwformfield-control {display:flex;align-items:center;box-sizing:border-box;}
 html.theme-material.desktop .fwformfield .fwformfield-control {height:2em;}
@@ -222,12 +222,12 @@ html.theme-material .fwformfield[data-type="multiselectvalidation"].error .fwfor
 /*#region data-type="number" */
 html.theme-material.desktop .fwformfield[data-type="number"] .fwformfield-control {border: 1px solid #E0E0E0;}
 html.theme-material .fwformfield[data-type="number"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
-html.theme-material.desktop .fwformfield[data-type="number"] .fwformfield-control input.fwformfield-value {border:0;}
+html.theme-material.desktop .fwformfield[data-type="number"] .fwformfield-control input.fwformfield-value {border:0;width:100%;}
 html.theme-material.desktop .fwformfield[data-type="number"] .fwformfield-control input.fwformfield-value:focus {border-right:none;}
-html.theme-material.desktop .fwformfield[data-type="number"] .add-on {height:100%;cursor:pointer;outline: 0;transition: all 0.3s;}
+html.theme-material.desktop .fwformfield[data-type="number"] .add-on {height:100%;cursor:pointer;outline: 0;transition: all 0.3s;flex: 0 0 1.5em;}
 html.theme-material.desktop .fwformfield[data-type="number"] .icon-n {height:50%;background-repeat: no-repeat;box-sizing: border-box;background-image:url("../fwimages/icons/128/arrow-north.png");background-size: 8px 8px;background-position: center;width:24px;}
 html.theme-material.desktop .fwformfield[data-type="number"] .icon-s {height:50%;background-repeat: no-repeat;background-image:url("../fwimages/icons/128/arrow-south.png");background-size: 8px 8px;background-position: center;width:24px;}
-html.theme-material.desktop .fwformfield[data-type="number"][data-enabled="false"] .add-on {cursor:default;color: #9E9E9E;}
+html.theme-material.desktop .fwformfield[data-type="number"][data-enabled="false"] .add-on {/*cursor:default;color: #9E9E9E;*/display:none;}
 html.theme-material.desktop .fwformfield[data-type="number"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 
 html.theme-material.mobile .fwformfield[data-type="number"] .fwformfield-control {background-color:#ffffff;overflow:hidden;border-radius:4px;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}

@@ -196,33 +196,7 @@ var FwApplication = (function () {
             FwModule.closeForm($form, $tab, path);
         }
         else {
-            if (window.location.hash.replace('#/', '') !== path) {
-                for (var i = 0; i < routes.length; i++) {
-                    var match = routes[i].pattern.exec(path);
-                    if (match != null) {
-                        screen = routes[i].action(match);
-                        break;
-                    }
-                }
-                if (screen != null) {
-                    window.location.hash = '/' + path;
-                    if (this.screens.length > 0) {
-                        if (typeof this.screens[this.screens.length - 1].unload !== 'undefined') {
-                            this.screens[this.screens.length - 1].unload();
-                        }
-                        this.screens = [];
-                    }
-                    FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay'));
-                    $bodyContainer
-                        .empty()
-                        .append(screen.$view);
-                    this.screens.push(screen);
-                    if (typeof screen.load !== 'undefined') {
-                        screen.load();
-                    }
-                    document.body.scrollTop = 0;
-                }
-            }
+            this.navigate(path);
         }
     };
     ;
@@ -231,17 +205,36 @@ var FwApplication = (function () {
     };
     ;
     FwApplication.prototype.navigateHashChange = function (path) {
-        var screen, match;
+        var screen;
+        FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay'));
         path = path.toLowerCase();
+        var foundmatch = false;
         for (var i = 0; i < routes.length; i++) {
-            match = routes[i].pattern.exec(path);
+            var match = routes[i].pattern.exec(path);
             if (match != null) {
+                foundmatch = true;
                 screen = routes[i].action(match);
                 break;
             }
         }
-        if (screen != null) {
-            this.updateScreen(screen);
+        if (foundmatch && typeof screen !== 'undefined' && screen !== null) {
+            var $bodyContainer = jQuery('#master-body');
+            if ($bodyContainer.length > 0) {
+                $bodyContainer
+                    .empty()
+                    .append(screen.$view);
+                this.screens.push(screen);
+                if (typeof screen.load !== 'undefined') {
+                    screen.load();
+                }
+                document.body.scrollTop = 0;
+            }
+            else {
+                this.updateScreen(screen);
+            }
+        }
+        if (!foundmatch) {
+            FwFunc.showError("404: Not Found - " + path);
         }
     };
     ;
