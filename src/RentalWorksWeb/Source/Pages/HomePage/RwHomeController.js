@@ -1,15 +1,22 @@
 var RwHome = (function () {
     function RwHome() {
+        this.Module = 'RwHome';
     }
     RwHome.prototype.getHomeScreen = function () {
         var self = this;
         var applicationOptions = program.getApplicationOptions();
-        var viewModel = {
-            htmlPageBody: jQuery('#tmpl-pages-Home').html()
-        };
         var properties = {};
         var screen = {};
-        screen.$view = RwMasterController.getMasterView(viewModel, properties);
+        var $filemenu = jQuery('.fwfilemenu');
+        if ($filemenu.length === 0) {
+            var viewModel = {
+                htmlPageBody: jQuery('#tmpl-pages-Home').html()
+            };
+            screen.$view = RwMasterController.getMasterView(viewModel, properties);
+        }
+        else {
+            screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
+        }
         screen.viewModel = viewModel;
         screen.properties = properties;
         screen.load = function () {

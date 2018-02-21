@@ -10,14 +10,9 @@ class Program extends FwApplication {
 var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
-    //program = new Program();
     program.load();
     program.loadDefaultPage();
 });
-//---------------------------------------------------------------------------------
-//window.onhashchange = function() {
-//    program.navigateHashChange(window.location.hash.replace('#/',''));
-//};
 //---------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
 //Home Modules

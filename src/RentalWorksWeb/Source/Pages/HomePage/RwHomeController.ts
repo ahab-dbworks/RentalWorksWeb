@@ -1,14 +1,19 @@
 ﻿class RwHome {
+    Module: string = 'RwHome';
     getHomeScreen() {
         var self = this;
         var applicationOptions = program.getApplicationOptions();
-
-        var viewModel = {
-            htmlPageBody: jQuery('#tmpl-pages-Home').html()
-        };
         var properties = {};
         var screen: any = {};
-        screen.$view = RwMasterController.getMasterView(viewModel, properties);
+        var $filemenu = jQuery('.fwfilemenu');
+        if ($filemenu.length === 0) {
+            var viewModel = {
+                htmlPageBody: jQuery('#tmpl-pages-Home').html()
+            };
+            screen.$view = RwMasterController.getMasterView(viewModel, properties);
+        } else {
+            screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
+        }
         screen.viewModel = viewModel;
         screen.properties = properties;
 
