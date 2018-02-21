@@ -1062,6 +1062,12 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\Body.htm" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\Footer.htm" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\FrontEnd.htm" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\Header.htm" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\RwInvoiceSummaryReportController.js" />
+    <Content Include="Source\Reports\InvoiceSummaryReport\StyleSheet.css" />
     <Content Include="Source\Reports\PickListReport\Body.htm" />
     <Content Include="Source\Reports\PickListReport\Footer.htm" />
     <Content Include="Source\Reports\PickListReport\FrontEnd.htm" />
@@ -1315,6 +1321,7 @@
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\Reports\ChargeProcessing\ChargeProcessing.cs" />
+    <Compile Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReport.cs" />
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />

@@ -43,15 +43,6 @@ RwInvoiceSummaryReportController.onLoadForm = function ($form) {
     appOptions = program.getApplicationOptions();
 
     request.method = "LoadForm";
-    //FwReport.getData($form, request, function(response) {
-    //    try {
-    //        FwFormField.loadItems($form.find('div[data-datafield="orderbylist"]'), response.orderbylist);
-    //        $form.data('locationid', response.locationid);
-    //    } catch(ex) {
-    //        FwFunc.showError(ex);
-    //    }
-    //});
-
 
 };
 //----------------------------------------------------------------------------------------------

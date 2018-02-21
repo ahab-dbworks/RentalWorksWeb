@@ -159,6 +159,7 @@ routes.push({ pattern: /^module\/quote$/, action: function (match) { return Quot
 routes.push({ pattern: /^module\/widget$/, action: function (match) { return WidgetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dashboard$/, action: function (match) { return DashboardController.loadDashboard(); } });
 routes.push({ pattern: /^module\/dealoutstanding/, action: function (match) { return RwDealOutstandingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/chargeprocessing/, action: function (match) { return RwChargeProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/receiptprocessing/, action: function (match) { return RwReceiptProcessingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match) { return RwVendorInvoiceProcessingController.getModuleScreen(); } });

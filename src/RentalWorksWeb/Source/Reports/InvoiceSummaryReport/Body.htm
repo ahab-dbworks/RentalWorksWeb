@@ -1,16 +1,22 @@
-﻿<div class="body">
+﻿<div class="body" style="width:1400px;">
   <br /><br />
   <table id="tblinvoicesummaryreport">
     <thead>
-      <tr style="border: 0px 1px 0px 1px solid black; font-size:15px; text-align:center;">
+      <tr>
         <td>
-          <div>Invoice No.</div>
+          <div>Department</div>
         </td>
         <td>
-          <div>Order No.</div>
+          <div>Invoice</div>
+          <div>No.</div>
         </td>
         <td>
-          <div>Invoice Date</div>
+          <div>Order</div>
+          <div>No.</div>
+        </td>
+        <td>
+          <div>Invoice</div>
+          <div>Date</div>
         </td>
         <td>
           <div>Customer</div>
@@ -28,16 +34,21 @@
           <div>Bill End</div>
         </td>
         <td>
-          <div>Billing Cycle</div>
+          <div>Billing</div>
+          <div>Cycle</div>
         </td>
         <td>
-          <div>Total Invoice Amt.</div>
+          <div>Total</div>
+          <div>Invoice Amt.</div>
         </td>
       </tr>
     </thead>
-    <tbody style="border:1px solid black;">
+    <tbody>
       {{#details}}
       <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1">{{department}}</div>
+        </td>
         <td>
           <div class="row1">{{invoiceno}}</div>
         </td>
