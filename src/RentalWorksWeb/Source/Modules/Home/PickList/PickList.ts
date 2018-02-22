@@ -3,6 +3,7 @@
 class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
+    ActiveView: string = 'ALL';
 
     constructor() {
         var self = this;
@@ -32,13 +33,16 @@ class PickList {
         $browse = FwModule.openBrowse($browse);
         return $browse;
     };
-   openForm(mode) {
+    openForm(mode, parentmoduleinfo) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="PickListId"]').find('input.fwformfield-value').val(parentmoduleinfo.PickListId).change();
+        }
         return $form;
     };
     loadForm(uniqueids) {
-        var $form = this.openForm('EDIT');
+        var $form = this.openForm('EDIT', null);
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;

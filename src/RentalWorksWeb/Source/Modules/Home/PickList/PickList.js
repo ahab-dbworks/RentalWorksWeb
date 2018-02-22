@@ -3,6 +3,7 @@ var PickList = (function () {
     function PickList() {
         this.Module = 'PickList';
         this.apiurl = 'api/v1/picklist';
+        this.ActiveView = 'ALL';
         var self = this;
     }
     PickList.prototype.getModuleScreen = function () {
@@ -30,14 +31,17 @@ var PickList = (function () {
         return $browse;
     };
     ;
-    PickList.prototype.openForm = function (mode) {
+    PickList.prototype.openForm = function (mode, parentmoduleinfo) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="PickListId"]').find('input.fwformfield-value').val(parentmoduleinfo.PickListId).change();
+        }
         return $form;
     };
     ;
     PickList.prototype.loadForm = function (uniqueids) {
-        var $form = this.openForm('EDIT');
+        var $form = this.openForm('EDIT', null);
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;

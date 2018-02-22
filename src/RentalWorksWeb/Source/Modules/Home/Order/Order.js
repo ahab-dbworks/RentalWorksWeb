@@ -49,10 +49,6 @@ var Order = (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        FwBrowse.init($browse);
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
-        });
         FwBrowse.addLegend($browse, 'On Hold', '#ff8040');
         FwBrowse.addLegend($browse, 'No Charge', '#ff0080');
         FwBrowse.addLegend($browse, 'Late', '#ffff80');
@@ -149,9 +145,32 @@ var Order = (function () {
     ;
     ;
     Order.prototype.openForm = function (mode) {
-        var $form, $submodulePickListReport;
+        var $form, $submodulePickListBrowse;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $submodulePickListBrowse = this.openPickListBrowse($form);
+        $form.find('.picklist').append($submodulePickListBrowse);
+        $submodulePickListBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submodulePickListBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $picklistform, controller, $browse, orderforminfo = {};
+            try {
+                $browse = jQuery(this).closest('.fwbrowse');
+                console.log($browse);
+                controller = $browse.attr('data-controller');
+                orderforminfo.Module = this.Module;
+                orderforminfo.OrderId = FwFormField.getValue2($form.find('div[data-datafield="OrderId"]'));
+                orderforminfo.PickListId = FwFormField.getValue2($form.find('div[data-datafield="PickListId"]'));
+                if (typeof window[controller] !== 'object')
+                    throw 'Missing javascript module: ' + controller;
+                if (typeof window[controller]['openForm'] !== 'function')
+                    throw 'Missing javascript function: ' + controller + '.openForm';
+                $picklistform = window[controller]['openForm']('NEW', orderforminfo);
+                FwModule.openSubModuleTab($browse, $picklistform);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             var today = new Date(Date.now()).toLocaleString();
@@ -194,6 +213,19 @@ var Order = (function () {
         return $form;
     };
     ;
+    Order.prototype.openPickListBrowse = function ($form) {
+        var $browse;
+        $browse = PickListController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = PickListController.ActiveView;
+            request.uniqueids = {
+                OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
+            };
+            console.log(request.OrderId, "ID");
+        });
+        FwBrowse.databind($browse);
+        return $browse;
+    };
     Order.prototype.loadForm = function (uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -243,7 +275,8 @@ var Order = (function () {
             };
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
+                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -259,7 +292,8 @@ var Order = (function () {
             };
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
+                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -275,7 +309,8 @@ var Order = (function () {
             };
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
+                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -291,7 +326,8 @@ var Order = (function () {
             };
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
+                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
