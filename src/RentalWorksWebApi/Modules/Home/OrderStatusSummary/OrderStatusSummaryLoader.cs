@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternodisplay", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "masternodisplayweb", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
