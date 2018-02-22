@@ -1,6 +1,6 @@
 ﻿var FwBrowse = {};
 //---------------------------------------------------------------------------------
-FwBrowse.upgrade = function($control) {
+FwBrowse.upgrade = function ($control) {
     var properties, i, data_type;
     //sync properties
     data_type = $control.attr('data-type');
@@ -12,15 +12,15 @@ FwBrowse.upgrade = function($control) {
     }
 }
 //---------------------------------------------------------------------------------
-FwBrowse.init = function($control) {
+FwBrowse.init = function ($control) {
     var $columns;
-    $control.on('mousewheel', '.txtPageNo', function(event) {
+    $control.on('mousewheel', '.txtPageNo', function (event) {
         //console.log(event.deltaX, event.deltaY, event.deltaFactor);
         if (jQuery('.pleasewait').length === 0) {
             if (event.deltaY < 0) {
                 $control.find('.btnNextPage').click();
             } else if (event.deltaY > 0) {
-                 $control.find('.btnPreviousPage').click();
+                $control.find('.btnPreviousPage').click();
             }
         }
     });
@@ -29,7 +29,7 @@ FwBrowse.init = function($control) {
     $columns = $control.find('div.column');
     for (var colno = 0; colno < $columns.length; colno++) {
         var $column = $columns.eq(colno);
-        var $field  = $column.find('div.field');
+        var $field = $column.find('div.field');
         if (typeof $field.attr('data-isuniqueid') === 'undefined') {
             $field.attr('data-isuniqueid', 'false');
         }
@@ -80,28 +80,28 @@ FwBrowse.init = function($control) {
         var args;
         args = {};
         nodeModule = FwApplicationTree.getNodeByController($control.attr('data-controller'));
-        nodeBrowse = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function(node, args2) {
+        nodeBrowse = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function (node, args2) {
             return (node.properties.nodetype === 'Browse');
         });
-        nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function(node, args2) {
+        nodeView = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function (node, args2) {
             return (node.properties.nodetype === 'ViewMenuBarButton');
         });
-        nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function(node, args2) {
+        nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, args, function (node, args2) {
             return (node.properties.nodetype === 'EditMenuBarButton');
         });
         if ((nodeView !== null) && (nodeBrowse !== null)) {
-            $control.data('onrowdblclick', function() {
+            $control.data('onrowdblclick', function () {
                 FwBrowse.openSelectedRow($control);
             });
         }
     }
 
     $control
-        .on('keydown', 'tbody tr', function(e) {
+        .on('keydown', 'tbody tr', function (e) {
             var code;
             try {
                 code = e.keyCode || e.which;
-                switch(code) {
+                switch (code) {
                     case 13: //Enter Key
                         if ($control.attr('data-type') === 'Browse' || $control.attr('data-type') === 'Validation') {
                             e.preventDefault();
@@ -201,7 +201,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', 'table thead tr td .field div.search .searchclear', function(e) {
+        .on('click', 'table thead tr td .field div.search .searchclear', function (e) {
             try {
                 var $this;
                 $this = jQuery(this);
@@ -213,7 +213,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('mouseenter', 'table thead tr td .field div.search', function() {
+        .on('mouseenter', 'table thead tr td .field div.search', function () {
             try {
                 var $this;
                 $this = jQuery(this);
@@ -224,7 +224,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('mouseleave', 'table thead tr td .field div.search', function() {
+        .on('mouseleave', 'table thead tr td .field div.search', function () {
             try {
                 var $this;
                 $this = jQuery(this);
@@ -242,7 +242,7 @@ FwBrowse.init = function($control) {
         //        $this.siblings('.searchclear').addClass('visible');
         //    }
         //})
-        .on('blur', 'table thead tr td .field div.search input', function() {
+        .on('blur', 'table thead tr td .field div.search input', function () {
             try {
                 var $this;
                 $this = jQuery(this);
@@ -251,7 +251,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.designer thead > tr > td.addcolumn', function() { // Designer: Add a column
+        .on('click', '.designer thead > tr > td.addcolumn', function () { // Designer: Add a column
             var $thAddColumn;
             try {
                 $thAddColumn = jQuery(this);
@@ -260,7 +260,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.designer thead .columnhandle .delete', function() { // Designer: Delete a column
+        .on('click', '.designer thead .columnhandle .delete', function () { // Designer: Delete a column
             var $delete, $th, $ths, $thead, thIndex, thAddColumnIndex, $trs, $tr, $tds;
             try {
                 $delete = jQuery(this);
@@ -271,7 +271,7 @@ FwBrowse.init = function($control) {
                 $th.remove();
                 thAddColumnIndex = thIndex - 1;
                 $ths.eq(thAddColumnIndex).remove();
-                $trs.each(function(index, tr) {
+                $trs.each(function (index, tr) {
                     $tr = jQuery(tr);
                     $tds = $tr.children('td');
                     $tds.eq(thIndex).remove();
@@ -281,7 +281,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.designer thead .field > .deletefield', function() { // Designer: Click a field's delete button
+        .on('click', '.designer thead .field > .deletefield', function () { // Designer: Click a field's delete button
             var $this, $field;
             try {
                 $this = jQuery(this);
@@ -291,7 +291,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.designer thead .addfield', function() {
+        .on('click', '.designer thead .addfield', function () {
             var $this, $th;
             try {
                 $this = jQuery(this);
@@ -301,11 +301,11 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('dblclick', '.designer thead .field .caption', function() { // Designer: double-click to rename column
+        .on('dblclick', '.designer thead .field .caption', function () { // Designer: double-click to rename column
             var $caption, caption, newCaption, $field;
             try {
-                $caption   = jQuery(this);
-                caption    = $caption.html();
+                $caption = jQuery(this);
+                caption = $caption.html();
                 newCaption = prompt('Rename field?', caption);
                 if (newCaption != null) {
                     $caption.html(newCaption);
@@ -316,7 +316,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('change', '.runtime thead .search > input', function(e) { // Runtime: Enter a search text into a columns searchbox
+        .on('change', '.runtime thead .search > input', function (e) { // Runtime: Enter a search text into a columns searchbox
             try {
                 FwBrowse.search($control);
             } catch (ex) {
@@ -336,7 +336,7 @@ FwBrowse.init = function($control) {
         //        FwFunc.showError(ex);
         //    }
         //})
-        .on('change', '.runtime tfoot .pager select.pagesize', function() {
+        .on('change', '.runtime tfoot .pager select.pagesize', function () {
             var $this, pagesize
             try {
                 $this = jQuery(this);
@@ -347,31 +347,31 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-        .on('click', '.runtime tfoot .pager div.btnRefresh', function() {
+        .on('click', '.runtime tfoot .pager div.btnRefresh', function () {
             try {
                 FwBrowse.databind($control);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
         })
-        .on('change', '.field[data-formnoduplicate="true"]', function() {
+        .on('change', '.field[data-formnoduplicate="true"]', function () {
             var $field, value, originalvalue, $form, formuniqueids, formfields, request = {};
             $field = jQuery(this);
             $field.removeClass('error');
-            $form         = $control.closest('.fwform');
+            $form = $control.closest('.fwform');
             formuniqueids = FwModule.getFormUniqueIds($form);
-            formfields    = FwModule.getFormFields($form, true);
-            value         = $field.find('input.value').val().toUpperCase();
+            formfields = FwModule.getFormFields($form, true);
+            value = $field.find('input.value').val().toUpperCase();
             originalvalue = ((typeof $field.attr('data-originalvalue') != 'undefined') ? $field.attr('data-originalvalue').toUpperCase() : '');
             if ((typeof $control.attr('data-name') !== 'undefined') && (value != originalvalue)) {
-                request.module     = $control.attr('data-name');
-                request.table      = $field.attr('data-formdatafield').split('.')[0];
+                request.module = $control.attr('data-name');
+                request.table = $field.attr('data-formdatafield').split('.')[0];
                 request.fields = {};
                 request.fields[$field.attr('data-formdatafield')] = { datafield: $field.attr('data-formdatafield'), value: $field.find('input.value').val(), type: $field.attr('data-formdatatype') };
                 request.miscfields = jQuery.extend({}, formuniqueids, formfields);
                 FwServices.grid.method(request, $control.attr('data-name'), 'ValidateDuplicate', $control,
                     // onSuccess
-                    function(response) {
+                    function (response) {
                         try {
                             if (response.duplicate == true) {
                                 $field.addClass('error');
@@ -382,7 +382,7 @@ FwBrowse.init = function($control) {
                         }
                     }
                     // onError
-                    , function(errorMessage) {
+                    , function (errorMessage) {
                         try {
                             FwFunc.showError(errorMessage);
                         } catch (ex) {
@@ -432,7 +432,7 @@ FwBrowse.init = function($control) {
                 FwFunc.showError(ex);
             }
         })
-    ;
+        ;
     //Register Custom Events on grids and validations
     if ((($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
         var controller;
@@ -444,35 +444,35 @@ FwBrowse.init = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getPageNo = function($control) {
-    return parseInt($control.attr('data-pageno')); 
+FwBrowse.getPageNo = function ($control) {
+    return parseInt($control.attr('data-pageno'));
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setPageNo = function($control, pageno) {
+FwBrowse.setPageNo = function ($control, pageno) {
     $control.attr('data-pageno', pageno);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getPageSize = function($control) {
+FwBrowse.getPageSize = function ($control) {
     return parseInt($control.attr('data-pagesize'));
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setPageSize = function($control, pagesize) {
+FwBrowse.setPageSize = function ($control, pagesize) {
     $control.attr('data-pagesize', pagesize);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getTotalPages = function($control) {
+FwBrowse.getTotalPages = function ($control) {
     return parseInt($control.attr('data-totalpages'));
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setTotalPages = function($control, totalpages) {
+FwBrowse.setTotalPages = function ($control, totalpages) {
     $control.attr('data-totalpages', totalpages);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getSelectedIndex = function($control) {
+FwBrowse.getSelectedIndex = function ($control) {
     return parseInt($control.attr('data-selectedindex'));
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setSelectedIndex = function($control, selectedindex) {
+FwBrowse.setSelectedIndex = function ($control, selectedindex) {
     $control.attr('data-selectedindex', selectedindex);
 
     //cancel any unmodified rows in edit mode
@@ -505,31 +505,31 @@ FwBrowse.isRowModified = function ($control, $tr) {
     return !isRowUnmodified;
 }
 //---------------------------------------------------------------------------------
-FwBrowse.getSelectedRow = function($control) {
+FwBrowse.getSelectedRow = function ($control) {
     return $control.find('tbody tr.selected');
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getSelectedRowIndex = function($control) {
+FwBrowse.getSelectedRowIndex = function ($control) {
     return FwBrowse.getSelectedRow($control).index();
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRows = function($control) {
+FwBrowse.getRows = function ($control) {
     return $control.find('tbody tr');
 };
 //---------------------------------------------------------------------------------
-FwBrowse.unselectAllRows = function($control) {
+FwBrowse.unselectAllRows = function ($control) {
     $control.find('tbody tr.selected').removeClass('selected');
     FwBrowse.setSelectedIndex($control, -1);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.unselectRow = function($control, $tr) {
+FwBrowse.unselectRow = function ($control, $tr) {
     $tr.removeClass('selected');
     if (FwBrowse.getSelectedIndex($control) === $tr.index()) {
         FwBrowse.setSelectedIndex($control, -1);
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.selectRow = function($control, $row, dontfocus) {
+FwBrowse.selectRow = function ($control, $row, dontfocus) {
     var $prevselectedrow = FwBrowse.getSelectedRow($control);
     $prevselectedrow.removeClass('selected');
     $row.addClass('selected');
@@ -539,15 +539,15 @@ FwBrowse.selectRow = function($control, $row, dontfocus) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.selectRowByIndex = function($control, index) {
+FwBrowse.selectRowByIndex = function ($control, index) {
     var $rows = FwBrowse.getRows($control);
-    var $row  = $rows.eq(index);
+    var $row = $rows.eq(index);
     FwBrowse.selectRow($control, $row);
     return $row;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRowCount = function($control) {
-    var $rows    = FwBrowse.getRows($control);
+FwBrowse.getRowCount = function ($control) {
+    var $rows = FwBrowse.getRows($control);
     var rowcount = $rows.length;
     return rowcount;
 };
@@ -555,11 +555,11 @@ FwBrowse.getRowCount = function($control) {
 /** Select the prev row in the browse control. This will load the previous page if necessary.
     @param {object} $control - The browse control
 */
-FwBrowse.selectPrevRow = function($control, afterrowselected) {
+FwBrowse.selectPrevRow = function ($control, afterrowselected) {
     var $selectedrow = FwBrowse.getSelectedRow($control);
-    var pageno       = FwBrowse.getPageNo($control);
-    var pagesize     = FwBrowse.getPageSize($control);
-    var rowindex     = FwBrowse.getSelectedRowIndex($control);
+    var pageno = FwBrowse.getPageNo($control);
+    var pagesize = FwBrowse.getPageSize($control);
+    var rowindex = FwBrowse.getSelectedRowIndex($control);
     if (rowindex > 0) {
         rowindex = rowindex - 1;
         $selectedrow = FwBrowse.selectRowByIndex($control, rowindex);
@@ -583,11 +583,11 @@ FwBrowse.selectPrevRow = function($control, afterrowselected) {
 /** Select the next row in the browse control.
     @param {object} $control - The browse control
 */
-FwBrowse.selectNextRow = function($control, afterrowselected) {
+FwBrowse.selectNextRow = function ($control, afterrowselected) {
     var $selectedrow = FwBrowse.getSelectedRow($control);
-    var pageno       = FwBrowse.getPageNo($control);
-    var totalpages   = FwBrowse.getTotalPages($control);
-    var rowindex     = FwBrowse.getSelectedRowIndex($control);
+    var pageno = FwBrowse.getPageNo($control);
+    var totalpages = FwBrowse.getTotalPages($control);
+    var rowindex = FwBrowse.getSelectedRowIndex($control);
     var lastrowindex = $control.find('tbody tr').length - 1;
     if (rowindex < lastrowindex) {
         $selectedrow = $selectedrow.next();
@@ -614,7 +614,7 @@ FwBrowse.selectNextRow = function($control, afterrowselected) {
     @param {object} $control - The browse control
 */
 //---------------------------------------------------------------------------------
-FwBrowse.openPrevRow = function($control, $tab, $form) {
+FwBrowse.openPrevRow = function ($control, $tab, $form) {
     if ((typeof $tab !== 'undefined') && ($tab.length === 1) && (typeof $form !== 'undefined') && ($form.length === 1)) {
         FwModule.closeForm($form, $tab, null, function afterCloseForm() {
             FwBrowse.selectPrevRow($control, function afterrowselected() {
@@ -628,7 +628,7 @@ FwBrowse.openPrevRow = function($control, $tab, $form) {
     @param {object} $control - The browse control
 */
 //---------------------------------------------------------------------------------
-FwBrowse.openNextRow = function($control, $tab, $form) {
+FwBrowse.openNextRow = function ($control, $tab, $form) {
     if ((typeof $tab !== 'undefined') && ($tab.length === 1) && (typeof $form !== 'undefined') && ($form.length === 1)) {
         FwModule.closeForm($form, $tab, null, function afterCloseForm() {
             FwBrowse.selectNextRow($control, function afterrowselected() {
@@ -641,7 +641,7 @@ FwBrowse.openNextRow = function($control, $tab, $form) {
 /** Load the prev page of records from the database.
   @param {object} $control - The browse control
 */
-FwBrowse.prevPage = function($control) {
+FwBrowse.prevPage = function ($control) {
     var pageno, $btnPreviousPage;
     $btnPreviousPage = $control.find('.btnPreviousPage');
     if ($btnPreviousPage.attr('data-enabled') === 'true') {
@@ -655,11 +655,11 @@ FwBrowse.prevPage = function($control) {
 /** Load the next page of records from the database.
   @param {object} $control - The browse control
 */
-FwBrowse.nextPage = function($control) {
+FwBrowse.nextPage = function ($control) {
     var $btnNextPage, pageno, totalpages
     $btnNextPage = $control.find('.btnNextPage');
     if ($btnNextPage.attr('data-enabled') === 'true') {
-        pageno     = FwBrowse.getPageNo($control) + 1;
+        pageno = FwBrowse.getPageNo($control) + 1;
         totalpages = FwBrowse.getTotalPages($control);
         pageno = (pageno <= totalpages) ? pageno : totalpages;
         FwBrowse.setPageNo($control, pageno);
@@ -670,17 +670,16 @@ FwBrowse.nextPage = function($control) {
 /** Opens the selected record into a tab.
     @param {object} $control - The browse control
 */
-FwBrowse.openSelectedRow = function($control) {
+FwBrowse.openSelectedRow = function ($control) {
     var $selectedrow, browseuniqueids, formuniqueids, $fwforms, dataType, $form, issubmodule, nodeModule, nodeBrowse, nodeView, nodeEdit;
     $selectedrow = FwBrowse.getSelectedRow($control);
     //$selectedrow.dblclick();
     dataType = (typeof $control.attr('data-type') === 'string') ? $control.attr('data-type') : '';
-    switch (dataType)
-    {
+    switch (dataType) {
         case 'Browse':
-            formuniqueids   = FwBrowse.getRowFormUniqueIds($control, $selectedrow);
+            formuniqueids = FwBrowse.getRowFormUniqueIds($control, $selectedrow);
             browseuniqueids = FwBrowse.getRowBrowseUniqueIds($control, $selectedrow);
-            $form           = FwModule.getFormByUniqueIds(formuniqueids);
+            $form = FwModule.getFormByUniqueIds(formuniqueids);
             if ((typeof $form === 'undefined') || ($form.length == 0)) {
                 if (typeof $control.attr('data-controller') === 'undefined') {
                     throw 'FwBrowse: Missing attribute data-controller.  Set this attribute on the browse control to the name of the controller for this browse module.'
@@ -707,7 +706,7 @@ FwBrowse.openSelectedRow = function($control) {
     @param {string} eventName - Then name of the browse control event.
     @param {function} callbackfunction - The callback function to fire when the event occurs.
 */
-FwBrowse.addEventHandler = function($control, eventName, callbackfunction) {
+FwBrowse.addEventHandler = function ($control, eventName, callbackfunction) {
     var callbackfunctions = [];
     if (Array.isArray($control.data(eventName))) {
         callbackfunctions = $control.data(eventName);
@@ -721,7 +720,7 @@ FwBrowse.addEventHandler = function($control, eventName, callbackfunction) {
     @param {string} eventName - Then name of the browse control event.
     @param {function} callbackfunction - The callback function to fire when the event occurs.
 */
-FwBrowse.removeEventHandler = function($control, eventName, callbackfunction) {
+FwBrowse.removeEventHandler = function ($control, eventName, callbackfunction) {
     if (Array.isArray($control.data(eventName))) {
         var callbackfunctions = $control.data(eventName);
         for (var i = 0; i < callbackfunctions.length; i++) {
@@ -735,9 +734,9 @@ FwBrowse.removeEventHandler = function($control, eventName, callbackfunction) {
 /** Get the relative url of the sort image in the framework.
     @param {string} sort - 'asc', 'desc', or 'off'
 */
-FwBrowse.getSortImage = function(sort) {
+FwBrowse.getSortImage = function (sort) {
     var result;
-    switch(sort) {
+    switch (sort) {
         case 'asc':
             result = 'theme/fwimages/icons/9x5/SortDesc.001.png';
             break;
@@ -755,12 +754,12 @@ FwBrowse.getSortImage = function(sort) {
 /** Sets the pageno to 1 before loading records from the database.
     @param {object} $control - The browse control
 */
-FwBrowse.search = function($control) {
+FwBrowse.search = function ($control) {
     FwBrowse.setPageNo($control, 1);
     FwBrowse.databind($control);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.addDesignerField = function($column, cssclass, caption, datafield, datatype) {
+FwBrowse.addDesignerField = function ($column, cssclass, caption, datafield, datatype) {
     var html, $field, $addfield;
     html = [];
     html.push('<div draggable="true"');
@@ -770,8 +769,8 @@ FwBrowse.addDesignerField = function($column, cssclass, caption, datafield, data
     html.push(' data-browsedatafield="' + datafield + '"');
     html.push(' data-browsedatatype="' + datatype + '"');
     html.push('>');
-        html.push('<span class="caption">' + caption + '</span>');
-        html.push('<div class="deletefield">x</div>');
+    html.push('<span class="caption">' + caption + '</span>');
+    html.push('<div class="deletefield">x</div>');
     html.push('</div>');
     html = html.join('');
     $field = jQuery(html);
@@ -783,15 +782,15 @@ FwBrowse.addDesignerField = function($column, cssclass, caption, datafield, data
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.addDesignerColumn = function($control, $thAddColumn, width, visible) {
+FwBrowse.addDesignerColumn = function ($control, $thAddColumn, width, visible) {
     var htmlTh, htmlTd, $trHead, $trBody, $th, $td, $tdAddColumn, thAddColumnIndex, $tds, $tdAddColumn;
     htmlTh = [];
     htmlTh.push('<td class="column" data-width="' + width + '" data-visible="' + visible + '" style="width:' + width + ';">');
-        htmlTh.push('<div class="columnhandle">');
-            htmlTh.push('<span class="caption">column</span>');
-            htmlTh.push('<div class="delete">x</div>');
-        htmlTh.push('</div>');
-        htmlTh.push('<div class="addfield"></div>');
+    htmlTh.push('<div class="columnhandle">');
+    htmlTh.push('<span class="caption">column</span>');
+    htmlTh.push('<div class="delete">x</div>');
+    htmlTh.push('</div>');
+    htmlTh.push('<div class="addfield"></div>');
     htmlTh.push('</td>');
     htmlTh.push('<td class="addcolumn">');
     htmlTh.push('</td>');
@@ -804,7 +803,7 @@ FwBrowse.addDesignerColumn = function($control, $thAddColumn, width, visible) {
     $th = jQuery(htmlTh);
     $th.insertAfter($thAddColumn);
     thAddColumnIndex = $thAddColumn.parent().children().index($thAddColumn);
-    $thAddColumn.closest('table').find('> tbody > tr').each(function(index, field) {
+    $thAddColumn.closest('table').find('> tbody > tr').each(function (index, field) {
         $trBody = jQuery(field);
         $tdAddColumn = $trBody.children('td')[thAddColumnIndex];
         $td = jQuery(htmlTd);
@@ -813,7 +812,7 @@ FwBrowse.addDesignerColumn = function($control, $thAddColumn, width, visible) {
     FwBrowse.addDesignerField($control, 'newfield', 'newfield', '', 'string');
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getHtmlTag = function(data_type) {
+FwBrowse.getHtmlTag = function (data_type) {
     var template, html, properties, i;
     template = [];
     template.push('<div');
@@ -826,19 +825,19 @@ FwBrowse.getHtmlTag = function(data_type) {
     return html;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getDesignerProperties = function(data_type) {
+FwBrowse.getDesignerProperties = function (data_type) {
     var properties = [], propId, propClass, propCaption, propDataControl, propDataType, propDataVersion, propDataCaption, propSearchField, propSearchFieldValue, propOrderBy, propHasAdd, propHasEdit, propHasDelete;
-    propId          = { caption: 'ID',          datatype: 'string',  attribute: 'id',              defaultvalue: FwControl.generateControlId('fwbrowse'), visible: true,  enabled: true };
-    propClass       = { caption: 'CSS Class',   datatype: 'string',  attribute: 'class',           defaultvalue: 'fwcontrol fwbrowse',                    visible: false, enabled: false };
-    propCaption     = { caption: 'Caption',     datatype: 'string',  attribute: 'data-caption',    defaultvalue: '',                                      visible: false, enabled: false };
-    propDataControl = { caption: 'Control',     datatype: 'string',  attribute: 'data-control',    defaultvalue: 'FwBrowse',                              visible: true,  enabled: false };
-    propDataType    = { caption: 'Type',        datatype: 'Browse',  attribute: 'data-type',       defaultvalue: data_type,                               visible: true,  enabled: false };
-    propDataVersion = { caption: 'Version',     datatype: 'string',  attribute: 'data-version',    defaultvalue: '1',                                     visible: false, enabled: false };
-    propRenderMode  = { caption: 'Render Mode', datatype: 'string',  attribute: 'data-rendermode', defaultvalue: 'template',                              visible: false, enabled: false };
-    propOrderBy     = { caption: '',            datatype: 'string',  attribute: 'data-orderby',    defaultvalue: '',                                      visible: false, enabled: false };
-    propHasAdd      = { caption: '',            datatype: 'boolean', attribute: 'data-hasadd',     defaultvalue: 'true',                                  visible: false, enabled: false };
-    propHasEdit     = { caption: '',            datatype: 'boolean', attribute: 'data-hasedit',    defaultvalue: 'true',                                  visible: false, enabled: false };
-    propHasDelete   = { caption: '',            datatype: 'boolean', attribute: 'data-hasdelete',  defaultvalue: 'true',                                  visible: false, enabled: false };
+    propId = { caption: 'ID', datatype: 'string', attribute: 'id', defaultvalue: FwControl.generateControlId('fwbrowse'), visible: true, enabled: true };
+    propClass = { caption: 'CSS Class', datatype: 'string', attribute: 'class', defaultvalue: 'fwcontrol fwbrowse', visible: false, enabled: false };
+    propCaption = { caption: 'Caption', datatype: 'string', attribute: 'data-caption', defaultvalue: '', visible: false, enabled: false };
+    propDataControl = { caption: 'Control', datatype: 'string', attribute: 'data-control', defaultvalue: 'FwBrowse', visible: true, enabled: false };
+    propDataType = { caption: 'Type', datatype: 'Browse', attribute: 'data-type', defaultvalue: data_type, visible: true, enabled: false };
+    propDataVersion = { caption: 'Version', datatype: 'string', attribute: 'data-version', defaultvalue: '1', visible: false, enabled: false };
+    propRenderMode = { caption: 'Render Mode', datatype: 'string', attribute: 'data-rendermode', defaultvalue: 'template', visible: false, enabled: false };
+    propOrderBy = { caption: '', datatype: 'string', attribute: 'data-orderby', defaultvalue: '', visible: false, enabled: false };
+    propHasAdd = { caption: '', datatype: 'boolean', attribute: 'data-hasadd', defaultvalue: 'true', visible: false, enabled: false };
+    propHasEdit = { caption: '', datatype: 'boolean', attribute: 'data-hasedit', defaultvalue: 'true', visible: false, enabled: false };
+    propHasDelete = { caption: '', datatype: 'boolean', attribute: 'data-hasdelete', defaultvalue: 'true', visible: false, enabled: false };
 
     properties = [propDataControl, propDataType, propId, propClass, propCaption, propDataVersion, propRenderMode, propOrderBy];
 
@@ -852,10 +851,10 @@ FwBrowse.getDesignerProperties = function(data_type) {
     return properties;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.renderDesignerHtml = function($control) {
+FwBrowse.renderDesignerHtml = function ($control) {
     var html, data_rendermode, $columns;
     data_rendermode = $control.attr('data-rendermode');
-    switch(data_rendermode) {
+    switch (data_rendermode) {
         case 'designer':
         case 'runtime':
             FwBrowse.renderTemplateHtml($control);
@@ -870,29 +869,29 @@ FwBrowse.renderDesignerHtml = function($control) {
             html.push('<tr class="fieldnames">');
             html.push('<td class="addcolumn"></td>');
             $columns = $control.find('> .column');
-            $columns.each(function(index, column) {
+            $columns.each(function (index, column) {
                 var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
                 $column = jQuery(column);
-                width   = $column.attr('data-width');
+                width = $column.attr('data-width');
                 visible = $column.attr('data-visible');
                 html.push('<td class="column" data-width="' + width + '" data-visible="' + visible + '" style="width:' + width + ';">');
                 html.push('<div class="columnhandle" draggable="true">');
-                    html.push('<span class="caption">column</span>');
-                    html.push('<div class="delete">x</div>');
+                html.push('<span class="caption">column</span>');
+                html.push('<div class="delete">x</div>');
                 html.push('</div>');
                 $fields = $column.find('> .field');
-                $fields.each(function(index, field) {
+                $fields.each(function (index, field) {
                     var $field;
-                    $field          = jQuery(field);
-                    caption         = $field.attr('data-caption');
+                    $field = jQuery(field);
+                    caption = $field.attr('data-caption');
                     browsedatafield = $field.attr('data-browsedatafield');
-                    cssclass        = $field.attr('data-cssclass');
-                    browsedatatype  = $field.attr('data-browsedatatype');
-                    formdatafield   = $field.attr('data-formdatafield');
-                    formdatatype    = $field.attr('data-datatype');
+                    cssclass = $field.attr('data-cssclass');
+                    browsedatatype = $field.attr('data-browsedatatype');
+                    formdatafield = $field.attr('data-formdatafield');
+                    formdatatype = $field.attr('data-datatype');
                     html.push('<div draggable="true" class="field ' + cssclass + '" data-caption="' + caption + '" data-browsedatafield="' + browsedatafield + '" data-cssclass="' + cssclass + '" data-browsedatatype="' + browsedatatype + '" data-formdatafield="' + formdatafield + '" data-formdatatype="' + formdatatype + '">');
-                        html.push('<span class="caption">' + caption + '</span>');
-                        html.push('<div class="deletefield">x</div>');
+                    html.push('<span class="caption">' + caption + '</span>');
+                    html.push('<div class="deletefield">x</div>');
                     html.push('</div>');
                 });
                 html.push('<div class="addfield"></div>');
@@ -905,20 +904,20 @@ FwBrowse.renderDesignerHtml = function($control) {
             for (var i = 1; i <= 10; i++) {
                 html.push('<tr>');
                 html.push('<td class="addcolumn"></td>');
-                $columns.each(function(index, column) {
+                $columns.each(function (index, column) {
                     var $column, caption, browsedatafield, cssclass, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
                     $column = jQuery(column);
-                    width   = $column.attr('data-width');
+                    width = $column.attr('data-width');
                     visible = $column.attr('data-visible');
                     html.push('<td class="column">');
                     $fields = $column.find('> .field');
-                    $fields.each(function(index, field) {
+                    $fields.each(function (index, field) {
                         var $field;
-                        $field          = jQuery(field);
-                        caption         = $field.attr('data-caption');
-                        cssclass        = $field.attr('data-cssclass');
+                        $field = jQuery(field);
+                        caption = $field.attr('data-caption');
+                        cssclass = $field.attr('data-cssclass');
                         browsedatafield = $field.attr('data-browsedatafield');
-                        browsedatatype  = $field.attr('data-browsedatatype');
+                        browsedatatype = $field.attr('data-browsedatatype');
                         browsedatafield = $field.attr('data-formdatafield');
                         browsedatafield = $field.attr('data-formdatatype');
                         html.push('<div class="field ' + cssclass + '">');
@@ -942,10 +941,10 @@ FwBrowse.renderDesignerHtml = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.renderRuntimeHtml = function($control) {
+FwBrowse.renderRuntimeHtml = function ($control) {
     var html, data_rendermode, $allfields, data_uniqueidname, colspan, $advancedoptions, $customvalidationbuttons, $columns, $columnoptions, $theadfields;
     data_rendermode = $control.attr('data-rendermode');
-    switch(data_rendermode) {
+    switch (data_rendermode) {
         case 'designer':
         case 'runtime':
             FwBrowse.renderTemplateHtml($control);
@@ -981,42 +980,42 @@ FwBrowse.renderRuntimeHtml = function($control) {
             }
             for (var colno = 0; colno < $columns.length; colno++) {
                 var $column = $columns.eq(colno);
-                var width   = $column.attr('data-width');
+                var width = $column.attr('data-width');
                 var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
                 html.push('<td class="column" data-width="' + width + '" data-visible="' + visible + '" style="width:' + width + ';');
                 if (!visible) {
-                     html.push('display:none;');
+                    html.push('display:none;');
                 }
                 html.push('">');
                 var $theadfields = $column.find('> .field');
                 for (var fieldno = 0; fieldno < $theadfields.length; fieldno++) {
-                    var $theadfield      = $theadfields.eq(fieldno);
-                    var $field           = $theadfield.clone();
+                    var $theadfield = $theadfields.eq(fieldno);
+                    var $field = $theadfield.clone();
                     $field.empty();
-                    var sort       = $theadfield.attr('data-sort');
-                    var caption    = $theadfield.attr('data-caption');
-                    html.push($field[0].outerHTML.replace('</div>',''));
-                        html.push('<div class="fieldcaption" style="min-width:' + width + ';">');
-                        html.push('<div class="caption" title="' + caption + '">' + caption + '</div>');
-                            if (sort === 'asc') {
-                                html.push('<div class="sort"><i class="material-icons">keyboard_arrow_up</i></div>');
-                            } else if (sort === 'desc') {
-                                html.push('<div class="sort"><i class="material-icons">keyboard_arrow_down</i></div>');
-                            } else if (sort === 'off') {
-                                html.push('<div class="sort"><i class="material-icons"></i></div>');
-                            }
-                            html.push('<div class="columnoptions"></div>');
-                        html.push('</div>');
-                        html.push('<div class="search"');
-                        if ($control.attr('data-showsearch') === 'false') {
-                            html.push(' style="display:none;"');
-                        } else if ($theadfield.attr('data-showsearch') === 'false') {
-                            html.push(' style="visibility:hidden;"');
-                        }
-                        html.push('>');
-                            html.push('<input type="text" />');
-                            html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
-                        html.push('</div>');
+                    var sort = $theadfield.attr('data-sort');
+                    var caption = $theadfield.attr('data-caption');
+                    html.push($field[0].outerHTML.replace('</div>', ''));
+                    html.push('<div class="fieldcaption" style="min-width:' + width + ';">');
+                    html.push('<div class="caption" title="' + caption + '">' + caption + '</div>');
+                    if (sort === 'asc') {
+                        html.push('<div class="sort"><i class="material-icons">keyboard_arrow_up</i></div>');
+                    } else if (sort === 'desc') {
+                        html.push('<div class="sort"><i class="material-icons">keyboard_arrow_down</i></div>');
+                    } else if (sort === 'off') {
+                        html.push('<div class="sort"><i class="material-icons"></i></div>');
+                    }
+                    html.push('<div class="columnoptions"></div>');
+                    html.push('</div>');
+                    html.push('<div class="search"');
+                    if ($control.attr('data-showsearch') === 'false') {
+                        html.push(' style="display:none;"');
+                    } else if ($theadfield.attr('data-showsearch') === 'false') {
+                        html.push(' style="visibility:hidden;"');
+                    }
+                    html.push('>');
+                    html.push('<input type="text" />');
+                    html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
+                    html.push('</div>');
                     html.push('</div>');
                 };
                 html.push('</td>');
@@ -1031,7 +1030,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
             html.push('<tr class="empty">');
             for (var colno = 0; colno < $columns.length; colno++) {
                 var $column = $columns.eq(colno);
-                var width   = $column.attr('data-width');
+                var width = $column.attr('data-width');
                 var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
                 html.push('<td class="column"');
                 if (!visible) {
@@ -1041,7 +1040,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
             }
             html.push('</tr>');
             html.push('</tbody>');
-            
+
             html.push('<tfoot>');
             colspan = $columns.filter('*[data-visible="true"]').length;
             html.push('<tr class="spacerrow">');
@@ -1055,7 +1054,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
             html.push('<div class="legend"></div>');
             html.push('</td>');
             html.push('</tr>');
-            
+
             html.push('<tr class="pagerrow">');
             html.push('<td colspan="' + (colspan + 2) + '">');
             html.push('<div class="pager"></div>');
@@ -1066,16 +1065,16 @@ FwBrowse.renderRuntimeHtml = function($control) {
             html.push('</div>');
             if ($control.attr('data-type') === 'Validation') {
                 html.push('<div class="validationbuttons">');
-                    html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
-                    html.push('<div class="fwbrowsebutton btnSelectAll" title="The report will run faster if you Select All from this button vs selecting individual rows." style="display:none;">Select All</div>');
-                    html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
-                    html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
-                    html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
-                    $customvalidationbuttons = $control.find('.customvalidationbuttons');
-                    if ($customvalidationbuttons.length > 0) {
-                        FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));
-                        html.push($customvalidationbuttons.html());       //MY 2/26/2015: Hack to get parent .customvalidationbuttons div as well as content
-                    }
+                html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
+                html.push('<div class="fwbrowsebutton btnSelectAll" title="The report will run faster if you Select All from this button vs selecting individual rows." style="display:none;">Select All</div>');
+                html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
+                html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
+                html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
+                $customvalidationbuttons = $control.find('.customvalidationbuttons');
+                if ($customvalidationbuttons.length > 0) {
+                    FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));
+                    html.push($customvalidationbuttons.html());       //MY 2/26/2015: Hack to get parent .customvalidationbuttons div as well as content
+                }
                 html.push('</div>');
             }
             html.push('</div>');
@@ -1087,36 +1086,36 @@ FwBrowse.renderRuntimeHtml = function($control) {
                 try {
                     var $this = jQuery(this);
                     $control.find('tbody .cbselectrow').prop('checked', $this.prop('checked'));
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
 
             function getcolumnoptionbutton(text, materialicon) {
-                var  html;
+                var html;
                 html = [];
                 html.push('<div class="columnoptions-button">');
-                    html.push('<div class="columnoptions-button-icon">' + ((materialicon != '') ? '<i class="material-icons">' + materialicon + '</i>' : '') + '</div>');
-                    html.push('<div class="columnoptions-button-text">' + text + '</div>');
+                html.push('<div class="columnoptions-button-icon">' + ((materialicon != '') ? '<i class="material-icons">' + materialicon + '</i>' : '') + '</div>');
+                html.push('<div class="columnoptions-button-text">' + text + '</div>');
                 html.push('</div>');
 
                 return jQuery(html.join(''));
             }
-            
+
             $theadfields = $control.find('thead .field');
-            $theadfields.each(function(index, element) {
+            $theadfields.each(function (index, element) {
                 var $theadfield, $columnoptions, showsort, showsearch;
-                $theadfield      = jQuery(element);
-                $columnoptions   = $theadfield.find('.columnoptions');
-                showsort         = ($theadfield.attr('data-sort')       !== 'disabled');
-                showsearch       = ($theadfield.attr('data-showsearch') !== 'false');
+                $theadfield = jQuery(element);
+                $columnoptions = $theadfield.find('.columnoptions');
+                showsort = ($theadfield.attr('data-sort') !== 'disabled');
+                showsearch = ($theadfield.attr('data-showsearch') !== 'false');
                 if (showsort) {
                     var $sortascbtn, $sortdescbtn, $sortoffbtn;
                     $sortascbtn = getcolumnoptionbutton('Sort Ascending', '&#xE316;');
                     $sortascbtn.on('click', function () {
                         try {
                             var $this = jQuery(this);
-                            var $field = $this.closest('.field'); 
+                            var $field = $this.closest('.field');
                             $field.attr('data-sort', 'asc');
                             $field.find('.sort .material-icons').html('&#xE316;');
                             FwBrowse.databind($control);
@@ -1127,7 +1126,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
                     $columnoptions.append($sortascbtn);
 
                     $sortdescbtn = getcolumnoptionbutton('Sort Descending', '&#xE313;');
-                    $sortdescbtn.on('click', function() {
+                    $sortdescbtn.on('click', function () {
                         try {
                             var $this = jQuery(this);
                             var $field = $this.closest('.field');
@@ -1141,7 +1140,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
                     $columnoptions.append($sortdescbtn);
 
                     $sortoffbtn = getcolumnoptionbutton('Sort Off', '');
-                    $sortoffbtn.on('click', function() {
+                    $sortoffbtn.on('click', function () {
                         try {
                             var $this = jQuery(this);
                             var $field = $this.closest('.field');
@@ -1154,7 +1153,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
                             } else {
                                 FwNotification.renderNotification('WARNING', 'You must specify a sort order on a least 1 column.');
                             }
-                            
+
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -1167,14 +1166,14 @@ FwBrowse.renderRuntimeHtml = function($control) {
                 if (($control.attr('data-type') !== 'Grid') && (showsearch)) {
                     var $clearbtn, $clearallbtn;
                     $clearbtn = getcolumnoptionbutton('Clear Filter', '');
-                    $clearbtn.on('click', function() {
+                    $clearbtn.on('click', function () {
                         $theadfield.find('.search input').val('');
                         FwBrowse.databind($control);
                     });
                     $columnoptions.append($clearbtn);
 
                     $clearallbtn = getcolumnoptionbutton('Clear All Filters', '');
-                    $clearallbtn.on('click', function() {
+                    $clearallbtn.on('click', function () {
                         $theadfields.find('.search input').val('');
                         FwBrowse.databind($control);
                     });
@@ -1188,8 +1187,8 @@ FwBrowse.renderRuntimeHtml = function($control) {
                         if ($control.find('tr.editrow').length == 0) {
                             $field = jQuery(this);
                             if (!$field.hasClass('active')) {
-                                maxZIndex      = FwFunc.getMaxZ('*');
-                                $field.find('.columnoptions').css('z-index', maxZIndex+1);
+                                maxZIndex = FwFunc.getMaxZ('*');
+                                $field.find('.columnoptions').css('z-index', maxZIndex + 1);
                                 $field.addClass('active');
 
                                 jQuery(document).one('click', function closeOptions(e) {
@@ -1268,7 +1267,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
                                 if ((gridSubMenuGroup && gridSubMenuGroup.properties.nodetype === 'SubMenuGroup') && (gridSubMenuGroup.properties.visible === 'T')) {
                                     var $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
                                     var $optiongroup = FwGridMenu.addSubMenuGroup($submenucolumn, gridSubMenuGroup.properties.caption, gridSubMenuGroup.id);
-                                    for (var gridSubMenuItemIndex = 0; gridSubMenuItemIndex < gridSubMenuGroup.children.length; gridSubMenuItemIndex++) {        
+                                    for (var gridSubMenuItemIndex = 0; gridSubMenuItemIndex < gridSubMenuGroup.children.length; gridSubMenuItemIndex++) {
                                         var gridSubMenuItem = gridSubMenuGroup.children[gridSubMenuItemIndex];
                                         if ((gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'SubMenuItem') && (gridSubMenuItem.properties.visible === 'T')) {
                                             var $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
@@ -1281,17 +1280,17 @@ FwBrowse.renderRuntimeHtml = function($control) {
                     }
 
                     FwGridMenu.addCaption($menu, $control.attr('data-caption'));
-                
-                    var gridNewMenuBarButton    = FwApplicationTree.getChildByType(gridMenuBar, 'NewMenuBarButton');
+
+                    var gridNewMenuBarButton = FwApplicationTree.getChildByType(gridMenuBar, 'NewMenuBarButton');
                     var hasNew = (gridNewMenuBarButton !== null) && (gridNewMenuBarButton.properties.visible === 'T');
                     if (hasNew) {
                         var $new = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('New'), gridNewMenuBarButton.id);
                         $new.attr('data-type', 'NewButton');
-                        $new.on('click', function() {
+                        $new.on('click', function () {
                             var $form, mode;
                             try {
                                 $form = $control.closest('.fwform');
-                                mode  = $form.attr('data-mode');
+                                mode = $form.attr('data-mode');
                                 if ($control.attr('data-enabled') != 'false') {
                                     if ((mode === 'EDIT') || ($new.closest('.fwconfirmation').length > 0)) {
                                         if (typeof $new.data('onclick') === 'function') {
@@ -1308,8 +1307,8 @@ FwBrowse.renderRuntimeHtml = function($control) {
                             }
                         });
                     }
-                
-                    var gridEditMenuBarButton   = FwApplicationTree.getChildByType(gridMenuBar, 'EditMenuBarButton');
+
+                    var gridEditMenuBarButton = FwApplicationTree.getChildByType(gridMenuBar, 'EditMenuBarButton');
                     var hasEdit = (gridEditMenuBarButton !== null) && (gridEditMenuBarButton.properties.visible === 'T');
                     //if (hasEdit) {
                     //    var $edit = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Edit'), gridEditMenuBarButton.id);
@@ -1353,9 +1352,9 @@ FwBrowse.renderRuntimeHtml = function($control) {
 
                     var hasSave = hasNew || hasEdit;
                     if (hasSave) {
-                        var $save   = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Save'));
+                        var $save = FwGridMenu.addStandardBtn($menu, FwLanguages.translate('Save'));
                         $save.attr('data-type', 'SaveButton');
-                        $save.css('display', 'none').on('click', function() {
+                        $save.css('display', 'none').on('click', function () {
                             var $tr;
                             try {
                                 $tr = $control.find('table > tbody > tr.editrow');
@@ -1370,7 +1369,7 @@ FwBrowse.renderRuntimeHtml = function($control) {
                     if (hasCancel) {
                         var $cancel = FwGridMenu.addStandardBtn($menu, 'Cancel');
                         $cancel.attr('data-type', 'CancelButton');
-                        $cancel.css('display', 'none').on('click', function() {
+                        $cancel.css('display', 'none').on('click', function () {
                             try {
                                 FwBrowse.cancelEditMode($control, $tr);
                             } catch (ex) {
@@ -1398,29 +1397,29 @@ FwBrowse.addFilterPanel = function ($control, $filterpanel) {
     FwControl.renderRuntimeControls(fwcontrols);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.renderTemplateHtml = function($control) {
+FwBrowse.renderTemplateHtml = function ($control) {
     var html, data_rendermode, $ths;
     data_rendermode = $control.attr('data-rendermode');
     $control.attr('data-rendermode', 'template');
-    switch(data_rendermode) {
+    switch (data_rendermode) {
         case 'designer':
             html = [];
             $ths = $control.find('.designer > thead td.column')
-            $ths.each(function(index, th) {
+            $ths.each(function (index, th) {
                 var $th, caption, cssclass, browsedatafield, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
-                $th     = jQuery(th);
+                $th = jQuery(th);
                 //width   = $th.attr('data-width');
                 width = "auto";
                 visible = $th.attr('data-visible');
                 html.push('<div class="column" data-width="' + width + '" data-visible="' + visible + '">');
                 $fields = $th.find('> .field');
-                $fields.each(function(index, field) {
+                $fields.each(function (index, field) {
                     var $field;
-                    $field    = jQuery(field);
-                    caption   = $field.attr('data-caption');
+                    $field = jQuery(field);
+                    caption = $field.attr('data-caption');
                     datafield = $field.attr('data-datafield');
-                    cssclass  = $field.attr('data-cssclass');
-                    datatype  = $field.attr('data-datatype');
+                    cssclass = $field.attr('data-cssclass');
+                    datatype = $field.attr('data-datatype');
                     html.push('<div class="field ' + cssclass + '" data-caption="' + caption + '" data-datafield="' + datafield + '" data-cssclass="' + cssclass + '" data-datatype="' + datatype + '"></div>');
                 });
                 html.push('</div>');
@@ -1431,23 +1430,23 @@ FwBrowse.renderTemplateHtml = function($control) {
         case 'runtime':
             html = [];
             $ths = $control.find('.runtime thead td.column')
-            $ths.each(function(index, th) {
+            $ths.each(function (index, th) {
                 var $th, caption, cssclass, browsedatafield, browsedatatype, formdatafield, formdatatype, width, visible, $fields;
-                $th     = jQuery(th);
+                $th = jQuery(th);
                 //width   = $th.attr('data-width');
-                width   = auto;
+                width = auto;
                 visible = $th.attr('data-visible');
                 html.push('<div class="column" ' + /*'data-width="' + width*/ + '" data-visible="' + visible + '">');
                 $fields = $th.find('> .field');
-                $fields.each(function(index, field) {
+                $fields.each(function (index, field) {
                     var $field;
-                    $field          = jQuery(field);
-                    caption         = $field.attr('data-caption');
-                    cssclass        = $field.attr('data-cssclass');
+                    $field = jQuery(field);
+                    caption = $field.attr('data-caption');
+                    cssclass = $field.attr('data-cssclass');
                     browsedatafield = $field.attr('data-browsedatafield');
-                    browsedatatype  = $field.attr('data-browsedatatype');
-                    formdatafield   = $field.attr('data-formdatafield');
-                    formdatatype    = $field.attr('data-formdatatype');
+                    browsedatatype = $field.attr('data-browsedatatype');
+                    formdatafield = $field.attr('data-formdatafield');
+                    formdatatype = $field.attr('data-formdatatype');
                     html.push('<div class="field ' + cssclass + '" data-caption="' + caption + '" data-cssclass="' + cssclass + '" data-browsedatafield="' + browsedatafield + '" data-browsedatatype="' + browsedatatype + '" data-browsedatafield="' + browsedatafield + '" data-browsedatatype="' + browsedatatype + '"></div>');
                 });
                 html.push('</div>');
@@ -1460,27 +1459,27 @@ FwBrowse.renderTemplateHtml = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.screenload = function($control) {
-    
+FwBrowse.screenload = function ($control) {
+
 };
 //---------------------------------------------------------------------------------
-FwBrowse.screenunload = function($control) {
-    
+FwBrowse.screenunload = function ($control) {
+
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRequest = function($control) {
+FwBrowse.getRequest = function ($control) {
     var request, $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller;
     orderby = [];
     request = {
-        module:               '',
-        searchfields:         [],
+        module: '',
+        searchfields: [],
         searchfieldoperators: [],
-        searchfieldvalues:    [],
-        miscfields:           !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
-        orderby:              '',
-        pageno:               parseInt($control.attr('data-pageno')),
-        pagesize:             parseInt($control.attr('data-pagesize')),
-        options:              FwBrowse.getOptions($control)
+        searchfieldvalues: [],
+        miscfields: !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform')),
+        orderby: '',
+        pageno: parseInt($control.attr('data-pageno')),
+        pagesize: parseInt($control.attr('data-pagesize')),
+        options: FwBrowse.getOptions($control)
     };
     if ($control.attr('data-type') === 'Grid') {
         request.module = $control.attr('data-name');
@@ -1498,11 +1497,11 @@ FwBrowse.getRequest = function($control) {
         throw module + 'Controller is not defined.'
     }
     $fields = $control.find('.runtime thead > tr.fieldnames > td.column > div.field');
-    $fields.each(function(index, element) {
-        $field          = jQuery(element);
-        $txtSearch      = $field.find('> div.search > input');
-        value           = $txtSearch.val();
-        sort            = $field.attr('data-sort');
+    $fields.each(function (index, element) {
+        $field = jQuery(element);
+        $txtSearch = $field.find('> div.search > input');
+        value = $txtSearch.val();
+        sort = $field.attr('data-sort');
         browsedatafield = $field.attr('data-browsedatafield');
         if (value.length > 0) {
             request.searchfields.push(browsedatafield);
@@ -1556,7 +1555,7 @@ FwBrowse.getRequest = function($control) {
     return request;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.databind = function($control) {
+FwBrowse.databind = function ($control) {
     var request, caption;
     if ($control.length > 0) {
         request = FwBrowse.getRequest($control);
@@ -1564,7 +1563,7 @@ FwBrowse.databind = function($control) {
             $control.data('calldatabind')(request);
         } else {
             if ($control.attr('data-type') === 'Grid') {
-                FwServices.grid.method(request, request.module, 'Browse', $control, function(response) {
+                FwServices.grid.method(request, request.module, 'Browse', $control, function (response) {
                     try {
                         var controller = window[request.module + 'Controller'];
                         if (typeof controller === 'undefined') {
@@ -1575,12 +1574,12 @@ FwBrowse.databind = function($control) {
                         } else {
                             FwBrowse.databindcallback($control, response.browse);
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
             } else if ($control.attr('data-type') === 'Validation') {
-                FwServices.validation.method(request, request.module, 'Browse', $control, function(response) {
+                FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
                     try {
                         var controller = window[request.module + 'Controller'];
                         if (typeof controller !== 'undefined' && typeof controller.apiurl !== 'undefined') {
@@ -1593,7 +1592,7 @@ FwBrowse.databind = function($control) {
                     }
                 });
             } else if ($control.attr('data-type') === 'Browse') {
-                FwServices.module.method(request, request.module, 'Browse', $control, function(response) {
+                FwServices.module.method(request, request.module, 'Browse', $control, function (response) {
                     try {
                         var controller = window[request.module + 'Controller'];
                         if (typeof controller === 'undefined') {
@@ -1604,7 +1603,7 @@ FwBrowse.databind = function($control) {
                         } else {
                             FwBrowse.databindcallback($control, response.browse);
                         }
-                    } catch(ex) {
+                    } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
@@ -1613,7 +1612,7 @@ FwBrowse.databind = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.databindcallback = function($control, dt) {
+FwBrowse.databindcallback = function ($control, dt) {
     var i, $tbody, htmlPager, columnIndex, dtCol, rowIndex, scrollerCol, rowClass, columns, onrowdblclick, $ths, $pager, pageSize, controlType, $fields;
     try {
         //FwOverlay.hideOverlay($control);
@@ -1622,7 +1621,7 @@ FwBrowse.databindcallback = function($control, dt) {
         pageSize = FwBrowse.getPageSize($control);
         FwBrowse.setTotalPages($control, dt.TotalPages);
 
-        onrowdblclick  = $control.data('onrowdblclick');
+        onrowdblclick = $control.data('onrowdblclick');
         dt.ColumnIndex = {};
         for (i = 0; i < dt.Columns.length; i++) {
             dtCol = dt.Columns[i];
@@ -1641,10 +1640,10 @@ FwBrowse.databindcallback = function($control, dt) {
             $fields = $tr.find('.field');
             for (var i = 0; i < $fields.length; i++) {
                 var $field, dtColIndex, dtRow, dtCellValue, $td;
-                $field      = jQuery($fields[i]);
-                $td         = $field.parent('td');
-                dtColIndex  = dt.ColumnIndex[$field.attr('data-browsedatafield')];
-                dtRow       = dt.Rows[rowIndex];
+                $field = jQuery($fields[i]);
+                $td = $field.parent('td');
+                dtColIndex = dt.ColumnIndex[$field.attr('data-browsedatafield')];
+                dtRow = dt.Rows[rowIndex];
                 dtCellValue = dtRow[dtColIndex];
                 if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
                     $field.addClass('editablefield');
@@ -1660,8 +1659,8 @@ FwBrowse.databindcallback = function($control, dt) {
                     if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                         throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
                     }
-                    var css = { 
-                        'position':         'relative',
+                    var css = {
+                        'position': 'relative',
                         'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
                         'border-top-style': 'none'
                     };
@@ -1672,14 +1671,14 @@ FwBrowse.databindcallback = function($control, dt) {
                     if (typeof dt.ColumnIndex[browsecellbackgroundcolorfield] !== 'number') {
                         throw 'FwBrowse.databindcallback: browsecellbackgroundcolorfield: "column ' + browsecellbackgroundcolorfield + '" was not returned by the web service.';
                     }
-                    $td.css( {'background-color': dtRow[dt.ColumnIndex[browsecellbackgroundcolorfield]]} );
+                    $td.css({ 'background-color': dtRow[dt.ColumnIndex[browsecellbackgroundcolorfield]] });
                 }
                 var browsecelltextcolorfield = $field.attr('data-browsecelltextcolorfield');
                 if ((typeof browsecelltextcolorfield !== 'undefined') && (browsecelltextcolorfield.length > 0)) {
                     if (typeof dt.ColumnIndex[browsecelltextcolorfield] !== 'number') {
                         throw 'FwBrowse.databindcallback: browsecelltextcolorfield: "column ' + browsecelltextcolorfield + '" was not returned by the web service.';
                     }
-                    $td.css( {color: dtRow[dt.ColumnIndex[browsecelltextcolorfield]]} );
+                    $td.css({ color: dtRow[dt.ColumnIndex[browsecelltextcolorfield]] });
                 }
                 var browsecellwhitetextfield = $field.attr('data-browsecellwhitetextfield');
                 if ((typeof browsecellwhitetextfield !== 'undefined') && (browsecellwhitetextfield.length > 0)) {
@@ -1687,7 +1686,7 @@ FwBrowse.databindcallback = function($control, dt) {
                         throw 'FwBrowse.databindcallback: browsecellwhitetextfield: "column ' + browsecellwhitetextfield + '" was not returned by the web service.';
                     }
                     if (dtRow[dt.ColumnIndex[browsecellwhitetextfield]] === 'T') {
-                        $td.css( {color: '#ffffff'} );
+                        $td.css({ color: '#ffffff' });
                     }
                 }
                 if (typeof window['FwBrowseColumn_' + $field.attr('data-browsedatatype')] !== 'undefined') {
@@ -1750,6 +1749,16 @@ FwBrowse.databindcallback = function($control, dt) {
                         FwFunc.showError(ex);
                     }
                 })
+                .on('click', '.btnpeek', function (e) {
+                    try {
+                        var $td = jQuery(this).parent();
+                        var $tr = $td.closest('tr');
+                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null)
+                    } catch (ex) {
+                        FwFunc.showError(ex)
+                    }
+                    e.stopPropagation();
+                })
                 .on('click', '.editablefield', function (e) {
                     try {
                         var $td = jQuery(this);
@@ -1768,7 +1777,7 @@ FwBrowse.databindcallback = function($control, dt) {
                         FwFunc.showError(ex);
                     }
                 })
-            ;
+                ;
             //$trs.on('focusout', function (e) {
             //    try {
 
@@ -1791,99 +1800,99 @@ FwBrowse.databindcallback = function($control, dt) {
         controlType = $control.attr('data-type');
         htmlPager = [];
         var rownostart = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? ((dt.PageNo * pageSize) - pageSize + 1) : 0;
-        var rownoend   = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
-        switch(controlType) {
+        var rownoend = (((dt.PageNo * pageSize) - pageSize + 1) > 0) ? (dt.PageNo * pageSize) - (pageSize - dt.Rows.length) : 0;
+        switch (controlType) {
             case 'Browse':
                 htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
-                    htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0">');
-                        htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
-                    htmlPager.push('</div>');
-                    if ((rownoend === 0) && (dt.TotalRows === 0)) {
+                htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0">');
+                htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
+                htmlPager.push('</div>');
+                if ((rownoend === 0) && (dt.TotalRows === 0)) {
+                    htmlPager.push('<div class="count">' + dt.TotalRows + ' rows</div>');
+                } else {
+                    if (dt.TotalPages == 1) {
                         htmlPager.push('<div class="count">' + dt.TotalRows + ' rows</div>');
                     } else {
-                        if (dt.TotalPages == 1) {
-                            htmlPager.push('<div class="count">' + dt.TotalRows + ' rows</div>');
-                        } else {
-                            htmlPager.push('<div class="count">' + rownostart + ' to ' + rownoend  + ' of ' + dt.TotalRows + ' rows</div>');
-                        }
+                        htmlPager.push('<div class="count">' + rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows</div>');
                     }
+                }
                 htmlPager.push('</div>');
                 htmlPager.push('<div class="col2" style="width:34%;overflow:hidden;float:left;height:32px;text-align:center;">');
-                    if (dt.TotalPages > 1) {
-                        htmlPager.push('<div class="buttons">');
-                            if ((pageSize > 0) && (dt.PageNo > 1)) {
-                                htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                                htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                            } else {
-                                htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                                htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                            }
-                            htmlPager.push('<div class="page">');
-                                if (dt.TotalPages > 0) {
-                                    htmlPager.push('<input class="txtPageNo" type="text" value="' + dt.PageNo + '" />');
-                                } else {
-                                    htmlPager.push('<input class="txtPageNo" type="text" value="0" />');
-                                }
-                                htmlPager.push('<div class="of">of</div>');
-                                htmlPager.push('<div class="txtTotalPages">' + dt.TotalPages + '</div>');
-                            htmlPager.push('</div>');
-                            if ((pageSize > 0) &&(dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
-                                htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                                htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                            } else {
-                                htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                                htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                            }
-                        htmlPager.push('</div>');
+                if (dt.TotalPages > 1) {
+                    htmlPager.push('<div class="buttons">');
+                    if ((pageSize > 0) && (dt.PageNo > 1)) {
+                        htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                    } else {
+                        htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
                     }
+                    htmlPager.push('<div class="page">');
+                    if (dt.TotalPages > 0) {
+                        htmlPager.push('<input class="txtPageNo" type="text" value="' + dt.PageNo + '" />');
+                    } else {
+                        htmlPager.push('<input class="txtPageNo" type="text" value="0" />');
+                    }
+                    htmlPager.push('<div class="of">of</div>');
+                    htmlPager.push('<div class="txtTotalPages">' + dt.TotalPages + '</div>');
+                    htmlPager.push('</div>');
+                    if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
+                        htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                    } else {
+                        htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                    }
+                    htmlPager.push('</div>');
+                }
                 htmlPager.push('</div>');
                 htmlPager.push('<div class="col3" style="width:33%;overflow:hidden;float:left;">');
-                    htmlPager.push('<div class="pagesize">');
-                        htmlPager.push('<select class="pagesize">');
-                            htmlPager.push('<option value="5">5</option>');
-                            htmlPager.push('<option value="10">10</option>');
-                            htmlPager.push('<option value="15">15</option>');
-                            htmlPager.push('<option value="20">20</option>');
-                            htmlPager.push('<option value="25">25</option>');
-                            htmlPager.push('<option value="30">30</option>');
-                            htmlPager.push('<option value="35">35</option>');
-                            htmlPager.push('<option value="40">40</option>');
-                            htmlPager.push('<option value="45">45</option>');
-                            htmlPager.push('<option value="50">50</option>');
-                            htmlPager.push('<option value="100">100</option>');
-                            htmlPager.push('<option value="200">200</option>');
-                            htmlPager.push('<option value="500">500</option>');
-                            htmlPager.push('<option value="1000">1000</option>');
-                            //htmlPager.push('<option value="0">All</option>');
-                        htmlPager.push('</select>');
-                        htmlPager.push('<span class="caption">rows per page</span>');
-                    htmlPager.push('</div>');
+                htmlPager.push('<div class="pagesize">');
+                htmlPager.push('<select class="pagesize">');
+                htmlPager.push('<option value="5">5</option>');
+                htmlPager.push('<option value="10">10</option>');
+                htmlPager.push('<option value="15">15</option>');
+                htmlPager.push('<option value="20">20</option>');
+                htmlPager.push('<option value="25">25</option>');
+                htmlPager.push('<option value="30">30</option>');
+                htmlPager.push('<option value="35">35</option>');
+                htmlPager.push('<option value="40">40</option>');
+                htmlPager.push('<option value="45">45</option>');
+                htmlPager.push('<option value="50">50</option>');
+                htmlPager.push('<option value="100">100</option>');
+                htmlPager.push('<option value="200">200</option>');
+                htmlPager.push('<option value="500">500</option>');
+                htmlPager.push('<option value="1000">1000</option>');
+                //htmlPager.push('<option value="0">All</option>');
+                htmlPager.push('</select>');
+                htmlPager.push('<span class="caption">rows per page</span>');
+                htmlPager.push('</div>');
                 htmlPager.push('</div>');
                 break;
             case 'Grid':
                 htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0">');
-                    htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
+                htmlPager.push('<i class="material-icons">&#xE5D5;</i>');
                 htmlPager.push('</div>');
             case 'Validation':
                 if (dt.TotalPages > 1) {
                     htmlPager.push('<div class="buttons" style="float:left;">');
-                        if ((pageSize > 0) && (dt.PageNo > 1)) {
-                            htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
-                            htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
-                        }
-                        htmlPager.push('<input class="txtPageNo" style="display:none;" type="text" value="' + dt.PageNo + '"/>');
-                        htmlPager.push('<span class="of" style="display:none;"> of </span>');
-                        htmlPager.push('<span class="txtTotalPages" style="display:none;">' + dt.TotalPages + '</span>');
-                        if ((pageSize > 0) &&(dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
-                            htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        } else {
-                            htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
-                            htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
-                        }
+                    if ((pageSize > 0) && (dt.PageNo > 1)) {
+                        htmlPager.push('<div tabindex="0" class="button btnFirstPage" data-enabled="true" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('<div tabindex="0" class="button btnPreviousPage" data-enabled="true" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                    } else {
+                        htmlPager.push('<div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                        htmlPager.push('<div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                    }
+                    htmlPager.push('<input class="txtPageNo" style="display:none;" type="text" value="' + dt.PageNo + '"/>');
+                    htmlPager.push('<span class="of" style="display:none;"> of </span>');
+                    htmlPager.push('<span class="txtTotalPages" style="display:none;">' + dt.TotalPages + '</span>');
+                    if ((pageSize > 0) && (dt.TotalPages > 1) && (dt.PageNo < dt.TotalPages)) {
+                        htmlPager.push('<div class="button btnNextPage" data-enabled="true" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('<div class="button btnLastPage" data-enabled="true" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                    } else {
+                        htmlPager.push('<div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                        htmlPager.push('<div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                    }
                     htmlPager.push('</div>');
                 }
                 htmlPager.push('<div class="count">' + dt.TotalRows + ' row(s)</div>');
@@ -1908,7 +1917,7 @@ FwBrowse.databindcallback = function($control, dt) {
             $control.find('.runtime tbody > tr').on('dblclick', onrowdblclick);
         }
         $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnFirstPage')
-            .on('click', function() {
+            .on('click', function () {
                 var pageno, $thisbtn;
                 try {
                     $btnFirstPage = jQuery(this);
@@ -1916,22 +1925,22 @@ FwBrowse.databindcallback = function($control, dt) {
                         $control.attr('data-pageno', '1');
                         FwBrowse.databind($control);
                     }
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnPreviousPage')
-            .on('click', function() {
+            .on('click', function () {
                 try {
                     FwBrowse.prevPage($control);
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         $control.find('.runtime tfoot > tr > td > .pager div.buttons .txtPageNo')
-            .on('change', function() {
+            .on('change', function () {
                 var pageno, originalpageno, originalpagenoStr, $txtPageNo, totalPages;
                 try {
                     $txtPageNo = jQuery(this);
@@ -1951,23 +1960,23 @@ FwBrowse.databindcallback = function($control, dt) {
                     } else {
 
                     }
-                } catch(ex) {
+                } catch (ex) {
                     $control.find('.runtime tfoot > tr > td > .pager div.buttons .txtTotalPages').val(originalpagenoStr);
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnNextPage')
-            .on('click', function() {
+            .on('click', function () {
                 try {
                     FwBrowse.nextPage($control);
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         $control.find('.runtime tfoot > tr > td > .pager div.buttons .btnLastPage')
-            .on('click', function() {
+            .on('click', function () {
                 var pageno, $thisbtn;
                 try {
                     $btnLastPage = jQuery(this);
@@ -1976,13 +1985,13 @@ FwBrowse.databindcallback = function($control, dt) {
                         FwBrowse.setPageNo($control, pageno);
                         FwBrowse.databind($control);
                     }
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         $control.find('.runtime .pager select.activeinactiveview')
-            .on('change', function() {
+            .on('change', function () {
                 var $selectActiveInactiveView, view;
                 try {
                     $selectActiveInactiveView = jQuery(this);
@@ -1993,12 +2002,12 @@ FwBrowse.databindcallback = function($control, dt) {
                     FwFunc.showError(ex);
                 }
             })
-        ;
+            ;
         if ((typeof $control.attr('data-type') === 'string') && ($control.attr('data-type') === 'Validation')) {
             FwValidation.validateSearchCallback($control);
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
             var selectedindex = FwBrowse.getSelectedIndex($control);
             var rowcount = FwBrowse.getRowCount($control);
             if (rowcount > FwBrowse.getSelectedIndex($control) && selectedindex !== -1) {
@@ -2016,27 +2025,27 @@ FwBrowse.databindcallback = function($control, dt) {
                 }
             }
         }, 250);
-    } catch(ex) {
+    } catch (ex) {
         FwFunc.showError(ex);
     }
 };
 //---------------------------------------------------------------------------------
 FwBrowse.generateRow = function ($control) {
     var $table, $theadtds, $tr;
-    $table    = $control.find('table');
-    $tr       = jQuery('<tr>');
+    $table = $control.find('table');
+    $tr = jQuery('<tr>');
     $theadtds = $table.find('> thead > tr.fieldnames > td.column');
-    $theadtds.each(function(index, element) {
+    $theadtds.each(function (index, element) {
         var $theadtd, $td, width, $fields;
         $theadtd = jQuery(element);
         $td = $theadtd.clone().empty();
-        $td.css( {'min-width': width} );
+        $td.css({ 'min-width': width });
         $tr.append($td);
         $theadfields = $theadtd.children('.field');
-        $theadfields.each(function(index, element) {
+        $theadfields.each(function (index, element) {
             var $theadfield, $field, $field_newmode, formdatatype;
-            $theadfield    = jQuery(element);
-            $field         = $theadfield.clone().empty();
+            $theadfield = jQuery(element);
+            $field = $theadfield.clone().empty();
             $td.append($field);
         });
     });
@@ -2058,7 +2067,7 @@ FwBrowse.generateRow = function ($control) {
     return $tr;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setGridBrowseMode = function($control) {
+FwBrowse.setGridBrowseMode = function ($control) {
     var $table, $trNewMode, $trEditMode;
     $control.attr('data-mode', 'VIEW');
     $table = $control.find('table');
@@ -2079,11 +2088,11 @@ FwBrowse.setGridBrowseMode = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.addRowNewMode = function($control) {
+FwBrowse.addRowNewMode = function ($control) {
     var $table, $tr, $tbody;
     $table = $control.find('.runtime table');
     if ($table.find('> tbody > tr.editrow.newmode').length === 0) {
-        $tr    = FwBrowse.generateRow($control);
+        $tr = FwBrowse.generateRow($control);
         $tr.addClass('editrow newmode');
         $tbody = $table.find('> tbody');
         $tbody.prepend($tr);
@@ -2092,7 +2101,7 @@ FwBrowse.addRowNewMode = function($control) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setRowNewMode = function($control, $tr) {
+FwBrowse.setRowNewMode = function ($control, $tr) {
     var $fields, $inputs;
     $control.attr('data-mode', 'EDIT');
     $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
@@ -2124,7 +2133,7 @@ FwBrowse.setRowNewMode = function($control, $tr) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setRowViewMode = function($control, $tr) {
+FwBrowse.setRowViewMode = function ($control, $tr) {
     var $trEditModeRows = $control.find('tbody tr.editmode');
     $tr.find('.divsaverow').remove();
     $tr.find('.divcancelsaverow').remove();
@@ -2134,12 +2143,12 @@ FwBrowse.setRowViewMode = function($control, $tr) {
     //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').show();
     //$control.find('.gridmenu .buttonbar div[data-type="SaveButton"]').hide();
     //$control.find('.gridmenu .buttonbar div[data-type="CancelButton"]').hide();
-    $tr.find('> td > .field').each(function(index, field) {
+    $tr.find('> td > .field').each(function (index, field) {
         var $field, html;
         $field = jQuery(field);
         FwBrowse.setFieldViewMode($control, $field, $tr);
     });
-    
+
     if ($trEditModeRows.length <= 1) {
         $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').show();
         $control.find('tbody .divselectrow').show();
@@ -2147,7 +2156,7 @@ FwBrowse.setRowViewMode = function($control, $tr) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setFieldViewMode = function($control, $field, $tr) {
+FwBrowse.setFieldViewMode = function ($control, $field, $tr) {
     var browsedatatype = (typeof $field.attr('data-browsedatatype') === 'string') ? $field.attr('data-browsedatatype') : '';
     //var originalvalue  = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     //var originaltext   = (typeof $field.attr('data-originaltext')   === 'string') ? $field.attr('data-originaltext') : '';
@@ -2155,7 +2164,7 @@ FwBrowse.setFieldViewMode = function($control, $field, $tr) {
     //var appimageid     = originalvalue;
     //var filename       = (typeof $field.attr('data-filename')       === 'string') ? $field.attr('data-filename') : '';
     //var fileextension  = (typeof $field.attr('data-fileextension')  === 'string') ? $field.attr('data-fileextension').toLowerCase() : '';
-    
+
     var html = [];
     if (typeof window['FwBrowseColumn_' + browsedatatype] !== 'undefined') {
         if (typeof window['FwBrowseColumn_' + browsedatatype].setFieldViewMode === 'function') {
@@ -2208,7 +2217,7 @@ FwBrowse.setRowEditMode = function ($control, $tr) {
         }
     }
 
-    $tr.find('> td > .field').each(function(index, element) {
+    $tr.find('> td > .field').each(function (index, element) {
         var $field;
         $field = jQuery(element);
         if ($field.attr('data-formreadonly') === 'true') {
@@ -2248,7 +2257,7 @@ FwBrowse.addSaveAndCancelButtonToRow = function ($control, $tr) {
             FwFunc.showError(ex);
         }
     });
-    $browsecontextmenucell.append($divsaverow); 
+    $browsecontextmenucell.append($divsaverow);
 
     // add the cancel button
     var $tdselectrow = $tr.find('.tdselectrow');
@@ -2263,10 +2272,10 @@ FwBrowse.addSaveAndCancelButtonToRow = function ($control, $tr) {
             FwFunc.showError(ex);
         }
     });
-    $tdselectrow.append($divcancelsaverow); 
+    $tdselectrow.append($divcancelsaverow);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.setFieldEditMode = function($control, $field, $tr) {
+FwBrowse.setFieldEditMode = function ($control, $field, $tr) {
     var html, formdatatype/*, originalvalue, originaltext, appdocumentid, documenttypeid, uniqueid1, uniqueid2, appimageid, formmaxlength*/;
 
     //originalvalue  = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
@@ -2278,9 +2287,9 @@ FwBrowse.setFieldEditMode = function($control, $field, $tr) {
     //appimageid     = originalvalue;
     //filename       = (typeof $field.attr('data-filename')       === 'string') ? $field.attr('data-filename') : '';
     //formmaxlength  = (typeof $field.attr('data-formmaxlength')  === 'string') ? $field.attr('data-formmaxlength') : '';
-    formdatatype   = (typeof $field.attr('data-formdatatype')   === 'string') ? $field.attr('data-formdatatype') : '';
+    formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
     html = [];
-    
+
     if (typeof window['FwBrowseColumn_' + formdatatype] !== 'undefined') {
         if (typeof window['FwBrowseColumn_' + formdatatype].setFieldEditMode === 'function') {
             window['FwBrowseColumn_' + formdatatype].setFieldEditMode($control, $field, $tr, html);
@@ -2288,7 +2297,7 @@ FwBrowse.setFieldEditMode = function($control, $field, $tr) {
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.appdocumentimageLoadFile = function($control, $field, file) {
+FwBrowse.appdocumentimageLoadFile = function ($control, $field, file) {
     var $file, file, reader, filename;
     try {
         reader = new FileReader();
@@ -2311,34 +2320,34 @@ FwBrowse.appdocumentimageLoadFile = function($control, $field, file) {
         if (file) {
             reader.readAsDataURL(file);
         }
-    } catch(ex) {
+    } catch (ex) {
         FwFunc.showError(ex);
     }
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRowBrowseUniqueIds = function($control, $tr) {
+FwBrowse.getRowBrowseUniqueIds = function ($control, $tr) {
     var uniqueids, $uniqueidfields;
     uniqueids = {};
     $uniqueidfields = $tr.find('> td.column > div.field[data-isuniqueid="true"]');
-    $uniqueidfields.each(function(index, element) {
+    $uniqueidfields.each(function (index, element) {
         var $field, browsedatafield, originalvalue;
-        $field          = jQuery(element);
+        $field = jQuery(element);
         browsedatafield = $field.attr('data-browsedatafield');
-        originalvalue   = $field.attr('data-originalvalue');
+        originalvalue = $field.attr('data-originalvalue');
         uniqueids[browsedatafield] = originalvalue;
     });
     return uniqueids;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRowFormUniqueIds = function($control, $tr) {
+FwBrowse.getRowFormUniqueIds = function ($control, $tr) {
     var uniqueids, uniqueid, $uniqueidfields;
     uniqueids = {};
     $uniqueidfields = $tr.find('> td.column > div.field[data-isuniqueid="true"]');
-    $uniqueidfields.each(function(index, element) {
+    $uniqueidfields.each(function (index, element) {
         var $field, formdatafield, formdatatype, value, originalvalue;
-        $field        = jQuery(element);
+        $field = jQuery(element);
         formdatafield = $field.attr('data-formdatafield');
-        formdatatype  = $field.attr('data-formdatatype');
+        formdatatype = $field.attr('data-formdatatype');
         originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         uniqueid = {
             datafield: formdatafield,
@@ -2355,7 +2364,7 @@ FwBrowse.getRowFormUniqueIds = function($control, $tr) {
     return uniqueids;
 };
 //---------------------------------------------------------------------------------
-FwBrowse.getRowFormDataFields = function($control, $tr, getmiscfields) {
+FwBrowse.getRowFormDataFields = function ($control, $tr, getmiscfields) {
     var fields, field, $fields;
     fields = {};
     if (!getmiscfields) {
@@ -2363,13 +2372,13 @@ FwBrowse.getRowFormDataFields = function($control, $tr, getmiscfields) {
     } else {
         $fields = $tr.find('> td.column > div.field[data-miscfield]');
     }
-    $fields.each(function(index, element) {
+    $fields.each(function (index, element) {
         var $field, formdatafield, originalvalue, miscfield;
-        $field        = jQuery(element);
+        $field = jQuery(element);
         formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
-        formdatatype  = (typeof $field.attr('data-formdatatype')  === 'string') ? $field.attr('data-formdatatype')  : '';
+        formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
         originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
-        miscfield     = (typeof $field.attr('data-miscfield')     === 'string') ? $field.attr('data-miscfield')     : '';
+        miscfield = (typeof $field.attr('data-miscfield') === 'string') ? $field.attr('data-miscfield') : '';
         field = {
             datafield: formdatafield,
             value: originalvalue
@@ -2388,13 +2397,13 @@ FwBrowse.getRowFormDataFields = function($control, $tr, getmiscfields) {
     return fields;
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.getWebApiRowFields = function($control, $tr) {
+FwBrowse.getWebApiRowFields = function ($control, $tr) {
     var fields = {};
     var $fields = $tr.find('> td.column > div.field[data-formdatafield][data-formdatafield!=""]');
-    $fields.each(function(index, element) {
-        var $field        = jQuery(element);
+    $fields.each(function (index, element) {
+        var $field = jQuery(element);
         var formdatafield = (typeof $field.attr('data-formdatafield') === 'string') ? $field.attr('data-formdatafield') : '';
-        var formdatatype  = (typeof $field.attr('data-formdatatype')  === 'string') ? $field.attr('data-formdatatype')  : '';
+        var formdatatype = (typeof $field.attr('data-formdatatype') === 'string') ? $field.attr('data-formdatatype') : '';
         var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         var field = {
             datafield: formdatafield,
@@ -2412,7 +2421,7 @@ FwBrowse.getWebApiRowFields = function($control, $tr) {
 //----------------------------------------------------------------------------------------------
 FwBrowse.saveRow = function ($control, $tr) {
     var fields, rowuniqueids, rowfields, formuniqueids, formfields, mode, name, $form, isvalid = true, miscfields;
-    
+
     var name = $control.attr('data-name');
     var mode = $tr.hasClass('newmode') ? 'Insert' : $tr.hasClass('editmode') ? 'Update' : '';
     if (typeof $control.attr('data-name') === 'undefined') {
@@ -2453,7 +2462,7 @@ FwBrowse.saveRow = function ($control, $tr) {
                     }
                 }
             }
-            
+
             var gridfields = FwBrowse.getWebApiRowFields($control, $tr);
             request = jQuery.extend({}, parentformfields, gridfields);
             if (typeof $control.data('beforesave') === 'function') {
@@ -2462,12 +2471,12 @@ FwBrowse.saveRow = function ($control, $tr) {
         }
         else {
             // set request for old api
-            rowuniqueids  = FwBrowse.getRowFormUniqueIds($control, $tr);
-            rowfields     = FwBrowse.getRowFormDataFields($control, $tr);
-            miscfields    = FwBrowse.getRowFormDataFields($control, $tr, true);
+            rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
+            rowfields = FwBrowse.getRowFormDataFields($control, $tr);
+            miscfields = FwBrowse.getRowFormDataFields($control, $tr, true);
             if ($form.length > 0) {
                 formuniqueids = FwModule.getFormUniqueIds($form);
-                formfields    = FwModule.getFormFields($form, true);
+                formfields = FwModule.getFormFields($form, true);
             }
             // remove any uniqueids that are in the fields in NEW mode only
             if (mode === 'Insert') {
@@ -2480,10 +2489,10 @@ FwBrowse.saveRow = function ($control, $tr) {
                 }
             }
             request = {
-                module:     name,
-                mode:       mode == 'Insert' ? 'NEW' : 'EDIT',
-                ids:        rowuniqueids,
-                fields:     rowfields,
+                module: name,
+                mode: mode == 'Insert' ? 'NEW' : 'EDIT',
+                ids: rowuniqueids,
+                fields: rowfields,
                 miscfields: miscfields
             };
             if ($form.length > 0) {
@@ -2526,7 +2535,7 @@ FwBrowse.saveRow = function ($control, $tr) {
     return isvalid;
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.deleteRow = function($control, $tr) {
+FwBrowse.deleteRow = function ($control, $tr) {
     var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
     candelete = true;
     miscfields = {};
@@ -2540,31 +2549,31 @@ FwBrowse.deleteRow = function($control, $tr) {
     }
     if (($tr.length == 1) && (candelete)) {
         $confirmation = FwConfirmation.renderConfirmation('Delete Record', 'Delete Record?');
-        $ok           = FwConfirmation.addButton($confirmation, 'OK');
-        $cancel       = FwConfirmation.addButton($confirmation, 'Cancel');
-        
-        $ok.on('click', function() {
+        $ok = FwConfirmation.addButton($confirmation, 'OK');
+        $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $ok.on('click', function () {
             FwBrowse.deleteRecord($control, $tr);
         });
     }
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.deleteRecord = function($control, $tr) {
+FwBrowse.deleteRecord = function ($control, $tr) {
     var rowuniqueids, formuniqueids, name, $form, candelete, miscfields;
-    miscfields   = {};
-    name         = $control.attr('data-name');
-    $form        = $control.closest('.fwform');
+    miscfields = {};
+    name = $control.attr('data-name');
+    $form = $control.closest('.fwform');
     rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
     request = {
-        module:     name,
-        ids:        rowuniqueids,
+        module: name,
+        ids: rowuniqueids,
         miscfields: miscfields
     };
     if ($form.length > 0) {
-        formuniqueids      = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
+        formuniqueids = ($form.length > 0) ? FwModule.getFormUniqueIds($form) : [];
         request.miscfields = jQuery.extend({}, miscfields, formuniqueids);
     }
-    FwServices.grid.method(request, name, 'Delete', $control, function(response) {
+    FwServices.grid.method(request, name, 'Delete', $control, function (response) {
         //perform after delete
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
@@ -2578,7 +2587,7 @@ FwBrowse.deleteRecord = function($control, $tr) {
     });
 };
 //---------------------------------------------------------------------------------
-FwBrowse.addLegend = function($control, caption, color) {
+FwBrowse.addLegend = function ($control, caption, color) {
     var html, $legenditem;
     $control.find('tr.legendrow').show();
     html = [];
@@ -2591,7 +2600,7 @@ FwBrowse.addLegend = function($control, caption, color) {
     $control.find('div.legend').append($legenditem);
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.getGridData = function($object, request, responseFunc) {
+FwBrowse.getGridData = function ($object, request, responseFunc) {
     var webserviceurl, controller, module;
     controller = $object.attr('data-controller');
     module = window[controller].Module;
@@ -2600,22 +2609,22 @@ FwBrowse.getGridData = function($object, request, responseFunc) {
     FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.disableGrid = function($control) {
+FwBrowse.disableGrid = function ($control) {
     $control.attr('data-enabled', false);
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.enableGrid = function($control) {
+FwBrowse.enableGrid = function ($control) {
     $control.attr('data-enabled', true);
 };
 //---------------------------------------------------------------------------------
-FwBrowse.validateRow = function($control, $tr) {
+FwBrowse.validateRow = function ($control, $tr) {
     var isvalid, $fields;
 
     isvalid = true;
 
     $fields = $tr.find('.field');
     //$fields = $tr.find('.field[data-isuniqueid!="true"]');
-    $fields.each(function(index) {
+    $fields.each(function (index) {
         var $field = jQuery(this);
 
         if ($field.attr('data-formrequired') == 'true') {
@@ -2642,29 +2651,28 @@ FwBrowse.validateRow = function($control, $tr) {
         }
     }
 
-    if (!isvalid)
-    {
+    if (!isvalid) {
         FwNotification.renderNotification('ERROR', 'Please correct the error(s) before saving this row.');
     }
 
     return isvalid;
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.getOptions = function($control) {
+FwBrowse.getOptions = function ($control) {
     var $fwformfields, fields, field;
-    
+
     $fwformfields = $control.find('.advancedoptions .fwformfield');
-    fields        = {};
-    $fwformfields.each(function(index, element) {
+    fields = {};
+    $fwformfields.each(function (index, element) {
         var $fwformfield, dataField, value;
-        
-        $fwformfield   = jQuery(element);
-        dataField      = $fwformfield.attr('data-datafield');
-        value          = FwFormField.getValue2($fwformfield);
+
+        $fwformfield = jQuery(element);
+        dataField = $fwformfield.attr('data-datafield');
+        value = FwFormField.getValue2($fwformfield);
 
         field = {
             datafield: dataField,
-            value:     value
+            value: value
         };
         fields[dataField] = field;
     });
@@ -2672,7 +2680,7 @@ FwBrowse.getOptions = function($control) {
     return fields;
 };
 //----------------------------------------------------------------------------------------------
-FwBrowse.getValidationData = function($object, request, responseFunc) {
+FwBrowse.getValidationData = function ($object, request, responseFunc) {
     var webserviceurl, controller, module;
     controller = $object.attr('data-controller');
     module = window[controller].Module;
@@ -2696,13 +2704,13 @@ FwBrowse.getController = function ($control) {
     return controller
 };
 //--------------------------------------------------------------------------------- 
-FwBrowse.isUsingWebApi = function ($control) { 
-    var useWebApi = false; 
-    var controller = FwBrowse.getController($control); 
-    if (typeof controller.apiurl !== 'undefined') { 
-        useWebApi = true; 
-    } 
-    return useWebApi; 
+FwBrowse.isUsingWebApi = function ($control) {
+    var useWebApi = false;
+    var controller = FwBrowse.getController($control);
+    if (typeof controller.apiurl !== 'undefined') {
+        useWebApi = true;
+    }
+    return useWebApi;
 };
 //---------------------------------------------------------------------------------
 FwBrowse.loadBrowseFromTemplate = function (modulename) {

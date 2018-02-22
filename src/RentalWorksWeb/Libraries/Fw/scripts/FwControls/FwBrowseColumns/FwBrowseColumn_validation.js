@@ -19,7 +19,18 @@ FwBrowseColumn_validation.getFieldValue = function ($browse, $tr, $field, field,
 //---------------------------------------------------------------------------------
 FwBrowseColumn_validation.setFieldViewMode = function ($browse, $field, $tr, html) {
     var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
-    $field.html(originaltext);
+    var showPeek = false;
+    if (applicationConfig.defaultPeek === true) {
+        showPeek = (!($field.attr('data-validationpeek') === 'false'));
+    }
+    else {
+        showPeek = ($field.attr('data-validationpeek') === 'true');
+    }
+    if (showPeek) {
+        html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
+    }
+    html = html.join('');
+    $field.html(originaltext + html);
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_validation.setFieldEditMode = function ($browse, $field, $tr, html) {

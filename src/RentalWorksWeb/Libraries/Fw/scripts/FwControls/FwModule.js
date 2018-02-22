@@ -548,7 +548,7 @@ var FwModule = (function () {
         isValid = FwModule.validateForm($form);
         controllername = $form.attr('data-controller');
         controller = window[controllername];
-        if (isValid) {
+        if (isValid === true) {
             if (typeof controller.apiurl !== 'undefined') {
                 request = FwModule.getFormModel($form, false);
             }
@@ -563,7 +563,7 @@ var FwModule = (function () {
             FwServices.module.method(request, module, 'Save', $form, function (response) {
                 var $formfields, $browse;
                 if (typeof controller.apiurl !== 'undefined') {
-                    if (!parameters.closetab) {
+                    if (parameters.closetab === false) {
                         $browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]');
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
@@ -590,7 +590,7 @@ var FwModule = (function () {
                     else if (parameters.closetab) {
                         var issubmodule, $parenttab;
                         issubmodule = $tab.hasClass('submodule');
-                        if (issubmodule) {
+                        if (issubmodule === true) {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
@@ -598,19 +598,19 @@ var FwModule = (function () {
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
-                        if ((!issubmodule) || (typeof parameters.closeparent === 'undefined')) {
+                        if ((issubmodule === false) || (typeof parameters.closeparent === 'undefined')) {
                             if ((typeof parameters.navigationpath === 'string') && (parameters.navigationpath !== '')) {
                                 program.getModule(parameters.navigationpath);
                             }
                         }
-                        else if ((issubmodule) && (parameters.closeparent)) {
+                        else if ((issubmodule === true) && (parameters.closeparent === true)) {
                             $parenttab.find('.delete').click();
                         }
                     }
                     FwNotification.renderNotification('SUCCESS', 'Record saved.');
                 }
                 else if (response.saved === true) {
-                    if (!parameters.closetab) {
+                    if (parameters.closetab === false) {
                         $browse = jQuery('.fwbrowse[data-controller="' + controllername + '"]');
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
@@ -633,10 +633,10 @@ var FwModule = (function () {
                             controller['afterSave']($form);
                         }
                     }
-                    else if (parameters.closetab) {
+                    else if (parameters.closetab === true) {
                         var issubmodule, $parenttab;
                         issubmodule = $tab.hasClass('submodule');
-                        if (issubmodule) {
+                        if (issubmodule === true) {
                             $parenttab = jQuery('#' + $tab.data('parenttabid'));
                         }
                         FwModule.beforeCloseForm($form);
@@ -644,12 +644,12 @@ var FwModule = (function () {
                         if (typeof parameters.afterCloseForm === 'function') {
                             parameters.afterCloseForm();
                         }
-                        if ((!issubmodule) || (typeof parameters.closeparent === 'undefined')) {
+                        if ((issubmodule === false) || (typeof parameters.closeparent === 'undefined')) {
                             if ((typeof parameters.navigationpath === 'string') && (parameters.navigationpath !== '')) {
                                 program.getModule(parameters.navigationpath);
                             }
                         }
-                        else if ((issubmodule) && (parameters.closeparent)) {
+                        else if ((issubmodule === true) && (parameters.closeparent === true)) {
                             $parenttab.find('.delete').click();
                         }
                     }
@@ -763,10 +763,10 @@ var FwModule = (function () {
                                                     if (typeof window[controller] === 'undefined')
                                                         throw 'Missing javascript module: ' + controller;
                                                     if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, { closetab: false });
+                                                        window[controller][method]($form, false);
                                                     }
                                                     else {
-                                                        FwModule[method](window[controller].Module, $form, { cloestab: false });
+                                                        FwModule[method](window[controller].Module, $form, false);
                                                     }
                                                 }
                                             }

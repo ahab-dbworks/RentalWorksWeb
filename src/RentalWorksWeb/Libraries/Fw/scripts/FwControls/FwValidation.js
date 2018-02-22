@@ -1,16 +1,16 @@
 ﻿var FwValidation = {};
 //---------------------------------------------------------------------------------
-FwValidation.init = function($control) {
+FwValidation.init = function ($control) {
     var $validationbrowse, $popup, $object, controller, formbeforevalidate, control_boundfields, boundfields, validationName, $valuefield, $searchfield, $btnvalidate, $btnpeek;
-    validationName      = (typeof $control.attr('data-validationname') != 'undefined') ? $control.attr('data-validationname') : $control.attr('data-formvalidationname');
-    $valuefield         = $control.find('input[type="hidden"]');
-    $searchfield        = $control.find('input[type="text"]');
-    $btnpeek            = $control.find('.btnpeek');
-    $btnvalidate        = $control.find('.btnvalidate');
-    $validationbrowse   = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
-    $object             = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
-    controller          = $object.attr('data-controller');
-    formbeforevalidate  = $control.attr('data-formbeforevalidate');
+    validationName = (typeof $control.attr('data-validationname') != 'undefined') ? $control.attr('data-validationname') : $control.attr('data-formvalidationname');
+    $valuefield = $control.find('input[type="hidden"]');
+    $searchfield = $control.find('input[type="text"]');
+    $btnpeek = $control.find('.btnpeek');
+    $btnvalidate = $control.find('.btnvalidate');
+    $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
+    $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+    controller = $object.attr('data-controller');
+    formbeforevalidate = $control.attr('data-formbeforevalidate');
     control_boundfields = $control.attr('data-boundfields');
 
     // auto generate controllers for validations if they don't have one, so we only have to look in 1 place for the apiurl
@@ -81,7 +81,7 @@ FwValidation.init = function($control) {
     });
     $validationbrowse.data('$control', $control);
     //$validationbrowse.data('calldatabind', function(request) {
-        
+
     //    FwServices.validation.method(request, validationName, 'Browse', $validationbrowse,
     //        // onSuccess
     //        function(response) {
@@ -132,7 +132,7 @@ FwValidation.init = function($control) {
             FwFunc.showError(ex);
         }
     });
-    $control.find('.btnvalidate').on('click', function() {
+    $control.find('.btnvalidate').on('click', function () {
         try {
             if ((typeof $control.attr('data-enabled') !== 'string') || ($control.attr('data-enabled') !== 'false')) {
                 FwValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, false);
@@ -140,7 +140,7 @@ FwValidation.init = function($control) {
 
             focusValidationSearchBox($validationbrowse);
             closeValidationPopup($validationbrowse);
-               
+
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -213,7 +213,7 @@ FwValidation.init = function($control) {
             FwFunc.showError(ex);
         }
     });
-    $validationbrowse.find('.validationbuttons .btnCancel').on('click', function() {
+    $validationbrowse.find('.validationbuttons .btnCancel').on('click', function () {
         try {
             FwValidation.clearSearchCriteria($validationbrowse, $btnvalidate);
             $popup = $validationbrowse.closest('.fwpopup');
@@ -224,77 +224,15 @@ FwValidation.init = function($control) {
         }
     });
     $control.find('.btnpeek').on('click', function () {
-        var $popupForm;
-        var popupModule = validationName.slice(0, -10);
-        var popupModuleId = $valuefield.val();
-        var validationDatafield = $valuefield.parent().parent().attr('data-datafield');
-        var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]'); 
-
-        if ($object.attr('data-type') === 'Grid') {
-            validationDatafield = $control.attr('data-browsedatafield');
-        } 
-
-        if (popupModuleId !== '') {
-            $popupForm = jQuery(jQuery('#tmpl-modules-' + popupModule + 'Form').html());
-            $popupForm = FwModule.openForm($popupForm, 'EDIT');
-
-            $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
-
-            $popupForm.css({'position': 'relative'});
-
-            //$popupForm.find('.fwform-menu').remove(); 
-            $popupForm.find('.btnpeek').remove();
-            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll' });
-            $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(popupModuleId); 
-
-            FwModule.loadForm(popupModule, $popupForm);
-            //FwModule.setFormReadOnly($popupForm);
-
-            FwPopup.showPopup(FwPopup.renderPopup($popupForm));
-
-            jQuery(document).find('.fwpopup').on('click', function (e) {
-                e = e || window.event;
-                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
-
-                } else {
-                    FwPopup.destroyPopup(this);
-                    jQuery(document).off('keydown');
-                    jQuery(document).find('.fwpopup').off('click');
-                }                    
-            });
-
-            $popupForm.find('.close-modal').one('click', function (e) {
-                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                jQuery(document).find('.fwpopup').off('click');
-                jQuery(document).off('keydown');
-            })
-
-            jQuery(document).on('keydown', function (e) {
-                var code = e.keyCode || e.which;
-                if (code === 27) { //ESC Key  
-                    try {
-                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                        jQuery(document).find('.fwpopup').off('click');
-                        jQuery(document).off('keydown');
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }
-            });
-
-            jQuery(document).find('.fwpopupbox').on('click', function (e) {
-                e = e || window.event;
-                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
-
-                } else {
-                    e.stopImmediatePropagation();
-                }
-            });
-        };            
+        try {
+            FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     });
 }
 //---------------------------------------------------------------------------------
-FwValidation.validate = function(validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, useSearchFieldValue) {
+FwValidation.validate = function (validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, useSearchFieldValue) {
     var $validationSearchbox;
 
     $validationbrowse.data('$btnvalidate', $btnvalidate);
@@ -310,18 +248,18 @@ FwValidation.validate = function(validationName, $valuefield, $searchfield, $btn
     FwBrowse.search($validationbrowse);
 };
 //---------------------------------------------------------------------------------
-FwValidation.validateSearchCallback = function($validationbrowse) {
+FwValidation.validateSearchCallback = function ($validationbrowse) {
     var $rows, $searchboxes, allSearchBoxesAreEmpty, showpopup, $headerfields, alreadyopen;
     var $btnvalidate = $validationbrowse.data('$control').find('.btnvalidate');
     FwValidation.hideValidateButtonLoadingIcon($btnvalidate);
     $headerfields = $validationbrowse.find('table > thead > tr > td > .field');
-    $searchboxes  = $headerfields.find('.search > input');
-    $rows         = $validationbrowse.find('table > tbody > tr');
-    showpopup     = true;
-    alreadyopen   = $validationbrowse.parents('.application').length > 0;
+    $searchboxes = $headerfields.find('.search > input');
+    $rows = $validationbrowse.find('table > tbody > tr');
+    showpopup = true;
+    alreadyopen = $validationbrowse.parents('.application').length > 0;
     if ($rows.length === 0) {
         allSearchBoxesAreEmpty = true;
-        $searchboxes.each(function(index, element) {
+        $searchboxes.each(function (index, element) {
             var $searchbox;
             $searchbox = jQuery(element);
             if ($searchbox.val() !== '') {
@@ -335,7 +273,7 @@ FwValidation.validateSearchCallback = function($validationbrowse) {
             FwBrowse.search($validationbrowse);
         }
     } else if (($rows.length === 1) && (!alreadyopen)) {
-        $searchboxes.each(function(index, element) {
+        $searchboxes.each(function (index, element) {
             var $txtSearch;
             $txtSearch = jQuery(element);
             if ($txtSearch.val() !== '') {
@@ -346,7 +284,7 @@ FwValidation.validateSearchCallback = function($validationbrowse) {
     } else if (($rows.length > 0) && (!alreadyopen)) {
         var $validationdisplayheaderfield;
         $validationdisplayheaderfield = $validationbrowse.find('table > thead > tr > td > .field[data-validationdisplayfield="true"]');
-        $rows.each(function(index, element) {
+        $rows.each(function (index, element) {
             var $validationdisplayfield;
             $validationdisplayfield = jQuery(element).find('[data-validationdisplayfield="true"]');
             if (typeof $validationdisplayfield.attr('data-originalvalue') === 'string' &&
@@ -363,16 +301,16 @@ FwValidation.validateSearchCallback = function($validationbrowse) {
     }
 };
 //---------------------------------------------------------------------------------
-FwValidation.selectRow = function($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse) {
+FwValidation.selectRow = function ($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse) {
     var $validationUniqueIdField, uniqueid, $validationDisplayField, text, $popup;
     FwValidation.hideValidateButtonLoadingIcon($btnvalidate);
 
     $validationUniqueIdField = ($tr.find('.field[data-validationvaluefield="true"]').length !== 0) ? $tr.find('.field[data-validationvaluefield="true"]') : $tr.find('.field[data-isuniqueid="true"]');
-    uniqueid                 = $validationUniqueIdField.attr('data-originalvalue');
+    uniqueid = $validationUniqueIdField.attr('data-originalvalue');
     $valuefield.val(uniqueid).change();
 
     $validationDisplayField = $tr.find('.field[data-validationdisplayfield="true"]');
-    text                    = $validationDisplayField.attr('data-originalvalue');
+    text = $validationDisplayField.attr('data-originalvalue');
     $searchfield.val(text);
 
     //FwFormField.setValue2($control, uniqueid, text, true);
@@ -385,17 +323,83 @@ FwValidation.selectRow = function($control, $tr, $valuefield, $searchfield, $btn
     FwPopup.detachPopup($popup);
 };
 //---------------------------------------------------------------------------------
-FwValidation.clearSearchCriteria = function($validationbrowse, $btnvalidate) {
+FwValidation.clearSearchCriteria = function ($validationbrowse, $btnvalidate) {
     var $validationSearchboxes, $validationSearchbox;
     FwValidation.hideValidateButtonLoadingIcon($btnvalidate);
     $validationSearchboxes = $validationbrowse.find('thead .field > .search > input');
-    $validationSearchboxes.each(function(index, element) {
+    $validationSearchboxes.each(function (index, element) {
         $validationSearchbox = jQuery(element);
         $validationSearchbox.val('');
     });
 };
 //---------------------------------------------------------------------------------
-FwValidation.hideValidateButtonLoadingIcon = function($btnvalidate) {
+FwValidation.hideValidateButtonLoadingIcon = function ($btnvalidate) {
     $btnvalidate.find('.icon-validation').css('background-image', 'url(' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/128/browsesearch.001.png)');
 };
 //---------------------------------------------------------------------------------
+FwValidation.validationPeek = function ($control, validationName, validationId, validationDatafield, $object) {
+    var $popupForm;
+    var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+
+    if ($object.attr('data-type') === 'Grid' && validationDatafield === undefined) {
+        validationDatafield = $control.attr('data-browsedatafield');
+    }
+
+    if (validationId !== '') {
+        $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
+        $popupForm = FwModule.openForm($popupForm, 'EDIT');
+
+        $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
+
+        $popupForm.css({ 'position': 'relative' });
+
+        //$popupForm.find('.fwform-menu').remove(); 
+        $popupForm.find('.btnpeek').remove();
+        $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll' });
+        $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(validationId);
+
+        FwModule.loadForm(validationName, $popupForm);
+        //FwModule.setFormReadOnly($popupForm);
+
+        FwPopup.showPopup(FwPopup.renderPopup($popupForm));
+
+        jQuery(document).find('.fwpopup').on('click', function (e) {
+            e = e || window.event;
+            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+            } else {
+                FwPopup.destroyPopup(this);
+                jQuery(document).off('keydown');
+                jQuery(document).find('.fwpopup').off('click');
+            }
+        });
+
+        $popupForm.find('.close-modal').one('click', function (e) {
+            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        })
+
+        jQuery(document).on('keydown', function (e) {
+            var code = e.keyCode || e.which;
+            if (code === 27) { //ESC Key  
+                try {
+                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                    jQuery(document).find('.fwpopup').off('click');
+                    jQuery(document).off('keydown');
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+
+        jQuery(document).find('.fwpopupbox').on('click', function (e) {
+            e = e || window.event;
+            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+            } else {
+                e.stopImmediatePropagation();
+            }
+        });
+    };
+}
