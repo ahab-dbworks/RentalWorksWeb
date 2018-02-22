@@ -1,4 +1,4 @@
-# RentalWorks  [![Build Status](http://jenkins.dbworks.com:8080/buildStatus/icon?job=RentalWorksWeb-Develop)](http://jenkins.dbworks.com:8080/job/RentalWorksWeb-Develop/)
+# RentalWorks  [![Build Status](http://jenkins.dbworks.com:8080/buildStatus/icon?job=RentalWorksWeb-BuildDevelop)](http://jenkins.dbworks.com:8080/job/RentalWorksWeb-BuildDevelop/)
 
 Complete Inventory Tracking & Asset Management Software
 
