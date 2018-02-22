@@ -57,7 +57,7 @@
     }
     //----------------------------------------------------------------------------------------------
     static addControls($control: JQuery, controlshtml: string) {
-        $control.find('.body').append('<div class="controls">' + controlshtml + '</div>');
+        $control.find('.body').append('<div class="controls fwform">' + controlshtml + '</div>');
         //FwControl.init($control.find('.fwcontrol')); // 2015-03-19 MV+MY almost seems like this line should be here, can't change this now because need to build release
         FwControl.renderRuntimeControls($control.find('.fwcontrol'));
         $control.data('fields', $control.find('.fwformfield'));
