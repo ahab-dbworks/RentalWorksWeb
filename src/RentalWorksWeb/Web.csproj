@@ -7,8 +7,8 @@
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
     <MSBuildCommunityTasksPath>$(AppSolutionDir)\lib\Fw\lib\MSBuild.Community.Tasks</MSBuildCommunityTasksPath>
     <FwJsonPath>$(AppSolutionDir)\lib\Fw\src\Fw.Json</FwJsonPath>
-    <FwFrontEndLibraryPath>$(AppSolutionDir)\lib\Fw\src\FwFrontEndLibrary</FwFrontEndLibraryPath>
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWeb</FwApplicationDirectory>
+    <FwFrontEndLibraryPath>$(FwApplicationDirectory)\Libraries\Fw</FwFrontEndLibraryPath>
     <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwApplicationName>RentalWorksWeb</FwApplicationName>
     <FwUpdateSchema>true</FwUpdateSchema>
@@ -1580,10 +1580,9 @@
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" ContinueOnError="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" ContinueOnError="false" />
     <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot&quot; &quot;$(FwApplicationDirectory)\Libraries\Fw&quot; /MIR" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
@@ -1598,10 +1597,10 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw&quot; /mir /xd .git .vs bin obj packages /xf .git* update_Fw_*" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\wwwroot\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)&quot; &quot;$(FwDeploymentDirectory)\Libraries\Fw&quot; /mir /xd .git .vs bin obj packages /xf .git* update_Fw_*" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
+    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration" Condition="!Exists('$(FwDeploymentDirectory)\Integration')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration')" ContinueOnError="false" />
