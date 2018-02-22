@@ -158,6 +158,9 @@ namespace WebApi.Modules.Settings.Category
         [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer)]
         public int? PickListOrderBy { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "subcategorycount", modeltype: FwDataTypes.Integer)]
+        public int? SubCategoryCount { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------

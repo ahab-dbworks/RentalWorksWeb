@@ -24,6 +24,8 @@ namespace WebApi.Modules.Home.Master
         public string CategoryId { get { return master.CategoryId; } set { master.CategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Category { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? SubCategoryCount { get; set; }
         public string SubCategoryId { get { return master.SubCategoryId; } set { master.SubCategoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SubCategory { get; set; }

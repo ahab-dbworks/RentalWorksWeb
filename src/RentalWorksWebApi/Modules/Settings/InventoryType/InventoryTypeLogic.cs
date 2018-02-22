@@ -31,6 +31,8 @@ namespace WebApi.Modules.Settings.InventoryType
         public int? BarCodePrintQty { get { return inventoryType.BarCodePrintQty; } set { inventoryType.BarCodePrintQty = value; } }
         public bool? BarCodePrintUseDesigner { get { return inventoryType.BarCodePrintUseDesigner; } set { inventoryType.BarCodePrintUseDesigner = value; } }
         public bool? GroupProfitLoss { get { return inventoryType.GroupProfitLoss; } set { inventoryType.GroupProfitLoss = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? CategoryCount { get; set; }
         public bool? Inactive { get { return inventoryType.Inactive; } set { inventoryType.Inactive = value; } }
         public string DateStamp { get { return inventoryType.DateStamp; } set { inventoryType.DateStamp = value; } }
         //------------------------------------------------------------------------------------

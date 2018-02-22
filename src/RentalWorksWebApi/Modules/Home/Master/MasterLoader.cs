@@ -25,6 +25,9 @@ namespace WebApi.Modules.Home.Master
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "subcategorycount", modeltype: FwDataTypes.Integer)]
+        public int? SubCategoryCount { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
         public string SubCategoryId { get; set; }
         //------------------------------------------------------------------------------------ 

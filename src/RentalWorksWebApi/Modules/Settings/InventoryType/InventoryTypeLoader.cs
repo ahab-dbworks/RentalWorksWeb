@@ -6,7 +6,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Settings.InventoryType
 {
-    [FwSqlTable("inventorydepartment")]
+    [FwSqlTable("inventorydepartmentview")]
     public class InventoryTypeLoader: AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------
@@ -48,6 +48,9 @@ namespace WebApi.Modules.Settings.InventoryType
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "profitlossgroup", modeltype: FwDataTypes.Boolean)]
         public bool? GroupProfitLoss { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "categorycount", modeltype: FwDataTypes.Integer)]
+        public int? CategoryCount { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }

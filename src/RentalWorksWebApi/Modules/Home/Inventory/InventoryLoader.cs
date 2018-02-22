@@ -38,6 +38,12 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "sendavailabilityalert", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? SendAvailabilityAlert { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensionuniqueid", modeltype: FwDataTypes.Text)]
+        public string PrimaryDimensionUniqueId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "primarydimensiondescription", modeltype: FwDataTypes.Text)]
+        public string PrimaryDimensionDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionshipweightlbs", modeltype: FwDataTypes.Integer)]
         public int? PrimaryDimensionShipWeightLbs { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -97,6 +103,12 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarydimensionlengthcm", modeltype: FwDataTypes.Integer)]
         public int? PrimaryDimensionLengthCm { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "secondarydimensionuniqueid", modeltype: FwDataTypes.Text)]
+        public string SecondaryDimensionUniqueId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "secondarydimensiondescription", modeltype: FwDataTypes.Text)]
+        public string SecondaryDimensionDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "secondarydimensionshipweightlbs", modeltype: FwDataTypes.Integer)]
         public int? SecondaryDimensionShipWeightLbs { get; set; }

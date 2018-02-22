@@ -68,6 +68,8 @@ namespace WebApi.Modules.Settings.Category
         public string CostOfGoodsRentedExpenseAccountDescription { get; set; }
         public decimal? OrderBy { get { return inventoryCategory.OrderBy; } set { inventoryCategory.OrderBy = value; } }
         public int? PickListOrderBy { get { return inventoryCategory.PickListOrderBy; } set { inventoryCategory.PickListOrderBy = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? SubCategoryCount { get; set; }
         public bool? Inactive { get { return inventoryCategory.Inactive; } set { inventoryCategory.Inactive = value; } }
         public string DateStamp { get { return inventoryCategory.DateStamp; } set { inventoryCategory.DateStamp = value; } }
     }
