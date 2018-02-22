@@ -138,6 +138,15 @@ class SalesInventory {
             }
         });
 
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
+            FwFormField.disable($form.find('.subcategory'));
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('.subcategory'));
+            } else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '')
+            }
+        });
+
         return $form;
     }
 
@@ -459,6 +468,12 @@ class SalesInventory {
         if ($form.find('[data-datafield="InventoryTypeIsWardrobe"] .fwformfield-value').prop('checked') === true) {
             $form.find('.wardrobetab').show();
         };
+
+        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
+            FwFormField.enable($form.find('.subcategory'));
+        } else {
+            FwFormField.disable($form.find('.subcategory'));
+        }
     }
 
     beforeValidate($browse, $grid, request) {

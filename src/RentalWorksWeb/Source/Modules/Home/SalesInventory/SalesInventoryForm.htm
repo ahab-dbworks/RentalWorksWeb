@@ -1,5 +1,6 @@
 ﻿<div id="salesinventoryform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="SalesInventory" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesInventoryController">
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="InventoryId"></div>
+  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="SubCategoryCount" style="display:none;"></div>
   <div id="salesinventoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="salesitemtab" class="tab" data-tabpageid="salesitemtabpage" data-caption="Sales Inventory"></div>
@@ -67,7 +68,7 @@
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryTypeIsWardrobe" style="display:none;"></div> 
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-formbeforevalidate="beforeValidate" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-required="true" style="float:left;width:320px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-formbeforevalidate="beforeValidate" data-datafield="CategoryId" data-displayfield="Category" data-validationname="SalesCategoryValidation" data-required="true" style="float:left;width:320px;"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-formbeforevalidate="beforeValidate" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="float:left;width:320px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subcategory" data-caption="Sub-Category" data-formbeforevalidate="beforeValidate" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="float:left;width:320px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="float:left;width:100px;"></div>
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield rank" data-caption="Rank" data-datafield="Rank" style="float:left;width:75px;"></div>
                 </div>

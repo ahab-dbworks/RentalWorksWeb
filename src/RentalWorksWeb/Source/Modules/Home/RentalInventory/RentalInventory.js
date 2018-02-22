@@ -3,7 +3,6 @@ var RentalInventory = (function () {
         this.Module = 'RentalInventory';
         this.apiurl = 'api/v1/rentalinventory';
         this.ActiveView = 'ALL';
-        this.subcategories = [];
     }
     RentalInventory.prototype.getModuleScreen = function () {
         var screen, $browse;
@@ -168,25 +167,13 @@ var RentalInventory = (function () {
                 $form.find('.wardrobetab').hide();
             }
         });
-        FwAppData.apiMethod(true, 'GET', applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'api/v1/subcategory', null, null, function onSuccess(response) {
-            var categoryId = FwFormField.getValue($form, 'div[data-datafield="CategoryId"]');
-            var showSubCategory = false;
-            self.subcategories = response;
-            for (var i = 0; i < response.length; i++) {
-                if (response[i].CategoryId === categoryId) {
-                    showSubCategory = true;
-                }
-            }
-            if (showSubCategory) {
-                $form.find('.subcategory').show();
-            }
-        }, null, null);
         $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
-            $form.find('.subcategory').hide();
-            for (var i = 0; i < self.subcategories.length; i++) {
-                if (self.subcategories[i].CategoryId === $tr.find('.field[data-browsedatafield="CategoryId"]').attr('data-originalvalue')) {
-                    $form.find('.subcategory').show();
-                }
+            FwFormField.disable($form.find('.subcategory'));
+            if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
+                FwFormField.enable($form.find('.subcategory'));
+            }
+            else {
+                FwFormField.setValueByDataField($form, 'SubCategoryId', '');
             }
         });
         return $form;
@@ -568,10 +555,11 @@ var RentalInventory = (function () {
             $form.find('.wardrobetab').show();
         }
         ;
-        for (var i = 0; i < self.subcategories.length; i++) {
-            if (FwFormField.getValue($form, 'div[data-datafield="CategoryId"]') === self.subcategories[i].CategoryId) {
-                $form.find('.subcategory').show();
-            }
+        if ($form.find('[data-datafield="SubCategoryCount"] .fwformfield-value').val() > 0) {
+            FwFormField.enable($form.find('.subcategory'));
+        }
+        else {
+            FwFormField.disable($form.find('.subcategory'));
         }
     };
     RentalInventory.prototype.beforeValidate = function ($browse, $grid, request) {
