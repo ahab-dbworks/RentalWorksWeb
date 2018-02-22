@@ -1,8 +1,8 @@
 ﻿declare var product: any;
 var geval = eval;
-declare var FwApplicationTree: any;
+//declare var FwApplicationTree: any;
 declare var FwAudit: any;
-declare var FwBrowse: any;
+//declare var FwBrowse: any;
 declare var FwBasePages: any;
 declare var FwCharge: any;
 declare var FwMenu: any;
@@ -14,6 +14,10 @@ declare var FwRibbon: any;
 declare var FwSettings: any;
 declare var FwTabs: any;
 declare var RwLanguages: any;
+declare var FwContextMenu: any;
+declare var FwGridMenu: any;
+declare var FwValidation: any;
+
 
 declare var DesignerController: any;
 declare var PresentationLayerActivityController: any;
