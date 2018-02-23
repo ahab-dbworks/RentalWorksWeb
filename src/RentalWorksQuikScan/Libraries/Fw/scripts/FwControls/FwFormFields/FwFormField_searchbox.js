@@ -16,12 +16,12 @@ FwFormField_searchbox.renderDesignerHtml = function($control, html) {
 FwFormField_searchbox.renderRuntimeHtml = function($control, html) {
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
-        html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
-        if ($control.attr('data-enabled') === 'false') {
-            html.push(' disabled="disabled"');
-        }
-        html.push(' />');
-        html.push('<div class="btnvalidate"><div class="icon-validation"></div></div>');
+    html.push('  <input class="fwformfield-value" type="text" autocapitalize="none"');
+    if ($control.attr('data-enabled') === 'false') {
+        html.push(' disabled="disabled"');
+    }
+    html.push('  />');
+    html.push('  <i class="material-icons btnvalidate">&#xE8B6;</i>');
     html.push('</div>');
     $control.html(html.join(''));
 };
