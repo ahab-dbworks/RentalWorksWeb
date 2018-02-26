@@ -5,7 +5,8 @@ var InventoryPrepGrid = (function () {
     }
     InventoryPrepGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="PrepRateId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="PrepDescription"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="PrepDescription"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="PrepUnit"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     ;

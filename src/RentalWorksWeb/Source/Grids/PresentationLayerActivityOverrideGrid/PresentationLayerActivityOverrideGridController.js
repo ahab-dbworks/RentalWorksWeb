@@ -5,7 +5,7 @@ var PresentationLayerActivityOverrideGrid = (function () {
     }
     PresentationLayerActivityOverrideGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="MasterId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     ;

@@ -5,7 +5,7 @@ var SalesInventorySubstituteGrid = (function () {
     }
     SalesInventorySubstituteGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="SubstituteInventoryId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="Description"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     ;

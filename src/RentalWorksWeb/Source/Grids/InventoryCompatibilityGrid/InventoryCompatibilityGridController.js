@@ -5,7 +5,7 @@ var InventoryCompatibilityGrid = (function () {
     }
     InventoryCompatibilityGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="CompatibleWithInventoryId"]').data('onchange', function ($tr) {
-            $generatedtr.find('.field[data-browsedatafield="CompatibleWithDescription"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            $generatedtr.find('.field[data-browsedatafield="CompatibleWithDescription"]').text($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     ;
