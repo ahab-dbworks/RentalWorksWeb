@@ -4,7 +4,12 @@ RwLanguages.cultures = {};
 RwLanguages.currentCulture = localStorage.getItem('currentCulture');
 
 RwLanguages.translate = function(caption) {
-    return RwLanguages.cultures[this.currentCulture][caption];
+    var translatedCaption = this.cultures[this.currentCulture][caption];
+    if (typeof translatedCaption === 'string') {
+        return translatedCaption;
+    } else {
+        return caption;
+    }
 };
 
 RwLanguages.captions = [
