@@ -116,15 +116,15 @@ FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = functi
     }
 };
 FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
-    var $form, pickListNumber, pickListId;
+    var $form, $report, pickListNumber, pickListId;
     try {
         $form = jQuery(this).closest('.fwform');
         pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
         pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-        $form = RwPickListReportController.openForm();
-        FwModule.openModuleTab($form, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-        $form.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-        $form.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        $report = RwPickListReportController.openForm();
+        FwModule.openSubModuleTab($form, $report);
+        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
     }
     catch (ex) {
         FwFunc.showError(ex);

@@ -41,6 +41,10 @@ namespace Web.Source.Reports
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
 
+            dtDetails.Rows[0][dtDetails.ColumnIndex["billingstart"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[0][dtDetails.ColumnIndex["billingstart"]]));
+            dtDetails.Rows[0][dtDetails.ColumnIndex["billingend"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[0][dtDetails.ColumnIndex["billingend"]]));
+
+
             StringBuilder sb;
             string html;
 
@@ -96,9 +100,26 @@ namespace Web.Source.Reports
             }
 
             select.Parse();
+
             dtDetails = qry.QueryToFwJsonTable(select, true);
+            for (int i = 0; i < dtDetails.Rows.Count; i++)
+            {
+                dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]]));
+            }
 
             return dtDetails;
+        }
+        //---------------------------------------------------------------------------------------------
+        protected override FwReport.PrintOptions getDefaultPrintOptions()
+        {
+            FwReport.PrintOptions printoptions;
+
+            printoptions = new PrintOptions(PrintOptions.PrintLayout.Landscape);
+            printoptions.HeaderHeight = 1.6f;
+
+            return printoptions;
         }
         //---------------------------------------------------------------------------------------------
         public string GetCommaListDecrypt(string encryptedlist)

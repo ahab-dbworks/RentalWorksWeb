@@ -191,22 +191,6 @@ class Order {
      
         $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
-        //$submodulePickListBrowse.find('div.btn[data-type="EditMenuBarButton"]').off('click');
-        //$submodulePickListBrowse.find('div.btn[data-type="EditMenuBarButton"]').on('click', function () {
-        //    var $picklistform, controller, $browse, orderforminfo: any = {};
-        //    try {
-        //        $browse = jQuery(this).closest('.fwbrowse');
-        //        controller = $browse.attr('data-controller');
-        //        orderforminfo.Module = OrderController.Module;
-        //        orderforminfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-        //        if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-        //        if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-        //        $picklistform = window[controller]['openForm']('EDIT', orderforminfo);
-        //        FwModule.openSubModuleTab($browse, $picklistform);
-        //    } catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
 
 
         if (mode === 'NEW') {
