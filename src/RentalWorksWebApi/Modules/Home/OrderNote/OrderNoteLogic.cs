@@ -15,10 +15,10 @@ namespace WebApi.Modules.Home.OrderNote
             orderNote.AfterSave += OnAfterSaveOrderNote;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKeyOptional: true)]
-        public string OrderId { get { return orderNote.OrderId; } set { orderNote.OrderId = value; } }
+        //[FwBusinessLogicField(isPrimaryKeyOptional: true)]
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderNoteId { get { return orderNote.OrderNoteId; } set { orderNote.OrderNoteId = value; } }
+        public string OrderId { get { return orderNote.OrderId; } set { orderNote.OrderId = value; } }
         public string NoteDate { get { return orderNote.NoteDate; } set { orderNote.NoteDate = value; } }
         public string UserId { get { return orderNote.UserId; } set { orderNote.UserId = value; } }
         public string NotesDescription { get { return orderNote.NotesDescription; } set { orderNote.NotesDescription = value; } }

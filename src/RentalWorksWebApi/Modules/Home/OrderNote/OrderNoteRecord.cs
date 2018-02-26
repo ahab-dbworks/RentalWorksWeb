@@ -10,11 +10,11 @@ namespace WebApi.Modules.Home.OrderNote
     public class OrderNoteRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKeyOptional: true)]
-        public string OrderId { get; set; } = "";
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordernoteid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string OrderNoteId { get; set; } = "";
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8/*, isPrimaryKeyOptional: true*/, required: true)]
+        public string OrderId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string NoteDate { get; set; }
