@@ -362,6 +362,9 @@ class Quote {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
             };
         });
+        $orderNoteGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+        });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
 
