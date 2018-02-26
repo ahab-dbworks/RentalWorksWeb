@@ -54,7 +54,7 @@ namespace WebLibrary.Security
             AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
-            
+            AddModule("Contract", "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuRentalWorks.Id, "ContractController", "module/contract", homeiconbaseurl + "placeholder.png");
 
             //Settings 
             var lv2menuAccountingSettings = AddLv2ModuleMenu("Accounting Settings", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");

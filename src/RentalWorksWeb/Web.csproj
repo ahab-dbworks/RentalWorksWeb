@@ -784,6 +784,8 @@
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetForm.htm" />
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
+    <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
+    <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -1051,6 +1053,7 @@
     <Content Include="Source\Reports\Application\PortraitFooter.htm" />
     <Content Include="Source\Reports\Application\PortraitHeader.htm" />
     <Content Include="Source\Reports\Application\StyleSheet.css" />
+    <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />
