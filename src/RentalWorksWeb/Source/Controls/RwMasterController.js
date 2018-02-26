@@ -88,12 +88,17 @@ var RwMaster = (function () {
         });
         return $view;
     };
-    RwMaster.prototype.getUserControl = function ($userControl) {
-        var $user = jQuery('<div id="username" class="item">' + FwFunc.fixCaps(sessionStorage.getItem('userType')) + ': ' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div>');
-        $userControl.append($user);
-        RwMasterController.buildOfficeLocationClassic($userControl);
-        var $usersettings = jQuery('<div id="usersettings" class="item"><div class="usersettingsicon"></div></div>');
-        $usersettings.on('click', function () {
+    RwMaster.prototype.getUserControl = function ($context) {
+        var $usercontrol = FwFileMenu.UserControl_render($context);
+        this.buildDashboard($context);
+        this.buildOfficeLocation($context);
+        var usertype = sessionStorage.getItem('userType');
+        var username = sessionStorage.getItem('fullname');
+        var $controlUserName = jQuery("<div title=\"User Type: " + usertype + "\">" + username + "</div>");
+        FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
+        var $miUserSettings = jQuery("<div>" + RwLanguages.translate('User Settings') + "</div>");
+        FwFileMenu.UserControl_addDropDownMenuItem('usersettings', $miUserSettings, $usercontrol);
+        $miUserSettings.on('click', function (event) {
             try {
                 program.getModule('module/usersettings');
             }
@@ -101,9 +106,9 @@ var RwMaster = (function () {
                 FwFunc.showError(ex);
             }
         });
-        $userControl.append($usersettings);
-        var $logoff = jQuery('<div id="logoff" class="item">' + RwLanguages.translate('Logoff') + '</div>');
-        $logoff.on('click', function () {
+        var $miSignOut = jQuery("<div>" + RwLanguages.translate('Sign Out') + "</div>");
+        FwFileMenu.UserControl_addDropDownMenuItem('signout', $miSignOut, $usercontrol);
+        $miSignOut.on('click', function (event) {
             try {
                 program.navigate('logoff');
             }
@@ -111,7 +116,6 @@ var RwMaster = (function () {
                 FwFunc.showError(ex);
             }
         });
-        $userControl.append($logoff);
     };
     RwMaster.prototype.buildOfficeLocationClassic = function ($userControl) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
@@ -128,15 +132,15 @@ var RwMaster = (function () {
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 var html = [];
                 html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
-                html.push('</div>');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
-                html.push('</div>');
-                html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                html.push('  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation"></div>');
-                html.push('</div>');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="Location" data-validationname="OfficeLocationValidation"></div>');
+                html.push('  </div>');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-validationname="WarehouseValidation" data-boundfields="Location"></div>');
+                html.push('  </div>');
+                html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation"></div>');
+                html.push('  </div>');
                 html.push('</div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('div[data-datafield="Location"] input.fwformfield-text').val(userlocation.location);
@@ -265,28 +269,8 @@ var RwMaster = (function () {
                 }
             }
         }
-        FwFileMenu.renderUserControl($view, sessionStorage.getItem('userType'), sessionStorage.getItem('fullname'));
-        $view.find('.user-controls .copyright').html('Database Works © ' + new Date().getFullYear());
-        $view.find('.user-controls .version').html('RentalWorks v' + applicationConfig.version);
-        RwMasterController.buildOfficeLocation($view);
-        RwMasterController.buildDashboard($view);
+        this.getUserControl($view);
         $view
-            .on('click', '.user-controls .usersettings', function () {
-            try {
-                program.getModule('module/usersettings');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        })
-            .on('click', '.user-controls .logoff', function () {
-            try {
-                program.navigate('logoff');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        })
             .on('click', '.bgothm', function () {
             try {
                 program.navigate('home');
@@ -297,15 +281,17 @@ var RwMaster = (function () {
         });
         return $view;
     };
-    RwMaster.prototype.buildOfficeLocation = function ($view) {
+    RwMaster.prototype.buildOfficeLocation = function ($usercontrol) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-        var $userControl = $view.find('.user-controls');
-        var $officelocation = jQuery('<div class="officelocation"><div class="locationcolor" style="background-color:' + userlocation.locationcolor + '"></div><div class="value">' + userlocation.location + '</div></div>');
-        $userControl.prepend($officelocation);
-        $officelocation = jQuery('<div class="item officelocationbtn">Office Location</div>');
-        $userControl.find('.user-dropdown').prepend($officelocation);
+        var html = [];
+        html.push('<div class="officelocation">');
+        html.push("  <div class=\"locationcolor\" style= \"background-color:" + userlocation.locationcolor + "\" > </div>");
+        html.push("  <div class=\"value\">" + userlocation.location + "</div>");
+        html.push('</div>');
+        var $officelocation = jQuery(html.join('\n'));
+        FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
         $officelocation.on('click', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
@@ -375,11 +361,9 @@ var RwMaster = (function () {
             }
         });
     };
-    RwMaster.prototype.buildDashboard = function ($view) {
+    RwMaster.prototype.buildDashboard = function ($usercontrol) {
         var $dashboard, $userControl;
         $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
-        $userControl = $view.find('.user-controls');
-        $userControl.prepend($dashboard);
         $dashboard.on('click', function () {
             try {
                 program.navigate('home');
@@ -388,6 +372,7 @@ var RwMaster = (function () {
                 FwFunc.showError(ex);
             }
         });
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
     };
     return RwMaster;
 }());

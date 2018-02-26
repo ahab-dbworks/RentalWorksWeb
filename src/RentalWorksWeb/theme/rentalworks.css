@@ -9,7 +9,7 @@
     font-weight: normal;
     font-style: normal;
 }
-.bgothm {font-family:bgothm;cursor:pointer;display:inline-flex;margin-bottom:.3em;}
+.bgothm {font-family:bgothm;cursor:pointer;display:inline-flex;margin-bottom:.1em;}
 /***************************
 Master
 ***************************/
@@ -18,9 +18,9 @@ Master
 #master-header #officelocation {cursor:pointer;position:relative;}
 #master-header #officelocation .caption {display:inline-block;}
 #master-header #officelocation .value {display:inline-block;margin-left:2px;}
-#master-header .user-controls .officelocation {float:left;line-height:48px;padding:0 10px;}
-#master-header .user-controls .officelocation .locationcolor {width: 16px;height: 20px;float: left;margin: 14px 4px 14px 0;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)}
-#master-header .user-controls .officelocation .value {float:left;cursor:default;}
+#master-header .user-controls .officelocation {padding:0 10px;display:flex;align-items:center;cursor:pointer;}
+#master-header .user-controls .officelocation .locationcolor {width: 1em;height: 1em;margin: auto 4px auto 0;}
+#master-header .user-controls .officelocation .value {}
 #master-header .user-controls .dashboard {cursor:pointer;padding:0 .3em;}
 #master-body {/*padding:10px;*/}
 #master-footer {text-align:center;font-size:12px;margin-bottom:10px;}
