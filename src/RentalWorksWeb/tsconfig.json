@@ -18,6 +18,12 @@
       "materialize-css",
       "mustache",
       "pickadate"
+    ],
+    "lib": [
+      "dom",
+      "es2015",
+      "es5",
+      "es6"
     ]
   },
   "exclude": [
