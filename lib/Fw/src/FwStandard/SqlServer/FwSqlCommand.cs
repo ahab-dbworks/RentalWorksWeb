@@ -1715,7 +1715,17 @@ namespace FwStandard.SqlServer
                     break;
                 case FwDataTypes.Date:
                     if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                    data = ((string)propertyValue).Trim();
+                    //data = ((string)propertyValue).Trim();
+                    //justin 02/26/2018 - dates to be saved as NULL when blank
+                    string strDate = ((string)propertyValue).Trim();
+                    if (strDate.Equals(string.Empty))
+                    {
+                        data = DBNull.Value;
+                    }
+                    else
+                    {
+                        data = strDate;
+                    }
                     break;
                 case FwDataTypes.Time:
                     if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
