@@ -83,17 +83,21 @@ class Order {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-        //FwBrowse.init($browse);
-        //$browse.data('ondatabind', function (request) {
-        //    request.activeview = self.ActiveView;
-        //});
-        FwBrowse.addLegend($browse, 'On Hold', '#ff8040'); //placeholder colors
-        FwBrowse.addLegend($browse, 'No Charge', '#ff0080');
-        FwBrowse.addLegend($browse, 'Late', '#ffff80');
-        FwBrowse.addLegend($browse, 'Foreign Currency', '#03de3a');
-        FwBrowse.addLegend($browse, 'Multi-Warehouse', '#20b7ff');
-        FwBrowse.addLegend($browse, 'Repair', '#20b7ff');
-        FwBrowse.addLegend($browse, 'L&D', '#20b7ff');
+
+
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+        FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
+        FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
+        FwBrowse.addLegend($browse, 'Late', '#FFB3D9');
+        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+        FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
+        FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
+        FwBrowse.addLegend($browse, 'L&D', '#400040');
         return $browse;
     };
 
@@ -188,7 +192,7 @@ class Order {
 
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
         $form = FwModule.openForm($form, mode);
-     
+
         $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
 
@@ -248,7 +252,7 @@ class Order {
     openPickListBrowse($form) {
         var $browse;
         $browse = PickListController.openBrowse();
-    
+
         $browse.data('ondatabind', function (request) {
             request.ActiveView = PickListController.ActiveView;
             request.uniqueids = {
