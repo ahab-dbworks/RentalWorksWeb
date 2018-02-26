@@ -27,7 +27,7 @@ namespace FwStandard.Utilities
             int red = (int)((byte)(oleColor & 255));
             int green = (int)((byte)(oleColor >> 8 & 255));
             int blue = (int)((byte)(oleColor >> 16 & 255));
-            string htmlColor = String.Format("rgb({0},{1},{2}", red, green, blue);
+            string htmlColor = String.Format("rgb({0},{1},{2})", red, green, blue);
             return htmlColor;
         }
 

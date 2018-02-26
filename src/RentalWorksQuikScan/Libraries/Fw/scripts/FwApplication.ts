@@ -1,7 +1,10 @@
 ﻿class FwApplication {
     screens: any[] = [];
-    //routes: { urlpattern: RegExp, getScreen: (match: RegExpExecArray)=>any }[] = [];
-    //modules: { urlpattern: RegExp, getScreen: (match: RegExpExecArray)=>any }[] = [];
+    audioMode: string;
+    audioSuccessArray: number[];
+    audioErrorArray: number[];
+    audioSuccess: HTMLAudioElement;
+    audioError: HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
     
@@ -86,6 +89,30 @@
                         screen.$view.show(0);
                     });
                 }
+            }
+        }
+    }
+    //---------------------------------------------------------------------------------
+    playStatus(isSuccessful: boolean) {
+        if (isSuccessful) {
+            switch(this.audioMode) {
+                case 'DTDevices':
+                    (<any>window).DTDevices.playSound(this.audioSuccessArray);
+                    break;
+                case 'html5':
+                    //me.audioSuccess.currentTime = 0;
+                    //me.audioSuccess.play();
+                    break;
+            }
+        } else {
+            switch(this.audioMode) {
+                case 'DTDevices':
+                    (<any>window).DTDevices.playSound(this.audioErrorArray);
+                    break;
+                case 'html5':
+                    //me.audioError.currentTime = 0;
+                    //me.audioError.play(); 
+                    break;
             }
         }
     }
@@ -279,6 +306,9 @@
     //---------------------------------------------------------------------------------
     loadDefaultPage() {
         if (sessionStorage.getItem('authToken')) {
+            if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
+                sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));
+            }
             this.navigate('home');
         } else {
             this.navigate('default');

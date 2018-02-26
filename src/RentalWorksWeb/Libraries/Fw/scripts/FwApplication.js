@@ -79,6 +79,26 @@ var FwApplication = (function () {
             }
         }
     };
+    FwApplication.prototype.playStatus = function (isSuccessful) {
+        if (isSuccessful) {
+            switch (this.audioMode) {
+                case 'DTDevices':
+                    window.DTDevices.playSound(this.audioSuccessArray);
+                    break;
+                case 'html5':
+                    break;
+            }
+        }
+        else {
+            switch (this.audioMode) {
+                case 'DTDevices':
+                    window.DTDevices.playSound(this.audioErrorArray);
+                    break;
+                case 'html5':
+                    break;
+            }
+        }
+    };
     FwApplication.prototype.setMedia = function (media) {
         localStorage.setItem('media', media);
     };
@@ -253,6 +273,9 @@ var FwApplication = (function () {
     ;
     FwApplication.prototype.loadDefaultPage = function () {
         if (sessionStorage.getItem('authToken')) {
+            if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
+                sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));
+            }
             this.navigate('home');
         }
         else {

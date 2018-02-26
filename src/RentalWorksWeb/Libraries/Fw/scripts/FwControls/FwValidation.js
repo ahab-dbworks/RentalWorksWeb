@@ -61,8 +61,16 @@ FwValidation.init = function ($control) {
                 }
             }
         }
+        
+        if (typeof $control.data('beforevalidate') === 'function') {
+            if ($object.attr('data-type') === 'Grid') {
+                $control.data('beforevalidate')($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'));
+            } else {
+                $control.data('beforevalidate')($validationbrowse, $object, request, $control.attr('data-datafield'));
+            }
+        }
         // This was the old way: if you define a data-formbeforevalidate data-attribute on the validation it will call that method instead.
-        if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller][formbeforevalidate] === 'function')) {
+        else if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller][formbeforevalidate] === 'function')) {
             if ($object.attr('data-type') === 'Grid') {
                 window[controller][formbeforevalidate]($validationbrowse, $object.closest('.fwform'), request, $control.attr('data-formdatafield'));
             } else {

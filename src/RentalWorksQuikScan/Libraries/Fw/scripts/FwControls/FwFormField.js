@@ -430,6 +430,10 @@ var FwFormField = (function () {
         var controller = window[controllername];
         return controller;
     };
+    FwFormField.getDataField = function ($parent, datafield) {
+        var $field = $parent.find('div[data-datafield="campus"]');
+        return $field;
+    };
     FwFormField.setValue = function ($parent, selector, value, text, firechangeevent) {
         var $fwformfield, data_type, keys, $inputtext, $inputvalue;
         $fwformfield = $parent.find(selector);

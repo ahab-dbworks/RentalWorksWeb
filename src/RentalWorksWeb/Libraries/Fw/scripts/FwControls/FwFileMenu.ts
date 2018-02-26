@@ -80,27 +80,34 @@
                         $control.find('.file-menus-wrapper .ddmodulebtn.active').removeClass('active');
                     }
                 })
-                .on('click', '.usermenu', function() {
-                    var $usercontrols, maxZIndex;
-                    $usercontrols = jQuery(this).parent();
-                    if (!$usercontrols.hasClass('active')) {
-                        maxZIndex = FwFunc.getMaxZ('*');
-                        $usercontrols.find('.user-dropdown').css('z-index', maxZIndex+1);
-                        $usercontrols.addClass('active');
+                $control.on('click', '.usermenu', (event) => {
+                    try {
+                        var $usercontrol = jQuery('.usercontrol');
+                        if (!$usercontrol.hasClass('active')) {
+                            var maxZIndex = FwFunc.getMaxZ('*');
+                            $usercontrol.find('.user-dropdown').css('z-index', maxZIndex + 1);
+                            $usercontrol.addClass('active');
 
-                        jQuery(document).one('click', function closeMenu(e) {
-                            if (($usercontrols.has(e.target).length === 0)) {
-                                $usercontrols.removeClass('active');
-                                $usercontrols.find('.user-dropdown').css('z-index', '0');
-                            } else if ($usercontrols.hasClass('active')) {
-                                jQuery(document).one('click', closeMenu);
-                            }
-                        });
-                    } else {
-                        $usercontrols.removeClass('active');
-                        $usercontrols.find('.user-dropdown').css('z-index', '0');
+                            jQuery(document).one('click', function closeMenu(e) {
+                                try {
+                                    if (($usercontrol.has(e.target).length === 0)) {
+                                        $usercontrol.removeClass('active');
+                                        $usercontrol.find('.user-dropdown').css('z-index', '0');
+                                    } else if ($usercontrol.hasClass('active')) {
+                                        jQuery(document).one('click', closeMenu);
+                                    }
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                        } else {
+                            $usercontrol.removeClass('active');
+                            $usercontrol.find('.user-dropdown').css('z-index', '0');
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
                     }
-                })
+                });
             ;
         }
     }
@@ -121,49 +128,115 @@
         }
     }
     //---------------------------------------------------------------------------------
-    static renderUserControl($control, usertype, username) {
+    static UserControl_render($view: JQuery): JQuery {
         var html: string[] = [];
-        html.push(`<div class="user" title="User Type: ${usertype}">${username}</div>`);
-        html.push('<i class="material-icons usermenu">&#xE7FD;</i>'); //person
-        html.push('<div class="user-dropdown">');
-        html.push('  <div class="menuitems"></div>');
-        html.push('  <div class="staticinfo">');
-        html.push(`    <div class="copyright">&copy; ${new Date().getFullYear().toString()} Database Works, Inc.</div>`);
-        html.push(`    <div class="version">${applicationConfig.version}</div>`);
+        html.push('<div class="usercontrol">');
+        html.push('  <div class="systembar"></div>')
+        html.push('  <i class="material-icons usermenu">&#xE7FD;</i>'); //person
+        html.push('  <div class="user-dropdown">');
+        html.push('    <div class="menuitems"></div>');
+        html.push('    <div class="staticinfo">');
+        html.push(`      <div class="copyright">&copy; ${new Date().getFullYear().toString()} Database Works, Inc.</div>`);
+        html.push(`      <div class="version">${applicationConfig.version}</div>`);
+        html.push('    </div>');
         html.push('  </div>');
         html.push('</div>');
         var htmlString = html.join('\n');
-        $control.find('.user-controls').append(htmlString);
-    }
-    //---------------------------------------------------------------------------------
-    static addMenuItemToUserControl($view: JQuery, menuitem: FileMenu.UserControlMenuItem) {
-        var $menuitems = $view.find('.user-dropdown .menuitems');
-        var $menuitem = jQuery(`<div class="item ${menuitem.cssclass}">${menuitem.caption}</div>`);
-        $menuitems.append($menuitem);
-        $menuitem.on('click', menuitem.click);
-    }
-    //---------------------------------------------------------------------------------
-    static removeMenuItemFromUserControl($view: JQuery, cssclass: string) {
-        var $menuitems = $view.find(`.user-dropdown .menuitems .${cssclass}`).remove();
-    }
-    //---------------------------------------------------------------------------------
-    static addLinkToUserControl($view, link: FileMenu.UserControlLink) {
-        
-    }
-    //---------------------------------------------------------------------------------
-    static removeLinkFromUserControl($view: JQuery, cssclass: string) {
+        var $control = jQuery(htmlString);
 
+        $control.on('click', '.menuitem', function () {
+            try {
+                var $usercontrol = FwFileMenu.UserControl_getUserControl();
+                FwFileMenu.UserControl_hideDropDownMenu($usercontrol);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        $view.find('.user-controls').append($control);
+        
+        return $control;
     }
     //---------------------------------------------------------------------------------
-    static addMenu = function($control, caption) {
-        var $menu, fileMenuHtml;
+    static UserControl_getUserControl(): JQuery<HTMLElement> {
+        return jQuery('.usercontrol');
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_getDropDownMenuItems($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        return $usercontrol.find('.user-dropdown .menuitems');
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_getDropDownMenuItem(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        return FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).find(`.menuitem[data-id="${id}"]`);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_addDropDownMenuItem(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        var $menuitem = $control.attr('data-id', id).addClass('menuitem'); 
+        FwFileMenu.UserControl_getDropDownMenuItems($usercontrol).append($menuitem);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_setMenuItemHtml($usercontrol: JQuery<HTMLElement>, id: string, html: string) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).html(html);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_removeMenuItem($usercontrol: JQuery<HTMLElement>, id: string) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol).remove();
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_toggleMenuItem(id: string, isVisible?: boolean, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        var $menuitem = FwFileMenu.UserControl_getDropDownMenuItem(id, $usercontrol);
+        if (typeof isVisible === 'undefined') {
+            isVisible = !$menuitem.is(':visible');
+        }
+        $menuitem.toggle(isVisible);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_hideDropDownMenu($usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        $usercontrol.removeClass('active');
+        $usercontrol.find('.user-dropdown').css('z-index', '0');
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_getSystemBar($usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        return $usercontrol.find('.systembar');
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_getSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>): JQuery<HTMLElement> {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        return $usercontrol.find(`.systembarcontrol[data-id=${id}]`);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_addSystemBarControl(id: string, $control: JQuery<HTMLElement>, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        var $systembarcontrol = $control.attr('data-id', id).addClass('systembarcontrol');
+        FwFileMenu.UserControl_getSystemBar($usercontrol).append($systembarcontrol);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_setSystemBarControlHtml(id: string, html: string, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).html(html);
+    }
+    //---------------------------------------------------------------------------------
+    static UserControl_removeSystemBarControl(id: string, $usercontrol?: JQuery<HTMLElement>) {
+        $usercontrol = (typeof $usercontrol !== 'undefined') ? $usercontrol : FwFileMenu.UserControl_getUserControl();
+        var $systembarcontrol = FwFileMenu.UserControl_getSystemBarControl(id, $usercontrol).remove();
+    }
+    //---------------------------------------------------------------------------------
+    static addMenu($control, caption): JQuery<HTMLElement> {
         try {
-            fileMenuHtml = [];
-            fileMenuHtml.push('<div class="file-menu" data-caption="' + caption + '">');
-                fileMenuHtml.push('<div class="caption">'+ caption + '</div>');
-                fileMenuHtml.push('<div class="menu"></div>');
+            var fileMenuHtml = [];
+            fileMenuHtml.push(`<div class="file-menu" data-caption="${caption}">`);
+            fileMenuHtml.push(`  <div class="caption">${caption}</div>`);
+            fileMenuHtml.push('  <div class="menu"></div>');
             fileMenuHtml.push('</div>');
-            $menu = jQuery(fileMenuHtml.join(''));
+            var $menu = jQuery(fileMenuHtml.join('\n'));
             if ($control.attr('data-version') == '1') {
                 $control.find('.file-menus-wrapper').append($menu);
             } else if ($control.attr('data-version') == '2') {
@@ -184,10 +257,8 @@
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="modulebtn" data-securityid="' + securityid + '">');
-                    btnHtml.push('<div class="modulebtn-text">');
-                        btnHtml.push(caption);
-                    btnHtml.push('</div>');
+                btnHtml.push(`<div id="${btnId}" class="modulebtn" data-securityid="${securityid}">`);
+                btnHtml.push(`  <div class="modulebtn-text">${caption}</div>`);
                 btnHtml.push('</div>');
                 $modulebtn = $modulebtn.add(btnHtml.join(''));
             } catch (ex) {
@@ -273,6 +344,7 @@
 
 namespace FileMenu {
     export class UserControlMenuItem {
+        id: string = '';
         caption: string = '';
         cssclass: string = '';
         click: (evt: JQuery.Event<HTMLElement, null>) => void;

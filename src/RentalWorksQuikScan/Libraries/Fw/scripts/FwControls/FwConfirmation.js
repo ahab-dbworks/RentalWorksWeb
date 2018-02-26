@@ -47,7 +47,7 @@ var FwConfirmation = (function () {
         $control.remove();
     };
     FwConfirmation.addControls = function ($control, controlshtml) {
-        $control.find('.body').append('<div class="controls">' + controlshtml + '</div>');
+        $control.find('.body').append('<div class="controls fwform">' + controlshtml + '</div>');
         FwControl.renderRuntimeControls($control.find('.fwcontrol'));
         $control.data('fields', $control.find('.fwformfield'));
     };

@@ -70,7 +70,7 @@ html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption {height:44px;position:relative;cursor:pointer;box-sizing:border-box;}
 html.theme-material.flexbox .fwbrowse table thead tr td .field .fieldcaption {display:flex;}
 html.theme-material .fwbrowse table thead tr td .field[data-sort="disabled"][data-showsearch="false"] .fieldcaption {cursor:default;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {text-overflow:ellipsis;white-space:nowrap;overflow:hidden;line-height:44px;font-weight:bold;font-size:14px;color:#546E7A}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {text-overflow:ellipsis;white-space:nowrap;overflow:hidden;line-height:2.75em;font-weight:bold;font-size:.9em;color:#546E7A}
 html.theme-material:not(.flexbox) .fwbrowse table thead tr td .field .fieldcaption .caption {position:absolute;left:5px;top:0;right:16px;}
 html.theme-material:not(.flexbox) .fwbrowse table thead tr td .field[data-sort="off"] .fieldcaption .caption {right:5px;}
 html.theme-material.flexbox .fwbrowse table thead tr td .field .fieldcaption .caption {width:100%;padding:0 10px;}
@@ -90,7 +90,7 @@ html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnopti
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {float:left;white-space:nowrap;height:32px;line-height:32px;padding: 0 15px;}
 
 html.theme-material .fwbrowse table thead tr td .field .search {position:relative;padding:4px;}
-html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing:border-box;width:100%;padding:6px 24px 6px 6px;border-radius:4px;font-size:12px;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
+html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing:border-box;width:100%;padding:.4em 1.5em .4em .4em;border-radius:4px;font-size:.75em;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
 html.theme-material .fwbrowse table thead tr td .field .search input:hover,
 html.theme-material .fwbrowse table thead tr td .field .search input:focus {outline:0;-webkit-box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);}
 
