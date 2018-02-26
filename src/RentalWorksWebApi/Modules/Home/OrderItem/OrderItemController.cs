@@ -24,7 +24,7 @@ namespace WebApi.Modules.Home.OrderItem
         //    return await DoGetAsync<OrderItemLogic>(pageno, pagesize, sort, typeof(OrderItemLogic));
         //}
         ////------------------------------------------------------------------------------------ 
-        // GET api/v1/orderitem/A0000001~A0000002   OrderId~OrderItemId 
+        // GET api/v1/orderitem/A0000001
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.OrderItem
             return await DoPostAsync<OrderItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/orderitem/A0000001~A0000002   OrderId~OrderItemId  
+        // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {

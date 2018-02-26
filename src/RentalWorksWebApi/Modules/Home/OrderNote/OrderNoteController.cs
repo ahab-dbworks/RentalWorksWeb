@@ -24,7 +24,7 @@ namespace WebApi.Modules.Home.OrderNote
             return await DoGetAsync<OrderNoteLogic>(pageno, pagesize, sort, typeof(OrderNoteLogic));
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/ordernote/A0000001~A0000002   OrderId~OrderNoteId  
+        // GET api/v1/ordernote/A0000001
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromRoute]string id)
         {
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.OrderNote
             return await DoPostAsync<OrderNoteLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/ordernote/A0000001~A0000002   OrderId~OrderNoteId   
+        // DELETE api/v1/ordernote/A0000001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
         {

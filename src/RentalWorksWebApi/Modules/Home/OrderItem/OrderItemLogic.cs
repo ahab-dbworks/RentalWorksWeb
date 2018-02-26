@@ -17,10 +17,9 @@ namespace WebApi.Modules.Home.OrderItem
             orderItem.AfterSave += OnAfterSaveOrderItem;
         }
         //------------------------------------------------------------------------------------ 
-        [FwBusinessLogicField(isPrimaryKeyOptional: true)]
-        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string OrderItemId { get { return orderItem.MasterItemId; } set { orderItem.MasterItemId = value; } }
+        public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
         public string RecType { get { return orderItem.RecType; } set { orderItem.RecType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? RowNumber { get; set; }

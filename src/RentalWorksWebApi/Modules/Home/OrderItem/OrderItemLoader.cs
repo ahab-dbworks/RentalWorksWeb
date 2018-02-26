@@ -13,11 +13,11 @@ namespace WebApi.Modules.Home.OrderItem
     {
         private string orderId = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKeyOptional: true)]
-        public string OrderId { get; set; } 
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
