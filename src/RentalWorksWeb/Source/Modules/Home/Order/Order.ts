@@ -318,10 +318,9 @@ class Order {
 
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
-
-        });
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        }
+        );
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
 
@@ -338,9 +337,8 @@ class Order {
 
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
-        });
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+          });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
 
@@ -357,9 +355,8 @@ class Order {
             };
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
-        });
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+           });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
 
@@ -376,9 +373,9 @@ class Order {
             };
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
-        });
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        }
+        );
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
@@ -393,7 +390,7 @@ class Order {
             };
         });
         $orderNoteGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);

@@ -257,8 +257,7 @@ var Order = (function () {
             };
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -274,8 +273,7 @@ var Order = (function () {
             };
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -291,8 +289,7 @@ var Order = (function () {
             };
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -308,8 +305,7 @@ var Order = (function () {
             };
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
