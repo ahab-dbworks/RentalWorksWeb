@@ -23801,6 +23801,162 @@
 			]
 		},
 		{
+			"name": "User Widget",
+			"description": "",
+			"item": [
+				{
+					"name": "User Widget: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Widget: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Widget\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Widget: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget/000090LU",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Widget: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WidgetId\": \"00008JPU\",\n    \"UserId\": \"A000001S\",\n    \"WidgetType\": \"bar\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Widget: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"UserWidgetId\": \"000090LS\",\n    \"WidgetType\": \"pie\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Widget: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userwidget/000090LQ",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Vehicle Color",
 			"description": "",
 			"item": [
