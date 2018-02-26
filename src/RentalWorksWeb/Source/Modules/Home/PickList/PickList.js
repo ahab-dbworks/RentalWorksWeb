@@ -34,14 +34,11 @@ var PickList = (function () {
     PickList.prototype.openForm = function (mode, parentmoduleinfo) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-        if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="PickListId"]').find('input.fwformfield-value').val(parentmoduleinfo.PickListId).change();
-        }
         return $form;
     };
     ;
     PickList.prototype.loadForm = function (uniqueids) {
-        var $form = this.openForm('EDIT', null);
+        var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;

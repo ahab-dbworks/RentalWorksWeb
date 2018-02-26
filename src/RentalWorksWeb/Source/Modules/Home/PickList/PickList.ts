@@ -33,16 +33,44 @@ class PickList {
         $browse = FwModule.openBrowse($browse);
         return $browse;
     };
-    openForm(mode, parentmoduleinfo) {
+    openForm(mode, parentmoduleinfo?) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-        if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="PickListId"]').find('input.fwformfield-value').val(parentmoduleinfo.PickListId).change();
-        }
+
+        //if (typeof parentmoduleinfo !== 'undefined') {
+        //    $form.find('div[data-datafield="OrderId"]').find('input.fwformfield-value').val(parentmoduleinfo.OrderId).change();
+        //    $form.find('div[data-datafield="OrderId"]').find('input.fwformfield-text').val(parentmoduleinfo.OrderId);
+        //}
+
+     
+        //$form.find('div.submenubutton [data-securityid="4F196091-36A4-4AA9-BDB8-3689F01C08B3"]')
+        //    .on('click', function () {
+        //        var $browse, pickListId, pickListNumber, controller, pickListInfo;
+        //        try {
+        //            var $pickListReport = RwPickListReportController.openForm();
+        //            $browse = jQuery(this).closest('.fwbrowse');
+        //            controller = $browse.attr('data-controller');
+        //            pickListInfo.Module = PickListController.Module;
+        //            pickListInfo.pickListId = FwFormField.getValueByDataField($form, 'PickListId');
+        //            pickListInfo.pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
+        //            //var $pickListReport = RwPickListReportController.openForm();
+        //            //var $pickListReport = FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+        //            //var $pickListReport = window[controller]['openForm']('EDIT', pickListInfo);
+        //            FwModule.openSubModuleTab($browse, $pickListReport);
+        //            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+        //            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+
+        //        }
+        //        catch (ex) {
+        //            FwFunc.showError(ex);
+        //        }
+        //    });
+
         return $form;
     };
+
     loadForm(uniqueids) {
-        var $form = this.openForm('EDIT', null);
+        var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;
