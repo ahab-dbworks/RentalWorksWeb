@@ -20,10 +20,19 @@ var RwHome = (function () {
         screen.viewModel = viewModel;
         screen.properties = properties;
         screen.load = function () {
-            self.renderBar();
-            self.renderPie();
-            self.renderHorizontal();
-            self.renderGroup();
+            var redirectPath = sessionStorage.getItem('redirectPath');
+            if (typeof redirectPath === 'string' && redirectPath.length > 0) {
+                setTimeout(function () {
+                    sessionStorage.removeItem('redirectPath');
+                    program.navigate(redirectPath);
+                }, 0);
+            }
+            else {
+                self.renderBar();
+                self.renderPie();
+                self.renderHorizontal();
+                self.renderGroup();
+            }
         };
         return screen;
     };
