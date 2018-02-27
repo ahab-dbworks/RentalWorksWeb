@@ -290,8 +290,7 @@ class Quote {
             };
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -308,8 +307,7 @@ class Quote {
             };
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -327,8 +325,7 @@ class Quote {
             };
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId'),
-            request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -346,8 +343,7 @@ class Quote {
             };
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId'),
-                request.InventoryId = jQuery($form.find('.selected [data-formdatafield="InventoryId"] input.value')).val();
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -359,11 +355,11 @@ class Quote {
         $orderNoteGrid.empty().append($orderNoteGridControl);
         $orderNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId')
             };
         });
         $orderNoteGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
