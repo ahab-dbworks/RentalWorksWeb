@@ -41,7 +41,6 @@ class OrderStatus {
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         });
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -119,6 +118,29 @@ class OrderStatus {
                     request.pagesize = max;
                 })
                 FwBrowse.search($orderStatusSalesDetailGridControl);
+
+               
+                setTimeout(function () {
+                    var $trs = $form.find('.ordersummarygrid tr.viewmode');
+
+
+                    for (var i = 0; i <= $trs.length; i++) {
+                        var $rectype = jQuery($trs[i]).find('[data-browsedatafield="RecTypeDisplay"]');
+                        var recvalue = $rectype.attr('data-originalvalue');
+                        var $validationfield = jQuery($trs[i]).find('[data-browsedatafield="InventoryId"]');
+                        
+                        switch (recvalue) {
+                            case 'RENTAL':
+                                $validationfield.attr('data-validationname', 'RentalInventoryValidation');
+                                break;
+                            case 'SALES':
+                                $validationfield.attr('data-validationname', 'SalesInventoryValidation');
+                                break;
+                        }
+                    }
+                }
+                    , 2000);
+                
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -381,10 +403,10 @@ class OrderStatus {
             FwBrowse.search($orderStatusSalesDetailGridControl);
 
         });
+   
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-
     }
     //----------------------------------------------------------------------------------------------
     toggleView($form: any) {
