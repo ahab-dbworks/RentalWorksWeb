@@ -255,6 +255,7 @@ namespace WebLibrary.Security
             AddModule("Pick List", "{37A26BC9-9509-4524-9368-3D1E575142BD}", lv1menuReports.Id, "RwPickListReportController", "module/picklistreport", reportsiconbaseurl + "placeholder.png", "Pick List", "", "");
 
             AddModule("Invoice Summary", "{3373DC7D-24F2-4091-9129-5A959D002AB0}", lv1menuReports.Id, "RwInvoiceSummaryReportController", "module/invoicesummaryreport", reportsiconbaseurl + "placeholder.png", "Invoice Summary", "", "");
+            AddModule("Credits On Account", "{F6578383-C27F-4842-871F-673807A7C375}", lv1menuReports.Id, "RwCreditsOnAccountController", "module/creditsonaccount", reportsiconbaseurl + "placeholder.png", "Credits on Account", "", "");
 
             // Add Utilities 
             AddModule("Dashboard",             "{DF8111F5-F022-40B4-BAE6-23B2C6CF3705}", lv1menuUtilities.Id, "DashboardController",       "module/dashboard",      utilitiesiconbaseurl + "placeholder.png");

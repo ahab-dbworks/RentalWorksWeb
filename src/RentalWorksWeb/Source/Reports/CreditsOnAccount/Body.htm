@@ -1,0 +1,109 @@
+﻿<div class="body" style="width:1008px;">
+  <br /><br />
+  <table id="tblcreditsonaccount">
+    <thead>
+      <tr>
+        <td>
+          <div>Office</div>
+        </td>
+        <td>
+          <div>Customer</div>
+        </td>
+        <td>
+          <div>Deal</div>
+        </td>
+        <td>
+          <div>Depleting</div>
+          <div>Deposits</div>
+        </td>
+        <td>
+          <div>Credit</div>
+          <div>Memos</div>
+        </td>
+        <td>
+          <div>Overpayments</div>
+        </td>
+        <td>
+          <div>Total</div>
+          <div>Deposit</div>
+        </td>
+        <td>
+          <div>Total</div>
+          <div>Applied</div>
+        </td>
+        <td>
+          <div>Total</div>
+          <div>Refunded</div>
+        </td>
+        <td>
+          <div>Remaining</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#details}}
+      <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1">{{location}}</div>
+        </td>
+        <td>
+          <div class="row1">{{customer}}</div>
+        </td>
+        <td>
+          <div class="row1">{{deal}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totaldepdep}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totalcredit}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totalover}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totaldeposit}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totalapplied}}</div>
+        </td>
+        <td>
+          <div class="row1">{{totalrefunded}}</div>
+        </td>
+        <td>
+          <div class="row1">{{remaining}}</div>
+        </td>
+      </tr>
+      {{/details}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2"></td>
+        <td colspan="1">
+          <div class="row1"><strong>Grand Total:</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[DepletingDeposits]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[CreditMemos]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[OverPayments]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[TotalDeposit]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[TotalApplied]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[TotalRefunded]</strong></div>
+        </td>
+        <td colspan="1">
+          <div class="row1"><strong>[TotalRemaining]</strong></div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
