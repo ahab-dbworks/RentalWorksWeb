@@ -56,6 +56,8 @@ namespace WebLibrary.Security
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Contract", "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuRentalWorks.Id, "ContractController", "module/contract", homeiconbaseurl + "placeholder.png");
 
+
+
             //Settings 
             var lv2menuAccountingSettings = AddLv2ModuleMenu("Accounting Settings", "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                AddModule("Chart of Accounts", "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id, "GlAccountController", "module/glaccount", settingsiconbaseurl + "placeholder.png");
@@ -160,6 +162,7 @@ namespace WebLibrary.Security
             var lv2menuOrderSettings = AddLv2ModuleMenu("Order Settings", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Type", "{CF3E22CB-F836-4277-9589-998B0BEC3500}", lv2menuOrderSettings.Id, "OrderTypeController", "module/ordertype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Discount Reason", "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderSettings.Id, "DiscountReasonController", "module/discountreason", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Market Type", "{77D7FD11-EBD2-40A2-A40D-C82D32528A01}", lv2menuOrderSettings.Id, "MarketTypeController", "module/markettype", homeiconbaseurl + "placeholder.png");
                                           AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Location", "{CF58D8C9-95EE-4617-97B9-CAFE200719CC}", lv2menuOrderSettings.Id, "OrderLocationController", "module/orderlocation", settingsiconbaseurl + "placeholder.png");
 

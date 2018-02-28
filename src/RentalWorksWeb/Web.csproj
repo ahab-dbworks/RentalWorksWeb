@@ -135,7 +135,6 @@
       <HintPath>..\..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.SqlClient, Version=4.2.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Data.SqlClient.4.4.2\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
@@ -145,14 +144,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationConfig.dev.js" />
@@ -160,13 +157,13 @@
     <Content Include="ApplicationConfig.sample.js" />
     <Content Include="ApplicationConfig.test.js" />
     <Content Include="App_Data\Client\ReportLogo.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="index_src.htm" />
     <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
     <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
     <Content Include="Integration\QBOIntegration\QBOIntegrationController.js" />
-    <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
-    <Content Include="index_src.htm" />
     <Content Include="Libraries\Fw\Archive\Grids\AppDocumentVersionGrid\AppDocumentVersionGridBrowse.htm" />
     <Content Include="Libraries\Fw\Archive\Grids\AppDocumentVersionGrid\AppDocumentVersionGridController.js" />
     <Content Include="Libraries\Fw\Archive\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
@@ -796,6 +793,8 @@
     <Content Include="Source\Modules\Settings\Crew\CrewForm.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionForm.htm" />
+    <Content Include="Source\Modules\Settings\MarketType\MarketTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MarketType\MarketTypeForm.htm" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeForm.htm" />
     <Content Include="Source\Modules\Settings\EventType\EventTypeBrowse.htm" />
@@ -1054,6 +1053,7 @@
     <Content Include="Source\Reports\Application\PortraitHeader.htm" />
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MarketType\MarketType.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />
@@ -1561,7 +1561,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54304</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/RentalWorksWeb</IISUrl>
+          <IISUrl>http://localhost/RentalWorksWeb/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
