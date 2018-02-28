@@ -12,6 +12,7 @@ namespace WebApi.Modules.Settings.Widget
         {
             type = "horizontalBar";
             options.title.text = "Deals by Type";
+            options.title.fontSize = 20;
         }
 
         public async Task<bool> LoadAsync()

@@ -35,6 +35,7 @@ namespace WebApi.Modules.Settings.Widget
     //------------------------------------------------------------------------------------
     public class WidgetTitle
     {
+        public int fontSize { get; set; }
         public bool display { get; set; }
         public string text { get; set; }
         public WidgetTitle()

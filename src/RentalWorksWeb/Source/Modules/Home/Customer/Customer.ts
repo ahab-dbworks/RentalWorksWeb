@@ -68,6 +68,9 @@ class Customer {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        var $submoduleDealBrowse = this.openDealBrowse($form);
+        $form.find('.deal').append($submoduleDealBrowse);
+
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -109,6 +112,21 @@ class Customer {
 
 
         return $form;
+    }
+
+    openDealBrowse($form) {
+        var $browse;
+        $browse = DealController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
+            }
+
+
+        });
+
+        return $browse;
     }
 
     loadForm(uniqueids: any) {
@@ -221,6 +239,9 @@ class Customer {
         if (FwFormField.getValue($form, 'div[data-datafield="ShippingAddressType"]') === 'OTHER') {
             FwFormField.enable($form.find('.shippingaddress'));
         };
+
+        var $dealBrowse = $form.find('#DealBrowse');
+        FwBrowse.search($dealBrowse);
     }
 }
 var CustomerController = new Customer();

@@ -11,6 +11,7 @@ namespace WebApi.Modules.Settings.Widget
         {
             type = "bar";
             options.title.text = "Orders By Status";
+            options.title.fontSize = 20;
         }
         //------------------------------------------------------------------------------------
         public async Task<bool> LoadAsync()

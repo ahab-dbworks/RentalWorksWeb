@@ -12,6 +12,7 @@ namespace WebApi.Modules.Settings.Widget
         {
             type = "pie";
             options.title.text = "Orders By Agent";
+            options.title.fontSize = 20;
         }
 
         public async Task<bool> LoadAsync()
