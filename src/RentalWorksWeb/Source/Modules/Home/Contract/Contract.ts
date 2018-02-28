@@ -1,10 +1,12 @@
 class Contract {
     Module: string;
     apiurl: string;
+    ActiveView: string;
 
     constructor() {
         this.Module = 'Contract';
-        this.apiurl = 'api/v1/contract';
+        this.apiurl = 'api/v1/contract'; 
+        this.ActiveView = 'ALL';
     }
 
     getModuleScreen() {
@@ -35,9 +37,71 @@ class Contract {
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
 
+        FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
+        FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
+        FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
+        FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
+        FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
+        FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
+        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+
         return $browse;
     }
-     
+
+
+    addBrowseMenuItems($menuObject: any) {
+        var self = this;
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
+        var $rentalssales: JQuery = FwMenu.generateDropDownViewBtn('Rentals / Sales', true);
+        var $repair: JQuery = FwMenu.generateDropDownViewBtn('Repair', false);
+        var $sales: JQuery = FwMenu.generateDropDownViewBtn('Sales', false);
+
+        $all.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.setPageNo($browse, 1);
+            FwBrowse.databind($browse);
+        });
+        $rentalssales.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'RENTALSALES';
+            FwBrowse.setPageNo($browse, 1);
+            FwBrowse.databind($browse);
+        });
+        $repair.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'REPAIR';
+            FwBrowse.setPageNo($browse, 1);
+            FwBrowse.databind($browse);
+        });
+        $sales.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'SALES';
+            FwBrowse.setPageNo($browse, 1);
+            FwBrowse.databind($browse);
+        });
+      
+
+        FwMenu.addVerticleSeparator($menuObject);
+
+        var viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all);
+        viewSubitems.push($rentalssales);
+        viewSubitems.push($repair);
+        viewSubitems.push($sales);
+
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'Department', viewSubitems);
+
+        return $menuObject;
+    };
+
+
+
     openForm(mode: string) {
         var $form;
 
