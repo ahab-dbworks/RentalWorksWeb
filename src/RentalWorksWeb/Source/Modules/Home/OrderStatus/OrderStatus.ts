@@ -83,7 +83,7 @@ class OrderStatus {
                     } else {
                         $form.find('.salesview').hide();
                     }
-                  
+
                     $form.find('.details').hide();
                 }, null, $form);
 
@@ -119,16 +119,18 @@ class OrderStatus {
                 })
                 FwBrowse.search($orderStatusSalesDetailGridControl);
 
-               
+
                 setTimeout(function () {
                     var $trs = $form.find('.ordersummarygrid tr.viewmode');
 
+                    var $contractpeek = $form.find('.outcontract, .incontract');
+                    $contractpeek.attr('data-browsedatafield', 'ContractId');
 
                     for (var i = 0; i <= $trs.length; i++) {
                         var $rectype = jQuery($trs[i]).find('[data-browsedatafield="RecTypeDisplay"]');
                         var recvalue = $rectype.attr('data-originalvalue');
                         var $validationfield = jQuery($trs[i]).find('[data-browsedatafield="InventoryId"]');
-                        
+
                         switch (recvalue) {
                             case 'RENTAL':
                                 $validationfield.attr('data-validationname', 'RentalInventoryValidation');
@@ -140,11 +142,12 @@ class OrderStatus {
                     }
                 }
                     , 2000);
-                
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
+
+
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -245,7 +248,7 @@ class OrderStatus {
 
         $filterValidations.on("change", function () {
             var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
- 
+
             var validationName = jQuery(jQuery(this).closest('[data-type="validation"]')).attr('data-validationname');
 
             var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
@@ -403,7 +406,7 @@ class OrderStatus {
             FwBrowse.search($orderStatusSalesDetailGridControl);
 
         });
-   
+
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
