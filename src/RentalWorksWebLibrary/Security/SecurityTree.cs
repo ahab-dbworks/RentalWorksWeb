@@ -165,7 +165,7 @@ namespace WebLibrary.Security
                                           AddModule("Market Segment", "{53B627BE-6AC8-4C1F-BEF4-E8B0A5422E14}", lv2menuOrderSettings.Id, "MarketSegmentController", "module/marketsegment", homeiconbaseurl + "placeholder.png");
                                           AddModule("Market Type", "{77D7FD11-EBD2-40A2-A40D-C82D32528A01}", lv2menuOrderSettings.Id, "MarketTypeController", "module/markettype", homeiconbaseurl + "placeholder.png");
 
-      AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
+            AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Location", "{CF58D8C9-95EE-4617-97B9-CAFE200719CC}", lv2menuOrderSettings.Id, "OrderLocationController", "module/orderlocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentSettings = AddLv2ModuleMenu("Payment Settings", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
