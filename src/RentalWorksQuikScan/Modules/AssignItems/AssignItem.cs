@@ -159,7 +159,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@barcode",      barcode);
             sp.AddParameter("@mfgserial",    mfgserial);
             sp.AddParameter("@rfid",         rfid);
-            sp.AddParameter("@mfgdate",      mfgdate.GetSqlDate());
+            sp.AddParameter("@mfgdate",      ((mfgdate==null) ? System.DBNull.Value : mfgdate.GetSqlDate()));
             sp.AddParameter("@status",       SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",          SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();
@@ -170,7 +170,7 @@ namespace RentalWorksQuikScan.Modules
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        private static dynamic UpdatePOAssignableItemAsset(dynamic data, string masterid, string barcode, string mfgserial, string rfid, string mfgdate, string webusersid)
+        private static dynamic UpdatePOAssignableItemAsset(dynamic data, string masterid, string barcode, string mfgserial, string rfid, FwDateTime mfgdate, string webusersid)
         {
             dynamic result = new ExpandoObject();
             FwSqlCommand sp;
@@ -185,7 +185,7 @@ namespace RentalWorksQuikScan.Modules
             sp.AddParameter("@barcode",           barcode);
             sp.AddParameter("@mfgserial",         mfgserial);
             sp.AddParameter("@rfid",              rfid);
-            sp.AddParameter("@mfgdate",           mfgdate);
+            sp.AddParameter("@mfgdate",           ((mfgdate==null) ? System.DBNull.Value : mfgdate.GetSqlDate()));
             sp.AddParameter("@status",            SqlDbType.Int,     ParameterDirection.Output);
             sp.AddParameter("@msg",               SqlDbType.VarChar, ParameterDirection.Output);
             sp.Execute();

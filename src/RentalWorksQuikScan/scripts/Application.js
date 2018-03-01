@@ -422,6 +422,7 @@ jQuery(function() {
 //---------------------------------------------------------------------------------
 if (typeof document.addEventListener !== 'undefined') {
     document.addEventListener('deviceready', function (){
+        window.runningInCordova = true;
         if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
             window.screen.lockOrientation('portrait-primary');
         }

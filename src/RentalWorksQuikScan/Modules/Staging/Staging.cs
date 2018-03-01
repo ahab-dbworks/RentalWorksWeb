@@ -38,8 +38,8 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
-                                select.Add("from dbo.funcorderstaging(@warehouseid) o");
-                                select.Add("where o.orderno = o.orderno");
+                                select.Add("from dbo.funcorderstaging(@warehouseid)");
+                                select.Add("where orderno = orderno");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
                                 select.AddOrderBy("orderdate desc, orderno desc");
@@ -56,8 +56,8 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("statusdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
-                                select.Add("from dbo.funcorderstaging(@warehouseid) o");
-                                select.Add("where o.orderno = o.orderno");
+                                select.Add("from dbo.funcorderstaging(@warehouseid)");
+                                select.Add("where orderno = orderno");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
                                 select.AddWhere("orderdesc like @searchvalue");
@@ -75,7 +75,7 @@ namespace RentalWorksQuikScan.Modules
                                 qry.AddColumn("pickdate", false, FwJsonDataTableColumn.DataTypes.Date);
                                 select.Add("select *");
                                 select.Add("from dbo.funcorderstaging(@warehouseid) o");
-                                select.Add("where o.orderno = o.orderno");
+                                select.Add("where orderno = orderno");
                                 DepartmentFilter.SetDepartmentFilter(session.security.webUser.usersid, select);
                                 select.Parse();
                                 select.AddWhere("deal like @searchvalue");

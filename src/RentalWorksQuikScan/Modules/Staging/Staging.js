@@ -1085,7 +1085,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                         var $expander = $this.closest('.serialnorow').find('.expander');
                                         var $expandable = $this.closest('.serialnorow').find('.expandable');
                                         var $expandableisvisible = $expandable.is(':visible');
-                                        $pageserialmeters.find('.expander').html('<i class="material-icons">expand_more</i>');
+                                        $pageserialmeters.find('.expander').html('<i class="material-icons">&#xE5CF;</i>'); //expand_more
                                         $pageserialmeters.find('.expandable').hide();
                                         if ($expandableisvisible) {
                                             $expandable.hide();

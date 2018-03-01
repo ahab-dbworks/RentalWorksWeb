@@ -88,11 +88,13 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("tag",    false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("master", false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("status", false, FwJsonDataTableColumn.DataTypes.Text);
-                qry.Add("from funcscannedtag(@sessionid, @usersid, @portal, @batchid)");
+                qry.Add("from funcscannedtag(@sessionid, @orderid, @usersid, @portal, @batchid, @rfidmode)");
                 qry.AddParameter("@sessionid", orderid);
-                qry.AddParameter("@usersid", usersid);
-                qry.AddParameter("@portal", portal);
-                qry.AddParameter("@batchid", batchid);
+                qry.AddParameter("@orderid",   "");
+                qry.AddParameter("@usersid",   usersid);
+                qry.AddParameter("@portal",    portal);
+                qry.AddParameter("@batchid",   batchid);
+                qry.AddParameter("@rfidmode",  "CHECKIN");
                 dt = qry.QueryToFwJsonTable();
             }
             return dt;

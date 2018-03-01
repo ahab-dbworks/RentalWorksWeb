@@ -41,6 +41,10 @@
 #assignItems .ui-multiscan .multiscan-tags .multiscanrecord .row .caption {width:55px;}
 #assignItems .ui-multiscan .multiscan-tags .multiscanrecord .row .value {}
 #assignItems .ui-multiscan .multiscan-readready {text-align:center;line-height:64vh;}
+#assignItems .ui-multiscan .multiscan-read {background-color: #212121;padding: 4px;}
+#assignItems .ui-multiscan .multiscan-read .tagsread {text-align:center;}
+#assignItems .ui-multiscan .multiscan-read .tagsreadcount {font-weight:bold;text-align:center;font-size:100px;}
+#assignItems .ui-multiscan .multiscan-read .buttonrow {text-align:center;}
 
 #assignItems .ui-scan {display:none;}
 #assignItems .ui-scan .fwmobilecontrol-value {text-align:center;}

@@ -44,15 +44,6 @@ RwHome.getHomeScreen = function(viewModel, properties) {
         }
     }
 
-    //for (var i = 0; i < ModuleList.length; i++) {
-    //    var hasusertype          = (jQuery.inArray(sessionStorage.userType, ModuleList[i].usertype) != -1);
-    //    var hasapplicationoption = ((typeof applicationOptions[ModuleList[i].appoption] != 'undefined') && (applicationOptions[ModuleList[i].appoption].enabled));
-
-    //    if (((ModuleList[i].appoption == '') || hasapplicationoption) && (hasusertype)) {
-    //        $menuObject = RwHome.generateIcon(ModuleList[i].name, ModuleList[i].nav, ModuleList[i].icon); screen.$view.find('.fwmenu').append($menuObject);
-    //    }
-    //}
-
     $menuObject = RwHome.generateIcon('Settings', 'account/preferences', 'theme/images/icons/128/preferences.png', '5993B190-F084-4658-AEC2-1D467E26473F');
     screen.$view.find('.fwmenu').append($menuObject);
 

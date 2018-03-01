@@ -88,11 +88,14 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("tag",    false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("master", false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("status", false, FwJsonDataTableColumn.DataTypes.Text);
-                qry.Add("from funcscannedtag(@sessionid, @usersid, @portal, @batchid)");
+                qry.Add("from funcscannedtag(@sessionid, @orderid, @usersid, @portal, @batchid, @rfidmode)");
+                qry.Add("where status in ('PROCESSED', 'NEW')");
                 qry.AddParameter("@sessionid", orderid);
-                qry.AddParameter("@usersid", usersid);
-                qry.AddParameter("@portal", portal);
-                qry.AddParameter("@batchid", batchid);
+                qry.AddParameter("@orderid",   "");
+                qry.AddParameter("@usersid",   usersid);
+                qry.AddParameter("@portal",    portal);
+                qry.AddParameter("@batchid",   batchid);
+                qry.AddParameter("@rfidmode",  "STAGING");
                 dt = qry.QueryToFwJsonTable();
             }
             return dt;
@@ -410,6 +413,53 @@ namespace RentalWorksQuikScan.Modules
                 sp.Execute();
                 response.status = sp.GetParameter("@status").ToDecimal();
                 response.msg    = sp.GetParameter("@msg").ToString();
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+        [FwJsonServiceMethod]
+        public static void UnstageAll(dynamic request, dynamic response, dynamic session)
+        {
+            const string METHOD_NAME = "RfidStaging.UnstageAll";
+            FwValidate.TestPropertyDefined(METHOD_NAME, request, "orderid");
+            bool summary = false;
+            FwSqlConnection conn = FwSqlConnection.RentalWorks;
+            session.userLocation = RwAppData.GetUserLocation(conn: conn,
+                                                             usersId: session.security.webUser.usersid);
+            string warehouseid = session.userLocation.warehouseId;
+            string orderid = request.orderid;
+            string contractid = "";
+            string usersid = session.security.webUser.usersid;
+            int movemode = 2; //staged to inventory
+            FwJsonDataTable dt = null;
+            using (FwSqlCommand qry = new FwSqlCommand(conn))
+            {
+                qry.AddColumn("barcode", false, FwJsonDataTableColumn.DataTypes.Text);
+                qry.Add("select barcode");
+                qry.Add("from dbo.funcstageditemsweb(@orderid, @summary, @warehouseid)");
+                qry.Add("where trackedby = 'RFID'");
+                qry.Add("order by orderby");
+                qry.AddParameter("@orderid", orderid);
+                qry.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
+                qry.AddParameter("@warehouseid", warehouseid);
+                dt = qry.QueryToFwJsonTable();
+            }
+            int col_barcode = dt.ColumnIndex["barcode"];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string barcode = dt.Rows[i][col_barcode].ToString();
+                using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.advancedmovebarcode"))
+                {
+                    sp.AddParameter("@orderid", orderid);
+                    sp.AddParameter("@barcode", barcode);
+                    sp.AddParameter("@contractid", contractid);
+                    sp.AddParameter("@usersid", usersid);
+                    sp.AddParameter("@movemode", movemode);
+                    sp.AddParameter("@status", SqlDbType.Decimal, ParameterDirection.Output);
+                    sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output);
+                    sp.Execute();
+                    //response.status = sp.GetParameter("@status").ToDecimal();
+                    //response.msg = sp.GetParameter("@msg").ToString();
+                }
             }
         }
         //---------------------------------------------------------------------------------------------

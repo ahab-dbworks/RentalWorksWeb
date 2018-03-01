@@ -420,7 +420,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5C4;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -432,10 +432,10 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
                 }
             },
             {
-                caption: '',
+                caption:     '',
                 orientation: 'right',
-                icon: 'settings_input_antenna',
-                state: 0,
+                icon:        '&#xE8BF;', //settings_input_antenna
+                state:       0,
                 buttonclick: function () {
                     try {
                         RwRFID.setTslRfidPowerLevel();
@@ -581,7 +581,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5C4;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -632,7 +632,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Back',
                 orientation: 'left',
-                icon:        'arrow_back',
+                icon:        '&#xE5C4;', //arrow_back
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -645,7 +645,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             {
                 caption:     'Assign',
                 orientation: 'right',
-                icon:        'save',
+                icon:        '&#xE161;', //save
                 state:       0,
                 buttonclick: function () {
                     try {
@@ -693,7 +693,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
             {
                 caption:     '',
                 orientation: 'right',
-                icon:        'settings_input_antenna',
+                icon:        '&#xE8BF;', //settings_input_antenna
                 state:       0,
                 buttonclick: function () {
                     try {

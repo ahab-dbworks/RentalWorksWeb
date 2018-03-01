@@ -238,6 +238,7 @@ RwLanguages.captions = [
   , 'Receive by'
   , 'Receive Date'
   , 'Receive Inventory'
+  , 'Reconcile'
   , 'Red'
   , 'Reef'
   , 'Return Inventory'

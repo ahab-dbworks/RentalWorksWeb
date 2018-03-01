@@ -35,6 +35,34 @@ RFIDStaging.getModuleScreen = function(viewModel, properties) {
 
     screen.$view.find('.tabpanel').hide();
     screen.$view.find('.tabpanel.rfiditems').show();
+
+    var $btnContextMenu = jQuery('<i class="material-icons">more_vert</i>');
+    screen.$view.find('#module-controls').append($btnContextMenu);
+    $btnContextMenu.on('click', function () {
+        var $contextmenu = FwContextMenu.render('Actions');
+        FwContextMenu.addMenuItem($contextmenu, 'Unstage All', function onclick() {
+            try {
+                FwContextMenu.destroy($contextmenu);
+                var request = {
+                    orderid: screen.getOrderId()
+                };
+                RwServices.callMethod('RfidStaging', 'UnstageAll', request, function () {
+                    try {
+                        screen.getStagedItems();
+                        screen.getPendingItems();
+                        screen.$view.find('.processedcontent').empty();
+                        screen.$view.find('.processedcount').html('0');
+                        screen.$view.find('.batchqtyvalue').html('0');
+                        screen.$view.find('.processqtyvalue').html('0');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    });
     
     var $tabrfiditems = FwMobileMasterController.tabcontrols.addtab('RFID Items', true);
     $tabrfiditems.on('click', function() {
