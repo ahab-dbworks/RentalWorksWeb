@@ -162,8 +162,10 @@ namespace WebLibrary.Security
             var lv2menuOrderSettings = AddLv2ModuleMenu("Order Settings", "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Type", "{CF3E22CB-F836-4277-9589-998B0BEC3500}", lv2menuOrderSettings.Id, "OrderTypeController", "module/ordertype", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Discount Reason", "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderSettings.Id, "DiscountReasonController", "module/discountreason", settingsiconbaseurl + "placeholder.png");
+                                          AddModule("Market Segment", "{53B627BE-6AC8-4C1F-BEF4-E8B0A5422E14}", lv2menuOrderSettings.Id, "MarketSegmentController", "module/marketsegment", homeiconbaseurl + "placeholder.png");
                                           AddModule("Market Type", "{77D7FD11-EBD2-40A2-A40D-C82D32528A01}", lv2menuOrderSettings.Id, "MarketTypeController", "module/markettype", homeiconbaseurl + "placeholder.png");
-                                          AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
+
+      AddModule("Order Set No.", "{4960D9A7-D1E0-4558-B571-DF1CE1BB8245}", lv2menuOrderSettings.Id, "OrderSetNoController", "module/ordersetno", settingsiconbaseurl + "placeholder.png");
                                           AddModule("Order Location", "{CF58D8C9-95EE-4617-97B9-CAFE200719CC}", lv2menuOrderSettings.Id, "OrderLocationController", "module/orderlocation", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuPaymentSettings = AddLv2ModuleMenu("Payment Settings", "{031F8E86-A1A6-482F-AB4F-8DD015AB7642}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");

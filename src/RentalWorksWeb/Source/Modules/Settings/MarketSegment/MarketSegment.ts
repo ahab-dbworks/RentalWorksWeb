@@ -1,13 +1,12 @@
-﻿routes.push({ pattern: /^module\/markettype$/, action: function (match: RegExpExecArray) { return MarketTypeController.getModuleScreen(); } }); 
+﻿routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } }); 
 
-
-class MarketType {
+class MarketSegment {
   Module: string;
   apiurl: string;
 
   constructor() {
-    this.Module = 'MarketType';
-    this.apiurl = 'api/v1/markettype';
+    this.Module = 'MarketSegment';
+    this.apiurl = 'api/v1/marketsegment';
   }
 
   getModuleScreen() {
@@ -21,7 +20,7 @@ class MarketType {
     $browse = this.openBrowse();
 
     screen.load = function () {
-      FwModule.openModuleTab($browse, 'Market Type', false, 'BROWSE', true);
+      FwModule.openModuleTab($browse, 'Market Segment', false, 'BROWSE', true);
       FwBrowse.databind($browse);
       FwBrowse.screenload($browse);
     };
@@ -54,7 +53,7 @@ class MarketType {
     var $form;
 
     $form = this.openForm('EDIT');
-    $form.find('div.fwformfield[data-datafield="MarketTypeId"] input').val(uniqueids.MarketTypeId);
+    $form.find('div.fwformfield[data-datafield="MarketSegmentId"] input').val(uniqueids.MarketSegmentId);
     FwModule.loadForm(this.Module, $form);
 
     return $form;
@@ -66,7 +65,7 @@ class MarketType {
 
   loadAudit($form: any) {
     var uniqueid;
-    uniqueid = $form.find('div.fwformfield[data-datafield="MarketTypeId"] input').val();
+    uniqueid = $form.find('div.fwformfield[data-datafield="MarketSegmentId"] input').val();
     FwModule.loadAudit($form, uniqueid);
   }
 
@@ -75,4 +74,4 @@ class MarketType {
   }
 }
 
-var MarketTypeController = new MarketType();
+var MarketSegmentController = new MarketSegment();
