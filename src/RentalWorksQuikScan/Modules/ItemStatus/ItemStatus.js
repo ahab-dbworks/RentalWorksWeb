@@ -13,14 +13,11 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
       captionICode:       RwLanguages.translate('I-Code'),
       captionLastDeal:    RwLanguages.translate('Last Deal'),
       captionLastOrder:   RwLanguages.translate('Last Order'),
-      captionICode:       RwLanguages.translate('I-Code'),
       captionDescription: RwLanguages.translate('Description'),
       captionAisle:       RwLanguages.translate('Aisle'),
       captionShelf:       RwLanguages.translate('Shelf'),
       captionLastDealNo:  RwLanguages.translate('Last Deal No'),
-      captionLastDeal:    RwLanguages.translate('Last Deal'),
       captionLastOrderNo: RwLanguages.translate('Last Order No'),
-      captionLastOrder:   RwLanguages.translate('Last Order'),
       captionScanButton:  RwLanguages.translate('Scan'),
       captionRFIDButton:  RwLanguages.translate('RFID')
     }, viewModel);
