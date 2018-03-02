@@ -1211,7 +1211,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddParameter("@warehouseid", warehouseId);
             qry.AddParameter("@contractid", contractId);
             result = new ExpandoObject();
-            result = qry.QueryToFwJsonTable();
+            result = qry.QueryToFwJsonTable(true);
             return result;
         }
         //----------------------------------------------------------------------------------------------------
@@ -2081,7 +2081,7 @@ namespace RentalWorksQuikScan.Source
             qry.Add("order by sessionno desc");
             qry.AddParameter("@locationid", locationid);
             qry.AddParameter("@orderid", orderid);
-            result = qry.QueryToFwJsonTable();
+            result = qry.QueryToFwJsonTable(true);
 
             return result;
         }

@@ -78,7 +78,7 @@ namespace RentalWorksQuikScan.Modules
             response.funcscannedtag = GetProcessed(orderid, usersid, portal, batchid);
             response.funcscannedtagexception = GetExceptions(orderid, usersid, portal);
         }
-
+        //---------------------------------------------------------------------------------------------
         public static FwJsonDataTable GetProcessed(string orderid, string usersid, string portal, string batchid)
         {
             FwJsonDataTable dt;
@@ -100,7 +100,7 @@ namespace RentalWorksQuikScan.Modules
             }
             return dt;
         }
-
+        //---------------------------------------------------------------------------------------------
         private static FwJsonDataTable GetExceptions(string orderid, string usersid, string portal)
         {
             FwJsonDataTable dt;
@@ -342,7 +342,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.Add("order by orderby");
                 qry.AddParameter("@orderid", orderid);
                 qry.AddParameter("@warehouseid", warehouseid);
-                response.funccheckoutexception = qry.QueryToFwJsonTable();
+                response.funccheckoutexception = qry.QueryToFwJsonTable(true);
             }
         }
         //---------------------------------------------------------------------------------------------

@@ -221,7 +221,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddParameter("@contractid", contractid);
                 qry.AddParameter("@rectype", rectype);
                 qry.AddParameter("@containeritemid", containeritemid);
-                response.funccheckoutexception = qry.QueryToFwJsonTable();
+                response.funccheckoutexception = qry.QueryToFwJsonTable(true);
             }
         }
         //---------------------------------------------------------------------------------------------
