@@ -264,6 +264,7 @@ namespace WebLibrary.Security
 
             // Add Utilities 
             AddModule("Dashboard",             "{DF8111F5-F022-40B4-BAE6-23B2C6CF3705}", lv1menuUtilities.Id, "DashboardController",       "module/dashboard",      utilitiesiconbaseurl + "placeholder.png");
+            AddModule("Dashboard Settings",    "{BFD11F41-614B-47DC-8CAD-16CE39BE9F97}", lv1menuUtilities.Id, "DashboardSettingsController", "module/dashboardsettings", utilitiesiconbaseurl + "placeholder.png");
             //var lv2menuChargeProcessing= AddLv2ModuleMenu("Charge Processing",       "{11349784-B621-468E-B0AD-899A22FCA9AE}", lv1menuUtilities.Id,                                                                                 utilitiesiconbaseurl + "placeholder.png", "Charge Processing");
             //                                    AddModule("Process Deal Invoices",   "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv2menuChargeProcessing.Id, "RwChargeProcessingController",        "module/chargeprocessing",        utilitiesiconbaseurl + "placeholder.png", "", "", "");
             //                                    AddModule("Process Receipts",        "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv2menuChargeProcessing.Id, "RwReceiptProcessingController",       "module/receiptprocessing",       utilitiesiconbaseurl + "placeholder.png", "", "", "");

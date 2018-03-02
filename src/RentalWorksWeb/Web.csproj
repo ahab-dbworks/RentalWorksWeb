@@ -1047,6 +1047,7 @@
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
+    <Content Include="Source\Modules\Utilities\DashboardSettings\DashboardSettingsForm.htm" />
     <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
     <Content Include="Source\Reports\Application\LandscapeHeader.htm" />
     <Content Include="Source\Reports\Application\PortraitFooter.htm" />
@@ -1054,6 +1055,7 @@
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <TypeScriptCompile Include="Source\Modules\Settings\Widget\Widget.ts" />

@@ -15,6 +15,7 @@ declare var RwLanguages: any;
 declare var FwContextMenu: any;
 declare var FwGridMenu: any;
 declare var FwValidation: any;
+declare var FwFormField_checkboxlist: any;
 
 
 declare var DesignerController: any;
