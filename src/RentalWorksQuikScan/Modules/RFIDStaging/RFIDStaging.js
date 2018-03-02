@@ -14,17 +14,17 @@ RFIDStaging.getModuleScreen = function(viewModel, properties) {
         scanagaintimeremaining: 0,
         shouldstopscanagaintimer: false
     };
-    if ( (typeof localStorage.getItem(application.localstorageitems.rfidstaging_batchtimeout) === 'string') && 
-         (!isNaN(localStorage.getItem(application.localstorageitems.rfidstaging_batchtimeout))) ) {
-        screen.batchtimeout = parseInt(localStorage.getItem(application.localstorageitems.rfidstaging_batchtimeout));
+    if ( (typeof localStorage.getItem(program.localstorageitems.rfidstaging_batchtimeout) === 'string') && 
+         (!isNaN(localStorage.getItem(program.localstorageitems.rfidstaging_batchtimeout))) ) {
+        screen.batchtimeout = parseInt(localStorage.getItem(program.localstorageitems.rfidstaging_batchtimeout));
     } else {
-        localStorage.setItem(application.localstorageitems.rfidstaging_batchtimeout, screen.batchtimeout);
+        localStorage.setItem(program.localstorageitems.rfidstaging_batchtimeout, screen.batchtimeout);
     }
-    if ( (typeof localStorage.getItem(application.localstorageitems.rfidstaging_scanagain) === 'string') && 
-         (!isNaN(localStorage.getItem(application.localstorageitems.rfidstaging_scanagain))) ) {
-        screen.scanagain = parseInt(localStorage.getItem(application.localstorageitems.rfidstaging_scanagain));
+    if ( (typeof localStorage.getItem(program.localstorageitems.rfidstaging_scanagain) === 'string') && 
+         (!isNaN(localStorage.getItem(program.localstorageitems.rfidstaging_scanagain))) ) {
+        screen.scanagain = parseInt(localStorage.getItem(program.localstorageitems.rfidstaging_scanagain));
     } else {
-        localStorage.setItem(application.localstorageitems.rfidstaging_scanagain, screen.scanagain);
+        localStorage.setItem(program.localstorageitems.rfidstaging_scanagain, screen.scanagain);
     }
     screen.$view = FwMobileMasterController.getMasterView(combinedViewModel);
     screen.$view.find('.btnstopscanning').hide();

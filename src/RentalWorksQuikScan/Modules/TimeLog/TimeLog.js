@@ -37,7 +37,7 @@ TimeLog.getModuleScreen = function(viewModel, properties) {
         .on('click', '.fwmenu-item', function() {
             $menu.hide();
             $search.show();
-            application.setScanTarget('.tl-search .fwmobilecontrol-value');
+            program.setScanTarget('.tl-search .fwmobilecontrol-value');
             if (!Modernizr.touch) {
                 screen.$view.find('.tl-search .fwmobilecontrol-value').select();
             }

@@ -38,7 +38,7 @@ RwSelectPhyInv.getSelectPhyInvScreen = function(viewModel, properties) {
                     jQuery('#selectPhyInvView-department').html(response.webSelectPhyInv.department);
                     jQuery('#selectPhyInvView-msgValue').html(response.webSelectPhyInv.msg);
                     properties.webSelectPhyInv = response.webSelectPhyInv;
-                    application.playStatus(response.webSelectPhyInv.status == 0);
+                    program.playStatus(response.webSelectPhyInv.status == 0);
 
                     jQuery('#selectPhyInvView-response').show();
                     jQuery('#selectPhyInvView-location')
@@ -64,7 +64,7 @@ RwSelectPhyInv.getSelectPhyInvScreen = function(viewModel, properties) {
                   , physicalId: properties.webSelectPhyInv.physicalId
                 };
                 screenPhyInvItem = RwInventoryController.getPhyInvItemScreen(phyInvItem_viewModel, phyInvItem_properties);
-                application.pushScreen(screenPhyInvItem);
+                program.pushScreen(screenPhyInvItem);
             } catch(ex) {
                 FwFunc.showError(ex);
             }
@@ -72,7 +72,7 @@ RwSelectPhyInv.getSelectPhyInvScreen = function(viewModel, properties) {
     ;
 
     screen.load = function() {
-        application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }

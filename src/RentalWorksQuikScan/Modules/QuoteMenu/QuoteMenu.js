@@ -78,7 +78,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     $search.showscreen = function() {
         $search.show();
         $search.find('#quotesearch').fwmobilesearch('search');
-        application.setScanTarget('.qm-search .fwmobilesearch .searchbox');
+        program.setScanTarget('.qm-search .fwmobilesearch .searchbox');
     };
 
     $neworder.find('#newquotecontrol').fwmobilemodulecontrol({
@@ -146,7 +146,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
     $neworder.showscreen = function() {
         var html = [], $newbody, applicationOptions, ratevalues = [];
         $neworder.show();
-        applicationOptions = application.getApplicationOptions();
+        applicationOptions = program.getApplicationOptions();
 
         html.push('<div class="qm-newquote-title">New Quote/Order</div>');
         html.push('<div class="qm-newquote-fields">');
@@ -254,7 +254,7 @@ RwQuoteMenu.getQuoteMenuScreen = function(viewModel, properties) {
             description: description,
             ordertype:   ordertype
         };
-        application.pushScreen(RwQuote.getQuoteScreen({}, quoteScreen_properties));
+        program.pushScreen(RwQuote.getQuoteScreen({}, quoteScreen_properties));
     };
 
     screen.load = function() {

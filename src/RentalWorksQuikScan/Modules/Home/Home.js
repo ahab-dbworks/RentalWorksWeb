@@ -74,7 +74,7 @@ RwHome.generateIcon = function(name, nav, icon, id) {
 
     $menuObject.on('click', function() {
         try {
-            application.navigate(nav);
+            program.navigate(nav);
         } catch(ex) {
             FwFunc.showError(ex);
         }

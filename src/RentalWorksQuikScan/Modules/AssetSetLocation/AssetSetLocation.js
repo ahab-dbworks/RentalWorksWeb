@@ -389,7 +389,7 @@ AssetSetLocation.getModuleScreen = function(viewModel, properties) {
     });
 
     screen.load = function() {
-        application.setScanTarget('.asl-scan .fwmobilecontrol-value');
+        program.setScanTarget('.asl-scan .fwmobilecontrol-value');
     };
 
     screen.unload = function () {

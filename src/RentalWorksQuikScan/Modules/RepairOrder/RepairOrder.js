@@ -82,7 +82,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
 
     if (properties.mode === 'sendtorepair') {
         screen.$btnback = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
-            application.popScreen();
+            program.popScreen();
         });
     }
 
@@ -117,7 +117,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
             RwServices.callMethod("RepairOrder", "UpdateRepairOrder", request, function(response) {
                 try {
                     if (properties.mode === 'sendtorepair') {
-                        application.popScreen();
+                        program.popScreen();
                     } else if (properties.mode == "repairorder") {
                         screen.resetRepairOrder();
                         //jQuery('#repairorder-txtGenericError').html('SUCCESS');
@@ -126,7 +126,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                         //    .attr('class', 'qssuccess')
                         //    .show();
                         FwNotification.renderNotification('SUCCESS', 'Repair Order Updated');
-                        application.playStatus(true);
+                        program.playStatus(true);
                     }
                 } catch(ex) {
                     FwFunc.showError(ex);
@@ -197,7 +197,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
                             screen.$view.find('.appdocuments').html(adhtml);
                         }
                     }
-                    application.playStatus(response.webSelectRepairOrder.status === 0);
+                    program.playStatus(response.webSelectRepairOrder.status === 0);
                 } catch(ex) {
                     FwFunc.showError(ex);
                 }
@@ -315,7 +315,7 @@ RwInventoryController.getRepairOrderScreen = function(viewModel, properties) {
 
     screen.load = function() {
         screen.resetRepairOrder();
-        application.setScanTarget('.repairorder-search .fwmobilecontrol-value');
+        program.setScanTarget('.repairorder-search .fwmobilecontrol-value');
         if (!Modernizr.touch) {
             jQuery('.repairorder-search .fwmobilecontrol-value').select();
         }

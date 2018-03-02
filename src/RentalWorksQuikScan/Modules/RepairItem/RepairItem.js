@@ -232,7 +232,7 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
         jQuery('#repairItemView-deal').html(response.webRepairItem.deal);
         jQuery('#repairItemView-genericMsgValue').html(response.webRepairItem.genericMsg);
         jQuery('#repairItemView-msgValue').html(response.webRepairItem.msg);
-        application.playStatus(response.webRepairItem.status == 0);
+        program.playStatus(response.webRepairItem.status == 0);
 
         jQuery('#repairItemView-response').show();
         jQuery('#repairItemView-info')
@@ -259,7 +259,7 @@ RwInventoryController.getRepairItemScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }

@@ -71,7 +71,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
             , orderId:             properties.webSelectPO.poId
             , responsiblePersonId: ''
         };
-        application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+        program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
     };
     
     screen.$view.find('#poSubReceiveReturn-messages').toggle(applicationConfig.designMode || false);
@@ -222,9 +222,9 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
                     jQuery('#poSubReceiveReturn-btnOK').toggle(!receiveByBarcode);
                     jQuery('#poSubReceiveReturn-txtVendorBarCode').val('');
                     if (receiveByBarcode) {
-                        application.setScanTarget('#poSubReceiveReturn-txtVendorBarCode');
+                        program.setScanTarget('#poSubReceiveReturn-txtVendorBarCode');
                     } else {
-                        application.setScanTarget('.txticode');
+                        program.setScanTarget('.txticode');
                     }
                 } catch(ex) {
                     FwFunc.showError(ex);
@@ -493,7 +493,7 @@ POSubReceiveReturn.getPOReceiveReturnScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('.txticode');
+        program.setScanTarget('.txticode');
         if (!Modernizr.touch) {
             jQuery('.txticode').select();
         }

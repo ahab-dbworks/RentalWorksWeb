@@ -133,7 +133,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                 orderId:             screen.getorderid(),
                 responsiblePersonId: ''
             };
-            application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+            program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
         } catch(ex) {
             FwFunc.showError(ex);
         }
@@ -556,7 +556,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
                     };
                     RwServices.callMethod('Exchange', 'GetItemInfo', request, function(response) {
                         try {
-                            application.playStatus(response.success);
+                            program.playStatus(response.success);
                             if (response.getiteminfo.success === false) {
                                 screen.setinbarcode('');
                                 screen.$view.find('.pageexchange .valueOrderNo').text('');
@@ -662,7 +662,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
     screen.exchangeItemResponse = function(response) {
         var exchange = response.exchange;
         screen.setexchange(exchange);
-        application.playStatus(exchange.response.success);
+        program.playStatus(exchange.response.success);
         if (exchange.response.resetall) {
             screen.resetall();
         }
@@ -1718,7 +1718,7 @@ Exchange.getModuleScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('');
+        program.setScanTarget('');
         if (typeof window.DTDevices !== 'undefined') {
             window.DTDevices.registerListener('barcodeData', 'barcodeData_exchange', function(barcode, barcodeType) {
                 var currentpage = screen.getCurrentPage();

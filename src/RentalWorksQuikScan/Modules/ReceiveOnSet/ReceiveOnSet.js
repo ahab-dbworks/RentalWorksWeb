@@ -109,7 +109,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
     });
     $findpo.showscreen = function() {
         $findpo.show();
-        application.setScanTarget('.rfv-findpo #posearch input');
+        program.setScanTarget('.rfv-findpo #posearch input');
         $findpo.find('#posearch').fwmobilesearch('search');
     };
 
@@ -187,7 +187,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
         $findset.show();
         $findset.$back.show();
         $findset.$newset.show();
-        application.setScanTarget('.rfv-findset #setsearch input');
+        program.setScanTarget('.rfv-findset #setsearch input');
         $findset.find('#setsearch').fwmobilesearch('search');
     };
 
@@ -330,13 +330,13 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
     });
     $scan.showscreen = function() {
         $scan.show();
-        application.setScanTarget('.rfv-scan .fwmobilecontrol-value');
+        program.setScanTarget('.rfv-scan .fwmobilecontrol-value');
         $scan.$back.show();
         //if ((typeof $scan.data('mode') == 'undefined') || ($scan.data('mode') == '')) {
         //    $scan.data('mode', 'REMAINING');
         //}
         $scan.loaditems();
-        application.setScanTarget('.rfv-scan .fwmobilecontrol-value');
+        program.setScanTarget('.rfv-scan .fwmobilecontrol-value');
 
         //$tabremaining = FwMobileMasterController.tabcontrols.addtab('Remaining', ($scan.data('mode') == 'REMAINING'));
         //$tabremaining.on('click', function() {
@@ -436,7 +436,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                                 };
                                 RwServices.callMethod("ReceiveOnSet", "POReceiveImage", request, function(response) {
                                     try {
-                                        application.playStatus(true);
+                                        program.playStatus(true);
                                         FwConfirmation.destroyConfirmation($confirmation);
                                     } catch(ex) {
                                         FwFunc.showError(ex);
@@ -449,7 +449,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
                                 };
                                 RwServices.inventory.addInventoryWebImage(request, function(response) {
                                     try {
-                                        application.playStatus(true);
+                                        program.playStatus(true);
                                         FwConfirmation.destroyConfirmation($confirmation);
                                     } catch(ex) {
                                         FwFunc.showError(ex);
@@ -552,7 +552,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Asset Location" data-type="text" data-required="true" data-datafield="assetlocation" />');
             html.push('</div>');
-            application.setScanTarget('div[data-datafield="barcode"] .fwformfield-value');
+            program.setScanTarget('div[data-datafield="barcode"] .fwformfield-value');
         } else if (recorddata.trackedby === 'QUANTITY') {
             html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push('  <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Quantity To Receive" data-type="number" data-minvalue="0" data-maxvalue="' + recorddata.qtyremaining + '" data-required="true" data-datafield="quantity" />');
@@ -710,7 +710,7 @@ ReceiveOnSet.getModuleScreen = function(viewModel, properties) {
             window.removeEventListener('resize', screen.onWindowResize, false);
 
             $ok.on('click', function() {
-                application.navigate('home/home');
+                program.navigate('home/home');
             });
         });
     });

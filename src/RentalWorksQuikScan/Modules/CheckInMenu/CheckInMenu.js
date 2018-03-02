@@ -42,7 +42,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             };
 
             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-            application.pushScreen(checkInItemScreen);
+            program.pushScreen(checkInItemScreen);
         })
         .on('click', '#cim-session', function() {
             $menu.hide();
@@ -244,7 +244,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                             };
 
                             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-                            application.pushScreen(checkInItemScreen);
+                            program.pushScreen(checkInItemScreen);
                         });
                     }
                 } catch (ex) {
@@ -332,7 +332,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                         };
 
                         checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-                        application.pushScreen(checkInItemScreen);
+                        program.pushScreen(checkInItemScreen);
                     });
                 }
             }
@@ -446,7 +446,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             };
 
             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-            application.pushScreen(checkInItemScreen);
+            program.pushScreen(checkInItemScreen);
         }
     });
     $sessionsearch.showscreen = function(searchresults) {
@@ -541,7 +541,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             };
 
             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-            application.pushScreen(checkInItemScreen);
+            program.pushScreen(checkInItemScreen);
         }
     });
     $dealsearch.showscreen = function() {
@@ -584,8 +584,8 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     screen.load = function() {
         screen.enableShowAllLocations();
         screen.toggleShowAllLocation(false);
-        application.setScanTarget('');
-        application.onScanBarcode = function (barcode, barcodeType) {
+        program.setScanTarget('');
+        program.onScanBarcode = function (barcode, barcodeType) {
             try {
                 $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
                 $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
@@ -596,7 +596,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
-        application.onScanBarcode = null;
+        program.onScanBarcode = null;
     };
 
     return screen;

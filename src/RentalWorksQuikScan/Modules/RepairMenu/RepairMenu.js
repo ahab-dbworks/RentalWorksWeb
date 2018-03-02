@@ -16,21 +16,21 @@ RwInventoryController.getRepairMenuScreen = function(viewModel, properties) {
     screen.$view
         .on('click', '#repairMenuView-iconComplete', function() {
             try {
-                application.navigate('inventory/repair/complete');
+                program.navigate('inventory/repair/complete');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
         .on('click', '#repairMenuView-iconRelease', function() {
             try {
-                application.navigate('inventory/repair/release');
+                program.navigate('inventory/repair/release');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
         .on('click', '#repairMenuView-iconRepairOrder', function() {
             try {
-                application.navigate('inventory/repair/repairorder');
+                program.navigate('inventory/repair/repairorder');
             } catch(ex) {
                 FwFunc.showError(ex);
             }

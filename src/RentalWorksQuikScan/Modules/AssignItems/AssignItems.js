@@ -14,14 +14,14 @@ AssignItems.getMenuScreen = function(viewModel, properties) {
     screen.$view
         .on('click', '#miNewItems', function() {
             try {
-                application.navigate('assignitems/newitems');
+                program.navigate('assignitems/newitems');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
         .on('click', '#miExistingItems', function() {
             try {
-                application.navigate('assignitems/existingitems');
+                program.navigate('assignitems/existingitems');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
@@ -59,7 +59,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
                 state:       0,
                 buttonclick: function () {
                     try {
-                        application.navigate('assignitems');
+                        program.navigate('assignitems');
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -127,7 +127,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
     $search.showscreen = function() {
         $search.show();
         $search.find('#finditem').fwmobilesearch('search');
-        application.setScanTarget('.ui-search .fwmobilesearch .searchbox');
+        program.setScanTarget('.ui-search .fwmobilesearch .searchbox');
     };
 
     $itemlist.find('#itemscontrol').fwmobilemodulecontrol({
@@ -259,7 +259,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         $itemlist.find('#items').fwmobilesearch('search');
         $itemlist.find('.iteminfo').html(selectedrecord.master);
         $itemlist.show();
-        application.setScanTarget('.ui-itemlist .fwmobilesearch .searchbox');
+        program.setScanTarget('.ui-itemlist .fwmobilesearch .searchbox');
 
         if ((selectedrecord.trackedby == 'RFID') && (selectedrecord.qtynonserial > 0)) {
             $itemlist.find('#itemscontrol').fwmobilemodulecontrol('showButton', '#itemlist_menu'); //2017-1-09 MY: Remove when more items are added to this menu
@@ -349,7 +349,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
     $itemassign.showscreen = function(recorddata) {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
-        application.setScanTarget('div[data-datafield="barcode"] input');
+        program.setScanTarget('div[data-datafield="barcode"] input');
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
         $itemassign.find('div[data-datafield="rfid"]').hide();
@@ -400,7 +400,7 @@ AssignItems.getNewItemsScreen = function(viewModel, properties) {
         if (($itemassign.find('div[data-datafield="rfid"] input').length !=  0) && (parseInt(jQuery('.tagCountPopup .tagCount').html()) == 1)) {
             $itemassign.find('div[data-datafield="rfid"] input').val(epcs);
         } else {
-            application.playStatus(false);
+            program.playStatus(false);
         }
     };
     $itemassign.clearscreen = function() {
@@ -585,7 +585,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
                 state:       0,
                 buttonclick: function () {
                     try {
-                        application.navigate('assignitems');
+                        program.navigate('assignitems');
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
@@ -595,7 +595,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
     });
     $scan.showscreen = function() {
         $scan.show();
-        application.setScanTarget('.ui-scan .fwmobilecontrol-value');
+        program.setScanTarget('.ui-scan .fwmobilecontrol-value');
         RwRFID.registerEvents($scan.rfidscan);
     };
     $scan.on('change', '.fwmobilecontrol-value', function() {
@@ -623,7 +623,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
         if (parseInt(jQuery('.tagCountPopup .tagCount').html()) == 1) {
             $scan.find('.fwmobilecontrol-value').val(epcs).change();
         } else {
-            application.playStatus(false);
+            program.playStatus(false);
         }
     };
 
@@ -708,7 +708,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
     $itemassign.showscreen = function(recorddata) {
         $itemassign.data('recorddata', recorddata);
         $itemassign.show();
-        application.setScanTarget('div[data-datafield="barcode"] input');
+        program.setScanTarget('div[data-datafield="barcode"] input');
         $itemassign.find('.itemassign-title').html(selectedrecord.master);
 
         $itemassign.find('div[data-datafield="rfid"]').hide();
@@ -747,7 +747,7 @@ AssignItems.getExistingItemsScreen = function(viewModel, properties) {
         if (($itemassign.find('div[data-datafield="rfid"] input').length != 0) && (parseInt(jQuery('.tagCountPopup .tagCount').html()) == 1)) {
             $itemassign.find('div[data-datafield="rfid"] input').val(epcs);
         } else {
-            application.playStatus(false);
+            program.playStatus(false);
         }
     };
     $itemassign.clearscreen = function() {

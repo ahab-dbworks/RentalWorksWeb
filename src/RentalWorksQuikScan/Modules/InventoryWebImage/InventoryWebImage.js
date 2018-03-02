@@ -47,7 +47,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                                                 try {
                                                     properties.item.images = response.images;
                                                     $item.refreshimages(response.images);
-                                                    application.playStatus(true);
+                                                    program.playStatus(true);
                                                 } catch(ex) {
                                                     FwFunc.showError(ex);
                                                 }
@@ -106,7 +106,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                                 $this.val('');
                                 $item.showscreen(response.item);
 
-                                application.playStatus(response.item.status === 0);
+                                program.playStatus(response.item.status === 0);
                             } else {
                                 $status.show().html(response.item.genericError + '<br />' + response.item.msg);
                             }
@@ -205,7 +205,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
                         try {
                             properties.item.images = response.images;
                             $item.refreshimages(response.images);
-                            application.playStatus(true);
+                            program.playStatus(true);
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
@@ -233,7 +233,7 @@ RwInventoryController.getInventoryWebImageScreen = function(viewModel, propertie
     ;
 
     screen.load = function() {
-        application.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTarget('.fwmobilecontrol-value');
     };
 
     return screen;

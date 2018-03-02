@@ -1,7 +1,7 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     var combinedViewModel, screen, applicationOptions, $error, $itemdetails, $rfiditems;
-    applicationOptions = application.getApplicationOptions();
+    applicationOptions = program.getApplicationOptions();
     combinedViewModel = jQuery.extend({
       captionPageTitle:   RwLanguages.translate('Item Status'),
       htmlScanBarcode:    RwPartialController.getScanBarcodeHtml({captionBarcodeICode:RwLanguages.translate('Bar Code / I-Code')}),
@@ -54,7 +54,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
                     screen.resetscreen();
                     RwServices.callMethod('ItemStatus', 'GetItemStatus', request, function(response) {
                         screen.loaditemdata(response.itemdata);
-                        application.playStatus(response.itemdata.status === 0);
+                        program.playStatus(response.itemdata.status === 0);
 
                         //if (response.itemdata.status === 0) $this.val('');
                     });
@@ -270,7 +270,7 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTarget('.fwmobilecontrol-value');
         RwRFID.registerEvents(screen.rfidscan);
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {

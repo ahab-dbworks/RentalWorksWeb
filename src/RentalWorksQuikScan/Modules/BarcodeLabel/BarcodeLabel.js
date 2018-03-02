@@ -806,28 +806,28 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
             var host = $win.find('.host').val();
             var port = parseInt($win.find('.port').val());
             var barcodelabelid = $win.find('.barcodelabelid').val();
-            localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_printerplugin', printerplugin);
-            localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_barcodelabelid', barcodelabelid);
+            localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_printerplugin', printerplugin);
+            localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_barcodelabelid', barcodelabelid);
             switch (printerplugin) {
                 case 'cordovaBT':
                     break;
                 case 'electronLocal':
-                   localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_printer', printer);
+                   localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_printer', printer);
                     break;
                 case 'cordovaNet':
                 case 'electronNet':
-                    localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_host', host);
-                    localStorage.setItem(application.localstorageprefix + category.replace(' ', '') + '_port', port);
+                    localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_host', host);
+                    localStorage.setItem(program.localstorageprefix + category.replace(' ', '') + '_port', port);
                     break;
             }
         };
 
         $win.loadPrintingPreferences = function () {
-            var printerplugin = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_printerplugin');
-            var printer = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_printer');
-            var host = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_host');
-            var port = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_port');
-            var barcodelabelid = localStorage.getItem(application.localstorageprefix + category.replace(' ', '') + '_barcodelabelid');
+            var printerplugin = localStorage.getItem(program.localstorageprefix + category.replace(' ', '') + '_printerplugin');
+            var printer = localStorage.getItem(program.localstorageprefix + category.replace(' ', '') + '_printer');
+            var host = localStorage.getItem(program.localstorageprefix + category.replace(' ', '') + '_host');
+            var port = localStorage.getItem(program.localstorageprefix + category.replace(' ', '') + '_port');
+            var barcodelabelid = localStorage.getItem(program.localstorageprefix + category.replace(' ', '') + '_barcodelabelid');
             if (typeof printerplugin !== 'undefined') {
                 $win.find('.printerplugin').val(printerplugin).change();
             }
@@ -855,8 +855,8 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
         //$win.find('.qty').inputmask('999');
         //$win.find('.port').inputmask('99999');
 
-        if (typeof localStorage.getItem(application.localstorageprefix + 'printerplugin') !== 'undefined') {
-            var savedprinterplugin = localStorage.getItem(application.localstorageprefix + 'printerplugin');
+        if (typeof localStorage.getItem(program.localstorageprefix + 'printerplugin') !== 'undefined') {
+            var savedprinterplugin = localStorage.getItem(program.localstorageprefix + 'printerplugin');
             $win.find('.printerplugin').val(savedprinterplugin).change();
         }
         $win.loadPrintingPreferences();
@@ -889,7 +889,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
     };
 
     screen.unload = function () {
-        //application.setScanTarget('.ui-search .fwmobilesearch .searchbox');
+        //program.setScanTarget('.ui-search .fwmobilesearch .searchbox');
     };
     
     return screen;

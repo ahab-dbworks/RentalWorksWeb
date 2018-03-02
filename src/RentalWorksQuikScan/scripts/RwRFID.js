@@ -5,7 +5,7 @@
 //----------------------------------------------------------------------------------------------
 RwRFID.init = function() {
     var applicationOptions;
-    applicationOptions = application.getApplicationOptions();
+    applicationOptions = program.getApplicationOptions();
     if ((typeof window.TslReader === 'object') && (typeof applicationOptions.rfid !== 'undefined') && (applicationOptions.rfid.enabled)) {
         window.TslReader.isConnected(function isConnectedSuccess(result) {
             RwRFID.isConnected = result[1];

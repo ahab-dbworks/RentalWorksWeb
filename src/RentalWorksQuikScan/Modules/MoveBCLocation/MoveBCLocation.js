@@ -30,17 +30,17 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
                             if (response.barcodemove.status == '0') {
                                 $movebclocationstatus.show().addClass('success');
                                 $movebclocationstatus.find('.msg').html('Item (' + request.barcode + ') moved to aisle: ' + request.aisle + ' shelf: ' + request.shelf);
-                                application.playStatus(true);
+                                program.playStatus(true);
                             } else if (response.barcodemove.status !== '0') {
                                 $movebclocationstatus.show().addClass('error');
                                 $movebclocationstatus.find('.msg').html(response.barcodemove.msg);
-                                application.playStatus(false);
+                                program.playStatus(false);
                             }
                         });
                     } else {
                         $movebclocationstatus.show().addClass('error');
                         $movebclocationstatus.find('.msg').html('You must set a aisle/shelf before scanning an item.');
-                        application.playStatus(false);
+                        program.playStatus(false);
                     }
                 } else {
                     screendata.aisle = $this.val().split('-')[0].toUpperCase();
@@ -58,7 +58,7 @@ RwInventoryController.getMoveBCLocationScreen = function(viewModel, properties) 
     ;
 
     screen.load = function() {
-        application.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTarget('.fwmobilecontrol-value');
         screendata.aisle = '';
         screendata.shelf = '';
     };

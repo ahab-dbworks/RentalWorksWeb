@@ -1,7 +1,7 @@
 ﻿//----------------------------------------------------------------------------------------------
 RwOrderController.getStagingScreen = function(viewModel, properties) {
     var combinedViewModel, screen, applicationOptions, pageTitle, pageSubTitle;
-    applicationOptions = application.getApplicationOptions();
+    applicationOptions = program.getApplicationOptions();
     switch (properties.moduleType) {
         case RwConstants.moduleTypes.Order:
              switch(properties.activityType) {
@@ -144,7 +144,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             orderId: screen.getOrderId(),
                             responsiblePersonId: ((typeof properties.responsibleperson !== 'undefined') && (properties.responsibleperson.showresponsibleperson === 'T')) ? properties.responsibleperson.responsiblepersonid : ''
                         };
-                        application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                        program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
                     } else {
                         FwFunc.showMessage("There is no activity on this Staging Session!");
                     }
@@ -1239,7 +1239,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         jQuery('#staging-popupQty-qtyStaged')   .html(String(responseStageItem.webStageItem.qtyStaged));
         jQuery('#staging-popupQty-qtyRemaining').html(String(responseStageItem.webStageItem.qtyRemaining));
         if (responseStageItem.request.playStatus) {
-            application.playStatus(responseStageItem.webStageItem.status === 0);
+            program.playStatus(responseStageItem.webStageItem.status === 0);
         }
         if (responseStageItem.webStageItem.status === 0) {
             jQuery('#staging-popupQty-genericMsg').removeClass('qserror').addClass('qssuccess');
@@ -1545,7 +1545,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         jQuery('#staging-popupQty-qtyStaged')   .html(String(responseStageItem.webStageItem.qtyStaged));
         jQuery('#staging-popupQty-qtyRemaining').html(String(responseStageItem.webStageItem.qtyRemaining));
         if (responseStageItem.request.playStatus) {
-            application.playStatus(responseStageItem.webStageItem.status === 0);
+            program.playStatus(responseStageItem.webStageItem.status === 0);
         }
         if (responseStageItem.webStageItem.status === 0) {
             jQuery('#staging-popupQty-genericMsg').removeClass('qserror').addClass('qssuccess');
@@ -2661,8 +2661,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     
     screen.load = function() {
         screen.toggleRfid();
-        application.setScanTarget('');
-        application.onScanBarcode = function (barcode, barcodeType) {
+        program.setScanTarget('');
+        program.onScanBarcode = function (barcode, barcodeType) {
             try {
                 if (screen.getCurrentPage().name === 'search') {
                     screen.$view.find('.search').fwmobilesearch('setsearchmode', 'orderno');
@@ -2696,7 +2696,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
-        application.onScanBarcode = null;
+        program.onScanBarcode = null;
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getStagingScreen');

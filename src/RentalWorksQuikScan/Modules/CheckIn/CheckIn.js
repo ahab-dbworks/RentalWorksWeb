@@ -44,7 +44,7 @@ RwOrderController.getOrderSuspendedSessionPopup = function(suspendedInContracts)
 //---------------------------------------------------------------------------------------------- 
 RwOrderController.getCheckInScreen = function(viewModel, properties) {
     var combinedViewModel, screen, pageSubTitle, applicationOptions, $checkinmodeselector, $checkincontrol, $pending, $rfid, $sessionin, $orderpriority, $checkinserial, $extraitems;
-    applicationOptions = application.getApplicationOptions();
+    applicationOptions = program.getApplicationOptions();
     if (typeof properties.orderId            === 'undefined') {properties.orderId            = '';}
     if (typeof properties.dealId             === 'undefined') {properties.dealId             = '';}
     if (typeof properties.departmentId       === 'undefined') {properties.departmentId       = '';}
@@ -148,11 +148,11 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 state:       0,
                 buttonclick: function () {
                     if (properties.moduleType == 'Order') {
-                        application.navigate('order/checkinmenu');
+                        program.navigate('order/checkinmenu');
                     } else if (properties.moduleType == 'Transfer') {
-                        application.navigate('order/transferin');
+                        program.navigate('order/transferin');
                     } else {
-                        application.navigate('home/home');
+                        program.navigate('home/home');
                     }
                 }
             },
@@ -187,7 +187,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                     aisle:             screen.properties.aisle,
                                     shelf:             screen.properties.shelf
                                 });
-                                application.pushScreen(RwFillContainer.getFillContainerScreen({}, fillcontainerproperties));
+                                program.pushScreen(RwFillContainer.getFillContainerScreen({}, fillcontainerproperties));
                             } catch(ex) {
                                 FwFunc.showError(ex);
                             }
@@ -260,7 +260,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                         orderId:             screen.getOrderId(),
                                         responsiblePersonId: ''
                                     };
-                                    application.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
+                                    program.pushScreen(RwOrderController.getContactSignatureScreen(viewModel, properties));
                                 } else {
                                     FwFunc.showMessage("There is no activity on this Check-In Session!");
                                 }
@@ -746,7 +746,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                             try {
                                                 FwConfirmation.destroyConfirmation($confirmationstr);
                                                 var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno});
-                                                application.pushScreen(repairOrderScreen);
+                                                program.pushScreen(repairOrderScreen);
                                             } catch(ex) {
                                                 FwFunc.showError(ex);
                                             }
@@ -759,7 +759,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                 RwServices.callMethod("CheckIn", "CheckInItemSendToRepair", request, function(response) {
                                     try {
                                         var repairOrderScreen = RwInventoryController.getRepairOrderScreen({}, {mode:'sendtorepair', repairno:response.repairno, qty:1});
-                                        application.pushScreen(repairOrderScreen);
+                                        program.pushScreen(repairOrderScreen);
                                     } catch(ex) {
                                         FwFunc.showError(ex);
                                     }
@@ -1354,7 +1354,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                         selectedsession: properties.selectedsession
                                     });
                                     checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
-                                    application.updateScreen(checkInItemScreen);
+                                    program.updateScreen(checkInItemScreen);
                                     requestCheckInItem2 = responseCheckInItem.request;
                                     requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractid;
                                     RwServices.callMethod("CheckIn", "CheckInItem", responseCheckInItem.request, function(responseCheckInItem2) {
@@ -1410,7 +1410,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                                                 selectedsession: properties.selectedsession
                                             });
                                             checkInItemScreen = RwOrderController.getCheckInScreen(checkInItemScreen_viewModel, checkInItemScreen_properties);
-                                            application.updateScreen(checkInItemScreen);
+                                            program.updateScreen(checkInItemScreen);
                                             requestCheckInItem2 = responseCheckInItem.request;
                                             requestCheckInItem2.contractId = responseSelectSession.webSelectSession.contractid;
                                             RwServices.callMethod("CheckIn", "CheckInItem", responseCheckInItem.request, function(responseCheckInItem2) {
@@ -1445,7 +1445,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         var $liCheckInPending, valTxtQty, isScannedICode, suspendedContractsPopup;
         screen.renderPopupQty();
         if (responseCheckInItem.request.playStatus) {
-            application.playStatus(responseCheckInItem.webCheckInItem.status === 0);
+            program.playStatus(responseCheckInItem.webCheckInItem.status === 0);
         }
         isScannedICode = (responseCheckInItem.webCheckInItem.isICode) && (responseCheckInItem.request.masterItemId.length === 0);
         //if (screen.$view.find('#checkIn-btnPendingList').hasClass('selected')) {
@@ -1716,7 +1716,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
 
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen', function() {

@@ -107,7 +107,7 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
                                 localStorage.setItem('currentCulture', 'enUs');
                             }
                             sessionStorage.setItem('siteName', response.site.name);
-                            application.navigate('home/home');
+                            program.navigate('home/home');
                         } catch(ex) {
                             FwFunc.showError(ex);
                         }
@@ -127,10 +127,10 @@ RwAccountController.getLoginScreen = function(viewModel, properties) {
             window.history.back(1);
         })
         .on('click', '#loginView-btnSupport', function() {
-            application.navigate('account/support');
+            program.navigate('account/support');
         })
         .on('click', '#loginView-btnPrivacyPolicy', function() {
-            application.navigate('account/privacypolicy');
+            program.navigate('account/privacypolicy');
         })
         .on('click', '#loginView-btnRefresh', function() {
             window.location.reload(true);

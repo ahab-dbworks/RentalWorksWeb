@@ -28,7 +28,7 @@
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <UsingTask TaskName="MSBuild.Community.Tasks.Version" AssemblyFile="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll" />
   <PropertyGroup>
@@ -323,7 +323,6 @@
     <Content Include="scripts\controllers\RwOrderController.js" />
     <Content Include="scripts\RwServices.js" />
     <Content Include="scripts\RwDataWarehouseServices.js" />
-    <Content Include="scripts\DefaultApplicationConfig.js" />
     <Content Include="scripts\RwTest.js" />
     <Content Include="Modules\CheckIn\CheckIn-SuspendedSession.html" />
     <Content Include="theme\images\control\checkbox_checked.001.png" />
@@ -376,7 +375,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="scripts\Application.js" />
     <None Include="theme\style.css" />
     <Content Include="scripts\RwAppData.js" />
     <Content Include="scripts\RwConstants.js" />
@@ -420,6 +418,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -494,6 +493,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
+    <TypeScriptCompile Include="scripts\Globals.ts" />
+    <TypeScriptCompile Include="scripts\Program.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

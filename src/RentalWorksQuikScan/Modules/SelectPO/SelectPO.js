@@ -131,7 +131,7 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
             var activityType;
             try {
                 if (!skipconfirmation) {
-                    application.playStatus(response.webSelectPO.status === 0);
+                    program.playStatus(response.webSelectPO.status === 0);
                 }
                 if (typeof response.suspendedContracts === 'object') {
                     skipconfirmation = true;
@@ -239,11 +239,11 @@ RwSelectPO.getSelectPOScreen = function(viewModel, properties) {
         };
         subReceiveReturnView_properties = jQuery.extend({}, properties, subReceiveReturnView_properties);
         $subReceiveReturnView = POSubReceiveReturn.getPOReceiveReturnScreen(subReceiveReturnView_viewModel, subReceiveReturnView_properties);
-        application.pushScreen($subReceiveReturnView);
+        program.pushScreen($subReceiveReturnView);
     });
 
     screen.load = function() {
-        application.setScanTarget('.selectpo-search .fwmobilecontrol-value');
+        program.setScanTarget('.selectpo-search .fwmobilecontrol-value');
         if (!Modernizr.touch) {
             jQuery('.selectpo-search .fwmobilecontrol-value').select();
         }

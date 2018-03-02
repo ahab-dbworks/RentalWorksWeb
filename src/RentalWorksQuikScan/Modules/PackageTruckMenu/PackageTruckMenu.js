@@ -16,14 +16,14 @@ RwOrderController.getPackageTruckMenuScreen = function(viewModel, properties) {
     screen.$view
         .on('click', '#homeView-miPackageTruckStaging', function() {
             try {
-                application.navigate('order/packagetruck/staging');
+                program.navigate('order/packagetruck/staging');
             } catch(ex) {
                 FwFunc.showError(ex);
             }
         })
         .on('click', '#homeView-miPackageTruckCheckIn', function() {
             try {
-                application.navigate('order/packagetruck/checkin');
+                program.navigate('order/packagetruck/checkin');
             } catch(ex) {
                 FwFunc.showError(ex);
             }

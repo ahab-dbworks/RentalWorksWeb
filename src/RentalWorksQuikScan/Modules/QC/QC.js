@@ -217,7 +217,7 @@ RwInventoryController.getQCScreen = function(viewModel, properties) {
     ;
 
     screen.load = function() {
-        application.setScanTarget('.fwmobilecontrol-value');
+        program.setScanTarget('.fwmobilecontrol-value');
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwinventorycontrollerjs_getQCScreen', function() {
                 RwRFID.isConnected = true;

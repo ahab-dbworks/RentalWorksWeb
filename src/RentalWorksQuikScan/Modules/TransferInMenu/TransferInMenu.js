@@ -199,7 +199,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
                             };
 
                             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-                            application.pushScreen(checkInItemScreen);
+                            program.pushScreen(checkInItemScreen);
                         });
                     }
                 } catch (ex) {
@@ -270,7 +270,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
                         };
 
                         checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-                        application.pushScreen(checkInItemScreen);
+                        program.pushScreen(checkInItemScreen);
                     });
                 }
             }
@@ -383,7 +383,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
             };
 
             checkInItemScreen = RwOrderController.getCheckInScreen({}, props);
-            application.pushScreen(checkInItemScreen);
+            program.pushScreen(checkInItemScreen);
         }
     });
     $sessionsearch.showscreen = function(searchresults) {
@@ -400,8 +400,8 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('');
-        application.onScanBarcode = function (barcode, barcodeType) {
+        program.setScanTarget('');
+        program.onScanBarcode = function (barcode, barcodeType) {
             try {
                 $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
                 $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
@@ -412,7 +412,7 @@ RwOrderController.getTransferInMenuScreen = function(viewModel, properties) {
     };
 
     screen.unload = function() {
-        application.onScanBarcode = null;
+        program.onScanBarcode = null;
     };
 
     return screen;

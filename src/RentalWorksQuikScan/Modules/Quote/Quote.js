@@ -45,7 +45,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 FwFunc.showMessage('Navigation is locked.');
             } else {
-                application.popScreen();
+                program.popScreen();
             }
         } catch(ex) {
             FwFunc.showError(ex);
@@ -68,7 +68,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                             } else {
                                 var ordertypetext = (properties.ordertype == 'Q' ? RwLanguages.translate('Quote') : RwLanguages.translate('Order'));
                                 FwFunc.showMessage(ordertypetext + ' Submitted.', function() {
-                                    application.navigate('home/home');
+                                    program.navigate('home/home');
                                 });
                             }
                         } catch (ex) {
@@ -430,7 +430,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
                             if (response.cancel.errno != 0) {
                                 FwFunc.showError(response.cancel.errmsg);
                             } else {
-                                application.navigate('home/home');
+                                program.navigate('home/home');
                             }
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -592,7 +592,7 @@ RwQuote.getQuoteScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
-        application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
         if (!Modernizr.touch) {
             jQuery('#scanBarcodeView-txtBarcodeData').select();
         }

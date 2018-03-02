@@ -19,8 +19,8 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
     canvas.onselectstart = function () { return false; }
 
     screen.$btncancel = FwMobileMasterController.addFormControl(screen, 'Back', 'left', '&#xE5CB;', true, function() { //back
-        //application.navigate('home/home');
-        application.popScreen();
+        //program.navigate('home/home');
+        program.popScreen();
     });
 
     screen.$btnsave = FwMobileMasterController.addFormControl(screen, 'Create Contract', 'right', '&#xE161;', true, function() { //save
@@ -37,7 +37,7 @@ RwOrderController.getContactSignatureScreen = function(viewModel, properties) {
             RwServices.order.createContract(requestCreateContract, function(responseCreateContract) {
                     if (responseCreateContract.webCreateContract.status === 0) {
                         FwFunc.showMessage(responseCreateContract.webCreateContract.msg, function() {
-                            application.navigate('home/home');
+                            program.navigate('home/home');
                         });
                     } else {
                         FwFunc.showError(responseCreateContract.webCreateContract.msg);

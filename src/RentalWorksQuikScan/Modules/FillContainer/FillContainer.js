@@ -2,7 +2,7 @@
 //----------------------------------------------------------------------------------------------
 RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     var combinedViewModel, screen, useResponsiblePerson, applicationOptions, pageTitle, pageSubTitle;
-    applicationOptions = application.getApplicationOptions();
+    applicationOptions = program.getApplicationOptions();
     pageTitle    = RwLanguages.translate('Fill Container');
     pageSubTitle = '';
     
@@ -150,7 +150,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                         RwServices.FillContainer.CreateContainer(requestCreateContainer, function (responseCreateContainer) {
                             try {
                                 screen.containerCreated = true;
-                                application.navigate('home/home');
+                                program.navigate('home/home');
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             }
@@ -330,7 +330,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         screen.$popupQty.find('#fillcontainer-popupqty-qtyin')       .html(String(responseStageItem.webStageItem.qtyIn));
         screen.$popupQty.find('#fillcontainer-popupqty-qtyremaining').html(String(responseStageItem.webStageItem.qtyRemaining));
         if (responseStageItem.request.playStatus) {
-            application.playStatus(responseStageItem.webStageItem.status === 0);
+            program.playStatus(responseStageItem.webStageItem.status === 0);
         }
         if (responseStageItem.webStageItem.status === 0) {
             screen.$popupQty.find('#fillcontainer-popupqty-genericmsg').removeClass('qserror').addClass('qssuccess');
@@ -419,7 +419,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         
         if (responseCheckInItem.request.playStatus) {
             if ((responseCheckInItem.request.qty > 0) || responseCheckInItem.webCheckInItem.status !== 0) {
-                application.playStatus(responseCheckInItem.webCheckInItem.status === 0);
+                program.playStatus(responseCheckInItem.webCheckInItem.status === 0);
             }
         }
         screen.renderPopupQty();
@@ -934,7 +934,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
     //        RwServices.FillContainer.CreateContainer(requestCreateContainer, function(responseCreateContainer) {
     //            try {
     //                screen.containerCreated = true;
-    //                application.navigate('home/home');
+    //                program.navigate('home/home');
     //            } catch(ex) {
     //                FwFunc.showError(ex);
     //            }
@@ -1038,7 +1038,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
         }
         screen.$view.find('.scannableitemrow').hide();
         screen.$view.find('.containeritemrow').show();
-        application.setScanTarget('.container .containeritem .fwformfield-value');
+        program.setScanTarget('.container .containeritem .fwformfield-value');
         if (!Modernizr.touch) {
             screen.$view.find('.containeritem .fwformfield-value').select();
         }
@@ -1152,7 +1152,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                             FwFormField.setValue(screen.$view, '.scannablemasterid', response.selectcontainer.scannablemasterid);
                             FwFormField.setValue(screen.$view, '.containerdesc', response.selectcontainer.defaultcontainerdesc.containerid, response.selectcontainer.defaultcontainerdesc.master);
                             screen.$view.find('.containerdescrow').show();
-                            application.setScanTarget('');
+                            program.setScanTarget('');
                         }
                         // Case 4: User is doing a Fill Container: so need to prompt them to select a container type
                         else if (properties.mode === 'fillcontainer') {
@@ -1161,7 +1161,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                             screen.$view.find('.btnsetcontainernorow').hide();
                             screen.$view.find('.btnnewcontainerrow').hide();
                             screen.$view.find('.containertoolbar').hide();
-                            application.setScanTarget('');
+                            program.setScanTarget('');
                             if (typeof response.selectcontainer.selectcontainers === 'object') {
                                 // There are no container definitions
                                 if (response.selectcontainer.selectcontainers.length === 0) {
@@ -1374,7 +1374,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                                 screen.$view.find('.containernovalue').text('').hide;
                                 screen.$view.find('.fillcontainerheader .containernorow').hide();
                             }
-                            application.setScanTarget('.container .scannableitem .fwformfield-value');
+                            program.setScanTarget('.container .scannableitem .fwformfield-value');
                             if (!Modernizr.touch) {
                                 screen.$view.find('.scannableitem .fwformfield-value').select();
                             }
@@ -1417,15 +1417,15 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                 };
                 RwServices.callMethod('FillContainer', 'CloseContainer', requestCloseContainer, function(responseCloseContainer) {
                     try {
-                        application.popScreen();
-                        application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+                        program.popScreen();
+                        program.setScanTarget('#scanBarcodeView-txtBarcodeData');
                     } catch(ex) {
                         FwFunc.showError(ex);
                     }
                 });
             } else {
-                application.popScreen();
-                application.setScanTarget('#scanBarcodeView-txtBarcodeData');
+                program.popScreen();
+                program.setScanTarget('#scanBarcodeView-txtBarcodeData');
             }
         } catch(ex) {
             FwFunc.showError(ex);
@@ -1784,7 +1784,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
                 };
                 RwServices.FillContainer.CloseContainer(requestCloseContainer, function(responseCloseContainer) {});
             }
-            application.navigate('home/home');
+            program.navigate('home/home');
         })
     ;
 
@@ -1806,7 +1806,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             //screen.$view.find('.btnselectcontainerrow').hide();
             //screen.$view.find('.btnclosecontainerrow').hide();
             screen.$view.find('.containeritem .fwformfield-value').val('');
-            application.setScanTarget('.container .scannableitem .fwformfield-value');
+            program.setScanTarget('.container .scannableitem .fwformfield-value');
             if (!Modernizr.touch) {
                 jQuery('.container .scannableitem .fwformfield-value').select();
             }
@@ -1829,7 +1829,7 @@ RwFillContainer.getFillContainerScreen = function(viewModel, properties) {
             screen.$view.find('.btnnewcontainerrow').hide();
             //screen.$view.find('.btnclosecontainerrow').show();
             screen.$btncreatecontainer.hide();
-            application.setScanTarget('.container .scannableitem .fwformfield-value');
+            program.setScanTarget('.container .scannableitem .fwformfield-value');
             if (!Modernizr.touch) {
                 jQuery('.container .scannableitem .fwformfield-value').select();
             }
