@@ -795,6 +795,8 @@
     <Content Include="Source\Modules\Settings\GlDistribution\GlDistributionForm.htm" />
     <Content Include="Source\Modules\Settings\MarketSegment\MarketSegmentBrowse.htm" />
     <Content Include="Source\Modules\Settings\MarketSegment\MarketSegmentForm.htm" />
+    <Content Include="Source\Modules\Settings\MarketType\MarketTypeBrowse.htm" />
+    <Content Include="Source\Modules\Settings\MarketType\MarketTypeForm.htm" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeBrowse.htm" />
     <Content Include="Source\Modules\Settings\OrderType\OrderTypeForm.htm" />
     <Content Include="Source\Modules\Settings\EventType\EventTypeBrowse.htm" />
@@ -1055,6 +1057,7 @@
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\MarketType\MarketType.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
@@ -1405,7 +1408,6 @@
     <Folder Include="Libraries\Fw\Archive\Grids\FwContactEmailHistoryGrid\" />
     <Folder Include="Libraries\Fw\Archive\Grids\FwContactNoteGrid\" />
     <Folder Include="Libraries\Fw\Archive\Grids\FwContactPersonalEventGrid\" />
-    <Folder Include="Source\Modules\Settings\MarketType\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
