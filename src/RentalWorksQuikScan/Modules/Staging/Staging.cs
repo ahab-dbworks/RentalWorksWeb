@@ -537,7 +537,8 @@ namespace RentalWorksQuikScan.Modules
                                             portal:    request.portal,
                                             sessionid: request.sessionid,
                                             tags:      request.tags,
-                                            usersid:   session.security.webUser.usersid);
+                                            usersid:   session.security.webUser.usersid,
+                                            rfidmode:  request.rfidmode);
 
             RwAppData.ProcessScannedTags(conn:      FwSqlConnection.RentalWorks,
                                          portal:    request.portal,

@@ -110,16 +110,17 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void RemoveExtraItem(dynamic request, dynamic response, dynamic session)
         {
-            ChkInItemCancel(request.contractid, "", "", "", "", "", session.security.webUser.usersid, "", request.recorddata.ordertranid, request.recorddata.internalchar, 0);
+            ChkInItemCancel(request.contractid, request.recorddata.inorderid, "", "", "", "", "", session.security.webUser.usersid, "", request.recorddata.ordertranid, request.recorddata.internalchar, 0);
         }
         //---------------------------------------------------------------------------------------------
-        private static void ChkInItemCancel(string contractid, string masteritemid, string masterid, string vendorid, string consignorid, string warehouseid, string usersid,
-                                            string description, int ordertranid, string internalchar, int qty)
+        private static void ChkInItemCancel(string contractid, string orderid, string masteritemid, string masterid, string vendorid, string consignorid, string warehouseid,
+            string usersid, string description, int ordertranid, string internalchar, int qty)
         {
             FwSqlCommand sp;
 
             sp = new FwSqlCommand(FwSqlConnection.RentalWorks, "chkinitemcancel");
             sp.AddParameter("@contractid",   contractid);
+            sp.AddParameter("@orderid",      orderid);
             sp.AddParameter("@masteritemid", masteritemid);
             sp.AddParameter("@masterid",     masterid);
             sp.AddParameter("@vendorid",     vendorid);
@@ -160,7 +161,8 @@ namespace RentalWorksQuikScan.Modules
                                             portal:    request.portal,
                                             sessionid: request.sessionid,
                                             tags:      request.tags,
-                                            usersid:   session.security.webUser.usersid);
+                                            usersid:   session.security.webUser.usersid,
+                                            rfidmode:  "CHECKIN");
 
             RwAppData.ProcessScannedTags(conn:      FwSqlConnection.RentalWorks,
                                          portal:    request.portal,
@@ -302,7 +304,7 @@ namespace RentalWorksQuikScan.Modules
         [FwJsonServiceMethod]
         public static void RFIDCancelItem(dynamic request, dynamic response, dynamic session)
         {
-            ChkInItemCancel(request.contractid, request.recorddata.masteritemid, request.recorddata.masterid, request.recorddata.vendorid, request.recorddata.consignorid, request.recorddata.warehouseid, request.recorddata.usersid,
+            ChkInItemCancel(request.contractid, request.recorddata.orderid, request.recorddata.masteritemid, request.recorddata.masterid, request.recorddata.vendorid, request.recorddata.consignorid, request.recorddata.warehouseid, request.recorddata.usersid,
                             request.recorddata.description, request.recorddata.ordertranid, request.recorddata.internalcharot, 1);
 
             response.tags = GetTags(sessionid: request.contractid,
@@ -507,6 +509,7 @@ namespace RentalWorksQuikScan.Modules
 
             RwAppData.CheckInItemCancel(conn:         FwSqlConnection.RentalWorks,
                                         contractid:   request.contractid,
+                                        orderid:      request.orderid,
                                         masteritemid: request.masteritemid,
                                         masterid:     request.masterid,
                                         vendorid:     request.vendorid,

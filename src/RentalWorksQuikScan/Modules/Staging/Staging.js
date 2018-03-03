@@ -1338,7 +1338,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     '" data-masteritemid="' + dt.Rows[i][colIndex.masteritemid] + 
                     '" data-scannablemasterid="' + dt.Rows[i][colIndex.scannablemasterid] + 
                     '" data-masterid="' + dt.Rows[i][colIndex.masterid] + 
-                    '" data-vendorid="' + dt.Rows[i][colIndex.vendorid] + 
+                    //'" data-vendorid="' + dt.Rows[i][colIndex.vendorid] + 
                     '" data-trackedby="' + dt.Rows[i][colIndex.trackedby] + 
                     '" data-description="' + dt.Rows[i][colIndex.description] + 
                     '" data-masterno="' + dt.Rows[i][colIndex.masterno] + 
@@ -1376,18 +1376,15 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                 li.push('<td class="col3 key qtystagedandout">' + RwLanguages.translate('Staged/Out') + ':</td>');
                                 li.push('<td class="col4 value qtystagedandout">' + String(dt.Rows[i][colIndex.qtystagedandout]) + '</td>');
                             li.push('</tr>');
-                            if (dt.Rows[i][colIndex.vendorid] !== '') {
-                                li.push('<tr>');
-                                    if (qtysub === 0) {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Consignor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + '</td>');
-                                    } else {
-                                        li.push('<td class="col1 key vendor">' + RwLanguages.translate('Sub-Vendor') + ':</td>');
-                                        li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + ' <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></td>');
-                                    }
-                                    
-                                li.push('</tr>');
-                            }
+                            li.push('<tr>');
+                                if (dt.Rows[i][colIndex.consignorid] !== '') {
+                                    li.push('<td class="col1 key vendor">' + RwLanguages.translate('Consignor') + ':</td>');
+                                    li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + '</td>');
+                                } else if (dt.Rows[i][colIndex.subvendorid] !== '') {
+                                    li.push('<td class="col1 key vendor">' + RwLanguages.translate('Sub-Vendor') + ':</td>');
+                                    li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][colIndex.vendor] + ' <span style="color:#ffff00;">(PO Sub-Receive to move to Staged)</span></td>');
+                                }
+                            li.push('</tr>');
                         li.push('</tbody>');
                     li.push('</table>');
                 li.push('</li>');
@@ -1401,10 +1398,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
     };
     screen.getRowCountItem = function(count) {
-        var li;
-        li = [];
+        var li = [];
         li.push('<li class="normal lineitemcount">');
-            li.push('<div>' + count.toString() + ' ' +  RwLanguages.translate('line items') + '</div>');
+        li.push('  <div>' + count.toString() + ' ' +  RwLanguages.translate('line items') + '</div>');
         li.push('</li>');
         return li.join('');
     };
@@ -1494,7 +1490,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                                     li.push('<td class="col2 value barcode">' + dt.Rows[i][dt.ColumnIndex.barcode] + '</td>');
                                 li.push('</tr>');
                             }
-                                if (dt.Rows[i][dt.ColumnIndex.vendorid] !== '') {
+                            if (dt.Rows[i][dt.ColumnIndex.vendorid] !== '') {
                                 li.push('<tr>');
                                     li.push('<td class="col1 key vendor">' + RwLanguages.translate('Vendor/Consignor') + ':</td>');
                                     li.push('<td class="col234 value vendor" colspan="3">' + dt.Rows[i][dt.ColumnIndex.vendor] + '</td>');

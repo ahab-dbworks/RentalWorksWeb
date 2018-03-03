@@ -190,7 +190,7 @@ namespace RentalWorksQuikScan.Modules
                 qry.AddColumn("masterno", false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("description", false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("vendor", false, FwJsonDataTableColumn.DataTypes.Text);
-                qry.AddColumn("vendorid", false, FwJsonDataTableColumn.DataTypes.Text);
+                //qry.AddColumn("vendorid", false, FwJsonDataTableColumn.DataTypes.Text);
                 qry.AddColumn("qtyordered", false, FwJsonDataTableColumn.DataTypes.Decimal);
                 qry.AddColumn("qtystagedandout", false, FwJsonDataTableColumn.DataTypes.Decimal);
                 qry.AddColumn("qtyout", false, FwJsonDataTableColumn.DataTypes.Decimal);

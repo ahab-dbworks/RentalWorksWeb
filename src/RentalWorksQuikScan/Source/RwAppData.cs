@@ -1183,7 +1183,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("masterno",           false);
             qry.AddColumn("description",        false);
             qry.AddColumn("vendor",             false);
-            qry.AddColumn("vendorid",           false);
+            //qry.AddColumn("vendorid",           false);
             qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
             qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
             qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -1202,7 +1202,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("whcode",             false);
             qry.AddColumn("scannablemasterid",  false);
             qry.Add("select *");
-            qry.Add("from dbo.funccheckoutexception(@orderid, @warehouseid, @contractid)");
+            qry.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
             qry.Add("where exceptionflg = 'T'");
             qry.Add("  and (qtyordered > 0 or qtystagedandout > 0)");
             qry.Add("  and ((itemclass = 'C') or (itemclass = 'K') or (itemclass = 'S') or (itemclass = 'N') or missingflg = 'T')");
@@ -1229,7 +1229,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("masterno",           false);
             qry.AddColumn("description",        false);
             qry.AddColumn("vendor",             false);
-            qry.AddColumn("vendorid",           false);
+            //qry.AddColumn("vendorid",           false);
             qry.AddColumn("qtyordered",         false, FwJsonDataTableColumn.DataTypes.Decimal);
             qry.AddColumn("qtystagedandout",    false, FwJsonDataTableColumn.DataTypes.Decimal);
             qry.AddColumn("qtyout",             false, FwJsonDataTableColumn.DataTypes.Decimal);
@@ -1249,7 +1249,7 @@ namespace RentalWorksQuikScan.Source
             qry.AddColumn("whcode",             false);
             qry.Add("select top 1 *");
             qry.Add(", qtyin = dbo.calmasteritemqtyin(@orderid, @masteritemid)");  
-            qry.Add("from dbo.funccheckoutexception(@orderid, @warehouseid, @contractid)");
+            qry.Add("from dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)");
             qry.Add("where masteritemid = @masteritemid");
             qry.AddParameter("@orderid", orderId);
             qry.AddParameter("@warehouseid", warehouseId);
@@ -1266,7 +1266,9 @@ namespace RentalWorksQuikScan.Source
             result.masterNo           = qry.GetField("masterno").ToString().TrimEnd();
             result.description        = qry.GetField("description").ToString().TrimEnd();
             result.vendor             = qry.GetField("vendor").ToString().TrimEnd();
-            result.vendorId           = qry.GetField("vendorid").ToString().TrimEnd();
+            //result.vendorId           = qry.GetField("vendorid").ToString().TrimEnd();
+            result.subVendorId        = qry.GetField("subvendorid").ToString().TrimEnd();
+            result.consignorId        = qry.GetField("consignorid").ToString().TrimEnd();
             result.qtyOrdered         = qry.GetField("qtyordered").ToDecimal();
             result.qtyStagedAndOut    = qry.GetField("qtystagedandout").ToDecimal();
             result.qtyOut             = qry.GetField("qtyout").ToDecimal();
@@ -2133,7 +2135,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //------------------------------------------------------------------------------
-        public static string LogRFIDTags(FwSqlConnection conn, string portal, string sessionid, string tags, string usersid)
+        public static string LogRFIDTags(FwSqlConnection conn, string portal, string sessionid, string tags, string usersid, string rfidmode)
         {
             FwSqlCommand sp;
             string batchid;
@@ -2142,6 +2144,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@sessionid", sessionid);
             sp.AddParameter("@portal",    portal);
             sp.AddParameter("@tags",      tags);
+            sp.AddParameter("@rfidmode",  rfidmode);
             sp.AddParameter("@usersid",   usersid);
             sp.AddParameter("@batchid",   System.Data.SqlDbType.VarChar, System.Data.ParameterDirection.Output, 30);
             sp.ExecuteNonQuery();
@@ -3296,12 +3299,13 @@ namespace RentalWorksQuikScan.Source
             }
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CheckInItemCancel(FwSqlConnection conn, string contractid, string masteritemid, string masterid, string vendorid, string consignorid, string usersid,
-            string description, int ordertranid, string internalchar, decimal qty)
+        public static void CheckInItemCancel(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string vendorid, string consignorid,
+            string usersid, string description, int ordertranid, string internalchar, decimal qty)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemcancel"))
             {
                 qry.AddParameter("@contractid",   contractid);
+                qry.AddParameter("@orderid",      orderid);
                 qry.AddParameter("@masteritemid", masteritemid);
                 qry.AddParameter("@masterid",     masterid);
                 qry.AddParameter("@vendorid",     vendorid);
