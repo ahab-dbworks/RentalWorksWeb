@@ -31,6 +31,24 @@ class MarketSegment {
     return screen;
   }
 
+  renderGrids($form: any) {
+    var marketSegmentJobGrid, $marketSegmentJobGridControl;
+
+    marketSegmentJobGrid = $form.find('div[data-grid="MarketSegmentJobGrid"]');
+    $marketSegmentJobGridControl = jQuery(jQuery('#tmpl-grids-MarketSegmentJobGridBrowse').html());
+    marketSegmentJobGrid.empty().append($marketSegmentJobGridControl);
+    $marketSegmentJobGridControl.data('ondatabind', function (request) {
+      request.uniqueids = {
+        MarketSegmentId: $form.find('div.fwformfield[data-datafield="MarketSegmentId"] input').val()
+      }
+    });
+    $marketSegmentJobGridControl.data('beforesave', function (request) {
+      request.MarketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
+    })
+    FwBrowse.init($marketSegmentJobGridControl);
+    FwBrowse.renderRuntimeHtml($marketSegmentJobGridControl);
+  }
+
   openBrowse() {
     var $browse;
 
@@ -70,7 +88,8 @@ class MarketSegment {
   }
 
   afterLoad($form: any) {
-
+   var $marketSegmentJobGrid: any = $form.find('[data-name="MarketSegmentJobGrid"]');
+   FwBrowse.search($marketSegmentJobGrid);
   }
 }
 

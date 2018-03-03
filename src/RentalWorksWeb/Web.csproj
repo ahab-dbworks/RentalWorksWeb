@@ -544,6 +544,7 @@
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
+    <Content Include="Source\Grids\MarketSegmentJobGrid\MarketSegmentJobGridBrowse.htm" />
     <Content Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridBrowse.htm" />
     <Content Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridBrowse.htm" />
     <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
@@ -642,6 +643,7 @@
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\MarketSegmentJobGrid\MarketSegmentJobGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\EventTypePersonnelTypeGrid\EventTypePersonnelTypeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DuplicateRuleFieldGrid\DuplicateRuleFieldGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
