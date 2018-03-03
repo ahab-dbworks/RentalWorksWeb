@@ -49,7 +49,7 @@ class DashboardSettings {
         }, null, $form)
 
         
-        $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId);
+        $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
