@@ -13540,7 +13540,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"MarketSegmentJob\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"MarketSegmentJob\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {MarketSegmentId: \"ABCDEFD\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -23805,6 +23805,37 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"UserId\": \"A000001S\",\n    \"BrowseDefaultRows\": \"15\",\n    \"ApplicationTheme\": \"theme-material\"\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Dashboard Settings",
+			"description": "",
+			"item": [
+				{
+					"name": "User Dashboard Settings: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userdashboardsettings/A000001S",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
 						},
 						"description": ""
 					},
