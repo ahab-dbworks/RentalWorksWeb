@@ -42,6 +42,9 @@ namespace FwStandard.BusinessLogic
     public class FwBusinessLogic
     {
         [JsonIgnore]
+        public FwUserSession UserSession = null;
+
+        [JsonIgnore]
         protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
 
         [JsonIgnore]
@@ -130,11 +133,13 @@ namespace FwStandard.BusinessLogic
             {
                 if (dataRecords.Count > 0)
                 {
+                    dataRecords[0].UserSession = this.UserSession;
                     browse = await dataRecords[0].BrowseAsync(request, _Custom.CustomFields);
                 }
             }
             else
             {
+                dataLoader.UserSession = this.UserSession;
                 browse = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
             }
             return browse;
@@ -618,5 +623,13 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------
+        public void LoadUserSession()
+        {
+            dataLoader.UserSession = this.UserSession;
+            foreach (FwDataReadWriteRecord dataRecord in dataRecords)
+            {
+                dataRecord.UserSession = this.UserSession;
+            }
+        }
     }
 }

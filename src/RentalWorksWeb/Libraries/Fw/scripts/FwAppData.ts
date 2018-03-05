@@ -160,7 +160,8 @@ class FwAppData {
         return request.requestid;
     };
     //----------------------------------------------------------------------------------------------
-    static apiMethod(requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock) {
+    static apiMethod(requiresAuthToken: boolean, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, timeoutSeconds: number, onSuccess: (response: any) => void, onError: (response: any) => void, $elementToBlock: JQuery<HTMLElement>) {
+        let $overlay: JQuery<HTMLElement>;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
 
@@ -173,15 +174,12 @@ class FwAppData {
                 program.navigate('account/login');
                 return;
             }
-            //request.authToken = sessionStorage.getItem('authToken');
         }
-        //request.requestid = FwAppData.generateUUID();
         if (timeoutSeconds === null) {
             timeoutSeconds = applicationConfig.ajaxTimeoutSeconds;
         }
-        //request.clientVersion = applicationConfig.version;
         var fullurl = applicationConfig.apiurl + url;
-        var ajaxOptions: any = {
+        var ajaxOptions: JQuery.AjaxSettings<any> = {
             method: method,
             url: fullurl,
             contentType: 'application/json',
@@ -189,11 +187,14 @@ class FwAppData {
             //cache: false, // this may not be needed anymore because of changes in the web.config to disable caching
             //crossDomain: true,
             timeout: timeoutSeconds * 1000,
-            beforeSend: function (jqXHR, settings) {
+            context: {
+                requestid: FwAppData.generateUUID()
+            },
+            beforeSend: (jqXHR: JQuery.jqXHR<any>, settings: JQuery.AjaxSettings<any>) => {
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
-                    //if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
-                    //    $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, request.requestid);
-                    //}
+                    if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                        $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, settings.context.requestid);
+                    }
                 } else if (ismobile) {
                     var maxZIndex;
                     jQuery('#index-loadingInner').hide();
@@ -216,44 +217,21 @@ class FwAppData {
         }
         var jqXHRobj = jQuery.ajax(ajaxOptions)
             .done(function (response, textStatus, jqXHR) {
-                //if (isdesktop || (ismobile && ($elementToBlock !== null))) {
-                //    if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
-                //        FwOverlay.hideOverlay($overlay);
-                //    }
-                //} else if (ismobile) {
-                //    if (me.loadingTimeout) {
-                //        clearTimeout(me.loadingTimeout);
-                //    }
-                //    jQuery('#index-loadingInner').stop().fadeOut(50, function () {
-                //        jQuery('#index-loading').css('z-index', 0).hide();
-                //    });
-                //}
-                //if ((typeof response === 'object') && (typeof response.request === 'object') && (typeof response.request.requestid === 'string')) {
-                //    delete FwAppData.jqXHR[request.requestid];
-                //}
-                //if (typeof response.authToken === 'string') {
-                //    sessionStorage.setItem('authToken', response.authToken);
-                //}
-                //FwAppData.updateAutoLogout(response);
-                //if (applicationConfig.version !== response.serverVersion) {
-                //    alert('The application will be updated to version: ' + response.serverVersion);
-                //    sessionStorage.clear();
-                //    window.location.reload(true);
-                //} else if (response.exception) {
-                //    if (typeof onError === 'function') {
-                //        onError(response.exception);
-                //    } else {
-                //        FwFunc.showError(response.exception);
-                //    }
-                //} else if ((typeof response.authTokenExpired === 'boolean') && (response.authTokenExpired)) {
-                //    sessionStorage.clear();
-                //    window.location.reload(false);
-                //} else {
-                //    if (typeof onSuccess === 'function') {
-                //        onSuccess(response);
-                //    }
-                //}
-
+                if (isdesktop || (ismobile && ($elementToBlock !== null))) {
+                    if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                        FwOverlay.hideOverlay($overlay);
+                    }
+                } else if (ismobile) {
+                    if (me.loadingTimeout) {
+                        clearTimeout(me.loadingTimeout);
+                    }
+                    jQuery('#index-loadingInner').stop().fadeOut(50, function () {
+                        jQuery('#index-loading').css('z-index', 0).hide();
+                    });
+                }
+                if ((typeof response === 'object') && (typeof response.request === 'object') && (typeof response.request.requestid === 'string')) {
+                    delete FwAppData.jqXHR[request.requestid];
+                }
                 if (typeof onSuccess === 'function') {
                     onSuccess(response);
                 }
@@ -269,9 +247,9 @@ class FwAppData {
                     });
                 }
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
-                    //if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
-                    //    FwOverlay.hideOverlay($overlay);
-                    //}
+                    if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                        FwOverlay.hideOverlay($overlay);
+                    }
                 } else if (ismobile) {
                     if (me.loadingTimeout) {
                         clearTimeout(me.loadingTimeout);
@@ -280,7 +258,7 @@ class FwAppData {
                         jQuery('#index-loading').css('z-index', 0).hide();
                     });
                 }
-                //delete FwAppData.jqXHR[request.requestid];
+                delete FwAppData.jqXHR[request.requestid];
                 FwAppData.updateAutoLogout(null);
                 if (typeof onError === 'function') {
                     onError(errorThrown);

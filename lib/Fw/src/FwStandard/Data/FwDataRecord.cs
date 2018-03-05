@@ -14,6 +14,7 @@ namespace FwStandard.DataLayer
 {
     public class FwDataRecord : FwBaseRecord
     {
+        public FwUserSession UserSession = null;
         protected SqlServerConfig _dbConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
         protected bool useWithNoLock = true;

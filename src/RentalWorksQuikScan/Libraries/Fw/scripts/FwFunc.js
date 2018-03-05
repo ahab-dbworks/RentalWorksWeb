@@ -22,34 +22,52 @@ var FwFunc = (function () {
         }, 100);
     };
     FwFunc.showWebApiError = function (status, error, responseText, fullurl) {
-        var $confirmation, $btnOK;
         if (status === 401 || status === 403) {
-            sessionStorage.clear();
-            window.location.reload(false);
+            FwConfirmation.showMessage(status + " - " + error, "Url: " + fullurl, false, true, 'OK', function (event) {
+                try {
+                    sessionStorage.clear();
+                    window.location.reload(false);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
         }
         else if (status === 0) {
-            $confirmation = FwConfirmation.renderConfirmation('No Response', fullurl);
-            $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+            var $confirmation = FwConfirmation.renderConfirmation('No Response', fullurl);
+            var $btnOK_1 = FwConfirmation.addButton($confirmation, 'OK', true);
             setTimeout(function () {
-                $btnOK.focus();
+                $btnOK_1.focus();
+            }, 100);
+        }
+        else if (status === 200 && typeof error === 'object' && typeof error.message === 'string' && typeof error.stack === 'string') {
+            var message = error.message;
+            if (applicationConfig.debugMode) {
+                message += '\n' + error.stack;
+            }
+            console.log(message);
+            var $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, message);
+            var $btnOK_2 = FwConfirmation.addButton($confirmation, 'OK', true);
+            setTimeout(function () {
+                $btnOK_2.focus();
             }, 100);
         }
         else {
-            if (typeof responseText === 'string') {
+            if (typeof responseText === 'string' && responseText.length > 0) {
                 try {
                     var apiException = JSON.parse(responseText);
                     console.error(apiException.Message + '\n' + apiException.StackTrace);
-                    $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, apiException.Message);
-                    $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+                    var $confirmation = FwConfirmation.renderConfirmation(status + ' ' + error, apiException.Message);
+                    var $btnOK_3 = FwConfirmation.addButton($confirmation, 'OK', true);
                     setTimeout(function () {
-                        $btnOK.focus();
+                        $btnOK_3.focus();
                     }, 100);
                 }
                 catch (ex) {
-                    $confirmation = FwConfirmation.renderConfirmation(status + ' Error', responseText);
-                    $btnOK = FwConfirmation.addButton($confirmation, 'OK', true);
+                    var $confirmation = FwConfirmation.renderConfirmation(status + ' Error', responseText);
+                    var $btnOK_4 = FwConfirmation.addButton($confirmation, 'OK', true);
                     setTimeout(function () {
-                        $btnOK.focus();
+                        $btnOK_4.focus();
                     }, 100);
                 }
             }
@@ -111,6 +129,24 @@ var FwFunc = (function () {
         }
         return time.join('');
     };
+    FwFunc.isDesktop = function () {
+        var isDesktop = jQuery('html').hasClass('desktop');
+        return isDesktop;
+    };
+    FwFunc.isMobile = function () {
+        var isMobile = jQuery('html').hasClass('mobile');
+        return isMobile;
+    };
+    FwFunc.fixCaps = function (string) {
+        var returnStr;
+        if ((string == null) || (string == '')) {
+            returnStr = '';
+        }
+        else {
+            returnStr = string.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
+        }
+        return returnStr;
+    };
     FwFunc.getDate = function (paramdate, modifier) {
         var date, dd, mm, yyyy;
         if (typeof paramdate === 'undefined') {
@@ -142,24 +178,6 @@ var FwFunc = (function () {
             date = hh + ':' + mm + ' ' + period;
         }
         return date;
-    };
-    FwFunc.isDesktop = function () {
-        var isDesktop = jQuery('html').hasClass('desktop');
-        return isDesktop;
-    };
-    FwFunc.isMobile = function () {
-        var isMobile = jQuery('html').hasClass('mobile');
-        return isMobile;
-    };
-    FwFunc.fixCaps = function (string) {
-        var returnStr;
-        if ((string == null) || (string == '')) {
-            returnStr = '';
-        }
-        else {
-            returnStr = string.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
-        }
-        return returnStr;
     };
     return FwFunc;
 }());

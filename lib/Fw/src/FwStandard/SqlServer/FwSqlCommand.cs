@@ -1704,17 +1704,17 @@ namespace FwStandard.SqlServer
         }
         //------------------------------------------------------------------------------------
 
-        private object getModelTypeData(object propertyValue, FwDataTypes modelType)
+        private object getModelTypeData(object propertyValue, FwDataTypes modelType, string propertyName)
         {
             object data;
             switch (modelType)
             {
                 case FwDataTypes.Text:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.Date:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     //data = ((string)propertyValue).Trim();
                     //justin 02/26/2018 - dates to be saved as NULL when blank
                     string strDate = ((string)propertyValue).Trim();
@@ -1728,22 +1728,22 @@ namespace FwStandard.SqlServer
                     }
                     break;
                 case FwDataTypes.Time:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.DateTime:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
                     break;
                 case FwDataTypes.DateTimeOffset:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.Decimal:
                     data = propertyValue;
                     break;
                 case FwDataTypes.Boolean:
-                    if (propertyValue.GetType() != typeof(bool)) throw new Exception("Expected bool");
+                    if (propertyValue.GetType() != typeof(bool)) throw new Exception("Expected bool for " + propertyName);
                     data = ((bool)propertyValue) ? "T" : string.Empty;
                     break;
                 case FwDataTypes.CurrencyString:
@@ -1756,18 +1756,18 @@ namespace FwStandard.SqlServer
                     data = propertyValue;
                     break;
                 case FwDataTypes.PhoneUS:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.ZipcodeUS:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.Percentage:
                     data = propertyValue;
                     break;
                 case FwDataTypes.OleToHtmlColor:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = FwConvert.HtmlColorToOleColor((string)propertyValue);
                     break;
                 case FwDataTypes.Integer:
@@ -1777,7 +1777,7 @@ namespace FwStandard.SqlServer
                     data = propertyValue;
                     break;
                 case FwDataTypes.UTCDateTime:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
+                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
                     data = ((string)propertyValue).Trim();
                     break;
                 default:
@@ -1856,10 +1856,8 @@ namespace FwStandard.SqlServer
                                 }
                                 else
                                 {
-                                    //    this.AddParameter("@" + propertyInfo.Name, propertyValue);
-
                                     // format the data and set the qry parameter value
-                                    object data = getModelTypeData(propertyValue, modelType);
+                                    object data = getModelTypeData(propertyValue, modelType, propertyInfo.Name);
                                     this.AddParameter("@" + propertyInfo.Name, data);
                                 }
                                 i++;
@@ -1955,77 +1953,7 @@ namespace FwStandard.SqlServer
                                 }
                                 else
                                 {
-                                    // format the data and set the qry parameter value
-                                    //object data;
-                                    // the typeof propertyValue is going to be a suitable JSON type for the SqlDataField DataType
-                                    //switch (sqlDataFieldAttribute.ModelType)
-                                    //{
-                                    //    case FwDataTypes.Text:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.Date:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.Time:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.DateTime:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.DateTimeOffset:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.Decimal:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.Boolean:
-                                    //        if (propertyValue.GetType() != typeof(bool)) throw new Exception("Expected bool");
-                                    //        data = ((bool)propertyValue) ? "T" : string.Empty;
-                                    //        break;
-                                    //    case FwDataTypes.CurrencyString:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.CurrencyStringNoDollarSign:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.PhoneUS:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.ZipcodeUS:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    case FwDataTypes.Percentage:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.OleToHtmlColor:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = FwConvert.HtmlColorToOleColor((string)propertyValue);
-                                    //        break;
-                                    //    case FwDataTypes.Integer:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.JpgDataUrl:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //    case FwDataTypes.UTCDateTime:
-                                    //        if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string");
-                                    //        data = ((string)propertyValue).Trim();
-                                    //        break;
-                                    //    default:
-                                    //        data = propertyValue;
-                                    //        break;
-                                    //}
-                                    object data = getModelTypeData(propertyValue, sqlDataFieldAttribute.ModelType);
+                                    object data = getModelTypeData(propertyValue, sqlDataFieldAttribute.ModelType, propertyInfo.Name);
                                     this.AddParameter("@" + sqlColumnName, data);
                                 }
                                 i++;

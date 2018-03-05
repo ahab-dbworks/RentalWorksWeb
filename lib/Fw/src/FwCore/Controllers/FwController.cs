@@ -11,6 +11,15 @@ namespace FwCore.Controllers
     {
         protected readonly FwApplicationConfig _appConfig;
         //------------------------------------------------------------------------------------
+        protected FwUserSession UserSession
+        {
+            get
+            {
+                var userSession = new FwUserSession(){UsersId = this.UsersId, GroupsId = this.GroupsId, WebUsersId = this.WebUsersId };
+                return userSession;
+            }
+        }
+        //------------------------------------------------------------------------------------
         protected string UsersId
         {
             get

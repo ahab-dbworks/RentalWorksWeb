@@ -231,9 +231,10 @@ FwValidation.init = function ($control) {
             FwFunc.showError(ex);
         }
     });
-    $control.find('.btnpeek').on('click', function () {
+    $control.find('.btnpeek').on('click', function (e) {
         try {
             FwValidation.validationPeek($control, validationName.slice(0, -10), $valuefield.val(), $valuefield.parent().parent().attr('data-datafield'), $object);
+            e.stopPropagation();
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -348,66 +349,66 @@ FwValidation.hideValidateButtonLoadingIcon = function ($btnvalidate) {
 FwValidation.validationPeek = function ($control, validationName, validationId, validationDatafield, $object) {
     var $popupForm;
     var $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+    var $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'ValidationBrowse').html());
+    validationDatafield = $validationbrowse.find('div[data-browsedatatype="key"]').data('datafield');
 
-    if ($object.attr('data-type') === 'Grid' && validationDatafield === undefined) {
-        validationDatafield = $control.attr('data-browsedatafield');
-    }
+    try {
+        if (validationId !== '') {
+            $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
+            $popupForm = FwModule.openForm($popupForm, 'EDIT');
 
-    if (validationId !== '') {
-        $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
-        $popupForm = FwModule.openForm($popupForm, 'EDIT');
+            $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
+            $popupForm.find('.btnpeek').remove();
+            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
 
-        $popupForm.append('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>')
+            $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(validationId);
 
-        $popupForm.css({ 'position': 'relative' });
+            FwModule.loadForm(validationName, $popupForm);
+            //FwModule.setFormReadOnly($popupForm);
 
-        //$popupForm.find('.fwform-menu').remove(); 
-        $popupForm.find('.btnpeek').remove();
-        $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll' });
-        $popupForm.find('div.fwformfield[data-datafield="' + validationDatafield + '"] input').val(validationId);
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm));
 
-        FwModule.loadForm(validationName, $popupForm);
-        //FwModule.setFormReadOnly($popupForm);
+            jQuery(document).find('.fwpopup').on('click', function (e) {
+                e = e || window.event;
+                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
 
-        FwPopup.showPopup(FwPopup.renderPopup($popupForm));
-
-        jQuery(document).find('.fwpopup').on('click', function (e) {
-            e = e || window.event;
-            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
-
-            } else {
-                FwPopup.destroyPopup(this);
-                jQuery(document).off('keydown');
-                jQuery(document).find('.fwpopup').off('click');
-            }
-        });
-
-        $popupForm.find('.close-modal').one('click', function (e) {
-            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-            jQuery(document).find('.fwpopup').off('click');
-            jQuery(document).off('keydown');
-        })
-
-        jQuery(document).on('keydown', function (e) {
-            var code = e.keyCode || e.which;
-            if (code === 27) { //ESC Key  
-                try {
-                    FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                    jQuery(document).find('.fwpopup').off('click');
+                } else {
+                    FwPopup.destroyPopup(this);
                     jQuery(document).off('keydown');
-                } catch (ex) {
-                    FwFunc.showError(ex);
+                    jQuery(document).find('.fwpopup').off('click');
                 }
-            }
-        });
+            });
 
-        jQuery(document).find('.fwpopupbox').on('click', function (e) {
-            e = e || window.event;
-            if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+            $popupForm.find('.close-modal').one('click', function (e) {
+                FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                jQuery(document).find('.fwpopup').off('click');
+                jQuery(document).off('keydown');
+            })
 
-            } else {
-                e.stopImmediatePropagation();
-            }
-        });
-    };
+            jQuery(document).on('keydown', function (e) {
+                var code = e.keyCode || e.which;
+                if (code === 27) { //ESC Key  
+                    try {
+                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        jQuery(document).find('.fwpopup').off('click');
+                        jQuery(document).off('keydown');
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            });
+
+            jQuery(document).find('.fwpopupbox').on('click', function (e) {
+                e = e || window.event;
+                if (e.target.outerHTML === '<i class="material-icons"></i>' || e.target.outerHTML === '<div class="btn-text">Save</div>') {
+
+                } else {
+                    e.stopImmediatePropagation();
+                }
+            });
+        };
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 }

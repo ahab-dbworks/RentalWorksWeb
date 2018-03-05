@@ -159,6 +159,7 @@ var FwAppData = (function () {
     };
     ;
     FwAppData.apiMethod = function (requiresAuthToken, method, url, request, timeoutSeconds, onSuccess, onError, $elementToBlock) {
+        var $overlay;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
         var data = (method === 'GET') ? null : JSON.stringify(request);
@@ -181,8 +182,14 @@ var FwAppData = (function () {
             contentType: 'application/json',
             dataType: 'json',
             timeout: timeoutSeconds * 1000,
+            context: {
+                requestid: FwAppData.generateUUID()
+            },
             beforeSend: function (jqXHR, settings) {
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
+                    if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                        $overlay = FwOverlay.showPleaseWaitOverlay($elementToBlock, settings.context.requestid);
+                    }
                 }
                 else if (ismobile) {
                     var maxZIndex;
@@ -206,6 +213,22 @@ var FwAppData = (function () {
         }
         var jqXHRobj = jQuery.ajax(ajaxOptions)
             .done(function (response, textStatus, jqXHR) {
+            if (isdesktop || (ismobile && ($elementToBlock !== null))) {
+                if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                    FwOverlay.hideOverlay($overlay);
+                }
+            }
+            else if (ismobile) {
+                if (me.loadingTimeout) {
+                    clearTimeout(me.loadingTimeout);
+                }
+                jQuery('#index-loadingInner').stop().fadeOut(50, function () {
+                    jQuery('#index-loading').css('z-index', 0).hide();
+                });
+            }
+            if ((typeof response === 'object') && (typeof response.request === 'object') && (typeof response.request.requestid === 'string')) {
+                delete FwAppData.jqXHR[request.requestid];
+            }
             if (typeof onSuccess === 'function') {
                 onSuccess(response);
             }
@@ -221,6 +244,9 @@ var FwAppData = (function () {
                 });
             }
             if (isdesktop || (ismobile && ($elementToBlock !== null))) {
+                if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
+                    FwOverlay.hideOverlay($overlay);
+                }
             }
             else if (ismobile) {
                 if (me.loadingTimeout) {
@@ -230,6 +256,7 @@ var FwAppData = (function () {
                     jQuery('#index-loading').css('z-index', 0).hide();
                 });
             }
+            delete FwAppData.jqXHR[request.requestid];
             FwAppData.updateAutoLogout(null);
             if (typeof onError === 'function') {
                 onError(errorThrown);

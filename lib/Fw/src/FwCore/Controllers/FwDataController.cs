@@ -18,12 +18,14 @@ namespace FwCore.Controllers
         //------------------------------------------------------------------------------------
         public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        protected FwBusinessLogic CreateBusinessLogic(Type type)
+        protected FwBusinessLogic CreateBusinessLogic(Type type, FwUserSession userSession = null)
         {
-            return (FwBusinessLogic)Activator.CreateInstance(type);
+            FwBusinessLogic bl = (FwBusinessLogic)Activator.CreateInstance(type);
+            bl.UserSession = userSession;
+            return bl;
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type)
+        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type, FwUserSession userSession = null)
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +33,7 @@ namespace FwCore.Controllers
             }
             try
             {
-                FwBusinessLogic l = CreateBusinessLogic(type);
+                FwBusinessLogic l = CreateBusinessLogic(type, userSession);
                 l.SetDbConfig(_appConfig.DatabaseSettings);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
@@ -255,11 +257,7 @@ namespace FwCore.Controllers
         protected virtual async Task<IActionResult> DoValidateDuplicateAsync(ValidateDuplicateRequest request)
         {
             IActionResult result = new OkObjectResult(true);
-            // mv 7/15/2017 this gets rid of the no async warning, should be replaced by an await against a db call
-            await Task.Run(() =>
-            {
-               
-            });
+            await Task.CompletedTask; // get rid of the no async call warning
             return result;
         }
         //------------------------------------------------------------------------------------

@@ -40,8 +40,6 @@ namespace FwCore.Controllers
             var identity = await UserClaimsProvider.GetClaimsIdentity(_appConfig.DatabaseSettings, user.UserName, user.Password);
             if (identity == null)
             {
-                _logger.LogInformation($"Invalid username ({user.UserName}) or password ({user.Password})"); //MY 10/12/2017: Not sure we should log failed attempts with user entered info. Could be harvested to guess correct passwords.
-                //return BadRequest("Invalid credentials"); //MY 10/12/2017: Removed so we can control the error on front end.
                 response.statuscode    = 401; //Unauthorized
                 response.statusmessage = "Invalid user and/or password.";
             }
