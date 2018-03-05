@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using FwStandard.Security;
+
 namespace WebApi.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
@@ -52,5 +54,25 @@ namespace WebApi.Modules.Administrator.Group
             return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------ 
+
+        // GET api/v1/group/applicationtree/A0000001 
+        [HttpGet("applicationtree/{id}")]
+        public async Task<IActionResult> GetApplicationTree([FromRoute]string id)
+        {
+            //return await DoGetAsync<GroupLogic>(id, typeof(GroupLogic));
+       
+            //const string METHOD_NAME = "FwGroup.getApplicationTree";
+            FwSecurityTreeNode groupTree;
+            //string groupsid;
+
+            //FwValidate.TestPropertyDefined(METHOD_NAME, request, "groupsid");
+            //groupsid = FwCryptography.AjaxDecrypt(request.groupsid);
+            groupTree = Task.Run<FwSecurityTreeNode>(async () => await FwSecurityTree.Tree.GetGroupsTreeAsync(id, false)).Result;
+
+            //response.applicationtree = groupTree;
+            return new OkObjectResult(groupTree);
+        }
+        //---------------------------------------------------------------------------------------------
+
     }
 }
