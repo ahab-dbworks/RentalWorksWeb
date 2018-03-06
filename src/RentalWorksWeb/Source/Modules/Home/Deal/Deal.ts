@@ -373,7 +373,7 @@ class Deal {
 
     }
 
-    openForm(mode: string, parentmoduleinfo) {
+    openForm(mode: string, parentmoduleinfo?: any) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -391,8 +391,7 @@ class Deal {
         this.events($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="CustomerId"] input.fwformfield-value').val(parentmoduleinfo.CustomerId);
-            $form.find('div[data-datafield="CustomerId"] input.fwformfield-text').val(parentmoduleinfo.Customer);
+            FwFormField.setValue($form, 'div[data-datafield="CustomerId"]', parentmoduleinfo.CustomerId, parentmoduleinfo.Customer);
         }
 
         return $form;
@@ -401,7 +400,7 @@ class Deal {
     loadForm(uniqueids: any) {
         var $form;
 
-        $form = this.openForm('EDIT', undefined);
+        $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
         FwModule.loadForm(this.Module, $form);
 
