@@ -511,8 +511,8 @@ namespace RentalWorksQuikScan.Source
         {
             const string METHOD_NAME = "StageAllQtyItems";
             FwJsonDataTable dtPendingList;
-            int /*ordMasterNo,*/ ordMasterItemId, ordMissingQty, ordTrackedBy;
-            string orderid, /*masterno,*/ masteritemid, trackedby, contractid, warehouseid, usersid;
+            int /*ordMasterNo,*/ ordMasterItemId, ordMissingQty, ordTrackedBy, ordConsignorId, ordConsignorAgreementId;
+            string orderid, /*masterno,*/ masteritemid, trackedby, contractid, warehouseid, usersid, consignorid, consignoragreementid;
             decimal missingqty;
             dynamic userLocation;
 
@@ -534,16 +534,21 @@ namespace RentalWorksQuikScan.Source
                                                            , orderId:     orderid
                                                            , warehouseId: warehouseid
                                                            , contractId:  string.Empty); //mv 08/10/2015 I think we don't want to pass the contract so it shows everything from the order
-            //ordMasterNo    = dtPendingList.ColumnIndex["masterno"];
-            ordMasterItemId = dtPendingList.ColumnIndex["masteritemid"];
-            ordMissingQty   = dtPendingList.ColumnIndex["missingqty"];
-            ordTrackedBy    = dtPendingList.ColumnIndex["trackedby"];
+            //ordMasterNo            = dtPendingList.ColumnIndex["masterno"];
+            ordMasterItemId         = dtPendingList.ColumnIndex["masteritemid"];
+            ordMissingQty           = dtPendingList.ColumnIndex["missingqty"];
+            ordTrackedBy            = dtPendingList.ColumnIndex["trackedby"];
+            ordConsignorId          = dtPendingList.ColumnIndex["consignorid"];
+            ordConsignorAgreementId = dtPendingList.ColumnIndex["consignoragreementid"];
             for(int i = 0; i < dtPendingList.Rows.Count; i++)
             {
-               // masterno     = dtPendingList.Rows[i][ordMasterNo].ToString();
-                masteritemid = dtPendingList.Rows[i][ordMasterItemId].ToString();
-                missingqty   = FwConvert.ToDecimal(dtPendingList.Rows[i][ordMissingQty].ToString());
-                trackedby    = dtPendingList.Rows[i][ordTrackedBy].ToString();
+               // masterno             = dtPendingList.Rows[i][ordMasterNo].ToString();
+                masteritemid         = dtPendingList.Rows[i][ordMasterItemId].ToString();
+                missingqty           = FwConvert.ToDecimal(dtPendingList.Rows[i][ordMissingQty].ToString());
+                trackedby            = dtPendingList.Rows[i][ordTrackedBy].ToString();
+                consignorid          = dtPendingList.Rows[i][ordConsignorId].ToString();
+                consignoragreementid = dtPendingList.Rows[i][ordConsignorAgreementId].ToString();
+
                 if (trackedby.Equals("QUANTITY"))
                 {
                     RwAppData.PdaStageItem(conn:                 FwSqlConnection.RentalWorks,
@@ -567,8 +572,8 @@ namespace RentalWorksQuikScan.Source
                                            removefromcontainer:  false, 
                                            contractid:           contractid, // this will move item to contract, so only pass a contractid for containers
                                            ignoresuspendedin:    false, 
-                                           consignorid:          string.Empty, 
-                                           consignoragreementid: string.Empty);
+                                           consignorid:          consignorid, 
+                                           consignoragreementid: consignoragreementid);
                 }
             }
             response.getStagingPendingItems = RwAppData.GetStagingPendingItems(conn:        FwSqlConnection.RentalWorks,

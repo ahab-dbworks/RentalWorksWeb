@@ -3281,16 +3281,18 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static void CheckInItemUnassign(FwSqlConnection conn, string contractid, string orderid, string vendorid, string consignorid, string masteritemid, string masterid, string usersid, string aisle, string shelf, decimal qty)
+        public static void CheckInItemUnassign(FwSqlConnection conn, string contractid, string orderid, string masteritemid, string masterid, string description,
+            string vendorid, string consignorid, string usersid, string aisle, string shelf, decimal qty)
         {
             using (FwSqlCommand qry = new FwSqlCommand(conn, "dbo.chkinitemunassign"))
             {
                 qry.AddParameter("@contractid",   contractid);
                 qry.AddParameter("@orderid",      orderid);
-                qry.AddParameter("@vendorid",     vendorid);
-                qry.AddParameter("@consignorid",  consignorid);
                 qry.AddParameter("@masteritemid", masteritemid);
                 qry.AddParameter("@masterid",     masterid);
+                qry.AddParameter("@description",  description);
+                qry.AddParameter("@vendorid",     vendorid);
+                qry.AddParameter("@consignorid",  consignorid);
                 qry.AddParameter("@usersid",      usersid);
                 qry.AddParameter("@aisle",        aisle);
                 qry.AddParameter("@shelf",        shelf);
