@@ -52,7 +52,7 @@ namespace WebApi.Modules.Settings.VehicleType
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (MasterId == null))
             {
                 VehicleTypeLogic l2 = new VehicleTypeLogic();
-                l2.SetDbConfig(masterRecord.GetDbConfig());
+                l2.AppConfig = masterRecord.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<VehicleTypeLogic>(pk).Result;
                 CategoryId = l2.CategoryId;

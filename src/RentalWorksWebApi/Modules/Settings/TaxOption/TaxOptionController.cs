@@ -70,7 +70,7 @@ namespace WebApi.Modules.Settings.TaxOption
             {
                 string[] ids = id.Split('~');
                 TaxOptionLogic l = new TaxOptionLogic();
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = this.AppConfig;
                 bool success = await l.LoadAsync<TaxOptionLogic>(ids);
                 if (success)
                 {

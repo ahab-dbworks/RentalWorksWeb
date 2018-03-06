@@ -87,9 +87,9 @@ namespace WebApi.Modules.Home.PickList
             bool saved = false;
             if (Note != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
@@ -104,9 +104,9 @@ namespace WebApi.Modules.Home.PickList
         public override async Task<bool> DeleteAsync()
         {
             bool success = false;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "deletepicklist", _dbConfig.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "deletepicklist", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
                 await qry.ExecuteNonQueryAsync(true);
             }

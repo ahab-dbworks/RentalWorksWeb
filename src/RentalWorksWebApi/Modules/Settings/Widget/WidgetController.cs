@@ -71,7 +71,7 @@ namespace WebApi.Modules.Settings.Widget
                         try
                         {
                             WidgetQuotesByStatus w = new WidgetQuotesByStatus();
-                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
                             bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 
@@ -88,7 +88,7 @@ namespace WebApi.Modules.Settings.Widget
                         try
                         {
                             WidgetOrdersByStatus w = new WidgetOrdersByStatus();
-                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
                             bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 
@@ -105,7 +105,7 @@ namespace WebApi.Modules.Settings.Widget
                         try
                         {
                             WidgetOrdersByAgent w = new WidgetOrdersByAgent();
-                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
                             bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 
@@ -122,7 +122,7 @@ namespace WebApi.Modules.Settings.Widget
                         try
                         {
                             WidgetDealsByType w = new WidgetDealsByType();
-                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
                             bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 
@@ -139,7 +139,7 @@ namespace WebApi.Modules.Settings.Widget
                         try
                         {
                             WidgetBillingByAgentByMonth w = new WidgetBillingByAgentByMonth();
-                            w.SetDbConfig(_appConfig.DatabaseSettings);
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
                             bool b = w.LoadAsync().Result;
                             return new OkObjectResult(w);
 

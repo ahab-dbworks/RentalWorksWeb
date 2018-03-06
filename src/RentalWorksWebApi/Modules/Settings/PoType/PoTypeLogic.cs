@@ -625,7 +625,7 @@ namespace WebApi.Modules.Settings.PoType
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (purchaseOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 PoTypeLogic l2 = new PoTypeLogic();
-                l2.SetDbConfig(poType.GetDbConfig());
+                l2.AppConfig = poType.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<PoTypeLogic>(pk).Result;
                 purchaseOrderTypeFields.OrderTypeFieldsId = l2.PurchaseOrderTypeFieldsId;

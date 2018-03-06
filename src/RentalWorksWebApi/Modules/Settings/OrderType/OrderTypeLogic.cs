@@ -683,7 +683,7 @@ namespace WebApi.Modules.Settings.OrderType
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 OrderTypeLogic l2 = new OrderTypeLogic();
-                l2.SetDbConfig(orderType.GetDbConfig());
+                l2.AppConfig = orderType.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<OrderTypeLogic>(pk).Result;
                 rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;

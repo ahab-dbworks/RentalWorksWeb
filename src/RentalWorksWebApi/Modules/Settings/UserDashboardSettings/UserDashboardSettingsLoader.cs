@@ -44,10 +44,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 webUsersId = uniqueIds["WebUsersId"].ToString();
             }
 
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Clear();
                     qry.Add("exec getwebuserdashboardsettings '" + webUsersId + "'");

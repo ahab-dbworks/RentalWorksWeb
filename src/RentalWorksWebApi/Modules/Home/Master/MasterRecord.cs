@@ -446,9 +446,9 @@ namespace WebApi.Modules.Home.Master
             bool saved = false;
             if (Note != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
@@ -465,9 +465,9 @@ namespace WebApi.Modules.Home.Master
             bool saved = false;
             if (WardrobeDetailedDescription != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "WARDDESC");
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");

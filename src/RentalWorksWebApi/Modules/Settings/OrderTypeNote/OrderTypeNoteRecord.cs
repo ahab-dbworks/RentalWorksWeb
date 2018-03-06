@@ -34,9 +34,9 @@ namespace WebApi.Modules.Settings.OrderTypeNote
             bool saved = false;
             if (Note != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, OrderTypeId);
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, OrderTypeNoteId);
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");

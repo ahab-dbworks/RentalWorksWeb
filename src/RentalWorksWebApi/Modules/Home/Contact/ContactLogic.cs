@@ -82,13 +82,12 @@ namespace WebApi.Modules.Home.Contact
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
                 ContactLogic contact2 = new ContactLogic();
-                var dbConfig = this.contact.GetDbConfig();
-                contact2.SetDbConfig(dbConfig);
+                contact2.AppConfig = this.contact.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
-                using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    string webusersid = FwSqlCommand.GetDataAsync(conn, dbConfig.QueryTimeout, "webusers", "contactid", contact2.ContactId, "webusersid").Result.ToString().TrimEnd();
+                    string webusersid = FwSqlCommand.GetDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", contact2.ContactId, "webusersid").Result.ToString().TrimEnd();
                     this.webUser.WebUserId = webusersid;
                 }
             }

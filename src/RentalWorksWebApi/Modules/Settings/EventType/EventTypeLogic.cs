@@ -481,7 +481,7 @@ namespace WebApi.Modules.Settings.EventType
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (rentalOrderTypeFields.OrderTypeFieldsId.Equals(string.Empty)))
             {
                 EventTypeLogic l2 = new EventTypeLogic();
-                l2.SetDbConfig(eventType.GetDbConfig());
+                l2.AppConfig = eventType.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<EventTypeLogic>(pk).Result;
                 rentalOrderTypeFields.OrderTypeFieldsId = l2.RentalOrderTypeFieldsId;

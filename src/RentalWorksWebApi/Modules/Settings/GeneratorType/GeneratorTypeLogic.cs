@@ -46,7 +46,7 @@ namespace WebApi.Modules.Settings.GeneratorType
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed))
             {
                 GeneratorTypeLogic l2 = new GeneratorTypeLogic();
-                l2.SetDbConfig(masterRecord.GetDbConfig());
+                l2.AppConfig = masterRecord.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = l2.LoadAsync<GeneratorTypeLogic>(pk).Result;
                 CategoryId = l2.CategoryId;

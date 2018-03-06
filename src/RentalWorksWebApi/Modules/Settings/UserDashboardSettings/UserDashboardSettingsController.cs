@@ -31,7 +31,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 request.uniqueids = uniqueIds;
 
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = this.AppConfig;
                 IEnumerable<UserDashboardSettingsLogic> records = await l.SelectAsync<UserDashboardSettingsLogic>(request);
                 return new OkObjectResult(records);
             }

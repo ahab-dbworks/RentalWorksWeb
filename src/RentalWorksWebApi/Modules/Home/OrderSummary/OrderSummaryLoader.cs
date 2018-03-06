@@ -321,10 +321,10 @@ namespace WebApi.Modules.Home.OrderSummary
             {
                 if (AllPrimaryKeysHaveValues)
                 {
-                    using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                     {
                         FwSqlSelect select = new FwSqlSelect();
-                        using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             //SetBaseSelectQuery(select, qry, customFields);
                             //select.Add("exec getordersummaryasresultset @orderid");

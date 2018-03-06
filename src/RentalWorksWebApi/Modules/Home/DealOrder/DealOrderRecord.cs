@@ -114,9 +114,9 @@ namespace WebApi.Modules.Home.DealOrder
             bool saved = false;
             if ((PoNumber != null) && (PoAmount != null))  // temporary: actual solution is to force the PO number and Amount with the post
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
@@ -132,9 +132,9 @@ namespace WebApi.Modules.Home.DealOrder
         public async Task<bool> SetNumber()
         {
             bool saved = false;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", _dbConfig.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, "QUOTE");
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "A000001Q");  // temporary: todo: get logged-in usersid
                 qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);

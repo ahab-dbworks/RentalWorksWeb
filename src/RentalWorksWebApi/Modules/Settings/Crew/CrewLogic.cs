@@ -102,13 +102,12 @@ namespace WebApi.Modules.Settings.Crew
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) && (e.SavePerformed) && (string.IsNullOrEmpty(webUser.WebUserId)))
             {
                 CrewLogic crew2 = new CrewLogic();
-                var dbConfig = this.crew.GetDbConfig();
-                crew2.SetDbConfig(dbConfig);
+                crew2.AppConfig = this.crew.AppConfig;
                 object[] pk = GetPrimaryKeys();
                 bool b = crew2.LoadAsync<CrewLogic>(pk).Result;
-                using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    string webusersid = FwSqlCommand.GetDataAsync(conn, dbConfig.QueryTimeout, "webusers", "contactid", crew2.CrewId, "webusersid").Result.ToString().TrimEnd();
+                    string webusersid = FwSqlCommand.GetDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", crew2.CrewId, "webusersid").Result.ToString().TrimEnd();
                     this.webUser.WebUserId = webusersid;
                 }
             }

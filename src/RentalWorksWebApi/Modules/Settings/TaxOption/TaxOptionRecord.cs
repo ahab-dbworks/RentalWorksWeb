@@ -94,9 +94,9 @@ namespace WebApi.Modules.Settings.TaxOption
         public async Task<bool> ForceRatesAsync()
         {
             bool success = false;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "forcetaxoptionrates", _dbConfig.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "forcetaxoptionrates", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@taxoptionid", SqlDbType.NVarChar, ParameterDirection.Input, TaxOptionId);
                 await qry.ExecuteNonQueryAsync(true);
                 success = true;
