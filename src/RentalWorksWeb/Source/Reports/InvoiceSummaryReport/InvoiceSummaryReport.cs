@@ -41,10 +41,6 @@ namespace Web.Source.Reports
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
 
-            dtDetails.Rows[0][dtDetails.ColumnIndex["billingstart"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[0][dtDetails.ColumnIndex["billingstart"]]));
-            dtDetails.Rows[0][dtDetails.ColumnIndex["billingend"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[0][dtDetails.ColumnIndex["billingend"]]));
-
-
             StringBuilder sb;
             string html;
            
@@ -108,8 +104,9 @@ namespace Web.Source.Reports
                 dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]]));
                 dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]]));
                 dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["invoicetotal"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicetotal"]]));
             }
-
+            
             return dtDetails;
         }
         //---------------------------------------------------------------------------------------------
