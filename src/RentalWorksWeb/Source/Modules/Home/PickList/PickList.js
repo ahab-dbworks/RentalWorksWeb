@@ -125,6 +125,7 @@ FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = functi
         FwModule.openSubModuleTab($form, $report);
         $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
         $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
     }
     catch (ex) {
         FwFunc.showError(ex);
