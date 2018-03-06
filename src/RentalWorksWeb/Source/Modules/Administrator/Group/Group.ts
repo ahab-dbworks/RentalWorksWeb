@@ -61,22 +61,18 @@
         request = {};
         request.method = 'getapplicationtree';
         request.groupsid = groupsid;
-        FwModule.getData($form, request,
-            function (response) {
-                try {
-                    if (typeof response.applicationtree === 'object') {
-                        $previewgrouptree.data('applicationtree', response.applicationtree);
-                        _self.render($form, $editgrouptree, $previewgrouptree, response.applicationtree);
-                        _self.updateSecurityField($form);
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            },
-            $form
-        );
+        FwAppData.apiMethod(true, 'GET', "api/v1/group/applicationtree/" + groupsid, null, FwServices.defaultTimeout, function onSuccess(response) {
+            try {
+                $previewgrouptree.data('applicationtree', response);
+                _self.render($form, $editgrouptree, $previewgrouptree, response);
+                _self.updateSecurityField($form);
+
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, null);
     };
-    
+
     render($form, $editgrouptree, $previewgrouptree, applicationtree) {
         var $editgrouptree_children, $previewgrouptree_children, searchbarHtml = [];
 
@@ -325,7 +321,7 @@
 
         return node;
     }
-    
+
     updateSecurityField($form) {
         var apptreenode, hidenewmenuoptionsbydefault, securitynodes, securityJson;
         try {
@@ -347,7 +343,7 @@
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="GroupId"] input').val(uniqueids.GroupId);
-        FwModule.loadForm(this.Module, $form);                
+        FwModule.loadForm(this.Module, $form);
         var $editgrouptree = $form.find('.editgrouptree');
         var $previewgrouptree = $form.find('.previewgrouptree');
         this.loadGroupTree($editgrouptree, $previewgrouptree, $form, uniqueids.GroupId);

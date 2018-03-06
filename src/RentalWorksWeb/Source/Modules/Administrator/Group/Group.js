@@ -43,18 +43,16 @@ var Group = (function () {
         request = {};
         request.method = 'getapplicationtree';
         request.groupsid = groupsid;
-        FwModule.getData($form, request, function (response) {
+        FwAppData.apiMethod(true, 'GET', "api/v1/group/applicationtree/" + groupsid, null, FwServices.defaultTimeout, function onSuccess(response) {
             try {
-                if (typeof response.applicationtree === 'object') {
-                    $previewgrouptree.data('applicationtree', response.applicationtree);
-                    _self.render($form, $editgrouptree, $previewgrouptree, response.applicationtree);
-                    _self.updateSecurityField($form);
-                }
+                $previewgrouptree.data('applicationtree', response);
+                _self.render($form, $editgrouptree, $previewgrouptree, response);
+                _self.updateSecurityField($form);
             }
             catch (ex) {
                 FwFunc.showError(ex);
             }
-        }, $form);
+        }, null, null);
     };
     ;
     Group.prototype.render = function ($form, $editgrouptree, $previewgrouptree, applicationtree) {
