@@ -657,7 +657,6 @@ namespace FwStandard.Security
         //---------------------------------------------------------------------------------------------
         public async Task<FwSecurityTreeNode> GetGroupsTreeAsync(string groupsid, bool removeHiddenNodes)
         {
-            
             bool hidenewmenuoptionsbydefault;
             string jsonApplicationTree, jsonSecurity;
             FwSecurityTreeNode groupTree, groupTreeNode;

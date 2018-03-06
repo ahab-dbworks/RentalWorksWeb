@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,17 @@ namespace FwStandard.DataLayer
 
     public class FwCustomValues : List<FwCustomValue>
     {
-        protected SqlServerConfig _dbConfig { get; set; }
+        private FwApplicationConfig _appConfig = null;
+        [JsonIgnore]
+        public FwApplicationConfig AppConfig
+        {
+            get { return _appConfig; }
+            set
+            {
+                _appConfig = value;
+                CustomFields.AppConfig = value;
+            }
+        }
         public FwCustomFields CustomFields = new FwCustomFields();
 
         //------------------------------------------------------------------------------------
@@ -18,8 +29,7 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual void SetDbConfig(SqlServerConfig dbConfig)
         {
-            _dbConfig = dbConfig;
-            CustomFields.SetDbConfig(dbConfig);
+            
         }
         //------------------------------------------------------------------------------------
         public virtual async Task LoadCustomFieldsAsync(string moduleName)
@@ -167,9 +177,9 @@ namespace FwStandard.DataLayer
             bool saved = false;
             if (primaryKeyValues.Length > 0)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "savecustomvalues", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "savecustomvalues", AppConfig.DatabaseSettings.QueryTimeout);
 
                     string paramName = "";
                     int k = 1;

@@ -14,8 +14,10 @@ namespace FwStandard.DataLayer
 {
     public class FwDataRecord : FwBaseRecord
     {
+        [JsonIgnore]
         public FwUserSession UserSession = null;
-        protected SqlServerConfig _dbConfig { get; set; }
+        [JsonIgnore]
+        public FwApplicationConfig AppConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
         protected bool useWithNoLock = true;
 
@@ -29,16 +31,6 @@ namespace FwStandard.DataLayer
             {
                 return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
             }
-        }
-        //------------------------------------------------------------------------------------
-        public virtual void SetDbConfig(SqlServerConfig dbConfig)
-        {
-            _dbConfig = dbConfig;
-        }
-        //------------------------------------------------------------------------------------
-        public virtual SqlServerConfig GetDbConfig()
-        {
-            return _dbConfig;
         }
         //------------------------------------------------------------------------------------
         protected virtual int PrimaryKeyCount
@@ -274,7 +266,7 @@ namespace FwStandard.DataLayer
                         FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
                         if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity) && (!dataFieldAttribute.IsCustomPrimaryKey))
                         {
-                            string id = await FwSqlData.GetNextIdAsync(conn, _dbConfig);
+                            string id = await FwSqlData.GetNextIdAsync(conn, AppConfig.DatabaseSettings);
                             if (primaryKeyProperty.GetValue(this) is string)
                             {
                                 primaryKeyProperties[0].SetValue(this, id);
@@ -282,7 +274,7 @@ namespace FwStandard.DataLayer
                         }
                         else if (dataFieldAttribute.IsCustomPrimaryKey)
                         {
-                            object id = await GetCustomPrimaryKey(conn, _dbConfig);
+                            object id = await GetCustomPrimaryKey(conn, AppConfig.DatabaseSettings);
                             primaryKeyProperties[0].SetValue(this, id);
                         }
                     }
@@ -524,13 +516,13 @@ namespace FwStandard.DataLayer
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
                 select.PageNo = request.pageno;
                 select.PageSize = request.pagesize;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
@@ -541,11 +533,11 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 bool openAndCloseConnection = true;
                 FwSqlSelect select = new FwSqlSelect();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
                     select.SetQuery(qry);
@@ -589,10 +581,10 @@ namespace FwStandard.DataLayer
             {
                 if (AllPrimaryKeysHaveValues)
                 {
-                    using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                     {
                         FwSqlSelect select = new FwSqlSelect();
-                        using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                        using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             SetBaseSelectQuery(select, qry, customFields);
                             select.SetQuery(qry);

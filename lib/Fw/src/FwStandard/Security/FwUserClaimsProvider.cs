@@ -57,6 +57,22 @@ namespace FwStandard.Security
                                 identity.AddClaim(new Claim("http://www.dbworks.com/claims/groupsid", groupsid));
                             }
                         }
+                        if (qry.FieldNames.Contains("usertype"))
+                        {
+                            string usertype = qry.GetField("usertype").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(usertype))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/usertype", usertype));
+                            }
+                        }
+                        if (qry.FieldNames.Contains("personid"))
+                        {
+                            string personid = qry.GetField("personid").ToString().TrimEnd();
+                            if (!string.IsNullOrEmpty(personid))
+                            {
+                                identity.AddClaim(new Claim("http://www.dbworks.com/claims/personid", personid));
+                            }
+                        }
                     }
                 }
             }

@@ -200,7 +200,7 @@ class FwAppData {
                     jQuery('#index-loadingInner').hide();
                     maxZIndex = FwFunc.getMaxZ('*');
                     jQuery('#index-loading').css('z-index', maxZIndex).show();
-                    me.loadingTimeout = setTimeout(function () {
+                    me.loadingTimeout = window.setTimeout((args: any[]) => {
                         me.loadingTimeout = null;
                         jQuery('#index-loadingInner').stop().fadeIn(50);
                     }, 0);
@@ -217,6 +217,7 @@ class FwAppData {
         }
         var jqXHRobj = jQuery.ajax(ajaxOptions)
             .done(function (response, textStatus, jqXHR) {
+                // 'this' is the ajaxOptions.context property
                 if (isdesktop || (ismobile && ($elementToBlock !== null))) {
                     if ((typeof $elementToBlock === 'object') && ($elementToBlock !== null)) {
                         FwOverlay.hideOverlay($overlay);
@@ -229,20 +230,19 @@ class FwAppData {
                         jQuery('#index-loading').css('z-index', 0).hide();
                     });
                 }
-                if ((typeof response === 'object') && (typeof response.request === 'object') && (typeof response.request.requestid === 'string')) {
-                    delete FwAppData.jqXHR[request.requestid];
-                }
+                delete FwAppData.jqXHR[this.requestid];
                 if (typeof onSuccess === 'function') {
                     onSuccess(response);
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
+                // 'this' is the ajaxOptions.context property
                 var errorContent = jqXHR.responseText;
                 if (jqXHR.status === 404) {
                     errorThrown = 'Not Found';
                     errorContent = JSON.stringify({
                         StatusCode: 404,
-                        Message: 'URL: ' + this.url,
+                        Message: 'URL: ' + fullurl,
                         StackTrace: ''
                     });
                 }
@@ -258,7 +258,7 @@ class FwAppData {
                         jQuery('#index-loading').css('z-index', 0).hide();
                     });
                 }
-                delete FwAppData.jqXHR[request.requestid];
+                delete FwAppData.jqXHR[this.requestid];
                 FwAppData.updateAutoLogout(null);
                 if (typeof onError === 'function') {
                     onError(errorThrown);
@@ -271,9 +271,8 @@ class FwAppData {
                 }
             })
         ;
-        //FwAppData.jqXHR[request.requestid] = jqXHRobj;
-        //return request.requestid;
-        return null;
+        FwAppData.jqXHR[ajaxOptions.context.requestid] = jqXHRobj;
+        return ajaxOptions.context.requestid;
     };
     //----------------------------------------------------------------------------------------------
     static verifyHasAuthToken() {
@@ -294,25 +293,25 @@ class FwAppData {
                 FwAppData.autoLogoutMinutes = response.autoLogoutMinutes;
             }
             if ((typeof response.autoLogoutMinutes === 'number') && (response.autoLogoutMinutes !== 0) && (Object.keys(FwAppData.jqXHR).length === 0)){
-                FwAppData.autoLogoutTimeout = setTimeout(function() {
+                FwAppData.autoLogoutTimeout = window.setTimeout(function() {
                     sessionStorage.clear();
                     window.location.reload(false);
                 }, response.autoLogoutMinutes * 60000 /* msec/min */);
                 // Uncomment this for debugging autologout issues.  This shows the autologout minutes every time it's reset.
                 //FwNotification.renderNotification('INFO', 'Auto Logout in ' + response.autoLogoutMinutes + ' minute(s).');
-                FwAppData.autoLogoutWarningTimeout = setTimeout(function() {
+                FwAppData.autoLogoutWarningTimeout = window.setTimeout(function() {
                     FwNotification.renderNotification('WARNING', 'Auto-logout for inactivity in 30 seconds...');
                 }, (response.autoLogoutMinutes - .5 ) * 60000 /* msec/min */);
             }
         } else {
             if (FwAppData.autoLogoutMinutes > 0) {
-                FwAppData.autoLogoutTimeout = setTimeout(function() {
+                FwAppData.autoLogoutTimeout = window.setTimeout(function() {
                     sessionStorage.clear();
                     window.location.reload(false);
                 }, FwAppData.autoLogoutMinutes * 60000 /* msec/min */);
                 // Uncomment this for debugging autologout issues.  This shows the autologout minutes every time it's reset.
                 //FwNotification.renderNotification('INFO', 'Auto Logout in ' + response.autoLogoutMinutes + ' minute(s).');
-                FwAppData.autoLogoutWarningTimeout = setTimeout(function() {
+                FwAppData.autoLogoutWarningTimeout = window.setTimeout(function() {
                     FwNotification.renderNotification('WARNING', 'Auto-logout for inactivity in 30 seconds...');
                 }, (FwAppData.autoLogoutMinutes - .5 ) * 60000 /* msec/min */);
             }

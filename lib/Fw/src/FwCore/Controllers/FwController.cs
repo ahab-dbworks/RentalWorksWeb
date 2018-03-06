@@ -9,18 +9,25 @@ namespace FwCore.Controllers
     [Route("api/v1/[controller]")]
     public class FwController : Controller  //todo: create FwController to inherit from
     {
-        protected readonly FwApplicationConfig _appConfig;
+        protected readonly FwApplicationConfig AppConfig;
         //------------------------------------------------------------------------------------
         protected FwUserSession UserSession
         {
             get
             {
-                var userSession = new FwUserSession(){UsersId = this.UsersId, GroupsId = this.GroupsId, WebUsersId = this.WebUsersId };
+                var userSession = new FwUserSession() {
+                    UsersId = this.UsersId,
+                    GroupsId = this.GroupsId,
+                    WebUsersId = this.WebUsersId,
+                    UserType = this.UserType,
+                    ContactId = this.ContactId,
+                    PersonId = this.PersonId
+                };
                 return userSession;
             }
         }
         //------------------------------------------------------------------------------------
-        protected string UsersId
+        private string UsersId
         {
             get
             {
@@ -30,7 +37,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected string WebUsersId
+        private string WebUsersId
         {
             get
             {
@@ -40,7 +47,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected string GroupsId
+        private string GroupsId
         {
             get
             {
@@ -50,9 +57,39 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+        private string UserType
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/usertype");
+                string usertype = (claim != null) ? claim.Value : string.Empty;
+                return usertype;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private string ContactId
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/contactid");
+                string contactid = (claim != null) ? claim.Value : string.Empty;
+                return contactid;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private string PersonId
+        {
+            get
+            {
+                var claim = this.User.Claims.FirstOrDefault(x => x.Type == "http://www.dbworks.com/claims/personid");
+                string personid = (claim != null) ? claim.Value : string.Empty;
+                return personid;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public FwController(IOptions<FwApplicationConfig> appConfig)
         {
-            _appConfig = appConfig.Value;
+            AppConfig = appConfig.Value;
         }
         //------------------------------------------------------------------------------------
     }

@@ -41,6 +41,26 @@ namespace FwStandard.BusinessLogic
 
     public class FwBusinessLogic
     {
+        private FwApplicationConfig _appConfig = null;
+        [JsonIgnore]
+        public FwApplicationConfig AppConfig
+        {
+            get { return _appConfig; }
+            set
+            {
+                _appConfig = value;
+                foreach (FwDataReadWriteRecord rec in dataRecords)
+                {
+                    rec.AppConfig = value;
+                }
+                if (dataLoader != null)
+                {
+                    dataLoader.AppConfig = value;
+                }
+                _Custom.AppConfig = value;
+            }
+        }
+
         [JsonIgnore]
         public FwUserSession UserSession = null;
 
@@ -109,19 +129,6 @@ namespace FwStandard.BusinessLogic
         }
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
-        //------------------------------------------------------------------------------------
-        public void SetDbConfig(SqlServerConfig dbConfig)
-        {
-            foreach (FwDataReadWriteRecord rec in dataRecords)
-            {
-                rec.SetDbConfig(dbConfig);
-            }
-            if (dataLoader != null)
-            {
-                dataLoader.SetDbConfig(dbConfig);
-            }
-            _Custom.SetDbConfig(dbConfig);
-        }
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request)
         {
@@ -347,7 +354,7 @@ namespace FwStandard.BusinessLogic
             BrowseRequest browseRequest = new BrowseRequest();
             browseRequest.module = "DuplicateRules";
             DuplicateRuleLogic l = new DuplicateRuleLogic();
-            l.SetDbConfig(dataRecords[0].GetDbConfig());
+            l.AppConfig = dataRecords[0].AppConfig;
             duplicateRules = l.BrowseAsync(browseRequest).Result;
 
             return rulesLoaded;
@@ -383,7 +390,7 @@ namespace FwStandard.BusinessLogic
                 PropertyInfo[] propertyInfo;
                 propertyInfo = type.GetProperties();
                 FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
-                l2.SetDbConfig(dataRecords[0].GetDbConfig());
+                l2.AppConfig = dataRecords[0].AppConfig;
 
                 foreach (List<object> rule in rulesList)
                 {
@@ -442,7 +449,7 @@ namespace FwStandard.BusinessLogic
 
                     browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
                     FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
-                    l3.SetDbConfig(dataRecords[0].GetDbConfig());
+                    l3.AppConfig = dataRecords[0].AppConfig;
                     FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
 
                     bool isDuplicate = false;

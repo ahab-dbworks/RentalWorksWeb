@@ -32,9 +32,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
             bool saved = false;
             if (Fields != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateduplicaterulefields", _dbConfig.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateduplicaterulefields", AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@duplicateruleid", SqlDbType.NVarChar, ParameterDirection.Input, DuplicateRuleId);
                     qry.AddParameter("@fields", SqlDbType.NVarChar, ParameterDirection.Input, Fields);
                     await qry.ExecuteNonQueryAsync(true);

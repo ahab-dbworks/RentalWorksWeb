@@ -110,11 +110,11 @@ FwServices.validation.method = function(request, module, method, $control, onSuc
     if (typeof controller === 'undefined') {
         throw module + 'Controller is not defined.'
     }
-    if (typeof controller.apiurl !== 'undefined') {
-        FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
-    }
-    else if (typeof $control.attr('data-apiurl') === 'string') {
+    if (typeof $control.attr('data-apiurl') === 'string') {
         FwAppData.jsonPost(true, $control.attr('data-apiurl') + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
+    }
+    else if (typeof controller.apiurl !== 'undefined') {
+        FwAppData.jsonPost(true, controller.apiurl + '/' + method.toLowerCase(), request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
     }
     else {
         FwAppData.jsonPost(true, 'services.ashx?path=/validation/' + module + '/' + method, request, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);

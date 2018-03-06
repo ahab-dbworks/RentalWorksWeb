@@ -9,21 +9,17 @@ namespace FwStandard.DataLayer
 {
     public class FwCustomFields : List<FwCustomField>
     {
-        protected SqlServerConfig _dbConfig { get; set; }
+        public FwApplicationConfig AppConfig { get; set; }
         //------------------------------------------------------------------------------------
         public FwCustomFields() { }
         //------------------------------------------------------------------------------------
-        public virtual void SetDbConfig(SqlServerConfig dbConfig)
-        {
-            _dbConfig = dbConfig;
-        }
         //------------------------------------------------------------------------------------
         public virtual async Task LoadAsync(string moduleName)
         {
             Clear();
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     //qry.Add("select * from customfield where modulename = @modulename");
                     //var customFields = (List<FwCustomField>)await qry.SelectAsync<FwCustomField>(true);

@@ -34,7 +34,7 @@ namespace FwCore.Controllers
             try
             {
                 FwBusinessLogic l = CreateBusinessLogic(type, userSession);
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = AppConfig;
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
             }
@@ -64,7 +64,7 @@ namespace FwCore.Controllers
                 //request.pagesize = pagesize;
                 //request.orderby = sort;
                 FwBusinessLogic l = CreateBusinessLogic(type);
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = AppConfig;
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }
@@ -88,7 +88,7 @@ namespace FwCore.Controllers
             {
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type);
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = AppConfig;
                 if (await l.LoadAsync<T>(ids))
                 {
                     return new OkObjectResult(l);
@@ -116,7 +116,7 @@ namespace FwCore.Controllers
             }
             try
             {
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = AppConfig;
 
                 bool isValid = true;
                 string validateMsg = string.Empty;
@@ -199,7 +199,7 @@ namespace FwCore.Controllers
                     }
                 }
 
-                logic.SetDbConfig(_appConfig.DatabaseSettings);
+                logic.AppConfig = AppConfig;
                 bool isValid = true;
                 string validateMsg = string.Empty;
 
@@ -239,7 +239,7 @@ namespace FwCore.Controllers
             {
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = CreateBusinessLogic(type);
-                l.SetDbConfig(_appConfig.DatabaseSettings);
+                l.AppConfig = AppConfig;
                 l.SetPrimaryKeys(ids);
                 bool success = await l.DeleteAsync();
                 return new OkObjectResult(success);

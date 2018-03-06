@@ -196,7 +196,7 @@ var FwAppData = (function () {
                     jQuery('#index-loadingInner').hide();
                     maxZIndex = FwFunc.getMaxZ('*');
                     jQuery('#index-loading').css('z-index', maxZIndex).show();
-                    me.loadingTimeout = setTimeout(function () {
+                    me.loadingTimeout = window.setTimeout(function (args) {
                         me.loadingTimeout = null;
                         jQuery('#index-loadingInner').stop().fadeIn(50);
                     }, 0);
@@ -226,9 +226,7 @@ var FwAppData = (function () {
                     jQuery('#index-loading').css('z-index', 0).hide();
                 });
             }
-            if ((typeof response === 'object') && (typeof response.request === 'object') && (typeof response.request.requestid === 'string')) {
-                delete FwAppData.jqXHR[request.requestid];
-            }
+            delete FwAppData.jqXHR[this.requestid];
             if (typeof onSuccess === 'function') {
                 onSuccess(response);
             }
@@ -239,7 +237,7 @@ var FwAppData = (function () {
                 errorThrown = 'Not Found';
                 errorContent = JSON.stringify({
                     StatusCode: 404,
-                    Message: 'URL: ' + this.url,
+                    Message: 'URL: ' + fullurl,
                     StackTrace: ''
                 });
             }
@@ -256,7 +254,7 @@ var FwAppData = (function () {
                     jQuery('#index-loading').css('z-index', 0).hide();
                 });
             }
-            delete FwAppData.jqXHR[request.requestid];
+            delete FwAppData.jqXHR[this.requestid];
             FwAppData.updateAutoLogout(null);
             if (typeof onError === 'function') {
                 onError(errorThrown);
@@ -270,7 +268,8 @@ var FwAppData = (function () {
                 }
             }
         });
-        return null;
+        FwAppData.jqXHR[ajaxOptions.context.requestid] = jqXHRobj;
+        return ajaxOptions.context.requestid;
     };
     ;
     FwAppData.verifyHasAuthToken = function () {
@@ -290,22 +289,22 @@ var FwAppData = (function () {
                 FwAppData.autoLogoutMinutes = response.autoLogoutMinutes;
             }
             if ((typeof response.autoLogoutMinutes === 'number') && (response.autoLogoutMinutes !== 0) && (Object.keys(FwAppData.jqXHR).length === 0)) {
-                FwAppData.autoLogoutTimeout = setTimeout(function () {
+                FwAppData.autoLogoutTimeout = window.setTimeout(function () {
                     sessionStorage.clear();
                     window.location.reload(false);
                 }, response.autoLogoutMinutes * 60000);
-                FwAppData.autoLogoutWarningTimeout = setTimeout(function () {
+                FwAppData.autoLogoutWarningTimeout = window.setTimeout(function () {
                     FwNotification.renderNotification('WARNING', 'Auto-logout for inactivity in 30 seconds...');
                 }, (response.autoLogoutMinutes - .5) * 60000);
             }
         }
         else {
             if (FwAppData.autoLogoutMinutes > 0) {
-                FwAppData.autoLogoutTimeout = setTimeout(function () {
+                FwAppData.autoLogoutTimeout = window.setTimeout(function () {
                     sessionStorage.clear();
                     window.location.reload(false);
                 }, FwAppData.autoLogoutMinutes * 60000);
-                FwAppData.autoLogoutWarningTimeout = setTimeout(function () {
+                FwAppData.autoLogoutWarningTimeout = window.setTimeout(function () {
                     FwNotification.renderNotification('WARNING', 'Auto-logout for inactivity in 30 seconds...');
                 }, (FwAppData.autoLogoutMinutes - .5) * 60000);
             }

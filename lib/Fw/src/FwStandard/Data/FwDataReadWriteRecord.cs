@@ -97,7 +97,7 @@ namespace FwStandard.DataLayer
         public virtual async Task<int> SaveAsync()
         {
             int rowsAffected = 0;
-            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 if (NoPrimaryKeysHaveValues)
                 {
@@ -113,9 +113,9 @@ namespace FwStandard.DataLayer
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
-                        using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
-                            rowsAffected = await cmd.InsertAsync(true, TableName, this, _dbConfig);
+                            rowsAffected = await cmd.InsertAsync(true, TableName, this, AppConfig.DatabaseSettings);
                             afterSaveArgs.SavePerformed = (rowsAffected > 0);
                             if (AfterSave != null)
                             {
@@ -137,7 +137,7 @@ namespace FwStandard.DataLayer
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
-                        using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                         {
                             rowsAffected = await cmd.UpdateAsync(true, TableName, this);
                             afterSaveArgs.SavePerformed = (rowsAffected > 0);
@@ -167,9 +167,9 @@ namespace FwStandard.DataLayer
             }
             if (beforeDeleteArgs.PerformDelete)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, _dbConfig.QueryTimeout))
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         int rowcount = await cmd.DeleteAsync(true, TableName, this);
                         success = (rowcount > 0);
