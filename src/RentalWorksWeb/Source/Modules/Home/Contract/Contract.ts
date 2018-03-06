@@ -132,6 +132,30 @@ class Contract {
     }
 
     afterLoad($form: any) {
+        var type = FwFormField.getValueByDataField($form, 'ContractType');
+        var $billing = $form.find('[data-datafield="BillingDate" .fwformfield-caption');
+
+        switch (type) {
+            case 'RECEIVE':
+                $billing.html('Billing Start');
+                break;
+            case 'OUT':
+                $billing.html('Billing Start');
+                break;
+            case 'IN':
+                $billing.html('Billing Stop');
+                break;
+            case 'RETURN':
+                $billing.html('Billing Stop');
+                break;
+            case 'LOST':
+                $billing.html('Billing Stop');
+                break;
+            default:
+                $billing.html('Billing Date');
+                break;
+        }
+
 
     }
 }
