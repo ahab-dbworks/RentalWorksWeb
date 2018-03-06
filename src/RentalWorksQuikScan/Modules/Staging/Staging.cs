@@ -340,7 +340,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddColumn("vendor", false);
             qry.AddColumn("itemclass", false);
             qry.AddColumn("trackedby", false);
-            qry.Add("select rectype, masteritemid, description, masterid, masterno, barcode, quantity, vendorid, vendor, itemclass, trackedby");
+            qry.Add("select *");
             qry.Add("from dbo.funcstaged(@orderid, @summary)");
             qry.Add("where warehouseid = @warehouseid");
             qry.Add("order by orderby");
@@ -348,7 +348,7 @@ namespace RentalWorksQuikScan.Modules
             qry.AddParameter("@summary", FwConvert.LogicalToCharacter(summary));
             qry.AddParameter("@warehouseid", warehouseid);
             result = new ExpandoObject();
-            result = qry.QueryToFwJsonTable();
+            result = qry.QueryToFwJsonTable(true);
 
             return result;
         }

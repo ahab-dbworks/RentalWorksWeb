@@ -1216,6 +1216,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
             .data('masterno',     responseStageItem.webStageItem.masterNo)
             .data('masteritemid', responseStageItem.webStageItem.masterItemId)
             .data('stageconsigned', (typeof responseStageItem.request.stageconsigned === 'boolean') ? responseStageItem.request.stageconsigned : false)
+            .data('consignorid', responseStageItem.request.consignorid)
+            .data('consignoragreementid', responseStageItem.request.consignoragreementid)
         ;
 
         // user may have staged or unstaged something, so refresh the current tab
@@ -1324,11 +1326,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 availablefor = '';
                 if (dt.Rows[i][colIndex.rectype] === 'R') {
                     availablefor = RwLanguages.translate('Rent');
-                }
-                else if (dt.Rows[i][colIndex.rectype] === 'S') {
+                } else if (dt.Rows[i][colIndex.rectype] === 'S') {
                     availablefor = RwLanguages.translate('Sell');
-                }
-                else if (dt.Rows[i][colIndex.rectype] === 'P') {
+                } else if (dt.Rows[i][colIndex.rectype] === 'P') {
                     availablefor = RwLanguages.translate('Parts');
                 }
                 li.push('<li class="' + cssClass + 
@@ -1345,6 +1345,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     '" data-missingqty="' + dt.Rows[i][colIndex.missingqty] + 
                     '" data-qtyordered="' + dt.Rows[i][colIndex.qtyordered] + 
                     '" data-qtystagedandout="' + dt.Rows[i][colIndex.qtystagedandout] + 
+                    '" data-consignorid="' + dt.Rows[i][colIndex.consignorid] + 
+                    '" data-consignoragreementid="' + dt.Rows[i][colIndex.consignoragreementid] + 
                     '" >');
                     li.push('<div class="description">' + dt.Rows[i][colIndex.description] + '</div>');
                     if (isHeaderRow) {
@@ -1446,6 +1448,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                     '" data-masteritemid="' + dt.Rows[i][dt.ColumnIndex.masteritemid] + 
                     '" data-vendorid="' + dt.Rows[i][dt.ColumnIndex.vendorid] + 
                     '" data-quantity="' + dt.Rows[i][dt.ColumnIndex.quantity] + 
+                    '" data-consignorid="' + dt.Rows[i][dt.ColumnIndex.consignorid] + 
+                    '" data-consignoragreementid="' + dt.Rows[i][dt.ColumnIndex.consignoragreementid] + 
                     '" data-trackedby="' + dt.Rows[i][dt.ColumnIndex.trackedby] + '">');
                     li.push('<div class="description">' + dt.Rows[i][dt.ColumnIndex.description] + '</div>');
                     if (isHeaderRow) {
@@ -1794,8 +1798,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 rectype   = $this.attr('data-rectype');
                 trackedby = $this.attr('data-trackedby');
                 if (rectype === 'R') {
-                    if (trackedby === 'QUANTITY') 
-                    {
+                    if (trackedby === 'QUANTITY') {
                         requestStageItem = {
                             orderid:               screen.getOrderId(),
                             code:                  '',
@@ -1816,17 +1819,15 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             removefromcontainer:   false,
                             contractid:            screen.getContractId(),
                             ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
+                            consignorid:           $this.attr('data-consignorid'),
+                            consignoragreementid:  $this.attr('data-consignoragreementid'),
                             playStatus:            false
                         };
                         RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
                             properties.responseStageItem = responseStageItem;
                             screen.pdastageitemCallback(responseStageItem);
                         });
-                    } 
-                    else if (trackedby === 'SERIALNO') 
-                    {
+                    } else if (trackedby === 'SERIALNO') {
                         var masterid        = $this.attr('data-masterid');
                         var masteritemid    = $this.attr('data-masteritemid');
                         var description     = $this.attr('data-description');
@@ -1836,9 +1837,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                         var qtystagedandout = $this.attr('data-qtystagedandout');
                         screen.pages.selectserialno.forward(masterid, masteritemid, description, masterno, missingqty, qtyordered, qtystagedandout);
                     }
-                } 
-                else if (rectype === 'S') 
-                {
+                } else if (rectype === 'S') {
                     requestStageItem = {
                         orderid:               screen.getOrderId(),
                         code:                  '',
@@ -1899,8 +1898,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             removefromcontainer:   false,
                             contractid:            screen.getContractId(),
                             ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
+                            consignorid:           $this.attr('data-consignorid'),
+                            consignoragreementid:  $this.attr('data-consignoragreementid'),
                             playStatus:            false
                         };
                         RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
@@ -2178,8 +2177,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             removefromcontainer:   false,
                             contractid:            screen.getContractId(),
                             ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
+                            consignorid:           jQuery('#staging-popupQty').data('consignorid'),
+                            consignoragreementid:  jQuery('#staging-popupQty').data('consignoragreementid'),
                             playStatus:            false,
                             trackedBy:             'QUANTITY'
                         };
@@ -2222,8 +2221,8 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                             removefromcontainer:   false,
                             contractid:            screen.getContractId(),
                             ignoresuspendedin:     false,
-                            consignorid:           '',
-                            consignoragreementid:  '',
+                            consignorid:           jQuery('#staging-popupQty').data('consignorid'),
+                            consignoragreementid:  jQuery('#staging-popupQty').data('consignoragreementid'),
                             playStatus:            false,
                             trackedBy:             'QUANTITY'
                         };

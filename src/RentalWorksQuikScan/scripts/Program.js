@@ -165,7 +165,6 @@ var Program = (function (_super) {
                         screen = RwAccountController.getSupportScreen({}, {});
                         break;
                     case 'home/home':
-                        this.screens = [];
                         screen = RwHome.getHomeScreen({}, {});
                         break;
                     case 'staging':
@@ -338,7 +337,7 @@ var Program = (function (_super) {
             jQuery('#index-loadingInner').hide();
             me.load();
             jQuery('html').addClass('mobile');
-            jQuery('html').addClass('theme-classic');
+            jQuery('html').addClass('theme-material');
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
                 me.navigate('account/logoff');

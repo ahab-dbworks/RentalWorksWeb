@@ -208,7 +208,7 @@ class Program extends FwApplication {
                         screen = RwAccountController.getSupportScreen({}, {});
                         break;
                     case 'home/home':
-                        this.screens = [];
+                        //this.screens = [];
                         screen = RwHome.getHomeScreen({}, {});
                         break;
                     case 'staging':
@@ -237,8 +237,8 @@ class Program extends FwApplication {
                         break;
                     case 'inventory/subreturn':
                         screen = RwSelectPO.getSelectPOScreen({}, {
-                            moduleType: RwConstants.moduleTypes.SubReturn
-                            , activityType: RwConstants.activityTypes.SubReturn
+                            moduleType: RwConstants.moduleTypes.SubReturn,
+                            activityType: RwConstants.activityTypes.SubReturn
                         });
                         break;
                     case 'inventory/repairmenu':
@@ -388,7 +388,7 @@ class Program extends FwApplication {
             jQuery('#index-loadingInner').hide();
             me.load();
             jQuery('html').addClass('mobile');
-            jQuery('html').addClass('theme-classic'); //MY 10/21/2016: Change to default once it is tested.
+            jQuery('html').addClass('theme-material');
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
                 me.navigate('account/logoff');
