@@ -71,6 +71,19 @@ class Customer {
         var $submoduleDealBrowse = this.openDealBrowse($form);
         $form.find('.deal').append($submoduleDealBrowse);
 
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $dealForm, controller, $browse, dealFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $dealForm = window[controller]['openForm']('NEW', dealFormData);
+            FwModule.openSubModuleTab($browse, $dealForm);
+        });
+
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -116,14 +129,13 @@ class Customer {
 
     openDealBrowse($form) {
         var $browse;
+        
         $browse = DealController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.uniqueids = {
                 CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
             }
-
-
         });
 
         return $browse;

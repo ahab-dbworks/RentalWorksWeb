@@ -1,14 +1,17 @@
 class Deal {
     Module: string;
     apiurl: string;
+    caption: string;
 
     constructor() {
         this.Module = 'Deal';
         this.apiurl = 'api/v1/deal';
+        this.caption = 'Deal';
     }
 
     getModuleScreen(filter?: {datafield: string, search: string}) {
         var screen, $browse;
+        var self = this;
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -18,7 +21,7 @@ class Deal {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Deal', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
                 filter.search = filter.search.replace(/%20/, ' ');
@@ -370,7 +373,7 @@ class Deal {
 
     }
 
-    openForm(mode: string) {
+    openForm(mode: string, parentmoduleinfo) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -387,13 +390,18 @@ class Deal {
 
         this.events($form);
 
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="CustomerId"] input.fwformfield-value').val(parentmoduleinfo.CustomerId);
+            $form.find('div[data-datafield="CustomerId"] input.fwformfield-text').val(parentmoduleinfo.Customer);
+        }
+
         return $form;
     }
 
     loadForm(uniqueids: any) {
         var $form;
 
-        $form = this.openForm('EDIT');
+        $form = this.openForm('EDIT', undefined);
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
         FwModule.loadForm(this.Module, $form);
 

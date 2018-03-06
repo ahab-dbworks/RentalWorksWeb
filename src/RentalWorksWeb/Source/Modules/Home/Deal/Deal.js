@@ -2,16 +2,18 @@ var Deal = (function () {
     function Deal() {
         this.Module = 'Deal';
         this.apiurl = 'api/v1/deal';
+        this.caption = 'Deal';
     }
     Deal.prototype.getModuleScreen = function (filter) {
         var screen, $browse;
+        var self = this;
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
         $browse = this.openBrowse();
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Deal', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             if (typeof filter !== 'undefined') {
                 filter.search = filter.search.replace(/%20/, ' ');
                 var datafields = filter.datafield.split('%20');
@@ -287,17 +289,21 @@ var Deal = (function () {
         FwBrowse.init($companyContactControl);
         FwBrowse.renderRuntimeHtml($companyContactControl);
     };
-    Deal.prototype.openForm = function (mode) {
+    Deal.prototype.openForm = function (mode, parentmoduleinfo) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         this.events($form);
+        if (typeof parentmoduleinfo !== 'undefined') {
+            $form.find('div[data-datafield="CustomerId"] input.fwformfield-value').val(parentmoduleinfo.CustomerId);
+            $form.find('div[data-datafield="CustomerId"] input.fwformfield-text').val(parentmoduleinfo.Customer);
+        }
         return $form;
     };
     Deal.prototype.loadForm = function (uniqueids) {
         var $form;
-        $form = this.openForm('EDIT');
+        $form = this.openForm('EDIT', undefined);
         $form.find('div.fwformfield[data-datafield="DealId"] input').val(uniqueids.DealId);
         FwModule.loadForm(this.Module, $form);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
