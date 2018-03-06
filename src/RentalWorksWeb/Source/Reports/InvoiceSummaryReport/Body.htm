@@ -4,6 +4,9 @@
     <thead>
       <tr>
         <td>
+          <div>Office</div>
+        </td>
+        <td>
           <div>Department</div>
         </td>
         <td>
@@ -47,6 +50,9 @@
       {{#details}}
       <tr data-rowtype={{rowtype}}>
         <td>
+          <div class="row1">{{location}}</div>
+        </td>
+        <td>
           <div class="row1">{{department}}</div>
         </td>
         <td>
@@ -77,7 +83,7 @@
           <div class="row1">{{periodtype}}</div>
         </td>
         <td>
-          <div class="row1">{{invoicetotal}}</div>
+          <div class="row1" style="text-align:right;">{{invoicetotal}}</div>
         </td>
       </tr>
       {{/details}}
