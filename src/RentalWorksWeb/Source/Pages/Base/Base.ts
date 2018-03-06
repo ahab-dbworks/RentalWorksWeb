@@ -76,19 +76,15 @@
                     } else {
                         sessionStorage.clear();
 
-
                         // get a token to connect to RentalWorksWebApi
                         var requiresAuthToken = false;
-                        var method = "POST";
-                        var url = "api/v1/jwt";
                         var apiRequest = {
                             UserName: $email.val(),
                             Password: $password.val()
                         };
-                        var timeoutSeconds = null;
                         var onError = null;
                         var $elementToBlock = $loginWindow;
-                        FwAppData.apiMethod(requiresAuthToken, method, url, apiRequest, timeoutSeconds, function onSuccess(responseRestApi) {
+                        FwAppData.apiMethod(requiresAuthToken, "POST", "api/v1/jwt", apiRequest, null, function onSuccess(responseRestApi) {
                             if ((responseRestApi.statuscode == 0) && (typeof responseRestApi.access_token !== 'undefined')) {
                                 sessionStorage.setItem('apiToken', responseRestApi.access_token);
                                 // get a token to connect to RentalWorksWeb
@@ -155,27 +151,6 @@
             .on('click', '.btnCancel', function(e) {
                 try {
                     program.navigate('default');
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#fwlogin-btnPasswordRecovery', function(e) {
-                try {
-                    alert('Not Implemented');
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#fwlogin-btnAbout', function(e) {
-                try {
-                    alert('Not Implemented');
-                } catch(ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('click', '#fwlogin-btnSupport', function(e) {
-                try {
-                    alert('Not Implemented');
                 } catch(ex) {
                     FwFunc.showError(ex);
                 }

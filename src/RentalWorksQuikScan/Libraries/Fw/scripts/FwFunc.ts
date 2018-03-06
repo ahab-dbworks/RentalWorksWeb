@@ -90,7 +90,7 @@
         });
     }
     //---------------------------------------------------------------------------------
-    static getDate = function (paramdate?: string | number, modifier?: number) : string{
+    static getDate = function (paramdate?: string, modifier?: number) : string{
         let date, dd, mm, yyyy;
         if (typeof paramdate === 'undefined') {
             date = new Date();
