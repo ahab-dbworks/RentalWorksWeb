@@ -49,7 +49,7 @@ namespace Web.Source.Reports
             string html;
            
             sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
-            sb.Replace("[STARTDATE]", request.parameters.StartDate);
+            sb.Replace("[FROMDATE]", request.parameters.StartDate);
             sb.Replace("[TODATE]", request.parameters.EndDate);
             html = sb.ToString();
             html = this.applyTableToTemplate(html, "header", dtDetails);

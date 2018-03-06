@@ -133,7 +133,7 @@ class Contract {
 
     afterLoad($form: any) {
         var type = FwFormField.getValueByDataField($form, 'ContractType');
-        var $billing = $form.find('[data-datafield="BillingDate" .fwformfield-caption');
+        var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
 
         switch (type) {
             case 'RECEIVE':
