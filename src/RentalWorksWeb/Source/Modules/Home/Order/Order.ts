@@ -493,6 +493,24 @@ class Order {
 
         this.renderFrames($form);
     };
+
+
+
 }
 //---------------------------------------------------------------------------------
 var OrderController = new Order();
+//---------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = function (event) {
+    var $form, $pickListForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        $pickListForm = jQuery(jQuery('#tmpl-modules-OrderStatusForm').html());
+        var mode = 'NEW';
+        $pickListForm = FwModule.openForm($pickListForm, mode);
+        FwModule.openSubModuleTab($form, $pickListForm);
+        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
