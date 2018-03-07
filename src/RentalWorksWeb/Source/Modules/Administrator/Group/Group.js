@@ -156,16 +156,17 @@ var Group = (function () {
                 try {
                     $li = jQuery(this).closest('li');
                     visible = ($li.attr('data-property-visible') === 'T');
-                    $li.attr('data-property-visible', visible ? 'F' : 'T');
                     $li_children = $li.find('li[data-property-visible]');
                     if ($li_children.length > 0) {
                         FwConfirmation.yesNo('Alert', (visible ? 'Hide' : 'Show') + ' all the children of this node?', function () {
+                            $li.attr('data-property-visible', visible ? 'F' : 'T');
                             $li.find('li[data-property-visible]').attr('data-property-visible', visible ? 'F' : 'T');
-                            this.updateSecurityField($form);
+                            GroupController.updateSecurityField($form);
                         });
                     }
                     else {
-                        this.updateSecurityField($form);
+                        $li.attr('data-property-visible', visible ? 'F' : 'T');
+                        GroupController.updateSecurityField($form);
                     }
                 }
                 catch (ex) {
