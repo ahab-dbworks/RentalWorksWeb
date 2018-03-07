@@ -1,5 +1,7 @@
 ﻿using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 
 namespace WebApi.Modules.Settings.CoverLetter
@@ -23,5 +25,24 @@ namespace WebApi.Modules.Settings.CoverLetter
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        public async Task<bool> SaveHtmlASync(string Html)
+        {
+            bool saved = false;
+            if (Html != null)
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, CoverLetterId);
+                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Html);
+                    await qry.ExecuteNonQueryAsync(true);
+                    saved = true;
+                }
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
