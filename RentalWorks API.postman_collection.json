@@ -2438,16 +2438,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"CoverLetterId\": \"00003AR1\",\n    \"Description\": \"EFG COVER LETTER\",\n}"
+							"raw": "{\n        \"CoverLetterId\": \"B0002TWO\",\n        \"Html\": \"<p>test</p>\",\n    }"
 						},
 						"description": ""
 					},
@@ -23309,16 +23311,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"TermsConditionsId\": \"00003AR3\",\n    \"Description\": \"def TERMS\",\n}"
+							"raw": "   {\n        \"TermsConditionsId\": \"000018Z8\",\n        \"Html\": \"<p>another <u>test</u></p>\"\n    }"
 						},
 						"description": ""
 					},
@@ -23842,7 +23846,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "User Dashboard Settings: Get One",
+					"name": "User Dashboard Settings: Get",
 					"request": {
 						"url": "http://localhost:57949/api/v1/userdashboardsettings/A000001S",
 						"method": "GET",
@@ -23861,6 +23865,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "User Dashboard Settings: Save",
+					"request": {
+						"url": "http://localhost:57949/api/v1/userdashboardsettings",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"A000001S\",\n    \"Widgets\": [\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPW\",\n            \"text\": \"Billing By Agent By Month\",\n            \"selected\": false\n        },\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPV\",\n            \"text\": \"Deals By Type\",\n            \"selected\": false\n        },\n        {\n            \"userWidgetId\": \"000090LU\",\n            \"value\": \"00008JPU\",\n            \"text\": \"Orders By Agent\",\n            \"selected\": true\n        },\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPT\",\n            \"text\": \"Orders By Status\",\n            \"selected\": false\n        }\n    ],\n    \"RecordTitle\": \"Dashboard Settings\"\n}"
 						},
 						"description": ""
 					},
