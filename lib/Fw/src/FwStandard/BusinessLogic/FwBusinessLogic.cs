@@ -354,8 +354,12 @@ namespace FwStandard.BusinessLogic
             BrowseRequest browseRequest = new BrowseRequest();
             browseRequest.module = "DuplicateRules";
             DuplicateRuleLogic l = new DuplicateRuleLogic();
-            l.AppConfig = dataRecords[0].AppConfig;
-            duplicateRules = l.BrowseAsync(browseRequest).Result;
+            if (dataRecords.Count > 0)
+            {
+                l.AppConfig = dataRecords[0].AppConfig;
+                duplicateRules = l.BrowseAsync(browseRequest).Result;
+                rulesLoaded = true;
+            }
 
             return rulesLoaded;
         }
@@ -369,117 +373,120 @@ namespace FwStandard.BusinessLogic
                 refreshDuplicateRules();
             }
 
-            object[] ids = GetPrimaryKeys();
-            string moduleName = this.GetType().Name;
-            string module = moduleName.Substring(0, moduleName.Length - 5);
-
-            var duplicateRows = duplicateRules.Rows; 
-            List<object> rulesList = new List<object>();
-         
-            foreach (var row in duplicateRows)
+            if (duplicateRules != null)
             {
-                if ((String)row[1] == module)
-                { 
-                    rulesList.Add(row);
-                }
-            }
+                object[] ids = GetPrimaryKeys();
+                string moduleName = this.GetType().Name;
+                string module = moduleName.Substring(0, moduleName.Length - 5);
 
-            if (rulesList.Count > 0)
-            {
-                Type type = this.GetType();
-                PropertyInfo[] propertyInfo;
-                propertyInfo = type.GetProperties();
-                FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
-                l2.AppConfig = dataRecords[0].AppConfig;
+                var duplicateRows = duplicateRules.Rows;
+                List<object> rulesList = new List<object>();
 
-                foreach (List<object> rule in rulesList)
+                foreach (var row in duplicateRows)
                 {
-                    string fields = rule[4].ToString();
-                    string[] field = fields.Split(',').ToArray();
-
-                    BrowseRequest browseRequest2 = new BrowseRequest();
-                    browseRequest2.module = module;
-
-                    List<string> searchOperators = new List<string>();
-
-                    for (int i = 0; i < field.Count(); i++)
+                    if ((String)row[1] == module)
                     {
-                        searchOperators.Add("=");
+                        rulesList.Add(row);
                     }
+                }
 
-                    browseRequest2.searchfieldoperators = searchOperators.ToArray();
-                    browseRequest2.searchfields = field;
+                if (rulesList.Count > 0)
+                {
+                    Type type = this.GetType();
+                    PropertyInfo[] propertyInfo;
+                    propertyInfo = type.GetProperties();
+                    FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                    l2.AppConfig = dataRecords[0].AppConfig;
 
-                    List<string> searchFieldVals = new List<string>();
-
-
-                    for (int i = 0; i < field.Count(); i++)
+                    foreach (List<object> rule in rulesList)
                     {
-                        string fieldName = field[i];
-                        foreach (PropertyInfo property in propertyInfo)
+                        string fields = rule[4].ToString();
+                        string[] field = fields.Split(',').ToArray();
+
+                        BrowseRequest browseRequest2 = new BrowseRequest();
+                        browseRequest2.module = module;
+
+                        List<string> searchOperators = new List<string>();
+
+                        for (int i = 0; i < field.Count(); i++)
                         {
-                            if (property.Name.Equals(fieldName))
+                            searchOperators.Add("=");
+                        }
+
+                        browseRequest2.searchfieldoperators = searchOperators.ToArray();
+                        browseRequest2.searchfields = field;
+
+                        List<string> searchFieldVals = new List<string>();
+
+
+                        for (int i = 0; i < field.Count(); i++)
+                        {
+                            string fieldName = field[i];
+                            foreach (PropertyInfo property in propertyInfo)
                             {
-                                var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
-                                if (value != null)
+                                if (property.Name.Equals(fieldName))
                                 {
-                                    searchFieldVals.Add(value.ToString());
-                                }
-                                else
-                                {
-                                    if (saveMode == TDataRecordSaveMode.smUpdate)
+                                    var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+                                    if (value != null)
                                     {
-                                        var recordFound = l2.LoadAsync<Type>(ids).Result;
-                                        var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                        searchFieldVals.Add(databaseValue.ToString());
+                                        searchFieldVals.Add(value.ToString());
                                     }
                                     else
                                     {
-                                        searchFieldVals.Add("");
+                                        if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        {
+                                            var recordFound = l2.LoadAsync<Type>(ids).Result;
+                                            var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
+                                            searchFieldVals.Add(databaseValue.ToString());
+                                        }
+                                        else
+                                        {
+                                            searchFieldVals.Add("");
+                                        }
                                     }
-                                }
 
-                                if (searchOperators.Count == searchFieldVals.Count)
-                                {
-                                    break;
+                                    if (searchOperators.Count == searchFieldVals.Count)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
-                    FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
-                    l3.AppConfig = dataRecords[0].AppConfig;
-                    FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
+                        browseRequest2.searchfieldvalues = searchFieldVals.ToArray();
+                        FwBusinessLogic l3 = (FwBusinessLogic)Activator.CreateInstance(type);
+                        l3.AppConfig = dataRecords[0].AppConfig;
+                        FwJsonDataTable dt = l3.BrowseAsync(browseRequest2).Result;
 
-                    bool isDuplicate = false;
-                    for (int r = 0; r <= dt.Rows.Count - 1; r++)
-                    {
-                        isDuplicate = true;
-                        if (saveMode == TDataRecordSaveMode.smUpdate)
+                        bool isDuplicate = false;
+                        for (int r = 0; r <= dt.Rows.Count - 1; r++)
                         {
-                            var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
-                            bool pkFound = true;
-                            foreach (object id in ids)
+                            isDuplicate = true;
+                            if (saveMode == TDataRecordSaveMode.smUpdate)
                             {
-                                int indexOfId = Array.IndexOf(dtToArray, id);
-                                pkFound = (indexOfId >= 0);
-                                if (!pkFound)
+                                var dtToArray = dt.Rows[r].Select(i => i.ToString()).ToArray();
+                                bool pkFound = true;
+                                foreach (object id in ids)
                                 {
-                                    break;
+                                    int indexOfId = Array.IndexOf(dtToArray, id);
+                                    pkFound = (indexOfId >= 0);
+                                    if (!pkFound)
+                                    {
+                                        break;
+                                    }
                                 }
+                                isDuplicate = (!pkFound);
                             }
-                            isDuplicate = (!pkFound);
+                            if (isDuplicate)
+                            {
+                                break;
+                            }
                         }
                         if (isDuplicate)
                         {
-                            break;
+                            isValid = false;
+                            validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
                         }
-                    }
-                    if (isDuplicate)
-                    {
-                        isValid = false;
-                        validateMsg = "A record of this type already exists. " + "(" + rule[2] + ")";
                     }
                 }
             }
@@ -638,5 +645,18 @@ namespace FwStandard.BusinessLogic
                 dataRecord.UserSession = this.UserSession;
             }
         }
+        //------------------------------------------------------------------------------------
+        public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            dataLoader.AppConfig = appConfig;
+            dataLoader.UserSession = userSession;
+            for(int i = 0; i < dataRecords.Count; i++)
+            {
+                FwDataReadWriteRecord dataRecord = dataRecords[i];
+                dataRecord.AppConfig = appConfig;
+                dataRecord.UserSession = userSession;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
