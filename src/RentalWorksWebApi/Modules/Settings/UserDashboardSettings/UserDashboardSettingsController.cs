@@ -42,6 +42,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]UserDashboardSettingsLogic l)
         {
+            l.SetDbConfig(this.AppConfig.DatabaseSettings);
             return await DoPostAsync<UserDashboardSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 

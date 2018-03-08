@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Settings.WebUserWidget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
 {
@@ -26,6 +27,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             DashboardSettingsTitle = "Dashboard Settings";
         }
         //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isPrimaryKey: true)]
         public string UserId { get; set; }
         [FwBusinessLogicField(isRecordTitle: true)]
         [JsonIgnore]
@@ -73,100 +75,61 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        //public async Task<int> SaveAsync()
-        //{
-        //    int savedCount = 0;
-
-
-        //    UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
-        //    lPrev.SetDbConfig(_dbConfig);
-        //    await lPrev.LoadAsync(UserId);
-
-        //    UserDashboardSetting wPrev = null;
-
-        //    foreach (UserDashboardSetting w in Widgets)
-        //    {
-        //        wPrev = null;
-
-        //        foreach (UserDashboardSetting wPrevTest in lPrev.Widgets)
-        //        {
-        //            if (wPrevTest.text.Equals(w.text))
-        //            {
-        //                wPrev = wPrevTest;
-        //                break;
-        //            }
-        //        }
-
-        //        if (wPrev != null)
-        //        {
-        //            if (wPrev.selected != w.selected)
-        //            {
-        //            }
-                    
-        //        }
-
-        //    }
-
-        //    Widgets = new List<UserDashboardSetting>();
-
-        //    using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
-        //    {
-        //        FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-        //        qry.Add("exec getwebuserdashboardsettings '" + UserId + "'");
-        //        qry.AddColumn("webuserswidgetid");  //0
-        //        qry.AddColumn("widgetid");          //1
-        //        qry.AddColumn("widget");            //2
-        //        qry.AddColumn("defaulttype");       //3
-        //        qry.AddColumn("widgettype");        //4
-        //        qry.AddColumn("orderby");           //5
-        //        FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
-        //        for (int r = 0; r < table.Rows.Count; r++)
-        //        {
-        //            UserDashboardSetting w = new UserDashboardSetting();
-        //            string UserWidgetId = table.Rows[r][0].ToString();
-        //            w.value = table.Rows[r][1].ToString();
-        //            w.text = table.Rows[r][2].ToString();
-        //            w.selected = (!UserWidgetId.Equals(string.Empty));
-        //            Widgets.Add(w);
-        //            savedCount++;
-        //        }
-        //    }
-        //    return savedCount;
-        //}
-
-
-        /*
-        
-                public virtual async Task<int> SaveAsync()
+        public override async Task<int> SaveAsync()
         {
-            int rowsAffected = 0;
-            TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
+            int savedCount = 0;
 
-            BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
-            AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
-            beforeSaveArgs.SaveMode = saveMode;
-            afterSaveArgs.SaveMode = saveMode;
-            if (BeforeSave != null)
+            // can remove all this "prev" stuff if Dashboard Settings form can send back the actual "userWidgetId"
+            UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
+            lPrev.SetDbConfig(_dbConfig);
+            await lPrev.LoadAsync(UserId);
+
+            UserDashboardSetting wPrev = null;
+            UserWidgetLogic uw = null;
+
+            int widgetPosition = 0;
+            foreach (UserDashboardSetting w in Widgets)
             {
-                BeforeSave(this, beforeSaveArgs);
-            }
-            if (beforeSaveArgs.PerformSave)
-            {
-                foreach (FwDataReadWriteRecord rec in dataRecords)
+                wPrev = null;
+
+                foreach (UserDashboardSetting wPrevTest in lPrev.Widgets)
                 {
-                    rowsAffected += await rec.SaveAsync();
+                    if (wPrevTest.text.Equals(w.text))
+                    {
+                        wPrev = wPrevTest;
+                        break;
+                    }
                 }
-                await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
-                await _Custom.SaveAsync(GetPrimaryKeys());
-                afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                if (AfterSave != null)
+
+                if (wPrev != null)
                 {
-                    AfterSave(this, afterSaveArgs);
+                    uw = new UserWidgetLogic();
+                    uw.AppConfig = AppConfig;
+                    if (!wPrev.userWidgetId.Equals(string.Empty))
+                    {
+                        object[] pk = { wPrev.userWidgetId };
+                        await uw.LoadAsync<UserWidgetLogic>(pk);
+                        uw.AppConfig = AppConfig;
+                    }
+                    uw.UserId = UserId;
+                    uw.WidgetId = w.value;
+                    uw.OrderBy = widgetPosition;
+
+                    if (wPrev.selected && (!w.selected))
+                    {
+                        await uw.DeleteAsync();
+                    }
+                    else if (w.selected)
+                    {
+                        await uw.SaveAsync();
+                    }
+
                 }
+                widgetPosition++;
+                savedCount++;
             }
-            return rowsAffected;
+            return savedCount;
         }
         //------------------------------------------------------------------------------------
-        */
     }
 }
