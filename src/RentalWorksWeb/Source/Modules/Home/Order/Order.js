@@ -421,9 +421,8 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
     var $form, $pickListForm;
     try {
         $form = jQuery(this).closest('.fwform');
-        $pickListForm = jQuery(jQuery('#tmpl-modules-OrderStatusForm').html());
         var mode = 'NEW';
-        $pickListForm = FwModule.openForm($pickListForm, mode);
+        $pickListForm = CreatePickListController.openForm(mode);
         FwModule.openSubModuleTab($form, $pickListForm);
         jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
     }

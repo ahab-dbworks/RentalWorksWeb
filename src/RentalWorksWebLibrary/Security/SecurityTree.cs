@@ -50,6 +50,8 @@ namespace WebLibrary.Security
             AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", homeiconbaseurl + "placeholder.png");
             AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
             AddModule("Order", "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuRentalWorks.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
+            AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
+
             AddModule("Order Status", "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuRentalWorks.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
             AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
