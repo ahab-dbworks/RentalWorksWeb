@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System;
 using Microsoft.AspNetCore.Http;
 
@@ -24,16 +23,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             }
             try
             {
-                Dictionary<string, object> uniqueIds = new Dictionary<string, object>();
-                uniqueIds.Add("WebUsersId", id);
-
-                BrowseRequest request = new BrowseRequest();
-                request.uniqueids = uniqueIds;
-
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
-                l.AppConfig = this.AppConfig;
-                IEnumerable<UserDashboardSettingsLogic> records = await l.SelectAsync<UserDashboardSettingsLogic>(request);
-                return new OkObjectResult(records);
+                l.SetDbConfig(this.AppConfig.DatabaseSettings);
+                l.LoadAsync(id);
+                return new OkObjectResult(l);
             }
             catch (Exception ex)
             {
