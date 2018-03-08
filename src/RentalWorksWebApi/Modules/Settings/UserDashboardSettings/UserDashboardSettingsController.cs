@@ -25,7 +25,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             {
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
                 l.SetDbConfig(this.AppConfig.DatabaseSettings);
-                l.LoadAsync(id);
+                await l.LoadAsync(id);
                 return new OkObjectResult(l);
             }
             catch (Exception ex)
@@ -38,5 +38,12 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/userdashboardsettings 
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]UserDashboardSettingsLogic l)
+        {
+            return await DoPostAsync<UserDashboardSettingsLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }
