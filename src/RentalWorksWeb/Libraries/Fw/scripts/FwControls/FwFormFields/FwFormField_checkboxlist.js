@@ -1,10 +1,10 @@
 ﻿FwFormField_checkboxlist = {};
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.renderDesignerHtml = function($control, html) {
-    
+FwFormField_checkboxlist.renderDesignerHtml = function ($control, html) {
+
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.renderRuntimeHtml = function($control, html) {
+FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
     html.push('<div class="fwformfield-control">');
     html.push('  <ol>');
@@ -21,9 +21,9 @@ FwFormField_checkboxlist.renderRuntimeHtml = function($control, html) {
     }
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.loadItems = function($control, items, hideEmptyItem) {
+FwFormField_checkboxlist.loadItems = function ($control, items, hideEmptyItem) {
     var html, hasorderby, checkboxid;
-    
+
     html = [];
     if ((typeof items !== 'undefined') && (items !== null)) {
         if ($control.attr('data-type') === 'orderby') {
@@ -31,9 +31,9 @@ FwFormField_checkboxlist.loadItems = function($control, items, hideEmptyItem) {
             $control.attr('data-orderby', 'true');
         }
         hasorderby = ((typeof $control.attr('data-orderby') === 'string') && ($control.attr('data-orderby') === 'true'));
-        for(var i = 0; i < items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
             checkboxid = FwControl.generateControlId('cb' + i.toString());
-            if (typeof items[i].selected         !== 'string') items[i].selected         = 'F';
+            if (typeof items[i].selected !== 'string') items[i].selected = 'F';
             if (typeof items[i].orderbydirection !== 'string') items[i].orderbydirection = '';
             html.push('<li data-value="');
             html.push(items[i].value);
@@ -70,24 +70,24 @@ FwFormField_checkboxlist.loadItems = function($control, items, hideEmptyItem) {
         }
     }
     $control.find('ol').html(html.join(''));
-    $control.find('ol .checkbox').on('change', function() {
+    $control.find('ol .checkbox').on('change', function () {
         var $this, $li;
         $this = jQuery(this);
         $li = $this.closest('li');
         $li.attr('data-selected', $this.prop('checked') ? 'T' : 'F');
     });
-    $control.find('ol .orderbydirection').on('click', function() {
+    $control.find('ol .orderbydirection').on('click', function () {
         var $this, $li;
         $this = jQuery(this);
         $li = $this.closest('li');
-        switch($li.attr('data-orderbydirection')) {
-            case 'asc':  $li.attr('data-orderbydirection', 'desc'); break;
-            case 'desc': $li.attr('data-orderbydirection', 'asc');  break;
+        switch ($li.attr('data-orderbydirection')) {
+            case 'asc': $li.attr('data-orderbydirection', 'desc'); break;
+            case 'desc': $li.attr('data-orderbydirection', 'asc'); break;
         }
     });
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.loadForm = function($fwformfield, table, field, value, text) {
+FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value, text) {
     var html, hasorderby, checkboxid;
 
     html = [];
@@ -148,15 +148,15 @@ FwFormField_checkboxlist.loadForm = function($fwformfield, table, field, value, 
     });
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.disable = function($control) {
+FwFormField_checkboxlist.disable = function ($control) {
 
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.enable = function($control) {
+FwFormField_checkboxlist.enable = function ($control) {
 
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.getValue2 = function($fwformfield) {
+FwFormField_checkboxlist.getValue2 = function ($fwformfield) {
     var value = [];
     if ($fwformfield.data('checkboxlist') === 'persist') {
         $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
@@ -195,9 +195,9 @@ FwFormField_checkboxlist.getValue2 = function($fwformfield) {
     return value;
 };
 //---------------------------------------------------------------------------------
-FwFormField_checkboxlist.setValue = function($fwformfield, value, text, firechangeevent) {
+FwFormField_checkboxlist.setValue = function ($fwformfield, value, text, firechangeevent) {
     var $inputvalue = $fwformfield.find('.fwformfield-value');
-    $inputvalue.val(value); 
+    $inputvalue.val(value);
     if (firechangeevent) $inputvalue.change();
 };
 //---------------------------------------------------------------------------------

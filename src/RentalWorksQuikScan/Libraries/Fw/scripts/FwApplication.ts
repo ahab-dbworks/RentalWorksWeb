@@ -7,7 +7,22 @@
     audioError: HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
-    
+        setTimeout(function() {
+            // inline templates when debugging by ajaxing for the src url
+            var $templates = jQuery('script[data-ajaxload="true"]');
+            $templates.each(function () {
+                if (jQuery(this).attr("src")) {
+                    jQuery.ajax(
+                        jQuery(this).attr("src"),
+                        {
+                            async: true,
+                            context: this,
+                            success: function (data) { jQuery(this).html(data); }
+                        }
+                    );
+                }
+            });
+        }, 2000);
     }
     //---------------------------------------------------------------------------------
     pushScreen(screen) {
@@ -176,7 +191,7 @@
         var html = [], fields = [], formfields, $appendContent;
     
         jQuery('.application').empty();
-        formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
+        formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'multiselectvalidation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
 
         html.push('<div style="display:flex;flex-wrap:wrap;">');
         for (var i = 0; i < formfields.length; i++) {

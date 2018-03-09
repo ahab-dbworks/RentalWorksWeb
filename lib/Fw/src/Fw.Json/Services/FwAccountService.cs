@@ -119,7 +119,7 @@ namespace Fw.Json.Services
                 cookieAuthToken.HttpOnly = true;
                 HttpContext.Current.Response.SetCookie(cookieAuthToken);
             }
-            else
+            else if (errNo.Equals(0))
             {
                 errNo = 3;
                 errMsg = "Invalid user and/or password.";

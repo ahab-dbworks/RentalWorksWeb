@@ -1,6 +1,18 @@
 var FwApplication = (function () {
     function FwApplication() {
         this.screens = [];
+        setTimeout(function () {
+            var $templates = jQuery('script[data-ajaxload="true"]');
+            $templates.each(function () {
+                if (jQuery(this).attr("src")) {
+                    jQuery.ajax(jQuery(this).attr("src"), {
+                        async: true,
+                        context: this,
+                        success: function (data) { jQuery(this).html(data); }
+                    });
+                }
+            });
+        }, 2000);
     }
     FwApplication.prototype.pushScreen = function (screen) {
         var me, applicationContainer, viewAnimationContainer, $previousView;
@@ -154,7 +166,7 @@ var FwApplication = (function () {
     FwApplication.prototype.debugCss = function (idlength) {
         var html = [], fields = [], formfields, $appendContent;
         jQuery('.application').empty();
-        formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
+        formfields = ['text', 'number', 'password', 'select', 'date', 'time', 'email', 'url', 'phone', 'validation', 'multiselectvalidation', 'combobox', 'money', 'zipcode', 'percent', 'ssn', 'color', 'checkbox', 'toggleswitch', 'radio', 'searchbox', 'textarea'];
         html.push('<div style="display:flex;flex-wrap:wrap;">');
         for (var i = 0; i < formfields.length; i++) {
             var field, fieldname;

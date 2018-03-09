@@ -30,12 +30,12 @@ FwServices.module.method = function(request, module, method, $elementToBlock, on
         if (method === 'Load') {
             var ids = [];
             for (var key in request.ids) {
+                if (request.ids[key].value.length === 0) {
+                    throw `Primary key ${key} is required.`;
+                }
                 ids.push(request.ids[key].value);
             }
             ids = ids.join(',');
-            if (ids.length === 0) {
-                throw 'primary key id(s) cannot be blank';
-            }
             FwAppData.apiMethod(true, 'GET', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
         }
         else if (method === 'Delete') {

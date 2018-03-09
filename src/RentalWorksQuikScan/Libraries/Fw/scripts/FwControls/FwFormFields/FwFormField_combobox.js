@@ -168,18 +168,18 @@ FwFormField_combobox.initControl = function($control) {
                 FwFunc.showError(ex);
             }
         });
-        $control.on('change', '.fwformfield-text', function() {
-            try {
-                if ($searchfield.val().length === 0) {
-                    $valuefield.val('').change();
-                    FwFormField_combobox.closeDropDown($control);
-                } else {
-                    FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
-                }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //$control.on('change', '.fwformfield-text', function() {
+        //    try {
+        //        if ($searchfield.val().length === 0) {
+        //            $valuefield.val('').change();
+        //            FwFormField_combobox.closeDropDown($control);
+        //        } else {
+        //            FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
+        //        }
+        //    } catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
     }
     $control
         .on('keydown', '.fwformfield-text', function(e) {
@@ -261,6 +261,18 @@ FwFormField_combobox.initControl = function($control) {
                     $control.data('searchtimeout', window.setTimeout(function() {
                         FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, usesearchfield);
                     }, 250));
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        })
+        .on('change', '.fwformfield-text', function() {
+            try {
+                if ($searchfield.val().length === 0) {
+                    $valuefield.val('').change();
+                    FwFormField_combobox.closeDropDown($control);
+                } else {
+                    FwFormField_combobox.validate($control, validationName, $valuefield, $searchfield, $btnvalidate, $validationbrowse, true);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);

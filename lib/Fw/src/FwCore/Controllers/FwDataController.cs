@@ -18,14 +18,16 @@ namespace FwCore.Controllers
         //------------------------------------------------------------------------------------
         public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
-        protected FwBusinessLogic CreateBusinessLogic(Type type, FwUserSession userSession = null)
+        protected FwBusinessLogic CreateBusinessLogic(Type type, FwApplicationConfig appConfig, FwUserSession userSession)
         {
             FwBusinessLogic bl = (FwBusinessLogic)Activator.CreateInstance(type);
+            bl.AppConfig = appConfig;
             bl.UserSession = userSession;
+            bl.SetDependencies(appConfig, userSession);
             return bl;
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type, FwUserSession userSession = null)
+        protected virtual async Task<IActionResult> DoBrowseAsync(BrowseRequest browseRequest, Type type)
         {
             if (!ModelState.IsValid)
             {
@@ -33,8 +35,7 @@ namespace FwCore.Controllers
             }
             try
             {
-                FwBusinessLogic l = CreateBusinessLogic(type, userSession);
-                l.AppConfig = AppConfig;
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 return new OkObjectResult(dt);
             }
@@ -63,8 +64,7 @@ namespace FwCore.Controllers
                 //request.pageno = pageno;
                 //request.pagesize = pagesize;
                 //request.orderby = sort;
-                FwBusinessLogic l = CreateBusinessLogic(type);
-                l.AppConfig = AppConfig;
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 IEnumerable<T> records = await l.SelectAsync<T>(request);
                 return new OkObjectResult(records);
             }
@@ -87,8 +87,7 @@ namespace FwCore.Controllers
             try
             {
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = CreateBusinessLogic(type);
-                l.AppConfig = AppConfig;
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 if (await l.LoadAsync<T>(ids))
                 {
                     return new OkObjectResult(l);
@@ -116,7 +115,8 @@ namespace FwCore.Controllers
             }
             try
             {
-                l.AppConfig = AppConfig;
+                l.AppConfig = this.AppConfig;
+                l.UserSession = this.UserSession;
 
                 bool isValid = true;
                 string validateMsg = string.Empty;
@@ -163,7 +163,7 @@ namespace FwCore.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                FwBusinessLogic logic = (FwBusinessLogic)Activator.CreateInstance(type);
+                FwBusinessLogic logic = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
 
                 //populate the parent formfields from the request
                 IDictionary<string, dynamic> miscfields = request.miscfields;
@@ -238,8 +238,7 @@ namespace FwCore.Controllers
             try
             {
                 string[] ids = id.Split('~');
-                FwBusinessLogic l = CreateBusinessLogic(type);
-                l.AppConfig = AppConfig;
+                FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
                 bool success = await l.DeleteAsync();
                 return new OkObjectResult(success);

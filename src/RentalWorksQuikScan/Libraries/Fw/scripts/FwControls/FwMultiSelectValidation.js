@@ -15,6 +15,31 @@ FwMultiSelectValidation.init = function($control, validationName, $valuefield, $
     if (typeof control_boundfields != 'undefined') {
         boundfields = control_boundfields.split(',');
     }
+
+    // auto generate controllers for validations if they don't have one, so we only have to look in 1 place for the apiurl
+    if (typeof $browse.attr('data-name') !== 'undefined' && typeof $browse.attr('data-apiurl') !== 'undefined') {
+        if (typeof window[$browse.attr('data-apiurl') + 'Controller'] === 'undefined') {
+            window[$browse.attr('data-name') + 'Controller'] = {
+                Module: $browse.attr('data-name'),
+                apiurl: $browse.attr('data-apiurl')
+            };
+        } else {
+            var controller = window[$browse.attr('data-apiurl') + 'Controller'];
+            if (typeof controller.Module === 'undefined') {
+                controller.Module = $browse.attr('data-name');
+            }
+            if (typeof controller.apiurl === 'undefined') {
+                controller.apiurl = $browse.attr('data-apiurl');
+            }
+        }
+    } else if (typeof $browse.attr('data-name') !== 'undefined') {
+        if (typeof window[$browse.attr('data-apiurl') + 'Controller'] === 'undefined') {
+            window[$browse.attr('data-name') + 'Controller'] = {
+                Module: $browse.attr('data-name')
+            };
+        }
+    }
+
     FwBrowse.init($browse);
     $browse.data('$control', $control);
     $browse.data('ondatabind', function(request) {

@@ -88,7 +88,12 @@ var FwBrowse = (function () {
             });
             if ((nodeView !== null) && (nodeBrowse !== null)) {
                 $control.data('onrowdblclick', function () {
-                    FwBrowse.openSelectedRow($control);
+                    try {
+                        FwBrowse.openSelectedRow($control);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
                 });
             }
         }
