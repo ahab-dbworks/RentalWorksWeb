@@ -135,6 +135,23 @@ namespace WebApi.Modules.Settings.Widget
                             jsonException.StackTrace = ex.StackTrace;
                             return StatusCode(jsonException.StatusCode, jsonException);
                         };
+                    case "customersbytype":
+                        try
+                        {
+                            WidgetCustomersByType w = new WidgetCustomersByType();
+                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
+                            bool b = w.LoadAsync().Result;
+                            return new OkObjectResult(w);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            FwApiException jsonException = new FwApiException();
+                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                            jsonException.Message = ex.Message;
+                            jsonException.StackTrace = ex.StackTrace;
+                            return StatusCode(jsonException.StatusCode, jsonException);
+                        };
                     case "billingbyagentbymonth":
                         try
                         {
