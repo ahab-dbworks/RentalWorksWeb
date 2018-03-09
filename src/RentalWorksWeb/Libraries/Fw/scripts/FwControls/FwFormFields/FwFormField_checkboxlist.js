@@ -88,7 +88,64 @@ FwFormField_checkboxlist.loadItems = function($control, items, hideEmptyItem) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.loadForm = function($fwformfield, table, field, value, text) {
-    
+    var html, hasorderby, checkboxid;
+
+    html = [];
+    if ((typeof value !== 'undefined') && (value !== null)) {
+        for (var i = 0; i < value.length; i++) {
+            checkboxid = FwControl.generateControlId('cb' + i.toString());
+            if (value[i].selected) {
+                value[i].selected = 'T';
+            } else {
+                value[i].selected = 'F';
+            }
+            if (typeof value[i].orderbydirection !== 'string') value[i].orderbydirection = '';
+            html.push('<li data-value="');
+            html.push(value[i].value);
+            html.push('" data-selected="');
+            html.push(value[i].selected.toString());
+            html.push('"');
+            html.push(' data-userWidgetId="');
+            html.push(value[i].userWidgetId);
+            html.push('"');
+            html.push('>');
+            html.push('<div class="wrapper">');
+            html.push('<div class="handle">::</div>');
+            html.push('<input class="checkbox" type="checkbox" id="');
+            html.push(checkboxid);
+            html.push('"');
+            if (value[i].selected === 'T') {
+                html.push(' checked="checked"');
+            }
+            html.push('/>');
+            html.push('<label for="');
+            html.push(checkboxid);
+            html.push('">');
+            html.push(value[i].text);
+            html.push('</label>');
+            if (hasorderby) {
+                html.push('<div class="orderbydirection"></div>');
+            }
+            html.push('</div>');
+            html.push('</li>');
+        }
+    }
+    $fwformfield.find('ol').html(html.join(''));
+    $fwformfield.find('ol .checkbox').on('change', function () {
+        var $this, $li;
+        $this = jQuery(this);
+        $li = $this.closest('li');
+        $li.attr('data-selected', $this.prop('checked') ? 'T' : 'F');
+    });
+    $fwformfield.find('ol .orderbydirection').on('click', function () {
+        var $this, $li;
+        $this = jQuery(this);
+        $li = $this.closest('li');
+        switch ($li.attr('data-orderbydirection')) {
+            case 'asc': $li.attr('data-orderbydirection', 'desc'); break;
+            case 'desc': $li.attr('data-orderbydirection', 'asc'); break;
+        }
+    });
 };
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.disable = function($control) {
@@ -101,16 +158,40 @@ FwFormField_checkboxlist.enable = function($control) {
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.getValue2 = function($fwformfield) {
     var value = [];
-    $fwformfield.find('li[data-selected="T"]').each(function(index, element) {
-        var $li, item;
-        $li = jQuery(element);
-        item = {};
-        item.value   = $li.attr('data-value');
-        if (typeof $li.attr('data-orderbydirection') === 'string') {
-            item.orderbydirection = $li.attr('data-orderbydirection');
-        }
-        value.push(item);
-    });
+    if ($fwformfield.data('checkboxlist') === 'persist') {
+        $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
+            var $li, item;
+            $li = jQuery(element);
+            item = {};
+            item.value = $li.attr('data-value');
+            item.text = $li.find('label').text();
+            item.userWidgetId = $li.attr('data-userwidgetid');
+            item.selected = 'true'
+            value.push(item);
+        });
+        $fwformfield.find('li[data-selected="F"]').each(function (index, element) {
+            var $li, item;
+            $li = jQuery(element);
+            item = {};
+            item.value = $li.attr('data-value');
+            item.text = $li.find('label').text();
+            item.userWidgetId = $li.attr('data-userwidgetid');
+            item.selected = 'false'
+            value.push(item);
+        });
+    } else {
+        $fwformfield.find('li[data-selected="T"]').each(function (index, element) {
+            var $li, item;
+            $li = jQuery(element);
+            item = {};
+            item.value = $li.attr('data-value');
+            if (typeof $li.attr('data-orderbydirection') === 'string') {
+                item.orderbydirection = $li.attr('data-orderbydirection');
+            }
+            value.push(item);
+        });
+    }
+
     return value;
 };
 //---------------------------------------------------------------------------------

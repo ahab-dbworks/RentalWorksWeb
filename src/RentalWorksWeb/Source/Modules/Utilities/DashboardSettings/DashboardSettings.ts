@@ -6,7 +6,7 @@ class DashboardSettings {
 
     constructor() {
         this.Module = 'DashboardSettings';
-        this.apiurl = 'api/v1/userwidget'; 
+        this.apiurl = 'api/v1/userdashboardsettings'; 
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -15,7 +15,7 @@ class DashboardSettings {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('NEW');
+        var $form = this.openForm('EDIT');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Dashboard Settings', false, 'FORM', true);
@@ -34,19 +34,17 @@ class DashboardSettings {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/widget/", null, FwServices.defaultTimeout, function onSuccess(response) {
-            console.log(response)
-            for (var i = 0; i < response.length; i++) {
-                widgets.push({
-                    'orderbydirection': 'asc',
-                    'selected': 'F',
-                    'text': response[i].Widget,
-                    'value': response[i].WidgetId
-                })
-            }
+        //FwAppData.apiMethod(true, 'GET', "api/v1/widget/", null, FwServices.defaultTimeout, function onSuccess(response) {
+        //    console.log(response)
+        //    for (var i = 0; i < response.length; i++) {
+        //        widgets.push({
+        //            'text': response[i].Widget,
+        //            'value': response[i].WidgetId
+        //        })
+        //    }
 
-            FwFormField_checkboxlist.loadItems($form.find('.widgetorder'), widgets);
-        }, null, $form)
+        //    FwFormField_checkboxlist.loadItems($form.find('.widgetorder'), widgets);
+        //}, null, $form)
 
         
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
