@@ -20723,6 +20723,162 @@
 			]
 		},
 		{
+			"name": "Repair Cost",
+			"description": "",
+			"item": [
+				{
+					"name": "Repair Cost: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Cost: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"RepairId\": \"00002UMU\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Cost: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost/00003KKD",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Cost: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RepairId\": \"00002UMU\",\n    \"RateId\": \"00001EMP\",\n    \"Description\": \"JUSTIN TEST\",\n    \"Quantity\": 1,\n    \"Rate\": 5,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Cost: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RepairCostId\": \"000090SY\",\n    \"Description\": \"JUSTIN TEST 22\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Cost: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repaircost/000090SY",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Repair Order",
 			"description": "",
 			"item": [
@@ -29155,6 +29311,31 @@
 					"name": "Load: Billing By Agent By Month",
 					"request": {
 						"url": "http://localhost:57949/api/v1/widget/loadbyname/billingbyagentbymonth",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Customers By Type",
+					"request": {
+						"url": "http://localhost:57949/api/v1/widget/loadbyname/customersbytype",
 						"method": "GET",
 						"header": [
 							{
