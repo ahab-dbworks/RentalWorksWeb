@@ -639,7 +639,10 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public void LoadUserSession()
         {
-            dataLoader.UserSession = this.UserSession;
+            if (dataLoader != null)
+            {
+                dataLoader.UserSession = this.UserSession;
+            }
             foreach (FwDataReadWriteRecord dataRecord in dataRecords)
             {
                 dataRecord.UserSession = this.UserSession;
@@ -648,8 +651,11 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession)
         {
-            dataLoader.AppConfig = appConfig;
-            dataLoader.UserSession = userSession;
+            if (dataLoader != null)
+            {
+                dataLoader.AppConfig = appConfig;
+                dataLoader.UserSession = userSession;
+            }
             for(int i = 0; i < dataRecords.Count; i++)
             {
                 FwDataReadWriteRecord dataRecord = dataRecords[i];
