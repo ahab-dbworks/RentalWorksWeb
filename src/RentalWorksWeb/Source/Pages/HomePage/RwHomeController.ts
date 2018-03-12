@@ -90,7 +90,7 @@
     loadSettings($control) {
         var self = this;
         var $dashboard = $control.find('.programlogo');
-        var userId = JSON.parse(sessionStorage.getItem('userid'));
+        var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         $dashboard.append('<div class="chart-row"></div><div class="chart-row"></div>');
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -127,7 +127,7 @@
             self.ordersbystatus = response;
             try {
                 var chart = new Chart(barCanvas, response);
-                barCanvas.onclick = function (evt) {
+                jQuery(barCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
@@ -135,7 +135,7 @@
                     var value = data.datasets[datasetIndex].data[activePoint._index];      
                     
                     program.getModule('module/order/status/' + label);
-                };
+                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -161,7 +161,7 @@
                 delete response.options.scales;
                 var chart = new Chart(pieCanvas, response);
                 
-                pieCanvas.onclick = function (evt) {
+                jQuery(pieCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
@@ -169,7 +169,7 @@
                     var value = data.datasets[datasetIndex].data[activePoint._index];
                     
                     program.getModule('module/order/agent/' + label.replace(/ /g, '%20'));
-                };
+                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -193,7 +193,7 @@
             try {
                 var chart = new Chart(horizontalCanvas, response);
 
-                horizontalCanvas.onclick = function (evt) {
+                jQuery(horizontalCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
                     var data = activePoint._chart.data;
                     var datasetIndex = activePoint._datasetIndex;
@@ -201,7 +201,7 @@
                     var value = data.datasets[datasetIndex].data[activePoint._index];
                     
                     program.getModule('module/deal/deal%20type/' + label.replace(/ /g, '%20'));
-                };
+                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
