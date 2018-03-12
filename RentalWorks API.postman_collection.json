@@ -20879,6 +20879,162 @@
 			]
 		},
 		{
+			"name": "Repair Part",
+			"description": "",
+			"item": [
+				{
+					"name": "Repair Part: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"RepairId\": \"000016Q1\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart/000019OS",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RepairId\": \"000016Q1\",\n    \"InventoryId\": \"000019I0\",\n    \"WarehouseId\": \"0000000H\",\n    \"Description\": \"JUSTIN TEST\",\n    \"Quantity\": 1,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RepairPartId\": \"000090T0\",\n    \"Quantity\": 2,\n    \"DiscountAmount\": 1,\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Part: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairpart/000090T0",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Repair Order",
 			"description": "",
 			"item": [
