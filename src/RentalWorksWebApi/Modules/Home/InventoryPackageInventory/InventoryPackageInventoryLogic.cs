@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 namespace WebApi.Modules.Home.InventoryPackageInventory
@@ -61,5 +62,25 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         public decimal? MonthlyRate { get; set; }
         public string DateStamp { get { return inventoryPackageInventory.DateStamp; } set { inventoryPackageInventory.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            if (saveMode == TDataRecordSaveMode.smUpdate)
+            {
+                InventoryPackageInventoryLogic l2 = new InventoryPackageInventoryLogic();
+                l2.AppConfig = inventoryPackageInventory.AppConfig;
+                object[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<InventoryPackageInventoryLogic>(pk).Result;
+                if (l2.IsPrimary.Value)
+                {
+                    isValid = false;
+                    validateMsg = "Cannot modify the Primary item.";
+                }
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

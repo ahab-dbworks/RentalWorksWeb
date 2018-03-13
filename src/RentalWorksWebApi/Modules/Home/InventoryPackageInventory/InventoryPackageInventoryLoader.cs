@@ -109,7 +109,12 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         {
             get
             {
-                return "dbo.funcpackageitem('" + packageId + "', '" + warehouseId + "')";
+                string t = "packageitemview";
+                if ((packageId != null) && (warehouseId != null) && (!packageId.Equals(string.Empty)) && (!warehouseId.Equals(string.Empty)))
+                {
+                    t = "dbo.funcpackageitem('" + packageId + "', '" + warehouseId + "')";
+                }
+                return t;
             }
         }
         //------------------------------------------------------------------------------------
