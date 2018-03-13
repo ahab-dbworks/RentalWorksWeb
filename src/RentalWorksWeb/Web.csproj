@@ -589,6 +589,8 @@
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridBrowse.htm" />
     <Content Include="Source\Grids\CrewLocationGrid\CrewLocationGridBrowse.htm" />
+    <Content Include="Source\Grids\RepairPartsGrid\RepairPartsGridBrowse.htm" />
+    <Content Include="Source\Grids\RepairCostsGrid\RepairCostsGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridBrowse.htm" />
@@ -681,6 +683,8 @@
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewLocationGrid\CrewLocationGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RepairPartsGrid\RepairPartsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RepairCostsGrid\RepairCostsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridController.ts" />
@@ -752,8 +756,11 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
+    <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
+    <Content Include="Source\Modules\Home\Repair\RepairForm.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />

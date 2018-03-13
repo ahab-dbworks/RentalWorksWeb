@@ -43,20 +43,20 @@ namespace WebLibrary.Security
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{43765919-4291-49DD-BE76-F69AA12B13E8}", application.Id);
 
             //RentalWorks
-            AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             AddModule("Asset", "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuRentalWorks.Id, "AssetController", "module/asset", homeiconbaseurl + "placeholder.png");
             AddModule("Contact", "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuRentalWorks.Id, "ContactController", "module/contact", homeiconbaseurl + "placeholder.png");
-            AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
+            AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
+            AddModule("Contract", "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuRentalWorks.Id, "ContractController", "module/contract", homeiconbaseurl + "placeholder.png");
             AddModule("Customer", "{214C6242-AA91-4498-A4CC-E0F3DCCCE71E}", lv1menuRentalWorks.Id, "CustomerController", "module/customer", homeiconbaseurl + "placeholder.png");
             AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
             AddModule("Order", "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuRentalWorks.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
-            AddModule("Create Pick List", "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
-
             AddModule("Order Status", "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuRentalWorks.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
             AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
+            AddModule("Repair Order", "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuRentalWorks.Id, "RepairController", "module/repair", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
-            AddModule("Contract", "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuRentalWorks.Id, "ContractController", "module/contract", homeiconbaseurl + "placeholder.png");
+            AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
+            AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
 
 
 
@@ -349,6 +349,8 @@ namespace WebLibrary.Security
             AddGrid("Quik Entry Sub Category",                "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
             AddGrid("Rate Location Tax",                      "{F1A613A6-FD31-4082-88CC-4F0252BF56AC}", lv1menuGrids.Id, "RateLocationTaxGridController");
             AddGrid("Rental Inventory Warehouse",             "{3AC00695-4130-4A34-B4B2-BC6E3E950FB1}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
+            AddGrid("Repair Costs",                           "{38219D4D-C8F6-4C8C-B86B-D86D5F645251}", lv1menuGrids.Id, "RepairCostsGridController");
+            AddGrid("Repair Parts",                           "{D3EB3232-9976-4607-A86F-7D64DF2AD4F8}", lv1menuGrids.Id, "RepairPartsGridController");
             AddGrid("Rate Warehouse",                         "{2EC39399-B731-4B22-A5F3-1919A275AA56}", lv1menuGrids.Id, "RateWarehouseGridController");
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");

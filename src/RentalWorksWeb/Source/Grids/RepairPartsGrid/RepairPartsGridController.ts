@@ -1,12 +1,12 @@
-﻿class VendorGrid {
+﻿class RepairPartsGrid {
   Module: string;
   apiurl: string;
 
   constructor() {
-    this.Module = 'VendorGrid';
-    this.apiurl = 'api/v1/vendor';
+    this.Module = 'RepairPartsGrid';
+    this.apiurl = 'api/v1/repairpart';
   }
 }
 
-var VendorGridController = new VendorGrid();
+var RepairPartsGridController = new RepairPartsGrid();
 //----------------------------------------------------------------------------------------------
