@@ -841,6 +841,9 @@ var FwModule = (function () {
         ismodified = $form.attr('data-modified');
         hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
         issubmodule = $tab.hasClass('submodule');
+        if ($form.parent().data('type') === 'settings-row') {
+            ismodified = 'settingspage';
+        }
         if (issubmodule) {
             $parenttab = jQuery('#' + $tab.data('parenttabid'));
         }

@@ -221,6 +221,9 @@ var FwApplication = (function () {
         $bodyContainer = jQuery('#master-body');
         $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
         path = path.toLowerCase();
+        if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
+            this.navigate(path);
+        }
         if ($modifiedForms.length > 0) {
             $form = jQuery($modifiedForms[0]);
             $tab = jQuery('#' + $form.parent().attr('data-tabid'));
