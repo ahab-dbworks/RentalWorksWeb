@@ -3,15 +3,15 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-namespace WebApi.Modules.Home.RepairOrder
+
+namespace WebApi.Modules.Home.Repair
 {
     [FwSqlTable("repairview")]
-    public class RepairOrderLoader : AppDataLoadRecord
+    public class RepairLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string RepairOrderId { get; set; } = "";
+        public string RepairId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string LocationId { get; set; }
@@ -207,7 +207,7 @@ namespace WebApi.Modules.Home.RepairOrder
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }

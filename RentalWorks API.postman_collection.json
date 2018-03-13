@@ -20723,6 +20723,162 @@
 			]
 		},
 		{
+			"name": "Repair",
+			"description": "",
+			"item": [
+				{
+					"name": "Repair: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RepairNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/00001PHE",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"RepairOrderId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Repair Cost",
 			"description": "",
 			"item": [
@@ -21011,162 +21167,6 @@
 					"name": "Repair Part: Delete",
 					"request": {
 						"url": "http://localhost:57949/api/v1/repairpart/000090T0",
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Repair Order",
-			"description": "",
-			"item": [
-				{
-					"name": "Repair Order: Get Many",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Repair Order: Browse",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder/browse",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RepairNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Repair Order: Get One",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder/00001PHE",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Repair Order: Insert",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Repair Order: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t \"RepairOrderId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Repair Order: Delete",
-					"request": {
-						"url": "http://localhost:57949/api/v1/repairorder/00003EOV",
 						"method": "DELETE",
 						"header": [
 							{

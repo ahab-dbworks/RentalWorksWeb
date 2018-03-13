@@ -1,15 +1,15 @@
-using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-namespace WebApi.Modules.Home.RepairOrder
+
+namespace WebApi.Modules.Home.Repair
 {
     [FwSqlTable("repair")]
-    public class RepairOrderRecord : AppDataReadWriteRecord
+    public class RepairRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string RepairOrderId { get; set; } = "";
+        public string RepairId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string Status { get; set; }
