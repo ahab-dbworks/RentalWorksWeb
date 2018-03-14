@@ -37,7 +37,7 @@ RwDealOutstandingController.openForm = function() {
 
     $form
         .on('change', 'div[data-datafield="filterdate"] input.fwformfield-value', function (event) {
-            var thisischecked = (FwFormField.getValue($form, 'div[data-datafield="filterdate"]') == 'T');
+            var thisischecked = FwFormField.getValue($form, 'div[data-datafield="filterdate"]') == 'T';
             FwFormField.setValue($form, 'div[data-datafield="fromdate"]', '');
             FwFormField.setValue($form, 'div[data-datafield="todate"]', '');
             FwFormField.toggle($form.find('div[data-datafield="fromdate"]'), thisischecked);

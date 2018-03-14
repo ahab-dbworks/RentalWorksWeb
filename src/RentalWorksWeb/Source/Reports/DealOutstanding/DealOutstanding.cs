@@ -49,7 +49,7 @@ namespace Web.Source.Reports
             else if (request.parameters.IncludeValueCost == "P") { sb.Replace("[LBLITEMVALUE]", "Unit Cost"  ); }
             else                                                 { sb.Replace("[LBLITEMVALUE]", ""           ); }
 
-            sb.Replace("[TOTOALROWS]", "Total Rows: " + dtDealOutstanding.Rows.Count);
+            sb.Replace("[TOTALROWS]", "Total Rows: " + dtDealOutstanding.Rows.Count);
             if (request.parameters.IncludeValueCost == "on")
             {
                 sb.Replace("[TOTALVALUE]", "");
