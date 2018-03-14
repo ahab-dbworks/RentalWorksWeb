@@ -248,7 +248,18 @@ FwHybridMasterController.setModuleCaption = function($object) {
 };
 //----------------------------------------------------------------------------------------------
 FwHybridMasterController.addFormControl = function(screen, name, direction, icon, isvisible, onclick) {
-    var $btn = jQuery('<div data-name="' + name + '" class="btn ' + direction + ' ' + icon + '">' + name + '</div>');
+    var html = [];
+    html.push('<div data-name="' + name + '" class="btn ' + direction + '">');
+    if (direction === 'left' && typeof icon === 'string' && icon.length > 0) {
+        html.push('<i class="material-icons">' + icon + '</i>');
+    }
+    html.push(name)
+    if (direction === 'right' && typeof icon === 'string' && icon.length > 0) {
+        html.push('<i class="material-icons">' + icon + '</i>');
+    }
+    html.push('</div>');
+    html = html.join('');
+    var $btn = jQuery(html);
     var $formcontrols = FwHybridMasterController.findFormControls(screen);
     $btn.on('click', onclick);
     $btn.toggle(isvisible);

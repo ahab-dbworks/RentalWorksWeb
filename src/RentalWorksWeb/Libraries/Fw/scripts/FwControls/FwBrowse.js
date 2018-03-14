@@ -2305,7 +2305,10 @@ var FwBrowse = (function () {
                     FwBrowse.search($control);
                 }
                 $control.attr('data-mode', 'VIEW');
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                if (($control.attr('data-type') === 'Grid') && (typeof $control.data('aftersave') === 'function')) {
+                    $control.data('aftersave')($control, $tr);
+                }
+                else if (($control.attr('data-type') === 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                     var controller;
                     controller = $control.attr('data-controller');
                     if (typeof window[controller] === 'undefined')

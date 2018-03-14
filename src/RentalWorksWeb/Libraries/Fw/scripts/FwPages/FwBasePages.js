@@ -2,10 +2,7 @@
 var FwBasePages = {};
 //---------------------------------------------------------------------------------
 FwBasePages.getDefaultScreen = function(viewModel) {
-    var html, screen;
-    screen = {};
-    html = [];
-
+    var html = [];
     html.push('<div class="default-page">');
     html.push('  <div class="default-container">');
     html.push('    <div class="programlogo">');
@@ -24,6 +21,7 @@ FwBasePages.getDefaultScreen = function(viewModel) {
     html = html.join('');
     html = Mustache.render(html, viewModel);
 
+    var screen = {};
     screen.$view = jQuery(html);
 
     screen.$view.on('click', '#dbworkslink', function() {
@@ -40,7 +38,7 @@ FwBasePages.getDefaultScreen = function(viewModel) {
 };
 //---------------------------------------------------------------------------------
 FwBasePages.getLoginScreen = function(viewModel) {
-    var html, screen, $loginscreen, $fwcontrols;
+    var html, screen, $loginscreen;
     screen = {};
     html = [];
 

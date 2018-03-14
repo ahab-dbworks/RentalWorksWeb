@@ -10,8 +10,8 @@
 .fwmobilesearch .searchinput .clear {display:none;cursor:pointer;}
 .fwmobilesearch .searchinput .clear.visible {display:block;}
 
-.fwmobilesearch .options {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;white-space:nowrap;background-color: #eeeeee;color: rgba(0,0,0,0.87);border-top: 1px solid #bdbdbd;font-size:12px;}
-.fwmobilesearch .options .option {flex:1 0 auto;text-align:center;-webkit-transition: all .28s ease;transition: all .28s ease;cursor: pointer;box-sizing: border-box;padding:8px 5px;}
+.fwmobilesearch .options {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;white-space:nowrap;background-color: #eeeeee;color: rgba(0,0,0,0.87);border-top: 1px solid #bdbdbd;font-size:.75em;}
+.fwmobilesearch .options .option {flex:1 0 auto;text-align:center;-webkit-transition: all .28s ease;transition: all .28s ease;cursor: pointer;box-sizing: border-box;padding:.5em .3em;}
 .fwmobilesearch .options .option:active {background-color:#e0e0e0;}
 .fwmobilesearch .options .option.active {background-color: #2196f3;}
 

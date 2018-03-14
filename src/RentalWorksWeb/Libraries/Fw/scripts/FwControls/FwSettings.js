@@ -431,7 +431,7 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                         //html.push('      <div class="pull-right save"><i class="material-icons">save</i>Save</div>'); 
                         html.push('    </div>');
                         html.push('  </div>');
-                        html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '" data-type="settings-row"></div>');
+                        html.push('  <div class="panel-body" style="display:none;" id="' + response[i][rowId] + '"></div>');
                         html.push('</div>');
                         $moduleRows = jQuery(html.join(''));
                         $moduleRows.data('recorddata', response[i]);
