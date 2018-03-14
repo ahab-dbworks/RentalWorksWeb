@@ -342,6 +342,7 @@ namespace WebLibrary.Security
             AddGrid("Order Type Invoice Export",              "{B24187E9-6B1D-4717-B9C2-F95C5543AE45}", lv1menuGrids.Id, "OrderTypeInvoiceExportGridController");
             AddGrid("Order Type Note",                        "{DD3B6D98-DBAC-467D-A3A8-244FCD4E750A}", lv1menuGrids.Id, "OrderTypeNoteGridController");
             AddGrid("Order Type Terms And Conditions",        "{CD65AB0D-A92D-4CA9-9EB3-1F789BC51717}", lv1menuGrids.Id, "OrderTypeTermsAndConditionsGridController");
+            AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
             AddGrid("Presentation Layer Activity",            "{AA12FF6E-DE89-4C9A-8DB6-E42542BB1689}", lv1menuGrids.Id, "PresentationLayerActivityGridController");
             AddGrid("Presentation Layer Activity Override",   "{ABA89B3D-AA83-4298-AAD4-AC5294BE7388}", lv1menuGrids.Id, "PresentationLayerActivityOverrideGridController");
             AddGrid("Presentation Layer Form",                "{88985C09-65AD-4480-830A-EFCE95C3940B}", lv1menuGrids.Id, "PresentationLayerFormGridController");
