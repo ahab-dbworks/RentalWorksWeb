@@ -6,12 +6,12 @@ var FwModule = (function () {
         jQuery('html').removeClass('mobile').addClass("desktop");
         html = [];
         html.push('<div id="moduleMaster">');
-        html.push('<div id="moduleMaster-body">');
-        html.push('<div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
-        html.push('<div class="tabs"></div>');
-        html.push('<div class="tabpages"></div>');
-        html.push('</div>');
-        html.push('</div>');
+        html.push('  <div id="moduleMaster-body">');
+        html.push('    <div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
+        html.push('      <div class="tabs"></div>');
+        html.push('      <div class="tabpages"></div>');
+        html.push('    </div>');
+        html.push('  </div>');
         html.push('</div>');
         $view = jQuery(html.join(''));
         $view.attr('data-module', moduleControllerName);
@@ -617,6 +617,7 @@ var FwModule = (function () {
                         }
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
@@ -763,10 +764,10 @@ var FwModule = (function () {
                                                     if (typeof window[controller] === 'undefined')
                                                         throw 'Missing javascript module: ' + controller;
                                                     if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, false);
+                                                        window[controller][method]($form, { closetab: false });
                                                     }
                                                     else {
-                                                        FwModule[method](window[controller].Module, $form, false);
+                                                        FwModule[method](window[controller].Module, $form, { closetab: false });
                                                     }
                                                 }
                                             }
@@ -841,9 +842,6 @@ var FwModule = (function () {
         ismodified = $form.attr('data-modified');
         hassubmodule = (typeof $tab.data('subtabids') !== 'undefined') && ($tab.data('subtabids').length > 0);
         issubmodule = $tab.hasClass('submodule');
-        if ($form.parent().data('type') === 'settings-row') {
-            ismodified = 'settingspage';
-        }
         if (issubmodule) {
             $parenttab = jQuery('#' + $tab.data('parenttabid'));
         }

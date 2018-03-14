@@ -11,20 +11,9 @@ var RwHome = (function () {
     RwHome.prototype.getHomeScreen = function () {
         var self = this;
         var applicationOptions = program.getApplicationOptions();
-        var properties = {};
         var screen = {};
-        var $filemenu = jQuery('.fwfilemenu');
-        if ($filemenu.length === 0) {
-            var viewModel = {
-                htmlPageBody: jQuery('#tmpl-pages-Home').html()
-            };
-            screen.$view = RwMasterController.getMasterView(viewModel, properties);
-        }
-        else {
-            screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
-        }
-        screen.viewModel = viewModel;
-        screen.properties = properties;
+        screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
+        self.buildWidgetSettings(screen.$view);
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
@@ -37,7 +26,6 @@ var RwHome = (function () {
                 self.loadSettings(screen.$view);
             }
         };
-        self.buildWidgetSettings(screen.$view);
         return screen;
     };
     ;

@@ -5,12 +5,12 @@ class FwModule {
         jQuery('html').removeClass('mobile').addClass("desktop");
         html = [];
         html.push('<div id="moduleMaster">');
-        html.push('<div id="moduleMaster-body">');
-        html.push('<div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
-        html.push('<div class="tabs"></div>');
-        html.push('<div class="tabpages"></div>');
-        html.push('</div>');
-        html.push('</div>');
+        html.push('  <div id="moduleMaster-body">');
+        html.push('    <div id="moduletabs" class="fwcontrol fwtabs" data-control="FwTabs" data-type="" data-version="1" data-rendermode="template">');
+        html.push('      <div class="tabs"></div>');
+        html.push('      <div class="tabpages"></div>');
+        html.push('    </div>');
+        html.push('  </div>');
         html.push('</div>');
 
         $view = jQuery(html.join(''));
@@ -655,6 +655,7 @@ class FwModule {
 
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled')
 
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
@@ -799,9 +800,9 @@ class FwModule {
                                                 if (ismodified === 'true') {
                                                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
                                                     if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, false);
+                                                        window[controller][method]($form, { closetab: false });
                                                     } else {
-                                                        FwModule[method](window[controller].Module, $form, false);
+                                                        FwModule[method](window[controller].Module, $form, { closetab: false });
                                                     }
                                                 }
                                             } catch (ex) {

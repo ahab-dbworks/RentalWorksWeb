@@ -1,10 +1,11 @@
 ﻿class FwApplication {
-    screens: any[] = [];
-    audioMode: string;
+    name:              string;
+    screens:           any[] = [];
+    audioMode:         string;
     audioSuccessArray: number[];
-    audioErrorArray: number[];
-    audioSuccess: HTMLAudioElement;
-    audioError: HTMLAudioElement;
+    audioErrorArray:   number[];
+    audioSuccess:      HTMLAudioElement;
+    audioError:        HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
         setTimeout(function() {
@@ -198,16 +199,16 @@
             var field, fieldname;
             field     = formfields[i];
             fieldname = field.toLowerCase().replace(/\b[a-z]/g, function(letter) {return letter.toUpperCase();});
-            html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="' + fieldname + ' Section" style="min-width:300px;">');
-                html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field"></div>');
-                html.push('</div>');
-                html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field" data-enabled="false"></div>');
-                html.push('</div>');
-                html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field" data-required="true"></div>');
-                html.push('</div>');
+            html.push(`<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${fieldname} Section" style="min-width:300px;">`);
+            html.push('  <div class="flexrow">');
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="flexrow">');
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-enabled="false"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="flexrow">');
+            html.push(`    <div data-control="FwFormField" data-type="${field}" class="fwcontrol fwformfield" data-caption="${fieldname} Field" data-required="true"></div>`);
+            html.push('  </div>');
             html.push('</div>');
         }
         html.push('</div>');
@@ -270,10 +271,10 @@
     };
     //---------------------------------------------------------------------------------
     navigateHashChange(path) {
-        var screen: any;
+        var screen: any, $appendToContainer: any;
 
-        //mv 2018-02-21 - not sure if this is still needed.  Appears to be cleanup code
-        FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //Write something better
+        FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay')); //mv 2018-02-21 - not sure if this is still needed.  Appears to be cleanup code
+        FwAppData.abortAllRequests();
 
         path = path.toLowerCase();
         var foundmatch = false;
@@ -286,20 +287,28 @@
             }
         }
         if (foundmatch && typeof screen !== 'undefined' && screen !== null) {
-            var $bodyContainer = jQuery('#master-body');
-            if ($bodyContainer.length > 0) {
-                $bodyContainer
-                    .empty() // added this to get rid of the homepages doubling up in the support site.  Not sure about this line though, probably needs to get fixed in a better way.  MV 10/4/13
-                    .append(screen.$view);
-                this.screens.push(screen);
-                if (typeof screen.load !== 'undefined') {
-                    screen.load();
-                }
-                document.body.scrollTop = 0;
-            } else {
-                this.updateScreen(screen);
+            if ((this.screens.length > 0) && (typeof this.screens[0].unload !== 'undefined')) {
+                this.screens[0].unload();
+                this.screens = [];
             }
-            
+            this.screens[0] = screen;
+
+            var $applicationContainer = jQuery('#application');
+            if ((jQuery('#master').length == 0) && (sessionStorage.getItem('authToken') != null)) {
+                $applicationContainer.empty().append(masterController.getMasterView()).removeClass('hidden');
+            }
+
+            if (jQuery('#master').length > 0) {
+                $appendToContainer = jQuery('#master-body');
+            } else {
+                $appendToContainer = $applicationContainer;
+            }
+
+            $appendToContainer.empty().append(screen.$view);
+            if (typeof screen.load !== 'undefined') {
+                screen.load();
+            }
+            document.body.scrollTop = 0;
         }
         if (!foundmatch) {
             FwFunc.showError(`404: Not Found - ${path}`);

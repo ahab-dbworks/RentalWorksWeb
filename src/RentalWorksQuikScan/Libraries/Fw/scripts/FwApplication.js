@@ -172,16 +172,16 @@ var FwApplication = (function () {
             var field, fieldname;
             field = formfields[i];
             fieldname = field.toLowerCase().replace(/\b[a-z]/g, function (letter) { return letter.toUpperCase(); });
-            html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="' + fieldname + ' Section" style="min-width:300px;">');
-            html.push('<div class="flexrow">');
-            html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field"></div>');
-            html.push('</div>');
-            html.push('<div class="flexrow">');
-            html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field" data-enabled="false"></div>');
-            html.push('</div>');
-            html.push('<div class="flexrow">');
-            html.push('<div data-control="FwFormField" data-type="' + field + '" class="fwcontrol fwformfield" data-caption="' + fieldname + ' Field" data-required="true"></div>');
-            html.push('</div>');
+            html.push("<div class=\"fwcontrol fwcontainer fwform-section\" data-control=\"FwContainer\" data-type=\"section\" data-caption=\"" + fieldname + " Section\" style=\"min-width:300px;\">");
+            html.push('  <div class="flexrow">');
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\"></div>");
+            html.push('  </div>');
+            html.push('  <div class="flexrow">');
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-enabled=\"false\"></div>");
+            html.push('  </div>');
+            html.push('  <div class="flexrow">');
+            html.push("    <div data-control=\"FwFormField\" data-type=\"" + field + "\" class=\"fwcontrol fwformfield\" data-caption=\"" + fieldname + " Field\" data-required=\"true\"></div>");
+            html.push('  </div>');
             html.push('</div>');
         }
         html.push('</div>');
@@ -237,8 +237,9 @@ var FwApplication = (function () {
     };
     ;
     FwApplication.prototype.navigateHashChange = function (path) {
-        var screen;
+        var screen, $appendToContainer;
         FwPopup.destroy(jQuery('.FwPopup-divPopup,.FwPopup-divOverlay'));
+        FwAppData.abortAllRequests();
         path = path.toLowerCase();
         var foundmatch = false;
         for (var i = 0; i < routes.length; i++) {
@@ -250,20 +251,26 @@ var FwApplication = (function () {
             }
         }
         if (foundmatch && typeof screen !== 'undefined' && screen !== null) {
-            var $bodyContainer = jQuery('#master-body');
-            if ($bodyContainer.length > 0) {
-                $bodyContainer
-                    .empty()
-                    .append(screen.$view);
-                this.screens.push(screen);
-                if (typeof screen.load !== 'undefined') {
-                    screen.load();
-                }
-                document.body.scrollTop = 0;
+            if ((this.screens.length > 0) && (typeof this.screens[0].unload !== 'undefined')) {
+                this.screens[0].unload();
+                this.screens = [];
+            }
+            this.screens[0] = screen;
+            var $applicationContainer = jQuery('#application');
+            if ((jQuery('#master').length == 0) && (sessionStorage.getItem('authToken') != null)) {
+                $applicationContainer.empty().append(masterController.getMasterView()).removeClass('hidden');
+            }
+            if (jQuery('#master').length > 0) {
+                $appendToContainer = jQuery('#master-body');
             }
             else {
-                this.updateScreen(screen);
+                $appendToContainer = $applicationContainer;
             }
+            $appendToContainer.empty().append(screen.$view);
+            if (typeof screen.load !== 'undefined') {
+                screen.load();
+            }
+            document.body.scrollTop = 0;
         }
         if (!foundmatch) {
             FwFunc.showError("404: Not Found - " + path);

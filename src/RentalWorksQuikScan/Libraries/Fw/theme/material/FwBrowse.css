@@ -6,7 +6,7 @@ html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:4px;height: 24px;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;cursor:default;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .firsticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_first.001.png);}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .previousicon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_previous.001.png);}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .nexticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_next.001.png);}
@@ -77,13 +77,13 @@ html.theme-material .fwbrowse table thead tr td .field[data-sort="off"] .fieldca
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .sort .sort-icon {display:inline-block;width:16px;height:16px;background-size:cover;background-repeat:no-repeat;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .sort .material-icons {color:#546E7A; vertical-align:middle;}
 
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions {display:none;position:absolute;left:0;top:2em;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);width:190px;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions {display:none;position:absolute;left:0;top:2em;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);background:#fafafa;border:1px solid #d6d6d6;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption.active .columnoptions {display:block;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptionshr {width:100%;height:1px;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button {overflow:hidden;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon {float:left;height:24px;width:24px;padding:4px;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button {overflow:hidden;display:flex;align-items:center;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon {height:24px;width:24px;padding:4px;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon .icon {height:16px;width:16px;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {float:left;white-space:nowrap;height:32px;line-height:32px;padding: 0 15px;}
+html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {flex:1 0 auto;white-space:nowrap;padding: 0 15px;}
 
 html.theme-material .fwbrowse table thead tr td .field .search {position:relative;padding:4px;border-top:1px solid #e0e0e0;}
 html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing:border-box;width:100%;padding:.4em 1.5em .4em .4em;border-radius:4px;font-size:.75em;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
@@ -273,7 +273,6 @@ html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaptio
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption.active {background-color:#E0E0E0;}
 html.theme-material .fwbrowse table thead tr td .field:not([data-sort="disabled"]) .fieldcaption:hover {background-color:#E0E0E0;}
-html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions {background:#fafafa;border:1px solid #d6d6d6;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptionshr {background-color:#777777;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button:hover {background: rgba(213,221,229,1);color: #1a2631;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button:hover .columnoptions-button-icon {background: rgba(213,221,229,1);}
@@ -330,3 +329,4 @@ html.theme-material .fwbrowse table tbody tr.selected.rowtextcolor {outline:2px 
 /*html.theme-material .fwbrowse[data-type="Browse"] table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td,
 html.theme-material .fwbrowse[data-type="Validation"] table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {outline:2px solid #03A9F4;}*/
 html.theme-material .fwbrowse table tbody tr.selected:not(.rowbackgroundcolor):not(.rowtextcolor) td {background-color:#2196f3 !important;color:#ffffff !important;}
+html.theme-material .fwbrowse table tbody tr:hover td {background-color:#eeeeee;}

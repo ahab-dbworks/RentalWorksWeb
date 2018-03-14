@@ -3,6 +3,9 @@ class Program extends FwApplication {
     //---------------------------------------------------------------------------------
     constructor() {
         super();
+        var me: Program;
+        me                                     = this;
+        me.name                                = 'RentalWorks';
         FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
     }
 }

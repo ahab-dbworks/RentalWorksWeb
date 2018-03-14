@@ -15,13 +15,24 @@ FwBasePages.getDefaultScreen = function(viewModel) {
     html.push('      <div class="default-button btnLogin">Sign In to {{captionProgramTitle}}</div>');
     html.push('    </div>');
     html.push('  </div>');
-    html.push('  <div id="master-footer"></div>');
+    html.push('  <div id="master-footer">');
+    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+    html.push('    <div id="version">v{{valueVersion}}</div>');
+    html.push('  </div>');
     html.push('</div>');
 
     html = html.join('');
     html = Mustache.render(html, viewModel);
 
     screen.$view = jQuery(html);
+
+    screen.$view.on('click', '#dbworkslink', function() {
+        try {
+            window.location.href = 'http://www.dbworks.com';
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
 
     jQuery('html').addClass('theme-material');
 
@@ -54,7 +65,10 @@ FwBasePages.getLoginScreen = function(viewModel) {
     html.push('      <div class="login-button btnCancel">{{captionBtnCancel}}</div>');
     html.push('    </div>');
     html.push('  </div>');
-    html.push('  <div id="master-footer"></div>');
+    html.push('  <div id="master-footer">');
+    html.push('    <div id="copyright">© {{valueYear}} <span id="dbworkslink">Database Works</span>.&nbsp;All Rights Reserved.</div>');
+    html.push('    <div id="version">v{{valueVersion}}</div>');
+    html.push('  </div>');
     html.push('</div>');
 
     html = html.join('');
@@ -74,7 +88,11 @@ FwBasePages.getLoginScreen = function(viewModel) {
             var charCode = e.which || e.keyCode;
             switch(charCode) {
                 case 13:
-                    screen.$view.find('#password').select();
+                    if (screen.$view.find('#password').val() === '') {
+                        screen.$view.find('#password').select();
+                    } else {
+                        screen.$view.find('.btnLogin').click();
+                    }
                     break;
             }
         })
@@ -83,7 +101,7 @@ FwBasePages.getLoginScreen = function(viewModel) {
             var charCode = e.which || e.keyCode;
             switch(charCode) {
                 case 13:
-                    if (screen.$view.find('#email').val() == '') {
+                    if (screen.$view.find('#email').val() === '') {
                         screen.$view.find('#email').focus();
                     } else {
                         screen.$view.find('.btnLogin').click();
@@ -97,8 +115,15 @@ FwBasePages.getLoginScreen = function(viewModel) {
         })
         .on('blur', '.login-field-value', function() {
             var $this = jQuery(this);
-            if ($this.val() == '') {
+            if ($this.val() === '') {
                 $this.siblings().removeClass('active');
+            }
+        })
+        .on('click', '#dbworkslink', function() {
+            try {
+                window.location.href = 'http://www.dbworks.com';
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
         })
     ;
@@ -158,7 +183,7 @@ FwBasePages.getMobileLoginScreen = function(viewModel) {
             var charCode = e.which || e.keyCode;
             switch(charCode) {
                 case 13:
-                    if (screen.$view.find('.mobilelogin-email-value').val() == '') {
+                    if (screen.$view.find('.mobilelogin-email-value').val() === '') {
                         screen.$view.find('.mobilelogin-email-value').focus();
                     } else {
                         screen.$view.find('#mobilelogin-btnLogin').click();

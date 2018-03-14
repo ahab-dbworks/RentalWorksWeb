@@ -256,6 +256,14 @@ html.theme-material .fwformfield[data-type="textarea"] .fwformfield-value {borde
 html.theme-material .fwformfield[data-type="textarea"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
+/*#region data-type="encrypt" */
+html.theme-material .fwformfield[data-type="encrypt"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
+html.theme-material .fwformfield[data-type="encrypt"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
+html.theme-material .fwformfield[data-type="encrypt"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
+html.theme-material .fwformfield[data-type="encrypt"] .fwformfield-value {border:0 !important;width:100%;}
+html.theme-material .fwformfield[data-type="encrypt"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
+/*#endregion*/
+
 /*#region data-type="time" */
 html.theme-material .fwformfield[data-type="time"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
 html.theme-material .fwformfield[data-type="time"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}

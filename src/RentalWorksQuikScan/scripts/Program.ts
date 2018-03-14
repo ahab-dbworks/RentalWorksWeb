@@ -2,7 +2,6 @@
 //---------------------------------------------------------------------------------
 class Program extends FwApplication {
     activeTextBox:      string;
-    name:               string;
     htmlname:           string;
     didLoadApplication: boolean;
     onBarcodeData:      (data: string, type?: string) => void;

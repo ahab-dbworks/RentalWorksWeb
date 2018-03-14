@@ -12,6 +12,9 @@ var Program = (function (_super) {
     __extends(Program, _super);
     function Program() {
         var _this = _super.call(this) || this;
+        var me;
+        me = _this;
+        me.name = 'RentalWorks';
         FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
         return _this;
     }

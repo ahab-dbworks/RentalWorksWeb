@@ -14,21 +14,10 @@
     getHomeScreen() {
         var self = this;
         var applicationOptions = program.getApplicationOptions();
-        var properties = {};
         var screen: any = {};
-        var $filemenu = jQuery('.fwfilemenu');
-        if ($filemenu.length === 0) {
-            var viewModel = {
-                htmlPageBody: jQuery('#tmpl-pages-Home').html()
-            };
-            screen.$view = RwMasterController.getMasterView(viewModel, properties);
-        } else {
-            screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
-        }
-        screen.viewModel = viewModel;
-        screen.properties = properties;
+        screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
 
-
+        self.buildWidgetSettings(screen.$view);
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
@@ -44,8 +33,6 @@
                 //self.renderGroup();
             }
         };
-
-        self.buildWidgetSettings(screen.$view);
 
         return screen;
     };

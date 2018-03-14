@@ -1,143 +1,8 @@
-﻿//----------------------------------------------------------------------------------------------
-class RwMaster {
-    //----------------------------------------------------------------------------------------------
-    getMasterView(viewModel, properties) {
-        var combinedViewModel, $view, $footerView, $headerView, applicationtheme;
-        combinedViewModel = jQuery.extend({
-        
-        }, viewModel);
-
-        applicationtheme = sessionStorage.getItem('applicationtheme');
-        if (applicationtheme == 'theme-classic') {
-            $headerView = RwMasterController.getHeaderClassic(combinedViewModel, properties);
-        } else {
-            $headerView = RwMasterController.getHeaderView();
-        }
-        //$footerView = RwMasterController.getFooterView();
-
-        $view = jQuery(Mustache.render(jQuery('#tmpl-controls-Master').html(), combinedViewModel));
-        $view.find('#master-header').append($headerView);
-        //$view.find('#master-footer').append($footerView);
-
-        jQuery('html').addClass(applicationtheme);
-
-        return $view;
-    }
-    //----------------------------------------------------------------------------------------------
-    getHeaderClassic(viewModel, properties) {
-        var combinedViewModel, $view, $headerRibbon, $userControl, $tabpageFile, $tabpageSettings, $tabpageReports, $tabpageUtilities, $tabpageHelp, $fwcontrols;
-        combinedViewModel = jQuery.extend({
-
-        }, viewModel);
-        $view = jQuery(Mustache.render(jQuery('#tmpl-controls-Header').html(), combinedViewModel));
-    
-        $headerRibbon       = $view.find('#headerRibbon');
-        $userControl        = $headerRibbon.find('.usercontrol');
-        RwMasterController.getUserControl($userControl);
-    
-        var nodeSystem, nodeApplication, baseiconurl, $tabpage, ribbonItem, dropDownMenuItems, caption;
-        nodeSystem = FwApplicationTree.getMyTree();
-        for (var appno = 0; appno < nodeSystem.children.length; appno++) {
-            if (nodeSystem.children[appno].id === '0A5F2584-D239-480F-8312-7C2B552A30BA') {
-                nodeApplication = nodeSystem.children[appno];
-            }
-        }
-        if (nodeApplication === null) {
-            sessionStorage.clear();
-            window.location.reload(true);
-        }
-        baseiconurl = 'theme/images/icons/home/';
-        for (var lv1childno = 0; lv1childno < nodeApplication.children.length; lv1childno++) {
-            var nodeLv1MenuItem = nodeApplication.children[lv1childno];
-            if (nodeLv1MenuItem.properties.visible === 'T') {
-                switch(nodeLv1MenuItem.properties.nodetype) {
-                    case 'Lv1ModuleMenu':
-                        $tabpage = FwRibbon.addTab($headerRibbon, nodeLv1MenuItem.properties.caption)
-                        for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
-                            var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
-                            if (nodeLv2MenuItem.properties.visible === 'T') {
-                                switch(nodeLv2MenuItem.properties.nodetype) {
-                                    case 'Lv2ModuleMenu':
-                                        dropDownMenuItems = [];
-                                        for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
-                                            var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
-                                            if (nodeLv3MenuItem.properties.visible === 'T') {
-                                                dropDownMenuItems.push({id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl});
-                                            }
-                                        }
-                                        caption = (typeof nodeLv2MenuItem.properties.htmlcaption === 'string') ? nodeLv2MenuItem.properties.htmlcaption : nodeLv2MenuItem.properties.caption;
-                                        ribbonItem = FwRibbon.generateDropDownModuleBtn(nodeLv2MenuItem.id, caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
-                                        $tabpage.append(ribbonItem);
-                                        break;
-                                    case 'Module':
-                                        caption = (typeof nodeLv2MenuItem.properties.htmlcaption === 'string') ? nodeLv2MenuItem.properties.htmlcaption : nodeLv2MenuItem.properties.caption;
-                                        ribbonItem = FwRibbon.generateStandardModuleBtn(nodeLv2MenuItem.id, caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl);
-                                        $tabpage.append(ribbonItem);
-                                        break;
-                                    case 'Report':
-                                        caption = (typeof nodeLv2MenuItem.properties.htmlcaption === 'string') ? nodeLv2MenuItem.properties.htmlcaption : nodeLv2MenuItem.properties.caption;
-                                        ribbonItem = FwRibbon.generateStandardModuleBtn(nodeLv2MenuItem.id, caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl);
-                                        $tabpage.append(ribbonItem);
-                                        break;
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-
-        $fwcontrols = $view.find('.fwcontrol');
-        FwControl.init($fwcontrols);
-        FwControl.renderRuntimeHtml($fwcontrols);
-
-        $view
-            .on('click', '.dashboard', function() {
-                try {
-                    program.navigate('home');
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-        ;
-
-        return $view;
-    }
-    //----------------------------------------------------------------------------------------------
-    //getUserControl($userControl) {
-    //    var $user = jQuery('<div id="username" class="item">' + FwFunc.fixCaps(sessionStorage.getItem('userType')) + ': ' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div>');
-    //    $userControl.append($user);
-
-    //    RwMasterController.buildOfficeLocationClassic($userControl);
-
-    //    //var $notification = FwNotification.generateNotificationArea();
-    //    //$userControl.append($notification);
-
-    //    var $usersettings = jQuery('<div id="usersettings" class="item"><div class="usersettingsicon"></div></div>');
-    //    $usersettings.on('click', function() {
-    //        try {
-    //            program.getModule('module/usersettings');
-    //        } catch (ex) {
-    //            FwFunc.showError(ex);
-    //        }
-    //    });
-    //    $userControl.append($usersettings);
-
-    //    var $logoff = jQuery('<div id="logoff" class="item">' + RwLanguages.translate('Logoff') + '</div>');
-    //    $logoff.on('click', function() { 
-    //        try {
-    //            program.navigate('logoff');
-    //        } catch (ex) {
-    //            FwFunc.showError(ex);
-    //        }
-    //    });
-    //    $userControl.append($logoff);
-    //}
+﻿class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     getUserControl($context: JQuery) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
 
-        
         this.buildDashboard($context);
         this.buildOfficeLocation($context);
 
@@ -172,7 +37,7 @@ class RwMaster {
         });
     }
     //----------------------------------------------------------------------------------------------
-    buildOfficeLocationClassic($userControl) {
+    buildOfficeLocationClassic($userControl: JQuery) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
@@ -260,92 +125,6 @@ class RwMaster {
                 FwFunc.showError(ex);
             }
         });
-    }
-    //----------------------------------------------------------------------------------------------
-    getFooterView(viewModel, properties) {
-        var combinedViewModel, $view;
-        combinedViewModel = jQuery.extend({
-            valueYear:    new Date().getFullYear(),
-            valueVersion: applicationConfig.version
-        }, viewModel);
-        $view = jQuery(Mustache.render(jQuery('#tmpl-controls-Footer').html(), combinedViewModel));
-
-        $view
-            .on('click', '#dbworkslink', function() {
-                try {
-                    window.location.href = 'http://www.dbworks.com';
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-        ;
-
-        return $view;
-    }
-    //----------------------------------------------------------------------------------------------
-    getHeaderView() {
-        var $view;
-
-        $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
-
-        FwControl.renderRuntimeControls($view);
-
-        $view.find('.logo').append('<div class="bgothm">RentalWorks</div>');
-
-        var nodeApplications, nodeApplication=null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
-        nodeApplications = FwApplicationTree.getMyTree();
-        for (var appno = 0; appno < nodeApplications.children.length; appno++) {
-            if (nodeApplications.children[appno].id === '0A5F2584-D239-480F-8312-7C2B552A30BA') {
-                nodeApplication = nodeApplications.children[appno];
-            }
-        }
-        if (nodeApplication === null) {
-            sessionStorage.clear();
-            window.location.reload(true);
-        }
-        baseiconurl = 'theme/images/icons/home/';
-        for (var lv1childno = 0; lv1childno < nodeApplication.children.length; lv1childno++) {
-            var nodeLv1MenuItem = nodeApplication.children[lv1childno];
-            if (nodeLv1MenuItem.properties.visible === 'T') {
-                switch(nodeLv1MenuItem.properties.nodetype) {
-                    case 'Lv1ModuleMenu':
-                        $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
-                        for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
-                            var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
-                            if (nodeLv2MenuItem.properties.visible === 'T') {
-                                switch(nodeLv2MenuItem.properties.nodetype) {
-                                    case 'Lv2ModuleMenu':
-                                        dropDownMenuItems = [];
-                                        for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
-                                            var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
-                                            if (nodeLv3MenuItem.properties.visible === 'T') {
-                                                dropDownMenuItems.push({id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl});
-                                            }
-                                        }
-                                        FwFileMenu.generateDropDownModuleBtn($menu, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
-                                        break;
-                                    case 'Module':
-                                        FwFileMenu.generateStandardModuleBtn($menu, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl);
-                                        break;
-                                    case 'Report':
-                                        FwFileMenu.generateStandardModuleBtn($menu, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl);
-                                        break;
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-
-        this.getUserControl($view);
-        $view
-            .on('click', '.bgothm', function () {
-                try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
-            })
-        ;
-
-        return $view;
     }
     //----------------------------------------------------------------------------------------------
     buildOfficeLocation($usercontrol: JQuery<HTMLElement>) {
@@ -448,5 +227,4 @@ class RwMaster {
     }
     //----------------------------------------------------------------------------------------------
 }
-var RwMasterController = new RwMaster();
-
+var masterController: RwMaster = new RwMaster();

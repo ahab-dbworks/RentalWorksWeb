@@ -27,7 +27,7 @@ html.theme-default .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu 
 /*#endregion fwfilemenu - version 1*/
 
 /*#region fwfilemenu - version 2*/
-html.theme-default .fwfilemenu[data-version="2"] {font-size:16px;overflow:auto;display:flex;flex-wrap:wrap;}
+html.theme-default .fwfilemenu[data-version="2"] {font-size:16px;display:flex;flex-wrap:wrap;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper {overflow:auto;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .appmenu {cursor:pointer;font-size: 34px;padding: 7px;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown {display:none;position:absolute;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);align-content: flex-start;flex-wrap: wrap;}
@@ -36,7 +36,6 @@ html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .caption {border-bottom:1px solid #fafafa;font-weight:bold;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .modulebtn {padding: 3px 10px;cursor:pointer;transition: background-color .3s;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption {padding: 3px 2px 3px 10px;cursor:pointer;transition: background-color .3s;overflow:auto;display:flex;}
-
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption .ddmodulebtn-text {flex:1 0 166px;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption > i {float:right;flex:0 0 auto;}
 html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {cursor:pointer;padding:2px 18px;}
@@ -44,17 +43,17 @@ html.theme-default .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-
 html.theme-default .fwfilemenu[data-version="2"] .logo {overflow:auto;flex:1 0 auto;font-size: 34px;line-height: 44px;cursor:default;margin-left:5px;}
 html.theme-default .fwfilemenu[data-version="2"] .logo img {display:block;margin:0 auto;height:46px;}
 
-html.theme-default .fwfilemenu[data-version="2"] .user-controls {white-space:nowrap;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls:after {content:"";display:table;clear:both;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls .user {line-height:48px;padding: 0 10px;float:left;cursor:default;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol {position:relative;white-space:nowrap;display:flex;align-items: center;flex-wrap:nowrap;}
+html.theme-default .fwfilemenu[data-version="2"] .systembar {white-space:nowrap;display:flex;align-items: center;flex-wrap:nowrap;}
+html.theme-default .fwfilemenu[data-version="2"] .systembarcontrol {padding: 0 .625em;float:left;cursor:default;}
 @media only screen and (max-device-width: 480px) {
-    html.theme-default .fwfilemenu[data-version="2"] .user-controls .user {display:none;}
+    html.theme-default .fwfilemenu[data-version="2"] .systembar {display:none;}
 }
-html.theme-default .fwfilemenu[data-version="2"] .user-controls .usermenu {cursor:pointer;font-size: 34px;padding: 7px;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown {display:none;position:absolute;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;right:2px;min-width: 170px;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls.active .user-dropdown {display:block;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item {padding:6px;cursor:pointer;}
-html.theme-default .fwfilemenu[data-version="2"] .user-controls .user-dropdown .staticinfo {font-size: 14px;text-align: center;border-top: 1px solid #616161;margin-top: 6px;padding: 6px;color: #BDBDBD;background-color: #424242;cursor: default;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol .usermenu {position:relative;cursor:pointer;font-size:2em;padding:.2em;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol .user-dropdown {display:none;position:absolute;top:100%;right:2px;padding:0.0625em;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;min-width: 170px;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol.active .user-dropdown {display:block;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol .user-dropdown .menuitem {padding:6px;cursor:pointer;}
+html.theme-default .fwfilemenu[data-version="2"] .usercontrol .user-dropdown .staticinfo {font-size: .75em;text-align: center;border-top: 1px solid #616161;margin-top: .375em;padding: .375em;color: #BDBDBD;background-color: #424242;cursor: default;}
 
 /*#region Default Theme*/
 html.theme-default .fwfilemenu[data-version="2"] {background-color:#37474f;color:#fafafa;border-bottom:1px solid #263238;}

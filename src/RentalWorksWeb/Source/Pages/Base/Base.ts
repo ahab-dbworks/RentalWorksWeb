@@ -2,16 +2,12 @@
     //----------------------------------------------------------------------------------------------
     getDefaultScreen() {
         var viewModel = {
-            captionProgramTitle: 'RentalWorks'
+            captionProgramTitle: 'RentalWorks',
+            valueYear:           new Date().getFullYear(),
+            valueVersion:        applicationConfig.version
         };
-        var properties = {}
         var screen: any = {};
         screen = FwBasePages.getDefaultScreen(viewModel);
-        screen.viewModel = viewModel;
-        screen.properties = properties;
-
-        var $footerView = RwMasterController.getFooterView(viewModel, properties);
-        screen.$view.find('#master-footer').append($footerView);
 
         screen.$view
             .on('click', '.btnLogin', function() {
@@ -28,37 +24,26 @@
     };
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
-        var valueEmail;
-        if (localStorage.getItem('email')) {
-            valueEmail = localStorage.getItem('email');
-        } else {
-            valueEmail = '';
-        }
         var viewModel = {
-            captionPanelLogin:       'RentalWorks Login'
-          , captionEmail:            RwLanguages.translate('E-mail / Username')
-          , valueEmail:              valueEmail
-          , captionPassword:         RwLanguages.translate('Password')
-          , valuePassword:           ''
-          , captionBtnLogin:         RwLanguages.translate('Sign In')
-          , captionBtnCancel:        RwLanguages.translate('Cancel')
-          , valueVersion:            applicationConfig.version
-          , captionPasswordRecovery: RwLanguages.translate('Recover Password')
-          , captionAbout:            RwLanguages.translate('About')
-          , captionSupport:          RwLanguages.translate('Support')
+            captionPanelLogin:       'RentalWorks Login',
+            captionEmail:            RwLanguages.translate('E-mail / Username'),
+            valueEmail:              (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
+            captionPassword:         RwLanguages.translate('Password'),
+            valuePassword:           '',
+            captionBtnLogin:         RwLanguages.translate('Sign In'),
+            captionBtnCancel:        RwLanguages.translate('Cancel'),
+            captionPasswordRecovery: RwLanguages.translate('Recover Password'),
+            captionAbout:            RwLanguages.translate('About'),
+            captionSupport:          RwLanguages.translate('Support'),
+            valueYear:               new Date().getFullYear(),
+            valueVersion:            applicationConfig.version
         };
-        var properties = {};
         var screen: any = {};
-        screen.viewModel = viewModel;
-        screen.properties = properties;
         if ((typeof applicationConfig.customLogin != 'undefined') && (applicationConfig.customLogin == true)) {
             screen = window['Rw' + applicationConfig.client + 'Controller']['getLoginScreen']();
         } else {
             screen = FwBasePages.getLoginScreen(viewModel);
         }
-
-        var $footerView = RwMasterController.getFooterView(viewModel, properties);
-        screen.$view.find('#master-footer').append($footerView);
 
         screen.$view
             .on('click', '.btnLogin', function(e) {
@@ -77,14 +62,11 @@
                         sessionStorage.clear();
 
                         // get a token to connect to RentalWorksWebApi
-                        var requiresAuthToken = false;
                         var apiRequest = {
                             UserName: $email.val(),
                             Password: $password.val()
                         };
-                        var onError = null;
-                        var $elementToBlock = $loginWindow;
-                        FwAppData.apiMethod(requiresAuthToken, "POST", "api/v1/jwt", apiRequest, null, function onSuccess(responseRestApi) {
+                        FwAppData.apiMethod(false, "POST", "api/v1/jwt", apiRequest, null, function onSuccess(responseRestApi) {
                             if ((responseRestApi.statuscode == 0) && (typeof responseRestApi.access_token !== 'undefined')) {
                                 sessionStorage.setItem('apiToken', responseRestApi.access_token);
                                 // get a token to connect to RentalWorksWeb
@@ -142,7 +124,7 @@
                             } else if (responseRestApi.statuscode !== 0) {
                                 $loginWindow.find('.errormessage').html('').html(responseRestApi.statusmessage).show();
                             }
-                        }, onError, $elementToBlock);
+                        }, null, $loginWindow);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
