@@ -1,4 +1,5 @@
-﻿declare var FwAudit:       any;
+﻿declare var masterController: WebMaster;
+declare var FwAudit:       any;
 declare var FwCharge:      any;
 declare var FwContextMenu: any;
 declare var FwGridMenu:    any;
