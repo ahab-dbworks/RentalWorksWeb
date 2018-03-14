@@ -399,6 +399,24 @@ var RentalInventory = (function () {
         $inventoryCompleteGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         });
+        $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId;
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i;
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
         $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
@@ -424,6 +442,24 @@ var RentalInventory = (function () {
         });
         $inventoryKitGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        });
+        $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            var primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                var orderByIndex = dt.ColumnIndex.OrderBy;
+                var inventoryIdIndex = dt.ColumnIndex.InventoryId;
+                for (var i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i;
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            }
+            else {
+                return false;
+            }
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);

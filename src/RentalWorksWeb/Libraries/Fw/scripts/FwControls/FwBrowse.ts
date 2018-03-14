@@ -1653,7 +1653,11 @@
                     dtRow = dt.Rows[rowIndex];
                     dtCellValue = dtRow[dtColIndex];
                     if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
-                        $field.addClass('editablefield');
+                        if (typeof $control.data('isfieldeditable') === 'function' && $control.data('isfieldeditable')($field, dt, rowIndex)) {
+                            //do nothing
+                        } else {
+                            $field.addClass('editablefield');
+                        }
                     }
                     if (typeof dtCellValue !== 'undefined') {
                         $field.attr('data-originalvalue', dtCellValue.toString());
