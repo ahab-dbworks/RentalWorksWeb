@@ -340,7 +340,7 @@ class Order {
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
-          });
+        });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
 
@@ -358,7 +358,7 @@ class Order {
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
-           });
+        });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
 
@@ -401,6 +401,8 @@ class Order {
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+
+
 
     };
 
@@ -471,9 +473,9 @@ class Order {
         var $orderItemGridLabor;
         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridLabor);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
+        var $orderItemGridMisc;
+        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridMisc);
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
@@ -494,11 +496,48 @@ class Order {
         }
 
         this.renderFrames($form);
+        this.totals($form);
+
+        $form.find('.totals input').css('text-align', 'right');
     };
 
+    totals($form: any) {
+        FwFormField.disable($form.find('.totals'));
+        $form.find(".totals .add-on").hide();
 
+        var $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
 
+        setTimeout(function () {
+            OrderController.calculateTotals($form);
+        }, 4000);
+
+        jQuery($rentalGrid).on('click', '.divsaverow', function (e) {
+            setTimeout(function () {
+                OrderController.calculateTotals($form);
+            }, 1000);
+        });
+        //need to capture delete
+    }
+
+    calculateTotals($form: any) {
+        var totals = 0;
+        var finalTotal;
+        var periodExtended = $form.find('.rentalgrid .periodextended.editablefield');
+        periodExtended.each(function () {
+            var value = jQuery(this).text();
+            if (value.charAt(0) === '$') {
+                value = value.slice(1).replace(/,/g, '');
+            }
+            var toNumber = parseFloat(parseFloat(value).toFixed(2));
+
+            totals += toNumber;
+            finalTotal = totals.toLocaleString();
+        });
+        $form.find('.rentaltotals [data-totalfield="Total"] input').val("$" + finalTotal);
+    };
 }
+
+
 //---------------------------------------------------------------------------------
 var OrderController = new Order();
 //---------------------------------------------------------------------------------
@@ -506,7 +545,7 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
     var $form, $pickListForm;
     try {
         $form = jQuery(this).closest('.fwform');
-        var mode = 'NEW';
+        var mode = 'EDIT';
         $pickListForm = CreatePickListController.openForm(mode);
         FwModule.openSubModuleTab($form, $pickListForm);
         jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
