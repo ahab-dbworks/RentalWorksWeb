@@ -35,7 +35,7 @@ FwServices.module.method = function(request, module, method, $elementToBlock, on
                 }
                 ids.push(request.ids[key].value);
             }
-            ids = ids.join(',');
+            ids = ids.join('~');
             FwAppData.apiMethod(true, 'GET', controller.apiurl + '/' + ids, null, FwServices.defaultTimeout, onSuccess, onError, $elementToBlock);
         }
         else if (method === 'Delete') {
@@ -43,7 +43,7 @@ FwServices.module.method = function(request, module, method, $elementToBlock, on
             for (var key in request.ids) {
                 ids.push(request.ids[key].value);
             }
-            ids = ids.join(',');
+            ids = ids.join('~');
             if (ids.length === 0) {
                 throw 'primary key id(s) cannot be blank';
             }
@@ -71,7 +71,7 @@ FwServices.grid.method = function(request, module, method, $elementToBlock, onSu
             for (var key in request.ids) {
                 ids.push(request.ids[key].value);
             }
-            ids = ids.join(',');
+            ids = ids.join('~');
             if (ids.length === 0) {
                 throw 'primary key id(s) cannot be blank';
             }
@@ -82,7 +82,7 @@ FwServices.grid.method = function(request, module, method, $elementToBlock, onSu
             for (var key in request.ids) {
                 ids.push(request.ids[key].value);
             }
-            ids = ids.join(',');
+            ids = ids.join('~');
             if (ids.length === 0) {
                 throw 'primary key id(s) cannot be blank';
             }
