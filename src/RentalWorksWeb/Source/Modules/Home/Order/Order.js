@@ -413,6 +413,7 @@ var Order = (function () {
         }
         this.renderFrames($form);
         this.totals($form);
+        this.dynamicColumns($form);
         $form.find('.totals input').css('text-align', 'right');
     };
     ;
@@ -424,7 +425,9 @@ var Order = (function () {
             OrderController.calculateTotals($form);
         }, 4000);
         jQuery($rentalGrid).on('click', '.divsaverow', function (e) {
-            setTimeout(function () { OrderController.calculateTotals($form); }, 1000);
+            setTimeout(function () {
+                OrderController.calculateTotals($form);
+            }, 1000);
         });
     };
     Order.prototype.calculateTotals = function ($form) {
@@ -443,6 +446,182 @@ var Order = (function () {
         $form.find('.rentaltotals [data-totalfield="Total"] input').val("$" + finalTotal);
     };
     ;
+    Order.prototype.dynamicColumns = function ($form) {
+        var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"), $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'), $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'), $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'), rentalType = "RentalShow", salesType = "SalesShow", laborType = "LaborShow", miscType = "MiscShow", substring, column, fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'), fieldNames = [];
+        for (var i = 3; i < fields.length; i++) {
+            var name = jQuery(fields[i]).attr('data-browsedatafield');
+            fieldNames.push(name);
+        }
+        FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var key in response) {
+                if (key.indexOf(rentalType) !== -1) {
+                    substring = key.replace(rentalType, '');
+                    for (var i = 0; i < fieldNames.length; i++) {
+                        switch (fieldNames[i]) {
+                            case 'InventoryId':
+                                fieldNames[i] = 'ICode';
+                                break;
+                            case 'WarehouseId':
+                                fieldNames[i] = 'Warehouse';
+                                break;
+                            case 'ReturnToWarehouseId':
+                                fieldNames[i] = 'ReturnToWarehouse';
+                                break;
+                        }
+                        var propertyExists = response.hasOwnProperty(rentalType + fieldNames[i]);
+                        if (!propertyExists) {
+                            jQuery($rentalGrid.find('[data-browsedatafield="' + fieldNames[i] + '"]')).parent().hide();
+                        }
+                    }
+                    switch (substring) {
+                        case 'ICode':
+                            column = jQuery($rentalGrid.find('[data-browsedatafield="InventoryId"]'));
+                            break;
+                        case 'Warehouse':
+                            column = jQuery($rentalGrid.find('[data-browsedatafield="WarehouseId"]'));
+                            break;
+                        case 'ReturnToWarehouse':
+                            column = jQuery($rentalGrid.find('[data-browsedatafield="ReturnToWarehouseId"]'));
+                            break;
+                        default:
+                            column = jQuery($rentalGrid.find('[data-browsedatafield="' + substring + '"]'));
+                            break;
+                    }
+                    if (response[key]) {
+                        column.parent().show();
+                    }
+                    else {
+                        column.parent().hide();
+                    }
+                }
+                ;
+                if (key.indexOf(salesType) !== -1) {
+                    substring = key.replace(salesType, '');
+                    for (var i = 0; i < fieldNames.length; i++) {
+                        switch (fieldNames[i]) {
+                            case 'InventoryId':
+                                fieldNames[i] = 'ICode';
+                                break;
+                            case 'WarehouseId':
+                                fieldNames[i] = 'Warehouse';
+                                break;
+                            case 'ReturnToWarehouseId':
+                                fieldNames[i] = 'ReturnToWarehouse';
+                                break;
+                        }
+                        var propertyExists = response.hasOwnProperty(salesType + fieldNames[i]);
+                        if (!propertyExists) {
+                            jQuery($salesGrid.find('[data-browsedatafield="' + fieldNames[i] + '"]')).parent().hide();
+                        }
+                    }
+                    switch (substring) {
+                        case 'ICode':
+                            column = jQuery($salesGrid.find('[data-browsedatafield="InventoryId"]'));
+                            break;
+                        case 'Warehouse':
+                            column = jQuery($salesGrid.find('[data-browsedatafield="WarehouseId"]'));
+                            break;
+                        case 'ReturnToWarehouse':
+                            column = jQuery($salesGrid.find('[data-browsedatafield="ReturnToWarehouseId"]'));
+                            break;
+                        default:
+                            column = jQuery($salesGrid.find('[data-browsedatafield="' + substring + '"]'));
+                            break;
+                    }
+                    if (response[key]) {
+                        column.parent().show();
+                    }
+                    else {
+                        column.parent().hide();
+                    }
+                }
+                ;
+                if (key.indexOf(laborType) !== -1) {
+                    substring = key.replace(laborType, '');
+                    for (var i = 0; i < fieldNames.length; i++) {
+                        switch (fieldNames[i]) {
+                            case 'InventoryId':
+                                fieldNames[i] = 'ICode';
+                                break;
+                            case 'WarehouseId':
+                                fieldNames[i] = 'Warehouse';
+                                break;
+                            case 'ReturnToWarehouseId':
+                                fieldNames[i] = 'ReturnToWarehouse';
+                                break;
+                        }
+                        var propertyExists = response.hasOwnProperty(laborType + fieldNames[i]);
+                        if (!propertyExists) {
+                            jQuery($laborGrid.find('[data-browsedatafield="' + fieldNames[i] + '"]')).parent().hide();
+                        }
+                    }
+                    switch (substring) {
+                        case 'ICode':
+                            column = jQuery($laborGrid.find('[data-browsedatafield="InventoryId"]'));
+                            break;
+                        case 'Warehouse':
+                            column = jQuery($laborGrid.find('[data-browsedatafield="WarehouseId"]'));
+                            break;
+                        case 'ReturnToWarehouse':
+                            column = jQuery($laborGrid.find('[data-browsedatafield="ReturnToWarehouseId"]'));
+                            break;
+                        default:
+                            column = jQuery($laborGrid.find('[data-browsedatafield="' + substring + '"]'));
+                            break;
+                    }
+                    if (response[key]) {
+                        column.parent().show();
+                    }
+                    else {
+                        column.parent().hide();
+                    }
+                }
+                ;
+                if (key.indexOf(miscType) !== -1) {
+                    substring = key.replace(miscType, '');
+                    for (var i = 0; i < fieldNames.length; i++) {
+                        switch (fieldNames[i]) {
+                            case 'InventoryId':
+                                fieldNames[i] = 'ICode';
+                                break;
+                            case 'WarehouseId':
+                                fieldNames[i] = 'Warehouse';
+                                break;
+                            case 'ReturnToWarehouseId':
+                                fieldNames[i] = 'ReturnToWarehouse';
+                                break;
+                        }
+                        var propertyExists = response.hasOwnProperty(miscType + fieldNames[i]);
+                        if (!propertyExists) {
+                            jQuery($miscGrid.find('[data-browsedatafield="' + fieldNames[i] + '"]')).parent().hide();
+                        }
+                    }
+                    switch (substring) {
+                        case 'ICode':
+                            column = jQuery($miscGrid.find('[data-browsedatafield="InventoryId"]'));
+                            break;
+                        case 'Warehouse':
+                            column = jQuery($miscGrid.find('[data-browsedatafield="WarehouseId"]'));
+                            break;
+                        case 'ReturnToWarehouse':
+                            column = jQuery($miscGrid.find('[data-browsedatafield="ReturnToWarehouseId"]'));
+                            break;
+                        default:
+                            column = jQuery($miscGrid.find('[data-browsedatafield="' + substring + '"]'));
+                            break;
+                    }
+                    if (response[key]) {
+                        column.parent().show();
+                    }
+                    else {
+                        column.parent().hide();
+                    }
+                }
+                ;
+            }
+        }, null, $form);
+    };
+    ;
     return Order;
 }());
 var OrderController = new Order();
@@ -451,9 +630,14 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
     try {
         $form = jQuery(this).closest('.fwform');
         var mode = 'EDIT';
-        $pickListForm = CreatePickListController.openForm(mode);
+        var orderInfo = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
         jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        var $pickListUtilityGrid;
+        $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+        FwBrowse.search($pickListUtilityGrid);
     }
     catch (ex) {
         FwFunc.showError(ex);
