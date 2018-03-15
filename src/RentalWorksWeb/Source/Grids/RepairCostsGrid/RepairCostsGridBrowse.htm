@@ -1,9 +1,12 @@
-﻿<div data-name="RepairCostsGrid" data-parentformdatafields="RepairId" data-caption="Costs" data-control="FwBrowse" data-type="Grid" id="RepairCostsGrid" class="fwcontrol fwbrowse" data-orderby="" data-controller="RepairCostsGridController">
+﻿<div data-name="RepairCostsGrid" data-parentformdatafields="RepairId" data-caption="Costs" data-control="FwBrowse" data-type="Grid" id="RepairCostsGrid" data-sort="asc" class="fwcontrol fwbrowse" data-orderby="asc" data-controller="RepairCostsGridController">
   <div class="column" data-width="0" data-visible="false">
       <div class="field" data-isuniqueid="true" data-datafield="RepairCostId" data-datatype="key" ></div>
   </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-caption="RateId" data-isuniqueid="true" data-datatype="text" data-datafield="RateId" data-browsedatatype="text" data-sort="off"></div>
+  </div>
   <div class="column" data-width="auto" data-visible="true">
-      <div class="field" data-caption="I-Code" data-datafield="ICode" data-datatype="text" data-sort="asc"></div>
+    <div class="field valtype" data-caption="I-Code" data-datafield="ICode" data-browsedisplayfield="ICode" data-datatype="validation" data-validationname="MiscRateValidation" data-sort="asc" style="white-space: pre;"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
       <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-sort="off"></div>
