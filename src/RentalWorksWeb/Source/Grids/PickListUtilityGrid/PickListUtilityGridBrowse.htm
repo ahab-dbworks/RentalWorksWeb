@@ -1,10 +1,40 @@
 ﻿<div data-name="PickListUtilityGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Create Pick List" data-rendermode="template" data-showsearch="false" data-controller="PickListUtilityGridController">
-    <div class="column" data-width="0" data-visible="false">
-        <div class="field" data-isuniqueid="true" data-datafield="SessionId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
-        <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
-    </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="sessionid" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-isuniqueid="true" data-datafield="orderid" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Date" data-datafield="NoteDate" data-datatype="date" data-sort="desc"></div>
+    <div class="field" data-caption="I-Code" data-datafield="masteritemno" data-browsedisplayfield="masterno" data-datatype="validation" data-validationname="RentalInventoryValidation" data-sort="asc"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="description" data-datatype="text" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Type" data-datafield="ordertype" data-datatype="text" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Vendor" data-datafield="vendorid" data-browsedisplayfield="vendor" data-validationname="VendorValidation" data-datatype="validation" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Pick Date" data-datafield="pickdate" data-datatype="date" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Warehouse" data-datafield="warehouseid" data-browsedisplayfield="warehouse" data-datatype="validation" data-validationname="WarehouseValidation" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Ordered" data-datafield="qtyordered" data-datatype="number" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Staged" data-datafield="qtystaged" data-datatype="number" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Out" data-datafield="qtyout" data-datatype="number" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Remaining" data-datafield="qtyinlocation" data-datatype="number" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Pick" data-datafield="qtypicked" data-datatype="number" data-sort="off"></div>
   </div>
 
 </div>

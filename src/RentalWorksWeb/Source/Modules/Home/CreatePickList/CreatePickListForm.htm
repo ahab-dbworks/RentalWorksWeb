@@ -1,4 +1,5 @@
 ﻿<div id="createpicklistform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Create Pick List" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="CreatePickListController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-saveorder="1" data-caption="" data-datafield="OrderId"></div>
   <div id="createpicklistform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
     </div>
@@ -8,13 +9,14 @@
           <div class="formrow">
             <div class="formcolumn summaryview" style="width:100%;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwGrid" data-grid="OrderPickListGrid" data-securitycaption="Placeholder"></div>
+                <div data-control="FwGrid" data-grid="PickListUtilityGrid" data-securitycaption="Pick List Utility"></div>
               </div>
             </div>
           </div>
-  
-          <div class="optiontoggle" style="margin:auto; width: 100px; border: 2px solid darkblue; padding: 5px 5px; text-align: center;">Options &#8675;</div>
-
+          <div class="formrow">
+            <div class="optiontoggle" style="float:left;margin:auto; width: 100px; color: black; border: 2px solid black; background-color:#cdcdcd; cursor:pointer; padding: 5px 5px; text-align: center;">Options &#8675;</div>
+            <div class="createpicklist" style="float:right;margin:auto; width: 150px;  color: black; border: 2px solid black; background-color:#cdcdcd; cursor:pointer; padding: 5px 5px; text-align: center;">Create Pick List</div>
+          </div>
           <br /><br />
           <div class="formrow options">
             <div class="formcolumn" style="width:20%;">
@@ -58,9 +60,12 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lighting" data-datafield=""></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Dollies and Cranes" data-datafield=""></div>
               </div>
+              <br /><br />
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Summarize By I-Code" data-datafield=""></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Summarize Complete/Kit Accessories/Options" data-datafield=""></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Complete/Kit Accessories/Options in Their Own Inventory Types/Categories" data-datafield=""></div>
+              <br /><br />
+              <div class="applyoptions" style="float:left; margin:auto; width: 100px; border: 2px solid black; background-color:#cdcdcd; color: black; cursor:pointer; padding: 5px 5px; text-align: center;">Apply</div>
             </div>
           </div>
         </div>

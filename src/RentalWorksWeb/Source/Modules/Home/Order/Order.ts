@@ -749,7 +749,6 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
         jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
         var $pickListUtilityGrid;
         $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
-        //CreatePickListController.renderGrids($form);
         FwBrowse.search($pickListUtilityGrid);
     }
     catch (ex) {
