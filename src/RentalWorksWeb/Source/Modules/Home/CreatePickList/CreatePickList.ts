@@ -61,7 +61,7 @@ class CreatePickList {
                     optionName = $optionItem.attr('data-caption').toString();
                     break;
             }
-               
+
 
             if (selectedOptions.indexOf(optionName) === -1) {
                 selectedOptions.push(optionName);
@@ -105,6 +105,12 @@ class CreatePickList {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
                 , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
             };
+        });
+        $pickListUtilityGridControl.data('beforesave', function (request) {
+            request.uniqueids = {
+                OrderId:  FwFormField.getValueByDataField($form, 'OrderId')
+                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
+            }
         });
         FwBrowse.init($pickListUtilityGridControl);
         FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
