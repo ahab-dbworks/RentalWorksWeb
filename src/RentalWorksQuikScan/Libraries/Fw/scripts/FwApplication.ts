@@ -257,6 +257,9 @@
         $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
         path           = path.toLowerCase();
         if ($modifiedForms.length > 0) {
+            if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
+                this.navigate(path);
+            } 
             $form = jQuery($modifiedForms[0]);
             $tab  = jQuery('#' + $form.parent().attr('data-tabid'));
             $tab.click();
