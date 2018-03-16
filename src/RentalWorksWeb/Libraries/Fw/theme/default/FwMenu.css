@@ -4,8 +4,8 @@ html.theme-default .fwmenu.grid .menucaption {flex: 1 1 auto;padding:0 10px;font
 html.theme-default .fwmenu.grid .buttonbar {flex: 0 0 auto;}
 html.theme-default .fwmenu.grid .buttonbar .btn {cursor:pointer;padding:10px;height:24px;}
 html.theme-default .fwmenu.grid .buttonbar .btn:hover {background: #4CAF50; color: #ffffff;}
-html.theme-default .fwmenu.grid .submenubutton {flex: 0 0 auto;cursor:pointer;}
-html.theme-default .fwmenu.grid .submenubutton .icon {height:24px;}
+html.theme-default .fwmenu.grid .submenubutton {flex: 0 0 auto;}
+html.theme-default .fwmenu.grid .submenubutton .icon {height:24px;padding:10px;cursor:pointer;}
 html.theme-default .fwmenu.grid .submenubutton .submenu {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
 html.theme-default .fwmenu.grid .submenubutton.active .submenu {display:block;}
 html.theme-default .fwmenu.grid .submenubutton .submenu .submenu-column {margin:10px;font-size:14px;float:left;min-width:200px;}
@@ -22,7 +22,7 @@ html.theme-default .fwmenu.grid .buttonbar .btn.disabled {opacity:0.6;}
 html.theme-default div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn .btn-text {color:#cccccc;}
 html.theme-default div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn:hover {text-decoration:none !important;}
 
-html.theme-default .fwmenu.grid .submenubutton {padding:10px;}
+html.theme-default .fwmenu.grid .submenubutton {}
 html.theme-default .fwmenu.grid .submenubutton:hover {background-color: #7B1FA2; color: #ffffff;}
 html.theme-default .fwmenu.grid .submenubutton.active {background-color: #7B1FA2; color: #ffffff;}
 

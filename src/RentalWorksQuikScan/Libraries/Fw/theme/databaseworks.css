@@ -139,6 +139,7 @@ Mobile Page Styles from quikscan.css
 #master #master-header #master-header-row3:after {content:"";display:table;clear:both;}
 #master #master-header #master-header-row3 .btn {cursor:pointer;line-height:20px;padding:10px;font-size:18px;display:flex;align-items:center;}
 #master #master-header #master-header-row3 .btn:hover {background-color:#1976d2;}
+#master #master-header #master-header-row3 .btn i.material-icons {margin:0 .3em;}
 #master #master-header #master-header-row3 #save {float:right;}
 #master #master-header #master-header-row3 #save::before {background-image:url("fwimages/icons/128/save.001.png");}
 #master #master-header #master-header-row3 #continue {float:right;}

@@ -412,8 +412,7 @@ FwTabs.addTab = function($control, caption, hasClose, tabType, setActive) {
             tabHtml.push('<div class="caption">' + caption + '</div>');
             tabHtml.push('<div class="modified"></div>');
             if (hasClose) {
-                if (version == '1') tabHtml.push('<div class="delete"></div>');
-                if (version == '2') tabHtml.push('<div class="delete"><i class="material-icons">close</i></div>');
+                tabHtml.push('<div class="delete"><i class="material-icons">close</i></div>');
             }
         tabHtml.push('</div>');
         tabHtml  = tabHtml.join('');

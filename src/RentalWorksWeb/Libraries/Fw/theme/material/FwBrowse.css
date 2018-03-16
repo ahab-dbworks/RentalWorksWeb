@@ -67,8 +67,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table {font-size:14px;}*/
 
 /* thead */
 html.theme-material .fwbrowse table thead tr.fieldnames {border-bottom:1px solid #e0e0e0;}
-html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
-html.theme-material .fwbrowse table thead tr td .field {border-right:1px solid #e0e0e0;}
+html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-right:1px solid #e0e0e0;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption {display:flex;align-items:center;height:2em;position:relative;cursor:pointer;box-sizing:border-box;}
 html.theme-material .fwbrowse table thead tr td .field[data-sort="disabled"][data-showsearch="false"] .fieldcaption {cursor:default;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {flex:1 0 auto;padding:0 10px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-weight:bold;font-size:.9em;color:#546E7A}
