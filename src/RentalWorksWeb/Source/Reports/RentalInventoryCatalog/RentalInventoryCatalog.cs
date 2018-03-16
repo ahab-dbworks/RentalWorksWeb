@@ -46,10 +46,15 @@ namespace Web.Source.Reports
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
+            dynamic classificationlist, trackedbylist, ranklist;
             FwJsonDataTable dtRentalInventoryCatalog;
             StringBuilder sb;
 
-            dtRentalInventoryCatalog = GetRentalInventoryCatalog();
+            classificationlist = request.parameters.classificationlist;
+            trackedbylist = request.parameters.trackedbylist;
+            ranklist = request.parameters.ranklist;
+
+            dtRentalInventoryCatalog = GetRentalInventoryCatalog(classificationlist, trackedbylist, ranklist);
 
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
@@ -60,7 +65,7 @@ namespace Web.Source.Reports
             return html;
         }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetRentalInventoryCatalog()
+        protected FwJsonDataTable GetRentalInventoryCatalog(dynamic classificationlist, dynamic trackedbylist, dynamic ranklist)
         {
             FwSqlSelect select;
             FwSqlCommand qry;
@@ -75,13 +80,16 @@ namespace Web.Source.Reports
 
             select = new FwSqlSelect();
 
-            select.Add("select * from inventorycatalogrptview m with (nolock)");
-            select.Add("where m.availfor = 'R'");
-            select.Add(" and   m.trackedby in ('BARCODE','QUANTITY','SERIALNO')");
-            select.Add(" and   m.class in ('I','A','C','K','N')");
-            select.Add("order by m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");
+            select.Add("select *");
+            select.Add("from inventorycatalogrptview m with (nolock)");
 
             select.Parse();
+
+            select.AddWhere("and", "m.availfor = 'R'");
+            select.AddWhereInFromCheckboxList("and", "m.class", classificationlist, GetClassificationList(), false);
+            select.AddWhereInFromCheckboxList("and", "m.trackedby", trackedbylist, GetTrackedByList(), false);
+            select.AddWhereInFromCheckboxList("and", "m.rank", ranklist, GetRankList(), false);
+            select.AddOrderBy("m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
             
@@ -98,7 +106,41 @@ namespace Web.Source.Reports
             return printoptions;
         }
         //---------------------------------------------------------------------------------------------
+        public List<FwReportStatusItem> GetTrackedByList()
+        {
+            List<FwReportStatusItem> trackedByList;
+            trackedByList = new List<FwReportStatusItem>();
+            trackedByList.Add(new FwReportStatusItem() { value = "BARCODE", text = "Barcode", selected = "T" });
+            trackedByList.Add(new FwReportStatusItem() { value = "QUANTITY", text = "Quantity", selected = "T" });
+            trackedByList.Add(new FwReportStatusItem() { value = "SERIALNO", text = "Serial Number", selected = "T" });
+
+            return trackedByList;
+        }
         //---------------------------------------------------------------------------------------------
+        public List<FwReportStatusItem> GetClassificationList()
+        {
+            List<FwReportStatusItem> classificationList;
+            classificationList = new List<FwReportStatusItem>();
+            classificationList.Add(new FwReportStatusItem() { value = "I", text = "Item", selected = "T" });
+            classificationList.Add(new FwReportStatusItem() { value = "A", text = "Accessory", selected = "T" });
+            classificationList.Add(new FwReportStatusItem() { value = "C", text = "Complete", selected = "T" });
+            classificationList.Add(new FwReportStatusItem() { value = "K", text = "Kit", selected = "T" });
+            classificationList.Add(new FwReportStatusItem() { value = "N", text = "Container", selected = "T" });
+            classificationList.Add(new FwReportStatusItem() { value = "M", text = "Miscellaneous", selected = "F" });
+
+            return classificationList;
+        }
         //---------------------------------------------------------------------------------------------
+        public List<FwReportStatusItem> GetRankList()
+        {
+            List<FwReportStatusItem> rankList;
+            rankList = new List<FwReportStatusItem>();
+            rankList.Add(new FwReportStatusItem() { value = "A", text = "A", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "B", text = "B", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "C", text = "C", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "D", text = "D", selected = "T" });
+
+            return rankList;
+        }
     }
 }
