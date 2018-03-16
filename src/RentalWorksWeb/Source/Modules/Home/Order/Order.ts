@@ -15,28 +15,6 @@ class Order {
         this.ActiveView = 'ALL';
         var self = this;
 
-        //FwApplicationTree.clickEvents['{EE96992B-47EB-4F4B-A91A-AC9B7138D03B}'] = function (event) {
-        //    var $browse, pickListId, pickListNumber;
-        //    try {
-        //        $browse = jQuery(this).closest('.fwbrowse');
-        //        pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
-        //        pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
-        //        console.log(pickListNumber, pickListId);
-        //        if (pickListId != null) {
-        //            $browse = RwPickListReportController.openForm();
-        //            FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-        //            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-        //            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-        //        } else {
-        //            throw new Error("Please select a Pick List to print");
-        //        }
-        //    }
-        //    catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-
-        //};
-
         //Confirmation for cancelling Pick List
         FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
             var $form, pickListId, pickListNumber;
@@ -323,6 +301,12 @@ class Order {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         }
         );
+        FwBrowse.setAfterSaveCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'rental');
+        });
+        FwBrowse.setAfterDeleteCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'rental');
+        });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
 
@@ -341,6 +325,12 @@ class Order {
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
+        FwBrowse.setAfterSaveCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'sales');
+        });
+        FwBrowse.setAfterDeleteCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'sales');
+        });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
 
@@ -358,6 +348,12 @@ class Order {
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        });
+        FwBrowse.setAfterSaveCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'labor');
+        });
+        FwBrowse.setAfterDeleteCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -378,6 +374,12 @@ class Order {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         }
         );
+        FwBrowse.setAfterSaveCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'misc');
+        });
+        FwBrowse.setAfterDeleteCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
+            this.calculateTotals($form, 'misc');
+        });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
@@ -496,44 +498,46 @@ class Order {
         }
 
         this.renderFrames($form);
-        this.totals($form);
         this.dynamicColumns($form);
+        this.totals($form);
+        FwFormField.disable($form.find('.totals'));
+        $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
     };
 
+
     totals($form: any) {
-        FwFormField.disable($form.find('.totals'));
-        $form.find(".totals .add-on").hide();
-
-        var $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-
+        var self = this;
+        var gridTypes = ['rental', 'sales', 'labor', 'misc'];
         setTimeout(function () {
-            OrderController.calculateTotals($form);
+            for (var i = 0; i < gridTypes.length; i++) {
+                self.calculateTotals($form, gridTypes[i]);
+            }
         }, 4000);
-
-        jQuery($rentalGrid).on('click', '.divsaverow', function (e) {
-            setTimeout(function () {
-                OrderController.calculateTotals($form);
-            }, 1000);
-        });
-        //need to capture delete
     }
 
-    calculateTotals($form: any) {
+    calculateTotals($form: any, gridType: string) {
         var totals = 0;
         var finalTotal;
-        var periodExtended = $form.find('.rentalgrid .periodextended.editablefield');
-        periodExtended.each(function () {
-            var value = jQuery(this).text();
-            if (value.charAt(0) === '$') {
-                value = value.slice(1).replace(/,/g, '');
-            }
-            var toNumber = parseFloat(parseFloat(value).toFixed(2));
+        setTimeout(function () {
+            var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
+            if (periodExtended.length > 0) {
+                periodExtended.each(function () {
+                    var value = jQuery(this).text();
+                    if (value.charAt(0) === '$') {
+                        value = value.slice(1).replace(/,/g, '');
+                    }
+                    var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
-            totals += toNumber;
-            finalTotal = totals.toLocaleString();
-        });
-        $form.find('.rentaltotals [data-totalfield="Total"] input').val("$" + finalTotal);
+                    totals += toNumber;
+                    finalTotal = totals.toLocaleString();
+
+                });
+
+                $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
+            }
+        }, 2000);
+
     };
 
     dynamicColumns($form) {
@@ -556,7 +560,7 @@ class Order {
             fieldNames.push(name);
         }
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {    
+        FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var key in response) {
                 if (key.indexOf(rentalType) !== -1) {
                     substring = key.replace(rentalType, '');
