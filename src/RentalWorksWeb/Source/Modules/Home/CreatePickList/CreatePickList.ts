@@ -43,42 +43,6 @@ class CreatePickList {
             $form.find('div[data-datafield="OrderId"] input').val(parentmoduleinfo.OrderId);
         }
 
-        var selectedOptions = [];
-        var $options = $form.find('.options input');
-        $options.on('change', function (e) {
-            var $optionItem = jQuery(jQuery(e.currentTarget).parents().eq(1)),
-                optionType = $optionItem.attr('data-type'),
-                optionName: any;
-
-            switch (optionType) {
-                case 'date':
-                    optionName = jQuery(e.currentTarget).val().toString();
-                    break;
-                case 'validation':
-                    optionName = jQuery(e.currentTarget).val().toString();
-                    break;
-                case 'checkbox':
-                    optionName = $optionItem.attr('data-caption').toString();
-                    break;
-            }
-
-
-            if (selectedOptions.indexOf(optionName) === -1) {
-                selectedOptions.push(optionName);
-            } else {
-                selectedOptions = selectedOptions.filter((item) => item !== optionName);
-            }
-
-            console.log(selectedOptions);
-
-        });
-
-
-        $form.find('.applyoptions').on('click', function () {
-            //send selectedOptions
-            console.log("APPLY OPTIONS");
-        });
-
         $form.find('.createpicklist').on('click', function () {
             console.log("CREATE PICK LIST");
             var $report;
@@ -114,6 +78,71 @@ class CreatePickList {
         });
         FwBrowse.init($pickListUtilityGridControl);
         FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
+
+
+        var selectedOptions = [];
+        var $options = $form.find('.options input');
+        $options.on('change', function (e) {
+            var $optionItem = jQuery(jQuery(e.currentTarget).parents().eq(1)),
+                optionType = $optionItem.attr('data-type'),
+                optionName: any;
+
+            switch (optionType) {
+                case 'date':
+                    optionName = jQuery(e.currentTarget).val().toString();
+                    break;
+                case 'validation':
+                    optionName = jQuery(e.currentTarget).val().toString();
+                    break;
+                case 'checkbox':
+                    optionName = $optionItem.attr('data-caption').toString();
+                    break;
+            }
+            //need to check for data-datafield = data or validation and REPLACE value instead of adding 
+
+            if (selectedOptions.indexOf(optionName) === -1) {
+                selectedOptions.push(optionName);
+            } else {
+                selectedOptions = selectedOptions.filter((item) => item !== optionName);
+            }
+
+
+            $pickListUtilityGridControl.data('ondatabind', function (request) {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                    , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
+                };
+              
+                //if (InventoryTypeId !== "") {
+                //    var invObj = { InventoryTypeId: InventoryTypeId }
+                //}
+                //if (WarehouseId !== "") {
+                //    var whObj = { WarehouseId: WarehouseId }
+                //}
+                //if (CategoryId !== "") {
+                //    var catObj = { CategoryId: CategoryId }
+                //}
+                //if (InventoryId !== "") {
+                //    var iObj = { InventoryId: InventoryId }
+                //}
+                //if (SubCategoryId !== "") {
+                //    var subObj = { SubCategoryId: SubCategoryId }
+                //}
+                //request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
+
+            })
+            FwBrowse.search($pickListUtilityGridControl);
+
+            console.log(selectedOptions);
+
+        });
+
+
+        $form.find('.applyoptions').on('click', function () {
+            //send selectedOptions
+            console.log("APPLY OPTIONS");
+        });
+        
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
