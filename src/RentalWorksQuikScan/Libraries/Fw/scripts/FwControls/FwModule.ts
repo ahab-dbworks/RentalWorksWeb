@@ -889,7 +889,11 @@ class FwModule {
             FwModule.closeForm($submoduleform, $submoduletab, navigationpath, null, true);
         } else {
             if (ismodified === 'true') {
-                tabname = $tab.find('.caption').html();
+                if ($form.parent().data('type') === 'settings-row') {
+                    tabname = $form.data('caption')
+                } else {
+                    tabname = $tab.find('.caption').html();
+                }
                 $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');

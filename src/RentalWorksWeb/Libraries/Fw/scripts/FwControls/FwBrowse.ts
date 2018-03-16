@@ -2550,10 +2550,7 @@
         var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
         candelete = true;
         miscfields = {};
-        if (($control.attr('data-type') === 'Grid') && (typeof $control.data('beforedelete') === 'function')) {
-            $control.data('beforedelete')($control, $tr);
-        }
-        else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -2589,10 +2586,7 @@
         }
         FwServices.grid.method(request, name, 'Delete', $control, function (response) {
             //perform after delete
-            if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
-                $control.data('afterdelete')($control, $tr);
-            }
-            else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 var controller;
                 controller = $control.attr('data-controller');
                 if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -2738,22 +2732,6 @@
     static loadGridFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
         return $control;
-    }
-    //---------------------------------------------------------------------------------
-    static setBeforeSaveCallback($control: JQuery, callback: ($browse: JQuery, $tr: JQuery) => void) {
-        $control.data('beforesave', callback);
-    }
-    //---------------------------------------------------------------------------------
-    static setAfterSaveCallback($control: JQuery, callback: ($browse: JQuery, $tr: JQuery) => void) {
-        $control.data('aftersave', callback);
-    }
-    //---------------------------------------------------------------------------------
-    static setBeforeDeleteCallback($control: JQuery, callback: ($browse: JQuery, $tr: JQuery) => void) {
-        $control.data('beforedelete', callback);
-    }
-    //---------------------------------------------------------------------------------
-    static setAfterDeleteCallback($control: JQuery, callback: ($browse: JQuery, $tr: JQuery) => void) {
-        $control.data('afterdelete', callback);
     }
     //---------------------------------------------------------------------------------
 }
