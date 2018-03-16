@@ -78,13 +78,14 @@ class Repair {
     var self = this;
     var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
     $browse = FwModule.openBrowse($browse);
-    FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
-    FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
-    FwBrowse.addLegend($browse, 'Transferred', '#FFB3D9');
     FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-    FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
-    FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
-    FwBrowse.addLegend($browse, 'L&D', '#400040');
+    FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
+    FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
+    FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
+    FwBrowse.addLegend($browse, 'Outside', '#fffb38');
+    FwBrowse.addLegend($browse, 'Released', '#d6d319');
+    FwBrowse.addLegend($browse, 'Transferred', '#d10e90');
+    FwBrowse.addLegend($browse, 'Pending Repair', '#b997db');
 
     return $browse;
   };
