@@ -371,6 +371,14 @@ namespace FwStandard.SqlServer
             this.columns.Add(column);
         }
         //------------------------------------------------------------------------------------
+        public void AddColumn(string name, string dataField)
+        {
+            FwJsonDataTableColumn column = new FwJsonDataTableColumn(dataField, false);
+            column.Name = name;
+            //column.DataType = dataType;
+            this.columns.Add(column);
+        }
+        //------------------------------------------------------------------------------------
         private void LogSql()
         {
             bool hasFirstDeclareParameter = false, hasFirstExecParameter = false, hasFirstSelectParameter = false;
