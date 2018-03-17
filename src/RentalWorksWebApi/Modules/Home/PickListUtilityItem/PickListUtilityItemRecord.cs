@@ -1,6 +1,9 @@
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
@@ -8,6 +11,11 @@ namespace WebApi.Modules.Home.PickListUtilityItem
     public class PickListUtilityItemRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
+        public PickListUtilityItemRecord()
+        {
+            BeforeSave += BeforeSavePickListUtilityItem;
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string SessionId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -34,6 +42,34 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public void BeforeSavePickListUtilityItem(object sender, BeforeSaveEventArgs e)
+        {
+            if (PickQuantity == 0)
+            {
+                bool deleted = DeleteAsync().Result;
+                if (deleted)
+                {
+                    e.PerformSave = false;
+                }
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "inserttemppicklistitem", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, OrderItemId);
+                    qry.AddParameter("@qtyordered", SqlDbType.Int, ParameterDirection.Input, QuantityOrdered);
+                    qry.AddParameter("@stagedqty", SqlDbType.Int, ParameterDirection.Input, StagedQuantity);
+                    qry.AddParameter("@outqty", SqlDbType.Int, ParameterDirection.Input, OutQuantity);
+                    qry.AddParameter("@inlocationqty", SqlDbType.Int, ParameterDirection.Input, InlocationQuantity);
+                    int i = qry.ExecuteNonQueryAsync(true).Result;
+                }
+            }
+
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

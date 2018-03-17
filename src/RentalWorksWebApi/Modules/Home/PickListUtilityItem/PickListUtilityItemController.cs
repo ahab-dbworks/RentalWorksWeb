@@ -8,6 +8,12 @@ namespace WebApi.Modules.Home.PickListUtilityItem
     [Route("api/v1/[controller]")]
     public class PickListUtilityItemController : AppDataController
     {
+        //justin - temporary
+        public class PickListResponse
+        {
+            public string PickListId;
+        }
+
         public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
@@ -17,20 +23,6 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
         }
         //------------------------------------------------------------------------------------ 
-        //// GET api/v1/picklistutilityitem 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
-        //{
-        //    return await DoGetAsync<PickListUtilityItemLogic>(pageno, pagesize, sort, typeof(PickListUtilityItemLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
-        //// GET api/v1/picklistutilityitem/A0000001~A0000002~A0000003  //sessionid~orderid~masteritemid
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetAsync([FromRoute]string id)
-        //{
-        //    return await DoGetAsync<PickListUtilityItemLogic>(id, typeof(PickListUtilityItemLogic));
-        //}
-        ////------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]PickListUtilityItemLogic l)
@@ -38,11 +30,17 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             return await DoPostAsync<PickListUtilityItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/picklistutilityitem/A0000001 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        // POST api/v1/picklistutilityitem/createpicklist/A0000001 (sessionid)
+        [HttpPost("createpicklist/{sessionId}")]
+        //public async Task<IActionResult> CreatePickList([FromRoute]string sessionId)
+        public IActionResult CreatePickList([FromRoute]string sessionId)
         {
-            return await DoDeleteAsync(id, typeof(PickListUtilityItemLogic));
+            //return await DoPostAsync<PickListUtilityItemLogic>(l);
+
+            //justin - temporary
+            PickListResponse r = new PickListResponse();
+            r.PickListId = sessionId;
+            return new OkObjectResult(r);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/validateduplicate 

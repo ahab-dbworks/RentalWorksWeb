@@ -2,10 +2,10 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Threading.Tasks;
+using WebApi.Data;
 
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
@@ -162,48 +162,16 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                 using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.Add("exec gettmppicklistitem '" + sessionId + "','" + orderIds + "'");
-                    qry.AddColumn("sessionid");
-                    qry.AddColumn("orderid");
-                    qry.AddColumn("masteritemid");
-                    qry.AddColumn("parentid");
-                    qry.AddColumn("parentparentid");
-                    qry.AddColumn("accratio");
-                    qry.AddColumn("inventorydepartmentid");
-                    qry.AddColumn("inventorydepartmentidnoparent");
-                    qry.AddColumn("orderno");
-                    qry.AddColumn("locationid");
-                    qry.AddColumn("departmentid");
-                    qry.AddColumn("dealid");
-                    qry.AddColumn("ordertype");
-                    qry.AddColumn("status");
-                    qry.AddColumn("masterno");
-                    qry.AddColumn("description");
-                    qry.AddColumn("qtyordered");
-                    qry.AddColumn("qtysub");
-                    qry.AddColumn("consignqty");
-                    qry.AddColumn("qtyinlocation");
-                    qry.AddColumn("pickdate");
-                    qry.AddColumn("pickqty");
-                    qry.AddColumn("qtystaged");
-                    qry.AddColumn("qtyout");
-                    qry.AddColumn("qtypicked");
-                    qry.AddColumn("masterid");
-                    qry.AddColumn("warehouseid");
-                    qry.AddColumn("warehouse");
-                    qry.AddColumn("whcode");
-                    qry.AddColumn("rectype");
-                    qry.AddColumn("rectypedisplay");
-                    qry.AddColumn("itemclass");
-                    qry.AddColumn("itemorder");
-                    qry.AddColumn("optioncolor");
-                    qry.AddColumn("rentalitemid");
-                    qry.AddColumn("barcode");
-                    qry.AddColumn("serialno");
-                    qry.AddColumn("subvendorid");
-                    qry.AddColumn("consignorid");
-                    qry.AddColumn("vendor");
-                    qry.AddColumn("nestedmasteritemid");
-                    dt = await qry.QueryToFwJsonTableAsync(true);
+                    PropertyInfo[] propertyInfos = typeof(PickListUtilityItemLoader).GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlDataFieldAttribute != null)
+                        {
+                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name);
+                        }
+                    }
+                    dt = await qry.QueryToFwJsonTableAsync(false);
                 }
             }
             return dt;

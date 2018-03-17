@@ -15039,7 +15039,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderType\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
@@ -16833,7 +16833,7 @@
 					"response": []
 				},
 				{
-					"name": "Pick List Utility Item: Insert",
+					"name": "Pick List Utility Item: Save",
 					"request": {
 						"url": "http://localhost:57949/api/v1/picklistutilityitem",
 						"method": "POST",
@@ -16851,32 +16851,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Pick List Utility Item: Update",
-					"request": {
-						"url": "http://localhost:57949/api/v1/picklistutilityitem",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t \"PickListUtilityItemId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+							"raw": "{\n    \"SessionId\": \"justin\",\n    \"OrderId\": \"000090PV\",\n    \"OrderItemId\": \"000090QU\",\n    \"QuantityOrdered\": 3,\n    \"StagedQuantity\": 1,\n    \"OutQuantity\": 0,\n    \"QuantityInLocation\": 0,\n    \"PickQuantity\": 3\n}"
 						},
 						"description": ""
 					},
@@ -16902,6 +16877,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Pick List Utility Item: Create Pick List",
+					"request": {
+						"url": "http://localhost:57949/api/v1/picklistutilityitem/createpicklist/A0000001",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SessionId\": \"justin\",\n    \"OrderId\": \"000090PV\",\n    \"OrderItemId\": \"000090QU\",\n    \"QuantityOrdered\": 3,\n    \"StagedQuantity\": 1,\n    \"OutQuantity\": 0,\n    \"QuantityInLocation\": 0,\n    \"PickQuantity\": 3\n}"
 						},
 						"description": ""
 					},
