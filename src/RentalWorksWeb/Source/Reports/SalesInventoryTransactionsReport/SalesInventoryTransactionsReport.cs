@@ -25,13 +25,15 @@ namespace Web.Source.Reports
       select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
       select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
       select.Add("rpt.warehouseid = rv.warehouseid)"); 
+      select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
       select.Add("order by masterno");
-      //select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
+
+      select.Parse();
+
       select.AddParameter("@startdate", request.parameters.StartDate);
       select.AddParameter("@enddate", request.parameters.EndDate);
       //select.AddParameter("@warehouse", request.parameters.Warehouse);
 
-      select.Parse();
       dtDetails = qry.QueryToFwJsonTable(select, true);
 
       StringBuilder sb;
@@ -57,6 +59,7 @@ namespace Web.Source.Reports
 
             transtypelist = request.parameters.transtypelist;
 
+             // var typelist = transtypelist.ConvertAll<string>(item => item.value);
             dtSalesInventoryTransactionsReport = GetSalesInventoryTransactionsReport(transtypelist);
 
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
@@ -64,7 +67,7 @@ namespace Web.Source.Reports
             sb.Replace("[TotalRows]", "Total Rows: " + dtSalesInventoryTransactionsReport.Rows.Count);
             html = sb.ToString();
             html = this.applyTableToTemplate(html, "details", dtSalesInventoryTransactionsReport);
-
+             System.Diagnostics.Debug.WriteLine(dtSalesInventoryTransactionsReport, "salesinventory");
             return html;
         }
         //---------------------------------------------------------------------------------------------
@@ -77,23 +80,27 @@ namespace Web.Source.Reports
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             select = new FwSqlSelect();
 
-                select.Add("select rv.Warehouse, rpt.*");
-                select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
-                select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
-                select.Add("rpt.warehouseid = rv.warehouseid)");   
-                select.Add(" where rpt.transdate >= @startdate");
-                select.Add(" and   rpt.transdate <= @enddate");
-                //select.Add("and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')
-                //select.Add("and   rpt.warehouseid in ('0000000H')
-                select.Add("order by rv.[Warehouse], rpt.masterno, rpt.transdate, rpt.orderby");
-                select.AddParameter("@startdate", request.parameters.StartDate);
-                select.AddParameter("@enddate", request.parameters.EndDate);
-                select.AddWhereInFromCheckboxList("and", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+            select.Add("select rv.Warehouse, rpt.*");
+            select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
+            select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
+            select.Add("rpt.warehouseid = rv.warehouseid)");   
+            select.Add(" where rpt.transdate >= @startdate");
+            select.Add(" and   rpt.transdate <= @enddate");
+            //select.Add(" and   rpt.transtype = @transtype");
+            //select.Add("and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')
+            //select.Add("and   rpt.warehouseid in ('0000000H')
+            //select.Add("order by rv.[Warehouse], rpt.masterno, rpt.transdate, rpt.orderby");
 
-                //select.AddParameter("@warehouse", request.parameters.EndDate);
+            select.Parse();
 
+            select.AddWhereInFromCheckboxList(" and", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+            select.AddParameter("@startdate", request.parameters.StartDate);
+            select.AddParameter("@enddate", request.parameters.EndDate);
+            //select.AddParameter("@transtype", request.parameters.transtypelist);
+            select.AddOrderBy("rv.[Warehouse], rpt.masterno, rpt.transdate, rpt.orderby");
 
-      select.Parse();
+            //select.AddParameter("@warehouse", request.parameters.Warehouse);
+
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
       for (int i = 0; i < dtDetails.Rows.Count; i++)
@@ -129,8 +136,6 @@ namespace Web.Source.Reports
           transtypelist.Add(new FwReportStatusItem() { value = "CUSTOMER RETURN", text = "Customer Return", selected = "T" });
           transtypelist.Add(new FwReportStatusItem() { value = "ADJUSTMENT", text = "Adjustment", selected = "T" });
           transtypelist.Add(new FwReportStatusItem() { value = "TRANSFER", text = "Transfer", selected = "T" });
-
-
 
           return transtypelist;
         }
