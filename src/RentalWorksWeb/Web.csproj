@@ -760,14 +760,20 @@
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
+    <Content Include="Source\Modules\Home\Order\Order.js" />
+    <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
+    <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
+    <Content Include="Source\Modules\Home\Quote\Quote.js" />
+    <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
+    <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairForm.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
     <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
-    <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\Contact.css" />
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
@@ -785,10 +791,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
-    <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
     <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
-    <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
-    <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
@@ -1366,6 +1369,7 @@
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
+    <Compile Include="Source\Reports\RentalInventoryCatalog\RentalInventoryCatalog.cs" />
     <Compile Include="Source\Reports\SalesInventoryTransactionsReport\SalesInventoryTransactionsReport.cs" />
     <Compile Include="Source\Reports\VendorInvoiceProcessing\VendorInvoiceProcessing.cs" />
     <Compile Include="Source\RwAppData.cs" />
@@ -1406,6 +1410,8 @@
     <Content Include="Source\Grids\CompanyResaleGrid\CompanyResaleGridController.js.map" />
     <Content Include="tsconfig.json" />
     <Content Include="Libraries\Fw\scripts\MasterPages\WebMaster.js.map" />
+    <Content Include="Source\Modules\Home\Order\Order.js.map" />
+    <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1440,7 +1446,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\RentalInventory\RentalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SalesInventory\SalesInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />

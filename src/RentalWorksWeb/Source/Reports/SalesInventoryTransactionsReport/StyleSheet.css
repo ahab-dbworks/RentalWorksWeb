@@ -10,6 +10,7 @@
 }
     .body thead td div {
         font-size: 14px;
+        text-align: center;
     }
 .alignleft {
     float: left;
@@ -32,12 +33,12 @@
     padding: 5px 0px 5px 0px;
 }
 
-​ .location {
+​.location {
     font-weight: bold;
 }
 .totalrow {font-weight:bold;background-color:#ffffff !important;border-top:1px solid #000000;}
 .totalrow td div {padding:5px 0;font-size:16px !important;}
-td div.row1 {
+.row1 {
     font-size: 14px;
     padding: 15px 0px 15px 0px;
 }
@@ -51,9 +52,10 @@ td div.row1 {
         border-bottom: 1px solid #ccc;
         padding: 5px 10px;
     }*/
-td div.row2 {padding:0 0 0 10px;min-height: 16px;}
-td div.row3 {padding:0 0 0 20px;min-height: 16px;}
-td div.row4 {padding:0 0 0 30px;min-height: 16px;}
+.row2 {padding:0 0 0 10px;min-height: 16px;}
+.row3 {padding:0 0 0 20px;min-height: 16px;}
+.row4 {padding:0 0 0 30px;min-height: 16px;}
+.row5 {padding: 15px 0px 15px 0px;font-size: 14px; text-align: right;}
 /*tbody tr td {border: 1px solid black;}*/
 tr td div {padding: 5px 0px 5px 0px; min-height: 16px;}
 .exportedcaption {font-weight:bold;font-size:16px;}

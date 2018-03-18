@@ -25,12 +25,11 @@ namespace Web.Source.Reports
       select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
       select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
       select.Add("rpt.warehouseid = rv.warehouseid)"); 
-      //select.Add("order by masterno");
+      select.Add("order by masterno");
+      //select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
       select.AddParameter("@startdate", request.parameters.StartDate);
       select.AddParameter("@enddate", request.parameters.EndDate);
       //select.AddParameter("@warehouse", request.parameters.Warehouse);
-
-
 
       select.Parse();
       dtDetails = qry.QueryToFwJsonTable(select, true);
@@ -41,7 +40,8 @@ namespace Web.Source.Reports
       sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
       sb.Replace("[FROMDATE]", request.parameters.StartDate);
       sb.Replace("[TODATE]", request.parameters.EndDate);
-      //sb.Replace("[WAREHOUSE]", request.parameters.WareHouse);
+      //sb.Replace("[Warehouse Code]", request.parameters.Warehouse);
+
       html = sb.ToString();
       html = this.applyTableToTemplate(html, "header", dtDetails);
 
@@ -51,10 +51,13 @@ namespace Web.Source.Reports
     protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
+            dynamic transtypelist;
             FwJsonDataTable dtSalesInventoryTransactionsReport;
             StringBuilder sb;
 
-            dtSalesInventoryTransactionsReport = GetSalesInventoryTransactionsReport();
+            transtypelist = request.parameters.transtypelist;
+
+            dtSalesInventoryTransactionsReport = GetSalesInventoryTransactionsReport(transtypelist);
 
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
@@ -65,7 +68,7 @@ namespace Web.Source.Reports
             return html;
         }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetSalesInventoryTransactionsReport()
+        protected FwJsonDataTable GetSalesInventoryTransactionsReport(dynamic transtypelist)
         {
             FwSqlSelect select;
             FwSqlCommand qry;
@@ -85,20 +88,25 @@ namespace Web.Source.Reports
                 select.Add("order by rv.[Warehouse], rpt.masterno, rpt.transdate, rpt.orderby");
                 select.AddParameter("@startdate", request.parameters.StartDate);
                 select.AddParameter("@enddate", request.parameters.EndDate);
+                select.AddWhereInFromCheckboxList("and", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+
+                //select.AddParameter("@warehouse", request.parameters.EndDate);
 
 
       select.Parse();
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
-            //for (int i = 0; i < dtDetails.Rows.Count; i++)
-            //{
-            //    dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]]));
-            //    dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingstart"]]));
-            //    dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["billingend"]]));
-            //    dtDetails.Rows[i][dtDetails.ColumnIndex["invoicetotal"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicetotal"]]));
-            //}
-            
-            return dtDetails;
+      for (int i = 0; i < dtDetails.Rows.Count; i++)
+      {
+        dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]]));
+        dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]]));
+        dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]]));
+        dtDetails.Rows[i][dtDetails.ColumnIndex["price"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["price"]]));
+        dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]]));
+
+      }
+
+      return dtDetails;
         }
         //---------------------------------------------------------------------------------------------
         protected override FwReport.PrintOptions getDefaultPrintOptions()
@@ -109,6 +117,22 @@ namespace Web.Source.Reports
             printoptions.HeaderHeight = 1.6f;
 
             return printoptions;
+        }
+        //---------------------------------------------------------------------------------------------
+        public List<FwReportStatusItem> GetTransTypeList()
+        {
+          List<FwReportStatusItem> transtypelist;
+          transtypelist = new List<FwReportStatusItem>();
+          transtypelist.Add(new FwReportStatusItem() { value = "PURCHASE", text = "Purchase", selected = "T" });
+          transtypelist.Add(new FwReportStatusItem() { value = "VENDOR RETURN", text = "Vendor Return", selected = "T" });
+          transtypelist.Add(new FwReportStatusItem() { value = "SALES", text = "Sales", selected = "T" });
+          transtypelist.Add(new FwReportStatusItem() { value = "CUSTOMER RETURN", text = "Customer Return", selected = "T" });
+          transtypelist.Add(new FwReportStatusItem() { value = "ADJUSTMENT", text = "Adjustment", selected = "T" });
+          transtypelist.Add(new FwReportStatusItem() { value = "TRANSFER", text = "Transfer", selected = "T" });
+
+
+
+          return transtypelist;
         }
         //---------------------------------------------------------------------------------------------
         public string GetCommaListDecrypt(string encryptedlist)

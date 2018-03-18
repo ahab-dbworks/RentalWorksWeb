@@ -53,13 +53,16 @@ class RwSalesInventoryTransactionsReport {
   };
   //----------------------------------------------------------------------------------------------
   onLoadForm($form) {
-   var appOptions = program.getApplicationOptions();
-   var request: any = { method: "LoadForm" };   
-  
-   FwReport.load($form, this.ModuleOptions.ReportOptions);
-
-
+    var appOptions: any = program.getApplicationOptions();
+    var request: any = { method: "LoadForm" };
+    
+    FwReport.load($form, this.ModuleOptions.ReportOptions);
+    this.loadLists($form);
   };
+
+  loadLists($form) {
+    FwFormField.loadItems($form.find('div[data-datafield="transtypelist"]'), [{ value: "P", text: "Purchase", selected: "T" }, { value: "V", text: "Vendor Return", selected: "T" }, { value: "S", text: "Sales", selected: "T" }, { value: "C", text: "Customer Return", selected: "T" }, { value: "A", text: "Adjustment", selected: "T" }, { value: "T", text: "Transfer", selected: "T" }]);
+    }
 };
 
 var RwSalesInventoryTransactionsReportController = new RwSalesInventoryTransactionsReport();
