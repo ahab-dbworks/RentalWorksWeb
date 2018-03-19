@@ -116,6 +116,7 @@ namespace WebApi.Modules.Home.Repair
         public string LocationDefaultCurrencyId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
+        public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }
