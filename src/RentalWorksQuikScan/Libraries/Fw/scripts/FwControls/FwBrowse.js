@@ -2263,7 +2263,7 @@ var FwBrowse = (function () {
             }
             else {
                 rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
-                rowfields = FwBrowse.getRowFormDataFields($control, $tr);
+                rowfields = FwBrowse.getRowFormDataFields($control, $tr, false);
                 miscfields = FwBrowse.getRowFormDataFields($control, $tr, true);
                 if ($form.length > 0) {
                     formuniqueids = FwModule.getFormUniqueIds($form);
@@ -2329,7 +2329,10 @@ var FwBrowse = (function () {
         var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
         candelete = true;
         miscfields = {};
-        if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+        if (($control.attr('data-type') === 'Grid') && (typeof $control.data('beforedelete') === 'function')) {
+            $control.data('beforedelete')($control, $tr);
+        }
+        else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
             controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined')
@@ -2363,7 +2366,10 @@ var FwBrowse = (function () {
             request.miscfields = jQuery.extend({}, miscfields, formuniqueids);
         }
         FwServices.grid.method(request, name, 'Delete', $control, function (response) {
-            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+            if (($control.attr('data-type') === 'Grid') && (typeof $control.data('afterdelete') === 'function')) {
+                $control.data('afterdelete')($control, $tr);
+            }
+            else if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 var controller;
                 controller = $control.attr('data-controller');
                 if (typeof window[controller] === 'undefined')
@@ -2488,6 +2494,18 @@ var FwBrowse = (function () {
     FwBrowse.loadGridFromTemplate = function (modulename) {
         var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
         return $control;
+    };
+    FwBrowse.setBeforeSaveCallback = function ($control, callback) {
+        $control.data('beforesave', callback);
+    };
+    FwBrowse.setAfterSaveCallback = function ($control, callback) {
+        $control.data('aftersave', callback);
+    };
+    FwBrowse.setBeforeDeleteCallback = function ($control, callback) {
+        $control.data('beforedelete', callback);
+    };
+    FwBrowse.setAfterDeleteCallback = function ($control, callback) {
+        $control.data('afterdelete', callback);
     };
     return FwBrowse;
 }());
