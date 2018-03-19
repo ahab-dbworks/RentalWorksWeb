@@ -1,6 +1,7 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Settings.Category;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.SalesCategory
 {
@@ -33,7 +34,7 @@ namespace WebApi.Modules.Settings.SalesCategory
 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            RecType = "S";
+            RecType = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
         }
         //------------------------------------------------------------------------------------    
     }

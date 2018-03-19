@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.Inventory;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.SalesInventory
 {
@@ -18,7 +19,7 @@ namespace WebApi.Modules.Home.SalesInventory
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            AvailFor = "S";
+            AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
         }
         //------------------------------------------------------------------------------------ 
     }

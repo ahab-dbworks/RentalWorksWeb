@@ -16,5 +16,11 @@ namespace WebLibrary
         public const string ORDER_STATUS_FILTER_NOT_YET_STAGED = "NOTYETSTAGED";
         public const string ORDER_STATUS_FILTER_STILL_OUT = "STILLOUT";
         public const string ORDER_STATUS_FILTER_IN_ONLY = "INONLY";
+
+
+        public const string INVENTORY_AVAILABLE_FOR_RENT = "R";
+        public const string INVENTORY_AVAILABLE_FOR_SALE = "S";
+        public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
+        public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
     }
 }

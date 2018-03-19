@@ -3,6 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Modules.Settings.Category;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.SalesCategory
 {
@@ -21,7 +22,7 @@ namespace WebApi.Modules.Settings.SalesCategory
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(rectype='S')");
+            select.AddWhere("(rectype='" + RwConstants.INVENTORY_AVAILABLE_FOR_SALE + "')");
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
