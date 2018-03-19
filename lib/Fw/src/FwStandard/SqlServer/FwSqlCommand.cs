@@ -1102,9 +1102,32 @@ namespace FwStandard.SqlServer
                         row = new List<object>();
                         for (int i = 0; i < columns.Count; i++)
                         {
+                            //if (readerColumns.Contains(dt.Columns[i].DataField))
+                            //{
+                            //    ordinal = reader.GetOrdinal(dt.Columns[i].DataField);
+                            //    data = string.Empty;
+                            //    if (dt.Columns[i].IsUniqueId)
+                            //    {
+                            //        data = reader.GetValue(ordinal).ToString().Trim();
+                            //    }
+                            //    else
+                            //    {
+                            //        data = FormatReaderData(dt.Columns[i].DataType, ordinal, reader);
+                            //    }
+                            //    row.Add(data);
+                            //}
+
+                            ordinal = -1;
                             if (readerColumns.Contains(dt.Columns[i].DataField))
                             {
                                 ordinal = reader.GetOrdinal(dt.Columns[i].DataField);
+                            }
+                            else if (readerColumns.Contains(dt.Columns[i].Name))
+                            {
+                                ordinal = reader.GetOrdinal(dt.Columns[i].Name);
+                            }
+                            if (ordinal >= 0)
+                            {
                                 data = string.Empty;
                                 if (dt.Columns[i].IsUniqueId)
                                 {
@@ -1116,6 +1139,8 @@ namespace FwStandard.SqlServer
                                 }
                                 row.Add(data);
                             }
+
+
                         }
                         dt.Rows.Add(row);
                     }
