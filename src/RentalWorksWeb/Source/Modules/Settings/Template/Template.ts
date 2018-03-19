@@ -106,23 +106,23 @@
         FwBrowse.renderRuntimeHtml($orderItemGridFacilitiesControl);
 
 
-        var $orderItemGridTransportation;
-        var $orderItemGridTransportationControl;
-        $orderItemGridTransportation = $form.find('.transportationgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridTransportationControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridTransportation.empty().append($orderItemGridTransportationControl);
-        $orderItemGridTransportationControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'T'
-            };
-        });
-        $orderItemGridTransportationControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
-        }
-        );
-        FwBrowse.init($orderItemGridTransportationControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridTransportationControl);
+        //var $orderItemGridTransportation;
+        //var $orderItemGridTransportationControl;
+        //$orderItemGridTransportation = $form.find('.transportationgrid div[data-grid="OrderItemGrid"]');
+        //$orderItemGridTransportationControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        //$orderItemGridTransportation.empty().append($orderItemGridTransportationControl);
+        //$orderItemGridTransportationControl.data('ondatabind', function (request) {
+        //    request.uniqueids = {
+        //        OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
+        //        RecType: 'T'
+        //    };
+        //});
+        //$orderItemGridTransportationControl.data('beforesave', function (request) {
+        //    request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+        //}
+        //);
+        //FwBrowse.init($orderItemGridTransportationControl);
+        //FwBrowse.renderRuntimeHtml($orderItemGridTransportationControl);
 
         var $orderItemGridLabor;
         var $orderItemGridLaborControl;
@@ -159,6 +159,15 @@
         );
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
+
+
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.facilitiesgrid .valtype')).attr('data-validationname', 'FacilityRateValidation');
+        //jQuery($form.find('.transportationgrid .valtype')).attr('data-validationname', 'FacilityRateValidation');
+
     }
 
     loadForm(uniqueids: any) {
@@ -219,9 +228,9 @@
         $orderItemGridFacilities = $form.find('.facilitiesgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridFacilities);
 
-        var $orderItemGridTransportation;
-        $orderItemGridTransportation = $form.find('.transportationgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridTransportation);
+        //var $orderItemGridTransportation;
+        //$orderItemGridTransportation = $form.find('.transportationgrid [data-name="OrderItemGrid"]');
+        //FwBrowse.search($orderItemGridTransportation);
 
         var $orderItemGridLabor;
         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
@@ -243,6 +252,8 @@
                 $form.find('.' + typeLowerCase).hide();
             }
         }
+
+        jQuery($form.find('[data-grid="OrderItemGrid"] [data-browsedatafield="FromDate"], [data-browsedatafield="ToDate"], [data-browsedatafield="BillablePeriods"], [data-browsedatafield="SubQuantity"], [data-browsedatafield="AvailableQuantity"]')).parent().hide();
     }
 }
 
