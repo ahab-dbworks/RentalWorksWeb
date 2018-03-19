@@ -25,6 +25,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormMenuBar = tree.AddMenuBar("{E6F2E4A8-A0B1-4468-855C-20E0454E5DEE}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{FA642E0C-D1DC-42C7-B52B-C966A631FDE5}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{F1DE9D9F-5311-4AA3-B477-B1F6A144F8D4}", nodeFormSubMenu.Id);
+            tree.AddSubMenuItem("Copy Order", "{E25CB084-7E7F-4336-9512-36B7271AC151}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{CEC1871C-DA65-418E-AF7E-C3DA25CA41A5}", nodeFormMenuBar.Id);
             tree.AddSubMenuItem("Create Pick List", "{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}", nodeFormOptions.Id);
         }
