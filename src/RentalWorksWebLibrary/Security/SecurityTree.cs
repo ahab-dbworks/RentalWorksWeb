@@ -54,6 +54,7 @@ namespace WebLibrary.Security
             AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order", "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuRentalWorks.Id, "RepairController", "module/repair", homeiconbaseurl + "placeholder.png");
+            AddModule("Parts Inventory", "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuRentalWorks.Id, "PartsInventoryController", "module/partsinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");

@@ -792,6 +792,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\RentalInventory\RentalInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryBrowse.htm" />
+    <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
@@ -1072,6 +1074,7 @@
     <Content Include="Source\Reports\Application\PortraitHeader.htm" />
     <Content Include="Source\Reports\Application\StyleSheet.css" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PartsInventory\PartsInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketType\MarketType.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
