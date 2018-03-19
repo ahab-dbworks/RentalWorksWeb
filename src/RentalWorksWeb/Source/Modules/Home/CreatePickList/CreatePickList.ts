@@ -44,12 +44,20 @@ class CreatePickList {
         }
 
         $form.find('.createpicklist').on('click', function () {
-            console.log("CREATE PICK LIST");
             var $report;
             $report = RwPickListReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
-            $report.find('div.fwformfield[data-datafield="PickListId"] input').val("");//need to fill with values and close previous submodule
-            $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val("");
+            var sessionId = FwFormField.getValueByDataField($form, "OrderId");
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist/' + sessionId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
+                    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListId);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+
             jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
         });
 
@@ -149,6 +157,8 @@ class CreatePickList {
         var $pickListUtilityGrid;
         $pickListUtilityGrid = $form.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
+
+
 
 
     }
