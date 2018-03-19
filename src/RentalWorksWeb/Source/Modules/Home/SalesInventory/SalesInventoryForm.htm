@@ -45,22 +45,27 @@
       <div data-type="tabpage" id="salesitemtabpage" class="tabpage" data-tabid="salesitemtab">
         <div class="formpage">
           <div class="formrow">
-            <div class="formcolumn" style="width:1030px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Inventory">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-required="true" style="float:left;width:125px;"></div>
-                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="float:left;width:500px;"></div>
+            <div class="formcolumn" style="width:1300px;">
+              <div class="formrow">
+                <div class="formcolumn" style="width:850px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Inventory">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-required="true" style="float:left;width:125px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-required="true" style="float:left;width:500px;"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ContainerId" style="display:none;"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="width:125px;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="formcolumn" style="width:400px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                      <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="Image" data-uniqueid1field="InventoryId" data-description="" data-rectype="F"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="formcolumn" style="width:175px;padding-left:1px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="width:125px;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="formrow">
             <div class="formcolumn" style="width:1300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Type / Category">
@@ -857,13 +862,6 @@
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Compatibility">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwGrid" data-grid="SalesInventoryCompatibilityGrid" data-securitycaption="Inventory Compatibility"></div>
-                </div>
-              </div>
-            </div>
-            <div class="formcolumn" style="width:855px;padding-left:1px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="inventory.itemid" data-description="" data-rectype="F" style="min-height:425px;"></div>
                 </div>
               </div>
             </div>
