@@ -1,16 +1,16 @@
-var RepairCostsGrid = (function () {
-    function RepairCostsGrid() {
-        this.Module = 'RepairCostsGrid';
+var RepairCostGrid = (function () {
+    function RepairCostGrid() {
+        this.Module = 'RepairCostGrid';
         this.apiurl = 'api/v1/repaircost';
     }
-    RepairCostsGrid.prototype.generateRow = function ($control, $generatedtr) {
+    RepairCostGrid.prototype.generateRow = function ($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="ICode"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="RateId"] input').val($tr.find('.field[data-browsedatafield="RateId"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
     };
     ;
-    return RepairCostsGrid;
+    return RepairCostGrid;
 }());
-var RepairCostsGridController = new RepairCostsGrid();
-//# sourceMappingURL=RepairCostsGridController.js.map
+var RepairCostGridController = new RepairCostGrid();
+//# sourceMappingURL=RepairCostGridController.js.map

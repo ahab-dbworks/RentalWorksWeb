@@ -1,9 +1,9 @@
-﻿class RepairCostsGrid {
+﻿class RepairCostGrid {
   Module: string;
   apiurl: string;
 
   constructor() {
-    this.Module = 'RepairCostsGrid';
+    this.Module = 'RepairCostGrid';
     this.apiurl = 'api/v1/repaircost';
   }
 
@@ -15,5 +15,5 @@
   };
 }
 
-var RepairCostsGridController = new RepairCostsGrid();
+var RepairCostGridController = new RepairCostGrid();
 //----------------------------------------------------------------------------------------------

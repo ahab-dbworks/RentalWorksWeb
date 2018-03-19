@@ -39,38 +39,38 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) { 
 
-    var $repairCostsGrid, $repairCostsGridControl; 
+    var $repairCostGrid, $repairCostGridControl; 
  
-    $repairCostsGrid = $form.find('div[data-grid="RepairCostsGrid"]'); 
-    $repairCostsGridControl = jQuery(jQuery('#tmpl-grids-RepairCostsGridBrowse').html()); 
-    $repairCostsGrid.empty().append($repairCostsGridControl); 
-    $repairCostsGridControl.data('ondatabind', function (request) { 
+    $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
+    $repairCostGridControl = jQuery(jQuery('#tmpl-grids-RepairCostGridBrowse').html()); 
+    $repairCostGrid.empty().append($repairCostGridControl); 
+    $repairCostGridControl.data('ondatabind', function (request) { 
       request.uniqueids = { 
         RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
       } 
     }); 
-    $repairCostsGridControl.data('beforesave', function (request) { 
+    $repairCostGridControl.data('beforesave', function (request) { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
-    FwBrowse.init($repairCostsGridControl); 
-    FwBrowse.renderRuntimeHtml($repairCostsGridControl);
+    FwBrowse.init($repairCostGridControl); 
+    FwBrowse.renderRuntimeHtml($repairCostGridControl);
     
     //----------------------------------------------------------------------------------------------
-    var $repairPartsGrid, $repairPartsGridControl; 
+    var $repairPartGrid, $repairPartGridControl; 
  
-    $repairPartsGrid = $form.find('div[data-grid="RepairPartsGrid"]'); 
-    $repairPartsGridControl = jQuery(jQuery('#tmpl-grids-RepairPartsGridBrowse').html()); 
-    $repairPartsGrid.empty().append($repairPartsGridControl); 
-    $repairPartsGridControl.data('ondatabind', function (request) { 
+    $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
+    $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
+    $repairPartGrid.empty().append($repairPartGridControl); 
+    $repairPartGridControl.data('ondatabind', function (request) { 
       request.uniqueids = { 
         RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
       } 
     }); 
-    $repairPartsGridControl.data('beforesave', function (request) { 
+    $repairPartGridControl.data('beforesave', function (request) { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
-    FwBrowse.init($repairPartsGridControl); 
-    FwBrowse.renderRuntimeHtml($repairPartsGridControl);
+    FwBrowse.init($repairPartGridControl); 
+    FwBrowse.renderRuntimeHtml($repairPartGridControl);
   } 
 
     //----------------------------------------------------------------------------------------------
@@ -116,10 +116,10 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) { 
  
-   var $repairCostsGrid: any = $form.find('[data-name="RepairCostsGrid"]'); 
-   FwBrowse.search($repairCostsGrid); 
-    var $repairPartsGrid: any = $form.find('[data-name="RepairPartsGrid"]'); 
-   FwBrowse.search($repairPartsGrid); 
+   var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
+   FwBrowse.search($repairCostGrid); 
+    var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
+   FwBrowse.search($repairPartGrid); 
   };
 
 }

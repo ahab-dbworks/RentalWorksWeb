@@ -1,9 +1,9 @@
-﻿class RepairPartsGrid {
+﻿class RepairPartGrid {
   Module: string;
   apiurl: string;
 
   constructor() {
-    this.Module = 'RepairPartsGrid';
+    this.Module = 'RepairPartGrid';
     this.apiurl = 'api/v1/repairpart';
   }
   generateRow($control, $generatedtr) {
@@ -14,5 +14,5 @@
   };
 }
 
-var RepairPartsGridController = new RepairPartsGrid();
+var RepairPartGridController = new RepairPartGrid();
 //----------------------------------------------------------------------------------------------

@@ -592,8 +592,8 @@
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
     <Content Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridBrowse.htm" />
     <Content Include="Source\Grids\CrewLocationGrid\CrewLocationGridBrowse.htm" />
-    <Content Include="Source\Grids\RepairPartsGrid\RepairPartsGridBrowse.htm" />
-    <Content Include="Source\Grids\RepairCostsGrid\RepairCostsGridBrowse.htm" />
+    <Content Include="Source\Grids\RepairPartGrid\RepairPartGridBrowse.htm" />
+    <Content Include="Source\Grids\RepairCostGrid\RepairCostGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridBrowse.htm" />
@@ -687,8 +687,8 @@
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeInvoiceExportGrid\OrderTypeInvoiceExportGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewLocationGrid\CrewLocationGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\RepairPartsGrid\RepairPartsGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\RepairCostsGrid\RepairCostsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RepairPartGrid\RepairPartGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RepairCostGrid\RepairCostGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventoryWarehouseGrid\SalesInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventorySubstituteGrid\SalesInventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryVendorGrid\InventoryVendorGridController.ts" />

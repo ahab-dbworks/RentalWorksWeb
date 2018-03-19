@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-  public class RepairCostsGridMenu : FwSecurityTreeBranch
+  public class RepairCostGridMenu : FwSecurityTreeBranch
   {
     //---------------------------------------------------------------------------------------------
-    public RepairCostsGridMenu() : base("{38219D4D-C8F6-4C8C-B86B-D86D5F645251}") { }
+    public RepairCostGridMenu() : base("{38219D4D-C8F6-4C8C-B86B-D86D5F645251}") { }
     //---------------------------------------------------------------------------------------------
     public override void BuildBranch(FwSecurityTree tree)
     {
