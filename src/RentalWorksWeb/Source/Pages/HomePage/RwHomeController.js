@@ -88,7 +88,7 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas><i class="chart-settings material-icons">settings</i></div>');
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
                 break;
             }
         }
@@ -116,7 +116,7 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas><i class="chart-settings material-icons">settings</i></div>');
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
                 break;
             }
         }
@@ -145,7 +145,7 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas><i class="chart-settings material-icons">settings</i></div>');
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
                 break;
             }
         }
@@ -173,7 +173,7 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas><i class="chart-settings material-icons">settings</i></div>');
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
                 break;
             }
         }
