@@ -15916,6 +15916,162 @@
 			]
 		},
 		{
+			"name": "Parts Inventory",
+			"description": "",
+			"item": [
+				{
+					"name": "Parts Inventory: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Parts Inventory: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Parts Inventory: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory/A000FRFM",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Parts Inventory: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"AvailableFrom\": \"C\",\n    \"TrackedBy\": \"QUANTITY\",\n    \"Rank\": \"\",\n    \"ICode\": \"JHPART1\",\n    \"Description\": \"JUSTIN NEW PART EXAMPLE\",\n    \"CategoryId\": \"A000FQUZ\",\n    \"Classification\": \"I\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Parts Inventory: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InventoryId\": \"000090UI\",\n    \"Description\": \"JUSTIN NEW PART EXAMPLE ABC\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Parts Inventory: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/partsinventory/000090UI",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Payment Terms",
 			"description": "",
 			"item": [
