@@ -764,10 +764,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
-    <Content Include="Source\Modules\Home\Order\Order.js" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
-    <Content Include="Source\Modules\Home\Quote\Quote.js" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
