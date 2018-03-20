@@ -3,6 +3,10 @@
   <table id="tblsalesinventorytransactionsreport">
     <thead>
       <tr>
+        
+        <td>
+          <div>Warehouse</div>
+        </td>
         <td>
           <div>I-Code</div>
         </td>
@@ -45,6 +49,9 @@
     <tbody>
       {{#details}}
       <tr data-rowtype={{rowtype}}>
+        <td>
+          <div class="row1">{{warehousecode}}</div>
+        </td>
         <td>
           <div class="row1">{{masterno}}</div>
         </td>

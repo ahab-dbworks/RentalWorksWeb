@@ -18,22 +18,22 @@ namespace Web.Source.Reports
     FwSqlCommand qry;
     FwJsonDataTable dtDetails;
 
-    qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-    select = new FwSqlSelect();
+    //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+    //select = new FwSqlSelect();
 
-    select.Add("select top 1 rv.Warehouse, rpt.*");
-    select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
-    select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
-    select.Add("rpt.warehouseid = rv.warehouseid)"); 
-    select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
-    select.Add("order by masterno");
+    //select.Add("select top 1 rv.Warehouse, rpt.*");
+    //select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
+    //select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
+    //select.Add("rpt.warehouseid = rv.warehouseid)"); 
+    //select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
+    //select.Add("order by masterno");
 
-    select.Parse();
+    //select.Parse();
 
-    select.AddParameter("@startdate", request.parameters.StartDate);
-    select.AddParameter("@enddate", request.parameters.EndDate);
+    //select.AddParameter("@startdate", request.parameters.StartDate);
+    //select.AddParameter("@enddate", request.parameters.EndDate);
 
-    dtDetails = qry.QueryToFwJsonTable(select, true);
+    //dtDetails = qry.QueryToFwJsonTable(select, true);
 
     StringBuilder sb;
     string html;
@@ -41,10 +41,9 @@ namespace Web.Source.Reports
     sb = new StringBuilder(base.renderHeaderHtml(styletemplate, headertemplate, printOptions));
     sb.Replace("[FROMDATE]", request.parameters.StartDate);
     sb.Replace("[TODATE]", request.parameters.EndDate);
-    sb.Replace("[WAREHOUSE]", "Toronto");
 
     html = sb.ToString();
-    html = this.applyTableToTemplate(html, "header", dtDetails);
+    //html = this.applyTableToTemplate(html, "header", dtDetails);
 
     return html;
   }
@@ -77,7 +76,7 @@ namespace Web.Source.Reports
       qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
       select = new FwSqlSelect();
 
-      select.Add("select rv.Warehouse, rpt.*");
+      select.Add("select warehousecode=rv.[Warehouse code], rpt.*");
       select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
       select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
       select.Add("rpt.warehouseid = rv.warehouseid)");   
