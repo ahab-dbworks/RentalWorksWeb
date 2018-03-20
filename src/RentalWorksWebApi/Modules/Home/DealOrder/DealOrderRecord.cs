@@ -145,5 +145,33 @@ namespace WebApi.Modules.Home.DealOrder
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<string> Copy()
+        {
+            string newId = "";
+            if (OrderId != null)
+            {
+                /*
+                todo: add support for these parameters
+                                    @ratesfrominventory char(01) = 'F',       --// T = from inventory, F = from source quote/order
+                                    @combinesubs        char(01) = 'F',
+                                    @copydates          char(01) = 'T',
+                                    @copyitemnotes      char(01) = 'T',
+                                    @copydocuments      char(01) = 'T',
+                                    @copytodealid       char(08) = '' ,
+                */
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "copyquoteorder", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@fromorderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, Type);
+                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync(true);
+                    newId = qry.GetParameter("@neworderid").ToString();
+                }
+            }
+            return newId;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

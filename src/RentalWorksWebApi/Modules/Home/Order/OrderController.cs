@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -18,8 +20,45 @@ namespace WebApi.Modules.Home.Order
             return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/order
-        [HttpGet]
+        // POST api/v1/order/copy
+        [HttpPost("copy/{id}")]
+        public async Task<IActionResult> Copy([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic l = new OrderLogic();
+                l.AppConfig = AppConfig;
+                l.UserSession = UserSession;
+                if (await l.LoadAsync<OrderLogic>(ids))
+                {
+                    OrderLogic lCopy = await l.CopyAsync<OrderLogic>();
+                    return new OkObjectResult(lCopy);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+
+
+
+    }
+    //------------------------------------------------------------------------------------
+    // GET api/v1/order
+    [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<OrderLogic>(pageno, pagesize, sort, typeof(OrderLogic));

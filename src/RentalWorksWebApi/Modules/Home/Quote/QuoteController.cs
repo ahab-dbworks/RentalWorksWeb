@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -18,7 +20,43 @@ namespace WebApi.Modules.Home.Quote
             return await DoBrowseAsync(browseRequest, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/quote
+        // POST api/v1/quote/copy
+        [HttpPost("copy/{id}")]
+        public async Task<IActionResult> Copy([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic l = new QuoteLogic();
+                l.AppConfig = AppConfig;
+                l.UserSession = UserSession;
+                if (await l.LoadAsync<QuoteLogic>(ids))
+                {
+                    QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>();
+                    return new OkObjectResult(lCopy);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+
+
+
+        }
+        //------------------------------------------------------------------------------------        // GET api/v1/quote
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
