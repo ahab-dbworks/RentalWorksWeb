@@ -12,6 +12,7 @@ namespace FwStandard.DataLayer
     public class FwCustomValues : List<FwCustomValue>
     {
         private FwApplicationConfig _appConfig = null;
+        private FwUserSession _userSession = null;
         [JsonIgnore]
         public FwApplicationConfig AppConfig
         {
@@ -22,6 +23,17 @@ namespace FwStandard.DataLayer
                 CustomFields.AppConfig = value;
             }
         }
+
+        public FwUserSession UserSession
+        {
+            get { return _userSession; }
+            set
+            {
+                _userSession = value;
+                CustomFields.UserSession = value;
+            }
+        }
+
         public FwCustomFields CustomFields = new FwCustomFields();
 
         //------------------------------------------------------------------------------------

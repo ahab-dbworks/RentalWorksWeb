@@ -42,6 +42,7 @@ namespace FwStandard.BusinessLogic
     public class FwBusinessLogic
     {
         private FwApplicationConfig _appConfig = null;
+        private FwUserSession _userSession = null;
         [JsonIgnore]
         public FwApplicationConfig AppConfig
         {
@@ -62,7 +63,24 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
-        public FwUserSession UserSession = null;
+        //public FwUserSession UserSession = null;
+        public FwUserSession UserSession
+        {
+            get { return _userSession; }
+            set
+            {
+                _userSession = value;
+                foreach (FwDataReadWriteRecord rec in dataRecords)
+                {
+                    rec.UserSession = value;
+                }
+                if (dataLoader != null)
+                {
+                    dataLoader.UserSession = value;
+                }
+                _Custom.UserSession = value;
+            }
+        }
 
         [JsonIgnore]
         protected List<FwDataReadWriteRecord> dataRecords = new List<FwDataReadWriteRecord>();
@@ -197,6 +215,9 @@ namespace FwStandard.BusinessLogic
         {
             bool blLoaded = false;
             bool recLoaded = false;
+            FwApplicationConfig tmpAppConfig = AppConfig;
+            FwUserSession tmpUserSession = UserSession;
+
 
             await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
@@ -212,12 +233,15 @@ namespace FwStandard.BusinessLogic
                         opts.ConfigureMap(MemberList.None);
                     });
                     recLoaded = (rec != null);
+
                     if (i == 0)
                     {
                         blLoaded = recLoaded;
                     }
                     i++;
                 }
+                this.AppConfig = tmpAppConfig;
+                this.UserSession = tmpUserSession;
             }
             else
             {
@@ -227,6 +251,9 @@ namespace FwStandard.BusinessLogic
                 {
                     opts.ConfigureMap(MemberList.None);
                 });
+                this.AppConfig = tmpAppConfig;
+                this.UserSession = tmpUserSession;
+
             }
             //if (blLoaded) 
             //{
