@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.RepairCost
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 6, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 40)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 255)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rate", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]

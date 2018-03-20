@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.RepairPart
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 7, scale: 2)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 255)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
