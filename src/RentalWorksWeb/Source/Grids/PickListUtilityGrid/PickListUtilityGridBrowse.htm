@@ -1,37 +1,42 @@
 ﻿<div data-name="PickListUtilityGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Create Pick List" data-rendermode="template" data-showsearch="false" data-controller="PickListUtilityGridController">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-isuniqueid="true" data-datafield="SessionId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
     <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
-  <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="I-Code" data-datafield="ICode" data-datatype="text" data-sort="asc"></div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="false" data-datafield="SessionId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="false" data-datafield="OrderItemId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-sort="off"></div>
+    <div class="field" data-caption="I-Code" data-datafield="ICode" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Type" data-datafield="OrderType" data-datatype="text" data-sort="off"></div>
+    <div class="field" data-caption="Description" data-datafield="Description" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Vendor" data-datafield="Vendor" data-datatype="text" data-sort="off"></div>
+    <div class="field" data-caption="Type" data-datafield="OrderType" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-datatype="date" data-sort="off"></div>
+    <div class="field" data-caption="Vendor" data-datafield="Vendor" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Warehouse" data-datafield="WarehouseId" data-browsedisplayfield="Warehouse" data-datatype="validation" data-validationname="WarehouseValidation" data-sort="off"></div>
+    <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-datatype="date" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Ordered" data-datafield="QuantityOrdered" data-datatype="number" data-sort="off"></div>
+    <div class="field" data-caption="Warehouse" data-datafield="Warehouse" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Staged" data-datafield="StagedQuantity" data-datatype="number" data-sort="off"></div>
+    <div class="field" data-caption="Ordered" data-datafield="QuantityOrdered" data-datatype="number" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Out" data-datafield="OutQuantity" data-datatype="number" data-sort="off"></div>
+    <div class="field" data-caption="Staged" data-datafield="StagedQuantity" data-datatype="number" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Remaining" data-datafield="QuantityInLocation" data-datatype="number" data-sort="off"></div>
+    <div class="field" data-caption="Out" data-datafield="OutQuantity" data-datatype="number" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Remaining" data-datafield="QuantityInLocation" data-datatype="number" data-formreadonly="true" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Pick" data-datafield="PickQuantity" data-datatype="number" data-sort="off"></div>

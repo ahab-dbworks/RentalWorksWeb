@@ -78,12 +78,6 @@ class CreatePickList {
                 , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
             };
         });
-        $pickListUtilityGridControl.data('beforesave', function (request) {
-            request.uniqueids = {
-                OrderId:  FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
-            }
-        });
         FwBrowse.init($pickListUtilityGridControl);
         FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
 
@@ -150,17 +144,12 @@ class CreatePickList {
             //send selectedOptions
             console.log("APPLY OPTIONS");
         });
-        
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $pickListUtilityGrid;
         $pickListUtilityGrid = $form.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
-
-
-
-
     }
     //----------------------------------------------------------------------------------------------
 }
