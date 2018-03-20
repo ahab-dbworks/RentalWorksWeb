@@ -7,6 +7,7 @@ class Quote {
         this.Module = 'Quote';
         this.apiurl = 'api/v1/quote';
         this.ActiveView = 'ALL';
+
     }
 
     getModuleScreen() {
@@ -436,7 +437,53 @@ class Quote {
         $form.find('.totals input').css('text-align', 'right');
     }
 
-
+    copyQuote($form) {
+        var $confirmation, $yes, $no, self;
+        self = this;
+        var html = [];
+        html.push('<div style="white-space:pre;">\n');
+        html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="Order" >Quote/ Order');
+        html.push('<input type= "radio" name= "TypeSelect" value= "Invoice" style="margin-left:20px;"> Invoice');
+        html.push('<br><br><div style= "float:left; padding-right: 10px;">');
+        html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        html.push('Deal:<br><input type="text" name="Deal" style="width:160px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
+        html.push('<br><div style="float:left; padding-right:10px;">');
+        html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        html.push('<br>Description:<br><input type="text" name="Description" style="width:160px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
+        html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="Quote" value="Quote" >Quote');
+        html.push('<input type="radio" name="Order" value="Order" style="margin-left:20px;">Order');
+        html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style= "width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
+        html.push('<strong>Options</strong><br><input type="radio" name="Options" value="Copy">Copy Cost/Rates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="Options" value="Default">Use default Cost/Rates from Inventory<br><br>');
+        html.push('<strong>Date Behavior</strong><br><input type="radio" name="behavior" value="copyfrom">Copy From/To Dates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="behavior" value="current">Use Current Date<br><br>');
+        html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
+        html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
+        html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
+        var copyConfirmation = html.join('');
+        var orderId = FwFormField.getValueByDataField($form, 'QuoteId');
+        $confirmation = FwConfirmation.renderConfirmation('Copy Quote', copyConfirmation);
+        $yes = FwConfirmation.addButton($confirmation, 'OK', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        $yes.on('click', function () {
+            //FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            //    try {
+            //        FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
+            //        FwConfirmation.destroyConfirmation($confirmation);
+            //        var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
+            //        $pickListGridControl.data('ondatabind', function (request) {
+            //            request.uniqueids = {
+            //                OrderId: orderId
+            //            };
+            //        });
+            //        FwBrowse.search($pickListGridControl);
+            //    }
+            //    catch (ex) {
+            //        FwFunc.showError(ex);
+            //    }
+            //}, null, $form);
+        });
+    };
 
     totals($form: any) {
         var self = this;
@@ -672,3 +719,15 @@ class Quote {
 }
 
 var QuoteController = new Quote();
+
+
+FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = function (event) {
+    var $form
+    $form = jQuery(this).closest('.fwform');
+    try {
+        QuoteController.copyQuote($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};

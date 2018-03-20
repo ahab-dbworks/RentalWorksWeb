@@ -7,18 +7,6 @@ var Order = (function () {
         this.caption = 'Order';
         this.ActiveView = 'ALL';
         var self = this;
-        FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
-            var $form, pickListId, pickListNumber;
-            $form = jQuery(this).closest('.fwform');
-            pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
-            pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
-            try {
-                self.cancelPickList(pickListId, pickListNumber, $form);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        };
     }
     Order.prototype.getModuleScreen = function (filter) {
         var self = this;
@@ -360,6 +348,38 @@ var Order = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     ;
+    Order.prototype.copyOrder = function ($form) {
+        var $confirmation, $yes, $no, self;
+        self = this;
+        var html = [];
+        html.push('<div style="white-space:pre;">\n');
+        html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="Order" >Quote/ Order');
+        html.push('<input type= "radio" name= "TypeSelect" value= "Invoice" style="margin-left:20px;"> Invoice');
+        html.push('<br><br><div style= "float:left; padding-right: 10px;">');
+        html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        html.push('Deal:<br><input type="text" name="Deal" style="width:160px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
+        html.push('<br><div style="float:left; padding-right:10px;">');
+        html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        html.push('<br>Description:<br><input type="text" name="Description" style="width:160px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
+        html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="Quote" value="Quote" >Quote');
+        html.push('<input type="radio" name="Order" value="Order" style="margin-left:20px;">Order');
+        html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style= "width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
+        html.push('<strong>Options</strong><br><input type="radio" name="Options" value="Copy">Copy Cost/Rates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="Options" value="Default">Use default Cost/Rates from Inventory<br><br>');
+        html.push('<strong>Date Behavior</strong><br><input type="radio" name="behavior" value="copyfrom">Copy From/To Dates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="behavior" value="current">Use Current Date<br><br>');
+        html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
+        html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
+        html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
+        var copyConfirmation = html.join('');
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        $confirmation = FwConfirmation.renderConfirmation('Copy Order', copyConfirmation);
+        $yes = FwConfirmation.addButton($confirmation, 'OK', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        $yes.on('click', function () {
+        });
+    };
+    ;
     Order.prototype.cancelPickList = function (pickListId, pickListNumber, $form) {
         var $confirmation, $yes, $no, self;
         self = this;
@@ -665,6 +685,28 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
         var $pickListUtilityGrid;
         $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
+    var $form, pickListId, pickListNumber;
+    $form = jQuery(this).closest('.fwform');
+    pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
+    pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
+    try {
+        OrderController.cancelPickList(pickListId, pickListNumber, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = function (event) {
+    var $form;
+    $form = jQuery(this).closest('.fwform');
+    try {
+        OrderController.copyOrder($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
