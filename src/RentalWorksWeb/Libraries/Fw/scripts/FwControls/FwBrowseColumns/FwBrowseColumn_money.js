@@ -6,7 +6,12 @@ FwBrowseColumn_money.databindfield = function($browse, $field, dt, dtRow, $tr) {
 //---------------------------------------------------------------------------------
 FwBrowseColumn_money.getFieldValue = function($browse, $tr, $field, field, originalvalue) {
     if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-        field.value = $field.find('input.value').inputmask('unmaskedvalue');
+        var $value = $field.find('input.value');
+        if ($value.length > 0) {
+            field.value = $field.find('input.value').inputmask('unmaskedvalue');
+        } else {
+            field.value = originalvalue.replace('$', '');
+        }
     }
 };
 //---------------------------------------------------------------------------------
