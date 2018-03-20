@@ -13,7 +13,6 @@ var RwHome = (function () {
         var applicationOptions = program.getApplicationOptions();
         var screen = {};
         screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
-        self.buildWidgetSettings(screen.$view);
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
@@ -29,9 +28,7 @@ var RwHome = (function () {
         return screen;
     };
     ;
-    RwHome.prototype.buildWidgetSettings = function ($control) {
-        var $chartSettings = $control.find('.chart-settings');
-        var self = this;
+    RwHome.prototype.buildWidgetSettings = function ($chartSettings) {
         $chartSettings.on('click', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
@@ -48,7 +45,7 @@ var RwHome = (function () {
                     }
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
-                }, null, $control);
+                }, null, $chartSettings);
                 $select.on('click', function () {
                     try {
                     }
@@ -61,6 +58,7 @@ var RwHome = (function () {
                 FwFunc.showError(ex);
             }
         });
+        return $chartSettings;
     };
     RwHome.prototype.loadSettings = function ($control) {
         var self = this;
@@ -88,10 +86,16 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
+                var refresh = '<i id="barrefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="barsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas>' + refresh + settings + '</div>');
+                self.buildWidgetSettings(jQuery($control.children()[i]).find('#barsettings'));
                 break;
             }
         }
+        jQuery($control.children()[i]).on('click', '#barrefresh', function () {
+            self.renderBar($control);
+        });
         var barCanvas = $control.find('#myChart');
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.ordersbystatus = response;
@@ -116,10 +120,16 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
+                var refresh = '<i id="pierefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="piesettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="ordersbyagent" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas>' + refresh + settings + '</div>');
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#piesettings'));
+        jQuery($control.children()[i]).on('click', '#pierefresh', function () {
+            self.renderPie($control);
+        });
         var pieCanvas = $control.find('#myPieChart');
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.ordersbyagent = response;
@@ -145,10 +155,16 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
+                var refresh = '<i id="horizrefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="horizsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="dealsbytype" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas>' + refresh + settings + '</div>');
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#horizsettings'));
+        jQuery($control.children()[i]).on('click', '#horizrefresh', function () {
+            self.renderHorizontal($control);
+        });
         var horizontalCanvas = $control.find('#myHorizontalChart');
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.dealsbytype = response;
@@ -173,10 +189,16 @@ var RwHome = (function () {
         var self = this;
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>');
+                var refresh = '<i id="grouprefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="groupsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="billingbyagentbymonth" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas>' + refresh + settings + '</div>');
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#groupsettings'));
+        jQuery($control.children()[i]).on('click', '#grouprefresh', function () {
+            self.renderGroup($control);
+        });
         var canvas = $control.find('#myGroupChart');
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/billingbyagentbymonth', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.billingbyagentbymonth = response;

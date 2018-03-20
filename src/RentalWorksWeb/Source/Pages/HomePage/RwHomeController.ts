@@ -17,7 +17,6 @@
         var screen: any = {};
         screen.$view = jQuery(jQuery('#tmpl-pages-Home').html());
 
-        self.buildWidgetSettings(screen.$view);
         screen.load = function () {
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
@@ -37,10 +36,7 @@
         return screen;
     };
 
-    buildWidgetSettings($control) {
-        var $chartSettings = $control.find('.chart-settings');
-        var self = this;
-
+    buildWidgetSettings($chartSettings) {
         $chartSettings.on('click', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
@@ -58,7 +54,7 @@
                     }
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
-                }, null, $control);
+                }, null, $chartSettings);
 
                 $select.on('click', function () {
                     try {
@@ -70,7 +66,7 @@
                 FwFunc.showError(ex);
             }
         })
-
+        return $chartSettings
 
     }
 
@@ -103,10 +99,16 @@
 
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>')
+                var refresh = '<i id="barrefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="barsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas>' + refresh + settings + '</div>')
+                self.buildWidgetSettings(jQuery($control.children()[i]).find('#barsettings'))
                 break;
             }
         }
+        jQuery($control.children()[i]).on('click', '#barrefresh', function () {
+            self.renderBar($control);
+        })
 
         var barCanvas = <HTMLCanvasElement> $control.find('#myChart');
 
@@ -134,10 +136,17 @@
 
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>')
+                var refresh = '<i id="pierefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="piesettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="ordersbyagent" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas>' + refresh + settings + '</div>')
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#piesettings'))
+        jQuery($control.children()[i]).on('click', '#pierefresh', function () {
+            self.renderPie($control);
+        })
+
 
         var pieCanvas = <HTMLCanvasElement> $control.find('#myPieChart');
 
@@ -168,10 +177,17 @@
 
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>')
+                var refresh = '<i id="horizrefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="horizsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="dealsbytype" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas>' + refresh + settings + '</div>')
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#horizsettings'))
+        jQuery($control.children()[i]).on('click', '#horizrefresh', function () {
+            self.renderHorizontal($control);
+        })
+
 
         var horizontalCanvas = <HTMLCanvasElement> $control.find('#myHorizontalChart');
 
@@ -238,10 +254,16 @@
 
         for (var i = 0; i < $control.children().length; i++) {
             if (jQuery($control.children()[i]).children().length < 2) {
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas><i class="chart-refresh material-icons">refresh</i><i class="chart-settings material-icons">settings</i></div>')
+                var refresh = '<i id="grouprefresh" class="chart-refresh material-icons">refresh</i>';
+                var settings = '<i id="groupsettings" class="chart-settings material-icons">settings</i>';
+                jQuery($control.children()[i]).append('<div data-chart="billingbyagentbymonth" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas>' + refresh + settings + '</div>')
                 break;
             }
         }
+        self.buildWidgetSettings(jQuery($control.children()[i]).find('#groupsettings'))
+        jQuery($control.children()[i]).on('click', '#grouprefresh', function () {
+            self.renderGroup($control);
+        })
 
         var canvas = <HTMLCanvasElement> $control.find('#myGroupChart');
         
