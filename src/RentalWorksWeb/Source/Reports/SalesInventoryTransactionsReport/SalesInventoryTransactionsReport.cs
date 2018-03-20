@@ -9,32 +9,11 @@ namespace Web.Source.Reports
 {
   class SalesInventoryTransactionsReport : RwReport
   {
-      //---------------------------------------------------------------------------------------------
-      protected override string getReportName() { return "Sales Inventory Transactions"; }
+    //---------------------------------------------------------------------------------------------
+    protected override string getReportName() { return "Sales Inventory Transactions"; }
   //---------------------------------------------------------------------------------------------
   protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
   {
-    FwSqlSelect select;
-    FwSqlCommand qry;
-    FwJsonDataTable dtDetails;
-
-    //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-    //select = new FwSqlSelect();
-
-    //select.Add("select top 1 rv.Warehouse, rpt.*");
-    //select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
-    //select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
-    //select.Add("rpt.warehouseid = rv.warehouseid)"); 
-    //select.Add(" and   rpt.transtype in ('PURCHASE','VENDOR RETURN','SALES','CUSTOMER RETURN','ADJUSTMENT','TRANSFER')");
-    //select.Add("order by masterno");
-
-    //select.Parse();
-
-    //select.AddParameter("@startdate", request.parameters.StartDate);
-    //select.AddParameter("@enddate", request.parameters.EndDate);
-
-    //dtDetails = qry.QueryToFwJsonTable(select, true);
-
     StringBuilder sb;
     string html;
 
@@ -43,7 +22,6 @@ namespace Web.Source.Reports
     sb.Replace("[TODATE]", request.parameters.EndDate);
 
     html = sb.ToString();
-    //html = this.applyTableToTemplate(html, "header", dtDetails);
 
     return html;
   }

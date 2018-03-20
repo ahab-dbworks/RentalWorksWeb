@@ -1,18 +1,21 @@
 ﻿class RepairPartGrid {
-  Module: string;
-  apiurl: string;
-
-  constructor() {
-    this.Module = 'RepairPartGrid';
-    this.apiurl = 'api/v1/repairpart';
-  }
-  generateRow($control, $generatedtr) {
+  Module: string =   'RepairPartGrid';
+  apiurl: string =  'api/v1/repairpart';
+  
+  generateRow($control, $generatedtr, $form) {
+    var warehouse = JSON.parse(sessionStorage.getItem('warehouse')).warehouse;
+    var warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
     $generatedtr.find('div[data-browsedatafield="ICode"]').data('onchange', function ($tr) {
       $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
       $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+      $generatedtr.find('.field[data-browsedatafield="WarehouseCode"] input').val(warehouse);
+      $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
     });
+    console.log(warehouse, "warehouse")
+    console.log(warehouseId, "warehouseID")
+
   };
 }
-
+ 
 var RepairPartGridController = new RepairPartGrid();
 //----------------------------------------------------------------------------------------------
