@@ -54,6 +54,7 @@ namespace Web.Source.Reports
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
+            dynamic test;
             FwJsonDataTable dtCreditsOnAccount;
             StringBuilder sb;
 
