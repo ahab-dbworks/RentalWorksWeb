@@ -2,18 +2,10 @@ routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecAr
 // routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
 //---------------------------------------------------------------------------------
 class Repair {
-  Module: string;
-  apiurl: string;
-  caption: string;
+  Module: string = 'Repair';
+  apiurl: string = 'api/v1/repair';
+  caption: string = 'Repair Order';
   ActiveView: string;
-
-  constructor() {
-    this.Module = 'Repair';
-    this.apiurl = 'api/v1/repair';
-    this.caption = 'Repair Order';
-    this.ActiveView = 'ALL';
-    var self = this;
-  }
 
   getModuleScreen() {
     var me: Repair = this;
@@ -52,6 +44,12 @@ class Repair {
     $repairCostGridControl.data('beforesave', function (request) { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
+    FwBrowse.setAfterSaveCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
+      this.calculateTotals($form, 'cost');
+    });
+    FwBrowse.setAfterDeleteCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
+      this.calculateTotals($form, 'cost');
+    });
     FwBrowse.init($repairCostGridControl); 
     FwBrowse.renderRuntimeHtml($repairCostGridControl);
     
@@ -116,11 +114,42 @@ class Repair {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) { 
  
-   var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
-   FwBrowse.search($repairCostGrid); 
-    var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
-   FwBrowse.search($repairPartGrid); 
-  };
+     var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
+     FwBrowse.search($repairCostGrid); 
+      var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
+     FwBrowse.search($repairPartGrid); 
+    };
+
+  totals($form: any) {
+    var self = this;
+    var gridTypes = ['cost'];
+    setTimeout(function () {
+        for (var i = 0; i < gridTypes.length; i++) {
+            self.calculateTotals($form, gridTypes[i]);
+        }
+    }, 4000);
+  }
+  calculateTotals($form: any, gridType: string) {
+      var totals = 0, finalTotal;
+      setTimeout(function () {
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
+        if (periodExtended.length > 0) {
+          periodExtended.each(function () {
+            var value = jQuery(this).text();
+            if (value.charAt(0) === '$') {
+                value = value.slice(1).replace(/,/g, '');
+            }
+            var toNumber = parseFloat(parseFloat(value).toFixed(2));
+
+            totals += toNumber;
+            finalTotal = totals.toLocaleString();
+
+          });
+
+          $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(finalTotal);
+        }
+      }, 2000);
+    };
 
 }
 //---------------------------------------------------------------------------------
