@@ -362,7 +362,7 @@ var Order = (function () {
         html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
         html.push('<br>Description:<br><input type="text" name="Description" style="width:245px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
         html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="copyToType" value="Quote" >Quote');
-        html.push('<input type="radio" name="copyToType" value="toOrder" style="margin-left:20px;">Order');
+        html.push('<input type="radio" name="copyToType" value="Order" style="margin-left:20px;">Order');
         html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style="width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
         html.push('<strong>Options</strong><br><input type="radio" name="Options" value="copy">Copy Cost/Rates from existing Quote/Order<br>');
         html.push('<input type="radio" name="Options" value="default">Use default Cost/Rates from Inventory<br><br>');
@@ -404,6 +404,22 @@ var Order = (function () {
                 combineSubs = $confirmation.find('input[name="combineSubs"]').prop('checked');
                 copyDocuments = $confirmation.find('input[name="copyDocuments"]').prop('checked');
                 console.log(copyLineItem, combineSubs, copyDocuments);
+                copyToType = "Order";
+                FwAppData.apiMethod(true, 'POST', 'api/v1/' + copyToType + '/copy/' + orderId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    console.log(response, "RESPONSE");
+                    var uniqueids = {};
+                    if (copyToType == "Order") {
+                        uniqueids.OrderId = response.OrderId;
+                        var $form = OrderController.loadForm(uniqueids);
+                    }
+                    else if (copyToType == "Quote") {
+                        uniqueids.QuoteId = response.QuoteId;
+                        var $form = QuoteController.loadForm(uniqueids);
+                    }
+                    FwModule.openModuleTab($form, "", true, 'FORM', true);
+                }, null, $form);
             }
             catch (ex) {
                 FwFunc.showError(ex);
