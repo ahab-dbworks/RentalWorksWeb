@@ -442,47 +442,83 @@ class Quote {
         self = this;
         var html = [];
         html.push('<div style="white-space:pre;">\n');
-        html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="Order" >Quote/ Order');
-        html.push('<input type= "radio" name= "TypeSelect" value= "Invoice" style="margin-left:20px;"> Invoice');
-        html.push('<br><br><div style= "float:left; padding-right: 10px;">');
+        html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="fromOrder" disabled>Quote/ Order');
+        html.push('<input type="radio" name= "TypeSelect" value="fromInvoice" style="margin-left:20px;" disabled> Invoice');
+        html.push('<br><br><div style="float:left; padding-right: 10px;">');
         html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        html.push('Deal:<br><input type="text" name="Deal" style="width:160px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
+        html.push('Deal:<br><input type="text" name="Deal" style="width:245px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
         html.push('<br><div style="float:left; padding-right:10px;">');
         html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        html.push('<br>Description:<br><input type="text" name="Description" style="width:160px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
-        html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="Quote" value="Quote" >Quote');
-        html.push('<input type="radio" name="Order" value="Order" style="margin-left:20px;">Order');
-        html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style= "width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
-        html.push('<strong>Options</strong><br><input type="radio" name="Options" value="Copy">Copy Cost/Rates from existing Quote/Order<br>');
-        html.push('<input type="radio" name="Options" value="Default">Use default Cost/Rates from Inventory<br><br>');
-        html.push('<strong>Date Behavior</strong><br><input type="radio" name="behavior" value="copyfrom">Copy From/To Dates from existing Quote/Order<br>');
-        html.push('<input type="radio" name="behavior" value="current">Use Current Date<br><br>');
+        html.push('<br>Description:<br><input type="text" name="Description" style="width:245px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
+        html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="copyToType" value="Quote" >Quote');
+        html.push('<input type="radio" name="copyToType" value="toOrder" style="margin-left:20px;">Order');
+        html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style="width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
+        html.push('<strong>Options</strong><br><input type="radio" name="Options" value="copy">Copy Cost/Rates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="Options" value="default">Use default Cost/Rates from Inventory<br><br>');
+        html.push('<strong>Date Behavior</strong><br><input type="radio" name="DateBehavior" value="copy">Copy From/To Dates from existing Quote/Order<br>');
+        html.push('<input type="radio" name="DateBehavior" value="current">Use Current Date<br><br>');
         html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
         html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
         html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
         var copyConfirmation = html.join('');
-        var orderId = FwFormField.getValueByDataField($form, 'QuoteId');
+        var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
         $confirmation = FwConfirmation.renderConfirmation('Copy Quote', copyConfirmation);
+
+        if (this.Module == "Order" || "Quote") {
+            var orderNumber, deal, description;
+            $confirmation.find('input[value="fromOrder"]').prop('checked', true);
+            $confirmation.find('input[name="Type"]').val(this.Module);
+
+            orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
+            $confirmation.find('input[name="OrderNumber"]').val(orderNumber);
+
+            deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
+            $confirmation.find('input[name="Deal"]').val(deal);
+
+            description = FwFormField.getValueByDataField($form, 'Description');
+            $confirmation.find('input[name="Description"]').val(description);
+        }
+
         $yes = FwConfirmation.addButton($confirmation, 'OK', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
         $yes.on('click', function () {
-            //FwAppData.apiMethod(true, 'DELETE', 'api/v1/picklist/' + pickListId, {}, FwServices.defaultTimeout, function onSuccess(response) {
-            //    try {
-            //        FwNotification.renderNotification('SUCCESS', 'Pick List Cancelled');
-            //        FwConfirmation.destroyConfirmation($confirmation);
-            //        var $pickListGridControl = $form.find('[data-name="OrderPickListGrid"]');
-            //        $pickListGridControl.data('ondatabind', function (request) {
-            //            request.uniqueids = {
-            //                OrderId: orderId
-            //            };
-            //        });
-            //        FwBrowse.search($pickListGridControl);
-            //    }
-            //    catch (ex) {
-            //        FwFunc.showError(ex);
-            //    }
-            //}, null, $form);
+            try {
+                var copyToType, newDeal, rateOptions, dateOptions, copyLineItem, combineSubs, copyDocuments;
+                $yes.text('Please wait...');
+                $yes.off('click');
+
+                copyToType = $confirmation.find('input[name="copyToType"]:checked').val();
+                console.log(copyToType)
+
+                newDeal = $confirmation.find('input[name="NewDeal"]').val();
+                console.log(newDeal)
+
+                rateOptions = $confirmation.find('input[name="Options"]:checked').val();
+                console.log(rateOptions)
+
+                dateOptions = $confirmation.find('input[name="DateBehavior"]:checked').val();
+                console.log(dateOptions)
+
+                copyLineItem = $confirmation.find('input[name="copyLineItemNotes"]').prop('checked');
+                combineSubs = $confirmation.find('input[name="combineSubs"]').prop('checked');
+                copyDocuments = $confirmation.find('input[name="copyDocuments"]').prop('checked');
+
+                console.log(copyLineItem, combineSubs, copyDocuments);
+
+                $yes.text('Please wait...');
+                $yes.off('click');
+                //FwAppData.apiMethod(true, 'POST', 'api/v1/quote/copy/' + quoteId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                //    FwNotification.renderNotification('SUCCESS', 'Quote Successfully Copied');
+                //    FwConfirmation.destroyConfirmation($confirmation);
+                //    console.log(response, "Quote Copied:" + quoteId);
+
+                //}, null, $form);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
+
     };
 
     totals($form: any) {
