@@ -103,10 +103,61 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string BillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string TaxId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "issuedtoadd", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string PrintIssuedToAddressFrom { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 100)]
+        public string IssuedToName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "attention", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string IssuedToAttention { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "attention2", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string IssuedToAttention2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billadd1", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        public string IssuedToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billadd2", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        public string IssuedToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billcity", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 30)]
+        public string IssuedToCity { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billstate", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string IssuedToState { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billzip", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        public string IssuedToZipCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billcountryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string IssuedToCountryId { get; set; }
+        //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
+        public bool IncludeInBillingAnalysis { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "hiatusdiscfrom", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 07)]
+        public string HiatusDiscountFrom { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 
-        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        
+
+
+
+
+    [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount)

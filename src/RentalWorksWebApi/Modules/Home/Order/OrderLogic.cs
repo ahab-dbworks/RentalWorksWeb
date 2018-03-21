@@ -8,10 +8,12 @@ namespace WebApi.Modules.Home.Order
     public class OrderLogic : OrderBaseLogic
     {
         OrderLoader orderLoader = new OrderLoader();
+        OrderBrowseLoader orderBrowseLoader = new OrderBrowseLoader();
         //------------------------------------------------------------------------------------
         public OrderLogic()
         {
             dataLoader = orderLoader;
+            browseLoader = orderBrowseLoader;
             Type = RwConstants.ORDER_TYPE_ORDER;
             BeforeSave += OnBeforeSave;
         }

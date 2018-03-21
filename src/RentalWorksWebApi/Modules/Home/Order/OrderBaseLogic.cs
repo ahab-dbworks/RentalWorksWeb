@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
+using WebApi.Modules.Home.Address;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Order
@@ -12,11 +13,13 @@ namespace WebApi.Modules.Home.Order
     {
         protected DealOrderRecord dealOrder = new DealOrderRecord();
         protected DealOrderDetailRecord dealOrderDetail = new DealOrderDetailRecord();
+        protected AddressRecord billToAddress = new AddressRecord();
         //------------------------------------------------------------------------------------
         public OrderBaseLogic()
         {
             dataRecords.Add(dealOrder);
             dataRecords.Add(dealOrderDetail);
+            dataRecords.Add(billToAddress);
             dealOrder.BeforeSave += OnBeforeSaveDealOrder;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
@@ -129,6 +132,80 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }
         //------------------------------------------------------------------------------------
+
+        public bool LockBillingDates { get { return dealOrderDetail.LockBillingDates; } set { dealOrderDetail.LockBillingDates = value; } }
+        //------------------------------------------------------------------------------------
+        public string DelayBillingSearchUntil { get { return dealOrderDetail.DelayBillingSearchUntil; } set { dealOrderDetail.DelayBillingSearchUntil = value; } }
+        public bool IncludePrepFeesInRentalRate { get { return dealOrderDetail.IncludePrepFeesInRentalRate; } set { dealOrderDetail.IncludePrepFeesInRentalRate = value; } }
+        public string BillingCycleId { get { return dealOrder.BillingCycleId; } set { dealOrder.BillingCycleId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillingCycle { get; set; }
+        public string PaymentTermsId { get { return dealOrder.PaymentTermsId; } set { dealOrder.PaymentTermsId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PaymentTerms { get; set; }
+        public string TaxId { get { return dealOrder.TaxId; } set { dealOrder.TaxId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate2 { get; set; }
+
+
+        public string PrintIssuedToAddressFrom { get { return dealOrder.PrintIssuedToAddressFrom; } set { dealOrder.PrintIssuedToAddressFrom = value; } }
+        public string IssuedToName { get { return dealOrder.IssuedToName; } set { dealOrder.IssuedToName = value; } }
+        public string IssuedToAttention { get { return dealOrder.IssuedToAttention; } set { dealOrder.IssuedToAttention = value; } }
+        public string IssuedToAttention2 { get { return dealOrder.IssuedToAttention2; } set { dealOrder.IssuedToAttention2 = value; } }
+        public string IssuedToAddress1 { get { return dealOrder.IssuedToAddress1; } set { dealOrder.IssuedToAddress1 = value; } }
+        public string IssuedToAddress2 { get { return dealOrder.IssuedToAddress2; } set { dealOrder.IssuedToAddress2 = value; } }
+        public string IssuedToCity { get { return dealOrder.IssuedToCity; } set { dealOrder.IssuedToCity = value; } }
+        public string IssuedToState { get { return dealOrder.IssuedToState; } set { dealOrder.IssuedToState = value; } }
+        public string IssuedToZipCode { get { return dealOrder.IssuedToZipCode; } set { dealOrder.IssuedToZipCode = value; } }
+        public string IssuedToCountryId { get { return dealOrder.IssuedToCountryId; } set { dealOrder.IssuedToCountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string IssuedToCountry { get; set; }
+
+
+        
+
+        public bool BillToAddressDifferentFromIssuedToAddress { get { return dealOrderDetail.BillToAddressDifferentFromIssuedToAddress; } set { dealOrderDetail.BillToAddressDifferentFromIssuedToAddress = value; } }
+        public string BillToName { get { return billToAddress.Name; } set { billToAddress.Name = value; } }
+        public string BillToAttention { get { return billToAddress.Attention; } set { billToAddress.Attention = value; } }
+        public string BillToAttention2 { get { return billToAddress.Attention2; } set { billToAddress.Attention2 = value; } }
+        public string BillToAddress1 { get { return billToAddress.Address1; } set { billToAddress.Address1 = value; } }
+        public string BillToAddress2 { get { return billToAddress.Address2; } set { billToAddress.Address2 = value; } }
+        public string BillToCity { get { return billToAddress.City; } set { billToAddress.City = value; } }
+        public string BillToState { get { return billToAddress.State; } set { billToAddress.State = value; } }
+        public string BillToZipCode { get { return billToAddress.ZipCode; } set { billToAddress.ZipCode = value; } }
+        public string BillToCountryId { get { return billToAddress.CountryId; } set { billToAddress.CountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BillToCountry { get; set; }
+
+
+
+
+        public string DiscountReasonId { get { return dealOrderDetail.DiscountReasonId; } set { dealOrderDetail.DiscountReasonId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DiscountReason { get; set; }
+
+
+        public bool RequireContactConfirmation { get { return dealOrderDetail.RequireContactConfirmation; } set { dealOrderDetail.RequireContactConfirmation = value; } }
+
+
+        public bool IncludeInBillingAnalysis { get { return dealOrder.IncludeInBillingAnalysis; } set { dealOrder.IncludeInBillingAnalysis = value; } }
+
+        public string HiatusDiscountFrom { get { return dealOrder.HiatusDiscountFrom; } set { dealOrder.HiatusDiscountFrom = value; } }
+        public bool RoundTripRentals { get { return dealOrderDetail.RoundTripRentals; } set { dealOrderDetail.RoundTripRentals = value; } }
+
+        //------------------------------------------------------------------------------------
+
+
         public string DateStamp { get { return dealOrder.DateStamp; } set { dealOrder.DateStamp = value; dealOrderDetail.DateStamp = value; } }
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveDealOrder(object sender, BeforeSaveEventArgs e)

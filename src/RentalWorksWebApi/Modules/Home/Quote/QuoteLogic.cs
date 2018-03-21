@@ -10,10 +10,12 @@ namespace WebApi.Modules.Home.Quote
     public class QuoteLogic : OrderBaseLogic
     {
         QuoteLoader quoteLoader = new QuoteLoader();
+        QuoteBrowseLoader quoteBrowseLoader = new QuoteBrowseLoader();
         //------------------------------------------------------------------------------------
         public QuoteLogic()
         {
             dataLoader = quoteLoader;
+            browseLoader = quoteBrowseLoader;
             Type = RwConstants.ORDER_TYPE_QUOTE;
             BeforeSave += OnBeforeSave;
         }
