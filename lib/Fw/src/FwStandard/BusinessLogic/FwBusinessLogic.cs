@@ -58,6 +58,10 @@ namespace FwStandard.BusinessLogic
                 {
                     dataLoader.AppConfig = value;
                 }
+                if (browseLoader != null)
+                {
+                    browseLoader.AppConfig = value;
+                }
                 _Custom.AppConfig = value;
             }
         }
@@ -78,6 +82,10 @@ namespace FwStandard.BusinessLogic
                 {
                     dataLoader.UserSession = value;
                 }
+                if (browseLoader != null)
+                {
+                    browseLoader.UserSession = value;
+                }
                 _Custom.UserSession = value;
             }
         }
@@ -87,6 +95,9 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         protected FwDataRecord dataLoader = null;
+
+        [JsonIgnore]
+        protected FwDataRecord browseLoader = null;
 
         [JsonIgnore]
         protected static FwJsonDataTable duplicateRules = null;
@@ -154,18 +165,23 @@ namespace FwStandard.BusinessLogic
 
             await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
 
-            if (dataLoader == null)
+            if (browseLoader != null)
+            {
+                browseLoader.UserSession = this.UserSession;
+                browse = await browseLoader.BrowseAsync(request, _Custom.CustomFields);
+            }
+            else if (dataLoader != null)
+            {
+                dataLoader.UserSession = this.UserSession;
+                browse = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
+            }
+            else
             {
                 if (dataRecords.Count > 0)
                 {
                     dataRecords[0].UserSession = this.UserSession;
                     browse = await dataRecords[0].BrowseAsync(request, _Custom.CustomFields);
                 }
-            }
-            else
-            {
-                dataLoader.UserSession = this.UserSession;
-                browse = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
             }
             return browse;
 
@@ -670,6 +686,10 @@ namespace FwStandard.BusinessLogic
             {
                 dataLoader.UserSession = this.UserSession;
             }
+            if (browseLoader != null)
+            {
+                browseLoader.UserSession = this.UserSession;
+            }
             foreach (FwDataReadWriteRecord dataRecord in dataRecords)
             {
                 dataRecord.UserSession = this.UserSession;
@@ -683,7 +703,12 @@ namespace FwStandard.BusinessLogic
                 dataLoader.AppConfig = appConfig;
                 dataLoader.UserSession = userSession;
             }
-            for(int i = 0; i < dataRecords.Count; i++)
+            if (browseLoader != null)
+            {
+                browseLoader.AppConfig = appConfig;
+                browseLoader.UserSession = userSession;
+            }
+            for (int i = 0; i < dataRecords.Count; i++)
             {
                 FwDataReadWriteRecord dataRecord = dataRecords[i];
                 dataRecord.AppConfig = appConfig;
