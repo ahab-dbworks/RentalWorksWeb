@@ -2,10 +2,10 @@
 
     Module: string = 'RwHome';
     charts: any = [];
-    ordersbystatus: object = {};
-    ordersbyagent: object = {};
-    dealsbytype: object = {};
-    billingbyagentbymonth: object = {};
+    ordersbystatus: boolean = false;
+    ordersbyagent: boolean = false;
+    dealsbytype: boolean = false;
+    billingbyagentbymonth: boolean = false;
 
     constructor() {
         this.charts = [];
@@ -74,7 +74,6 @@
         var self = this;
         var $dashboard = $control.find('.programlogo');
         var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-        $dashboard.append('<div class="chart-row"></div><div class="chart-row"></div>');
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
@@ -95,22 +94,33 @@
     }
 
     renderBar($control) {
-        var self = this;
+        var self = this;        
+        var refresh = '<i id="barrefresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="barsettings" class="chart-settings material-icons">settings</i>';
 
-        for (var i = 0; i < $control.children().length; i++) {
-            if (jQuery($control.children()[i]).children().length < 2) {
-                var refresh = '<i id="barrefresh" class="chart-refresh material-icons">refresh</i>';
-                var settings = '<i id="barsettings" class="chart-settings material-icons">settings</i>';
-                jQuery($control.children()[i]).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas>' + refresh + settings + '</div>')
-                self.buildWidgetSettings(jQuery($control.children()[i]).find('#barsettings'))
-                break;
-            }
-        }
-        jQuery($control.children()[i]).on('click', '#barrefresh', function () {
-            self.renderBar($control);
-        })
+        jQuery($control).append('<div data-chart="ordersbystatus" class="chart-container"><canvas style="padding:5px;" id="myChart"></canvas>' + refresh + settings + '</div>');
+        self.buildWidgetSettings(jQuery($control).find('#barsettings'));
+        jQuery($control).on('click', '#barrefresh', function () {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
+                self.ordersbystatus = response;
+                try {
+                    var chart = new Chart(barCanvas, response);
+                    jQuery(barCanvas).on('click', function (evt) {
+                        var activePoint = chart.getElementAtEvent(evt)[0];
+                        var data = activePoint._chart.data;
+                        var datasetIndex = activePoint._datasetIndex;
+                        var label = data.labels[activePoint._index];
+                        var value = data.datasets[datasetIndex].data[activePoint._index];
 
-        var barCanvas = <HTMLCanvasElement> $control.find('#myChart');
+                        program.getModule('module/order/status/' + label);
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, jQuery(barCanvas));
+        });
+
+        var barCanvas = <HTMLCanvasElement>$control.find('#myChart');
 
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.ordersbystatus = response;
@@ -132,21 +142,34 @@
     };
 
     renderPie($control) {
-        var self = this;
+        var self = this;        
+        var refresh = '<i id="pierefresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="piesettings" class="chart-settings material-icons">settings</i>';
 
-        for (var i = 0; i < $control.children().length; i++) {
-            if (jQuery($control.children()[i]).children().length < 2) {
-                var refresh = '<i id="pierefresh" class="chart-refresh material-icons">refresh</i>';
-                var settings = '<i id="piesettings" class="chart-settings material-icons">settings</i>';
-                jQuery($control.children()[i]).append('<div data-chart="ordersbyagent" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas>' + refresh + settings + '</div>')
-                break;
-            }
-        }
-        self.buildWidgetSettings(jQuery($control.children()[i]).find('#piesettings'))
-        jQuery($control.children()[i]).on('click', '#pierefresh', function () {
-            self.renderPie($control);
-        })
+        jQuery($control).append('<div data-chart="ordersbyagent" class="chart-container"><canvas style="padding:5px;" id="myPieChart"></canvas>' + refresh + settings + '</div>');
+        self.buildWidgetSettings(jQuery($control).find('#piesettings'));
+        jQuery($control).on('click', '#pierefresh', function () {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
+                self.ordersbyagent = response;
+                try {
+                    delete response.options.legend;
+                    delete response.options.scales;
+                    var chart = new Chart(pieCanvas, response);
 
+                    jQuery(pieCanvas).on('click', function (evt) {
+                        var activePoint = chart.getElementAtEvent(evt)[0];
+                        var data = activePoint._chart.data;
+                        var datasetIndex = activePoint._datasetIndex;
+                        var label = data.labels[activePoint._index];
+                        var value = data.datasets[datasetIndex].data[activePoint._index];
+
+                        program.getModule('module/order/agent/' + label.replace(/ /g, '%20'));
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, jQuery(pieCanvas));
+        });
 
         var pieCanvas = <HTMLCanvasElement> $control.find('#myPieChart');
 
@@ -173,21 +196,32 @@
     }
 
     renderHorizontal($control) {
-        var self = this;
+        var self = this;        
+        var refresh = '<i id="horizrefresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="horizsettings" class="chart-settings material-icons">settings</i>';
 
-        for (var i = 0; i < $control.children().length; i++) {
-            if (jQuery($control.children()[i]).children().length < 2) {
-                var refresh = '<i id="horizrefresh" class="chart-refresh material-icons">refresh</i>';
-                var settings = '<i id="horizsettings" class="chart-settings material-icons">settings</i>';
-                jQuery($control.children()[i]).append('<div data-chart="dealsbytype" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas>' + refresh + settings + '</div>')
-                break;
-            }
-        }
-        self.buildWidgetSettings(jQuery($control.children()[i]).find('#horizsettings'))
-        jQuery($control.children()[i]).on('click', '#horizrefresh', function () {
-            self.renderHorizontal($control);
-        })
+        jQuery($control).append('<div data-chart="dealsbytype" class="chart-container"><canvas style="padding:5px;" id="myHorizontalChart"></canvas>' + refresh + settings + '</div>')
+        self.buildWidgetSettings(jQuery($control).find('#horizsettings'))
+        jQuery($control).on('click', '#horizrefresh', function () {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
+                self.dealsbytype = response;
+                try {
+                    var chart = new Chart(horizontalCanvas, response);
 
+                    jQuery(horizontalCanvas).on('click', function (evt) {
+                        var activePoint = chart.getElementAtEvent(evt)[0];
+                        var data = activePoint._chart.data;
+                        var datasetIndex = activePoint._datasetIndex;
+                        var label = data.labels[activePoint._index];
+                        var value = data.datasets[datasetIndex].data[activePoint._index];
+
+                        program.getModule('module/deal/deal%20type/' + label.replace(/ /g, '%20'));
+                    });
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, jQuery(horizontalCanvas));
+        });
 
         var horizontalCanvas = <HTMLCanvasElement> $control.find('#myHorizontalChart');
 
@@ -211,64 +245,25 @@
         }, null, jQuery(horizontalCanvas));
     };
     renderGroup($control) {
-        //var ctx = document.getElementById("myGroupChart");
-        //var myChart = new Chart(ctx, {
-        //    type: 'bar',
-        //    data: {
-        //        labels: ["January", "February", "March", "April"],
-        //        datasets: [{
-        //                label: "Hoffman, Justin",
-        //                backgroundColor: 'rgba(#350C0C)',
-        //                data: [5000, 6000, 8000, 4000]
-        //            }, {
-        //                label: "Wang, Oliver",
-        //                backgroundColor: 'rgba(54, 162, 235, 0.7)',
-        //                data: [5000, 8000, 10000, 9000]
-        //            }, {
-        //                label: "Hoang, Jason",
-        //                backgroundColor: 'rgba(255, 206, 86, 0.7)',
-        //                data: [10000, 9000, 4500, 9000]
-        //            }, {
-        //                label: "Sandoval, Antonio",
-        //                backgroundColor: 'rgba(75, 192, 192, 0.7)',
-        //                data: [9000, 9000, 9000, 9000]
-        //            }]
-        //    },
-        //    options: {
-        //        title: {
-        //            display: true,
-        //            text: 'Billing'
-        //        },
-        //        scales: {
-        //            yAxes: [{
-        //                ticks: {
-        //                    beginAtZero: true
-        //                }
-        //            }]
-        //        },
-        //        responsive: true,
-        //        maintainAspectRatio: false
-        //    }
-        //});
-        var self = this;
+        var self = this;        
+        var refresh = '<i id="grouprefresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="groupsettings" class="chart-settings material-icons">settings</i>';
 
-        for (var i = 0; i < $control.children().length; i++) {
-            if (jQuery($control.children()[i]).children().length < 2) {
-                var refresh = '<i id="grouprefresh" class="chart-refresh material-icons">refresh</i>';
-                var settings = '<i id="groupsettings" class="chart-settings material-icons">settings</i>';
-                jQuery($control.children()[i]).append('<div data-chart="billingbyagentbymonth" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas>' + refresh + settings + '</div>')
-                break;
-            }
-        }
-        self.buildWidgetSettings(jQuery($control.children()[i]).find('#groupsettings'))
-        jQuery($control.children()[i]).on('click', '#grouprefresh', function () {
-            self.renderGroup($control);
+        jQuery($control).append('<div data-chart="billingbyagentbymonth" class="chart-container"><canvas style="padding:5px;" id="myGroupChart"></canvas>' + refresh + settings + '</div>')
+        self.buildWidgetSettings(jQuery($control).find('#groupsettings'))
+        jQuery($control).on('click', '#grouprefresh', function () {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/billingbyagentbymonth', {}, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    var chart = new Chart(canvas, response);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, jQuery(canvas));
         })
 
         var canvas = <HTMLCanvasElement> $control.find('#myGroupChart');
         
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/billingbyagentbymonth', {}, FwServices.defaultTimeout, function onSuccess(response) {
-            self.billingbyagentbymonth = response;
             try {
                 var chart = new Chart(canvas, response);
             } catch (ex) {
