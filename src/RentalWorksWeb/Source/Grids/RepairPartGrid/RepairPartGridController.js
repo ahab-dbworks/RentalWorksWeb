@@ -8,8 +8,8 @@ var RepairPartGrid = (function () {
         var warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-            $generatedtr.find('.field[data-browsedatafield="WarehouseCode"] input').val(warehouse);
-            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
+            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse);
+            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.value').val(warehouseId);
         });
     };
     ;
