@@ -481,25 +481,25 @@ class PartsInventory {
     beforeValidate($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        //var CategoryTypeId = jQuery($grid.find('[data-validationname="PartsCategoryValidation"] input')).val();
 
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {
-                    Sales: true
+                    Parts: true
                 };
                 break;
-            case 'SalesCategoryValidation':
-                request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
-                };
-                break;
-            case 'SubCategoryValidation':
-                request.uniqueids = {
-                    TypeId: InventoryTypeValue,
-                    CategoryId: CategoryTypeId
-                };
-                break;
+            //case 'PartsCategoryValidation':
+            //    request.uniqueids = {
+            //        InventoryTypeId: InventoryTypeValue
+            //    };
+            //    break;
+            //case 'SubCategoryValidation':
+            //    request.uniqueids = {
+            //        TypeId: InventoryTypeValue,
+            //        CategoryId: CategoryTypeId
+            //    };
+            //    break;
         };
     }
 
