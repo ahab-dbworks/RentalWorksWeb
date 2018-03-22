@@ -2,7 +2,7 @@ var RwHome = (function () {
     function RwHome() {
         this.Module = 'RwHome';
         this.charts = [];
-        this.ordersbystatus = false;
+        this.widgets = {};
         this.ordersbyagent = false;
         this.dealsbytype = false;
         this.billingbyagentbymonth = false;
@@ -64,21 +64,26 @@ var RwHome = (function () {
         var self = this;
         var $dashboard = $control.find('.programlogo');
         var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-        FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
-            for (var i = 0; i < response.Widgets.length; i++) {
-                if (response.Widgets[i].text === "Orders By Status" && response.Widgets[i].selected) {
-                    self.renderBar($dashboard);
-                }
-                if (response.Widgets[i].text === "Orders By Agent" && response.Widgets[i].selected) {
-                    self.renderPie($dashboard);
-                }
-                if (response.Widgets[i].text === "Deals By Type" && response.Widgets[i].selected) {
-                    self.renderHorizontal($dashboard);
-                }
-                if (response.Widgets[i].text === "Billing By Agent By Month" && response.Widgets[i].selected) {
-                    self.renderGroup($dashboard);
-                }
+        FwAppData.apiMethod(true, 'GET', 'api/v1/widget/', null, FwServices.defaultTimeout, function onSuccess(response) {
+            for (var i = 0; i < response.length; i++) {
+                self.widgets[response[i].ApiName] = response[i].DefaultType;
             }
+            FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var i = 0; i < response.Widgets.length; i++) {
+                    if (response.Widgets[i].text === "Orders By Status" && response.Widgets[i].selected) {
+                        self.renderBar($dashboard);
+                    }
+                    if (response.Widgets[i].text === "Orders By Agent" && response.Widgets[i].selected) {
+                        self.renderPie($dashboard);
+                    }
+                    if (response.Widgets[i].text === "Deals By Type" && response.Widgets[i].selected) {
+                        self.renderHorizontal($dashboard);
+                    }
+                    if (response.Widgets[i].text === "Billing By Agent By Month" && response.Widgets[i].selected) {
+                        self.renderGroup($dashboard);
+                    }
+                }
+            }, null, $control);
         }, null, $control);
     };
     RwHome.prototype.renderBar = function ($control) {
@@ -89,8 +94,14 @@ var RwHome = (function () {
         self.buildWidgetSettings(jQuery($control).find('#barsettings'));
         jQuery($control).on('click', '#barrefresh', function () {
             FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
-                self.ordersbystatus = response;
                 try {
+                    if (self.widgets.ordersbystatus !== '') {
+                        response.type = self.widgets.ordersbystatus;
+                    }
+                    if (response.type === 'pie') {
+                        delete response.options.legend;
+                        delete response.options.scales;
+                    }
                     var chart = new Chart(barCanvas, response);
                     jQuery(barCanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
@@ -108,8 +119,14 @@ var RwHome = (function () {
         });
         var barCanvas = $control.find('#myChart');
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbystatus', {}, FwServices.defaultTimeout, function onSuccess(response) {
-            self.ordersbystatus = response;
             try {
+                if (self.widgets.ordersbystatus !== '') {
+                    response.type = self.widgets.ordersbystatus;
+                }
+                if (response.type === 'pie') {
+                    delete response.options.legend;
+                    delete response.options.scales;
+                }
                 var chart = new Chart(barCanvas, response);
                 jQuery(barCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
@@ -134,10 +151,14 @@ var RwHome = (function () {
         self.buildWidgetSettings(jQuery($control).find('#piesettings'));
         jQuery($control).on('click', '#pierefresh', function () {
             FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
-                self.ordersbyagent = response;
                 try {
-                    delete response.options.legend;
-                    delete response.options.scales;
+                    if (self.widgets.ordersbyagent !== '') {
+                        response.type = self.widgets.ordersbyagent;
+                    }
+                    if (response.type === 'pie') {
+                        delete response.options.legend;
+                        delete response.options.scales;
+                    }
                     var chart = new Chart(pieCanvas, response);
                     jQuery(pieCanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
@@ -157,8 +178,13 @@ var RwHome = (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/ordersbyagent', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.ordersbyagent = response;
             try {
-                delete response.options.legend;
-                delete response.options.scales;
+                if (self.widgets.ordersbyagent !== '') {
+                    response.type = self.widgets.ordersbyagent;
+                }
+                if (response.type === 'pie') {
+                    delete response.options.legend;
+                    delete response.options.scales;
+                }
                 var chart = new Chart(pieCanvas, response);
                 jQuery(pieCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
@@ -182,8 +208,14 @@ var RwHome = (function () {
         self.buildWidgetSettings(jQuery($control).find('#horizsettings'));
         jQuery($control).on('click', '#horizrefresh', function () {
             FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
-                self.dealsbytype = response;
                 try {
+                    if (self.widgets.dealsbytype !== '') {
+                        response.type = self.widgets.dealsbytype;
+                    }
+                    if (response.type === 'pie') {
+                        delete response.options.legend;
+                        delete response.options.scales;
+                    }
                     var chart = new Chart(horizontalCanvas, response);
                     jQuery(horizontalCanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
@@ -203,6 +235,13 @@ var RwHome = (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/dealsbytype', {}, FwServices.defaultTimeout, function onSuccess(response) {
             self.dealsbytype = response;
             try {
+                if (self.widgets.dealsbytype !== '') {
+                    response.type = self.widgets.dealsbytype;
+                }
+                if (response.type === 'pie') {
+                    delete response.options.legend;
+                    delete response.options.scales;
+                }
                 var chart = new Chart(horizontalCanvas, response);
                 jQuery(horizontalCanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
