@@ -137,12 +137,22 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public string DelayBillingSearchUntil { get { return dealOrderDetail.DelayBillingSearchUntil; } set { dealOrderDetail.DelayBillingSearchUntil = value; } }
         public bool IncludePrepFeesInRentalRate { get { return dealOrderDetail.IncludePrepFeesInRentalRate; } set { dealOrderDetail.IncludePrepFeesInRentalRate = value; } }
+        public string BillingStartDate { get { return dealOrder.BillingStartDate; } set { dealOrder.BillingStartDate = value; } }
+        public string BillingEndDate { get { return dealOrder.BillingEndDate; } set { dealOrder.BillingEndDate = value; } }
+        public string DetermineQuantitiesToBillBasedOn { get { return dealOrder.DetermineQuantitiesToBillBasedOn; } set { dealOrder.DetermineQuantitiesToBillBasedOn = value; } }
         public string BillingCycleId { get { return dealOrder.BillingCycleId; } set { dealOrder.BillingCycleId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string BillingCycle { get; set; }
         public string PaymentTermsId { get { return dealOrder.PaymentTermsId; } set { dealOrder.PaymentTermsId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string PaymentTerms { get; set; }
+        public string PaymentTypeId { get { return dealOrder.PaymentTypeId; } set { dealOrder.PaymentTypeId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PaymentType { get; set; }
+        public string CurrencyId { get { return dealOrder.CurrencyId; } set { dealOrder.CurrencyId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrencyCode { get; set; }
+
         public string TaxId { get { return dealOrder.TaxId; } set { dealOrder.TaxId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalTaxRate1 { get; set; }
@@ -156,6 +166,10 @@ namespace WebApi.Modules.Home.Order
         public decimal? SalesTaxRate2 { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? LaborTaxRate2 { get; set; }
+
+        public bool NoCharge { get { return dealOrder.NoCharge; } set { dealOrder.NoCharge = value; } }
+        public string NoChargeReason { get { return dealOrder.NoChargeReason; } set { dealOrder.NoChargeReason = value; } }
+        //------------------------------------------------------------------------------------
 
 
         public string PrintIssuedToAddressFrom { get { return dealOrder.PrintIssuedToAddressFrom; } set { dealOrder.PrintIssuedToAddressFrom = value; } }

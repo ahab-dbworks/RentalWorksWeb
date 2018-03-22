@@ -152,17 +152,38 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean)]
         public bool IncludePrepFeesInRentalRate { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
+        public string BillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
+        public string BillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
+        public string DetermineQuantitiesToBillBasedOn { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
         public string BillingCycleId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
+        public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
         public string PaymentTerms { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
         public string TaxId { get; set; }
@@ -184,6 +205,12 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "laborrate2", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
+        public bool NoCharge { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "nochargereason", modeltype: FwDataTypes.Text)]
+        public string NoChargeReason { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "issuedtoadd", modeltype: FwDataTypes.Text)]
         public string PrintIssuedToAddressFrom { get; set; }

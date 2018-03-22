@@ -103,14 +103,35 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string BillingStartDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string BillingEndDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text , sqltype: "billingdates", maxlength: 10)]
+        public string DetermineQuantitiesToBillBasedOn { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string BillingCycleId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string TaxId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 01)]
+        public bool NoCharge { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "nochargereason", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string NoChargeReason { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "issuedtoadd", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string PrintIssuedToAddressFrom { get; set; }
