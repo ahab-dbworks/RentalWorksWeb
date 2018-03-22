@@ -435,6 +435,11 @@ class Quote {
         FwFormField.disable($form.find('.totals'));
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
+
+        FwFormField.disable($form.find('[data-caption="Weeks"]'));
+        FwFormField.disable($form.find('[data-datafield="TaxId"]'));
+        FwFormField.disable($form.find('[data-caption="In Group?"]'));
+        FwFormField.disable($form.find('[data-caption="Group No"]'));
     }
 
     copyQuote($form) {
