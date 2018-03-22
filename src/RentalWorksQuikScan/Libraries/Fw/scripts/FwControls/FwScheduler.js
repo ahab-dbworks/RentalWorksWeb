@@ -55,7 +55,7 @@ FwScheduler.renderRuntimeHtml = function($control) {
     $calendarmenu.append($menucontrol);
     schedulerbtns = [];
     schedulerbtns.push('<div class="schedulerbtns">');
-    schedulerbtns.push('  <div class="lblView">View:</div>');
+    //schedulerbtns.push('  <div class="lblView">View:</div>');
     schedulerbtns.push('  <div class="toggleView">');
     schedulerbtns.push('    <div class="changeview btnDay">Day</div>');
     schedulerbtns.push('    <div class="changeview btnWeek">Week</div>');
