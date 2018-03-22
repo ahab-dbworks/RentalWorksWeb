@@ -54,7 +54,6 @@ namespace Web.Source.Reports
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
-            dynamic test;
             FwJsonDataTable dtCreditsOnAccount;
             StringBuilder sb;
 
@@ -65,6 +64,7 @@ namespace Web.Source.Reports
                 dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["remaining"]] = FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totaldeposit"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalapplied"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalrefunded"]].ToString());
             }
 
+            List<object> totalRow = dtCreditsOnAccount.Rows[dtCreditsOnAccount.Rows.Count];
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
             sb.Replace("[TotalRows]", "Total Rows: " + dtCreditsOnAccount.Rows.Count);
@@ -78,7 +78,8 @@ namespace Web.Source.Reports
         {
             FwSqlSelect select;
             FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
+            FwJsonDataTable dtDetails, dtTotals;
+            List<object> totalsRow;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             //qry.AddColumn("remaining",       false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
@@ -108,6 +109,29 @@ namespace Web.Source.Reports
 
             select.Parse();
             dtDetails = qry.QueryToFwJsonTable(select, true);
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            select = new FwSqlSelect();
+            if (request.parameters.IncludeRemainingBalance == "T")
+            {
+                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = '',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
+                select.Add("from creditsonaccountview");
+                select.Add("where ((totaldeposit - totalapplied - totalrefunded) > 0)");
+            }
+            else
+            {
+                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = '',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
+                select.Add("from creditsonaccountview");
+            }
+
+            dtTotals = qry.QueryToFwJsonTable(select, true);
+            totalsRow = new List<object>();
+            if (dtTotals.Rows.Count != 1) throw new Exception("Report returned no records.");
+            for (int colNo = 0; colNo < dtTotals.Columns.Count; colNo++)
+            {
+                totalsRow.Add(dtTotals.Rows[0][colNo]);
+            }
+            dtDetails.Rows.Add(totalsRow);
 
             return dtDetails;
         }
