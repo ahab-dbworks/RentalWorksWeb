@@ -28,8 +28,8 @@ class Repair {
     return screen;
   };
 
-    //----------------------------------------------------------------------------------------------
-    renderGrids($form: any) { 
+  //----------------------------------------------------------------------------------------------
+  renderGrids($form: any) { 
 
     var $repairCostGrid, $repairCostGridControl; 
  
@@ -45,11 +45,13 @@ class Repair {
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
     FwBrowse.setAfterSaveCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
-      this.calculateTotals($form, 'cost');
+      this.calculateTotals($form);
     });
     FwBrowse.setAfterDeleteCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
-      this.calculateTotals($form, 'cost');
+      // Needs a more efficient / reliable method of waiting for page load
+      setTimeout(() => { this.calculateTotals($form); }, 3000)
     });
+   
     FwBrowse.init($repairCostGridControl); 
     FwBrowse.renderRuntimeHtml($repairCostGridControl);
     
@@ -71,7 +73,7 @@ class Repair {
     FwBrowse.renderRuntimeHtml($repairPartGridControl);
   } 
 
-    //----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
   openBrowse() {
     var self = this;
     var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -87,70 +89,53 @@ class Repair {
 
     return $browse;
   };
-    //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
-      var $form;
 
-      $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-      $form = FwModule.openForm($form, mode);
+  //----------------------------------------------------------------------------------------------
+  openForm(mode: string) {
+    var $form;
+    $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+    $form = FwModule.openForm($form, mode);
 
-      return $form;
-    };
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-      var $form: JQuery = this.openForm('EDIT');
+    return $form;
+  };
 
-      $form = this.openForm('EDIT');
-      $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
-      FwModule.loadForm(this.Module, $form);
+  //----------------------------------------------------------------------------------------------
+  loadForm(uniqueids: any) {
+    var $form: JQuery = this.openForm('EDIT');
+    $form = this.openForm('EDIT');
+    $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
+    FwModule.loadForm(this.Module, $form);
 
-      return $form;
-    };
-    //----------------------------------------------------------------------------------------------
-    saveForm($form: any, closetab: boolean, navigationpath: string) {
-      FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
-    };
-   
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) { 
- 
-     var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
-     FwBrowse.search($repairCostGrid); 
-      var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
-     FwBrowse.search($repairPartGrid); 
-    };
+    return $form;
+  };
 
-  totals($form: any) {
-    var self = this;
-    var gridTypes = ['cost'];
-    setTimeout(function () {
-        for (var i = 0; i < gridTypes.length; i++) {
-            self.calculateTotals($form, gridTypes[i]);
-        }
-    }, 4000);
-  }
-  calculateTotals($form: any, gridType: string) {
-      var totals = 0, finalTotal;
-      setTimeout(function () {
-        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-        if (periodExtended.length > 0) {
-          periodExtended.each(function () {
-            var value = jQuery(this).text();
-            if (value.charAt(0) === '$') {
-                value = value.slice(1).replace(/,/g, '');
-            }
-            var toNumber = parseFloat(parseFloat(value).toFixed(2));
+  //----------------------------------------------------------------------------------------------
+  saveForm($form: any, closetab: boolean, navigationpath: string) {
+    FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+  };
 
-            totals += toNumber;
-            finalTotal = totals.toLocaleString();
+  //----------------------------------------------------------------------------------------------
+  afterLoad($form: any, $browse: any) { 
+    var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
+    FwBrowse.search($repairCostGrid); 
+    var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
+    FwBrowse.search($repairPartGrid);
+    // Needs a more efficient / reliable method of waiting for page load
+    setTimeout(() => { this.calculateTotals($form); }, 3000)
+  };
 
-          });
+  //----------------------------------------------------------------------------------------------
+  calculateTotals($form: any) {
+    var extendedColumn = $form.find('.costgridextended')
+    var totalSumFromExtended = 0;
+    console.log("extendedColumn.length: ", extendedColumn.length)
 
-          $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(finalTotal);
-        }
-      }, 2000);
-    };
-
+    for (let i = 1; i < extendedColumn.length; i++) {
+      let inputValueFromExtended = Number($form.find('.costgridextended').eq(i)["0"].attributes["11"].nodeValue);
+      totalSumFromExtended += inputValueFromExtended;
+    }
+    $form.find( '[data-totalfield="Total"] input').val(totalSumFromExtended);
+  };
 }
 //---------------------------------------------------------------------------------
 var RepairController = new Repair();
