@@ -46,6 +46,8 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public string OutsideRepairPoNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string ItemId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string BarCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string SerialNumber { get; set; }
@@ -72,6 +74,15 @@ namespace WebApi.Modules.Home.Repair
         public string DamageContractId { get { return repair.DamageContractId; } set { repair.DamageContractId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageContractNumber { get; set; }
+
+        public string DamageScannedById { get { return repair.DamageScannedById; } set { repair.DamageScannedById = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DamageScannedBy { get; set; }
+
+        public string FinalLandDOrderId { get { return repair.FinalLandDOrderId; } set { repair.FinalLandDOrderId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FinalLandDOrderNumber { get; set; }
+
         public string ChargeOrderId { get { return repair.ChargeOrderId; } set { repair.ChargeOrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ChargeOrderNumber { get; set; }

@@ -117,7 +117,7 @@ namespace WebApi.Modules.Home.Master
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("TrackedBy", "trackedby", select, request); 
 
             if ((request != null) && (request.activeview != null))
             {

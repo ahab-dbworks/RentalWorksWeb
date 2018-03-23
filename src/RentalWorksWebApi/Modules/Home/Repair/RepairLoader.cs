@@ -67,6 +67,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "outsiderepairpono", modeltype: FwDataTypes.Text)]
         public string OutsideRepairPoNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -108,6 +111,18 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "damageorderdesc", modeltype: FwDataTypes.Text)]
         public string DamageOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagescannedbyid", modeltype: FwDataTypes.Text)]
+        public string DamageScannedById { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagescannedby", modeltype: FwDataTypes.Text)]
+        public string DamageScannedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderid", modeltype: FwDataTypes.Text)]
+        public string FinalLandDOrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ldorderno", modeltype: FwDataTypes.Text)]
+        public string FinalLandDOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "damagecontractid", modeltype: FwDataTypes.Text)]
         public string DamageContractId { get; set; }
