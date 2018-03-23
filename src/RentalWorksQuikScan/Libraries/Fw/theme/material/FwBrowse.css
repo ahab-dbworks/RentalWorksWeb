@@ -1,4 +1,3 @@
-html.theme-material .fwbrowse .tablewrapper {overflow-x:auto;}
 html.theme-material .fwbrowse td {vertical-align:top;}
 
 html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}
@@ -7,10 +6,6 @@ html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:4px;height: 24px;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;cursor:default;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .firsticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_first.001.png);}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .previousicon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_previous.001.png);}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .nexticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_next.001.png);}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button .lasticon {width:16px;height:16px;background-size:16px 16px;background-image:url(../fwimages/icons/16/browser_last.001.png);}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page {float:left;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page .txtPageNo {float:left;width:48px;height:24px;margin-top:4px;padding:0 5px;font-size:16px;border-radius:4px;box-sizing:border-box;border:1px solid #cccccc;}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .page .of {float:left;line-height:30px;margin-left:5px;}
@@ -52,10 +47,6 @@ html.theme-material .fwbrowse[data-type="Validation"] .browsecaption {text-align
 html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
 html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button {cursor:pointer;float:left;padding:4px;}
 html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="false"] {opacity:.6;}
-html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button .firsticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_first.001.png);}
-html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button .previousicon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_previous.001.png);}
-html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button .nexticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_next.001.png);}
-html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.buttons .button .lasticon {width:12px;height:12px;background-size:12px 12px;background-image:url(../fwimages/icons/16/browser_last.001.png);}
 html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager div.count {float:right;height:16px;line-height:16px;margin:0 2px;font-size:10px;}
 html.theme-material .fwbrowse[data-type="Validation"] table tfoot tr.pagerrow .pager .activeinactiveview {margin:1px 5px 0 0;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {padding:4px;}
@@ -66,8 +57,10 @@ html.theme-material .fwbrowse table {width:100%;border-collapse:collapse;border-
 html.theme-material .fwbrowse[data-type="Grid"] table {font-size:14px;}*/
 
 /* thead */
-html.theme-material .fwbrowse table thead tr.fieldnames {border-bottom:1px solid #e0e0e0;}
-html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border-right:1px solid #e0e0e0;}
+/*html.theme-material .fwbrowse table thead tr.fieldnames {border-bottom:1px solid #e0e0e0;}*/
+html.theme-material .fwbrowse table thead tr td {padding:0;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background:#efefef;border-right: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;border-top: 1px solid #BDBDBD;}
+html.theme-material .fwbrowse table thead tr td:first-of-type {border-left: 0;}
+html.theme-material .fwbrowse table thead tr td:last-of-type {border-right: 0;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption {display:flex;align-items:center;height:2em;position:relative;cursor:pointer;box-sizing:border-box;}
 html.theme-material .fwbrowse table thead tr td .field[data-sort="disabled"][data-showsearch="false"] .fieldcaption {cursor:default;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {flex:1 0 auto;padding:0 10px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-weight:bold;font-size:.9em;color:#546E7A}
@@ -84,7 +77,7 @@ html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnopti
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-icon .icon {height:16px;width:16px;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .columnoptions .columnoptions-button .columnoptions-button-text {flex:1 0 auto;white-space:nowrap;padding: 0 15px;}
 
-html.theme-material .fwbrowse table thead tr td .field .search {position:relative;padding:4px;border-top:1px solid #e0e0e0;}
+html.theme-material .fwbrowse table thead tr td .field .search {position:relative;padding:4px;border-top:1px solid #BDBDBD;}
 html.theme-material .fwbrowse table thead tr td .field .search input {box-sizing:border-box;width:100%;padding:.4em 1.5em .4em .4em;border-radius:4px;font-size:.75em;-webkit-transition: -webkit-box-shadow .15s ease-out;transition: box-shadow .15s ease-out;}
 html.theme-material .fwbrowse table thead tr td .field .search input:hover,
 html.theme-material .fwbrowse table thead tr td .field .search input:focus {outline:0;-webkit-box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);box-shadow:0 2px 6px rgba(0,0,0,.2), 0 2px 3px rgba(0,0,0,.05);}
@@ -180,7 +173,7 @@ html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="c
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] input.text {box-sizing:border-box;display:block;border:0;height:100%;width:100%;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] img.btnvalidate {position:absolute;top:2px;right:5px;width:16px;height:16px;cursor:pointer;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown {position:absolute;/*z-index:2;*/background-color:#ffffff;border: 1px solid #ccc;border-top-color: #d9d9d9;box-shadow: 0 2px 4px rgba(0,0,0,0.4);-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.4);border-radius:4px;}
-html.theme-material.desktop .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown {font-size:14px;}
+html.theme-material.desktop .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown {font-size:14px;top:30px;}
 html.theme-material.mobile .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown {font-size:18px;}
 html.theme-material .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown .row {cursor:pointer;}
 html.theme-material.desktop .fwbrowse table tbody tr.editrow .field[data-formdatatype="combobox"] .dropdown .row {height:22px;line-height:22px;padding:0 5px;}
@@ -236,26 +229,30 @@ html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .vi
 Theme
 ********************/
 
-html.theme-material .fwbrowse[data-type="Browse"] {background-color:#e0e0e0;}
+/*html.theme-material .fwbrowse[data-type="Browse"] {background-color:#e0e0e0;}*/
 html.theme-material .fwbrowse[data-type="Browse"] .fwbrowsefilter {background-color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Browse"] table tbody tr td.column {border-bottom:1px solid #e0e0e0;height:1.7em;}
-html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager {background:#e0e0e0;}
+html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow {background-color: #efefef;border-bottom: 1px solid #BDBDBD;}
+/*html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager {background:#e0e0e0;}*/
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Browse"] table tfoot tr.pagerrow .pager div.btnRefresh:hover {background-color:rgba(0,0,0,.2);}
 
-html.theme-material .fwbrowse[data-type="Grid"] {border: 1px solid #E0E0E0; margin: .5rem .5rem 1rem .5rem; background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] {border: 1px solid #BDBDBD; margin: .5rem .5rem 1rem .5rem; background-color: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {color:#212121;border-bottom:1px solid rgba(0,0,0,.2);background-color: #9e9e9e;}
 html.theme-material .fwbrowse[data-type="Grid"][data-mode="EDIT"] .browsecaption {background-color:#4caf50;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column {border:1px solid #e0e0e0;height:32px;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:first-of-type {border-left: 0;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:last-of-type {border-right: 0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.editrow .editablefield {background-color:#FFFFFF;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow {background: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell {background: #F5F5F5;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow {width:32px;height:32px;line-height:32px;text-align:center;cursor:pointer;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow {width:24px;height:24px;padding:4px;cursor:pointer;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .material-icons {color:#607D8B;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .divsaverow .material-icons {color:#ffffff;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:32px;height:32px;line-height:32px;text-align:center;cursor:pointer;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {vertical-align:middle;color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:24px;height:24px;padding:4px;cursor:pointer;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {color:#607D8B;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .browsecontextmenucell .divcancelsaverow .material-icons {color:#ffffff;}
+html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow {background-color: #efefef;}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.btnRefresh:hover {background-color:rgba(0,0,0,.2);}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.count {color:#000000;}
@@ -267,7 +264,6 @@ html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager d
 html.theme-material .fwbrowse[data-type="Validation"] tfoot tr.pagerrow .pager div.count {color:#000000;}
 html.theme-material .fwbrowse[data-type="Validation"] .validationbuttons {/*background-color:#9e9e9e;*/padding:.3rem;}
 
-html.theme-material .fwbrowse table thead tr td.column {background:#efefef;}
 html.theme-material .fwbrowse table thead tr td:nth-child(2) .field .fieldcaption {border-left:0;}
 html.theme-material .fwbrowse table thead tr td:last-of-type:not([style="display: none"]) .field .fieldcaption {border-right:0;}
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption.active {background-color:#E0E0E0;}
@@ -281,14 +277,14 @@ html.theme-material .fwbrowse table thead tr td .field .search input {border:1px
 html.theme-material .fwbrowse table tbody {background-color: #ffffff;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody {background:rgba(200,200,200,1);}
 /*html.theme-material .fwbrowse table tbody tr:nth-child(even) {background-color:rgba(189, 233, 245, 1);}*/
-html.theme-material .fwbrowse table tbody tr {color:#000000;}
+html.theme-material .fwbrowse table tbody tr {color:#000000;outline:0;}
 html.theme-material .fwbrowse table tbody tr.inactive {color:#aaaaaa;}
 html.theme-material .fwbrowse table tbody tr:hover {/*background-color:#e0e0e0;*/}
 
 html.theme-material .fwbrowse table tfoot tr.spacerrow {background-color:#ffffff;/*display:none;*/}
 html.theme-material .fwbrowse[data-enabled="false"] table tfoot tr.spacerrow {background-color:rgba(200,200,200,.9);}
 /*html.theme-material .fwbrowse table tfoot tr.pagerrow td .pager {border-top:1px solid #aaaaaa;}*/
-html.theme-material .fwbrowse table tfoot .legendrow {/*background-color:rgba(200,200,200,1);*/}
+html.theme-material .fwbrowse table tfoot .legendrow {border-top: 1px solid #BDBDBD;background-color: #efefef;}
 html.theme-material .fwbrowse table tfoot .legendrow .legenditem .color {border:1px solid #777777;}
 
 html.theme-material .fwbrowse .fwbrowsebutton {border:1px solid rgba(255,255,255,.2);background:#364F65;color:#ffffff;font-size:1rem;padding: .5rem 1.5rem;}

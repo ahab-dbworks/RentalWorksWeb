@@ -359,7 +359,6 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
     $settingsPageModules.on('click', '.btn', function (e) {
         $settingsPageModules.find('.heading-menu').next().css('display', 'none');
         $body = $control.find('#' + moduleName + '.panel-body');
-        FwSettings.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
     });
 
     $settingsPageModules.on('click', '.new-row', function (e) {

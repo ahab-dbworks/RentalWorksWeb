@@ -64,7 +64,7 @@ namespace Web.Source.Reports
                 dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["remaining"]] = FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totaldeposit"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalapplied"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalrefunded"]].ToString());
             }
 
-            List<object> totalRow = dtCreditsOnAccount.Rows[dtCreditsOnAccount.Rows.Count];
+            //List<object> totalRow = dtCreditsOnAccount.Rows[dtCreditsOnAccount.Rows.Count];
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
             sb.Replace("[TotalRows]", "Total Rows: " + dtCreditsOnAccount.Rows.Count);
@@ -114,13 +114,13 @@ namespace Web.Source.Reports
             select = new FwSqlSelect();
             if (request.parameters.IncludeRemainingBalance == "T")
             {
-                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = '',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
+                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = 'Grand Total:',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
                 select.Add("from creditsonaccountview");
                 select.Add("where ((totaldeposit - totalapplied - totalrefunded) > 0)");
             }
             else
             {
-                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = '',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
+                select.Add("select top 1 locationid = '',location = '',customerid = '',customer = '',dealid = '',deal = 'Grand Total:',paymentby = '', totaldepdep = sum(totaldepdep), totalcredit = sum(totalcredit), totalover = sum(totalover), totaldeposit = sum(totaldeposit), totalapplied = sum(totalapplied), totalrefunded = sum(totalrefunded), remaining = 0");
                 select.Add("from creditsonaccountview");
             }
 

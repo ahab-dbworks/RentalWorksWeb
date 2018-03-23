@@ -1078,6 +1078,10 @@ class FwModule {
 
         isvalid = true;
 
+        if ($form.parent().data('type') === 'settings-row') {
+            $form.data('fields', $form.find('.fwformfield'))
+        }
+
         $fields = $form.data('fields');
 
         $fields.each(function (index) {
