@@ -17,6 +17,9 @@ namespace WebApi.Modules.Settings.Currency
         [FwSqlDataField(column: "code", modeltype: FwDataTypes.Text, maxlength: 10, required: true)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencysymbol", modeltype: FwDataTypes.Text, maxlength: 1, required: true)]
+        public string CurrencySymbol { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

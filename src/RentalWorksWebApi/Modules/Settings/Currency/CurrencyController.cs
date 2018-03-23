@@ -17,6 +17,7 @@ namespace WebApi.Modules.Settings.Currency
         [Authorize(Policy = "")]
         public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
+            System.Console.WriteLine("Currency Browse");
             return await DoBrowseAsync(browseRequest, typeof(CurrencyLogic));
         }
         //------------------------------------------------------------------------------------

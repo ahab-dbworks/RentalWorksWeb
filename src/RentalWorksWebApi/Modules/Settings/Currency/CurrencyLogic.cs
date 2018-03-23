@@ -17,6 +17,7 @@ namespace WebApi.Modules.Settings.Currency
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Currency { get { return currency.Currency; } set { currency.Currency = value; } }
         public string CurrencyCode { get { return currency.CurrencyCode;  } set { currency.CurrencyCode = value; } }
+        public string CurrencySymbol { get { return currency.CurrencySymbol;  } set { currency.CurrencySymbol = value; } }
         public string DateStamp { get { return currency.DateStamp; } set { currency.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
