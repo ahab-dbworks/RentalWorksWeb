@@ -113,29 +113,28 @@ var Order = (function () {
         viewSubitems.push($closed);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $allLocations.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=ALL';
+            self.ActiveView = 'LocationId=ALL';
             FwBrowse.databind($browse);
         });
-        $userWarehouse.on('click', function () {
+        $userLocation.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            self.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.databind($browse);
         });
         var viewLocation = [];
-        viewLocation.push($userWarehouse);
+        viewLocation.push($userLocation);
         viewLocation.push($all);
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
-    ;
     ;
     Order.prototype.openForm = function (mode) {
         var $form, $submodulePickListBrowse;

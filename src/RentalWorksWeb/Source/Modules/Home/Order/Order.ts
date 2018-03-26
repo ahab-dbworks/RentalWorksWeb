@@ -127,30 +127,30 @@ class Order {
         viewSubitems.push($closed);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
         //Location Filter
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $allLocations.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=ALL';
+            self.ActiveView = 'LocationId=ALL';
             FwBrowse.databind($browse);
         });
-        $userWarehouse.on('click', function () {
+        $userLocation.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            self.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.databind($browse);
         });
         var viewLocation = [];
-        viewLocation.push($userWarehouse);
+        viewLocation.push($userLocation);
         viewLocation.push($all);
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
-    ;
 
     openForm(mode) {
         var $form, $submodulePickListBrowse;
@@ -483,7 +483,7 @@ class Order {
 
 
                 var request: any = {};
-                request.CopyToType  = $confirmation.find('[data-type="radio"] input:checked').val();
+                request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
                 request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
                 request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
                 request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
@@ -606,7 +606,7 @@ class Order {
         $form.find('.totals input').css('text-align', 'right');
 
         FwFormField.disable($form.find('[data-caption="Weeks"]'));
-  
+
     };
 
 
