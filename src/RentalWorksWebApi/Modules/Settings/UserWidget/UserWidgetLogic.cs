@@ -21,6 +21,8 @@ namespace WebApi.Modules.Settings.WebUserWidget
         public string WidgetId { get { return userWidget.WidgetId; } set { userWidget.WidgetId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Widget { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DefaultType { get; set; }
         public string WidgetType { get { return userWidget.WidgetType; } set { userWidget.WidgetType = value; } }
         public string Settings { get { return userWidget.Settings; } set { userWidget.Settings = value; } }
         public bool? Disabled { get { return userWidget.Disabled; } set { userWidget.Disabled = value; } }

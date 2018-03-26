@@ -14,7 +14,7 @@ namespace WebApi.Modules.Settings.Widget
             options.title.fontSize = 20;
         }
         //------------------------------------------------------------------------------------
-        public async Task<bool> LoadAsync()
+        public override async Task<bool> LoadAsync()
         {
             bool loaded = false;
             List<string> monthYearList = new List<string>();

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using FwStandard.Models;
 using System.Threading.Tasks;
+using FwStandard.SqlServer;
+using System;
 
 namespace WebApi.Modules.Settings.Widget
 {
-      
+
     //------------------------------------------------------------------------------------
     public class WidgetDataSet
     {
@@ -105,10 +107,17 @@ namespace WebApi.Modules.Settings.Widget
     public /*abstract*/ class Widget
     {
         protected SqlServerConfig _dbConfig { get; set; }
-
         public string type { get; set; }
         public WidgetData data { get; set; }
         public WidgetOptions options { get; set; }
+
+        protected string sql { get; set; }
+        protected string counterFieldName { get; set; }
+        protected string labelFieldName { get; set; }
+        protected string backgroundColorFieldName { get; set; } = "backgroundcolor";
+        protected string borderColorFieldName { get; set; } = "bordercolor";
+        protected double opacity { get; set; } = 0.2;
+
 
         public Widget()
         {
@@ -120,7 +129,48 @@ namespace WebApi.Modules.Settings.Widget
         {
             _dbConfig = dbConfig;
         }
-        //public abstract Task<bool> LoadAsync();
+
+        public virtual async Task<bool> LoadAsync()
+        {
+            bool loaded = false;
+            List<int> dataList = new List<int>();
+            List<string> backgroundColor = new List<string>();
+            List<string> borderColor = new List<string>();
+
+            using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
+                qry.Add(sql);
+                qry.AddColumn(counterFieldName);
+                qry.AddColumn(labelFieldName);
+                qry.AddColumn(backgroundColorFieldName);
+                qry.AddColumn(borderColorFieldName);
+                FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
+                for (int r = 0; r < table.Rows.Count; r++)
+                {
+                    int statusCount = Convert.ToInt32(table.Rows[r][0]);
+                    string quoteStatus = table.Rows[r][1].ToString();
+                    int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
+                    string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
+                    string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
+
+                    data.labels.Add(quoteStatus);
+                    dataList.Add(statusCount);
+                    backgroundColor.Add(statusColorStr);
+                    borderColor.Add(borderColorStr);
+
+                    loaded = true;
+                }
+            }
+
+            data.datasets.Add(new WidgetDataSet());
+            data.datasets[0].data = dataList;
+            data.datasets[0].backgroundColor = backgroundColor;
+            data.datasets[0].borderColor = borderColor;
+
+            return loaded;
+
+        }
         //------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------

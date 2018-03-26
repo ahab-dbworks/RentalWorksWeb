@@ -25,6 +25,9 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "widget", modeltype: FwDataTypes.Text)]
         public string Widget { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaulttype", modeltype: FwDataTypes.Text)]
+        public string DefaultType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "widgettype", modeltype: FwDataTypes.Text)]
         public string WidgetType { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -18,6 +18,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string value { get; set; }
             public string text { get; set; }
             public bool selected { get; set; }
+            public string apiname { get; set; }
+            public string defaulttype { get; set; }
+            public string widgettype { get; set; }
         }
 
         protected SqlServerConfig _dbConfig { get; set; }
@@ -53,9 +56,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("webuserswidgetid");  //0
                 qry.AddColumn("widgetid");          //1
                 qry.AddColumn("widget");            //2
-                qry.AddColumn("defaulttype");       //3
-                qry.AddColumn("widgettype");        //4
-                qry.AddColumn("orderby");           //5
+                qry.AddColumn("apiname");           //3
+                qry.AddColumn("defaulttype");       //4
+                qry.AddColumn("widgettype");        //5
+                qry.AddColumn("orderby");           //6
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
@@ -63,11 +67,17 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string UserWidgetId = table.Rows[r][0].ToString();
                     string widgetId = table.Rows[r][1].ToString();
                     string widgetName = table.Rows[r][2].ToString();
+                    string apiname = table.Rows[r][3].ToString();
+                    string defaulttype = table.Rows[r][4].ToString();
+                    string widgettype = table.Rows[r][5].ToString();
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
                     w.text = widgetName;
                     w.selected = (!UserWidgetId.Equals(string.Empty));
+                    w.apiname = apiname;
+                    w.defaulttype = defaulttype;
+                    w.widgettype = widgettype;
                     Widgets.Add(w);
                     loaded = true;
                 }

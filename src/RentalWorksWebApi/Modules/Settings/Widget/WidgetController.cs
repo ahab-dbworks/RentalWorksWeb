@@ -1,7 +1,7 @@
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
@@ -55,134 +55,64 @@ namespace WebApi.Modules.Settings.Widget
             return await DoValidateDuplicateAsync(request);
         }
         //------------------------------------------------------------------------------------ 
-
-
-        private async Task<IActionResult> DoGetWidget(string widgetName)
-        {
-            return await Task<IActionResult>.Run(() =>
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                switch (widgetName)
-                {
-                    case "quotesbystatus":
-                        try
-                        {
-                            WidgetQuotesByStatus w = new WidgetQuotesByStatus();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    case "ordersbystatus":
-                        try
-                        {
-                            WidgetOrdersByStatus w = new WidgetOrdersByStatus();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    case "ordersbyagent":
-                        try
-                        {
-                            WidgetOrdersByAgent w = new WidgetOrdersByAgent();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    case "dealsbytype":
-                        try
-                        {
-                            WidgetDealsByType w = new WidgetDealsByType();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    case "customersbytype":
-                        try
-                        {
-                            WidgetCustomersByType w = new WidgetCustomersByType();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    case "billingbyagentbymonth":
-                        try
-                        {
-                            WidgetBillingByAgentByMonth w = new WidgetBillingByAgentByMonth();
-                            w.SetDbConfig(this.AppConfig.DatabaseSettings);
-                            bool b = w.LoadAsync().Result;
-                            return new OkObjectResult(w);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            FwApiException jsonException = new FwApiException();
-                            jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                            jsonException.Message = ex.Message;
-                            jsonException.StackTrace = ex.StackTrace;
-                            return StatusCode(jsonException.StatusCode, jsonException);
-                        };
-                    default:
-                        FwApiException widgetException = new FwApiException();
-                        widgetException.StatusCode = StatusCodes.Status500InternalServerError;
-                        widgetException.Message = "Invalid widget name";
-                        return StatusCode(widgetException.StatusCode, widgetException);
-                };
-            });
-        }
-        //------------------------------------------------------------------------------------
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
         public async Task<IActionResult> LoadByName([FromRoute]string widgetApiName)
         {
             return await DoGetWidget(widgetApiName);
+        }
+        //------------------------------------------------------------------------------------
+        private async Task<IActionResult> DoGetWidget(string widgetName)
+        {
+            try
+            {
+                Widget w = null;
+                switch (widgetName)
+                {
+                    case "quotesbystatus":
+                        w = new WidgetQuotesByStatus();
+                        break;
+                    case "ordersbystatus":
+                        w = new WidgetOrdersByStatus();
+                        break;
+                    case "ordersbyagent":
+                        w = new WidgetOrdersByAgent();
+                        break;
+                    case "dealsbytype":
+                        w = new WidgetDealsByType();
+                        break;
+                    case "customersbytype":
+                        w = new WidgetCustomersByType();
+                        break;
+                    case "billingbyagentbymonth":
+                        w = new WidgetBillingByAgentByMonth();
+                        break;
+                    default:
+                        w = null;
+                        break;
+                }
+                if (w == null)
+                {
+                    FwApiException widgetException = new FwApiException();
+                    widgetException.StatusCode = StatusCodes.Status500InternalServerError;
+                    widgetException.Message = "Invalid widget name: " + widgetName;
+                    return StatusCode(widgetException.StatusCode, widgetException);
+                }
+                else
+                {
+                    w.SetDbConfig(this.AppConfig.DatabaseSettings);
+                    bool b = w.LoadAsync().Result;
+                    return new OkObjectResult(w);
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------
 
