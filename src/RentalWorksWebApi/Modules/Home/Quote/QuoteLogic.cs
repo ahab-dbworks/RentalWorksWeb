@@ -44,9 +44,9 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<QuoteLogic> CopyAsync<T>()
+        public async Task<QuoteLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
         {
-            string newQuoteId = await dealOrder.Copy();
+            string newQuoteId = await dealOrder.Copy(copyRequest);
             string[] keys = { newQuoteId };
             QuoteLogic lCopy = new QuoteLogic();
             lCopy.AppConfig = AppConfig;

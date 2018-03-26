@@ -3,6 +3,8 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Modules.Home.Order;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.DealOrder
 {
@@ -170,15 +172,21 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "hiatusdiscfrom", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 07)]
         public string HiatusDiscountFrom { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "summaryinvoice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 01)]
+        public bool InGroup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
+        public int GroupNumber { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 
-        
 
 
 
 
-    [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount)
@@ -217,26 +225,23 @@ namespace WebApi.Modules.Home.DealOrder
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<string> Copy()
+        public async Task<string> Copy(QuoteOrderCopyRequest copyRequest)
         {
             string newId = "";
             if (OrderId != null)
             {
-                /*
-                todo: add support for these parameters
-                                    @ratesfrominventory char(01) = 'F',       --// T = from inventory, F = from source quote/order
-                                    @combinesubs        char(01) = 'F',
-                                    @copydates          char(01) = 'T',
-                                    @copyitemnotes      char(01) = 'T',
-                                    @copydocuments      char(01) = 'T',
-                                    @copytodealid       char(08) = '' ,
-                */
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "copyquoteorder", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@fromorderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, Type);
+                    qry.AddParameter("@newordertype", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyToType);
+                    qry.AddParameter("@ratesfrominventory", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyRatesFromInventory);
+                    qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CombineSubs);
+                    qry.AddParameter("@copydates", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyDates);
+                    qry.AddParameter("@copyitemnotes", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyLineItemNotes);
+                    qry.AddParameter("@copydocuments", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyDocuments);
+                    qry.AddParameter("@copytodealid", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyToDealId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync(true);
                     newId = qry.GetParameter("@neworderid").ToString();

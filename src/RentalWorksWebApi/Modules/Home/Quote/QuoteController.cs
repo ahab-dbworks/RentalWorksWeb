@@ -5,9 +5,11 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Quote
 {
+
     [Route("api/v1/[controller]")]
     public class QuoteController : AppDataController
     {
@@ -22,7 +24,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         // POST api/v1/quote/copy
         [HttpPost("copy/{id}")]
-        public async Task<IActionResult> Copy([FromRoute]string id)
+        public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +38,7 @@ namespace WebApi.Modules.Home.Quote
                 l.UserSession = UserSession;
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>();
+                    QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>(copyRequest);
                     return new OkObjectResult(lCopy);
                 }
                 else

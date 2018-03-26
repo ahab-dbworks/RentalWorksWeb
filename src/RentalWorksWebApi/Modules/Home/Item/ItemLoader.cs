@@ -94,9 +94,9 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "mfgdate", modeltype: FwDataTypes.Date)]
         public string ManufactureDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "trackedbycode", modeltype: FwDataTypes.Text)]
-        public string TrackedByCode { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "trackedbycode", modeltype: FwDataTypes.Text)]
+        //public string TrackedByCode { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availownershipsort", modeltype: FwDataTypes.Integer)]
         public int? AvailOwnershipSort { get; set; }
         //------------------------------------------------------------------------------------ 

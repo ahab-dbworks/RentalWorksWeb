@@ -13,10 +13,13 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         protected ItemDimensionRecord primaryDimension = new ItemDimensionRecord();
         protected ItemDimensionRecord secondaryDimension = new ItemDimensionRecord();
+        InventoryBrowseLoader inventoryBrowseLoader = new InventoryBrowseLoader();
+
         public InventoryLogic() : base()
         {
             dataRecords.Add(primaryDimension);
             dataRecords.Add(secondaryDimension);
+            browseLoader = inventoryBrowseLoader;
             master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 

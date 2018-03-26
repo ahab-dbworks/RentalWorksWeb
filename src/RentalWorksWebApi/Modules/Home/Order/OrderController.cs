@@ -5,9 +5,13 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
+
+
+
     [Route("api/v1/[controller]")]
     public class OrderController : AppDataController
     {
@@ -22,7 +26,7 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         // POST api/v1/order/copy
         [HttpPost("copy/{id}")]
-        public async Task<IActionResult> Copy([FromRoute]string id)
+        public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +40,7 @@ namespace WebApi.Modules.Home.Order
                 l.UserSession = UserSession;
                 if (await l.LoadAsync<OrderLogic>(ids))
                 {
-                    OrderLogic lCopy = await l.CopyAsync<OrderLogic>();
+                    OrderLogic lCopy = await l.CopyAsync<OrderLogic>(copyRequest);
                     return new OkObjectResult(lCopy);
                 }
                 else

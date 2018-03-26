@@ -23,4 +23,15 @@ namespace WebLibrary
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
         public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
     }
+
+    public class QuoteOrderCopyRequest
+    {
+        public string CopyToType;
+        public string CopyToDealId;
+        public bool CopyRatesFromInventory;
+        public bool CopyDates;
+        public bool CopyLineItemNotes;
+        public bool CombineSubs;
+        public bool CopyDocuments;
+    }
 }

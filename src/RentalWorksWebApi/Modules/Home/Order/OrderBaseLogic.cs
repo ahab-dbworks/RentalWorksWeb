@@ -153,6 +153,12 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
 
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxOptionId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxOption { get; set; }
+
+
         public string TaxId { get { return dealOrder.TaxId; } set { dealOrder.TaxId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? RentalTaxRate1 { get; set; }
@@ -216,6 +222,10 @@ namespace WebApi.Modules.Home.Order
 
         public string HiatusDiscountFrom { get { return dealOrder.HiatusDiscountFrom; } set { dealOrder.HiatusDiscountFrom = value; } }
         public bool RoundTripRentals { get { return dealOrderDetail.RoundTripRentals; } set { dealOrderDetail.RoundTripRentals = value; } }
+
+        public bool InGroup { get { return dealOrder.InGroup; } set { dealOrder.InGroup = value; } }
+        public int GroupNumber { get { return dealOrder.GroupNumber; } set { dealOrder.GroupNumber = value; } }
+
 
         //------------------------------------------------------------------------------------
 

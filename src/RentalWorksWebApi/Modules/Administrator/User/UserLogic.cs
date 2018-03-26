@@ -7,10 +7,12 @@ namespace WebApi.Modules.Administrator.User
         //------------------------------------------------------------------------------------ 
         UserRecord user = new UserRecord();
         UserLoader userLoader = new UserLoader();
+        UserBrowseLoader userBrowseLoader = new UserBrowseLoader();
         public UserLogic()
         {
             dataRecords.Add(user);
             dataLoader = userLoader;
+            browseLoader = userBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

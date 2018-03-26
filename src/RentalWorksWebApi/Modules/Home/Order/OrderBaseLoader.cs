@@ -188,6 +188,12 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
+        public string TaxOptionId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
+        public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rentalrate1", modeltype: FwDataTypes.Decimal)]
         public decimal? RentalTaxRate1 { get; set; }
         //------------------------------------------------------------------------------------
@@ -303,6 +309,14 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Boolean)]
         public bool RoundTripRentals { get; set; }
         //------------------------------------------------------------------------------------
+
+        [FwSqlDataField(column: "summaryinvoice", modeltype: FwDataTypes.Boolean)]
+        public bool InGroup { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer)]
+        public int GroupNumber { get; set; }
+        //------------------------------------------------------------------------------------
+
 
 
 

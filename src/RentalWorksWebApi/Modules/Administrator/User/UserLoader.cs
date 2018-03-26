@@ -338,6 +338,7 @@ namespace WebApi.Modules.Administrator.User
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(username > '')");
+            select.AddWhere("(groupsid > '')");
             addFilterToSelect("LocationId", "locationid", select, request); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request); 
             addFilterToSelect("GroupId", "groupsid", select, request); 

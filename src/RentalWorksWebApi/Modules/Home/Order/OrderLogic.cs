@@ -34,9 +34,9 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<OrderLogic> CopyAsync<T>()
+        public async Task<OrderLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
         {
-            string newOrderId = await dealOrder.Copy();
+            string newOrderId = await dealOrder.Copy(copyRequest);
             string[] keys = { newOrderId };
             OrderLogic lCopy = new OrderLogic();
             lCopy.AppConfig = AppConfig;

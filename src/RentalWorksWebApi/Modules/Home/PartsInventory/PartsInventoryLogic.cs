@@ -15,6 +15,7 @@ namespace WebApi.Modules.Home.PartsInventory
         {
             dataLoader = inventoryLoader;
             BeforeSave += OnBeforeSave;
+            ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
         }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
