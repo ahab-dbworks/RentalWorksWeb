@@ -18,8 +18,8 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
-        //public string TrackedBy { get; set; }
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
