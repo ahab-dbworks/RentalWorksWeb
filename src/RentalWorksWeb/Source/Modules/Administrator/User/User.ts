@@ -2,11 +2,13 @@ class User {
     Module: string;
     apiurl: string;
     caption: string;
+    ActiveView: string;
 
     constructor() {
         this.Module = 'User';
         this.apiurl = 'api/v1/user';
         this.caption = 'User';
+        this.ActiveView = 'ALL';
     }
 
     getModuleScreen() {
@@ -35,8 +37,40 @@ class User {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        self.ActiveView = 'OfficeLocationId=' + location.locationid;
+
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+
         return $browse;
     }
+
+    addBrowseMenuItems($menuObject) {
+        var self = this;
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', true);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, false);
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'OfficeLocationId=ALL';
+            FwBrowse.databind($browse);
+        });
+        $userLocation.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'OfficeLocationId=' + location.locationid;
+            FwBrowse.databind($browse);
+        });
+        var viewLocation = [];
+        viewLocation.push($userLocation);
+        viewLocation.push($allLocations);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        return $menuObject;
+    };
 
     openForm(mode: string) {
         var $form;
