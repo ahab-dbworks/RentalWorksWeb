@@ -29,44 +29,42 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  renderGrids($form: any) { 
+  renderGrids($form: any) {
+    let self = this;
 
-    var $repairCostGrid, $repairCostGridControl; 
+    let $repairCostGrid, $repairCostGridControl; 
  
     $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
     $repairCostGridControl = jQuery(jQuery('#tmpl-grids-RepairCostGridBrowse').html()); 
     $repairCostGrid.empty().append($repairCostGridControl); 
-    $repairCostGridControl.data('ondatabind', function (request) { 
+    $repairCostGridControl.data('ondatabind', request => { 
       request.uniqueids = { 
         RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
       } 
     }); 
-    $repairCostGridControl.data('beforesave', function (request) { 
+    $repairCostGridControl.data('beforesave', request => { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
-    FwBrowse.setAfterSaveCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
-      this.calculateTotals($form);
-    });
-    FwBrowse.setAfterDeleteCallback($repairCostGridControl, ($repairCostGridControl: JQuery, $tr: JQuery) => {
-      // Needs a more efficient / reliable method of waiting for page load
-      setTimeout(() => { this.calculateTotals($form); }, 3000)
+    // runs after grid load, add, and delete
+    FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
+      self.calculateTotals($form);
     });
    
     FwBrowse.init($repairCostGridControl); 
     FwBrowse.renderRuntimeHtml($repairCostGridControl);
     
     //----------------------------------------------------------------------------------------------
-    var $repairPartGrid, $repairPartGridControl; 
+    let $repairPartGrid, $repairPartGridControl; 
  
     $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
     $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
     $repairPartGrid.empty().append($repairPartGridControl); 
-    $repairPartGridControl.data('ondatabind', function (request) { 
+    $repairPartGridControl.data('ondatabind', request => { 
       request.uniqueids = { 
         RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
       } 
     }); 
-    $repairPartGridControl.data('beforesave', function (request) { 
+    $repairPartGridControl.data('beforesave', request => { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
     }) 
     FwBrowse.init($repairPartGridControl); 
@@ -75,8 +73,8 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   openBrowse() {
-    var self = this;
-    var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+    let self = this;
+    let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
     $browse = FwModule.openBrowse($browse);
     FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
     FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
@@ -91,10 +89,112 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
+  addBrowseMenuItems($menuObject) {
+    var self = this;
+    var $all = FwMenu.generateDropDownViewBtn('All', true);
+    var $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false);
+    var $active = FwMenu.generateDropDownViewBtn('Active', false);
+    var $hold = FwMenu.generateDropDownViewBtn('Hold', false);
+    var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
+    $all.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'ALL';
+        FwBrowse.databind($browse);
+    });
+    $confirmed.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'CONFIRMED';
+        FwBrowse.databind($browse);
+    });
+    $active.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'ACTIVE';
+        FwBrowse.databind($browse);
+    });
+    $hold.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'HOLD';
+        FwBrowse.databind($browse);
+    });
+    $closed.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'CLOSED';
+        FwBrowse.databind($browse);
+    });
+    var viewSubitems = [];
+    viewSubitems.push($all);
+    viewSubitems.push($confirmed);
+    viewSubitems.push($active);
+    viewSubitems.push($hold);
+    viewSubitems.push($closed);
+    var $view;
+    $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+    //Location Filter
+    var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    var $allLocations = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+    var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+    $allLocations.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'WarehouseId=ALL';
+        FwBrowse.databind($browse);
+    });
+    $userWarehouse.on('click', function () {
+        var $browse;
+        $browse = jQuery(this).closest('.fwbrowse');
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        FwBrowse.databind($browse);
+    });
+    var viewLocation = [];
+    viewLocation.push($userWarehouse);
+    viewLocation.push($all);
+    var $locationView;
+    $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+    return $menuObject;
+  };
+  //----------------------------------------------------------------------------------------------
   openForm(mode: string) {
     var $form;
     $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
     $form = FwModule.openForm($form, mode);
+
+    if (mode === 'NEW') {
+      $form.find('.ifnew').attr('data-enabled', 'true');
+      var today = new Date(Date.now()).toLocaleString().split(',')[0];
+      //var date = today.split(',');
+      var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      var office = JSON.parse(sessionStorage.getItem('location'));
+      var department = JSON.parse(sessionStorage.getItem('department'));
+
+      FwFormField.setValueByDataField($form, 'RepairDate', today);
+      //FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
+      //FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
+      FwFormField.setValueByDataField($form, 'Location', office.location);
+      FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
+
+      //$form.find('div[data-datafield="PickTime"]').attr('data-required', false);
+      //$form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
+      //$form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+
+      //FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
+      //FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
+      //FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
+      $form.find('div[data-datafield="Department"] input').val(department.department);
+
+
+      $form.find('div[data-datafield="PoPending"] input').prop('checked', true);
+      //FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+      //FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+
+
+      FwFormField.disable($form.find('.frame'));
+      $form.find(".frame .add-on").children().hide();
+    }
 
     return $form;
   };
@@ -120,21 +220,33 @@ class Repair {
     FwBrowse.search($repairCostGrid); 
     var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
     FwBrowse.search($repairPartGrid);
-    // Needs a more efficient / reliable method of waiting for page load
-    setTimeout(() => { this.calculateTotals($form); }, 3000)
   };
 
   //----------------------------------------------------------------------------------------------
   calculateTotals($form: any) {
-    var extendedColumn = $form.find('.costgridextended')
-    var totalSumFromExtended = 0;
-    console.log("extendedColumn.length: ", extendedColumn.length)
+    let extendedColumn: any = $form.find('.costgridextended');
+    let totalSumFromExtended: any = 0;
 
     for (let i = 1; i < extendedColumn.length; i++) {
-      let inputValueFromExtended = Number($form.find('.costgridextended').eq(i)["0"].attributes["11"].nodeValue);
+      let inputValueFromExtended: any = parseInt($form.find('.costgridextended').eq(i).attr('data-originalvalue'));
       totalSumFromExtended += inputValueFromExtended;
     }
-    $form.find( '[data-totalfield="Total"] input').val(totalSumFromExtended);
+    $form.find('[data-totalfield="Total"] input').val(totalSumFromExtended);
+  };
+  //----------------------------------------------------------------------------------------------
+  calculateExtended($form: any) {
+    //let extendedSum: any = Number($form.find('.costgridextended').eq(1).attr('data-originalvalue'));
+    let discountValue: any = parseInt($form.find('.costgriddiscount').eq(1).attr('data-originalvalue'));
+    let rateValue: any = parseInt($form.find('.costgridrate').eq(1).attr('data-originalvalue'));
+    let quantityValue: any = parseInt($form.find('.costgridquantity').eq(1).attr('data-originalvalue'));
+    let extendedSum: any = 0;
+
+    //console.log("extendedColumn.length: ", extendedColumn.length);
+    console.log("discountValue: ", discountValue);
+
+    extendedSum = (quantityValue * rateValue) - discountValue;
+    
+    $form.find('.costgridextended').eq(1).val(extendedSum);
   };
 }
 //---------------------------------------------------------------------------------

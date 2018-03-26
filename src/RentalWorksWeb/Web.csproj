@@ -1146,6 +1146,7 @@
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
     <Content Include="Source\Validations\LaborPositionValidation\LaborPositionValidationBrowse.htm" />
+    <Content Include="Source\Validations\ItemValidation\ItemValidationBrowse.htm" />
     <Content Include="Source\Validations\RegionValidation\RegionValidationBrowse.htm" />
     <Content Include="Source\Validations\RateTypeValidation\RateTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PickListValidation\PickListValidationBrowse.htm" />
