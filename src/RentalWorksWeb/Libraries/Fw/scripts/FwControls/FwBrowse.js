@@ -2263,7 +2263,7 @@ var FwBrowse = (function () {
             }
             else {
                 rowuniqueids = FwBrowse.getRowFormUniqueIds($control, $tr);
-                rowfields = FwBrowse.getRowFormDataFields($control, $tr);
+                rowfields = FwBrowse.getRowFormDataFields($control, $tr, false);
                 miscfields = FwBrowse.getRowFormDataFields($control, $tr, true);
                 if ($form.length > 0) {
                     formuniqueids = FwModule.getFormUniqueIds($form);
