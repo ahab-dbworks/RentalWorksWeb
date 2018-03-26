@@ -402,44 +402,74 @@ class Order {
     copyOrder($form) {
         var $confirmation, $yes, $no, self;
         self = this;
+
+        $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
+
         var html = [];
-        html.push('<div style="white-space:pre;">\n');
-        html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="fromOrder" disabled>Quote/ Order');
-        html.push('<input type="radio" name= "TypeSelect" value="fromInvoice" style="margin-left:20px;" disabled> Invoice');
-        html.push('<br><br><div style="float:left; padding-right: 10px;">');
-        html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        html.push('Deal:<br><input type="text" name="Deal" style="width:245px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
-        html.push('<br><div style="float:left; padding-right:10px;">');
-        html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        html.push('<br>Description:<br><input type="text" name="Description" style="width:245px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
-        html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="copyToType" value="Quote" >Quote');
-        html.push('<input type="radio" name="copyToType" value="Order" style="margin-left:20px;">Order');
-        html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style="width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
-        html.push('<strong>Options</strong><br><input type="radio" name="Options" value="copy">Copy Cost/Rates from existing Quote/Order<br>');
-        html.push('<input type="radio" name="Options" value="default">Use default Cost/Rates from Inventory<br><br>');
-        html.push('<strong>Date Behavior</strong><br><input type="radio" name="DateBehavior" value="copy">Copy From/To Dates from existing Quote/Order<br>');
-        html.push('<input type="radio" name="DateBehavior" value="current">Use Current Date<br><br>');
-        html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
-        html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
-        html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
+        //html.push('<div style="white-space:pre;">\n');
+        //html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="fromOrder" disabled>Quote/ Order');
+        //html.push('<input type="radio" name= "TypeSelect" value="fromInvoice" style="margin-left:20px;" disabled> Invoice');
+        //html.push('<br><br><div style="float:left; padding-right: 10px;">');
+        //html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        //html.push('Deal:<br><input type="text" name="Deal" style="width:245px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
+        //html.push('<br><div style="float:left; padding-right:10px;">');
+        //html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
+        //html.push('<br>Description:<br><input type="text" name="Description" style="width:245px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
+        //html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="copyToType" value="Quote" >Quote');
+        //html.push('<input type="radio" name="copyToType" value="Order" style="margin-left:20px;">Order');
+        //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        //html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy From" data-datafield="" data-formreadonly="true">');
+        //html.push('      <div data-value="QuoteOrder" data-caption="Quote/Order" > </div>');
+        //html.push('    <div data-value="Invoice" data-caption="Invoice" > </div></div><br>');
+        //html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style="width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
+        //html.push('<strong>Options</strong><br><input type="radio" name="Options" value="copy">Copy Cost/Rates from existing Quote/Order<br>');
+        //html.push('<input type="radio" name="Options" value="default">Use default Cost/Rates from Inventory<br><br>');
+        //html.push('<strong>Date Behavior</strong><br><input type="radio" name="DateBehavior" value="copy">Copy From/To Dates from existing Quote/Order<br>');
+        //html.push('<input type="radio" name="DateBehavior" value="current">Use Current Date<br><br>');
+        //html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
+        //html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
+        //html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
+
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="" style="width:235px; float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="" style="width:90px; float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="width:235px;float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
+        html.push('      <div data-value="Q" data-caption="Quote"> </div>');
+        html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates From Inventory" data-datafield="CopyRatesFromInventory"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
+        html.push('  </div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
+        html.push('</div>');
+
         var copyConfirmation = html.join('');
         var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $confirmation = FwConfirmation.renderConfirmation('Copy Order', copyConfirmation);
 
-        if (this.Module == "Order" || "Quote") {
-            var orderNumber, deal, description;
-            $confirmation.find('input[value="fromOrder"]').prop('checked', true);
-            $confirmation.find('input[name="Type"]').val(this.Module);
+        FwConfirmation.addControls($confirmation, html.join(''));
 
-            orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
-            $confirmation.find('input[name="OrderNumber"]').val(orderNumber);
-
-            deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
-            $confirmation.find('input[name="Deal"]').val(deal);
-
-            description = FwFormField.getValueByDataField($form, 'Description');
-            $confirmation.find('input[name="Description"]').val(description);
-        }
+        var orderNumber, deal, description;
+        $confirmation.find('div[data-caption="Type"] input').val(this.Module);
+        orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
+        $confirmation.find('div[data-caption="No"] input').val(orderNumber);
+        deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
+        $confirmation.find('div[data-caption="Deal"] input').val(deal);
+        description = FwFormField.getValueByDataField($form, 'Description');
+        $confirmation.find('div[data-caption="Description"] input').val(description);
 
 
 
@@ -447,41 +477,31 @@ class Order {
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
         $yes.on('click', function () {
             try {
-                var copyToType, newDeal, rateOptions, dateOptions, copyLineItem, combineSubs, copyDocuments;
                 $yes.text('Please wait...');
                 $yes.off('click');
 
-                copyToType = $confirmation.find('input[name="copyToType"]:checked').val();
-                console.log(copyToType)
 
-                newDeal = $confirmation.find('input[name="NewDeal"]').val();
-                console.log(newDeal)
 
-                rateOptions = $confirmation.find('input[name="Options"]:checked').val();
-                console.log(rateOptions)
+                var request: any = {};
+                request.CopyToType  = $confirmation.find('[data-type="radio"] input:checked').val();
+                request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+                request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+                request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
+                request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+                request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
+                request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
 
-                dateOptions = $confirmation.find('input[name="DateBehavior"]:checked').val();
-                console.log(dateOptions)
-
-                copyLineItem = $confirmation.find('input[name="copyLineItemNotes"]').prop('checked');
-                combineSubs = $confirmation.find('input[name="combineSubs"]').prop('checked');
-                copyDocuments = $confirmation.find('input[name="copyDocuments"]').prop('checked');
-
-                console.log(copyLineItem, combineSubs, copyDocuments);
-
-                copyToType = "Order";
-
-                FwAppData.apiMethod(true, 'POST', 'api/v1/' + copyToType + '/copy/' + orderId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
                     FwConfirmation.destroyConfirmation($confirmation);
 
                     console.log(response, "RESPONSE");
                     var uniqueids: any = {};
-                    if (copyToType == "Order") {
+                    if (request.CopyToType == "O") {
                         uniqueids.OrderId = response.OrderId;
                         var $form = OrderController.loadForm(uniqueids);
-                    } else if (copyToType == "Quote") {
-                        uniqueids.QuoteId = response.QuoteId;
+                    } else if (request.CopyToType == "Q") {
+                        uniqueids.QuoteId = response.OrderId;
                         var $form = QuoteController.loadForm(uniqueids);
                     }
                     FwModule.openModuleTab($form, "", true, 'FORM', true)
@@ -609,10 +629,7 @@ class Order {
             var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
             if (periodExtended.length > 0) {
                 periodExtended.each(function () {
-                    var value = jQuery(this).text();
-                    if (value.charAt(0) === '$') {
-                        value = value.slice(1).replace(/,/g, '');
-                    }
+                    var value = jQuery(this).attr('data-originalvalue');
                     var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
                     totals += toNumber;
