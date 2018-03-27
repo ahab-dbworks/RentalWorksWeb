@@ -131,6 +131,8 @@
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
+        var userid = JSON.parse(sessionStorage.getItem('userid'));
+
 
         var html = [];
         html.push('<div class="officelocation">');
@@ -192,7 +194,8 @@
                             var request = {
                                 location: location,
                                 warehouse: warehouse,
-                                department: department
+                                department: department,
+                                userid: userid.webusersid
                             };
                             RwServices.session.updatelocation(request, function (response) {
                                 sessionStorage.setItem('authToken', response.authToken);
@@ -201,6 +204,7 @@
                                 sessionStorage.setItem('department', JSON.stringify(response.department));
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
+
                                 program.navigate('home');
                             });
                         }

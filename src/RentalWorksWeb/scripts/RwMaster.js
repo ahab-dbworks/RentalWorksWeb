@@ -130,6 +130,7 @@ var RwMaster = (function (_super) {
         var userlocation = JSON.parse(sessionStorage.getItem('location'));
         var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var userdepartment = JSON.parse(sessionStorage.getItem('department'));
+        var userid = JSON.parse(sessionStorage.getItem('userid'));
         var html = [];
         html.push('<div class="officelocation">');
         html.push("  <div class=\"locationcolor\" style= \"background-color:" + userlocation.locationcolor + "\" > </div>");
@@ -183,7 +184,8 @@ var RwMaster = (function (_super) {
                             var request = {
                                 location: location,
                                 warehouse: warehouse,
-                                department: department
+                                department: department,
+                                userid: userid.webusersid
                             };
                             RwServices.session.updatelocation(request, function (response) {
                                 sessionStorage.setItem('authToken', response.authToken);
@@ -192,6 +194,7 @@ var RwMaster = (function (_super) {
                                 sessionStorage.setItem('department', JSON.stringify(response.department));
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
+                                FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
                                 program.navigate('home');
                             });
                         }
