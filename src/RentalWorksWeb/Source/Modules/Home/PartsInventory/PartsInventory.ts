@@ -64,37 +64,37 @@ class PartsInventory {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $accessory.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ACCESSORY';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $complete.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'COMPLETE';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $kitset.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'KITSET';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $misc.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'MISC';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $container.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CONTAINER';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
 
         FwMenu.addVerticleSeparator($menuObject);

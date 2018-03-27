@@ -70,50 +70,43 @@ class Quote {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $prospect.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'PROSPECT';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $active.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ACTIVE';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $reserved.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'RESERVED';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $ordered.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ORDERED';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $cancelled.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CANCELLED';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $closed.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'CLOSED';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
 
         FwMenu.addVerticleSeparator($menuObject);
@@ -137,13 +130,13 @@ class Quote {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'LocationId=ALL';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $userLocation.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'LocationId=' + location.locationid;
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         var viewLocation = [];
         viewLocation.push($userLocation);

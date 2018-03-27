@@ -60,29 +60,25 @@ class Contract {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $rentalssales.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'RENTALSALES';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $repair.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'REPAIR';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $sales.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'SALES';
-            FwBrowse.setPageNo($browse, 1);
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
       
 

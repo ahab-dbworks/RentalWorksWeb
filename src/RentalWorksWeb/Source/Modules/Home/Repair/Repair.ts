@@ -100,31 +100,31 @@ class Repair {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'ALL';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     $confirmed.on('click', function () {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'CONFIRMED';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     $active.on('click', function () {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'ACTIVE';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     $hold.on('click', function () {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'HOLD';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     $closed.on('click', function () {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'CLOSED';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     var viewSubitems = [];
     viewSubitems.push($all);
@@ -142,13 +142,13 @@ class Repair {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'WarehouseId=ALL';
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     $userWarehouse.on('click', function () {
         var $browse;
         $browse = jQuery(this).closest('.fwbrowse');
         self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-        FwBrowse.databind($browse);
+        FwBrowse.search($browse);
     });
     var viewLocation = [];
     viewLocation.push($userWarehouse);

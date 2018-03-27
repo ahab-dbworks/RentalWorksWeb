@@ -50,19 +50,19 @@ class User {
     addBrowseMenuItems($menuObject) {
         var self = this;
         var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', true);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false);
         $allLocations.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'OfficeLocationId=ALL';
-            FwBrowse.databind($browse);
+            self.ActiveView = 'ALL';
+            FwBrowse.search($browse);
         });
         $userLocation.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'OfficeLocationId=' + location.locationid;
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         var viewLocation = [];
         viewLocation.push($userLocation);

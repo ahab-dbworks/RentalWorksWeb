@@ -28,6 +28,7 @@ var User = (function () {
         this.Module = 'User';
         this.apiurl = 'api/v1/user';
         this.caption = 'User';
+        this.ActiveView = 'ALL';
     }
     User.prototype.getModuleScreen = function () {
         var self = this;
@@ -50,8 +51,38 @@ var User = (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        self.ActiveView = 'OfficeLocationId=' + location.locationid;
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
         return $browse;
     };
+    User.prototype.addBrowseMenuItems = function ($menuObject) {
+        var self = this;
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false);
+        $allLocations.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ALL';
+            FwBrowse.search($browse);
+        });
+        $userLocation.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'OfficeLocationId=' + location.locationid;
+            FwBrowse.search($browse);
+        });
+        var viewLocation = [];
+        viewLocation.push($userLocation);
+        viewLocation.push($allLocations);
+        var $view;
+        $view = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        return $menuObject;
+    };
+    ;
     User.prototype.openForm = function (mode) {
         var $form;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());

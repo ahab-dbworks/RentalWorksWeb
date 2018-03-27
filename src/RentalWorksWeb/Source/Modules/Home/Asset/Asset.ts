@@ -67,13 +67,13 @@ class RwAsset {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'WarehouseId=ALL';
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
         $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-            FwBrowse.databind($browse);
+            FwBrowse.search($browse);
         });
       
 
