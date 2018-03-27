@@ -6,6 +6,7 @@ using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -673,8 +674,9 @@ namespace FwStandard.DataLayer
                 if (filterfields.ContainsKey(filterFieldName))
                 {
                     select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false") {
-                        select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T": "F"));
+                    if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false")
+                    {
+                        select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T" : "F"));
                     }
                     else
                     {
@@ -684,6 +686,60 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        {
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey(miscFieldName))
+                {
+                    string value = "";
+                    value = miscfields[miscFieldName].ToString();
+                    if (!parameterName.StartsWith("@"))
+                    {
+                        parameterName = "@" + parameterName;
+                    }
+                    qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, value);
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected void AddMiscFieldToQueryAsBoolean(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        {
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey(miscFieldName))
+                {
+                    bool value = false;
+                    value = FwConvert.ToBoolean(miscfields[miscFieldName].ToString());
+                    if (!parameterName.StartsWith("@"))
+                    {
+                        parameterName = "@" + parameterName;
+                    }
+                    qry.AddParameter(parameterName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(value));
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        protected void AddMiscFieldToQueryAsDate(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        {
+            if ((request != null) && (request.miscfields != null))
+            {
+                IDictionary<string, object> miscfields = ((IDictionary<string, object>)request.miscfields);
+                if (miscfields.ContainsKey(miscFieldName))
+                {
+                    DateTime value;
+                    value = FwConvert.ToDateTime(miscfields[miscFieldName].ToString());
+                    if (!parameterName.StartsWith("@"))
+                    {
+                        parameterName = "@" + parameterName;
+                    }
+                    qry.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, value);
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------        
         public virtual async Task<object> GetCustomPrimaryKey(FwSqlConnection conn, SqlServerConfig _dbConfig)
         {
             object id = new object();

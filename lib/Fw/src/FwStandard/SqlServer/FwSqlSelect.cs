@@ -330,7 +330,10 @@ namespace FwStandard.SqlServer
             query = sb.ToString();
             //cmd.Clear();
             //cmd.Parameters.Clear();
-            cmd.Add(query);
+            if (!query.Equals(string.Empty))
+            {
+                cmd.Add(query);
+            }
             foreach (KeyValuePair<string, SqlParameter> item in Parameters)
             {
                 cmd.Parameters.Add(item.Value);
