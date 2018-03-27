@@ -62,6 +62,41 @@ var RwAsset = (function () {
         viewSubitems.push($all);
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        var $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
+        var $trackBarcode = FwMenu.generateDropDownViewBtn('Barcode', false);
+        var $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);
+        var $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false);
+        $trackAll.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TrackedBy=ALL';
+            FwBrowse.search($browse);
+        });
+        $trackBarcode.on('click', function () {
+            var $browse, barcode, sortByBarcode;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TrackedBy=BARCODE';
+            FwBrowse.search($browse);
+        });
+        $trackSerialNumber.on('click', function () {
+            var $browse, serialNumber, sortBySerial;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TrackedBy=SERIALNUMBER';
+            FwBrowse.search($browse);
+        });
+        $trackRFID.on('click', function () {
+            var $browse, rfid, sortByRFID;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'TrackedBy=RFID';
+            FwBrowse.search($browse);
+        });
+        var viewTrack = [];
+        viewTrack.push($trackAll);
+        viewTrack.push($trackBarcode);
+        viewTrack.push($trackSerialNumber);
+        viewTrack.push($trackRFID);
+        var $trackByView;
+        $trackByView = FwMenu.addViewBtn($menuObject, 'Track By', viewTrack);
         return $menuObject;
     };
     ;
