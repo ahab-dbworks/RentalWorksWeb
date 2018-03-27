@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string text { get; set; }
             public bool selected { get; set; }
             public string apiname { get; set; }
+            public string clickpath { get; set; }
             public string defaulttype { get; set; }
             public string widgettype { get; set; }
         }
@@ -57,9 +58,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("widgetid");          //1
                 qry.AddColumn("widget");            //2
                 qry.AddColumn("apiname");           //3
-                qry.AddColumn("defaulttype");       //4
-                qry.AddColumn("widgettype");        //5
-                qry.AddColumn("orderby");           //6
+                qry.AddColumn("clickpath");         //4
+                qry.AddColumn("defaulttype");       //5
+                qry.AddColumn("widgettype");        //6
+                qry.AddColumn("orderby");           //7
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
@@ -68,14 +70,16 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string widgetId = table.Rows[r][1].ToString();
                     string widgetName = table.Rows[r][2].ToString();
                     string apiname = table.Rows[r][3].ToString();
-                    string defaulttype = table.Rows[r][4].ToString();
-                    string widgettype = table.Rows[r][5].ToString();
+                    string clickPath = table.Rows[r][4].ToString();
+                    string defaulttype = table.Rows[r][5].ToString();
+                    string widgettype = table.Rows[r][6].ToString();
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
                     w.text = widgetName;
                     w.selected = (!UserWidgetId.Equals(string.Empty));
                     w.apiname = apiname;
+                    w.clickpath = clickPath;
                     w.defaulttype = defaulttype;
                     w.widgettype = widgettype;
                     Widgets.Add(w);

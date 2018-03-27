@@ -18,6 +18,7 @@ namespace WebApi.Modules.Settings.Widget
         [FwBusinessLogicField(isRecordTitle: true)]
         public string Widget { get { return widget.Widget; } set { widget.Widget = value; } }
         public string ApiName { get { return widget.ApiName; } set { widget.ApiName = value; } }
+        public string ClickPath { get { return widget.ClickPath; } set { widget.ClickPath = value; } }
         public string DefaultType { get { return widget.DefaultType; } set { widget.DefaultType = value; } }
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

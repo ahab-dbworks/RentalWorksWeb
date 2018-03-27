@@ -19,6 +19,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "apiname", modeltype: FwDataTypes.Text)]
         public string ApiName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "clickpath", modeltype: FwDataTypes.Text)]
+        public string ClickPath { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaulttype", modeltype: FwDataTypes.Text)]
         public string DefaultType { get; set; }
         //------------------------------------------------------------------------------------ 
