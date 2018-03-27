@@ -61,6 +61,7 @@ class CreatePickList {
             jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
         });
 
+        $form.find('.defaultoptions input').prop('checked', true);
 
 
         return $form;
