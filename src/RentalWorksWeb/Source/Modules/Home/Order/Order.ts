@@ -287,10 +287,7 @@ class Order {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         }
         );
-        FwBrowse.setAfterSaveCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'rental');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
@@ -311,10 +308,7 @@ class Order {
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'sales');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
@@ -335,10 +329,7 @@ class Order {
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'labor');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
@@ -360,10 +351,7 @@ class Order {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         }
         );
-        FwBrowse.setAfterSaveCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'misc');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
@@ -623,21 +611,21 @@ class Order {
     calculateTotals($form: any, gridType: string) {
         var totals = 0;
         var finalTotal;
-        setTimeout(function () {
-            var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-            if (periodExtended.length > 0) {
-                periodExtended.each(function () {
-                    var value = jQuery(this).attr('data-originalvalue');
-                    var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
-                    totals += toNumber;
-                    finalTotal = totals.toLocaleString();
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
+        if (periodExtended.length > 0) {
+            periodExtended.each(function () {
+                var value = jQuery(this).attr('data-originalvalue');
+                var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
-                });
+                totals += toNumber;
+                finalTotal = totals.toLocaleString();
 
-                $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
-            }
-        }, 2000);
+            });
+
+            $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
+        }
+
 
     };
 

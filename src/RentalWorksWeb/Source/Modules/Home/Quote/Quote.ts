@@ -279,10 +279,7 @@ class Quote {
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'rental');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridRentalControl, ($orderItemGridRentalControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
@@ -302,10 +299,7 @@ class Quote {
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'sales');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridSalesControl, ($orderItemGridSalesControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
@@ -326,10 +320,7 @@ class Quote {
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'labor');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridLaborControl, ($orderItemGridLaborControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
@@ -350,10 +341,7 @@ class Quote {
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
-            this.calculateTotals($form, 'misc');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridMiscControl, ($orderItemGridMiscControl: JQuery, $tr: JQuery) => {
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
@@ -423,7 +411,7 @@ class Quote {
         $form.find('.totals input').css('text-align', 'right');
 
         FwFormField.disable($form.find('[data-caption="Weeks"]'));
- 
+
     }
 
     copyQuote($form) {
@@ -472,13 +460,9 @@ class Quote {
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
         html.push('      <div data-value="Q" data-caption="Quote"> </div>');
-        html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-value="O" data-caption="Order"> </div></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates From Inventory" data-datafield="CopyRatesFromInventory"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
-        html.push('  </div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
@@ -498,7 +482,10 @@ class Quote {
         description = FwFormField.getValueByDataField($form, 'Description');
         $confirmation.find('div[data-caption="Description"] input').val(description);
 
-
+        FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="No"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
 
         $yes = FwConfirmation.addButton($confirmation, 'OK', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -506,8 +493,6 @@ class Quote {
             try {
                 $yes.text('Please wait...');
                 $yes.off('click');
-
-
 
                 var request: any = {};
                 request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
@@ -517,6 +502,14 @@ class Quote {
                 request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
                 request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
                 request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+
+                for (var key in request) {
+                    if (request[key] == "T") {
+                        request[key] = "True";
+                    } else if (request[key] == "F") {
+                        request[key] = "False";
+                    }
+                }
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/quote/copy/' + quoteId, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Quote Successfully Copied');
@@ -554,21 +547,21 @@ class Quote {
     calculateTotals($form: any, gridType: string) {
         var totals = 0;
         var finalTotal;
-        setTimeout(function () {
-            var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-            if (periodExtended.length > 0) {
-                periodExtended.each(function () {
-                    var value = jQuery(this).attr('data-originalvalue');
-                    var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
-                    totals += toNumber;
-                    finalTotal = totals.toLocaleString();
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
+        if (periodExtended.length > 0) {
+            periodExtended.each(function () {
+                var value = jQuery(this).attr('data-originalvalue');
+                var toNumber = parseFloat(parseFloat(value).toFixed(2));
 
-                });
+                totals += toNumber;
+                finalTotal = totals.toLocaleString();
 
-                $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
-            }
-        }, 2000);
+            });
+
+            $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
+        }
+
 
     };
 

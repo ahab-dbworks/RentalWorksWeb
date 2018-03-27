@@ -247,10 +247,7 @@ var Order = (function () {
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridRentalControl, function ($orderItemGridRentalControl, $tr) {
-            _this.calculateTotals($form, 'rental');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridRentalControl, function ($orderItemGridRentalControl, $tr) {
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
@@ -269,10 +266,7 @@ var Order = (function () {
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridSalesControl, function ($orderItemGridSalesControl, $tr) {
-            _this.calculateTotals($form, 'sales');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridSalesControl, function ($orderItemGridSalesControl, $tr) {
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
@@ -291,10 +285,7 @@ var Order = (function () {
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridLaborControl, function ($orderItemGridLaborControl, $tr) {
-            _this.calculateTotals($form, 'labor');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridLaborControl, function ($orderItemGridLaborControl, $tr) {
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
@@ -313,10 +304,7 @@ var Order = (function () {
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
-        FwBrowse.setAfterSaveCallback($orderItemGridMiscControl, function ($orderItemGridMiscControl, $tr) {
-            _this.calculateTotals($form, 'misc');
-        });
-        FwBrowse.setAfterDeleteCallback($orderItemGridMiscControl, function ($orderItemGridMiscControl, $tr) {
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
@@ -522,18 +510,16 @@ var Order = (function () {
     Order.prototype.calculateTotals = function ($form, gridType) {
         var totals = 0;
         var finalTotal;
-        setTimeout(function () {
-            var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-            if (periodExtended.length > 0) {
-                periodExtended.each(function () {
-                    var value = jQuery(this).attr('data-originalvalue');
-                    var toNumber = parseFloat(parseFloat(value).toFixed(2));
-                    totals += toNumber;
-                    finalTotal = totals.toLocaleString();
-                });
-                $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
-            }
-        }, 2000);
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
+        if (periodExtended.length > 0) {
+            periodExtended.each(function () {
+                var value = jQuery(this).attr('data-originalvalue');
+                var toNumber = parseFloat(parseFloat(value).toFixed(2));
+                totals += toNumber;
+                finalTotal = totals.toLocaleString();
+            });
+            $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
+        }
     };
     ;
     Order.prototype.dynamicColumns = function ($form) {
