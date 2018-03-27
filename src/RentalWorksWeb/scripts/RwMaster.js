@@ -194,7 +194,6 @@ var RwMaster = (function (_super) {
                                 sessionStorage.setItem('department', JSON.stringify(response.department));
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
-                                FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
                                 program.navigate('home');
                             });
                         }
