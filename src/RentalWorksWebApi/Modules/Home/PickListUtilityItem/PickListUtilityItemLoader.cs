@@ -3,6 +3,7 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Data;
@@ -158,10 +159,29 @@ namespace WebApi.Modules.Home.PickListUtilityItem
 
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "gettmppicklistitem", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("exec gettmppicklistitem '" + sessionId + "','" + orderIds + "'");
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                    qry.AddParameter("@orderids", SqlDbType.NVarChar, ParameterDirection.Input, orderIds);
+                    AddMiscFieldToQueryAsBoolean("ItemsNotYetStaged", "@itemsnotyetstaged", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsStaged", "@itemsstaged", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsOut", "@itemsout", qry, request);
+                    AddMiscFieldToQueryAsDate("PickDateFrom", "@pickdatefrom", qry, request);
+                    AddMiscFieldToQueryAsDate("PickDateTo", "@pickdateto", qry, request);
+                    AddMiscFieldToQueryAsBoolean("RentalItems", "@rentalitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SaleItems", "@saleitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("VendorItems", "@vendoritems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("LaborItems", "@laboritems", qry, request);
+                    AddMiscFieldToQueryAsString("WarehouseId", "@warehouseid", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitMain", "@completekitmains", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitAccessories", "@completekitaccessories", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitOptions", "@completekitoptions", qry, request);
+                    AddMiscFieldToQueryAsBoolean("StandAloneItems", "@standaloneitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsOnOtherPickLists", "@itemsonotherpicklists", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ReduceQuantityAlreadyPicked", "@reduceqtyalreadypicked", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SummarizeByICode", "@summarizebymaster", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SummarizeCompleteKitItems", "@summarizeacc", qry, request);
+                    AddMiscFieldToQueryAsBoolean("HonorCompleteKitItemTypes", "@honorcompletekititemtypes", qry, request);
                     PropertyInfo[] propertyInfos = typeof(PickListUtilityItemLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
@@ -171,7 +191,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                             qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name);
                         }
                     }
-                    dt = await qry.QueryToFwJsonTableAsync(false);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
             return dt;
