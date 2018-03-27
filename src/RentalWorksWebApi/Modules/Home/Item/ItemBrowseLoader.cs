@@ -131,6 +131,7 @@ namespace WebApi.Modules.Home.Item
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("InventoryId", "masterid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("TrackedBy", "trackedby", select, request);
 
 
             if ((request != null) && (request.activeview != null))
@@ -142,6 +143,15 @@ namespace WebApi.Modules.Home.Item
                     {
                         select.AddWhere("(warehouseid = @whid)");
                         select.AddParameter("@whid", whId);
+                    }
+                }
+                if (request.activeview.Contains("TrackedBy="))
+                {
+                    string trackedBy = request.activeview.Replace("TrackedBy=", "");
+                    if (!trackedBy.Equals("ALL"))
+                    {
+                        select.AddWhere("(trackedby = @trackedby)");
+                        select.AddParameter("@trackedby", trackedBy);
                     }
                 }
             }
