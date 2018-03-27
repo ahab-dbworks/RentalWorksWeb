@@ -388,16 +388,20 @@ namespace WebApi.Modules.Home.Order
                     }
                 }
 
-                if (request.activeview.Contains("LocationId="))
+                string locId = "ALL";
+                if (request.activeview.Contains("OfficeLocationId="))
                 {
-                    string locId = request.activeview.Replace("LocationId=", "");
-                    if (!locId.Equals("ALL"))
-                    {
-                        select.AddWhere("(locationid = @locid)");
-                        select.AddParameter("@locid", locId);
-                    }
+                    locId = request.activeview.Replace("OfficeLocationId=", "");
                 }
-
+                else if (request.activeview.Contains("LocationId="))
+                {
+                    locId = request.activeview.Replace("LocationId=", "");
+                }
+                if (!locId.Equals("ALL"))
+                {
+                    select.AddWhere("(locationid = @locid)");
+                    select.AddParameter("@locid", locId);
+                }
             }
         }
         //------------------------------------------------------------------------------------    

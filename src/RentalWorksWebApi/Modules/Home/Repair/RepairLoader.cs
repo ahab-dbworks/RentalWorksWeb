@@ -225,7 +225,35 @@ namespace WebApi.Modules.Home.Repair
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+
+
+
+            if (request.activeview.Contains("WarehouseId="))
+            {
+                string whId = request.activeview.Replace("WarehouseId=", "");
+                if (!whId.Equals("ALL"))
+                {
+                    select.AddWhere("(warehouseid = @whid)");
+                    select.AddParameter("@whid", whId);
+                }
+            }
+
+            string locId = "ALL";
+            if (request.activeview.Contains("OfficeLocationId="))
+            {
+                locId = request.activeview.Replace("OfficeLocationId=", "");
+            }
+            else if (request.activeview.Contains("LocationId="))
+            {
+                locId = request.activeview.Replace("LocationId=", "");
+            }
+            if (!locId.Equals("ALL"))
+            {
+                select.AddWhere("(locationid = @locid)");
+                select.AddParameter("@locid", locId);
+            }
+
         }
         //------------------------------------------------------------------------------------ 
     }

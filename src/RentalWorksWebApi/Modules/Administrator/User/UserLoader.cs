@@ -1,8 +1,8 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
 namespace WebApi.Modules.Administrator.User
 {
@@ -339,10 +339,36 @@ namespace WebApi.Modules.Administrator.User
             select.Parse();
             select.AddWhere("(username > '')");
             select.AddWhere("(groupsid > '')");
-            addFilterToSelect("LocationId", "locationid", select, request); 
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
-            addFilterToSelect("GroupId", "groupsid", select, request); 
+            addFilterToSelect("LocationId", "locationid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("GroupId", "groupsid", select, request);
+
+
+            if (request.activeview.Contains("WarehouseId="))
+            {
+                string whId = request.activeview.Replace("WarehouseId=", "");
+                if (!whId.Equals("ALL"))
+                {
+                    select.AddWhere("(warehouseid = @whid)");
+                    select.AddParameter("@whid", whId);
+                }
+            }
+
+            string locId = "ALL";
+            if (request.activeview.Contains("OfficeLocationId="))
+            {
+                locId = request.activeview.Replace("OfficeLocationId=", "");
+            }
+            else if (request.activeview.Contains("LocationId="))
+            {
+                locId = request.activeview.Replace("LocationId=", "");
+            }
+            if (!locId.Equals("ALL"))
+            {
+                select.AddWhere("(locationid = @locid)");
+                select.AddParameter("@locid", locId);
+            }
         }
-        //------------------------------------------------------------------------------------     
     }
+    //------------------------------------------------------------------------------------     
 }
