@@ -234,30 +234,33 @@ namespace WebApi.Modules.Home.Repair
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
 
 
-
-            if (request.activeview.Contains("WarehouseId="))
+            if ((request != null) && (request.activeview != null))
             {
-                string whId = request.activeview.Replace("WarehouseId=", "");
-                if (!whId.Equals("ALL"))
+
+                if (request.activeview.Contains("WarehouseId="))
                 {
-                    select.AddWhere("(warehouseid = @whid)");
-                    select.AddParameter("@whid", whId);
+                    string whId = request.activeview.Replace("WarehouseId=", "");
+                    if (!whId.Equals("ALL"))
+                    {
+                        select.AddWhere("(warehouseid = @whid)");
+                        select.AddParameter("@whid", whId);
+                    }
                 }
-            }
 
-            string locId = "ALL";
-            if (request.activeview.Contains("OfficeLocationId="))
-            {
-                locId = request.activeview.Replace("OfficeLocationId=", "");
-            }
-            else if (request.activeview.Contains("LocationId="))
-            {
-                locId = request.activeview.Replace("LocationId=", "");
-            }
-            if (!locId.Equals("ALL"))
-            {
-                select.AddWhere("(locationid = @locid)");
-                select.AddParameter("@locid", locId);
+                string locId = "ALL";
+                if (request.activeview.Contains("OfficeLocationId="))
+                {
+                    locId = request.activeview.Replace("OfficeLocationId=", "");
+                }
+                else if (request.activeview.Contains("LocationId="))
+                {
+                    locId = request.activeview.Replace("LocationId=", "");
+                }
+                if (!locId.Equals("ALL"))
+                {
+                    select.AddWhere("(locationid = @locid)");
+                    select.AddParameter("@locid", locId);
+                }
             }
 
         }
