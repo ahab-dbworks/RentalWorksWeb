@@ -128,6 +128,9 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
         public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? Inactive { get; set; }
+        public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
 }
