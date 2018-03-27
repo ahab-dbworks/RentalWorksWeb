@@ -81,68 +81,39 @@ class CreatePickList {
         FwBrowse.init($pickListUtilityGridControl);
         FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
 
+        var $options = $form.find('.option');
+        $form.find('.applyoptions').on('click', function () {
+            var miscfields: any = {};
+            var optionName, optionValue, optionType;
+            $options.each(function () {
+                optionName = jQuery(this).attr('data-datafield');
+                optionType = jQuery(this).attr('data-type');
 
-        var selectedOptions = [];
-        var $options = $form.find('.options input');
-        $options.on('change', function (e) {
-            var $optionItem = jQuery(jQuery(e.currentTarget).parents().eq(1)),
-                optionType = $optionItem.attr('data-type'),
-                optionName: any;
+                if (optionType == "checkbox") {
+                    optionValue = jQuery(this).find('input:checked').val();
+                    if (optionValue == "on") {
+                        optionValue = true;
+                    } else {
+                        optionValue = false;
+                    }
+                } else {
 
-            switch (optionType) {
-                case 'date':
-                    optionName = jQuery(e.currentTarget).val().toString();
-                    break;
-                case 'validation':
-                    optionName = jQuery(e.currentTarget).val().toString();
-                    break;
-                case 'checkbox':
-                    optionName = $optionItem.attr('data-caption').toString();
-                    break;
-            }
-            //need to check for data-datafield = data or validation and REPLACE value instead of adding 
-
-            if (selectedOptions.indexOf(optionName) === -1) {
-                selectedOptions.push(optionName);
-            } else {
-                selectedOptions = selectedOptions.filter((item) => item !== optionName);
-            }
-
+                    optionValue = jQuery(this).find('input').val();
+                }
+                if (!(optionType == "date" && optionValue == "")) {
+                    miscfields[optionName] = optionValue;
+                }
+            })
 
             $pickListUtilityGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
                     OrderId: FwFormField.getValueByDataField($form, 'OrderId')
                     , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
                 };
-              
-                //if (InventoryTypeId !== "") {
-                //    var invObj = { InventoryTypeId: InventoryTypeId }
-                //}
-                //if (WarehouseId !== "") {
-                //    var whObj = { WarehouseId: WarehouseId }
-                //}
-                //if (CategoryId !== "") {
-                //    var catObj = { CategoryId: CategoryId }
-                //}
-                //if (InventoryId !== "") {
-                //    var iObj = { InventoryId: InventoryId }
-                //}
-                //if (SubCategoryId !== "") {
-                //    var subObj = { SubCategoryId: SubCategoryId }
-                //}
-                //request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
-
+                request.miscfields = miscfields;
             })
             FwBrowse.search($pickListUtilityGridControl);
 
-            console.log(selectedOptions);
-
-        });
-
-
-        $form.find('.applyoptions').on('click', function () {
-            //send selectedOptions
-            console.log("APPLY OPTIONS");
         });
     }
     //----------------------------------------------------------------------------------------------
