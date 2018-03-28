@@ -392,7 +392,7 @@ class Order {
         self = this;
 
         $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
-
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
         var html = [];
         //html.push('<div style="white-space:pre;">\n');
         //html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="fromOrder" disabled>Quote/ Order');
@@ -421,11 +421,11 @@ class Order {
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="" style="width:235px; float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="" style="width:340px; float:left;"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="" style="width:90px; float:left;"></div>');
-        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="width:235px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="width:340px;float:left;"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
@@ -434,12 +434,8 @@ class Order {
         html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="">');
         html.push('      <div data-value="Q" data-caption="Quote"> </div>');
         html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates From Inventory" data-datafield="CopyRatesFromInventory"></div>');
-        html.push('  </div>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates & Prices" data-datafield="CopyRatesFromInventory"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
-        html.push('  </div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
@@ -450,7 +446,7 @@ class Order {
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        var orderNumber, deal, description;
+        var orderNumber, deal, description, dealId;
         $confirmation.find('div[data-caption="Type"] input').val(this.Module);
         orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
         $confirmation.find('div[data-caption="No"] input').val(orderNumber);
@@ -458,47 +454,72 @@ class Order {
         $confirmation.find('div[data-caption="Deal"] input').val(deal);
         description = FwFormField.getValueByDataField($form, 'Description');
         $confirmation.find('div[data-caption="Description"] input').val(description);
+        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
+        dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
+        $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
 
+        FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="No"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
 
+        $confirmation.find('div[data-datafield="CopyRatesFromInventory"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyDates"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
+        $confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
 
-        $yes = FwConfirmation.addButton($confirmation, 'OK', false);
+        $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        var request: any = {};
+        request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
+        request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+        request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+        request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
+        request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+        request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
+        request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+
+        if (request.CopyRatesFromInventory == "T") {
+            request.CopyRatesFromInventory = "False"
+        }
+
+        for (var key in request) {
+            if (request.hasOwnProperty(key)) {
+                if (request[key] == "T") {
+                    request[key] = "True";
+                } else if (request[key] == "F") {
+                    request[key] = "False";
+                }
+            }
+        }
+
         $yes.on('click', function () {
-            try {
-                $yes.text('Please wait...');
-                $yes.off('click');
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Copying...');
 
+            FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
+                FwConfirmation.destroyConfirmation($confirmation);
 
+                var uniqueids: any = {};
+                if (request.CopyToType == "O") {
+                    uniqueids.OrderId = response.OrderId;
+                    var $form = OrderController.loadForm(uniqueids);
+                } else if (request.CopyToType == "Q") {
+                    uniqueids.QuoteId = response.OrderId;
+                    var $form = QuoteController.loadForm(uniqueids);
+                }
+                FwModule.openModuleTab($form, "", true, 'FORM', true)
 
-                var request: any = {};
-                request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
-                request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
-                request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
-                request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
-                request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
-                request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
-                request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+            }, $form);
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/Order/copy/' + orderId, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
-                    FwConfirmation.destroyConfirmation($confirmation);
-
-                    console.log(response, "RESPONSE");
-                    var uniqueids: any = {};
-                    if (request.CopyToType == "O") {
-                        uniqueids.OrderId = response.OrderId;
-                        var $form = OrderController.loadForm(uniqueids);
-                    } else if (request.CopyToType == "Q") {
-                        uniqueids.QuoteId = response.OrderId;
-                        var $form = QuoteController.loadForm(uniqueids);
-                    }
-                    FwModule.openModuleTab($form, "", true, 'FORM', true)
-
-                }, null, $form);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
         });
     };
 
@@ -588,7 +609,6 @@ class Order {
 
         this.renderFrames($form);
         this.dynamicColumns($form);
-        this.totals($form);
         FwFormField.disable($form.find('.totals'));
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
@@ -596,17 +616,6 @@ class Order {
         FwFormField.disable($form.find('[data-caption="Weeks"]'));
 
     };
-
-
-    totals($form: any) {
-        var self = this;
-        var gridTypes = ['rental', 'sales', 'labor', 'misc'];
-        setTimeout(function () {
-            for (var i = 0; i < gridTypes.length; i++) {
-                self.calculateTotals($form, gridTypes[i]);
-            }
-        }, 4000);
-    }
 
     calculateTotals($form: any, gridType: string) {
         var totals = 0;
