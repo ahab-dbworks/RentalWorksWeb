@@ -534,10 +534,13 @@ class Quote {
                 }
             }
         }
-        $yes.on('click', function () {
+        $yes.on('click', makeACopy);
+
+        function makeACopy() {
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
             $yes.text('Copying...');
+            $yes.off('click');
 
             FwAppData.apiMethod(true, 'POST', 'api/v1/quote/copy/' + quoteId, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Quote Successfully Copied');
@@ -554,12 +557,13 @@ class Quote {
                 FwModule.openModuleTab($form, "", true, 'FORM', true)
 
             }, function onError(response) {
+                $yes.on('click', makeACopy);
+                $yes.text('Copy');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
             }, $form);
-
-        });
+        };
     };
 
     calculateTotals($form: any, gridType: string) {
