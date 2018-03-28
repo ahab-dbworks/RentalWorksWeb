@@ -246,7 +246,7 @@ class Quote {
                     $form.find('[data-framedatafield="' + key + '"] input').val(response[key]);
                 }
             }
-        }, null, $form);
+        }, null, null);
 
         FwFormField.disable($form.find('.frame'));
 
@@ -776,7 +776,7 @@ class Quote {
 
 
             }
-        }, null, $form);
+        }, null, null);
     };
 
 
