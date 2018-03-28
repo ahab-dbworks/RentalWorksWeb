@@ -1,11 +1,6 @@
 ﻿class InventorySubstituteGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventorySubstituteGrid';
-        this.apiurl = 'api/v1/inventorysubstitute';
-    }
+    Module: string = 'InventorySubstituteGrid';
+    apiurl: string = 'api/v1/inventorysubstitute';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {

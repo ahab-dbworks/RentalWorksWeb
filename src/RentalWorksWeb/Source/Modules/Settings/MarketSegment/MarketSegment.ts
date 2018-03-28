@@ -1,16 +1,11 @@
 ﻿routes.push({ pattern: /^module\/marketsegment$/, action: function (match: RegExpExecArray) { return MarketSegmentController.getModuleScreen(); } }); 
 
 class MarketSegment {
-  Module: string;
-  apiurl: string;
-
-  constructor() {
-    this.Module = 'MarketSegment';
-    this.apiurl = 'api/v1/marketsegment';
-  }
+  Module: string = 'MarketSegment';
+  apiurl: string = 'api/v1/marketsegment';
 
   getModuleScreen() {
-    var screen, $browse;
+    let screen, $browse;
 
     screen = {};
     screen.$view = FwModule.getModuleControl(this.Module + 'Controller');

@@ -2,35 +2,34 @@ routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecAr
 // routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
 //---------------------------------------------------------------------------------
 class Repair {
-  Module: string = 'Repair';
-  apiurl: string = 'api/v1/repair';
-  caption: string = 'Repair Order';
-  ActiveView: string;
+    Module: string = 'Repair';
+    apiurl: string = 'api/v1/repair';
+    caption: string = 'Repair Order';
+    ActiveView: string;
 
-  getModuleScreen() {
-    var me: Repair = this;
-    var screen: any = {};
-    screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
-    screen.viewModel = {};
-    screen.properties = {};
+    getModuleScreen() {
+        var me: Repair = this;
+        var screen: any = {};
+        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.viewModel = {};
+        screen.properties = {};
 
-    var $browse: JQuery = this.openBrowse();
+        var $browse: JQuery = this.openBrowse();
 
-    screen.load = function () {
-      FwModule.openModuleTab($browse, me.caption, false, 'BROWSE', true);
-      FwBrowse.databind($browse);
-      FwBrowse.screenload($browse);
+        screen.load = function () {
+          FwModule.openModuleTab($browse, me.caption, false, 'BROWSE', true);
+          FwBrowse.databind($browse);
+          FwBrowse.screenload($browse);
+        };
+        screen.unload = function () {
+          FwBrowse.screenunload($browse);
+        };
+
+        return screen;
     };
-    screen.unload = function () {
-      FwBrowse.screenunload($browse);
-    };
-
-    return screen;
-  };
 
   //----------------------------------------------------------------------------------------------
-  renderGrids($form: any) {
-    let self = this;
+  renderGrids = ($form: any) => {
 
     let $repairCostGrid, $repairCostGridControl; 
  
@@ -47,7 +46,7 @@ class Repair {
     }) 
     // runs after grid load, add, and delete
     FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
-      self.calculateTotals($form);
+      this.calculateCostTotals($form);
     });
    
     FwBrowse.init($repairCostGridControl); 
@@ -66,16 +65,23 @@ class Repair {
     }); 
     $repairPartGridControl.data('beforesave', request => { 
       request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
-    }) 
+    })
+    // runs after grid load, add, and delete
+    FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', () => {
+      this.calculatePartTotals($form);
+    });
     FwBrowse.init($repairPartGridControl); 
     FwBrowse.renderRuntimeHtml($repairPartGridControl);
   } 
 
   //----------------------------------------------------------------------------------------------
-  openBrowse() {
-    let self = this;
+
+
+  openBrowse = () => {
+
     let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
     $browse = FwModule.openBrowse($browse);
+
     FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
     FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
     FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
@@ -85,99 +91,78 @@ class Repair {
     FwBrowse.addLegend($browse, 'Transferred', '#d10e90');
     FwBrowse.addLegend($browse, 'Pending Repair', '#b997db');
 
-    return $browse;
-  };
+    let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
+    this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+
+    $browse.data('ondatabind', request => {
+        request.activeview = this.ActiveView;
+    });
+
+    //FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+    //    for (var i = 0; i < response.length; i++) {
+    //        FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
+    //    }
+    //}, null, $browse);
+            
+    return $browse;
+  }
   //----------------------------------------------------------------------------------------------
-  addBrowseMenuItems($menuObject) {
-    var self = this;
-    var $all = FwMenu.generateDropDownViewBtn('All', true);
-    var $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false);
-    var $active = FwMenu.generateDropDownViewBtn('Active', false);
-    var $hold = FwMenu.generateDropDownViewBtn('Hold', false);
-    var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-    $all.on('click', function () {
-        var $browse;
+
+    addBrowseMenuItems = ($menuObject: any) => {
+  
+      let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      let $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+      let $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+
+      $all.on('click', () => {
+        let $browse;
         $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'ALL';
-        FwBrowse.search($browse);
-    });
-    $confirmed.on('click', function () {
-        var $browse;
+        this.ActiveView = 'WarehouseId=ALL';
+        FwBrowse.databind($browse);
+      });
+      $userWarehouse.on('click', () => {
+        let $browse;
         $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'CONFIRMED';
-        FwBrowse.search($browse);
-    });
-    $active.on('click', function () {
-        var $browse;
-        $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'ACTIVE';
-        FwBrowse.search($browse);
-    });
-    $hold.on('click', function () {
-        var $browse;
-        $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'HOLD';
-        FwBrowse.search($browse);
-    });
-    $closed.on('click', function () {
-        var $browse;
-        $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'CLOSED';
-        FwBrowse.search($browse);
-    });
-    var viewSubitems = [];
-    viewSubitems.push($all);
-    viewSubitems.push($confirmed);
-    viewSubitems.push($active);
-    viewSubitems.push($hold);
-    viewSubitems.push($closed);
-    var $view;
-    $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
-    //Location Filter
-    var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-    var $allLocations = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-    var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
-    $allLocations.on('click', function () {
-        var $browse;
-        $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'WarehouseId=ALL';
-        FwBrowse.search($browse);
-    });
-    $userWarehouse.on('click', function () {
-        var $browse;
-        $browse = jQuery(this).closest('.fwbrowse');
-        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-        FwBrowse.search($browse);
-    });
-    var viewLocation = [];
-    viewLocation.push($userWarehouse);
-    viewLocation.push($all);
-    var $locationView;
-    $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
-    return $menuObject;
-  };
+        this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        FwBrowse.databind($browse);
+      });
+      
+      let viewSubitems: Array<JQuery> = [];
+      viewSubitems.push($userWarehouse);
+      viewSubitems.push($all);
+
+      let $view;
+      $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+
+      return $menuObject;
+    };
   //----------------------------------------------------------------------------------------------
   openForm(mode: string) {
-    var $form;
+    let $form;
     $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
     $form = FwModule.openForm($form, mode);
 
     if (mode === 'NEW') {
       $form.find('.ifnew').attr('data-enabled', 'true');
-      var today = new Date(Date.now()).toLocaleString().split(',')[0];
-      //var date = today.split(',');
-      var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-      var office = JSON.parse(sessionStorage.getItem('location'));
-      var department = JSON.parse(sessionStorage.getItem('department'));
+      let today = new Date(Date.now()).toLocaleString().split(',')[0];
+      let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      let office = JSON.parse(sessionStorage.getItem('location'));
+      let department = JSON.parse(sessionStorage.getItem('department'));
 
       FwFormField.setValueByDataField($form, 'RepairDate', today);
       //FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
       //FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
       FwFormField.setValueByDataField($form, 'Location', office.location);
       FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
+      FwFormField.setValueByDataField($form, 'Quantity', 1);
 
-      //$form.find('div[data-datafield="PickTime"]').attr('data-required', false);
+
+      $form.find('div[data-browsedisplayfield="BarCode"]').attr('data-enabled', true);
+      $form.find('div[data-browsedisplayfield="SerialNumber"]').attr('data-enabled', true);
+      $form.find('div[data-browsedisplayfield="ICode"]').attr('data-enabled', true);
+      $form.find('div[data-browsedisplayfield="RfId"]').attr('data-enabled', true);
+
       //$form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
       //$form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
 
@@ -190,7 +175,19 @@ class Repair {
       $form.find('div[data-datafield="PoPending"] input').prop('checked', true);
       //FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
       //FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
+   
+      $form.find('div[data-datafield="ItemId"]').data('onchange', $tr => {
+          FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+          //FwFormField.setValue($form, 'div[data-browsedisplayfield="BarCode"]', $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
+          //FwFormField.setValue($form, 'div[data-browsedisplayfield="SerialNumber"]', $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
+          //FwFormField.setValue($form, 'div[data-browsedisplayfield="RfId"]', $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
+          FwFormField.setValue($form, 'div[data-datafield="InventoryId"]', $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+      });
+      // ICode Validation
+      $form.find('div[data-datafield="InventoryId"]').data('onchange', $tr => {
+          FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+          FwFormField.setValue($form, 'div[data-browsedisplayfield="ICode"]', $tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
+      });
 
       FwFormField.disable($form.find('.frame'));
       $form.find(".frame .add-on").children().hide();
@@ -210,20 +207,19 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  saveForm($form: any, closetab: boolean, navigationpath: string) {
+  saveForm = ($form: any, closetab: boolean, navigationpath: string) => {
     FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
   };
 
   //----------------------------------------------------------------------------------------------
-  afterLoad($form: any, $browse: any) { 
-    var $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
+  afterLoad = ($form: any, $browse: any) => { 
+    let $repairCostGrid: any = $form.find('[data-name="RepairCostGrid"]'); 
     FwBrowse.search($repairCostGrid); 
-    var $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
+    let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
     FwBrowse.search($repairPartGrid);
   };
-
   //----------------------------------------------------------------------------------------------
-  calculateTotals($form: any) {
+  calculateCostTotals = ($form: any) => {
     let extendedColumn: any = $form.find('.costgridextended');
     let totalSumFromExtended: any = 0;
 
@@ -231,10 +227,21 @@ class Repair {
       let inputValueFromExtended: any = parseInt($form.find('.costgridextended').eq(i).attr('data-originalvalue'));
       totalSumFromExtended += inputValueFromExtended;
     }
-    $form.find('[data-totalfield="Total"] input').val(totalSumFromExtended);
+    $form.find('[data-totalfield="CostTotal"] input').val(totalSumFromExtended);
   };
   //----------------------------------------------------------------------------------------------
-  calculateExtended($form: any) {
+  calculatePartTotals = ($form: any) => {
+    let extendedColumn: any = $form.find('.partgridextended');
+    let totalSumFromExtended: any = 0;
+
+    for (let i = 1; i < extendedColumn.length; i++) {
+      let inputValueFromExtended: any = parseInt($form.find('.partgridextended').eq(i).attr('data-originalvalue'));
+      totalSumFromExtended += inputValueFromExtended;
+    }
+    $form.find('[data-totalfield="PartTotal"] input').val(totalSumFromExtended);
+  };
+  //----------------------------------------------------------------------------------------------
+  calculateExtended = ($form: any) => {
     //let extendedSum: any = Number($form.find('.costgridextended').eq(1).attr('data-originalvalue'));
     let discountValue: any = parseInt($form.find('.costgriddiscount').eq(1).attr('data-originalvalue'));
     let rateValue: any = parseInt($form.find('.costgridrate').eq(1).attr('data-originalvalue'));
@@ -249,5 +256,5 @@ class Repair {
     $form.find('.costgridextended').eq(1).val(extendedSum);
   };
 }
-//---------------------------------------------------------------------------------
+  //------------------------------------------------------------------------------------------------
 var RepairController = new Repair();
