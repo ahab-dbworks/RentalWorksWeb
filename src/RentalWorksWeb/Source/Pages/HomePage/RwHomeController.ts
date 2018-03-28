@@ -74,14 +74,14 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].defaulttype)
+                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].defaulttype, response.Widgets[i].clickpath)
                 }
             }
         }, null, $control)
         
     }
 
-    renderWidget($control, apiname, type) {
+    renderWidget($control, apiname, type, chartpath) {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
@@ -107,7 +107,7 @@
                         var label = data.labels[activePoint._index];
                         var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                        program.getModule(response.clickpath + label.replace(/ /g, '%20'));
+                        program.getModule(chartpath + label.replace(/ /g, '%20'));
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -134,7 +134,7 @@
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                    program.getModule(response.clickpath + label.replace(/ /g, '%20'));
+                    program.getModule(chartpath + label.replace(/ /g, '%20'));
                 });
             } catch (ex) {
                 FwFunc.showError(ex);

@@ -1,3 +1,6 @@
+routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return QuoteController.getModuleScreen(filter); } });
+
 class Quote {
     Module: string;
     apiurl: string;
@@ -10,7 +13,7 @@ class Quote {
 
     }
 
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
 
         screen = {};
@@ -22,6 +25,17 @@ class Quote {
 
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Quote', false, 'BROWSE', true);
+
+            if (typeof filter !== 'undefined') {
+                filter.search = filter.search.replace(/%20/, ' ');
+                var datafields = filter.datafield.split('%20');
+                for (var i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('')
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
+
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

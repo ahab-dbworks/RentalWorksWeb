@@ -1,4 +1,5 @@
 ﻿routes.push({ pattern: /^module\/customer$/, action: function (match: RegExpExecArray) { return CustomerController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return CustomerController.getModuleScreen(filter); } });
 
 class Customer {
     Module: string;
@@ -12,7 +13,7 @@ class Customer {
         this.caption = 'Customer';
     }
 
-    getModuleScreen() {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -23,6 +24,17 @@ class Customer {
 
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+
+            if (typeof filter !== 'undefined') {
+                filter.search = filter.search.replace(/%20/, ' ');
+                var datafields = filter.datafield.split('%20');
+                for (var i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('')
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
+
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
