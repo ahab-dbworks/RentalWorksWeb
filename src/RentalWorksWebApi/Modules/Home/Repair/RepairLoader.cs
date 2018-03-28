@@ -145,6 +145,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "chargeinvoiceno", modeltype: FwDataTypes.Text)]
         public string ChargeInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "chargeinvoicedesc", modeltype: FwDataTypes.Text)]
+        public string ChargeInvoiceDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 

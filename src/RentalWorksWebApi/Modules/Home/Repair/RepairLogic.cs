@@ -92,6 +92,7 @@ namespace WebApi.Modules.Home.Repair
         public string ChargeInvoiceId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ChargeInvoiceNumber { get; set; }
+        public string ChargeInvoiceDescription { get; set; }
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
         public bool? Billable { get { return repair.Billable; } set { repair.Billable = value; } }
