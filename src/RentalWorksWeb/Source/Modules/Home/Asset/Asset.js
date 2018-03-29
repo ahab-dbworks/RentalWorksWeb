@@ -45,16 +45,26 @@ var RwAsset = (function () {
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         var $all = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
         var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        var view = [];
+        view[0] = 'WarehouseId=' + warehouse.warehouseid;
         $all.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'WarehouseId=ALL';
+            view[0] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $userWarehouse.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            view[0] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         var viewSubitems = [];
@@ -70,24 +80,40 @@ var RwAsset = (function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'TrackedBy=ALL';
+            view[1] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $trackBarcode.on('click', function () {
             var $browse, barcode, sortByBarcode;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'TrackedBy=BARCODE';
+            view[1] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $trackSerialNumber.on('click', function () {
             var $browse, serialNumber, sortBySerial;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'TrackedBy=SERIALNUMBER';
+            view[1] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $trackRFID.on('click', function () {
             var $browse, rfid, sortByRFID;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'TrackedBy=RFID';
+            view[1] = self.ActiveView;
+            if (view.length > 1) {
+                self.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         var viewTrack = [];
