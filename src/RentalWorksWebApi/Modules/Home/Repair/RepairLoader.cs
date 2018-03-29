@@ -55,6 +55,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pendingrepair", modeltype: FwDataTypes.Boolean)]
+        public bool? PendingRepair { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text)]
         public string RepairNumber { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -39,6 +39,7 @@ namespace WebApi.Modules.Home.Repair
         public string InventoryTypeId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryType { get; set; }
+        public bool? PendingRepair { get { return repair.PendingRepair; } set { repair.PendingRepair = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string RepairNumber { get { return repair.RepairNumber; } set { repair.RepairNumber = value; } }
         public string RepairDate { get { return repair.RepairDate; } set { repair.RepairDate = value; } }
