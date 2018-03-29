@@ -148,6 +148,33 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "chargeinvoicedesc", modeltype: FwDataTypes.Text)]
         public string ChargeInvoiceDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
+        public string TaxId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
+        public string TaxOptionId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
+        public string TaxOption { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborrate1", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "rentalrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? RentalTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? SalesTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "laborrate2", modeltype: FwDataTypes.Decimal)]
+        public decimal? LaborTaxRate2 { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 

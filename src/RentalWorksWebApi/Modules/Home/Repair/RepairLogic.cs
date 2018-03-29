@@ -93,6 +93,27 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public string ChargeInvoiceNumber { get; set; }
         public string ChargeInvoiceDescription { get; set; }
+
+
+        public string TaxOptionId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TaxOption { get; set; }
+
+
+        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate1 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTaxRate2 { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborTaxRate2 { get; set; }
+
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
         public bool? Billable { get { return repair.Billable; } set { repair.Billable = value; } }
