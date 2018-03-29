@@ -26,7 +26,7 @@ class Customer {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
-                filter.search = filter.search.replace(/%20/, ' ');
+                filter.search = filter.search.replace(/%20/g, ' ').replace(/%2f/g, '/');
                 var datafields = filter.datafield.split('%20');
                 for (var i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);

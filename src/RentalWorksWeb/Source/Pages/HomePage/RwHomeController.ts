@@ -107,7 +107,7 @@
                         var label = data.labels[activePoint._index];
                         var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                        program.getModule(chartpath + label.replace(/ /g, '%20'));
+                        program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -134,7 +134,7 @@
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                    program.getModule(chartpath + label.replace(/ /g, '%20'));
+                    program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                 });
             } catch (ex) {
                 FwFunc.showError(ex);
