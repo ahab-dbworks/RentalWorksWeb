@@ -193,10 +193,8 @@ class PartsInventory {
         var $inventoryQcGridControl: any;
         var $inventoryAttributeValueGrid: any;
         var $inventoryAttributeValueGridControl: any;
-
         var $inventoryPrepGrid: any;
         var $inventoryPrepGridControl: any;
-
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
