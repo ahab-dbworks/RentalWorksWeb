@@ -82,6 +82,11 @@ FwFormField_validation.getValue2 = function($fwformfield) {
     return value;
 };
 //---------------------------------------------------------------------------------
+FwFormField_validation.getText2 = function($fwformfield) {
+    var text = $fwformfield.find('.fwformfield-text').val();
+    return text;
+};
+//---------------------------------------------------------------------------------
 FwFormField_validation.setValue = function($fwformfield, value, text, firechangeevent) {
     var $inputvalue = $fwformfield.find('.fwformfield-value');
     var $inputtext  = $fwformfield.find('.fwformfield-text');

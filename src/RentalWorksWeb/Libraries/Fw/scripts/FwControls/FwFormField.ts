@@ -380,6 +380,17 @@
         return value;
     }
     //---------------------------------------------------------------------------------
+    static getTextByDataField($parent: JQuery, datafield: string) {
+        var selector, value;
+        selector = 'div[data-datafield="' + datafield + '"]';
+        try {
+            value = FwFormField.getText($parent, selector);
+        } catch (ex) {
+            throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
+        }
+        return value;
+    }
+    //---------------------------------------------------------------------------------
     static getText($parent: JQuery, selector: string) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);

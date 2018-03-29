@@ -39,20 +39,18 @@
             if (typeof $field.attr('data-formreadonly') === 'undefined') {
                 $field.attr('data-formreadonly', 'false');
             }
+            if (typeof $field.attr('data-datafield') !== 'undefined') {
+                $field.attr('data-browsedatafield', $field.attr('data-datafield'));
+                $field.attr('data-formdatafield', $field.attr('data-datafield'));
+                $field.removeAttr('data-datafield');
+            }
+            if (typeof $field.attr('data-datatype') !== 'undefined') {
+                $field.attr('data-browsedatatype', $field.attr('data-datatype'));
+                $field.attr('data-formdatatype', $field.attr('data-datatype'));
+                $field.removeAttr('data-datatype');
+            }
             if (typeof $field.attr('data-cssclass') === 'undefined') {
-                if (typeof $field.attr('data-datafield') !== 'undefined') {
-                    $field.attr('data-cssclass', $field.attr('data-datafield'));
-                    $field.attr('data-browsedatafield', $field.attr('data-datafield'));
-                    $field.attr('data-formdatafield', $field.attr('data-datafield'));
-                    $field.removeAttr('data-datafield');
-                } else {
-                    $field.attr('data-cssclass', $field.attr('data-browsedatafield'));
-                }
-                if (typeof $field.attr('data-datatype') !== 'undefined') {
-                    $field.attr('data-browsedatatype', $field.attr('data-datatype'));
-                    $field.attr('data-formdatatype', $field.attr('data-datatype'));
-                    $field.removeAttr('data-datatype');
-                }
+                $field.attr('data-cssclass', $field.attr('data-browsedatafield'));
             }
         }
 
@@ -1655,7 +1653,7 @@
                     if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
                         if (typeof $control.data('isfieldeditable') === 'function' && $control.data('isfieldeditable')($field, dt, rowIndex)) {
                             //do nothing
-                        } else {
+                        } else if ($control.attr('data-hasedit') == 'true') {
                             $field.addClass('editablefield');
                         }
                     }
@@ -1780,7 +1778,7 @@
                                     $control.data('onselectedrowchanged')($control, $tr);
                                 }
                             }
-                            if ($control.attr('data-type') === 'Grid' && !$tr.hasClass('editmode')) {
+                            if ($control.attr('data-type') === 'Grid' && $control.attr('data-enabled') !== 'false' && !$tr.hasClass('editmode')) {
                                 FwBrowse.setRowEditMode($control, $tr);
                                 $td.find('.value').focus();
                             }

@@ -342,6 +342,13 @@
         }
     }
     //---------------------------------------------------------------------------------
+    setApplicationTheme(setTheme: string) {
+        jQuery('html').removeClass( function(index, className) {
+            return (className.match(/(^|\s)theme-\S+/g) || []).join(' ');
+        });
+        jQuery('html').addClass(setTheme);
+    }
+    //---------------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------------
 window.onhashchange = function () {

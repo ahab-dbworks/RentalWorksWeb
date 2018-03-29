@@ -1170,9 +1170,8 @@ var FwModule = (function () {
         FwFormField.disable($fwformfields);
         $grids = $form.data('grids');
         $grids.each(function (index, element) {
-            var $this;
-            $this = jQuery(element);
-            FwBrowse.disableGrid($this);
+            var $grid = jQuery(element).find('div[data-control="FwBrowse"][data-type="Grid"]');
+            FwBrowse.disableGrid($grid);
         });
         $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');

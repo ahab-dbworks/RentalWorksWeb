@@ -17,7 +17,7 @@ var WebMaster = (function () {
             $headerView = this.getHeaderView();
         }
         $view.find('#master-header').append($headerView);
-        jQuery('html').addClass(applicationtheme);
+        program.setApplicationTheme(applicationtheme);
         return $view;
     };
     ;

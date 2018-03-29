@@ -363,6 +363,17 @@ var FwFormField = (function () {
         value = FwFormField.getValue2($fwformfield);
         return value;
     };
+    FwFormField.getTextByDataField = function ($parent, datafield) {
+        var selector, value;
+        selector = 'div[data-datafield="' + datafield + '"]';
+        try {
+            value = FwFormField.getText($parent, selector);
+        }
+        catch (ex) {
+            throw 'FwFormField.getValueByDataField: Unable to get value for datafield: ' + datafield;
+        }
+        return value;
+    };
     FwFormField.getText = function ($parent, selector) {
         var $fwformfield, value;
         $fwformfield = $parent.find(selector);

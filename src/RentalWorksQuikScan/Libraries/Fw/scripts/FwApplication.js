@@ -304,6 +304,12 @@ var FwApplication = (function () {
             this.navigate('default');
         }
     };
+    FwApplication.prototype.setApplicationTheme = function (setTheme) {
+        jQuery('html').removeClass(function (index, className) {
+            return (className.match(/(^|\s)theme-\S+/g) || []).join(' ');
+        });
+        jQuery('html').addClass(setTheme);
+    };
     return FwApplication;
 }());
 window.onhashchange = function () {

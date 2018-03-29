@@ -32,7 +32,7 @@ FwBasePages.getDefaultScreen = function(viewModel) {
         }
     });
 
-    jQuery('html').addClass('theme-material');
+    program.setApplicationTheme('theme-material');
 
     return screen;
 };

@@ -17,10 +17,8 @@ FwBrowseColumn_date.setFieldViewMode = function($browse, $field, $tr, html) {
 //---------------------------------------------------------------------------------
 FwBrowseColumn_date.setFieldEditMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
-    html.push('<div class="control">');
-        html.push('<input class="value" type="text" />');
-        html.push('<div class="btndate"><i class="material-icons">&#xE8DF;</i></div>');
-    html.push('</div>');
+    html.push('<input class="value" type="text" />');
+    html.push('<div class="btndate"><i class="material-icons">&#xE8DF;</i></div>');
     html = html.join('');
     $field.html(html);
     $field.find('input.value').val(originalvalue);
