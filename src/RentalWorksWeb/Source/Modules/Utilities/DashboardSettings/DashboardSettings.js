@@ -25,10 +25,16 @@ var DashboardSettings = (function () {
         $form = FwModule.openForm($form, mode);
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
+        var newsort = Sortable.create($form.find('.sortable').get(0), {
+            onEnd: function (evt) {
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        });
         return $form;
     };
     DashboardSettings.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
     };
     return DashboardSettings;
 }());

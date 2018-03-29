@@ -33,28 +33,23 @@ class DashboardSettings {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
-
-        //FwAppData.apiMethod(true, 'GET', "api/v1/widget/", null, FwServices.defaultTimeout, function onSuccess(response) {
-        //    console.log(response)
-        //    for (var i = 0; i < response.length; i++) {
-        //        widgets.push({
-        //            'text': response[i].Widget,
-        //            'value': response[i].WidgetId
-        //        })
-        //    }
-
-        //    FwFormField_checkboxlist.loadItems($form.find('.widgetorder'), widgets);
-        //}, null, $form)
-
         
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
+
+        var newsort = Sortable.create($form.find('.sortable').get(0), {
+            onEnd: function (evt) {
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        })
+
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
     }
     //----------------------------------------------------------------------------------------------
     //afterLoad($form: any) {
