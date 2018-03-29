@@ -146,6 +146,9 @@
         //$userControl.find('.user-dropdown').prepend($officelocation);
         $officelocation.on('click', function () {
             try {
+                var userlocation = JSON.parse(sessionStorage.getItem('location'));
+                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                var userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
                 var $select = FwConfirmation.addButton($confirmation, 'Select', false);
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
@@ -206,6 +209,8 @@
                                 FwConfirmation.destroyConfirmation($confirmation);
 
                                 program.navigate('home');
+                                $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                $usercontrol.find('.officelocation .value').text(response.location.location);
                             });
                         }
                     } catch (ex) {

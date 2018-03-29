@@ -140,6 +140,9 @@ var RwMaster = (function (_super) {
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
         $officelocation.on('click', function () {
             try {
+                var userlocation = JSON.parse(sessionStorage.getItem('location'));
+                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+                var userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
                 var $select = FwConfirmation.addButton($confirmation, 'Select', false);
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
@@ -195,6 +198,8 @@ var RwMaster = (function (_super) {
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 program.navigate('home');
+                                $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                $usercontrol.find('.officelocation .value').text(response.location.location);
                             });
                         }
                     }
