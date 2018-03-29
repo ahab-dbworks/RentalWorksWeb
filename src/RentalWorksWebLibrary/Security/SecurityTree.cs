@@ -51,12 +51,12 @@ namespace WebLibrary.Security
             AddModule("Deal", "{C67AD425-5273-4F80-A452-146B2008B41C}", lv1menuRentalWorks.Id, "DealController", "module/deal", homeiconbaseurl + "placeholder.png");
             AddModule("Order", "{64C46F51-5E00-48FA-94B6-FC4EF53FEA20}", lv1menuRentalWorks.Id, "OrderController", "module/order", homeiconbaseurl + "placeholder.png");
             AddModule("Order Status", "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuRentalWorks.Id, "OrderStatusController", "module/orderstatus", homeiconbaseurl + "placeholder.png");
+            AddModule("Parts Inventory", "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuRentalWorks.Id, "PartsInventoryController", "module/partsinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Pick List", "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuRentalWorks.Id, "PickListController", "module/picklist", homeiconbaseurl + "placeholder.png");
+            AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuRentalWorks.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order", "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuRentalWorks.Id, "RepairController", "module/repair", homeiconbaseurl + "placeholder.png");
-            AddModule("Parts Inventory", "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuRentalWorks.Id, "PartsInventoryController", "module/partsinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory", "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuRentalWorks.Id, "SalesInventoryController", "module/salesinventory", homeiconbaseurl + "placeholder.png");
-            AddModule("Quote", "{4D785844-BE8A-4C00-B1FA-2AA5B05183E5}", lv1menuRentalWorks.Id, "QuoteController", "module/quote", homeiconbaseurl + "placeholder.png");
             AddModule("Vendor", "{AE4884F4-CB21-4D10-A0B5-306BD0883F19}", lv1menuRentalWorks.Id, "VendorController", "module/vendor", homeiconbaseurl + "placeholder.png");
 
 
@@ -238,8 +238,6 @@ namespace WebLibrary.Security
                                            AddModule("Vendor Catalog", "{BDA5E2DC-0FD2-4227-B80F-8414F3F912B8}", lv2menuVendorSettings.Id, "VendorCatalogController", "module/vendorcatalog", settingsiconbaseurl + "placeholder.png");
                                            AddModule("Vendor Class", "{8B2C9EE3-AE87-483F-A651-8BA633E6C439}", lv2menuVendorSettings.Id, "VendorClassController", "module/vendorclass", settingsiconbaseurl + "placeholder.png");
                                            AddModule("SAP Vendor Invoice Status", "{1C8E14A3-73A8-4BB6-9B33-65D827B3ED0C}", lv2menuVendorSettings.Id, "SapVendorInvoiceStatusController", "module/sapvendorinvoicestatus", settingsiconbaseurl + "placeholder.png");
-
-
 
             var lv2menuWardrobeSettings = AddLv2ModuleMenu("Wardrobe Settings", "{910DAD78-B2AA-4220-89D3-B6A0FA3E0BA1}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                              AddModule("Wardrobe Care", "{BE6E4F7C-5D81-4437-A343-8F4933DD6545}", lv2menuWardrobeSettings.Id, "WardrobeCareController", "module/wardrobecare", settingsiconbaseurl + "placeholder.png");
