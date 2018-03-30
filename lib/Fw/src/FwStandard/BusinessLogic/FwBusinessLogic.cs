@@ -690,6 +690,10 @@ namespace FwStandard.BusinessLogic
             {
                 browseLoader.UserSession = this.UserSession;
             }
+            if (_Custom != null)
+            {
+                _Custom.UserSession = this.UserSession;
+            }
             foreach (FwDataReadWriteRecord dataRecord in dataRecords)
             {
                 dataRecord.UserSession = this.UserSession;
@@ -707,6 +711,11 @@ namespace FwStandard.BusinessLogic
             {
                 browseLoader.AppConfig = appConfig;
                 browseLoader.UserSession = userSession;
+            }
+            if (_Custom != null)
+            {
+                _Custom.AppConfig = appConfig;
+                _Custom.UserSession = userSession;
             }
             for (int i = 0; i < dataRecords.Count; i++)
             {
