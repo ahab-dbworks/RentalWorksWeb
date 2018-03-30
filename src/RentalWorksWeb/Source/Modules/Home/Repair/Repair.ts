@@ -162,6 +162,8 @@ class Repair {
               FwFormField.setValue($form, 'div[data-displayfield="BarCode"] ',$tr.find('.field[data-formdatafield="ItemId"]'), $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ',$tr.find('.field[data-formdatafield="ItemId"]'), $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="RfId"] ',$tr.find('.field[data-formdatafield="ItemId"]'), $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
+              FwFormField.disable($form.find('div[data-displayfield="ICode"]'));
+
           });
           // ICode Validation
           $form.find('div[data-datafield="InventoryId"]').data('onchange', $tr => {
@@ -170,6 +172,13 @@ class Repair {
               FwFormField.disable($form.find('div[data-displayfield="BarCode"]'));
               FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
               FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
+          });
+        // Order Validation
+          $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
+              FwFormField.setValue($form, 'div[data-datafield="DamageOrderDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="DamageDeal"]', $tr.find('.field[data-formdatafield="Deal"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="DamageContractNumber"]', $tr.find('.field[data-formdatafield="OrderNumber"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="RepairItemStatus"]', $tr.find('.field[data-formdatafield="Status"]').attr('data-originalvalue'));
           });
 
           FwFormField.disable($form.find('.frame'));
