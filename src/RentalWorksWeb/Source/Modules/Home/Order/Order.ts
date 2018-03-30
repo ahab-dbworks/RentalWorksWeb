@@ -513,7 +513,7 @@ class Order {
                     uniqueids.OrderId = response.OrderId;
                     var $form = OrderController.loadForm(uniqueids);
                 } else if (request.CopyToType == "Q") {
-                    uniqueids.QuoteId = response.OrderId;
+                    uniqueids.QuoteId = response.QuoteId;
                     var $form = QuoteController.loadForm(uniqueids);
                 }
                 FwModule.openModuleTab($form, "", true, 'FORM', true)

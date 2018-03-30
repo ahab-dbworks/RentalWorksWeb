@@ -550,7 +550,7 @@ class Quote {
 
                 var uniqueids: any = {};
                 if (request.CopyToType == "O") {
-                    uniqueids.OrderId = response.QuoteId;
+                    uniqueids.OrderId = response.OrderId;
                     var $form = OrderController.loadForm(uniqueids);
                 } else if (request.CopyToType == "Q") {
                     uniqueids.QuoteId = response.QuoteId;
