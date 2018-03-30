@@ -39,13 +39,13 @@ var RwHome = (function () {
                 FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + widgetName, null, FwServices.defaultTimeout, function onSuccess(response) {
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                     for (var i = 0; i < response.data.labels.length; i++) {
-                        html.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                        html.push('<div class="flexrow">');
                         html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
                         html.push('</div>');
                     }
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
-                }, null, $chartSettings);
+                }, null, null);
                 $select.on('click', function () {
                     try {
                     }
