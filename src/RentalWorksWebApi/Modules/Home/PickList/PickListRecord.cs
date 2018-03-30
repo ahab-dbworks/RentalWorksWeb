@@ -1,6 +1,7 @@
-using FwStandard.BusinessLogic; 
-using FwStandard.SqlServer; 
+using FwStandard.Models;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
@@ -81,6 +82,60 @@ namespace WebApi.Modules.Home.PickList
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<string> LoadFromSession(BrowseRequest request)
+        {
+            string id = "";
+            string sessionId = "";
+            string orderIds = "";
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("SessionId"))
+                {
+                    sessionId = uniqueIds["SessionId"].ToString();
+                }
+                if (uniqueIds.ContainsKey("OrderId"))
+                {
+                    orderIds = uniqueIds["OrderId"].ToString();
+                }
+            }
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "gettmppicklistitem", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                    qry.AddParameter("@orderids", SqlDbType.NVarChar, ParameterDirection.Input, orderIds);
+                    AddMiscFieldToQueryAsBoolean("ItemsNotYetStaged", "@itemsnotyetstaged", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsStaged", "@itemsstaged", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsOut", "@itemsout", qry, request);
+                    AddMiscFieldToQueryAsDate("PickDateFrom", "@pickdatefrom", qry, request);
+                    AddMiscFieldToQueryAsDate("PickDateTo", "@pickdateto", qry, request);
+                    AddMiscFieldToQueryAsBoolean("RentalItems", "@rentalitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SaleItems", "@saleitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("VendorItems", "@vendoritems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("LaborItems", "@laboritems", qry, request);
+                    AddMiscFieldToQueryAsString("WarehouseId", "@warehouseid", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitMain", "@completekitmains", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitAccessories", "@completekitaccessories", qry, request);
+                    AddMiscFieldToQueryAsBoolean("CompleteKitOptions", "@completekitoptions", qry, request);
+                    AddMiscFieldToQueryAsBoolean("StandAloneItems", "@standaloneitems", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ItemsOnOtherPickLists", "@itemsonotherpicklists", qry, request);
+                    AddMiscFieldToQueryAsBoolean("ReduceQuantityAlreadyPicked", "@reduceqtyalreadypicked", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SummarizeByICode", "@summarizebymaster", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SummarizeCompleteKitItems", "@summarizeacc", qry, request);
+                    AddMiscFieldToQueryAsBoolean("HonorCompleteKitItemTypes", "@honorcompletekititemtypes", qry, request);
+                    qry.AddParameter("@createpicklist", SqlDbType.NVarChar, ParameterDirection.Input, 'T');
+                    qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync(true);
+                    id = qry.GetParameter("@picklistid").ToString().TrimEnd();
+                }
+            }
+
+            return id;
+
+        }
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {

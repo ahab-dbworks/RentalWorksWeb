@@ -1,5 +1,6 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.Models;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
@@ -98,6 +99,14 @@ namespace WebApi.Modules.Home.PickList
             {
                 saved = pickList.SaveNoteASync(Note).Result;
             }
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> LoadFromSession(BrowseRequest browseRequest)
+        {
+            string id = await pickList.LoadFromSession(browseRequest);
+            PickListId = id;
+            bool x = await LoadAsync<PickListLogic>();
+            return x;
         }
         //------------------------------------------------------------------------------------
     }

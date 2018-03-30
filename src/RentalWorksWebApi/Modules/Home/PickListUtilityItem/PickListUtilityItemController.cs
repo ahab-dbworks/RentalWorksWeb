@@ -3,17 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Modules.Home.PickList;
+
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
     [Route("api/v1/[controller]")]
     public class PickListUtilityItemController : AppDataController
     {
-        //justin - temporary
-        public class PickListResponse
-        {
-            public string PickListId;
-        }
-
         public PickListUtilityItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/browse 
@@ -30,17 +26,14 @@ namespace WebApi.Modules.Home.PickListUtilityItem
             return await DoPostAsync<PickListUtilityItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/picklistutilityitem/createpicklist/A0000001 (sessionid)
-        [HttpPost("createpicklist/{sessionId}")]
-        //public async Task<IActionResult> CreatePickList([FromRoute]string sessionId)
-        public IActionResult CreatePickList([FromRoute]string sessionId)
+        // POST api/v1/picklistutilityitem/createpicklist
+        [HttpPost("createpicklist")]
+        public async Task<IActionResult> CreatePickList([FromBody]BrowseRequest browseRequest)
         {
-            //return await DoPostAsync<PickListUtilityItemLogic>(l);
-
-            //justin - temporary
-            PickListResponse r = new PickListResponse();
-            r.PickListId = sessionId;
-            return new OkObjectResult(r);
+            PickListLogic l = new PickListLogic();
+            l.SetDependencies(this.AppConfig, this.UserSession);
+            bool b = await l.LoadFromSession(browseRequest);
+            return new OkObjectResult(l);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/validateduplicate 

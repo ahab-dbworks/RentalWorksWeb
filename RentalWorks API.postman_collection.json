@@ -12390,16 +12390,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"TrackedByCode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"InventoryId\": \"000015P4\", \"WarehouseId\": \"0000000H\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"TrackedByCode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"WarehouseId\": \"0000000H\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -14154,16 +14156,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"Order\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
@@ -14172,7 +14176,7 @@
 				{
 					"name": "Orders: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/order/00007NU0",
+						"url": "http://localhost:57949/api/v1/order/F002K5H7",
 						"method": "GET",
 						"header": [
 							{
@@ -14235,6 +14239,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n   \"orderId\": \"000011KO\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Copy",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/copy/F01PTRNN",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CopyToType\": \"Q\",\n    \"CopyToDealId\": \"A006PZXR\",\n\t\"CopyRatesFromInventory\": true,\n\t\"CopyDates\": false,\n\t\"CopyLineItemNotes\": true,\n    \"CombineSubs\": false,\n    \"CopyDocuments\": true\n}"
 						},
 						"description": ""
 					},
@@ -16982,7 +17011,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"SessionId\": \"justin\", \"OrderId\": \"000090PV\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": false,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"SessionId\": \"F01R1152\", \"OrderId\": \"F01R1152\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -17041,7 +17070,7 @@
 				{
 					"name": "Pick List Utility Item: Create Pick List",
 					"request": {
-						"url": "http://localhost:57949/api/v1/picklistutilityitem/createpicklist/A0000001",
+						"url": "http://localhost:57949/api/v1/picklistutilityitem/createpicklist",
 						"method": "POST",
 						"header": [
 							{
@@ -17057,7 +17086,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SessionId\": \"justin\",\n    \"OrderId\": \"000090PV\",\n    \"OrderItemId\": \"000090QU\",\n    \"QuantityOrdered\": 3,\n    \"StagedQuantity\": 1,\n    \"OutQuantity\": 0,\n    \"QuantityInLocation\": 0,\n    \"PickQuantity\": 3\n}"
+							"raw": "{\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": false,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n     \t\"uniqueids\":{\"OrderId\":\"F01R0NZY\",\"SessionId\":\"F01R0NZY\"}\n}"
 						},
 						"description": ""
 					},
@@ -19927,7 +19956,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"QuoteNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
@@ -21041,7 +21070,7 @@
 				{
 					"name": "Repair: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/repair/00001PHE",
+						"url": "http://localhost:57949/api/v1/repair/F0115YD1",
 						"method": "GET",
 						"header": [
 							{
