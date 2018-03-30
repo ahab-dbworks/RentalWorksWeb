@@ -388,31 +388,31 @@ var Order = (function () {
         $confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
         $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        var request = {};
-        request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
-        request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
-        request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
-        request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
-        request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
-        request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
-        request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
-        if (request.CopyRatesFromInventory == "T") {
-            request.CopyRatesFromInventory = "False";
-        }
-        ;
-        for (var key in request) {
-            if (request.hasOwnProperty(key)) {
-                if (request[key] == "T") {
-                    request[key] = "True";
-                }
-                else if (request[key] == "F") {
-                    request[key] = "False";
-                }
-            }
-        }
-        ;
         $yes.on('click', makeACopy);
         function makeACopy() {
+            var request = {};
+            request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
+            request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+            request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+            request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
+            request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+            request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
+            request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+            if (request.CopyRatesFromInventory == "T") {
+                request.CopyRatesFromInventory = "False";
+            }
+            ;
+            for (var key in request) {
+                if (request.hasOwnProperty(key)) {
+                    if (request[key] == "T") {
+                        request[key] = "True";
+                    }
+                    else if (request[key] == "F") {
+                        request[key] = "False";
+                    }
+                }
+            }
+            ;
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
             $yes.text('Copying...');
