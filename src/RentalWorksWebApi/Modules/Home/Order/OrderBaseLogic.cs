@@ -5,7 +5,9 @@ using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Address;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
+using WebLibrary;
+using System.Threading.Tasks;
+using WebApi.Modules.Home.Quote;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -250,5 +252,29 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
+        public async Task<OrderBaseLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
+        {
+            string newQuoteId = await dealOrder.Copy(copyRequest);
+            string[] keys = { newQuoteId };
+
+            OrderBaseLogic lCopy = null;
+            if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
+            {
+                lCopy = new QuoteLogic();
+                lCopy.AppConfig = AppConfig;
+                lCopy.UserSession = UserSession;
+                bool x = await lCopy.LoadAsync<QuoteLogic>(keys);
+            }
+            else
+            {
+                lCopy = new OrderLogic();
+                lCopy.AppConfig = AppConfig;
+                lCopy.UserSession = UserSession;
+                bool x = await lCopy.LoadAsync<OrderLogic>(keys);
+            }
+            return lCopy;
+
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

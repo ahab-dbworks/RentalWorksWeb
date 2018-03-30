@@ -1,6 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
-using System.Threading.Tasks;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
@@ -34,19 +33,5 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<OrderBaseLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
-        {
-            string newOrderId = await dealOrder.Copy(copyRequest);
-            string[] keys = { newOrderId };
-            OrderLogic lCopy = new OrderLogic();
-            lCopy.AppConfig = AppConfig;
-            lCopy.UserSession = UserSession;
-            bool x = await lCopy.LoadAsync<OrderLogic>(keys);
-            return lCopy;
-        }
-        //------------------------------------------------------------------------------------
-
-
-
     }
 }

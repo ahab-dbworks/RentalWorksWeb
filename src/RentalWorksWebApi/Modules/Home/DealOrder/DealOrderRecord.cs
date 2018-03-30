@@ -216,7 +216,7 @@ namespace WebApi.Modules.Home.DealOrder
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, "QUOTE");
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, "A000001Q");  // temporary: todo: get logged-in usersid
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                 qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
                 OrderNumber = qry.GetParameter("@newcounter").ToString().TrimEnd();

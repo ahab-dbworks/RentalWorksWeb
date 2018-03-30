@@ -3,7 +3,6 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.Order;
 using System;
 using WebLibrary;
-using System.Threading.Tasks;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -44,16 +43,5 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<OrderBaseLogic> CopyAsync<T>(QuoteOrderCopyRequest copyRequest)
-        {
-            string newQuoteId = await dealOrder.Copy(copyRequest);
-            string[] keys = { newQuoteId };
-            QuoteLogic lCopy = new QuoteLogic();
-            lCopy.AppConfig = AppConfig;
-            lCopy.UserSession = UserSession;
-            bool x = await lCopy.LoadAsync<QuoteLogic>(keys);
-            return lCopy;
-        }
-        //------------------------------------------------------------------------------------    
     }
 }
