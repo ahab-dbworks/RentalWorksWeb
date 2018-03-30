@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System;
 using WebLibrary;
+using WebApi.Modules.Home.Order;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -38,8 +39,17 @@ namespace WebApi.Modules.Home.Quote
                 l.UserSession = UserSession;
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>(copyRequest);
-                    return new OkObjectResult(lCopy);
+                    //QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>(copyRequest);
+                    if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                    {
+                        QuoteLogic lCopy = (QuoteLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
+                        return new OkObjectResult(lCopy);
+                    }
+                    else
+                    {
+                        OrderLogic lCopy = (OrderLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
+                        return new OkObjectResult(lCopy);
+                    }
                 }
                 else
                 {
