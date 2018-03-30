@@ -44,14 +44,22 @@ class CreatePickList {
         }
 
         $form.find('.createpicklist').on('click', function () {
-            var $report;
+            var $report, request: any = {};
+
+            var miscfields = CreatePickListController.getOptions($form);
+            request.miscfields = miscfields;
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
+            };
             $report = RwPickListReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
             var sessionId = FwFormField.getValueByDataField($form, "OrderId");
-            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist/' + sessionId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
+                    FwModule.closeFormTab($form);
                     $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
-                    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListId);
+                    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -82,29 +90,8 @@ class CreatePickList {
         FwBrowse.init($pickListUtilityGridControl);
         FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
 
-        var $options = $form.find('.option');
         $form.find('.applyoptions').on('click', function () {
-            var miscfields: any = {};
-            var optionName, optionValue, optionType;
-            $options.each(function () {
-                optionName = jQuery(this).attr('data-datafield');
-                optionType = jQuery(this).attr('data-type');
-
-                if (optionType == "checkbox") {
-                    optionValue = jQuery(this).find('input:checked').val();
-                    if (optionValue == "on") {
-                        optionValue = true;
-                    } else {
-                        optionValue = false;
-                    }
-                } else {
-
-                    optionValue = jQuery(this).find('input').val();
-                }
-                if (!(optionType == "date" && optionValue == "")) {
-                    miscfields[optionName] = optionValue;
-                }
-            })
+            var miscfields = CreatePickListController.getOptions($form);
 
             $pickListUtilityGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
@@ -116,6 +103,33 @@ class CreatePickList {
             FwBrowse.search($pickListUtilityGridControl);
 
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    getOptions($form) {
+        var miscfields: any = {};
+        var $options = $form.find('.option');
+        var optionName, optionValue, optionType;
+        $options.each(function () {
+            optionName = jQuery(this).attr('data-datafield');
+            optionType = jQuery(this).attr('data-type');
+
+            if (optionType == "checkbox") {
+                optionValue = jQuery(this).find('input:checked').val();
+                if (optionValue == "on") {
+                    optionValue = true;
+                } else {
+                    optionValue = false;
+                }
+            } else {
+
+                optionValue = jQuery(this).find('input').val();
+            }
+            if (!(optionType == "date" && optionValue == "")) {
+                miscfields[optionName] = optionValue;
+            }
+        })
+
+        return miscfields;
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
