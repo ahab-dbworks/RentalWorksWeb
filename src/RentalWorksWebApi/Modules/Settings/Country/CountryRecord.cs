@@ -11,10 +11,10 @@ namespace WebApi.Modules.Settings.Country
         [FwSqlDataField(column: "countryid", modeltype: FwDataTypes.Text, maxlength: 8, isPrimaryKey: true)]
         public string CountryId { get; set; } = "";
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, maxlength: 12, required: true)]
+        [FwSqlDataField(column: "country", modeltype: FwDataTypes.Text, maxlength: 20, required: true)]
         public string Country { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "countrycode", modeltype: FwDataTypes.Text, maxlength: 2)]
+        [FwSqlDataField(column: "countrycode", modeltype: FwDataTypes.Text, maxlength: 3)]
         public string CountryCode { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isusa", modeltype: FwDataTypes.Boolean)]
