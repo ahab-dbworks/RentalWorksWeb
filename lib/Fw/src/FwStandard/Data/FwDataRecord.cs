@@ -400,17 +400,29 @@ namespace FwStandard.DataLayer
                             conditionConjunction = "  and ";
                         }
                         string parameterName = "@" + columns[request.searchfields[i]];
+
+                        // the upper function here will cause it to not use the index, this is not ideal
+                        bool doUpper = true;
+                        string searchField = columns[request.searchfields[i]];
+                        if (searchField.Equals("inactive"))
+                        {
+                            doUpper = false;
+                        }
+                        if (doUpper)
+                        {
+                            searchField = "upper(" + searchField + ")";
+                        }
+
                         if (request.searchfieldoperators[i] == "like")
                         {
-                            // the upper function here will cause it to not use the index, this is not ideal
-                            string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") like " + parameterName;
+
+                            string searchcondition = conditionConjunction + searchField + " like " + parameterName;
                             select.Add(searchcondition);
                             select.AddParameter(parameterName, "%" + request.searchfieldvalues[i].ToUpper() + "%");
                         }
                         else if (request.searchfieldoperators[i] == "=" || request.searchfieldoperators[i] == "<>")
                         {
-                            // the upper function here will cause it to not use the index, this is not ideal
-                            string searchcondition = conditionConjunction + "upper(" + columns[request.searchfields[i]] + ") " + request.searchfieldoperators[i] + " " + parameterName;
+                            string searchcondition = conditionConjunction + searchField + " " + request.searchfieldoperators[i] + " " + parameterName;
                             select.Add(searchcondition);
                             select.AddParameter(parameterName, request.searchfieldvalues[i].ToUpper());
                         }
