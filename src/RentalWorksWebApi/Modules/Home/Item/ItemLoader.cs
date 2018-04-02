@@ -478,22 +478,28 @@ namespace WebApi.Modules.Home.Item
 
             if ((request != null) && (request.activeview != null))
             {
-                if (request.activeview.Contains("WarehouseId="))
+                List<string> activeView = new List<string>(request.activeview.Split(','));
+
+                foreach (string s in activeView)
                 {
-                    string whId = request.activeview.Replace("WarehouseId=", "");
-                    if (!whId.Equals("ALL"))
+
+                    if (s.Contains("WarehouseId="))
                     {
-                        select.AddWhere("(warehouseid = @whid)");
-                        select.AddParameter("@whid", whId);
+                        string whId = s.Replace("WarehouseId=", "").Trim();
+                        if (!whId.Equals("ALL"))
+                        {
+                            select.AddWhere("(warehouseid = @whid)");
+                            select.AddParameter("@whid", whId);
+                        }
                     }
-                }
-                if (request.activeview.Contains("TrackedBy="))
-                {
-                    string trackedBy = request.activeview.Replace("TrackedBy=", "");
-                    if (!trackedBy.Equals("ALL"))
+                    if (s.Contains("TrackedBy="))
                     {
-                        select.AddWhere("(trackedby = @trackedby)");
-                        select.AddParameter("@trackedby", trackedBy);
+                        string trackedBy = s.Replace("TrackedBy=", "").Trim();
+                        if (!trackedBy.Equals("ALL"))
+                        {
+                            select.AddWhere("(trackedby = @trackedby)");
+                            select.AddParameter("@trackedby", trackedBy);
+                        }
                     }
                 }
             }
