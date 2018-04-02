@@ -129,7 +129,7 @@ class RwAsset {
         $trackSerialNumber.on('click', function () {
             var $browse, serialNumber, sortBySerial;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TrackedBy=SERIALNUMBER';
+            self.ActiveView = 'TrackedBy=SERIALNO';
 
             view[1] = self.ActiveView;
             if (view.length > 1) {
@@ -154,7 +154,7 @@ class RwAsset {
         viewTrack.push($trackSerialNumber);
         viewTrack.push($trackRFID);
         var $trackByView;
-        $trackByView = FwMenu.addViewBtn($menuObject, 'Track By', viewTrack);
+        $trackByView = FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack);
         return $menuObject;
     };
 
