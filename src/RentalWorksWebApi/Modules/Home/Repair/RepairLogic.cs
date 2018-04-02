@@ -1,5 +1,6 @@
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+using WebApi.Modules.Home.Tax;
 
 namespace WebApi.Modules.Home.Repair
 {
@@ -7,10 +8,12 @@ namespace WebApi.Modules.Home.Repair
     {
         //------------------------------------------------------------------------------------ 
         RepairRecord repair = new RepairRecord();
+        TaxRecord tax = new TaxRecord();
         RepairLoader repairLoader = new RepairLoader();
         public RepairLogic()
         {
             dataRecords.Add(repair);
+            dataRecords.Add(tax);
             dataLoader = repairLoader;
         }
         //------------------------------------------------------------------------------------ 
@@ -102,18 +105,12 @@ namespace WebApi.Modules.Home.Repair
 
 
         public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? RentalTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SalesTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? LaborTaxRate1 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? RentalTaxRate2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? SalesTaxRate2 { get; set; }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public decimal? LaborTaxRate2 { get; set; }
+        public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
+        public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
+        public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
+        public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
+        public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
+        public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
