@@ -211,6 +211,26 @@ class Order {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
 
+        $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+            } else {
+                FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
+            }
+        });
+
+        FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
+
+        //$form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+        //    FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+        //    FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+        //    FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        //});
+
         return $form;
     };
 
@@ -246,6 +266,7 @@ class Order {
     renderGrids($form) {
         var $orderPickListGrid;
         var $orderPickListGridControl;
+        var max = 9999;
 
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
@@ -281,7 +302,7 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'R'
             };
-
+            request.pagesize = max;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
@@ -289,6 +310,7 @@ class Order {
         );
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'rental');
+            this.calculateDiscount($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -303,13 +325,14 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'S'
             };
-
+            request.pagesize = max;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'sales');
+            this.calculateDiscount($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -325,12 +348,14 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'L'
             };
+            request.pagesize = max;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'labor');
+            this.calculateDiscount($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -346,6 +371,7 @@ class Order {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'M'
             };
+            request.pagesize = max;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
@@ -353,6 +379,7 @@ class Order {
         );
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateTotals($form, 'misc');
+            this.calculateDiscount($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -394,30 +421,6 @@ class Order {
         $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
         var html = [];
-        //html.push('<div style="white-space:pre;">\n');
-        //html.push('<strong>Copy From</strong><br><input type="radio" name="TypeSelect" value="fromOrder" disabled>Quote/ Order');
-        //html.push('<input type="radio" name= "TypeSelect" value="fromInvoice" style="margin-left:20px;" disabled> Invoice');
-        //html.push('<br><br><div style="float:left; padding-right: 10px;">');
-        //html.push('Type:<br><input type="text" name="Type" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        //html.push('Deal:<br><input type="text" name="Deal" style="width:245px; padding: 3px 3px; margin: 8px 0px; float:left;"disabled>');
-        //html.push('<br><div style="float:left; padding-right:10px;">');
-        //html.push('No:<br><input type="text" name="OrderNumber" style="width:80px; padding: 3px 3px; margin: 8px 0px;" disabled></div>');
-        //html.push('<br>Description:<br><input type="text" name="Description" style="width:245px;padding:3px 3px; margin: 8px 0px; float:left;" disabled> <br>');
-        //html.push('<br><br><strong>Copy To</strong><br><input type="radio" name="copyToType" value="Quote" >Quote');
-        //html.push('<input type="radio" name="copyToType" value="Order" style="margin-left:20px;">Order');
-        //html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        //html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy From" data-datafield="" data-formreadonly="true">');
-        //html.push('      <div data-value="QuoteOrder" data-caption="Quote/Order" > </div>');
-        //html.push('    <div data-value="Invoice" data-caption="Invoice" > </div></div><br>');
-        //html.push('<br><br>New Deal:<br><input type="text" name="NewDeal" style="width:240px; padding: 3px 3px; margin: 8px 0px;"><br>');
-        //html.push('<strong>Options</strong><br><input type="radio" name="Options" value="copy">Copy Cost/Rates from existing Quote/Order<br>');
-        //html.push('<input type="radio" name="Options" value="default">Use default Cost/Rates from Inventory<br><br>');
-        //html.push('<strong>Date Behavior</strong><br><input type="radio" name="DateBehavior" value="copy">Copy From/To Dates from existing Quote/Order<br>');
-        //html.push('<input type="radio" name="DateBehavior" value="current">Use Current Date<br><br>');
-        //html.push('<input type="checkbox" name="copyLineItemNotes" value="copyNotes">Copy Line Item Notes<br>');
-        //html.push('<input type="checkbox" name="combineSubs" value="combine">Combine Subs<br>');
-        //html.push('<input type="checkbox" name="copyDocuments" value="copyDocs">Copy Documents<br><br>');
-
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
@@ -526,7 +529,7 @@ class Order {
                 FwFormField.enable($yes);
             }, $form);
         };
-        
+
 
     };
 
@@ -625,23 +628,26 @@ class Order {
     };
 
     calculateTotals($form: any, gridType: string) {
-        var totals = 0;
-        var finalTotal;
+        var total: any = 0;
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended');
 
-        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-        if (periodExtended.length > 0) {
-            periodExtended.each(function () {
-                var value = jQuery(this).attr('data-originalvalue');
-                var toNumber = parseFloat(parseFloat(value).toFixed(2));
+        for (var i = 1; i < periodExtended.length; i++) {
+            var value: any = parseFloat(periodExtended.eq(i).attr('data-originalvalue'));
+                total += value;
+        };
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
 
-                totals += toNumber;
-                finalTotal = totals.toLocaleString();
+    };
 
-            });
+    calculateDiscount($form: any, gridType: string) {
+        var total: any = 0;
+        var periodDiscount = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
 
-            $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
-        }
-
+        for (var i = 1; i < periodDiscount.length; i++) {
+            var value: any = parseFloat(periodDiscount.eq(i).attr('data-originalvalue'));
+            total += value;
+        };
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(total);
 
     };
 
@@ -662,7 +668,9 @@ class Order {
 
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-browsedatafield');
-            fieldNames.push(name);
+            if (name != "QuantityOrdered") {
+                fieldNames.push(name);
+            }
         }
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {

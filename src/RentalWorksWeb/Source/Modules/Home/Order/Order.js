@@ -181,6 +181,18 @@ var Order = (function () {
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
+        $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+            }
+            else {
+                FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
+            }
+        });
+        FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
         return $form;
     };
     ;
@@ -211,6 +223,7 @@ var Order = (function () {
         var _this = this;
         var $orderPickListGrid;
         var $orderPickListGridControl;
+        var max = 9999;
         $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
         $orderPickListGrid.empty().append($orderPickListGridControl);
@@ -243,12 +256,14 @@ var Order = (function () {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'R'
             };
+            request.pagesize = max;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'rental');
+            _this.calculateDiscount($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -262,12 +277,14 @@ var Order = (function () {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'S'
             };
+            request.pagesize = max;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'sales');
+            _this.calculateDiscount($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -281,12 +298,14 @@ var Order = (function () {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'L'
             };
+            request.pagesize = max;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'labor');
+            _this.calculateDiscount($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -300,12 +319,14 @@ var Order = (function () {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'M'
             };
+            request.pagesize = max;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
             _this.calculateTotals($form, 'misc');
+            _this.calculateDiscount($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -526,25 +547,34 @@ var Order = (function () {
     };
     ;
     Order.prototype.calculateTotals = function ($form, gridType) {
-        var totals = 0;
-        var finalTotal;
-        var periodExtended = $form.find('.' + gridType + 'grid .periodextended.editablefield');
-        if (periodExtended.length > 0) {
-            periodExtended.each(function () {
-                var value = jQuery(this).attr('data-originalvalue');
-                var toNumber = parseFloat(parseFloat(value).toFixed(2));
-                totals += toNumber;
-                finalTotal = totals.toLocaleString();
-            });
-            $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val("$" + finalTotal);
+        var total = 0;
+        var periodExtended = $form.find('.' + gridType + 'grid .periodextended');
+        for (var i = 1; i < periodExtended.length; i++) {
+            var value = parseFloat(periodExtended.eq(i).attr('data-originalvalue'));
+            total += value;
         }
+        ;
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
+    };
+    ;
+    Order.prototype.calculateDiscount = function ($form, gridType) {
+        var total = 0;
+        var periodDiscount = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
+        for (var i = 1; i < periodDiscount.length; i++) {
+            var value = parseFloat(periodDiscount.eq(i).attr('data-originalvalue'));
+            total += value;
+        }
+        ;
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(total);
     };
     ;
     Order.prototype.dynamicColumns = function ($form) {
         var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"), $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'), $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'), $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'), $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'), rentalType = "RentalShow", salesType = "SalesShow", laborType = "LaborShow", miscType = "MiscShow", substring, column, fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'), fieldNames = [];
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-browsedatafield');
-            fieldNames.push(name);
+            if (name != "QuantityOrdered") {
+                fieldNames.push(name);
+            }
         }
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var key in response) {
