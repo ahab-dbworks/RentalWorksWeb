@@ -4,6 +4,8 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.PickList;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
@@ -30,10 +32,25 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         [HttpPost("createpicklist")]
         public async Task<IActionResult> CreatePickList([FromBody]BrowseRequest browseRequest)
         {
-            PickListLogic l = new PickListLogic();
-            l.SetDependencies(this.AppConfig, this.UserSession);
-            bool b = await l.LoadFromSession(browseRequest);
-            return new OkObjectResult(l);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PickListLogic l = new PickListLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                bool b = await l.LoadFromSession(browseRequest);
+                return new OkObjectResult(l);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/validateduplicate 
