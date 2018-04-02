@@ -14,32 +14,34 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            FwSqlSelect select;
-            FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
+            //justin 04/02/2018 removing this section for speed.  query not required for header
 
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
+            //FwSqlSelect select;
+            //FwSqlCommand qry;
+            //FwJsonDataTable dtDetails;
 
-            if (request.parameters.DateType == "InvoiceDate")
-            {
-                select.Add("select top 1 * from dbo.funcinvoicesummaryrpt");
-                select.Add("(@startdate, @enddate, null, null, 'F', 'F', 'F')");
-                select.Add("order by location, department, customer, deal");
-                select.AddParameter("@startdate", request.parameters.StartDate);
-                select.AddParameter("@enddate", request.parameters.EndDate);
-            }
-            else if (request.parameters.DateType == "BillingStartDate")
-            {
-                select.Add("select top 1 * from dbo.funcinvoicesummaryrpt");
-                select.Add("(null, null, @startdate, @enddate, 'F', 'F', 'F')");
-                select.Add("order by location, department, customer, deal");
-                select.AddParameter("@startdate", request.parameters.StartDate);
-                select.AddParameter("@enddate", request.parameters.EndDate);
-            }
+            //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            //select = new FwSqlSelect();
 
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
+            //if (request.parameters.DateType == "InvoiceDate")
+            //{
+            //    select.Add("select top 1 * from dbo.funcinvoicesummaryrpt");
+            //    select.Add("(@startdate, @enddate, null, null, 'F', 'F', 'F')");
+            //    select.Add("order by location, department, customer, deal");
+            //    select.AddParameter("@startdate", request.parameters.StartDate);
+            //    select.AddParameter("@enddate", request.parameters.EndDate);
+            //}
+            //else if (request.parameters.DateType == "BillingStartDate")
+            //{
+            //    select.Add("select top 1 * from dbo.funcinvoicesummaryrpt");
+            //    select.Add("(null, null, @startdate, @enddate, 'F', 'F', 'F')");
+            //    select.Add("order by location, department, customer, deal");
+            //    select.AddParameter("@startdate", request.parameters.StartDate);
+            //    select.AddParameter("@enddate", request.parameters.EndDate);
+            //}
+
+            //select.Parse();
+            //dtDetails = qry.QueryToFwJsonTable(select, true);
 
             StringBuilder sb;
             string html;
@@ -48,7 +50,7 @@ namespace Web.Source.Reports
             sb.Replace("[FROMDATE]", request.parameters.StartDate);
             sb.Replace("[TODATE]", request.parameters.EndDate);
             html = sb.ToString();
-            html = this.applyTableToTemplate(html, "header", dtDetails);
+            //html = this.applyTableToTemplate(html, "header", dtDetails);
 
             return html;
         }

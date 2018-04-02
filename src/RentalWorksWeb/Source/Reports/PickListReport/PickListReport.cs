@@ -14,20 +14,23 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            FwSqlSelect select;
-            FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
 
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
-            select.Add("select top 1 *");
-            select.Add("from  picklistrptview with (nolock)");
-            select.Add("where picklistid = @picklistid");
-            select.Add("order by orderno, pickdate, rectypesequence, itemorder, masterno");
-            select.AddParameter("@picklistid", request.parameters.PickListId);
+            //justin 04/02/2018 removing this section for speed.  query not required for header
 
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
+            //FwSqlSelect select;
+            //FwSqlCommand qry;
+            //FwJsonDataTable dtDetails;
+
+            //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            //select = new FwSqlSelect();
+            //select.Add("select top 1 *");
+            //select.Add("from  picklistrptview with (nolock)");
+            //select.Add("where picklistid = @picklistid");
+            //select.Add("order by orderno, pickdate, rectypesequence, itemorder, masterno");
+            //select.AddParameter("@picklistid", request.parameters.PickListId);
+
+            //select.Parse();
+            //dtDetails = qry.QueryToFwJsonTable(select, true);
 
             StringBuilder sb;
             string html;
@@ -38,7 +41,7 @@ namespace Web.Source.Reports
       
 
             html = sb.ToString();
-            html = this.applyTableToTemplate(html, "header", dtDetails);
+            //html = this.applyTableToTemplate(html, "header", dtDetails);
 
             return html;
         }

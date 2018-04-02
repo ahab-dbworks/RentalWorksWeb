@@ -14,28 +14,31 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            FwSqlSelect select;
-            FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
 
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
+            //justin 04/02/2018 removing this section for speed.  query not required for header
 
-            if (request.parameters.IncludeRemainingBalance == "T")
-            {
-                select.Add("select top 1 *");
-                select.Add("from creditsonaccountview");
-                select.Add("where ((totaldeposit - totalapplied - totalrefunded) > 0)");
-                select.Add("order by location, customer, deal");
-            } else
-            {
-                select.Add("select top 1 *");
-                select.Add("from creditsonaccountview");
-                select.Add("order by location, customer, deal");
-            }
+            //FwSqlSelect select;
+            //FwSqlCommand qry;
+            //FwJsonDataTable dtDetails;
 
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
+            //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            //select = new FwSqlSelect();
+
+            //if (request.parameters.IncludeRemainingBalance == "T")
+            //{
+            //    select.Add("select top 1 *");
+            //    select.Add("from creditsonaccountview");
+            //    select.Add("where ((totaldeposit - totalapplied - totalrefunded) > 0)");
+            //    select.Add("order by location, customer, deal");
+            //} else
+            //{
+            //    select.Add("select top 1 *");
+            //    select.Add("from creditsonaccountview");
+            //    select.Add("order by location, customer, deal");
+            //}
+
+            //select.Parse();
+            //dtDetails = qry.QueryToFwJsonTable(select, true);
             
             StringBuilder sb;
             string html;
@@ -46,7 +49,7 @@ namespace Web.Source.Reports
 
 
             html = sb.ToString();
-            html = this.applyTableToTemplate(html, "header", dtDetails);
+            //html = this.applyTableToTemplate(html, "header", dtDetails);
 
             return html;
         }

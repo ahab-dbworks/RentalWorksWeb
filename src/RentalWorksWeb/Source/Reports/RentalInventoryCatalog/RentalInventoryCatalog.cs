@@ -14,21 +14,24 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-            FwSqlSelect select;
-            FwSqlCommand qry;
-            FwJsonDataTable dtDetails;
 
-            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            select = new FwSqlSelect();
+            //justin 04/02/2018 removing this section for speed.  query not required for header
+
+            //FwSqlSelect select;
+            //FwSqlCommand qry;
+            //FwJsonDataTable dtDetails;
+
+            //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            //select = new FwSqlSelect();
             
-            select.Add("select top 1 * from inventorycatalogrptview m with (nolock)");
-            select.Add("where m.availfor = 'R'");
-            select.Add(" and   m.trackedby in ('BARCODE','QUANTITY','SERIALNO')");
-            select.Add(" and   m.class in ('I','A','C','K','N')");
-            select.Add("order by m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");            
+            //select.Add("select top 1 * from inventorycatalogrptview m with (nolock)");
+            //select.Add("where m.availfor = 'R'");
+            //select.Add(" and   m.trackedby in ('BARCODE','QUANTITY','SERIALNO')");
+            //select.Add(" and   m.class in ('I','A','C','K','N')");
+            //select.Add("order by m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");            
 
-            select.Parse();
-            dtDetails = qry.QueryToFwJsonTable(select, true);
+            //select.Parse();
+            //dtDetails = qry.QueryToFwJsonTable(select, true);
 
             StringBuilder sb;
             string html;
@@ -38,7 +41,7 @@ namespace Web.Source.Reports
             sb.Replace("[CURRENTDATE]", DateTime.Today.ToString("MMMM d, yyyy"));
 
             html = sb.ToString();
-            html = this.applyTableToTemplate(html, "header", dtDetails);
+            //html = this.applyTableToTemplate(html, "header", dtDetails);
 
             return html;
         }
