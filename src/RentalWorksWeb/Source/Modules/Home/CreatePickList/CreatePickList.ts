@@ -55,9 +55,12 @@ class CreatePickList {
             $report = RwPickListReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
             var sessionId = FwFormField.getValueByDataField($form, "OrderId");
+            var $tabpage = $form.parent();
+            var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
             FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
-                    FwModule.closeFormTab($form);
+
+                    FwModule.closeFormTab($tab);
                     $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
                     $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
                 }
