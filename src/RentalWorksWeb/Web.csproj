@@ -1139,6 +1139,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
     <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactCompanyValidation\ContactCompanyValidationBrowse.htm" />
+    <Content Include="Source\Validations\DiscountReasonValidation\DiscountReasonValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactValidation\ContactValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
