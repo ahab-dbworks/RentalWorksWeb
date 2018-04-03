@@ -142,6 +142,9 @@ namespace Web.Source.Reports
             rankList.Add(new FwReportStatusItem() { value = "B", text = "B", selected = "T" });
             rankList.Add(new FwReportStatusItem() { value = "C", text = "C", selected = "T" });
             rankList.Add(new FwReportStatusItem() { value = "D", text = "D", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "E", text = "E", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "F", text = "F", selected = "T" });
+            rankList.Add(new FwReportStatusItem() { value = "G", text = "G", selected = "T" });
 
             return rankList;
         }
