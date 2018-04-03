@@ -5,8 +5,8 @@ class PartsInventory {
     apiurl: string = 'api/v1/partsinventory';
     ActiveView: string  = 'ALL';
 
-    getModuleScreen() {
-        var screen, $browse;
+    getModuleScreen = () => {
+        let screen, $browse;
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -15,25 +15,24 @@ class PartsInventory {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, 'Parts Inventory', false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
-        screen.unload = function () {
+        screen.unload = () => {
             FwBrowse.screenunload($browse);
         };
 
         return screen;
     }
 
-    openBrowse() {
-        var self = this;
-        var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+    openBrowse = () => {
+        let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
         });
         FwBrowse.addLegend($browse, 'Item', '#ffffff');
         FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
@@ -45,75 +44,74 @@ class PartsInventory {
         return $browse;
     }
 
-    addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
-        var $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
-        var $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit', false);
-        var $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
-        var $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
+    addBrowseMenuItems = ($menuObject: any) => {
+        let $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
+        let $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
+        let $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
+        let $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit', false);
+        let $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
+        let $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
 
-        $all.on('click', function () {
-            var $browse;
+        $all.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+            this.ActiveView = 'ALL';
             FwBrowse.search($browse);
         });
-        $accessory.on('click', function () {
-            var $browse;
+        $accessory.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ACCESSORY';
+            this.ActiveView = 'ACCESSORY';
             FwBrowse.search($browse);
         });
-        $complete.on('click', function () {
-            var $browse;
+        $complete.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'COMPLETE';
+            this.ActiveView = 'COMPLETE';
             FwBrowse.search($browse);
         });
-        $kitset.on('click', function () {
-            var $browse;
+        $kitset.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'KITSET';
+            this.ActiveView = 'KITSET';
             FwBrowse.search($browse);
         });
-        $misc.on('click', function () {
-            var $browse;
+        $misc.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'MISC';
+            this.ActiveView = 'MISC';
             FwBrowse.search($browse);
         });
-        $container.on('click', function () {
-            var $browse;
+        $container.on('click', () => {
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CONTAINER';
+            this.ActiveView = 'CONTAINER';
             FwBrowse.search($browse);
         });
 
         FwMenu.addVerticleSeparator($menuObject);
 
-        var viewSubitems: Array<JQuery> = [];
+        let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all);
         viewSubitems.push($accessory);
         viewSubitems.push($complete);
         viewSubitems.push($kitset);
         viewSubitems.push($misc);
         viewSubitems.push($container);
-        var $view;
+        let $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
         return $menuObject;
     };
 
-    openForm(mode: string) {
-        var $form;
+    openForm = (mode: string) => {
+        let $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
+        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', () => {
+            let $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
@@ -126,7 +124,7 @@ class PartsInventory {
             FwFormField.enable($form.find('[data-datafield="Classification"]'));
         };
 
-        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="InventoryTypeId"]').data('onchange', $tr => {
             if ($tr.find('.field[data-browsedatafield="Wardrobe"]').attr('data-originalvalue') === 'true') {
                 $form.find('.wardrobetab').show();
             } else {
@@ -134,7 +132,7 @@ class PartsInventory {
             }
         });
 
-        $form.find('div[data-datafield="CategoryId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="CategoryId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('.subcategory'));
             if ($tr.find('.field[data-browsedatafield="SubCategoryCount"]').attr('data-originalvalue') > 0) {
                 FwFormField.enable($form.find('.subcategory'));
@@ -147,7 +145,7 @@ class PartsInventory {
     }
 
     loadForm(uniqueids: any) {
-        var $form, $rank;
+        let $form, $rank;
 
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
@@ -168,39 +166,39 @@ class PartsInventory {
         FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
+    loadAudit = ($form: any) => {
+        let uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
-    renderGrids($form: any) {
-        var $itemLocationTaxGrid: any;
-        var $itemLocationTaxGridControl: any;
-        var $salesInventoryWarehouseGrid: any;
-        var $salesInventoryWarehouseGridControl: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryAvailabilityGridControl: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryConsignmentGridControl: any;
-        var $inventoryCompleteKitGrid: any;
-        var $inventoryCompleteKitGridControl: any;
-        var $partsinventorySubstituteGrid: any;
-        var $partsinventorySubstituteGridControl: any;
-        var $partsinventoryCompatibilityGrid: any;
-        var $partsinventoryCompatibilityGridControl: any;
-        var $inventoryQcGrid: any;
-        var $inventoryQcGridControl: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryAttributeValueGridControl: any;
-        var $inventoryPrepGrid: any;
-        var $inventoryPrepGridControl: any;
+    renderGrids = ($form: any) => {
+        let $itemLocationTaxGrid: any;
+        let $itemLocationTaxGridControl: any;
+        let $salesInventoryWarehouseGrid: any;
+        let $salesInventoryWarehouseGridControl: any;
+        let $inventoryAvailabilityGrid: any;
+        let $inventoryAvailabilityGridControl: any;
+        let $inventoryConsignmentGrid: any;
+        let $inventoryConsignmentGridControl: any;
+        let $inventoryCompleteKitGrid: any;
+        let $inventoryCompleteKitGridControl: any;
+        let $partsinventorySubstituteGrid: any;
+        let $partsinventorySubstituteGridControl: any;
+        let $partsinventoryCompatibilityGrid: any;
+        let $partsinventoryCompatibilityGridControl: any;
+        let $inventoryQcGrid: any;
+        let $inventoryQcGridControl: any;
+        let $inventoryAttributeValueGrid: any;
+        let $inventoryAttributeValueGridControl: any;
+        let $inventoryPrepGrid: any;
+        let $inventoryPrepGridControl: any;
 
         // load AttributeValue Grid
         $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
         $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
         $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
-        $itemLocationTaxGridControl.data('ondatabind', function (request) {
+        $itemLocationTaxGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
@@ -211,12 +209,12 @@ class PartsInventory {
         $salesInventoryWarehouseGrid = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
         $salesInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryWarehouseGridBrowse').html());
         $salesInventoryWarehouseGrid.empty().append($salesInventoryWarehouseGridControl);
-        $salesInventoryWarehouseGridControl.data('ondatabind', function (request) {
+        $salesInventoryWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $salesInventoryWarehouseGridControl.data('beforesave', function (request) {
+        $salesInventoryWarehouseGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($salesInventoryWarehouseGridControl);
@@ -225,7 +223,7 @@ class PartsInventory {
         $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
         $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
         $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
-        $inventoryCompleteKitGridControl.data('ondatabind', function (request) {
+        $inventoryCompleteKitGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
@@ -236,12 +234,12 @@ class PartsInventory {
         $partsinventorySubstituteGrid = $form.find('div[data-grid="PartsInventorySubstituteGrid"]');
         $partsinventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-PartsInventorySubstituteGridBrowse').html());
         $partsinventorySubstituteGrid.empty().append($partsinventorySubstituteGridControl);
-        $partsinventorySubstituteGridControl.data('ondatabind', function (request) {
+        $partsinventorySubstituteGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $partsinventorySubstituteGridControl.data('beforesave', function (request) {
+        $partsinventorySubstituteGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($partsinventorySubstituteGridControl);
@@ -250,12 +248,12 @@ class PartsInventory {
         $partsinventoryCompatibilityGrid = $form.find('div[data-grid="PartsInventoryCompatibilityGrid"]');
         $partsinventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-PartsInventoryCompatibilityGridBrowse').html());
         $partsinventoryCompatibilityGrid.empty().append($partsinventoryCompatibilityGridControl);
-        $partsinventoryCompatibilityGridControl.data('ondatabind', function (request) {
+        $partsinventoryCompatibilityGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $partsinventoryCompatibilityGridControl.data('beforesave', function (request) {
+        $partsinventoryCompatibilityGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($partsinventoryCompatibilityGridControl);
@@ -264,12 +262,12 @@ class PartsInventory {
         $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
         $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
-        $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
+        $inventoryAttributeValueGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $inventoryAttributeValueGridControl.data('beforesave', function (request) {
+        $inventoryAttributeValueGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
@@ -278,34 +276,32 @@ class PartsInventory {
         $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
         $inventoryPrepGridControl = jQuery(jQuery('#tmpl-grids-InventoryPrepGridBrowse').html());
         $inventoryPrepGrid.empty().append($inventoryPrepGridControl);
-        $inventoryPrepGridControl.data('ondatabind', function (request) {
+        $inventoryPrepGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $inventoryPrepGridControl.data('beforesave', function (request) {
+        $inventoryPrepGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
-
- 
     }
 
-    afterLoad($form: any) {
-        var $itemLocationTaxGrid: any;
-        var $salesInventoryWarehouseGrid: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryCompleteKitGrid: any;
-        var $partsinventorySubstituteGrid: any;
-        var $partsinventoryCompatibilityGrid: any;
-        var $inventoryQcGrid: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryVendorGrid: any;
-        var $inventoryPrepGrid: any;
-        var $wardrobeInventoryColorGrid: any;
-        var $wardrobeInventoryMaterialGrid: any;
+    afterLoad = ($form: any) => {
+        let $itemLocationTaxGrid: any;
+        let $salesInventoryWarehouseGrid: any;
+        let $inventoryAvailabilityGrid: any;
+        let $inventoryConsignmentGrid: any;
+        let $inventoryCompleteKitGrid: any;
+        let $partsinventorySubstituteGrid: any;
+        let $partsinventoryCompatibilityGrid: any;
+        let $inventoryQcGrid: any;
+        let $inventoryAttributeValueGrid: any;
+        let $inventoryVendorGrid: any;
+        let $inventoryPrepGrid: any;
+        let $wardrobeInventoryColorGrid: any;
+        let $wardrobeInventoryMaterialGrid: any;
 
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         FwBrowse.search($itemLocationTaxGrid);
@@ -391,9 +387,9 @@ class PartsInventory {
     }
 
     beforeValidate = ($browse, $grid, request) => {
-        var validationName = request.module;
-        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        var CategoryTypeId = jQuery($grid.find('[data-validationname="PartsCategoryValidation"] input')).val();
+        const validationName = request.module;
+        const InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const CategoryTypeId = jQuery($grid.find('[data-validationname="PartsCategoryValidation"] input')).val();
 
         switch (validationName) {
             case 'InventoryTypeValidation':
@@ -417,4 +413,4 @@ class PartsInventory {
 
 }
 
-var PartsInventoryController = new PartsInventory();
+const PartsInventoryController = new PartsInventory();

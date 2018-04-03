@@ -31,7 +31,9 @@ class Repair {
   renderGrids = ($form: any) => {
 
       let $repairCostGrid, $repairCostGridControl; 
- 
+      let $repairPartGrid, $repairPartGridControl; 
+
+      //----------------------------------------------------------------------------------------------
       $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
       $repairCostGridControl = jQuery(jQuery('#tmpl-grids-RepairCostGridBrowse').html()); 
       $repairCostGrid.empty().append($repairCostGridControl); 
@@ -52,8 +54,6 @@ class Repair {
       FwBrowse.renderRuntimeHtml($repairCostGridControl);
     
       //----------------------------------------------------------------------------------------------
-      let $repairPartGrid, $repairPartGridControl; 
- 
       $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
       $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
       $repairPartGrid.empty().append($repairPartGridControl); 
@@ -129,10 +129,11 @@ class Repair {
       return $menuObject;
     };
   //----------------------------------------------------------------------------------------------
-  openForm(mode: string) {
+  openForm = (mode: string) => {
       let $form;
       $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
       $form = FwModule.openForm($form, mode);
+      $form.find('.icodesales').hide();
 
       if (mode === 'NEW') {
           $form.find('.ifnew').attr('data-enabled', 'true');
@@ -187,15 +188,15 @@ class Repair {
               FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
           });
 
-          // Sales Order
-          $form.find('div[data-datafield="AvailFor"]').data('onchange', $tr => {
-            console.log('here')
-            if ($form.find('[data-datafield="AvailFor"]').attr('data-originalvalue') === 'S') {
-                FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+          // Sales or Rent Order
+         $form.find('.repairavailforradio').on('change', $tr => {
+            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                $form.find('.icodesales').show();
+                $form.find('.icoderental').hide();
             }
             else {
-                //FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-                //FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+                $form.find('.icodesales').hide();
+                $form.find('.icoderental').show();
             }
           });
 
@@ -207,8 +208,8 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  loadForm(uniqueids: any) {
-      var $form: JQuery = this.openForm('EDIT');
+  loadForm = (uniqueids: any) => {
+      let $form: JQuery = this.openForm('EDIT');
       $form = this.openForm('EDIT');
       $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
       FwModule.loadForm(this.Module, $form);
@@ -234,7 +235,7 @@ class Repair {
       let totalSumFromExtended: any = 0;
 
       for (let i = 1; i < extendedColumn.length; i++) {
-          let inputValueFromExtended: any = parseInt($form.find('.costgridextended').eq(i).attr('data-originalvalue'));
+          let inputValueFromExtended: any = parseFloat($form.find('.costgridextended').eq(i).attr('data-originalvalue'));
           totalSumFromExtended += inputValueFromExtended;
       }
       $form.find('[data-totalfield="CostTotal"] input').val(totalSumFromExtended);
@@ -245,7 +246,7 @@ class Repair {
       let totalSumFromExtended: any = 0;
 
       for (let i = 1; i < extendedColumn.length; i++) {
-          let inputValueFromExtended: any = parseInt($form.find('.partgridextended').eq(i).attr('data-originalvalue'));
+          let inputValueFromExtended: any = parseFloat($form.find('.partgridextended').eq(i).attr('data-originalvalue'));
           totalSumFromExtended += inputValueFromExtended;
       }
       $form.find('[data-totalfield="PartTotal"] input').val(totalSumFromExtended);
