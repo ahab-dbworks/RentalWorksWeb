@@ -7,21 +7,20 @@ class Repair {
     caption: string = 'Repair Order';
     ActiveView: string;
 
-    getModuleScreen() {
-        var me: Repair = this;
-        var screen: any = {};
+    getModuleScreen = () => {
+        let screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
         var $browse: JQuery = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, me.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
-        screen.unload = function () {
+        screen.unload = () => {
             FwBrowse.screenunload($browse);
         };
 
@@ -103,7 +102,7 @@ class Repair {
 
     addBrowseMenuItems = ($menuObject: any) => {
   
-      let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
       let $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
       let $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
 
@@ -137,10 +136,10 @@ class Repair {
 
       if (mode === 'NEW') {
           $form.find('.ifnew').attr('data-enabled', 'true');
-          let today = new Date(Date.now()).toLocaleString().split(',')[0];
-          let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-          let office = JSON.parse(sessionStorage.getItem('location'));
-          let department = JSON.parse(sessionStorage.getItem('department'));
+          const today = new Date(Date.now()).toLocaleString().split(',')[0];
+          const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+          const office = JSON.parse(sessionStorage.getItem('location'));
+          const department = JSON.parse(sessionStorage.getItem('department'));
 
           $form.find('div[data-datafield="Department"] input').val(department.department);
           FwFormField.setValueByDataField($form, 'RepairDate', today);
@@ -174,11 +173,31 @@ class Repair {
               FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
               FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
           });
-        // Order Validation
-          $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
+          // Order Validation
+          $form.find('div[data-datafield="DamageOrderId"]').data('onchange', $tr => {
               FwFormField.setValue($form, 'div[data-datafield="DamageOrderDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-datafield="DamageDeal"]', $tr.find('.field[data-formdatafield="Deal"]').attr('data-originalvalue'));
           });
+
+          // Sales Order
+          $form.find('div[data-datafield="AvailFor"]').data('onchange', $tr => {
+            console.log('here')
+            if ($form.find('[data-datafield="AvailFor"]').attr('data-originalvalue') === 'S') {
+                FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+            }
+            else {
+                //FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+                //FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+            }
+          });
+
+          // Tax Option Validation
+          $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+              FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-formdatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-formdatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+          });
+
 
           FwFormField.disable($form.find('.frame'));
           $form.find(".frame .add-on").children().hide();
