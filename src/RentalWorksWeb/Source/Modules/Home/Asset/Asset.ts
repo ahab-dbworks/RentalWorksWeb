@@ -1,19 +1,12 @@
-class RwAsset {
-    Module: string;
-    apiurl: string;
-    caption: string;
-    nameItemAttributeValueGrid: string;
-    nameItemQcGrid: string;
-    ActiveView: string;
+routes.push({ pattern: /^module\/asset$/, action: function (match: RegExpExecArray) { return AssetController.getModuleScreen(); } });
 
-    constructor() {
-        this.Module = 'Asset';
-        this.apiurl = 'api/v1/item';
-        this.caption = 'Asset';
-        this.nameItemAttributeValueGrid = 'ItemAttributeValueGrid';
-        this.nameItemQcGrid = 'ItemQcGrid';
-        this.ActiveView = 'ALL';
-    }
+class RwAsset {
+    Module: string = 'Asset';
+    apiurl: string = 'api/v1/item';
+    caption: string  = 'Asset';
+    nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
+    nameItemQcGrid: string  = 'ItemQcGrid';
+    ActiveView: string = 'ALL';
 
     getModuleScreen() {
         var self = this;

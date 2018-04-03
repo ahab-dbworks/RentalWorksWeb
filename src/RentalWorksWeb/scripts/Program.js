@@ -80,7 +80,6 @@ routes.push({ pattern: /^module\/vehicleschedulestatus$/, action: function (matc
 routes.push({ pattern: /^module\/vehiclecolor$/, action: function (match) { return VehicleColorController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/facilityschedulestatus$/, action: function (match) { return FacilityScheduleStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/unit$/, action: function (match) { return UnitController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/asset$/, action: function (match) { return AssetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/poapprover$/, action: function (match) { return POApproverController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/userstatus$/, action: function (match) { return UserStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/crewstatus/, action: function (match) { return CrewStatusController.getModuleScreen(); } });

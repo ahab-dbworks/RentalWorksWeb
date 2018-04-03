@@ -1,3 +1,4 @@
+routes.push({ pattern: /^module\/asset$/, action: function (match) { return AssetController.getModuleScreen(); } });
 var RwAsset = (function () {
     function RwAsset() {
         this.Module = 'Asset';

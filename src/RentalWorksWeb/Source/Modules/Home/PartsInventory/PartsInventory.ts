@@ -185,10 +185,10 @@ class PartsInventory {
         var $inventoryConsignmentGridControl: any;
         var $inventoryCompleteKitGrid: any;
         var $inventoryCompleteKitGridControl: any;
-        var $inventorySubstituteGrid: any;
-        var $inventorySubstituteGridControl: any;
-        var $inventoryCompatibilityGrid: any;
-        var $inventoryCompatibilityGridControl: any;
+        var $partsinventorySubstituteGrid: any;
+        var $partsinventorySubstituteGridControl: any;
+        var $partsinventoryCompatibilityGrid: any;
+        var $partsinventoryCompatibilityGridControl: any;
         var $inventoryQcGrid: any;
         var $inventoryQcGridControl: any;
         var $inventoryAttributeValueGrid: any;
@@ -233,33 +233,33 @@ class PartsInventory {
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
 
-        $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
-        $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-InventorySubstituteGridBrowse').html());
-        $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
-        $inventorySubstituteGridControl.data('ondatabind', function (request) {
+        $partsinventorySubstituteGrid = $form.find('div[data-grid="PartsInventorySubstituteGrid"]');
+        $partsinventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-PartsInventorySubstituteGridBrowse').html());
+        $partsinventorySubstituteGrid.empty().append($partsinventorySubstituteGridControl);
+        $partsinventorySubstituteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $inventorySubstituteGridControl.data('beforesave', function (request) {
+        $partsinventorySubstituteGridControl.data('beforesave', function (request) {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
-        FwBrowse.init($inventorySubstituteGridControl);
-        FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
+        FwBrowse.init($partsinventorySubstituteGridControl);
+        FwBrowse.renderRuntimeHtml($partsinventorySubstituteGridControl);
 
-        $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
-        $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompatibilityGridBrowse').html());
-        $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
-        $inventoryCompatibilityGridControl.data('ondatabind', function (request) {
+        $partsinventoryCompatibilityGrid = $form.find('div[data-grid="PartsInventoryCompatibilityGrid"]');
+        $partsinventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-PartsInventoryCompatibilityGridBrowse').html());
+        $partsinventoryCompatibilityGrid.empty().append($partsinventoryCompatibilityGridControl);
+        $partsinventoryCompatibilityGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $inventoryCompatibilityGridControl.data('beforesave', function (request) {
+        $partsinventoryCompatibilityGridControl.data('beforesave', function (request) {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
-        FwBrowse.init($inventoryCompatibilityGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
+        FwBrowse.init($partsinventoryCompatibilityGridControl);
+        FwBrowse.renderRuntimeHtml($partsinventoryCompatibilityGridControl);
 
         $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
         $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
@@ -298,8 +298,8 @@ class PartsInventory {
         var $inventoryAvailabilityGrid: any;
         var $inventoryConsignmentGrid: any;
         var $inventoryCompleteKitGrid: any;
-        var $inventorySubstituteGrid: any;
-        var $inventoryCompatibilityGrid: any;
+        var $partsinventorySubstituteGrid: any;
+        var $partsinventoryCompatibilityGrid: any;
         var $inventoryQcGrid: any;
         var $inventoryAttributeValueGrid: any;
         var $inventoryVendorGrid: any;
@@ -317,10 +317,10 @@ class PartsInventory {
         FwBrowse.search($inventoryConsignmentGrid);
         $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
         FwBrowse.search($inventoryCompleteKitGrid);
-        $inventorySubstituteGrid = $form.find('[data-name="SalesInventorySubstituteGrid"]');
-        FwBrowse.search($inventorySubstituteGrid);
-        $inventoryCompatibilityGrid = $form.find('[data-name="SalesInventoryCompatibilityGrid"]');
-        FwBrowse.search($inventoryCompatibilityGrid);
+        $partsinventorySubstituteGrid = $form.find('[data-name="PartsInventorySubstituteGrid"]');
+        FwBrowse.search($partsinventorySubstituteGrid);
+        $partsinventoryCompatibilityGrid = $form.find('[data-name="PartsInventoryCompatibilityGrid"]');
+        FwBrowse.search($partsinventoryCompatibilityGrid);
         $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
         FwBrowse.search($inventoryQcGrid);
         $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');

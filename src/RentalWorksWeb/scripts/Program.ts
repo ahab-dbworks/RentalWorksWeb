@@ -89,7 +89,6 @@ routes.push({ pattern: /^module\/vehicleschedulestatus$/, action: function (matc
 routes.push({ pattern: /^module\/vehiclecolor$/, action: function (match: RegExpExecArray) { return VehicleColorController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/facilityschedulestatus$/, action: function (match: RegExpExecArray) { return FacilityScheduleStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/unit$/, action: function (match: RegExpExecArray) { return UnitController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/asset$/, action: function (match: RegExpExecArray) { return AssetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/poapprover$/, action: function (match: RegExpExecArray) { return POApproverController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/userstatus$/, action: function (match: RegExpExecArray) { return UserStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/crewstatus/, action: function (match: RegExpExecArray) { return CrewStatusController.getModuleScreen(); } });

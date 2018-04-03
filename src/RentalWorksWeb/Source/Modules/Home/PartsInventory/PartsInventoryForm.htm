@@ -12,6 +12,7 @@
       <div data-type="tab" id="attributestab" class="tab" data-tabpageid="attributestabpage" data-caption="Attributes"></div>
       <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
       <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+      <div data-type="tab" id="profitlosstab" class="tab" data-tabpageid="profitlosstabpage" data-caption="Profit / Loss"></div>
     </div>
     <div class="tabpages">
       <!-- Parts Item tab -->
@@ -106,7 +107,7 @@
           <div class="formrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Substitute Items" style="width:750px">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwGrid" data-grid="InventorySubstituteGrid" data-securitycaption="Inventory Substitute"></div>
+                <div data-control="FwGrid" data-grid="PartsInventorySubstituteGrid" data-securitycaption="Inventory Substitute"></div>
               </div>
             </div>
           </div>
@@ -119,7 +120,7 @@
             <div class="formcolumn" style="width:450px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Compatibility">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwGrid" data-grid="InventoryCompatibilityGrid" data-securitycaption="Inventory Compatibility"></div>
+                  <div data-control="FwGrid" data-grid="PartsInventoryCompatibilityGrid" data-securitycaption="Inventory Compatibility"></div>
                 </div>
               </div>
             </div>
@@ -349,6 +350,19 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Copy Notes" style="width:375px;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically Copy Inventory Notes to Quote/Order" data-datafield="AutoCopyNotesToQuoteOrder" style="width:350px;margin-top:0px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Profit & Loss tab -->
+      <div data-type="tabpage" id="profitlosstabpage" class="tabpage" data-tabid="profitlosstab">
+        <div class="formpage">
+          <div class="formrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit &amp; Loss Report" style="width:500px;">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override Category for Profit &amp; Loss Report" data-datafield="OverrideProfitAndLossCategory" style="width:350px;margin-top:0px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield category" data-caption="Category" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="PartsCategoryValidation" data-enabled="false" style="width:350px;"></div>
               </div>
             </div>
           </div>

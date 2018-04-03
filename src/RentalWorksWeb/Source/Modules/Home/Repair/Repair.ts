@@ -173,10 +173,18 @@ class Repair {
               FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
               FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
           });
+
           // Order Validation
           $form.find('div[data-datafield="DamageOrderId"]').data('onchange', $tr => {
               FwFormField.setValue($form, 'div[data-datafield="DamageOrderDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-datafield="DamageDeal"]', $tr.find('.field[data-formdatafield="Deal"]').attr('data-originalvalue'));
+          });
+
+          // Tax Option Validation
+          $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+              FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-formdatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-formdatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
           });
 
           // Sales Order
@@ -190,14 +198,6 @@ class Repair {
                 //FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
             }
           });
-
-          // Tax Option Validation
-          $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
-              FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-formdatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-formdatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-          });
-
 
           FwFormField.disable($form.find('.frame'));
           $form.find(".frame .add-on").children().hide();
