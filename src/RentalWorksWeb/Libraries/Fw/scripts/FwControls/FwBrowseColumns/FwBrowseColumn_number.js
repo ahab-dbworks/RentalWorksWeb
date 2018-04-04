@@ -13,6 +13,16 @@ FwBrowseColumn_number.getFieldValue = function($browse, $tr, $field, field, orig
 FwBrowseColumn_number.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(`<div class="fieldvalue">${originalvalue}</div>`);
+
+    $field.find('.fieldvalue').inputmask("numeric", {
+        min: ((typeof $field.attr('data-minvalue') !== 'undefined') ? $field.attr('data-minvalue') : undefined),
+        max: ((typeof $field.attr('data-maxvalue') !== 'undefined') ? $field.attr('data-maxvalue') : undefined),
+        digits: ((typeof $field.attr('data-digits') !== 'undefined') ? $field.attr('data-digits') : 2),
+        digitsOptional: ((typeof $field.attr('data-digits') !== 'undefined') ? false : true),
+        radixPoint: '.',
+        groupSeparator: ',',
+        autoGroup: (((typeof $field.attr('data-formatnumeric') !== 'undefined') && ($field.attr('data-formatnumeric') == 'true')) ? true : false)
+    });
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_number.setFieldEditMode = function($browse, $field, $tr, html) {
