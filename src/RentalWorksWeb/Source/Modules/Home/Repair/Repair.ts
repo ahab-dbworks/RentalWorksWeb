@@ -5,7 +5,7 @@ class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
     caption: string = 'Repair Order';
-    ActiveView: string;
+    ActiveView: string = 'ALL';
 
     getModuleScreen = () => {
         let screen: any = {};
@@ -13,7 +13,7 @@ class Repair {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse: JQuery = this.openBrowse();
+        let $browse: JQuery = this.openBrowse();
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
@@ -28,6 +28,32 @@ class Repair {
     };
 
   //----------------------------------------------------------------------------------------------
+  openBrowse = () => {
+
+    let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+    $browse = FwModule.openBrowse($browse);
+
+    FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+    FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
+    FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
+    FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
+    FwBrowse.addLegend($browse, 'Outside', '#fffb38');
+    FwBrowse.addLegend($browse, 'Released', '#d6d319');
+    FwBrowse.addLegend($browse, 'Transferred', '#d10e90');
+    FwBrowse.addLegend($browse, 'Pending Repair', '#b997db');
+
+    let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+    this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+
+    $browse.data('ondatabind', request => {
+      console.log(this.ActiveView, "activeview")
+        request.activeview = this.ActiveView;
+    });
+            
+    return $browse;
+  }
+  //----------------------------------------------------------------------------------------------
+
   renderGrids = ($form: any) => {
 
       let $repairCostGrid, $repairCostGridControl; 
@@ -74,49 +100,39 @@ class Repair {
   } 
   //----------------------------------------------------------------------------------------------
 
-  openBrowse = () => {
-
-    let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
-    $browse = FwModule.openBrowse($browse);
-
-    FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-    FwBrowse.addLegend($browse, 'High Priority', '#EA300F');
-    FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
-    FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
-    FwBrowse.addLegend($browse, 'Outside', '#fffb38');
-    FwBrowse.addLegend($browse, 'Released', '#d6d319');
-    FwBrowse.addLegend($browse, 'Transferred', '#d10e90');
-    FwBrowse.addLegend($browse, 'Pending Repair', '#b997db');
-
-    let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-    this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-
-    $browse.data('ondatabind', request => {
-        request.activeview = this.ActiveView;
-    });
-            
-    return $browse;
-  }
-  //----------------------------------------------------------------------------------------------
-
-    addBrowseMenuItems = ($menuObject: any) => {
+  addBrowseMenuItems = ($menuObject: any) => {
   
       const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-      let $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-      let $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+      const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+      const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+      let view = [];
+      view[0] = 'WarehouseId=' + warehouse.warehouseid;
 
       $all.on('click', () => {
           let $browse;
           $browse = jQuery(this).closest('.fwbrowse');
           this.ActiveView = 'WarehouseId=ALL';
-          FwBrowse.databind($browse);
+          view[0] = this.ActiveView;
+
+          if (view.length > 1) {
+              this.ActiveView = view.join(', ');
+          }
+                   console.log(view, "view")
+
+          FwBrowse.search($browse);      
       });
+
       $userWarehouse.on('click', () => {
           let $browse;
           $browse = jQuery(this).closest('.fwbrowse');
           this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-          FwBrowse.databind($browse);
+          view[0] = this.ActiveView;
+              if (view.length > 1) {
+                  this.ActiveView = view.join(', ');
+              }
+        console.log(view, "view")
+
+          FwBrowse.search($browse);      
       });
       
       let viewSubitems: Array<JQuery> = [];
@@ -127,8 +143,9 @@ class Repair {
       $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
       return $menuObject;
-    };
+  };
   //----------------------------------------------------------------------------------------------
+
   openForm = (mode: string) => {
       let $form;
       $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -142,10 +159,13 @@ class Repair {
           const office = JSON.parse(sessionStorage.getItem('location'));
           const department = JSON.parse(sessionStorage.getItem('department'));
 
+          console.log(warehouse.warehouseid, 'warehouse')
+
           $form.find('div[data-datafield="Department"] input').val(department.department);
           FwFormField.setValueByDataField($form, 'RepairDate', today);
           FwFormField.setValueByDataField($form, 'Location', office.location);
-          FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
+          FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
+          //FwFormField.setValue($form, 'div[data-displayfield="Warehouse"]', warehouse.warehouse);
           FwFormField.setValueByDataField($form, 'Quantity', 1);
 
           $form.find('div[data-datafield="PendingRepair"] input').prop('checked', false);
