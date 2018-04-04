@@ -64,7 +64,7 @@ namespace Web.Source.Reports
          
             for (int i = 0; i < dtCreditsOnAccount.Rows.Count; i++)
             {
-                dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["remaining"]] = FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totaldeposit"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalapplied"]].ToString()) - FwConvert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalrefunded"]].ToString());
+                dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["remaining"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totaldeposit"]]) - Convert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalapplied"]].ToString()) - Convert.ToDecimal(dtCreditsOnAccount.Rows[i][dtCreditsOnAccount.ColumnIndex["totalrefunded"]]));
             }
 
             //List<object> totalRow = dtCreditsOnAccount.Rows[dtCreditsOnAccount.Rows.Count];
@@ -85,14 +85,12 @@ namespace Web.Source.Reports
             List<object> totalsRow;
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            //qry.AddColumn("remaining",       false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
-            //qry.AddColumn("estrentfrom",     false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("estrentto",       false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("billperiodstart", false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("billperiodend",   false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("contractdate",    false, FwJsonDataTableColumn.DataTypes.Date);
-            //qry.AddColumn("image",           false, FwJsonDataTableColumn.DataTypes.JpgDataUrl);
-            //qry.AddColumn("itemvalue",       false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totaldepdep",    false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalcredit",    false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalover",      false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totaldeposit",   false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalapplied",   false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalrefunded",  false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
 
             select = new FwSqlSelect();
 
@@ -114,6 +112,13 @@ namespace Web.Source.Reports
             dtDetails = qry.QueryToFwJsonTable(select, true);
 
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            qry.AddColumn("totaldepdep", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalcredit", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalover", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totaldeposit", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalapplied", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+            qry.AddColumn("totalrefunded", false, FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign);
+
             select = new FwSqlSelect();
             if (request.parameters.IncludeRemainingBalance == "T")
             {
