@@ -863,7 +863,9 @@ var FwModule = (function () {
                 $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
-                $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+                if ($form.parent().data('type') !== 'settings-row') {
+                    $cancel = FwConfirmation.addButton($confirmation, 'Cancel');
+                }
                 $save.on('click', function () {
                     var controller, isvalid;
                     controller = $form.attr('data-controller');
