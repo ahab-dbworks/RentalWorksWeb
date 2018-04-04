@@ -9,6 +9,7 @@
     background-color: #fff;
 }
     .body thead td div {
+        min-width: 72px;
         font-size: 14px;
     }
 .alignleft {
