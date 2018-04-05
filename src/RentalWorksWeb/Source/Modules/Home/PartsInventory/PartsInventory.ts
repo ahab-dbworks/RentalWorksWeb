@@ -45,6 +45,7 @@ class PartsInventory {
     }
 
     addBrowseMenuItems = ($menuObject: any) => {
+        let self = this;
         let $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
         let $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
         let $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
@@ -52,40 +53,40 @@ class PartsInventory {
         let $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
         let $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
 
-        $all.on('click', () => {
+        $all.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'ALL';
+            self.ActiveView = 'ALL';
             FwBrowse.search($browse);
         });
-        $accessory.on('click', () => {
+        $accessory.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'ACCESSORY';
+            self.ActiveView = 'ACCESSORY';
             FwBrowse.search($browse);
         });
-        $complete.on('click', () => {
+        $complete.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'COMPLETE';
+            self.ActiveView = 'COMPLETE';
             FwBrowse.search($browse);
         });
-        $kitset.on('click', () => {
+        $kitset.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'KITSET';
+            self.ActiveView = 'KITSET';
             FwBrowse.search($browse);
         });
-        $misc.on('click', () => {
+        $misc.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'MISC';
+            self.ActiveView = 'MISC';
             FwBrowse.search($browse);
         });
-        $container.on('click', () => {
+        $container.on('click', function() {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'CONTAINER';
+            self.ActiveView = 'CONTAINER';
             FwBrowse.search($browse);
         });
 
@@ -110,7 +111,7 @@ class PartsInventory {
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', () => {
+        $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
