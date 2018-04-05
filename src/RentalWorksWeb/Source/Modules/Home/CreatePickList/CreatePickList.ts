@@ -46,31 +46,38 @@ class CreatePickList {
         $form.find('.createpicklist').on('click', function () {
             var $report, request: any = {};
 
-            var miscfields = CreatePickListController.getOptions($form);
-            request.miscfields = miscfields;
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
+            try {
+                var miscfields = CreatePickListController.getOptions($form);
+                request.miscfields = miscfields;
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                    , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
+                };
+
+                var $tabpage = $form.parent();
+                var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+
+                FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    try {
+                        //if (response.PickListNumber == "") {
+                        //    throw "No items have been added to this Pick List";
+                        //}
+                        $report = RwPickListReportController.openForm();
+                        FwModule.openSubModuleTab($form, $report);
+                        FwModule.closeFormTab($tab);
+                        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
+                        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
+                        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, $report);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
             };
-            $report = RwPickListReportController.openForm();
-            FwModule.openSubModuleTab($form, $report);
-            var sessionId = FwFormField.getValueByDataField($form, "OrderId");
-            var $tabpage = $form.parent();
-            var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-
-                    FwModule.closeFormTab($tab);
-                    $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
-                    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, $form);
-
-            jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-        });
+            });
 
         $form.find('.defaultoptions input').prop('checked', true);
 

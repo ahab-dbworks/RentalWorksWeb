@@ -218,7 +218,6 @@ class Quote {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
         });
 
-
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -232,11 +231,11 @@ class Quote {
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
-        //$form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
-        //    FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-        //    FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-        //    FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-        //});
+        $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+        });
 
         return $form;
     }
@@ -453,6 +452,13 @@ class Quote {
         $form.find('.totals input').css('text-align', 'right');
 
         FwFormField.disable($form.find('[data-caption="Weeks"]'));
+
+        var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
+        if (noChargeValue == false) {
+            FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
+        } else {
+            FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+        }
 
     }
 
