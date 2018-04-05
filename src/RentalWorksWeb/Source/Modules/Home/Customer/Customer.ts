@@ -193,6 +193,11 @@ class Customer {
         var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
         var $customerNoteGridControl: any = FwBrowse.loadGridFromTemplate(nameCustomerNoteGrid);
         $customerNoteGrid.empty().append($customerNoteGridControl);
+        $customerNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                CustomerId: FwFormField.getValueByDataField($form, 'CustomerId')
+            }
+        });
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
 
