@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.Repair
         public string ItemDescription { get; set; }
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string QuanityColor { get; set; }
+        public string QuantityColor { get; set; }
         public string DamageDealId { get { return repair.DamageDealId; } set { repair.DamageDealId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageDeal { get; set; }

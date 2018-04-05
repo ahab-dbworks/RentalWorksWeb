@@ -272,7 +272,7 @@ namespace WebApi.Modules.Home.Repair
         public string StatusColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string QuanityColor { get; set; }
+        public string QuantityColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string CurrencyColor { get; set; }
