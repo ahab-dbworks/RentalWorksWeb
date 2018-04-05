@@ -4,6 +4,8 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.OrderNote
 {
     [FwSqlTable("ordernote")]
@@ -51,21 +53,7 @@ namespace WebApi.Modules.Home.OrderNote
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = false;
-            if (Note != null)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, OrderNoteId);
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-                }
-            }
-            return saved;
+            return await AppFunc.SaveNoteASync(AppConfig, UserSession, OrderId, OrderNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
     }

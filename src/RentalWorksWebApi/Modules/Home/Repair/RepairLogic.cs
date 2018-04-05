@@ -1,5 +1,7 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using WebApi.Logic;
+using WebApi.Modules.Home.RepairItem;
 using WebApi.Modules.Home.Tax;
 
 namespace WebApi.Modules.Home.Repair
@@ -10,11 +12,16 @@ namespace WebApi.Modules.Home.Repair
         RepairRecord repair = new RepairRecord();
         TaxRecord tax = new TaxRecord();
         RepairLoader repairLoader = new RepairLoader();
+
         public RepairLogic()
         {
             dataRecords.Add(repair);
             dataRecords.Add(tax);
             dataLoader = repairLoader;
+
+            repair.BeforeSave += OnBeforeSaveRepair;
+            repair.AfterSave += OnAfterSaveRepair;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -45,6 +52,9 @@ namespace WebApi.Modules.Home.Repair
         public bool? PendingRepair { get { return repair.PendingRepair; } set { repair.PendingRepair = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
         public string RepairNumber { get { return repair.RepairNumber; } set { repair.RepairNumber = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RepairNumberColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string RepairDate { get { return repair.RepairDate; } set { repair.RepairDate = value; } }
         public bool? OutsideRepair { get { return repair.OutsideRepair; } set { repair.OutsideRepair = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -57,6 +67,8 @@ namespace WebApi.Modules.Home.Repair
         public string SerialNumber { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RfId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string BarCodeColor { get; set; }
         public string InventoryId { get { return repair.InventoryId; } set { repair.InventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string AvailFor { get; set; }
@@ -65,11 +77,17 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string ICodeColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string ItemDescription { get; set; }
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string QuanityColor { get; set; }
         public string DamageDealId { get { return repair.DamageDealId; } set { repair.DamageDealId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageDeal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DamageDealColor { get; set; }
         public string DamageOrderId { get { return repair.DamageOrderId; } set { repair.DamageOrderId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string DamageOrderNumber { get; set; }
@@ -113,6 +131,8 @@ namespace WebApi.Modules.Home.Repair
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string StatusColor { get; set; }
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
         public bool? Billable { get { return repair.Billable; } set { repair.Billable = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -120,6 +140,10 @@ namespace WebApi.Modules.Home.Repair
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? NotBilled { get; set; }
         public string Priority { get { return repair.Priority; } set { repair.Priority = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PriorityDescription { get; set; }
+        public string PriorityColor { get; set; }
+
         public string RepairType { get { return repair.RepairType; } set { repair.RepairType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? PoPending { get; set; }
@@ -147,10 +171,35 @@ namespace WebApi.Modules.Home.Repair
         public string LocationDefaultCurrencyId { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CurrencyCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CurrencyColor { get; set; }
+
         public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public bool? Inactive { get; set; }
         public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveRepair(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                bool x = repair.SetNumber().Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveRepair(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if (!ItemId.Equals(string.Empty))
+                {
+                    RepairItemRecord repairItem = new RepairItemRecord();
+                    repairItem.RepairId = RepairId;
+                    repairItem.ItemId = ItemId;
+                    int i = repairItem.SaveAsync().Result;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

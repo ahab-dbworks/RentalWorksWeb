@@ -3,6 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.VendorNote
 {
@@ -36,21 +37,7 @@ namespace WebApi.Modules.Home.VendorNote
         //------------------------------------------------------------------------------------
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = false;
-            if (Note != null)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, VendorId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, VendorNoteId);
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-                }
-            }
-            return saved;
+            return await AppFunc.SaveNoteASync(AppConfig, UserSession, VendorId, VendorNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------    
     }

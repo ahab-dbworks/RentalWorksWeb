@@ -196,6 +196,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "priority", modeltype: FwDataTypes.Text)]
         public string Priority { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prioritydesc", modeltype: FwDataTypes.Text)]
+        public string PriorityDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text)]
         public string RepairType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -252,6 +255,30 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repairnocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RepairNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "prioritycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PriorityColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "barcodecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BarCodeColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "damagedealcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DamageDealColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuanityColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }

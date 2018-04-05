@@ -236,10 +236,9 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveDealOrder(object sender, BeforeSaveEventArgs e)
         {
-            bool saved = false;
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                saved = dealOrder.SetNumber().Result;
+                bool x = dealOrder.SetNumber().Result;
             }
         }
         //------------------------------------------------------------------------------------

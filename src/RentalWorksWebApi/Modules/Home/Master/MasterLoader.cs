@@ -118,6 +118,7 @@ namespace WebApi.Modules.Home.Master
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("TrackedBy", "trackedby", select, request); 
+            addFilterToSelect("Classification", "class", select, request); 
 
             if ((request != null) && (request.activeview != null))
             {

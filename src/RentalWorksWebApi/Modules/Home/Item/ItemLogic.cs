@@ -66,8 +66,8 @@ namespace WebApi.Modules.Home.Item
         public string ManufacturerPartNumber { get { return item.ManufacturerPartNumber; } set { item.ManufacturerPartNumber = value; } }
         public string ManufactureDate { get { return item.ManufactureDate; } set { item.ManufactureDate = value; } }
         [FwBusinessLogicField(isReadOnly: true, isRecordTitle: true)]
-        //public string TrackedByCode { get; set; }
-        //[FwBusinessLogicField(isReadOnly: true)]
+        public string TrackedByCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public int? AvailOwnershipSort { get; set; }
         public bool? IsNegativeInventory { get { return item.IsNegativeInventory; } set { item.IsNegativeInventory = value; } }
         public string InspectionNo { get { return item.InspectionNo; } set { item.InspectionNo = value; } }

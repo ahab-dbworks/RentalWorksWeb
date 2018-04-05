@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add("exec getwebuserdashboardsettings '" + UserId + "'");
+                qry.Add("exec getwebuserdashboardsettings '" + UserId + "'"); // todo: fix sql injection
                 qry.AddColumn("webuserswidgetid");  //0
                 qry.AddColumn("widgetid");          //1
                 qry.AddColumn("widget");            //2

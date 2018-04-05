@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.PickList
 {
     [FwSqlTable("picklist")]
@@ -139,21 +141,7 @@ namespace WebApi.Modules.Home.PickList
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = false;
-            if (Note != null)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-                }
-            }
-            return saved;
+            return await AppFunc.SaveNoteASync(AppConfig, UserSession, PickListId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
         public override async Task<bool> DeleteAsync()

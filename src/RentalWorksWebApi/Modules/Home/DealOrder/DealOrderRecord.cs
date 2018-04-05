@@ -3,6 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
 using WebApi.Modules.Home.Order;
 using WebLibrary;
 
@@ -211,18 +212,8 @@ namespace WebApi.Modules.Home.DealOrder
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> SetNumber()
         {
-            bool saved = false;
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-            {
-                FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, "QUOTE");
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
-                OrderNumber = qry.GetParameter("@newcounter").ToString().TrimEnd();
-                saved = true;
-            }
-            return saved;
+            OrderNumber = await AppFunc.GetNextCounterAsync(AppConfig, UserSession, RwConstants.MODULE_QUOTE);
+            return true;
         }
         //-------------------------------------------------------------------------------------------------------
         public async Task<string> Copy(QuoteOrderCopyRequest copyRequest)

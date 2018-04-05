@@ -4,6 +4,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Settings.OrderTypeNote
 {
@@ -31,21 +32,7 @@ namespace WebApi.Modules.Settings.OrderTypeNote
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = false;
-            if (Note != null)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, OrderTypeId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, OrderTypeNoteId);
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-                }
-            }
-            return saved;
+            return await AppFunc.SaveNoteASync(AppConfig, UserSession, OrderTypeId, OrderTypeNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
     }

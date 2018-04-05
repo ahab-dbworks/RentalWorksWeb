@@ -1,9 +1,10 @@
-using FwStandard.BusinessLogic; 
-using FwStandard.SqlServer; 
+using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.MasterItem
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Home.MasterItem
         public string MasterItemId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
-        public string OrderId { get; set; } 
+        public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
         public string RecType { get; set; }
@@ -274,26 +275,14 @@ namespace WebApi.Modules.Home.MasterItem
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = false;
-            if (Note != null)
+            bool saved = await AppFunc.SaveNoteASync(AppConfig, UserSession, OrderId, MasterItemId, "", Note);
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Note);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-
-                    qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
-                    await qry.ExecuteNonQueryAsync(true);
-                    saved = true;
-
-                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
+                await qry.ExecuteNonQueryAsync(true);
+                saved = true;
             }
             return saved;
         }
