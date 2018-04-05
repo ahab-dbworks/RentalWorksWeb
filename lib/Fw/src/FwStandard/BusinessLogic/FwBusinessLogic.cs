@@ -342,9 +342,13 @@ namespace FwStandard.BusinessLogic
                         {
                             hasPrimaryKeysSet &= (((Int32)propertyValue) != 0);
                         }
+                        else if (propertyValue == null)
+                        {
+                            hasPrimaryKeysSet = false;
+                        }
                         else
                         {
-                            throw new Exception("A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.AllPrimaryKeysHaveValues]");
+                            throw new Exception(property.Name + ": A test for property type " + propertyValue.GetType().ToString() + " needs to be implemented! [FwBusinessLogic.AllPrimaryKeysHaveValues]");
                         }
                     }
                 }

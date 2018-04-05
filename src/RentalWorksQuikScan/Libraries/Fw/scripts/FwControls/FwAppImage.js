@@ -218,14 +218,16 @@ FwAppImage.init = function($control) {
             }
         })
         .on('click', '.btnDelete', function(e) {
-            var $image, $confirmation, $btnOk;
+            var $image, thumbnail, $confirmation, $btnOk;
             try {
                 $image = jQuery(this).closest('.image');
+                thumbnail = jQuery(this).closest('figure').attr('class');
                 $confirmation = FwConfirmation.renderConfirmation('Confirm', 'Delete Image?');
                 $btnOk = FwConfirmation.addButton($confirmation, 'OK');
                 FwConfirmation.addButton($confirmation, 'Cancel');
                 $btnOk.on('click', function() {
                     FwAppImage.deleteImage($control, $image);
+                    $control.find('.' + thumbnail).remove();
                 });
                 return false;
             } catch(ex) {
@@ -394,7 +396,7 @@ FwAppImage.getImageHtml = function($control, mode, image) {
             orderby: 0
         };
     } else {
-        url = applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + image.appimageid + '&thumbnail=true';
+        url = applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + image.appimageid;
     }
     html.push('  <div class="image" data-mode="' + mode + '" data-appimageid="' + image.appimageid + '">');
     html.push('    <div class="pastecontrol">');
@@ -631,15 +633,38 @@ FwAppImage.setGetAppImagesRequest = function($control, request) {
 };
 //---------------------------------------------------------------------------------
 FwAppImage.getAppImagesCallback = function($control, response) {
-    var $divimages, image, $image, $addimage;
+    var $divimages, image, $image, $addimage, html, thumbnails;
     try {
         $divimages = $control.find('div.images');
         $divimages.empty();
-        for (var imageno = 0; imageno < response.images.length; imageno++) {
-            image  = response.images[imageno];
-            $image = FwAppImage.getImageHtml($control, 'VIEW', image);
-            $divimages.append($image);
+        html = [];
+        thumbnails = [];
+
+        html.push('<section class="gallery"><div class="carousel">');
+        
+        for (var i = 0; i < response.images.length; i++) {
+            if (i === 0) {
+                html.push('<input type="radio" id="image1" name="gallery-control" checked>');
+            } else {
+                html.push('<input type="radio" id="image' + (i+1) + '" name="gallery-control">');
+            }
         }
+
+        html.push('<input type="checkbox" id="fullscreen" name="gallery-fullscreen-control"/><div class="wrap">');
+
+        for (var imageno = 0; imageno < response.images.length; imageno++) {
+            image = response.images[imageno];
+            $image = FwAppImage.getImageHtml($control, 'VIEW', image);
+            html.push('<figure class="image' + (imageno+1) + '">');
+            html.push($image);
+            html.push('</figure>');
+            thumbnails.push('<label for="image' + (imageno+1) + '" class="thumb image' + (imageno+1) + '" style="background-image:url(' + jQuery($image).find('img').attr('src') + '&thumbnail=true)"></label>');
+        }
+        html.push('</div><div class="thumbnails">');
+        html.push(thumbnails.join(''));
+        html.push('</div></div></section>');
+        html = html.join('');
+        $divimages.append(html);
         //if ($control.attr('data-hasadd') !== 'false') {
         //    $addimage = jQuery(FwAppImage.getAddImageHtml($control));
         //    $divimages.append($addimage);

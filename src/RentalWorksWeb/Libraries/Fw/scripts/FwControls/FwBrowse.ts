@@ -1626,6 +1626,11 @@
             pageSize = FwBrowse.getPageSize($control);
             FwBrowse.setTotalPages($control, dt.TotalPages);
 
+            var nodeModule = FwApplicationTree.getNodeByController($control.attr('data-controller'));
+            var nodeEdit = FwApplicationTree.getNodeByFuncRecursive(nodeModule, {}, function (node, args2) {
+                return (node.properties.nodetype === 'EditMenuBarButton');
+            });
+
             onrowdblclick = $control.data('onrowdblclick');
             dt.ColumnIndex = {};
             for (i = 0; i < dt.Columns.length; i++) {
@@ -1653,7 +1658,7 @@
                     if ($field.attr('data-formreadonly') !== 'true' && $field.attr('data-browsedatatype') !== 'note') {
                         if (typeof $control.data('isfieldeditable') === 'function' && $control.data('isfieldeditable')($field, dt, rowIndex)) {
                             //do nothing
-                        } else if ($control.attr('data-hasedit') == 'true') {
+                        } else if (nodeEdit !== null) {
                             $field.addClass('editablefield');
                         }
                     }
