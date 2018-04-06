@@ -191,7 +191,7 @@ namespace WebApi.Modules.Home.Repair
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                if (!ItemId.Equals(string.Empty))
+                if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
                 {
                     RepairItemRecord repairItem = new RepairItemRecord();
                     repairItem.RepairId = RepairId;
