@@ -32,32 +32,53 @@
         return screen;
     };
 
-    buildWidgetSettings($chartSettings) {
+    buildWidgetSettings($chartSettings, userWidgetId) {
+        var self = this;
         $chartSettings.on('click', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
                 var $select = FwConfirmation.addButton($confirmation, 'Confirm', false);
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 var widgetName = jQuery(this).parent().data('chart')
+                var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
 
                 var html = [];
-                FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + widgetName, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                    for (var i = 0; i < response.data.labels.length; i++) {
-                        html.push('<div class="flexrow">');
-                        html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
-                        html.push('</div>');
-                    }
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>')
+                    html.push('</div>');
+                    //for (var i = 0; i < response.data.labels.length; i++) {
+                    //    html.push('<div class="flexrow">');
+                    //    html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
+                    //    html.push('</div>');
+                    //}
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
+                    FwFormField.loadItems($confirmation.find('.widgettype'), [
+                        { value: 'bar', text: 'Bar' },
+                        { value: 'horizontalBar', text: 'Horizontal Bar' },
+                        { value: 'pie', text: 'Pie' }
+                    ], true);
                 }, null, null);
 
                 $select.on('click', function () {
                     try {
+                        var request: any = {};
+                        request.UserWidgetId = userWidgetId;
+                        request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                        FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
+                            FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            program.navigate('home');
+                        }, function onError(response) {
+                            FwFunc.showError(response);
+                            FwFormField.enable($confirmation.find('.fwformfield'));
+                        }, $chartSettings);
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
-                });
+                })
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -74,20 +95,20 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].defaulttype, response.Widgets[i].clickpath)
+                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId)
                 }
             }
         }, null, $control)
         
     }
 
-    renderWidget($control, apiname, type, chartpath) {
+    renderWidget($control, apiname, type, chartpath, userWidgetId) {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
 
         jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + '"></canvas>' + refresh + settings + '</div>');
-        self.buildWidgetSettings(jQuery($control).find('#' + apiname +'settings'));
+        self.buildWidgetSettings(jQuery($control).find('#' + apiname +'settings'), userWidgetId);
 
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + apiname, {}, FwServices.defaultTimeout, function onSuccess(response) {
