@@ -19,6 +19,10 @@ namespace WebApi.Modules.Home.RepairPart
         public string InventoryId { get { return repairPart.InventoryId; } set { repairPart.InventoryId = value; } }
         public string WarehouseId { get { return repairPart.WarehouseId; } set { repairPart.WarehouseId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string WarehouseCode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Warehouse { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
         public string Description { get { return repairPart.Description; } set { repairPart.Description = value; } }
         public decimal? Quantity { get { return repairPart.Quantity; } set { repairPart.Quantity = value; } }
@@ -30,8 +34,6 @@ namespace WebApi.Modules.Home.RepairPart
         public decimal? Extended { get; set; }
         public bool? Taxable { get { return repairPart.Taxable; } set { repairPart.Taxable = value; } }
         public bool? Billable { get { return repairPart.Billable; } set { repairPart.Billable = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string WarehouseCode { get; set; }
         public string ItemClass { get { return repairPart.ItemClass; } set { repairPart.ItemClass = value; } }
         public string ItemOrder { get { return repairPart.ItemOrder; } set { repairPart.ItemOrder = value; } }
         public string DateStamp { get { return repairPart.DateStamp; } set { repairPart.DateStamp = value; } }

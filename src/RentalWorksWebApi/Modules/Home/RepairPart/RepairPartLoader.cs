@@ -22,6 +22,12 @@ namespace WebApi.Modules.Home.RepairPart
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -48,9 +54,6 @@ namespace WebApi.Modules.Home.RepairPart
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Boolean)]
         public bool? Billable { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
-        public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
