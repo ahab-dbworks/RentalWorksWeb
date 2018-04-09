@@ -72,7 +72,7 @@ class CreatePickList {
                     catch (ex) {
                         FwFunc.showError(ex);
                     }
-                }, null, $report);
+                }, null, $form);
             }
             catch (ex) {
                 FwFunc.showError(ex);
