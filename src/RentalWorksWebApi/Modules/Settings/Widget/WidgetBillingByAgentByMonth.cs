@@ -24,6 +24,11 @@ namespace WebApi.Modules.Settings.Widget
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add("exec widgetbillingbyagentbymonth");
+                if (dataPoints != 0)
+                {
+                    qry.Add(" @datapoints = @datapoints");
+                    qry.AddParameter("@datapoints", dataPoints);
+                }
                 qry.AddColumn("billingamount");       //00
                 qry.AddColumn("agent");               //01
                 qry.AddColumn("year");                //02

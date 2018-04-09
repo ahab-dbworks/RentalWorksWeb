@@ -110,13 +110,14 @@ namespace WebApi.Modules.Settings.Widget
         public string type { get; set; }
         public WidgetData data { get; set; }
         public WidgetOptions options { get; set; }
+        public int dataPoints { get; set; }
 
         protected string sql { get; set; }
         protected string counterFieldName { get; set; }
         protected string labelFieldName { get; set; }
         protected string backgroundColorFieldName { get; set; } = "backgroundcolor";
         protected string borderColorFieldName { get; set; } = "bordercolor";
-        protected double opacity { get; set; } = 0.2;
+        protected double opacity { get; set; } = 0.4;
 
 
         public Widget()
@@ -141,6 +142,11 @@ namespace WebApi.Modules.Settings.Widget
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add(sql);
+                if (dataPoints != 0)
+                {
+                    qry.Add(" @datapoints = @datapoints");
+                    qry.AddParameter("@datapoints", dataPoints);
+                }
                 qry.AddColumn(counterFieldName);
                 qry.AddColumn(labelFieldName);
                 qry.AddColumn(backgroundColorFieldName);

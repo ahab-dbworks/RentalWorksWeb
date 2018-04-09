@@ -25,6 +25,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaulttype", modeltype: FwDataTypes.Text)]
         public string DefaultType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatapoints", modeltype: FwDataTypes.Integer)]
+        public int? DefaultDataPoints { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

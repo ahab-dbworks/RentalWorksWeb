@@ -23,6 +23,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaulttype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, required: true)]
         public string DefaultType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatapoints", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? DefaultDataPoints { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

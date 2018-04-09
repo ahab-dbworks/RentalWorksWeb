@@ -20,6 +20,9 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "widgettype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 20, required: true)]
         public string WidgetType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datapoints", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? DataPoints { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Settings { get; set; }
         //------------------------------------------------------------------------------------ 

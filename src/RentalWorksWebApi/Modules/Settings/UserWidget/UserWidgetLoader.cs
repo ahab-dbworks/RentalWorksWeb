@@ -31,6 +31,12 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "widgettype", modeltype: FwDataTypes.Text)]
         public string WidgetType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultdatapoints", modeltype: FwDataTypes.Integer)]
+        public int? DefaultDataPoints { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datapoints", modeltype: FwDataTypes.Integer)]
+        public int? DataPoints { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text)]
         public string Settings { get; set; }
         //------------------------------------------------------------------------------------ 

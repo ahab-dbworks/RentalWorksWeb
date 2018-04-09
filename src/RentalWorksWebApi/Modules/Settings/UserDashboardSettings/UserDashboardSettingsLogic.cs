@@ -3,6 +3,7 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
@@ -22,6 +23,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string clickpath { get; set; }
             public string defaulttype { get; set; }
             public string widgettype { get; set; }
+            public int defaultDataPoints { get; set; }
+            public int dataPoints { get; set; }
         }
 
         protected SqlServerConfig _dbConfig { get; set; }
@@ -54,14 +57,16 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
                 qry.Add("exec getwebuserdashboardsettings '" + UserId + "'"); // todo: fix sql injection
-                qry.AddColumn("webuserswidgetid");  //0
-                qry.AddColumn("widgetid");          //1
-                qry.AddColumn("widget");            //2
-                qry.AddColumn("apiname");           //3
-                qry.AddColumn("clickpath");         //4
-                qry.AddColumn("defaulttype");       //5
-                qry.AddColumn("widgettype");        //6
-                qry.AddColumn("orderby");           //7
+                qry.AddColumn("webuserswidgetid");    //0
+                qry.AddColumn("widgetid");            //1
+                qry.AddColumn("widget");              //2
+                qry.AddColumn("apiname");             //3
+                qry.AddColumn("clickpath");           //4
+                qry.AddColumn("defaulttype");         //5
+                qry.AddColumn("widgettype");          //6
+                qry.AddColumn("defaultdatapoints");   //7
+                qry.AddColumn("datapoints");          //8
+                qry.AddColumn("orderby");             //9
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
@@ -73,6 +78,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string clickPath = table.Rows[r][4].ToString();
                     string defaulttype = table.Rows[r][5].ToString();
                     string widgettype = table.Rows[r][6].ToString();
+                    int defaultdatapoints = Convert.ToInt32(table.Rows[r][7]);
+                    int datapoints = Convert.ToInt32(table.Rows[r][8]);
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
@@ -82,6 +89,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.clickpath = clickPath;
                     w.defaulttype = defaulttype;
                     w.widgettype = widgettype;
+                    w.defaultDataPoints = defaultdatapoints;
+                    w.dataPoints = datapoints;
                     Widgets.Add(w);
                     loaded = true;
                 }

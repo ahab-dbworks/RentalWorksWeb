@@ -20,6 +20,7 @@ namespace WebApi.Modules.Settings.Widget
         public string ApiName { get { return widget.ApiName; } set { widget.ApiName = value; } }
         public string ClickPath { get { return widget.ClickPath; } set { widget.ClickPath = value; } }
         public string DefaultType { get { return widget.DefaultType; } set { widget.DefaultType = value; } }
+        public int? DefaultDataPoints { get { return widget.DefaultDataPoints; } set { widget.DefaultDataPoints = value; } }
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
     }
