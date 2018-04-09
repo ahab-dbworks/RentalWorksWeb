@@ -25,6 +25,15 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public FwDataRecord() : base() { }
         //------------------------------------------------------------------------------------
+
+        public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            AppConfig = appConfig;
+            UserSession = userSession;
+        }
+        //------------------------------------------------------------------------------------
+
+
         [JsonIgnore]
         public virtual string TableName
         {

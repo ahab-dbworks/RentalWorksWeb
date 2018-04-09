@@ -723,9 +723,10 @@ namespace FwStandard.BusinessLogic
             }
             for (int i = 0; i < dataRecords.Count; i++)
             {
-                FwDataReadWriteRecord dataRecord = dataRecords[i];
-                dataRecord.AppConfig = appConfig;
-                dataRecord.UserSession = userSession;
+                //FwDataReadWriteRecord dataRecord = dataRecords[i];
+                //dataRecord.AppConfig = appConfig;
+                //dataRecord.UserSession = userSession;
+                dataRecords[i].SetDependencies(appConfig, userSession);
             }
         }
         //------------------------------------------------------------------------------------
