@@ -144,13 +144,13 @@ namespace WebApi.Modules.Home.Order
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "lockbillingdates", modeltype: FwDataTypes.Boolean)]
-        public bool LockBillingDates { get; set; }
+        public bool? LockBillingDates { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.DateTime)]
         public string DelayBillingSearchUntil { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean)]
-        public bool IncludePrepFeesInRentalRate { get; set; }
+        public bool? IncludePrepFeesInRentalRate { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
@@ -213,7 +213,7 @@ namespace WebApi.Modules.Home.Order
         public decimal? LaborTaxRate2 { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
-        public bool NoCharge { get; set; }
+        public bool? NoCharge { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nochargereason", modeltype: FwDataTypes.Text)]
         public string NoChargeReason { get; set; }
@@ -255,7 +255,10 @@ namespace WebApi.Modules.Home.Order
 
 
         [FwSqlDataField(column: "differentbilladdress", modeltype: FwDataTypes.Boolean)]
-        public bool BillToAddressDifferentFromIssuedToAddress { get; set; }
+        public bool? BillToAddressDifferentFromIssuedToAddress { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billtoaddressid", modeltype: FwDataTypes.Text)]
+        public string BillToAddressId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billtoname", modeltype: FwDataTypes.Text)]
         public string BillToName { get; set; }
@@ -297,21 +300,21 @@ namespace WebApi.Modules.Home.Order
 
 
         [FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean)]
-        public bool RequireContactConfirmation { get; set; }
+        public bool? RequireContactConfirmation { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Boolean)]
-        public bool IncludeInBillingAnalysis { get; set; }
+        public bool? IncludeInBillingAnalysis { get; set; }
         //------------------------------------------------------------------------------------
 
         [FwSqlDataField(column: "hiatusdiscfrom", modeltype: FwDataTypes.Text)]
         public string HiatusDiscountFrom { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Boolean)]
-        public bool RoundTripRentals { get; set; }
+        public bool? RoundTripRentals { get; set; }
         //------------------------------------------------------------------------------------
 
         [FwSqlDataField(column: "summaryinvoice", modeltype: FwDataTypes.Boolean)]
-        public bool InGroup { get; set; }
+        public bool? InGroup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer)]
         public int GroupNumber { get; set; }

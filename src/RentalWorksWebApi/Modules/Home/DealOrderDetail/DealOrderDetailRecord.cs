@@ -17,26 +17,26 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "poapprovalstatusid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PoApprovalStatusId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "lockbillingdates", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool LockBillingDates { get; set; }
+        [FwSqlDataField(column: "lockbillingdates", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? LockBillingDates { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
         public string DelayBillingSearchUntil { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool IncludePrepFeesInRentalRate { get; set; }
+        [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IncludePrepFeesInRentalRate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "differentbilladdress", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool BillToAddressDifferentFromIssuedToAddress { get; set; }
+        [FwSqlDataField(column: "differentbilladdress", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? BillToAddressDifferentFromIssuedToAddress { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "invoicediscountreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DiscountReasonId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool RequireContactConfirmation { get; set; }
+        [FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? RequireContactConfirmation { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool RoundTripRentals { get; set; }
+        [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? RoundTripRentals { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

@@ -11,7 +11,7 @@ using WebApi.Modules.Home.Quote;
 
 namespace WebApi.Modules.Home.Order
 {
-    public abstract class OrderBaseLogic : AppBusinessLogic
+    public class OrderBaseLogic : AppBusinessLogic
     {
         protected DealOrderRecord dealOrder = new DealOrderRecord();
         protected DealOrderDetailRecord dealOrderDetail = new DealOrderDetailRecord();
@@ -24,6 +24,11 @@ namespace WebApi.Modules.Home.Order
             dataRecords.Add(billToAddress);
             dealOrder.BeforeSave += OnBeforeSaveDealOrder;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
+            billToAddress.BeforeSave += OnBeforeSaveBillToAddress;
+
+
+            billToAddress.UniqueId1 = dealOrder.OrderId;
+            billToAddress.UniqueId2 = RwConstants.ADDRESS_TYPE_BILLING;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isRecordTitle: true)]
@@ -135,10 +140,10 @@ namespace WebApi.Modules.Home.Order
         public string PoApprovalStatusId { get { return dealOrderDetail.PoApprovalStatusId; } set { dealOrderDetail.PoApprovalStatusId = value; } }
         //------------------------------------------------------------------------------------
 
-        public bool LockBillingDates { get { return dealOrderDetail.LockBillingDates; } set { dealOrderDetail.LockBillingDates = value; } }
+        public bool? LockBillingDates { get { return dealOrderDetail.LockBillingDates; } set { dealOrderDetail.LockBillingDates = value; } }
         //------------------------------------------------------------------------------------
         public string DelayBillingSearchUntil { get { return dealOrderDetail.DelayBillingSearchUntil; } set { dealOrderDetail.DelayBillingSearchUntil = value; } }
-        public bool IncludePrepFeesInRentalRate { get { return dealOrderDetail.IncludePrepFeesInRentalRate; } set { dealOrderDetail.IncludePrepFeesInRentalRate = value; } }
+        public bool? IncludePrepFeesInRentalRate { get { return dealOrderDetail.IncludePrepFeesInRentalRate; } set { dealOrderDetail.IncludePrepFeesInRentalRate = value; } }
         public string BillingStartDate { get { return dealOrder.BillingStartDate; } set { dealOrder.BillingStartDate = value; } }
         public string BillingEndDate { get { return dealOrder.BillingEndDate; } set { dealOrder.BillingEndDate = value; } }
         public string DetermineQuantitiesToBillBasedOn { get { return dealOrder.DetermineQuantitiesToBillBasedOn; } set { dealOrder.DetermineQuantitiesToBillBasedOn = value; } }
@@ -175,7 +180,7 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? LaborTaxRate2 { get; set; }
 
-        public bool NoCharge { get { return dealOrder.NoCharge; } set { dealOrder.NoCharge = value; } }
+        public bool? NoCharge { get { return dealOrder.NoCharge; } set { dealOrder.NoCharge = value; } }
         public string NoChargeReason { get { return dealOrder.NoChargeReason; } set { dealOrder.NoChargeReason = value; } }
         //------------------------------------------------------------------------------------
 
@@ -194,9 +199,10 @@ namespace WebApi.Modules.Home.Order
         public string IssuedToCountry { get; set; }
 
 
-        
 
-        public bool BillToAddressDifferentFromIssuedToAddress { get { return dealOrderDetail.BillToAddressDifferentFromIssuedToAddress; } set { dealOrderDetail.BillToAddressDifferentFromIssuedToAddress = value; } }
+
+        public bool? BillToAddressDifferentFromIssuedToAddress { get { return dealOrderDetail.BillToAddressDifferentFromIssuedToAddress; } set { dealOrderDetail.BillToAddressDifferentFromIssuedToAddress = value; } }
+        public string BillToAddressId { get { return billToAddress.AddressId; } set { billToAddress.AddressId = value; } }
         public string BillToName { get { return billToAddress.Name; } set { billToAddress.Name = value; } }
         public string BillToAttention { get { return billToAddress.Attention; } set { billToAddress.Attention = value; } }
         public string BillToAttention2 { get { return billToAddress.Attention2; } set { billToAddress.Attention2 = value; } }
@@ -217,15 +223,15 @@ namespace WebApi.Modules.Home.Order
         public string DiscountReason { get; set; }
 
 
-        public bool RequireContactConfirmation { get { return dealOrderDetail.RequireContactConfirmation; } set { dealOrderDetail.RequireContactConfirmation = value; } }
+        public bool? RequireContactConfirmation { get { return dealOrderDetail.RequireContactConfirmation; } set { dealOrderDetail.RequireContactConfirmation = value; } }
 
 
-        public bool IncludeInBillingAnalysis { get { return dealOrder.IncludeInBillingAnalysis; } set { dealOrder.IncludeInBillingAnalysis = value; } }
+        public bool? IncludeInBillingAnalysis { get { return dealOrder.IncludeInBillingAnalysis; } set { dealOrder.IncludeInBillingAnalysis = value; } }
 
         public string HiatusDiscountFrom { get { return dealOrder.HiatusDiscountFrom; } set { dealOrder.HiatusDiscountFrom = value; } }
-        public bool RoundTripRentals { get { return dealOrderDetail.RoundTripRentals; } set { dealOrderDetail.RoundTripRentals = value; } }
+        public bool? RoundTripRentals { get { return dealOrderDetail.RoundTripRentals; } set { dealOrderDetail.RoundTripRentals = value; } }
 
-        public bool InGroup { get { return dealOrder.InGroup; } set { dealOrder.InGroup = value; } }
+        public bool? InGroup { get { return dealOrder.InGroup; } set { dealOrder.InGroup = value; } }
         public int GroupNumber { get { return dealOrder.GroupNumber; } set { dealOrder.GroupNumber = value; } }
 
 
@@ -242,12 +248,22 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
+        public virtual void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
+            bool b = false;
             if (e.SavePerformed)
             {
+                billToAddress.UniqueId1 = dealOrder.OrderId;
                 saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnBeforeSaveBillToAddress(object sender, BeforeSaveEventArgs e)
+        {
+            if (BillToAddressId.Equals(string.Empty))
+            {
+                e.PerformSave = false;
             }
         }
         //------------------------------------------------------------------------------------

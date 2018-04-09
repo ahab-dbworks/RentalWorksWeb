@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Repair
         public bool? OutsideRepair { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pending", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Pending { get; set; }
+        public bool? PoPending { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Billable { get; set; }

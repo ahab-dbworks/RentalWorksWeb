@@ -130,8 +130,8 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 01)]
-        public bool NoCharge { get; set; }
+        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 01)]
+        public bool? NoCharge { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nochargereason", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string NoChargeReason { get; set; }
@@ -167,14 +167,14 @@ namespace WebApi.Modules.Home.DealOrder
         public string IssuedToCountryId { get; set; }
         //------------------------------------------------------------------------------------
 
-        [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 1)]
-        public bool IncludeInBillingAnalysis { get; set; }
+        [FwSqlDataField(column: "includeinbillinganalysis", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? IncludeInBillingAnalysis { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "hiatusdiscfrom", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 07)]
         public string HiatusDiscountFrom { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "summaryinvoice", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 01)]
-        public bool InGroup { get; set; }
+        [FwSqlDataField(column: "summaryinvoice", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 01)]
+        public bool? InGroup { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int GroupNumber { get; set; }

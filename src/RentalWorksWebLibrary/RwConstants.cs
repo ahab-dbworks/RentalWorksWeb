@@ -27,6 +27,9 @@ namespace WebLibrary
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";
 
+
+        public const string ADDRESS_TYPE_BILLING = "BILL";
+
     }
 
     public class QuoteOrderCopyRequest

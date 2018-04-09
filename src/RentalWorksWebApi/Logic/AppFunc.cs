@@ -44,6 +44,21 @@ namespace WebApi.Logic
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> UpdateTaxFromTaxOptionASync(FwApplicationConfig AppConfig, FwUserSession UserSession, string TaxOptionId, string TaxId)
+        {
+            bool saved = false;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "updatetaxfromtaxoption", AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@taxoptionid", SqlDbType.NVarChar, ParameterDirection.Input, TaxOptionId);
+                qry.AddParameter("@taxid", SqlDbType.NVarChar, ParameterDirection.Input, TaxId);
+                await qry.ExecuteNonQueryAsync(true);
+                saved = true;
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
     }
 
 }

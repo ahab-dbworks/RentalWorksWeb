@@ -3,6 +3,7 @@ using FwStandard.BusinessLogic.Attributes;
 using WebApi.Modules.Home.Order;
 using System;
 using WebLibrary;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -17,6 +18,7 @@ namespace WebApi.Modules.Home.Quote
             browseLoader = quoteBrowseLoader;
             Type = RwConstants.ORDER_TYPE_QUOTE;
             BeforeSave += OnBeforeSave;
+            dealOrder.AfterSave += OnAfterSaveDealOrder;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -43,5 +45,25 @@ namespace WebApi.Modules.Home.Quote
             }
         }
         //------------------------------------------------------------------------------------ 
+        public override void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
+        {
+            base.OnAfterSaveDealOrder(sender, e);
+            if (e.SavePerformed)
+            {
+                QuoteLogic l2 = new QuoteLogic();
+                l2.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
+                BillToAddressId = l2.BillToAddressId;
+                TaxId = l2.TaxId;
+
+
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

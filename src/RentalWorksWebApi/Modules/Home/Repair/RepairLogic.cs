@@ -145,8 +145,7 @@ namespace WebApi.Modules.Home.Repair
         public string PriorityColor { get; set; }
 
         public string RepairType { get { return repair.RepairType; } set { repair.RepairType = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public bool? PoPending { get; set; }
+        public bool? PoPending { get { return repair.PoPending; } set { repair.PoPending = value; } }
         public string PoNumber { get { return repair.PoNumber; } set { repair.PoNumber = value; } }
         public string Damage { get { return repair.Damage; } set { repair.Damage = value; } }
         public string Correction { get { return repair.Correction; } set { repair.Correction = value; } }
@@ -189,14 +188,28 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------
         public void OnAfterSaveRepair(object sender, AfterSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            if (e.SavePerformed)
             {
-                if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
+                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
                 {
-                    RepairItemRecord repairItem = new RepairItemRecord();
-                    repairItem.RepairId = RepairId;
-                    repairItem.ItemId = ItemId;
-                    int i = repairItem.SaveAsync().Result;
+                    if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
+                    {
+                        RepairItemRecord repairItem = new RepairItemRecord();
+                        repairItem.RepairId = RepairId;
+                        repairItem.ItemId = ItemId;
+                        int i = repairItem.SaveAsync().Result;
+                    }
+                }
+
+                RepairLogic l2 = new RepairLogic();
+                l2.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                TaxId = l2.TaxId;
+
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+                {
+                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                 }
             }
         }
