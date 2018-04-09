@@ -1,21 +1,29 @@
-routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
-var RwInvoiceSummaryReport = (function () {
-    function RwInvoiceSummaryReport() {
-        this.Module = 'InvoiceSummaryReport';
-        this.ModuleOptions = {
-            ReportOptions: {
-                HasDownloadExcel: true
-            }
-        };
+﻿routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
+
+
+
+class RwInvoiceSummaryReport {
+    Module: string = 'InvoiceSummaryReport';
+    ModuleOptions: any = {
+        ReportOptions: {
+            HasDownloadExcel: true
+        }
+    };
+
+    constructor() {
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
-    RwInvoiceSummaryReport.prototype.getModuleScreen = function () {
+
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen() {
         var screen, $form;
-        screen = {};
+        screen            = {};
         screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
+
         $form = this.openForm();
+
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
@@ -23,29 +31,29 @@ var RwInvoiceSummaryReport = (function () {
         };
         return screen;
     };
-    ;
-    RwInvoiceSummaryReport.prototype.openForm = function () {
+    //----------------------------------------------------------------------------------------------
+    openForm() {
         var $form;
+    
         $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
-        $form.data('getexportrequest', function (request) {
+        $form.data('getexportrequest', function(request) {
             request.parameters = FwReport.getParameters($form);
             return request;
         });
+
         return $form;
     };
-    ;
-    RwInvoiceSummaryReport.prototype.onLoadForm = function ($form) {
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
         FwReport.load($form, this.ModuleOptions.ReportOptions);
-        var appOptions = program.getApplicationOptions();
-        var request = { method: "LoadForm" };
+        var appOptions: any = program.getApplicationOptions();
+        var request: any = { method: "LoadForm" };
         this.loadLists($form);
     };
-    ;
-    RwInvoiceSummaryReport.prototype.loadLists = function ($form) {
+    //----------------------------------------------------------------------------------------------
+    loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="statuslist"]'), [{ value: "NEW", text: "New", selected: "T" }, { value: "RETURNED", text: "Returned", selected: "T" }, { value: "REVISED", text: "Revised", selected: "T" }, { value: "APPROVED", text: "Approved", selected: "T" }, { value: "PROCESSED", text: "Processed", selected: "T" }, { value: "CLOSED", text: "Closed", selected: "T" }, { value: "VOID", text: "Void", selected: "T" }]);
-    };
-    return RwInvoiceSummaryReport;
-}());
-;
-var RwInvoiceSummaryReportController = new RwInvoiceSummaryReport();
-//# sourceMappingURL=RwInvoiceSummaryReportController.js.map
+    }
+};
+var RwInvoiceSummaryReportController: any = new RwInvoiceSummaryReport();
+

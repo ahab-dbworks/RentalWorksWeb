@@ -1097,6 +1097,7 @@
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\Footer.htm" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\FrontEnd.htm" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\Header.htm" />
+    <TypeScriptCompile Include="Source\Reports\InvoiceSummaryReport\RwInvoiceSummaryReportController.ts" />
     <TypeScriptCompile Include="Source\Reports\SalesInventoryTransactionsReport\RwSalesInventoryTransactionsReportController.ts" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\StyleSheet.css" />
     <Content Include="Source\Reports\RentalInventoryCatalog\Body.htm" />
@@ -1109,7 +1110,6 @@
     <Content Include="Source\Reports\InvoiceSummaryReport\Footer.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\FrontEnd.htm" />
     <Content Include="Source\Reports\InvoiceSummaryReport\Header.htm" />
-    <Content Include="Source\Reports\InvoiceSummaryReport\RwInvoiceSummaryReportController.js" />
     <Content Include="Source\Reports\InvoiceSummaryReport\StyleSheet.css" />
     <Content Include="Source\Reports\CreditsOnAccount\Body.htm" />
     <Content Include="Source\Reports\CreditsOnAccount\Footer.htm" />

@@ -58,10 +58,12 @@ namespace Web.Source.Reports
         protected override string renderBodyHtml(string styletemplate, string bodytemplate, PrintOptions printOptions)
         {
             string html;
+            dynamic statuslist;
             FwJsonDataTable dtInvoiceSummaryReport;
             StringBuilder sb;
 
-            dtInvoiceSummaryReport = GetInvoiceSummaryReport();
+            statuslist = request.parameters.statuslist;
+            dtInvoiceSummaryReport = GetInvoiceSummaryReport(statuslist);
 
             html = base.renderBodyHtml(styletemplate, bodytemplate, printOptions);
             sb = new StringBuilder(base.renderBodyHtml(styletemplate, bodytemplate, printOptions));
@@ -72,7 +74,7 @@ namespace Web.Source.Reports
             return html;
         }
         //---------------------------------------------------------------------------------------------
-        protected FwJsonDataTable GetInvoiceSummaryReport()
+        protected FwJsonDataTable GetInvoiceSummaryReport(dynamic statuslist)
         {
             FwSqlSelect select;
             FwSqlCommand qry;
@@ -100,6 +102,16 @@ namespace Web.Source.Reports
 
             select.Parse();
 
+            select.AddWhere("locationid = @officelocation");
+            select.AddWhere(" and ", "departmentid = @department");
+            select.AddWhere(" and", "customerid = @customer");
+            select.AddWhere(" and", "dealid = @deal");
+            select.AddWhereInFromCheckboxList("and", "status", statuslist, GetStatusList(), false);
+            select.AddParameter("@officelocation", request.parameters.OfficeLocationId);
+            select.AddParameter("@department", request.parameters.DepartmentId);
+            select.AddParameter("@customer", request.parameters.CustomerId);
+            select.AddParameter("@deal", request.parameters.DealId);
+
             dtDetails = qry.QueryToFwJsonTable(select, true);
             for (int i = 0; i < dtDetails.Rows.Count; i++)
             {
@@ -120,6 +132,21 @@ namespace Web.Source.Reports
             printoptions.HeaderHeight = 1.6f;
 
             return printoptions;
+        }
+        //---------------------------------------------------------------------------------------------
+        public List<FwReportStatusItem> GetStatusList()
+        {
+            List<FwReportStatusItem> statuslist;
+            statuslist = new List<FwReportStatusItem>();
+            statuslist.Add(new FwReportStatusItem() { value = "NEW", text = "New", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "RETURNED", text = "Returned", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "REVISED", text = "Revised", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "APPROVED", text = "Approved", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "PROCESSED", text = "Processed", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "CLOSED", text = "Closed", selected = "T" });
+            statuslist.Add(new FwReportStatusItem() { value = "VOID", text = "Void", selected = "T" });
+
+            return statuslist;
         }
         //---------------------------------------------------------------------------------------------
         public string GetCommaListDecrypt(string encryptedlist)
