@@ -1542,7 +1542,8 @@ var FwBrowse = (function () {
                         var css = {
                             'position': 'relative',
                             'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
-                            'border-top-style': 'none'
+                            'border-top-style': 'none',
+                            'text-indent': '10px'
                         };
                         $td.addClass('cellColor').css(css);
                     }
