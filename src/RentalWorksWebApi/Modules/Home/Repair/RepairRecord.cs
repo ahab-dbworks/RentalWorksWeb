@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "damagedealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DamageDealId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 7)]
+        [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 7, required: true)]
         public string RepairType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chargeorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -39,13 +39,13 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
         public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
@@ -93,7 +93,7 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "completebyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CompleteByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
@@ -117,7 +117,7 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "completedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string CompleteDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string LocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]

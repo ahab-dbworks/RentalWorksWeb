@@ -232,6 +232,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "completedby", modeltype: FwDataTypes.Text)]
         public string CompletedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
+        public string InputDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 

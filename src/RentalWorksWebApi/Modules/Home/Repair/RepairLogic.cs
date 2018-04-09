@@ -1,8 +1,11 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
 using WebApi.Modules.Home.RepairItem;
 using WebApi.Modules.Home.Tax;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Repair
 {
@@ -159,6 +162,7 @@ namespace WebApi.Modules.Home.Repair
         public string DueDate { get { return repair.DueDate; } set { repair.DueDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string CompletedBy { get; set; }
+        public string InputDate { get { return repair.InputDate; } set { repair.InputDate = value; } }
         public string InputByUserId { get { return repair.InputByUserId; } set { repair.InputByUserId = value; } }
         public string RepairItemStatusId { get { return repair.RepairItemStatusId; } set { repair.RepairItemStatusId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -183,6 +187,18 @@ namespace WebApi.Modules.Home.Repair
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
                 bool x = repair.SetNumber().Result;
+                Status = RwConstants.REPAIR_STATUS_NEW;
+                StatusDate = FwConvert.ToString(DateTime.Today);
+                InputDate = FwConvert.ToString(DateTime.Today);
+
+                if ((RepairDate == null) || (RepairDate.Equals(string.Empty)))
+                {
+                    RepairDate = FwConvert.ToString(DateTime.Today);
+                }
+                if ((Priority == null) || (Priority.Equals(string.Empty)))
+                {
+                    Priority = RwConstants.REPAIR_PRIORITY_MEDIUM;
+                }
             }
         }
         //------------------------------------------------------------------------------------
@@ -195,6 +211,7 @@ namespace WebApi.Modules.Home.Repair
                     if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
                     {
                         RepairItemRecord repairItem = new RepairItemRecord();
+                        repairItem.SetDependencies(this.AppConfig, this.UserSession);
                         repairItem.RepairId = RepairId;
                         repairItem.ItemId = ItemId;
                         int i = repairItem.SaveAsync().Result;

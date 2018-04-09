@@ -30,6 +30,14 @@ namespace WebLibrary
 
         public const string ADDRESS_TYPE_BILLING = "BILL";
 
+
+        public const string REPAIR_STATUS_NEW = "NEW";
+
+        public const string REPAIR_PRIORITY_HIGH = "HIG";
+        public const string REPAIR_PRIORITY_MEDIUM = "MED";
+        public const string REPAIR_PRIORITY_LOW = "LOW";
+
+
     }
 
     public class QuoteOrderCopyRequest
