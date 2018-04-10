@@ -102,15 +102,29 @@ namespace Web.Source.Reports
 
             select.Parse();
 
-            select.AddWhere("locationid = @officelocation");
-            select.AddWhere(" and ", "departmentid = @department");
-            select.AddWhere(" and", "customerid = @customer");
-            select.AddWhere(" and", "dealid = @deal");
+            if (request.parameters.OfficeLocationId != "")
+            {
+                select.AddWhere("and", "locationid = @officelocation");
+                select.AddParameter("@officelocation", request.parameters.OfficeLocationId);
+            }
+            if (request.parameters.DepartmentId != "")
+            {
+                select.AddWhere("and", "departmentid = @department");
+                select.AddParameter("@department", request.parameters.DepartmentId);
+            }
+            if (request.parameters.CustomerId != "")
+            {
+                select.AddWhere("and", "customerid = @customer");
+                select.AddParameter("@customer", request.parameters.CustomerId);
+            }
+            if (request.parameters.DealId != "")
+            {
+                select.AddWhere("and", "dealid = @deal");
+
+                select.AddParameter("@deal", request.parameters.DealId);
+            }
             select.AddWhereInFromCheckboxList("and", "status", statuslist, GetStatusList(), false);
-            select.AddParameter("@officelocation", request.parameters.OfficeLocationId);
-            select.AddParameter("@department", request.parameters.DepartmentId);
-            select.AddParameter("@customer", request.parameters.CustomerId);
-            select.AddParameter("@deal", request.parameters.DealId);
+          
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
             for (int i = 0; i < dtDetails.Rows.Count; i++)
