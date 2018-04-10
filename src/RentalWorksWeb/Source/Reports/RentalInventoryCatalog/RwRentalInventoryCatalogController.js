@@ -7,6 +7,43 @@ var RwRentalInventoryCatalog = (function () {
                 HasDownloadExcel: true
             }
         };
+        this.beforeValidate = function ($browse, $form, request) {
+            var validationName = request.module;
+            if (validationName != null) {
+                var InventoryTypeValue = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                if (InventoryTypeValue != "") {
+                    var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
+                    var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                    console.log(InventoryTypeValue, CategoryTypeId, SubCategoryTypeId);
+                    switch (validationName) {
+                        case 'InventoryTypeValidation':
+                            request.uniqueids = {
+                                Rental: true
+                            };
+                            break;
+                        case 'RentalCategoryValidation':
+                            request.uniqueids = {
+                                InventoryTypeId: InventoryTypeValue
+                            };
+                            break;
+                        case 'SubCategoryValidation':
+                            request.uniqueids = {
+                                TypeId: InventoryTypeValue,
+                                CategoryId: CategoryTypeId
+                            };
+                            break;
+                        case 'RentalInventoryValidation':
+                            request.uniqueids = {
+                                InventoryTypeId: InventoryTypeValue,
+                                CategoryId: CategoryTypeId,
+                                SubCategoryId: SubCategoryTypeId
+                            };
+                            break;
+                    }
+                    ;
+                }
+            }
+        };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
     RwRentalInventoryCatalog.prototype.getModuleScreen = function () {

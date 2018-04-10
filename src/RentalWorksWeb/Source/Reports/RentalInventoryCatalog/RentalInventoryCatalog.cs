@@ -89,10 +89,22 @@ namespace Web.Source.Reports
             select.Parse();
 
             select.AddWhere("and", "m.availfor = 'R'");
+            select.AddWhere("and", "m.warehouseid = @warehouse");
+            select.AddWhere("and", "m.inventorydepartmentid = @inventorytype");
+            select.AddWhere("and", "m.categoryid = @category");
+            select.AddWhere("and", "m.subcategoryid = @subcategory");
+            select.AddWhere("and", "m.masterid = @icode");
+
             select.AddWhereInFromCheckboxList("and", "m.class", classificationlist, GetClassificationList(), false);
             select.AddWhereInFromCheckboxList("and", "m.trackedby", trackedbylist, GetTrackedByList(), false);
             select.AddWhereInFromCheckboxList("and", "m.rank", ranklist, GetRankList(), false);
             select.AddOrderBy("m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");
+            select.AddParameter("@warehouse", request.parameters.WarehouseId);
+            select.AddParameter("@inventorytype", request.parameters.InventoryTypeId);
+            select.AddParameter("@category", request.parameters.CategoryId);
+            select.AddParameter("@subcategory", request.parameters.SubCategoryId);
+            select.AddParameter("@icode", request.parameters.RentalInventoryId);
+
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
             
