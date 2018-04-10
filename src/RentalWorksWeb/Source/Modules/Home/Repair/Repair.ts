@@ -34,13 +34,6 @@ class Repair {
     let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
     $browse = FwModule.openBrowse($browse);
 
-    FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-    FwBrowse.addLegend($browse, 'Priority', '#EA300F');
-    FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
-    FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
-    FwBrowse.addLegend($browse, 'Outside', '#fffb38');
-    FwBrowse.addLegend($browse, 'Released', '#d6d319');
-
     let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
     this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
 
@@ -49,10 +42,22 @@ class Repair {
     });
 
     FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-        FwBrowse.addLegend($browse, 'Pending Repair', response[1].Color);
-        FwBrowse.addLegend($browse, 'Transferred', response[4].Color);
+      
+      let out = response.filter(item => {
+        return item.InventoryStatus === 'OUT' 
+      })
+      let intransit = response.filter(item => {
+        return item.InventoryStatus === 'IN TRANSIT' 
+      })
 
-          
+        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+        FwBrowse.addLegend($browse, 'Priority', '#EA300F');
+        FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
+        FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
+        FwBrowse.addLegend($browse, 'Outside', '#fffb38');
+        FwBrowse.addLegend($browse, 'Released', '#d6d319');
+        FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
+        FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
         }, null, $browse);
             
     return $browse;
@@ -140,12 +145,23 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  openForm = (mode: string) => {
+  openForm(mode: string) {
       let $form;
       $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
       $form = FwModule.openForm($form, mode);
-      $form.find('.icodesales').hide();
+
       $form.find('.warehouseid').hide();
+      $form.find('.departmentid').hide();
+      $form.find('.locationid').hide();
+      $form.find('.inputbyuserid').hide();
+      $form.find('.icodesales').hide();
+
+       // Tax Option Validation
+      $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
+          FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-formdatafield="RentalTaxRate1"]').attr('data-originalvalue'));
+          FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-formdatafield="SalesTaxRate1"]').attr('data-originalvalue'));
+          FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
+      });
 
       if (mode === 'NEW') {
           $form.find('.ifnew').attr('data-enabled', 'true');
@@ -153,15 +169,20 @@ class Repair {
           const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
           const office = JSON.parse(sessionStorage.getItem('location'));
           const department = JSON.parse(sessionStorage.getItem('department'));
+          const userId = JSON.parse(sessionStorage.getItem('userid'));
+          const locationId = JSON.parse(sessionStorage.getItem('location'));
 
-          $form.find('div[data-datafield="DepartmentId"] input').val(department.departmentid);
-          //$form.find('div[data-displayfield="Department"] input').val(department.department);
 
+          $form.find('div[data-displayfield="Department"] input').val(department.department);
+          FwFormField.setValue($form, '.departmentid', department.departmentid);
+          FwFormField.setValueByDataField($form, 'Priority', 'MED');          
           FwFormField.setValueByDataField($form, 'RepairDate', today);
           FwFormField.setValueByDataField($form, 'Location', office.location);
           FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
           FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
           FwFormField.setValueByDataField($form, 'Quantity', 1);
+          FwFormField.setValueByDataField($form, 'InputByUserId', userId.webusersid);
+          FwFormField.setValueByDataField($form, 'LocationId', locationId.locationid);
 
           $form.find('div[data-datafield="PendingRepair"] input').prop('checked', false);
           $form.find('div[data-datafield="PoPending"] input').prop('checked', true);
@@ -170,16 +191,19 @@ class Repair {
           FwFormField.enable($form.find('div[data-displayfield="ICode"]'));
           FwFormField.enable($form.find('div[data-displayfield="RfId"]'));
           FwFormField.enable($form.find('div[data-displayfield="DamageOrderNumber"]'));
+          FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
+          FwFormField.enable($form.find('div[data-datafield="RepairType"]'));
 
-        // BarCode, SN, RFID Validation
+          // BarCode, SN, RFID Validation
           $form.find('div[data-datafield="ItemId"]').data('onchange', $tr => {
               FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-displayfield="BarCode"] ',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-displayfield="ICode"] ',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-displayfield="BarCode"]',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-displayfield="ICode"]',$tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-displayfield="RfId"] ',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-displayfield="RfId"]',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
               FwFormField.disable($form.find('div[data-displayfield="ICode"]'));
           });
+
           // ICode Validation
           $form.find('div[data-datafield="InventoryId"]').data('onchange', $tr => {
               FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
@@ -188,12 +212,17 @@ class Repair {
               FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
               FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
 
-            if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
-                FwFormField.setValue($form, '.icoderental', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
-            } 
-            else { 
-                FwFormField.setValue($form, '.icodesales', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
-            }
+              if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                  FwFormField.setValue($form, '.icoderental', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
+              } 
+              else { 
+                  FwFormField.setValue($form, '.icodesales', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
+              }
+          });
+
+          // Department Validation
+          $form.find('div[data-datafield="DepartmentId"]').data('onchange', $tr => {
+              FwFormField.setValue($form, '.departmentid', $tr.find('.field[data-formdatafield="DepartmentId"]').attr('data-originalvalue'));
           });
 
           // Order Validation
@@ -202,24 +231,49 @@ class Repair {
               FwFormField.setValue($form, 'div[data-datafield="DamageDeal"]', $tr.find('.field[data-formdatafield="Deal"]').attr('data-originalvalue'));
           });
 
-          // Tax Option Validation
-          $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
-              FwFormField.setValue($form, 'div[data-datafield="RentalTaxRate1"]', $tr.find('.field[data-formdatafield="RentalTaxRate1"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-formdatafield="SalesTaxRate1"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-formdatafield="LaborTaxRate1"]').attr('data-originalvalue'));
-          });
-
           // Sales or Rent Order
          $form.find('.repairavailforradio').on('change', $tr => {
-              if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
-                  $form.find('.icodesales').show();
-                  $form.find('.icoderental').hide();
+              if (FwFormField.getValueByDataField($form, 'RepairType') === 'OWNED') {
+                  if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                      $form.find('.icodesales').show();
+                      $form.find('.icoderental').hide();              
+              }
+                  else {
+                      $form.find('.icodesales').hide();
+                      $form.find('.icoderental').show();              
+                  }
+                
+              }
+              
+         });
+
+         // Repair Type Change
+         $form.find('.repairtyperadio').on('change', $tr => {
+              if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
+                  $form.find('.itemid').hide();
+                  $form.find('.icode').hide();
               }
               else {
-                  $form.find('.icodesales').hide();
-                  $form.find('.icoderental').show();
+                  $form.find('.itemid').show();
+                  if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                      $form.find('.icodesales').show();
+                  }
+                  else {
+                      $form.find('.icoderental').show();              
+                  }
               }
          });
+
+          // Pending PO Number
+          $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', function () {
+              var $this = jQuery(this);
+              if ($this.prop('checked') === true) {
+                  FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
+              }
+              else {
+                 FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
+              }
+          });
 
           FwFormField.disable($form.find('.frame'));
           $form.find(".frame .add-on").children().hide();
@@ -235,6 +289,16 @@ class Repair {
       $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
       FwModule.loadForm(this.Module, $form);
 
+      $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', function () {
+          var $this = jQuery(this);
+          if ($this.prop('checked') === true) {
+              FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
+          }
+          else {
+             FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
+          }
+      });
+    
       return $form;
   };
 
@@ -249,6 +313,14 @@ class Repair {
       FwBrowse.search($repairCostGrid); 
       let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
       FwBrowse.search($repairPartGrid);
+
+          var $pending = $form.find('div.fwformfield[data-datafield="PoPending"] input').prop('checked');
+          if ($pending === true) {
+             FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
+          }
+          else {
+              FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
+          } 
   };
 
   //----------------------------------------------------------------------------------------------
@@ -397,6 +469,7 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   beforeValidate = ($browse, $grid, request) => {
         const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         switch (validationName) {
             case 'RentalInventoryValidation':
@@ -409,6 +482,11 @@ class Repair {
                 request.uniqueids = {
                     Classification: 'I',
                     TrackedBy: 'QUANTITY'
+                };
+                break;
+            case 'ItemValidation':
+                request.uniqueids = {
+                    WarehouseId: warehouse.warehouseid
                 };
                 break;
         };

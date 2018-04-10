@@ -46,7 +46,8 @@ class PartsInventory {
 
     addBrowseMenuItems = ($menuObject: any) => {
         let self = this;
-        let $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
+        let $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
+        let $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true);
         let $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
         let $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
         let $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit', false);
@@ -57,6 +58,12 @@ class PartsInventory {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
+            FwBrowse.search($browse);
+        });
+        $item.on('click', function() {
+            let $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'ITEM';
             FwBrowse.search($browse);
         });
         $accessory.on('click', function() {
@@ -94,6 +101,7 @@ class PartsInventory {
 
         let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all);
+        viewSubitems.push($item);
         viewSubitems.push($accessory);
         viewSubitems.push($complete);
         viewSubitems.push($kitset);
