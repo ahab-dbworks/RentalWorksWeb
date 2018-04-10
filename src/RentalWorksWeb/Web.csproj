@@ -1148,6 +1148,7 @@
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
+    <Content Include="Source\Validations\WarehouseCatalogValidation\WarehouseCatalogValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairItemStatusValidation\RepairItemStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />
@@ -1354,6 +1355,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
