@@ -1535,17 +1535,19 @@ var FwBrowse = (function () {
                         $field.attr('data-originalvalue', '');
                     }
                     var cellcolor = $field.attr('data-cellcolor');
-                    if ((typeof cellcolor !== 'undefined') && (cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
-                        if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
-                            throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
+                    if (typeof cellcolor !== 'undefined') {
+                        $td.css('text-indent', '10px');
+                        if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
+                            }
+                            var css = {
+                                'position': 'relative',
+                                'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
+                                'border-top-style': 'none',
+                            };
+                            $td.addClass('cellColor').css(css);
                         }
-                        var css = {
-                            'position': 'relative',
-                            'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
-                            'border-top-style': 'none',
-                            'text-indent': '10px'
-                        };
-                        $td.addClass('cellColor').css(css);
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');
                     if ((typeof browsecellbackgroundcolorfield !== 'undefined') && (browsecellbackgroundcolorfield.length > 0)) {
