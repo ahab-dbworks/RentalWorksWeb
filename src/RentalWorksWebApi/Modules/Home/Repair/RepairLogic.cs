@@ -24,7 +24,6 @@ namespace WebApi.Modules.Home.Repair
 
             repair.BeforeSave += OnBeforeSaveRepair;
             repair.AfterSave += OnAfterSaveRepair;
-
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -125,7 +124,7 @@ namespace WebApi.Modules.Home.Repair
         public string TaxOption { get; set; }
 
 
-        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
+        public string TaxId { get { return tax.TaxId; } set { tax.TaxId = value; repair.TaxId = value; } }
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
@@ -186,7 +185,7 @@ namespace WebApi.Modules.Home.Repair
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                bool x = repair.SetNumber().Result;
+                RepairNumber = AppFunc.GetNextCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR).Result;
                 Status = RwConstants.REPAIR_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 InputDate = FwConvert.ToString(DateTime.Today);
@@ -199,6 +198,13 @@ namespace WebApi.Modules.Home.Repair
                 {
                     Priority = RwConstants.REPAIR_PRIORITY_MEDIUM;
                 }
+                if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+                {
+                    TaxOptionId = AppFunc.GetDepartmentLocation(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
+                }
+                TaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
+                bool b = AppFunc.UpdateTaxFromTaxOptionASync(AppConfig, UserSession, TaxOptionId, TaxId).Result;
+
             }
         }
         //------------------------------------------------------------------------------------
@@ -218,15 +224,21 @@ namespace WebApi.Modules.Home.Repair
                     }
                 }
 
-                RepairLogic l2 = new RepairLogic();
-                l2.SetDependencies(this.AppConfig, this.UserSession);
-                object[] pk = GetPrimaryKeys();
-                bool b = l2.LoadAsync<RepairLogic>(pk).Result;
-                TaxId = l2.TaxId;
-
-                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)) && (TaxId != null) && (!TaxId.Equals(string.Empty)))
+                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
                 {
-                    b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                    if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                    {
+                        RepairLogic l2 = new RepairLogic();
+                        l2.SetDependencies(this.AppConfig, this.UserSession);
+                        object[] pk = GetPrimaryKeys();
+                        bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                        TaxId = l2.TaxId;
+
+                        if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                        {
+                            b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        }
+                    }
                 }
             }
         }

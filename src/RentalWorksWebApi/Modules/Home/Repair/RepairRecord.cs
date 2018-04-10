@@ -165,11 +165,5 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SetNumber()
-        {
-            RepairNumber = await AppFunc.GetNextCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR);
-            return true;
-        }
-        //-------------------------------------------------------------------------------------------------------
     }
 }
