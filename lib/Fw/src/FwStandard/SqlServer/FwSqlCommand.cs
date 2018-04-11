@@ -1854,14 +1854,14 @@ namespace FwStandard.SqlServer
                             {
                                 sqlColumnName = sqlDataFieldAttribute.ColumnName;
                             }
-                            if ((sqlDataFieldAttribute.IsPrimaryKey) && (!sqlDataFieldAttribute.IsPrimaryKeyOptional) && (!isIdentity) && (!sqlDataFieldAttribute.IsCustomPrimaryKey))
-                            {
-                                using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
-                                {
-                                    propertyValue = await FwSqlData.GetNextIdAsync(conn, dbConfig);
-                                }
-                                propertyInfo.SetValue(businessObject, propertyValue);
-                            }
+                            //if ((sqlDataFieldAttribute.IsPrimaryKey) && (!sqlDataFieldAttribute.IsPrimaryKeyOptional) && (!isIdentity)/* && (!sqlDataFieldAttribute.IsCustomPrimaryKey)*/)  
+                            //{  
+                            //    using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))  
+                            //    {  
+                            //        propertyValue = await FwSqlData.GetNextIdAsync(conn, dbConfig);  
+                            //    }  
+                            //    propertyInfo.SetValue(businessObject, propertyValue);  
+                            //}  
                         }
                         if (isIdentity)
                         {

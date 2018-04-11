@@ -76,7 +76,7 @@ namespace FwStandard.DataLayer
                             //}
 
                             //justin 02/12/2018
-                            if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsCustomPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
+                            if ((dataFieldAttribute.IsPrimaryKey) /*|| (dataFieldAttribute.IsCustomPrimaryKey)*/ || (dataFieldAttribute.IsPrimaryKeyOptional))
                             {
                                 primaryKeyProperties.Add(property);
                             }
@@ -274,7 +274,7 @@ namespace FwStandard.DataLayer
                     if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
                     {
                         FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
-                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity) && (!dataFieldAttribute.IsCustomPrimaryKey))
+                        if ((!dataFieldAttribute.IsPrimaryKeyOptional) && (!dataFieldAttribute.Identity)/* && (!dataFieldAttribute.IsCustomPrimaryKey)*/)
                         {
                             string id = await FwSqlData.GetNextIdAsync(conn, AppConfig.DatabaseSettings);
                             if (primaryKeyProperty.GetValue(this) is string)
@@ -282,11 +282,11 @@ namespace FwStandard.DataLayer
                                 primaryKeyProperties[0].SetValue(this, id);
                             }
                         }
-                        else if (dataFieldAttribute.IsCustomPrimaryKey)
-                        {
-                            object id = await GetCustomPrimaryKey(conn, AppConfig.DatabaseSettings);
-                            primaryKeyProperties[0].SetValue(this, id);
-                        }
+                        //else if (dataFieldAttribute.IsCustomPrimaryKey)
+                        //{
+                        //    object id = await GetCustomPrimaryKey(conn, AppConfig.DatabaseSettings);
+                        //    primaryKeyProperties[0].SetValue(this, id);
+                        //}
                     }
                 }
             }

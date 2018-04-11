@@ -12,12 +12,14 @@ namespace FwStandard.DataLayer
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
+        public event EventHandler<EventArgs> AssignPrimaryKeys;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
+        public delegate void AssignPrimaryKeysEventHandler(EventArgs e);
 
         protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
         {
@@ -54,6 +56,14 @@ namespace FwStandard.DataLayer
         protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
         {
             EventHandler<AfterDeleteEventArgs> handler = AfterDelete;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        protected virtual void OnAssignPrimaryKeys(EventArgs e)
+        {
+            EventHandler<EventArgs> handler = AssignPrimaryKeys;
             if (handler != null)
             {
                 handler(this, e);
@@ -102,7 +112,15 @@ namespace FwStandard.DataLayer
                 if (NoPrimaryKeysHaveValues)
                 {
                     //insert
-                    await SetPrimaryKeyIdsForInsertAsync(conn);
+                    if (AssignPrimaryKeys == null)
+                    {
+                        await SetPrimaryKeyIdsForInsertAsync(conn);
+                    }
+                    else
+                    {
+                        EventArgs e = new EventArgs();
+                        AssignPrimaryKeys(this, e);
+                    }
                     BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
                     AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
                     beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
