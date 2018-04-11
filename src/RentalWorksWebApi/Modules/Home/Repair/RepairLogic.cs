@@ -16,6 +16,8 @@ namespace WebApi.Modules.Home.Repair
         TaxRecord tax = new TaxRecord();
         RepairLoader repairLoader = new RepairLoader();
 
+        private string tmpTaxId = "";
+
         public RepairLogic()
         {
             dataRecords.Add(repair);
@@ -24,6 +26,9 @@ namespace WebApi.Modules.Home.Repair
 
             repair.BeforeSave += OnBeforeSaveRepair;
             repair.AfterSave += OnAfterSaveRepair;
+
+            tax.AssignPrimaryKeys += TaxAssignPrimaryKeys;
+            tax.AfterSave += OnAfterSaveTax;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -119,12 +124,12 @@ namespace WebApi.Modules.Home.Repair
         public string ChargeInvoiceDescription { get; set; }
 
 
-        public string TaxOptionId { get; set; }
+        public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string TaxOption { get; set; }
 
 
-        public string TaxId { get { return tax.TaxId; } set { tax.TaxId = value; repair.TaxId = value; } }
+        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
@@ -181,6 +186,11 @@ namespace WebApi.Modules.Home.Repair
         public bool? Inactive { get; set; }
         public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void TaxAssignPrimaryKeys(object sender, EventArgs e)
+        {
+            ((TaxRecord)sender).TaxId = tmpTaxId;
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnBeforeSaveRepair(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
@@ -202,8 +212,8 @@ namespace WebApi.Modules.Home.Repair
                 {
                     TaxOptionId = AppFunc.GetDepartmentLocation(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
                 }
-                TaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
-                bool b = AppFunc.UpdateTaxFromTaxOptionASync(AppConfig, UserSession, TaxOptionId, TaxId).Result;
+                tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
+                TaxId = tmpTaxId;
 
             }
         }
@@ -238,6 +248,29 @@ namespace WebApi.Modules.Home.Repair
                         {
                             b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                         }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSaveTax(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SavePerformed)
+            {
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                {
+                    if ((TaxId == null) || (TaxId.Equals(string.Empty)))
+                    {
+                        RepairLogic l2 = new RepairLogic();
+                        l2.SetDependencies(this.AppConfig, this.UserSession);
+                        object[] pk = GetPrimaryKeys();
+                        bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                        TaxId = l2.TaxId;
+                    }
+
+                    if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                    {
+                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                     }
                 }
             }
