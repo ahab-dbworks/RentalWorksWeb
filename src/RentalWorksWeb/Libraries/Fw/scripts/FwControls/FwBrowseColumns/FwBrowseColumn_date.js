@@ -13,6 +13,7 @@ FwBrowseColumn_date.getFieldValue = function($browse, $tr, $field, field, origin
 FwBrowseColumn_date.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);
+    $field.inputmask('mm/dd/yyyy');
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_date.setFieldEditMode = function($browse, $field, $tr, html) {
