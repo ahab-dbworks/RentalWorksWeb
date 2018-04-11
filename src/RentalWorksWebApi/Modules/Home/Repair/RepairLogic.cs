@@ -129,7 +129,7 @@ namespace WebApi.Modules.Home.Repair
         public string TaxOption { get; set; }
 
 
-        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
+        public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }  
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
@@ -214,7 +214,17 @@ namespace WebApi.Modules.Home.Repair
                 }
                 tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
                 TaxId = tmpTaxId;
-
+            }
+            else
+            {
+                if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
+                {
+                    RepairLogic l2 = new RepairLogic();
+                    l2.SetDependencies(this.AppConfig, this.UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b = l2.LoadAsync<RepairLogic>(pk).Result;
+                    tax.TaxId = l2.TaxId;
+                }
             }
         }
         //------------------------------------------------------------------------------------
