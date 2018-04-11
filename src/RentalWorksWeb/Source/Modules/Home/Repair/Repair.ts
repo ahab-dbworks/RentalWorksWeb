@@ -244,7 +244,6 @@ class Repair {
                   }
                 
               }
-              
          });
 
          // Repair Type Change
@@ -484,11 +483,32 @@ class Repair {
                     TrackedBy: 'QUANTITY'
                 };
                 break;
-            case 'ItemValidation':
+            case 'BarCodeItemValidation':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid
                 };
                 break;
+            case 'SerialNumberItemValidation':
+              request.uniqueids = {
+                  WarehouseId: warehouse.warehouseid
+              };
+              break;
+            case 'RfIdItemValidation':
+              request.uniqueids = {
+                  WarehouseId: warehouse.warehouseid
+              };
+              break;
+            case 'RentalInventoryValidation':
+              request.uniqueids = {
+                  WarehouseId: warehouse.warehouseid
+              };
+              break;
+            case 'SalesInventoryValidation':
+              request.uniqueids = {
+                  WarehouseId: warehouse.warehouseid
+              };
+              break;
+
         };
     }
 }
