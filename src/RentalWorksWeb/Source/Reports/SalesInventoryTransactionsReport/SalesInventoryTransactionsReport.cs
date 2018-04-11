@@ -57,7 +57,12 @@ namespace Web.Source.Reports
       select.Add("select warehousecode=rv.[Warehouse code], rpt.*");
       select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
       select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
-      select.Add("rpt.warehouseid = rv.warehouseid)");   
+      select.Add("rpt.warehouseid = rv.warehouseid)");
+      select.Add("                                  @icodeids,");
+      select.Add("                                  @subcategoryids,");
+      select.Add("                                  @warehouseids,");
+      select.Add("                                  @inventorytypeids,");
+      select.Add("                                  @categoryids,");
 
       select.Parse();
 
@@ -67,6 +72,12 @@ namespace Web.Source.Reports
       select.AddWhere(" and",   "rpt.warehouseid in ('0000000H')");
       select.AddParameter("@startdate", request.parameters.StartDate);
       select.AddParameter("@enddate", request.parameters.EndDate);
+      select.AddParameter("@inventorytypeids",  GetCommaListDecrypt(request.parameters.InventoryTypeId));
+      select.AddParameter("@categoryids",             GetCommaListDecrypt(request.parameters.CategoryId));
+      select.AddParameter("@warehouseids",    GetCommaListDecrypt(request.parameters.WarehouseId));
+      select.AddParameter("@subcategoryids",             GetCommaListDecrypt(request.parameters.SubCategoryId));
+      select.AddParameter("@icodeids",                 GetCommaListDecrypt(request.parameters.InventoryId));
+
       select.AddOrderBy("rv.[Warehouse], rpt.masterno, rpt.transdate, rpt.orderby");
 
       dtDetails = qry.QueryToFwJsonTable(select, true);
