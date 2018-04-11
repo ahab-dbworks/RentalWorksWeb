@@ -198,6 +198,8 @@ var Order = (function () {
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
         return $form;
     };
     ;

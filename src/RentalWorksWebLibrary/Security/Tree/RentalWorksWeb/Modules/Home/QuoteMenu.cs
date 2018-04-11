@@ -27,6 +27,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{4DC0D014-C444-4955-A59A-C29EA9B14E1F}", nodeFormSubMenu.Id);
             tree.AddSubMenuItem("Copy Quote", "{B918C711-32D7-4470-A8E5-B88AB5712863}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{CF47C42C-D9CE-442E-8C75-1F61CCE89CAB}", nodeFormMenuBar.Id);
+            tree.AddSubMenuItem("Search", "{BC3B1A5E-7270-4547-8FD1-4D14F505D452}", nodeFormOptions.Id);
         }
 
         //---------------------------------------------------------------------------------------------
