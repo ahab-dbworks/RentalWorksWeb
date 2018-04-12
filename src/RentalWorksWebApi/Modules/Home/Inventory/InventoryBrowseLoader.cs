@@ -76,6 +76,11 @@ namespace WebApi.Modules.Home.Inventory
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             select.AddWhere("(availfor='" + AvailFor + "')");
             addFilterToSelect("TrackedBy", "trackedby", select, request);
+            addFilterToSelect("Classification", "class", select, request);
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+            addFilterToSelect("CategoryId", "categoryid", select, request);
+            addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
+
 
             if ((request != null) && (request.activeview != null))
             {

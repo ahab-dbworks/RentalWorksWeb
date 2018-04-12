@@ -119,7 +119,7 @@ namespace WebApi.Modules.Home.Master
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("TrackedBy", "trackedby", select, request); 
             addFilterToSelect("Classification", "class", select, request);
-            addFilterToSelect("InventoryTypeId", "inventorytypeid", select, request); 
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("CategoryId", "categoryid", select, request); 
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request); 
 
@@ -140,6 +140,10 @@ namespace WebApi.Modules.Home.Master
                         select.AddParameter("@classification", "C");
                         break;
                     case "KIT":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "K");
+                        break;
+                    case "KITSET":
                         select.AddWhere("(class = @classification)");
                         select.AddParameter("@classification", "K");
                         break;
