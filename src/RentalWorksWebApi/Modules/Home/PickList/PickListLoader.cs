@@ -136,6 +136,23 @@ namespace WebApi.Modules.Home.PickList
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("OrderId", "orderid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
+
+
+            if ((request != null) && (request.activeview != null))
+            {
+
+                if (request.activeview.Contains("WarehouseId="))
+                {
+                    string whId = request.activeview.Replace("WarehouseId=", "");
+                    if (!whId.Equals("ALL"))
+                    {
+                        select.AddWhere("(warehouseid = @whid)");
+                        select.AddParameter("@whid", whId);
+                    }
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------ 
     }

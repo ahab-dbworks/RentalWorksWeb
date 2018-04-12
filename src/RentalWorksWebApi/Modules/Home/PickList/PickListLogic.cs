@@ -12,10 +12,12 @@ namespace WebApi.Modules.Home.PickList
         //------------------------------------------------------------------------------------ 
         PickListRecord pickList = new PickListRecord();
         PickListLoader pickListLoader = new PickListLoader();
+        PickListBrowseLoader pickListBrowseLoader = new PickListBrowseLoader();
         public PickListLogic()
         {
             dataRecords.Add(pickList);
             dataLoader = pickListLoader;
+            browseLoader = pickListBrowseLoader;
             pickList.AfterSave += OnAfterSavePickList;
         }
         //------------------------------------------------------------------------------------ 
