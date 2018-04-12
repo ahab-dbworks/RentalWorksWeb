@@ -83,24 +83,42 @@ namespace Web.Source.Reports
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             select = new FwSqlSelect();
 
-            if (request.parameters.DateType == "InvoiceDate")
-            {
-                select.Add("select * from dbo.funcinvoicesummaryrpt");
-                select.Add("(@startdate, @enddate, null, null, 'F', 'F', 'F')");
-                select.Add("order by location, department, customer, deal");
-                select.AddParameter("@startdate", request.parameters.StartDate);
-                select.AddParameter("@enddate", request.parameters.EndDate);
-            }
-            else if (request.parameters.DateType == "BillingStartDate")
-            {
-                select.Add("select * from dbo.funcinvoicesummaryrpt");
-                select.Add("(null, null, @startdate, @enddate, 'F', 'F', 'F')");
-                select.Add("order by location, department, customer, deal");
-                select.AddParameter("@startdate", request.parameters.StartDate);
-                select.AddParameter("@enddate", request.parameters.EndDate);
-            }
+            //if (request.parameters.DateType == "InvoiceDate")
+            //{
+            //    select.Add("select * from dbo.funcinvoicesummaryrpt");
+            //    select.Add("(@startdate, @enddate, null, null, 'F', 'F', 'F')");
+            //    select.Add("order by location, department, customer, deal");
+            //    select.AddParameter("@startdate", request.parameters.StartDate);
+            //    select.AddParameter("@enddate", request.parameters.EndDate);
+            //}
+            //else if (request.parameters.DateType == "BillingStartDate")
+            //{
+            //    select.Add("select * from dbo.funcinvoicesummaryrpt");
+            //    select.Add("(null, null, @startdate, @enddate, 'F', 'F', 'F')");
+            //    select.Add("order by location, department, customer, deal");
+            //    select.AddParameter("@startdate", request.parameters.StartDate);
+            //    select.AddParameter("@enddate", request.parameters.EndDate);
+            //}
+
+            select.Add("select * ");
+            select.Add(" from  invoicesummaryrptview");
+            select.Add("order by location, department, customer, deal");
 
             select.Parse();
+
+            if (request.parameters.DateType == "InvoiceDate")
+            {
+                select.AddWhere("where", "invoicedate >= @startdate");
+                select.AddWhere("and", "invoicedate <= @enddate");
+            }
+            else  // using Billing Start Date
+            {
+                select.AddWhere("where", "billingstart >= @startdate");
+                select.AddWhere("and", "billingstart <= @enddate");
+            }
+            select.Add("order by location, department, customer, deal");
+            select.AddParameter("@startdate", request.parameters.StartDate);
+            select.AddParameter("@enddate", request.parameters.EndDate);
 
             if (request.parameters.OfficeLocationId != "")
             {
@@ -120,7 +138,6 @@ namespace Web.Source.Reports
             if (request.parameters.DealId != "")
             {
                 select.AddWhere("and", "dealid = @deal");
-
                 select.AddParameter("@deal", request.parameters.DealId);
             }
             select.AddWhereInFromCheckboxList("and", "status", statuslist, GetStatusList(), false);
