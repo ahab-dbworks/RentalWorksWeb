@@ -30,7 +30,7 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "damagedealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DamageDealId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 7, required: true)]
+        [FwSqlDataField(column: "repairtype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
         public string RepairType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chargeorderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]

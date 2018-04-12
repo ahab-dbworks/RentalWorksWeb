@@ -10,7 +10,6 @@ namespace WebApi.Logic
     {
 
         //-------------------------------------------------------------------------------------------------------
-
         public static async Task<string> GetNextIdAsync(FwApplicationConfig appConfig)
         {
             string id = "";
@@ -19,6 +18,36 @@ namespace WebApi.Logic
                 id = await FwSqlData.GetNextIdAsync(conn, appConfig.DatabaseSettings);
             }
             return id;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<FwDatabaseField> GetDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        {
+            FwDatabaseField result;
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select top 1 " + selectcolumn);
+                qry.Add("from " + tablename + " with (nolock)");
+                qry.Add("where " + wherecolumn + " = @wherecolumnvalue");
+                qry.AddParameter("@wherecolumnvalue", wherecolumnvalue);
+                await qry.ExecuteAsync();
+                result = (qry.RowCount == 1) ? qry.GetField(selectcolumn) : null;
+            }
+
+            return result;
+        }
+
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> GetStringDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        {
+            FwDatabaseField field;
+            string result = string.Empty;
+
+            field = await GetDataAsync(appConfig, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            result = (field != null) ? field.ToString().TrimEnd() : string.Empty;
+
+            return result;
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<string> GetNextCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName)

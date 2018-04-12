@@ -208,6 +208,14 @@ namespace WebApi.Modules.Home.Repair
                 {
                     Priority = RwConstants.REPAIR_PRIORITY_MEDIUM;
                 }
+                if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
+                {
+                    InventoryId = AppFunc.GetStringDataAsync(AppConfig, "rentalitem", "rentalitemid", ItemId, "masterid").Result;
+                }
+                if ((InventoryId == null) || (InventoryId.Equals(string.Empty)))
+                {
+                    RepairType = RwConstants.REPAIR_TYPE_OUTSIDE;
+                }
                 if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
                 {
                     TaxOptionId = AppFunc.GetDepartmentLocation(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;

@@ -37,6 +37,10 @@ namespace WebLibrary
         public const string REPAIR_PRIORITY_MEDIUM = "MED";
         public const string REPAIR_PRIORITY_LOW = "LOW";
 
+        public const string REPAIR_TYPE_OWNED = "OWNED";
+        public const string REPAIR_TYPE_CONSIGNED = "CONSIGNED";
+        public const string REPAIR_TYPE_OUTSIDE = "OUTSIDE";
+
 
     }
 
