@@ -14199,6 +14199,31 @@
 					"response": []
 				},
 				{
+					"name": "Orders: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"OrderId\":\"\",\"DealNumber\":\"N25229\",\"DealId\":\"F01LM5MD\",\"Department\":\"ACCOUNTING\",\"RateType\":\"MONTHLY\",\"OrderTypeId\":\"B003X161\",\"Status\":\"\",\"StatusDate\":\"\",\"OfficeLocation\":\"LAS VEGAS\",\"OfficeLocationId\":\"B001WH00\",\"DepartmentId\":\"B003KSM1\",\"OrderNumber\":\"\",\"Description\":\"JUSTIN TEST ORDER\",\"PickDate\":\"04/12/2018\",\"PickTime\":\"\",\"EstimatedStartDate\":\"04/12/2018\",\"EstimatedStartTime\":\"\",\"EstimatedStopDate\":\"04/12/2018\",\"EstimatedStopTime\":\"\",\"Warehouse\":\"LAS VEGAS\",\"WarehouseId\":\"B0029AY5\",\"Rental\":false,\"Sales\":false,\"Miscellaneous\":false,\"Labor\":false,\"Facilities\":false,\"Transportation\":false,\"Location\":\"\",\"ReferenceNumber\":\"\",\"FlatPo\":false,\"PendingPo\":true,\"PoNumber\":\"\",\"PoAmount\":\"\",\"BillingStartDate\":\"\",\"LockBillingDates\":false,\"BillingEndDate\":\"\",\"DelayBillingSearchUntil\":\"\",\"DetermineQuantitiesToBillBasedOn\":\"CONTRACT\",\"IncludePrepFeesInRentalRate\":\"false\",\"BillingCycleId\":\"\",\"PaymentTermsId\":\"\",\"PaymentTypeId\":\"\",\"CurrencyId\":\"\",\"TaxOptionId\":\"\",\"RentalTaxRate1\":\"\",\"SalesTaxRate1\":\"\",\"LaborTaxRate1\":\"\",\"PrintIssuedToAddressFrom\":\"DEAL\",\"IssuedToName\":\"\",\"IssuedToAttention\":\"\",\"IssuedToAttention2\":\"\",\"IssuedToAddress1\":\"\",\"IssuedToAddress2\":\"\",\"IssuedToCity\":\"\",\"IssuedToState\":\"\",\"IssuedToZipCode\":\"\",\"IssuedToCountryId\":\"\",\"NoCharge\":false,\"NoChargeReason\":\"\",\"DiscountReasonId\":\"\",\"RoundTripRentals\":false,\"RequireContactConfirmation\":false,\"BillToAddressDifferentFromIssuedToAddress\":false,\"BillToName\":\"\",\"BillToAttention\":\"\",\"BillToAttention2\":\"\",\"BillToAddress1\":\"\",\"BillToAddress2\":\"\",\"BillToCity\":\"\",\"BillToState\":\"\",\"BillToZipCode\":\"\",\"BillToCountryId\":\"\",\"HiatusDiscountFrom\":\"DEAL\",\"InGroup\":false,\"GroupNumber\":\"\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Orders: Update",
 					"request": {
 						"url": "http://localhost:57949/api/v1/order",
@@ -17011,7 +17036,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": false,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"SessionId\": \"F01R1152\", \"OrderId\": \"F01R1152\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": true,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"F01R11GJ\",\"SessionId\":\"F01R11GJ\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -17036,7 +17061,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SessionId\": \"justin\",\n    \"OrderId\": \"000090PV\",\n    \"OrderItemId\": \"000090QU\",\n    \"QuantityOrdered\": 3,\n    \"StagedQuantity\": 1,\n    \"OutQuantity\": 0,\n    \"QuantityInLocation\": 0,\n    \"PickQuantity\": 3\n}"
+							"raw": "{\n    \"SessionId\": \"F01R11GJ\",\n    \"OrderId\": \"F01R11GJ\",\n    \"OrderItemId\": \"F01R11GO\",\n    \"QuantityOrdered\": 5,\n    \"StagedQuantity\": 0,\n    \"OutQuantity\": 0,\n    \"QuantityInLocation\": 0,\n    \"PickQuantity\": 1\n}"
 						},
 						"description": ""
 					},
@@ -20612,16 +20637,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InventoryCategory\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Category\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"InventoryTypeId\": \"B005L3OF\"}\n}"
 						},
 						"description": ""
 					},
@@ -20758,16 +20785,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n        \"uniqueids\": {\"InventoryTypeId\": \"B005L3OF\", \"CategoryId\": \"B003PMWG\", \"SubCategoryId\": \"F018W4WL\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -21111,7 +21140,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+							"raw": "{\"RepairId\":\"\",\"PendingRepair\":false,\"AvailFor\":\"R\",\"RepairType\":\"OWNED\",\"RepairNumber\":\"\",\"RepairDate\":\"4/10/2018\",\"Status\":\"\",\"StatusDate\":\"\",\"Warehouse\":\"LAS VEGAS\",\"WarehouseId\":\"B0029AY5\",\"Location\":\"LAS VEGAS\",\"DepartmentId\":\"B003KW7L\",\"ItemDescription\":\"ROADCASE VL2500 DUAL\",\"ItemId\":\"F00XPBGH\",\"Quantity\":\"1\",\"InventoryId\":\"F00XPBGH\",\"Priority\":\"HIG\",\"Billable\":false,\"DamageOrderId\":\"\",\"DamageOrderDescription\":\"\",\"DamageDeal\":\"\",\"DamageContractNumber\":\"\",\"FinalLandDOrderNumber\":\"\",\"DamageScannedBy\":\"\",\"OutsideRepair\":false,\"PoPending\":true,\"RepairItemStatusId\":\"\",\"PoNumber\":\"\",\"DueDate\":\"\",\"Damage\":\"\",\"Correction\":\"\",\"LocationId\":\"B001WH00\",\"ChargeOrderNumber\":\"\",\"ChargeOrderDescription\":\"\",\"ChargeInvoiceNumber\":\"\",\"ChargeInvoiceDescription\":\"\",\"CurrencyId\":\"\",\"TaxOptionId\":\"\",\"RentalTaxRate1\":\"\",\"SalesTaxRate1\":\"\",\"LaborTaxRate1\":\"\",\"Notes\":\"\", \"InputbyUserId\": \"B00294F6\"}"
 						},
 						"description": ""
 					},
@@ -23532,16 +23561,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SubCategory\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"SubCategory\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"CategoryId\":\"B003PMWG\"}\n\t\n}"
 						},
 						"description": ""
 					},
