@@ -97,6 +97,10 @@ namespace WebApi.Modules.Home.Inventory
                         select.AddWhere("(class = @classification)");
                         select.AddParameter("@classification", "K");
                         break;
+                    case "KITSET":
+                        select.AddWhere("(class = @classification)");
+                        select.AddParameter("@classification", "K");
+                        break;
                     case "MISC":
                         select.AddWhere("(class = @classification)");
                         select.AddParameter("@classification", "M");
