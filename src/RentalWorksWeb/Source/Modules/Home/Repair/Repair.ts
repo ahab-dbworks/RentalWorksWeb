@@ -42,12 +42,11 @@ class Repair {
     });
 
     FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-      
       let out = response.filter(item => {
-        return item.InventoryStatus === 'OUT' 
+        return item.StatusType === 'OUT' 
       })
       let intransit = response.filter(item => {
-        return item.InventoryStatus === 'IN TRANSIT' 
+        return item.StatusType === 'INTRANSIT' 
       })
 
         FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
@@ -192,13 +191,14 @@ class Repair {
           FwFormField.enable($form.find('div[data-displayfield="RfId"]'));
           FwFormField.enable($form.find('div[data-displayfield="DamageOrderNumber"]'));
           FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
-          FwFormField.enable($form.find('div[data-datafield="RepairType"]'));
+          FwFormField.enable($form.find('div[data-datafield="RepairType"]'));           
+          FwFormField.enable($form.find('div[data-datafield="PendingRepair"]'));
 
           // BarCode, SN, RFID Validation
           $form.find('div[data-datafield="ItemId"]').data('onchange', $tr => {
               FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="BarCode"]',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
-              FwFormField.setValue($form, 'div[data-displayfield="ICode"]',$tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="ICode"]').attr('data-originalvalue'));
+              FwFormField.setValue($form, 'div[data-displayfield="ICode"]',$tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'), $tr.find('.field[data-formdisplayfield="ICode"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
               FwFormField.setValue($form, 'div[data-displayfield="RfId"]',$tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue'), $tr.find('.field[data-formdatafield="RfId"]').attr('data-originalvalue'));
               FwFormField.disable($form.find('div[data-displayfield="ICode"]'));
@@ -250,16 +250,17 @@ class Repair {
          $form.find('.repairtyperadio').on('change', $tr => {
               if (FwFormField.getValueByDataField($form, 'RepairType') === 'OUTSIDE') {
                   $form.find('.itemid').hide();
-                  $form.find('.icode').hide();
+                  FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
               }
               else {
                   $form.find('.itemid').show();
-                  if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
-                      $form.find('.icodesales').show();
-                  }
-                  else {
-                      $form.find('.icoderental').show();              
-                  }
+                  FwFormField.enable($form.find('div[data-datafield="AvailFor"]'));
+                  //if (FwFormField.getValue($form, '.repairavailforradio') === 'S') {
+                  //    $form.find('.icodesales').show();
+                  //}
+                  //else {
+                  //    $form.find('.icoderental').show();              
+                  //}
               }
          });
 
