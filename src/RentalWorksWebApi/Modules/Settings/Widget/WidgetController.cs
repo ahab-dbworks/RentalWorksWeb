@@ -90,6 +90,9 @@ namespace WebApi.Modules.Settings.Widget
                     case "customersbytype":
                         w = new WidgetCustomersByType();
                         break;
+                    case "repairsbywarehouse":
+                        w = new WidgetRepairsByWarehouse();
+                        break;
                     case "billingbyagentbymonth":
                         w = new WidgetBillingByAgentByMonth();
                         break;
