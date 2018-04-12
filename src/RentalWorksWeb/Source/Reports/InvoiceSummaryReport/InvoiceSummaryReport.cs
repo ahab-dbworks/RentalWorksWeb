@@ -116,7 +116,7 @@ namespace Web.Source.Reports
                 select.AddWhere("where", "billingstart >= @startdate");
                 select.AddWhere("and", "billingstart <= @enddate");
             }
-            select.Add("order by location, department, customer, deal");
+            //select.Add("order by location, department, customer, deal");
             select.AddParameter("@startdate", request.parameters.StartDate);
             select.AddParameter("@enddate", request.parameters.EndDate);
 
