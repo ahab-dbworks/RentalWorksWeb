@@ -25,6 +25,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             {
                 UserDashboardSettingsLogic l = new UserDashboardSettingsLogic();
                 l.SetDbConfig(this.AppConfig.DatabaseSettings);
+                l.SetDependencies(this.AppConfig, this.UserSession);
                 await l.LoadAsync(id);
                 return new OkObjectResult(l);
             }
@@ -43,6 +44,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public async Task<IActionResult> PostAsync([FromBody]UserDashboardSettingsLogic l)
         {
             l.SetDbConfig(this.AppConfig.DatabaseSettings);
+            l.SetDependencies(this.AppConfig, this.UserSession);
             return await DoPostAsync<UserDashboardSettingsLogic>(l);
         }
         //------------------------------------------------------------------------------------ 

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Administrator.User;
 using WebApi.Modules.Settings.WebUserWidget;
 
 namespace WebApi.Modules.Settings.UserDashboardSettings
@@ -36,6 +37,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
         public string UserId { get; set; }
+        public int? WidgetsPerRow { get; set; }
         [FwBusinessLogicField(isRecordTitle: true)]
         [JsonIgnore]
         public string DashboardSettingsTitle { get; set; }
@@ -48,9 +50,18 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         //------------------------------------------------------------------------------------
         public async Task<bool> LoadAsync(string webUsersId)
         {
-            //FwCustomFields customFields = null;
             bool loaded = false;
             UserId = webUsersId;
+            WebUserRecord webUser = new WebUserRecord();
+            webUser.SetDependencies(AppConfig, UserSession);
+            webUser.WebUserId = webUsersId;
+            await webUser.GetAsync<WebUserRecord>();
+            WidgetsPerRow = webUser.DashboardWidgetsPerRow;
+            if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
+            {
+                WidgetsPerRow = 2;
+            }
+
             Widgets = new List<UserDashboardSetting>();
 
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
@@ -105,10 +116,22 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             // can remove all this "prev" stuff if Dashboard Settings form can send back the actual "userWidgetId"
             UserDashboardSettingsLogic lPrev = new UserDashboardSettingsLogic();
             lPrev.SetDbConfig(_dbConfig);
+            lPrev.SetDependencies(AppConfig, UserSession);
             await lPrev.LoadAsync(UserId);
 
             UserDashboardSetting wPrev = null;
             UserWidgetLogic uw = null;
+
+            if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
+            {
+                WidgetsPerRow = 2;
+            }
+            WebUserRecord webUser = new WebUserRecord();
+            webUser.SetDependencies(AppConfig, UserSession);
+            webUser.WebUserId = UserId;
+            webUser.DashboardWidgetsPerRow = WidgetsPerRow;
+            await webUser.SaveAsync();
+
 
             int widgetPosition = 0;
             foreach (UserDashboardSetting w in Widgets)
