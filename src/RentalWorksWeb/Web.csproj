@@ -1141,9 +1141,7 @@
     <Content Include="Source\Reports\VendorInvoiceProcessing\Header.htm" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\StyleSheet.css" />
     <Content Include="Source\Reports\VendorInvoiceProcessing\RwVendorInvoiceProcessingController.js" />
-    <Content Include="Source\Validations\SerialNumberItemValidation\SerialNumberItemValidationBrowse.htm" />
-    <Content Include="Source\Validations\ICodeItemValidation\ICodeItemValidationBrowse.htm" />
-    <Content Include="Source\Validations\RfIdItemValidation\RfIdItemValidationBrowse.htm" />
+    <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactCompanyValidation\ContactCompanyValidationBrowse.htm" />
     <Content Include="Source\Validations\DiscountReasonValidation\DiscountReasonValidationBrowse.htm" />
@@ -1152,7 +1150,6 @@
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\BarCodeRangeValidation\BarCodeRangeValidationBrowse.htm" />
     <Content Include="Source\Validations\WarehouseCatalogValidation\WarehouseCatalogValidationBrowse.htm" />
-    <Content Include="Source\Validations\BarCodeItemValidation\BarCodeItemValidationBrowse.htm" />
     <Content Include="Source\Validations\RepairItemStatusValidation\RepairItemStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DocumentTypeValidation\DocumentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\CrewValidation\CrewValidationBrowse.htm" />

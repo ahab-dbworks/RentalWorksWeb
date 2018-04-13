@@ -41,17 +41,17 @@
              </div>
            </div>
          </div>
-         <div class="flexrow">
-           <div class="flexcolumn" style="max-width:690px">
+         <div class="formrow" style="display:flex;">
+           <div class="formcolumn" style="display:flex;">
              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                <div class="fwcontrol fwcontainer fwform-section itemsection" data-control="FwContainer" data-type="section" data-caption="Item">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-noduplicate="true" data-enabled="false" style="float:left;min-width:300px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode"  data-enabled="false" data-noduplicate="true" data-formbeforevalidate="beforeValidate" data-validationname="BarCodeItemValidation" style="float:left;max-width:250px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial Number" data-datafield="ItemId" data-displayfield="SerialNumber" data-enabled="false" data-noduplicate="true" data-validationname="SerialNumberItemValidation" style="float:left;min-width:250px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="RFID" data-datafield="ItemId" data-displayfield="RfId" data-enabled="false" data-noduplicate="true" data-formbeforevalidate="beforeValidate" data-validationname="RfIdItemValidation" style="float:left;min-width:250px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Item Description" data-datafield="ItemDescription" data-noduplicate="true" data-enabled="false" style="float:left;max-width:240px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code" data-datafield="ItemId" data-displayfield="BarCode"  data-enabled="false" data-noduplicate="true" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="AssetValidation" style="float:left;max-width:300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial Number" data-datafield="ItemId" data-displayfield="SerialNumber" data-enabled="false" data-noduplicate="true" data-validationpeek="true" data-validationname="AssetValidation" style="float:left;max-width:300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="RFID" data-datafield="ItemId" data-displayfield="RfId" data-enabled="false" data-noduplicate="true" data-formbeforevalidate="beforeValidate" data-validationpeek="true" data-validationname="AssetValidation" style="float:left;max-width:300px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icoderental icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-noduplicate="true" data-validationpeek="true" data-validationname="RentalInventoryValidation" style="float:left;min-width:175px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icodesales icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-noduplicate="true" data-validationpeek="true" data-validationname="SalesInventoryValidation" style="float:left;min-width:175px;"></div>
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity"  data-enabled="false" style="float:left;max-width:75px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icoderental icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-noduplicate="true" data-validationname="RentalInventoryValidation" style="float:left;min-width:175px;"></div>
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield icodesales icode" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-enabled="false" data-formbeforevalidate="beforeValidate" data-noduplicate="true" data-validationname="SalesInventoryValidation" style="float:left;min-width:175px;"></div>
               </div>  
             </div> 
           </div>
@@ -126,8 +126,8 @@
             <div data-control="FwGrid" id="RepairCostGrid" data-grid="RepairCostGrid" data-caption="Costs" data-securitycaption="RepairCostGrid" style="min-width:240px;"></div>
           </div>
         </div>
-          <div class="flexrow">
-            <div class="formcolumn costtotals" style="width:auto; float:right;">
+          <div class="formrow" style="display: flex; justify-content: flex-end;">
+            <div class="formcolumn costtotals" style="width:auto;">
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="SubTotal" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-totalfield="Discount" data-formreadonly="true" style="min-width:100px; float:left;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sales Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>
@@ -144,8 +144,8 @@
             <div data-control="FwGrid" id="RepairPartGrid" data-grid="RepairPartGrid" data-caption="Parts" data-securitycaption="RepairPartGrid" style="min-width:240px;"></div>
           </div>
         </div>
-          <div class="formrow">
-            <div class="formcolumn costtotals" style="width:auto; float:right;">
+          <div class="formrow" style="display: flex; justify-content: flex-end;">
+            <div class="formcolumn costtotals" style="width:auto;">
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="SubTotal" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-totalfield="Discount" data-formreadonly="true" style="min-width:100px; float:left"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sales Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>

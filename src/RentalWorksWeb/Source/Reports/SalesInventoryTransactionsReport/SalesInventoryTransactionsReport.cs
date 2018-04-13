@@ -97,11 +97,11 @@ namespace Web.Source.Reports
           dtDetails = qry.QueryToFwJsonTable(select, true);
           for (int i = 0; i < dtDetails.Rows.Count; i++)
           {
-            dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]]));
-            dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]]));
-            dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]]));
-            dtDetails.Rows[i][dtDetails.ColumnIndex["price"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["price"]]));
-            dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]]));
+              dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]]));
+              dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]]));
+              dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]]));
+              dtDetails.Rows[i][dtDetails.ColumnIndex["price"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["price"]]));
+              dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]]));
 
           }
 
