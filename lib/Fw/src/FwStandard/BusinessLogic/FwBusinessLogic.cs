@@ -706,6 +706,9 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public void SetDependencies(FwApplicationConfig appConfig, FwUserSession userSession)
         {
+            AppConfig = appConfig;
+            UserSession = userSession;
+
             if (dataLoader != null)
             {
                 dataLoader.AppConfig = appConfig;
