@@ -8,10 +8,12 @@ namespace WebApi.Modules.Home.Vendor
         //------------------------------------------------------------------------------------
         VendorRecord vendor = new VendorRecord();
         VendorLoader vendorLoader = new VendorLoader();
+        VendorBrowseLoader vendorBrowseLoader = new VendorBrowseLoader();
         public VendorLogic()
         {
             dataRecords.Add(vendor);
             dataLoader = vendorLoader;
+            browseLoader = vendorBrowseLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]

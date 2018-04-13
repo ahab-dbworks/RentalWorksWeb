@@ -7,10 +7,12 @@ namespace WebApi.Modules.Home.Deal
         //------------------------------------------------------------------------------------ 
         DealRecord deal = new DealRecord();
         DealLoader dealLoader = new DealLoader();
+        DealBrowseLoader dealBrowseLoader = new DealBrowseLoader();
         public DealLogic()
         {
             dataRecords.Add(deal);
             dataLoader = dealLoader;
+            browseLoader = dealBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

@@ -8,10 +8,12 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         CustomerRecord customer = new CustomerRecord();
         CustomerLoader customerLoader = new CustomerLoader();
+        CustomerBrowseLoader customerBrowseLoader = new CustomerBrowseLoader();
         public CustomerLogic()
         {
             dataRecords.Add(customer);
             dataLoader = customerLoader;
+            browseLoader = customerBrowseLoader;
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]

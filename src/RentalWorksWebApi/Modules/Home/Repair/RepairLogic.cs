@@ -15,6 +15,7 @@ namespace WebApi.Modules.Home.Repair
         RepairRecord repair = new RepairRecord();
         TaxRecord tax = new TaxRecord();
         RepairLoader repairLoader = new RepairLoader();
+        RepairBrowseLoader repairBrowseLoader = new RepairBrowseLoader();
 
         private string tmpTaxId = "";
 
@@ -23,6 +24,7 @@ namespace WebApi.Modules.Home.Repair
             dataRecords.Add(repair);
             dataRecords.Add(tax);
             dataLoader = repairLoader;
+            browseLoader = repairBrowseLoader;
 
             repair.BeforeSave += OnBeforeSaveRepair;
             repair.AfterSave += OnAfterSaveRepair;

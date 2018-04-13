@@ -7,10 +7,12 @@ namespace WebApi.Modules.Home.Contract
         //------------------------------------------------------------------------------------ 
         ContractRecord contract = new ContractRecord();
         ContractLoader contractLoader = new ContractLoader();
+        ContractBrowseLoader contractBrowseLoader = new ContractBrowseLoader();
         public ContractLogic()
         {
             dataRecords.Add(contract);
             dataLoader = contractLoader;
+            browseLoader = contractBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

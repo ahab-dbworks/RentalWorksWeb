@@ -37,7 +37,6 @@ namespace WebApi.Logic
 
             return result;
         }
-
         //-------------------------------------------------------------------------------------------------------
         public static async Task<string> GetStringDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
@@ -46,6 +45,17 @@ namespace WebApi.Logic
 
             field = await GetDataAsync(appConfig, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
             result = (field != null) ? field.ToString().TrimEnd() : string.Empty;
+
+            return result;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<int> GetIntDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
+        {
+            FwDatabaseField field;
+            int result = 0;
+
+            field = await GetDataAsync(appConfig, tablename, wherecolumn, wherecolumnvalue, selectcolumn);
+            result = ((field != null) ? field.ToInt32() : 0);
 
             return result;
         }
