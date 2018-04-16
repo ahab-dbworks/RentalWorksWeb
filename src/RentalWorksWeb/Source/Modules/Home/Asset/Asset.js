@@ -175,7 +175,7 @@ var RwAsset = (function () {
         FwBrowse.search($itemAttributeValueGrid);
         var $itemQcGrid = $form.find('[data-name="' + this.nameItemQcGrid + '"]');
         FwBrowse.search($itemQcGrid);
-        var status = FwFormField.getValueByDataField($form, 'StatusType');
+        var status = FwFormField.getValueByDataField($form, 'InventoryStatus');
         if (status === "IN") {
             FwFormField.enable($form.find('.ifin'));
         }

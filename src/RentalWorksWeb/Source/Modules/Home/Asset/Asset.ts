@@ -210,7 +210,7 @@ class RwAsset {
         var $itemQcGrid: JQuery = $form.find('[data-name="' + this.nameItemQcGrid + '"]');
         FwBrowse.search($itemQcGrid);
 
-        var status: string = FwFormField.getValueByDataField($form, 'StatusType');
+        var status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');
         if (status === "IN") {
             FwFormField.enable($form.find('.ifin'));
         }
