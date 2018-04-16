@@ -21195,6 +21195,106 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "Repair: Estimate",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/estimate/H00032CK",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Complete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/complete/H00032CK",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Void",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/void/F01NNNBU",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair: Release Items",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repair/releaseitems/H00032CU/2",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		},
@@ -21488,6 +21588,87 @@
 					"request": {
 						"url": "http://localhost:57949/api/v1/repairpart/000090T0",
 						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Repair Release",
+			"description": "",
+			"item": [
+				{
+					"name": "Repair Release: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairrelease",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Release: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairrelease/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ReleaseDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"RepairId\": \"H00032CU\"}\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Repair Release: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/repairrelease/H00032DS",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
@@ -24638,7 +24819,7 @@
 				{
 					"name": "User Dashboard Settings: Get",
 					"request": {
-						"url": "http://localhost:57949/api/v1/userdashboardsettings/A000001S",
+						"url": "http://localhost:57949/api/v1/userdashboardsettings/B00294F7",
 						"method": "GET",
 						"header": [
 							{
@@ -24679,7 +24860,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"A000001S\",\n    \"Widgets\": [\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPW\",\n            \"text\": \"Billing By Agent By Month\",\n            \"selected\": false\n        },\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPV\",\n            \"text\": \"Deals By Type\",\n            \"selected\": true\n        },\n        {\n            \"userWidgetId\": \"000090LU\",\n            \"value\": \"00008JPU\",\n            \"text\": \"Orders By Agent\",\n            \"selected\": true\n        },\n        {\n            \"userWidgetId\": \"\",\n            \"value\": \"00008JPT\",\n            \"text\": \"Orders By Status\",\n            \"selected\": false\n        }\n    ],\n    \"RecordTitle\": \"Dashboard Settings\"\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"B00294F7\",\n    \"WidgetsPerRow\": 3,\n    \"Widgets\": [\n        {\n            \"userWidgetId\": \"H00032CX\",\n            \"value\": \"H00032CW\",\n            \"text\": \"Repairs By Warehouse\",\n            \"selected\": true,\n            \"apiname\": \"repairsbywarehouse\",\n            \"clickpath\": \"module/repair/warehouse/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031YY\",\n            \"value\": \"H00031YP\",\n            \"text\": \"Orders By Agent\",\n            \"selected\": true,\n            \"apiname\": \"ordersbyagent\",\n            \"clickpath\": \"module/order/agent/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"pie\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z0\",\n            \"value\": \"H00031YN\",\n            \"text\": \"Quotes By Status\",\n            \"selected\": true,\n            \"apiname\": \"quotesbystatus\",\n            \"clickpath\": \"module/quote/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"horizontalBar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031YW\",\n            \"value\": \"H00031YR\",\n            \"text\": \"Customers By Type\",\n            \"selected\": true,\n            \"apiname\": \"customersbytype\",\n            \"clickpath\": \"module/customer/customer%20type/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z2\",\n            \"value\": \"H00031YQ\",\n            \"text\": \"Deals By Type\",\n            \"selected\": true,\n            \"apiname\": \"dealsbytype\",\n            \"clickpath\": \"module/deal/deal%20type/\",\n            \"defaulttype\": \"horizontalBar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z4\",\n            \"value\": \"H00031YO\",\n            \"text\": \"Orders By Status\",\n            \"selected\": true,\n            \"apiname\": \"ordersbystatus\",\n            \"clickpath\": \"module/order/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z6\",\n            \"value\": \"H00031YS\",\n            \"text\": \"Billing By Agent By Month\",\n            \"selected\": true,\n            \"apiname\": \"billingbyagentbymonth\",\n            \"clickpath\": \"module/invoice/agent_month/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 5,\n            \"dataPoints\": 0\n        }\n    ],\n    \"RecordTitle\": \"Dashboard Settings\"\n}"
 						},
 						"description": ""
 					},

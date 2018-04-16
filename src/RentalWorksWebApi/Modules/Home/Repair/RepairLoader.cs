@@ -229,8 +229,23 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date)]
         public string DueDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "completedby", modeltype: FwDataTypes.Text)]
-        public string CompletedBy { get; set; }
+        [FwSqlDataField(column: "estimatebyid", modeltype: FwDataTypes.Text)]
+        public string EstimateByUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estimateby", modeltype: FwDataTypes.Text)]
+        public string EstimateBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "estimatedate", modeltype: FwDataTypes.Date)]
+        public string EstimateDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completebyid", modeltype: FwDataTypes.Text)]
+        public string CompleteByUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completeby", modeltype: FwDataTypes.Text)]
+        public string CompleteBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completedate", modeltype: FwDataTypes.Date)]
+        public string CompleteDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date)]
         public string InputDate { get; set; }

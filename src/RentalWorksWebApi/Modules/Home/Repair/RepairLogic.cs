@@ -2,6 +2,7 @@ using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using FwStandard.SqlServer;
 using System;
+using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.RepairItem;
 using WebApi.Modules.Home.Tax;
@@ -167,7 +168,17 @@ namespace WebApi.Modules.Home.Repair
         public string TransferredFromWarehouseId { get; set; }
         public string DueDate { get { return repair.DueDate; } set { repair.DueDate = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string CompletedBy { get; set; }
+        public string EstimateByUserId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string EstimateBy { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string EstimateDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompleteByUserId { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompleteBy { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CompleteDate { get; set; }
         public string InputDate { get { return repair.InputDate; } set { repair.InputDate = value; } }
         public string InputByUserId { get { return repair.InputByUserId; } set { repair.InputByUserId = value; } }
         public string RepairItemStatusId { get { return repair.RepairItemStatusId; } set { repair.RepairItemStatusId = value; } }
@@ -296,5 +307,25 @@ namespace WebApi.Modules.Home.Repair
             }
         }
         //------------------------------------------------------------------------------------
+        public async Task<TSpStatusReponse> ToggleEstimate()
+        {
+            return await repair.ToggleEstimate();
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> ToggleComplete()
+        {
+            return await repair.ToggleComplete();
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> ReleaseItems(int quantity)
+        {
+            return await repair.ReleaseItems(quantity);
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> Void()
+        {
+            return await repair.Void();
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

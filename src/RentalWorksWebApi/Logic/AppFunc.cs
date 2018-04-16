@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace WebApi.Logic
 {
+
+    public class TSpStatusReponse
+    {
+        public bool success;
+        public string msg;
+    }
+
     public static class AppFunc
     {
 
@@ -130,7 +137,96 @@ namespace WebApi.Logic
             return str;
         }
         //-------------------------------------------------------------------------------------------------------
-
+        public static async Task<string> GetLocation(FwApplicationConfig appConfig, FwUserSession userSession, string locationId, string fieldName)
+        {
+            string str = "";
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select " + fieldName);
+                qry.Add(" from  location l ");
+                qry.Add(" where l.locationid = @locationid");
+                qry.AddParameter("@locationid", locationId);
+                qry.AddColumn(fieldName);
+                FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
+                for (int r = 0; r < table.Rows.Count; r++)
+                {
+                    str = table.Rows[0][0].ToString();
+                }
+            }
+            return str;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusReponse> ToggleRepairEstimate(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "togglerepairestimated", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@repairid", SqlDbType.NVarChar, ParameterDirection.Input, repairId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusReponse> ToggleRepairComplete(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "togglerepaircomplete", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@repairid", SqlDbType.NVarChar, ParameterDirection.Input, repairId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusReponse> ReleaseRepairItems(FwApplicationConfig appConfig, FwUserSession userSession, string repairId, int quantity)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "releaserepairitems", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@repairid", SqlDbType.NVarChar, ParameterDirection.Input, repairId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusReponse> VoidRepair(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        {
+            TSpStatusReponse response = new TSpStatusReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "voidrepair", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@repairid", SqlDbType.NVarChar, ParameterDirection.Input, repairId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = true;
+                response.msg = "";
+                //response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
-
 }

@@ -90,9 +90,6 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "priority", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
         public string Priority { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "completebyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string CompleteByUserId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inputbyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string InputByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -113,6 +110,9 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estimatedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string EstimateDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "completebyid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CompleteByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "completedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string CompleteDate { get; set; }
@@ -164,6 +164,26 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> ToggleEstimate()
+        {
+            return await AppFunc.ToggleRepairEstimate(AppConfig, UserSession, RepairId);
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> ToggleComplete()
+        {
+            return await AppFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> ReleaseItems(int quantity)
+        {
+            return await AppFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
+        }
+        //------------------------------------------------------------------------------------ 
+        public async Task<TSpStatusReponse> Void()
+        {
+            return await AppFunc.VoidRepair(AppConfig, UserSession, RepairId);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Http;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Repair
 {
@@ -39,6 +42,174 @@ namespace WebApi.Modules.Home.Repair
             return await DoPostAsync<RepairLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/repair/estimate/A0000001
+        [HttpPost("estimate/{id}")]
+        public async Task<IActionResult> Estimate([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                RepairLogic l = new RepairLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<RepairLogic>(ids))
+                {
+                    TSpStatusReponse response = await l.ToggleEstimate();
+                    if (response.success)
+                    {
+                        await l.LoadAsync<RepairLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/repair/complete/A0000001
+        [HttpPost("complete/{id}")]
+        public async Task<IActionResult> Complete([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                RepairLogic l = new RepairLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<RepairLogic>(ids))
+                {
+                    TSpStatusReponse response = await l.ToggleComplete();
+                    if (response.success)
+                    {
+                        await l.LoadAsync<RepairLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/repair/releaseitems/A0000001/4
+        [HttpPost("releaseitems/{id}/{quantity}")]
+        public async Task<IActionResult> ReleaseItems([FromRoute] string id, [FromRoute] int quantity)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                RepairLogic l = new RepairLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<RepairLogic>(ids))
+                {
+                    TSpStatusReponse response = await l.ReleaseItems(quantity);
+                    if (response.success)
+                    {
+                        await l.LoadAsync<RepairLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/repair/void/A0000001
+        [HttpPost("void/{id}")]
+        public async Task<IActionResult> Void([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                RepairLogic l = new RepairLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<RepairLogic>(ids))
+                {
+                    TSpStatusReponse response = await l.Void();
+                    if (response.success)
+                    {
+                        await l.LoadAsync<RepairLogic>(ids);
+                        return new OkObjectResult(l);
+                    }
+                    else
+                    {
+                        throw new Exception(response.msg);
+                    }
+
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------        
         // DELETE api/v1/repair/A0000001 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute]string id)
