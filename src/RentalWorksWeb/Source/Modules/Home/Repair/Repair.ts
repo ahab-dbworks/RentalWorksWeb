@@ -312,21 +312,128 @@ class Repair {
       let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
       FwBrowse.search($repairPartGrid);
 
-          var $pending = $form.find('div.fwformfield[data-datafield="PoPending"] input').prop('checked');
-          if ($pending === true) {
-             FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
-          }
-          else {
-              FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
-          } 
+      var $pending = $form.find('div.fwformfield[data-datafield="PoPending"] input').prop('checked');
+      if ($pending === true) {
+          FwFormField.disable($form.find('div[data-datafield="PoNumber"]'));
+      }
+      else {
+          FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
+      } 
   };
 
   //----------------------------------------------------------------------------------------------
   completeOrder($form) {
-        let $confirmation, $yes, $no, self;
-        self = this;
 
-        $confirmation = FwConfirmation.renderConfirmation('Complete', '');
+      let $confirmation, $yes, $no;
+      $confirmation = FwConfirmation.renderConfirmation('Complete', '');
+      $confirmation.find('.fwconfirmationbox').css('width', '450px');
+      let html = [];
+      html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="DamageOrderDescription" data-noduplicate="true" data-enabled="false" style="float:left;width:300px;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate" data-noduplicate="true" data-enabled="true" style="float:left;width:125px;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="User" data-datafield="UserId" data-displayfield="DamageScannedBy" data-noduplicate="true" data-enabled="true" data-validationname="UserValidation" style="float:left;width:300px;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="LocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation" style="float:left;max-width:200px;"></div>');
+      html.push('  </div>');
+      html.push('</div>');
+
+      let copyConfirmation = html.join('');
+      let RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+
+      FwConfirmation.addControls($confirmation, html.join(''));
+      const today = new Date(Date.now()).toLocaleString().split(',')[0];
+      const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      const office = JSON.parse(sessionStorage.getItem('location'));
+      const userId = JSON.parse(sessionStorage.getItem('userid'));
+      const locationId = JSON.parse(sessionStorage.getItem('location'));
+
+      //let orderNumber, deal, description, dealId;
+      //$confirmation.find('div[data-caption="Type"] input').val(this.Module);
+      //orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
+      //$confirmation.find('div[data-caption="No"] input').val(orderNumber);
+      //deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
+      //$confirmation.find('div[data-caption="Deal"] input').val(deal);
+      //description = FwFormField.getValueByDataField($form, 'Description');
+      //$confirmation.find('div[data-caption="Description"] input').val(description);
+      //$confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
+      //dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
+      //$confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
+
+      //FwFormField.disable($confirmation.find('div[data-caption="Type"]'));
+      //FwFormField.disable($confirmation.find('div[data-caption="No"]'));
+      //FwFormField.disable($confirmation.find('div[data-caption="Deal"]'));
+      //FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+
+      //$confirmation.find('div[data-datafield="CopyRatesFromInventory"] input').prop('checked', true);
+      //$confirmation.find('div[data-datafield="CopyDates"] input').prop('checked', true);
+      //$confirmation.find('div[data-datafield="CopyLineItemNotes"] input').prop('checked', true);
+      //$confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
+      //$confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
+
+      $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+      $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+      $yes.on('click', makeComplete);
+
+      function makeComplete() {
+
+          let request: any = {};
+          request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
+          request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
+          request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
+          request.CopyDates = FwFormField.getValueByDataField($confirmation, 'CopyDates');
+          request.CopyLineItemNotes = FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes');
+          request.CombineSubs = FwFormField.getValueByDataField($confirmation, 'CombineSubs');
+          request.CopyDocuments = FwFormField.getValueByDataField($confirmation, 'CopyDocuments');
+
+          if (request.CopyRatesFromInventory == "T") {
+              request.CopyRatesFromInventory = "False"
+          };
+
+          for (let key in request) {
+              if (request.hasOwnProperty(key)) {
+                  if (request[key] == "T") {
+                      request[key] = "True";
+                  } else if (request[key] == "F") {
+                      request[key] = "False";
+                  }
+              }
+          };
+
+
+          FwFormField.disable($confirmation.find('.fwformfield'));
+          FwFormField.disable($yes);
+          $yes.text('Copying...');
+          $yes.off('click');
+          FwAppData.apiMethod(true, 'POST', 'api/v1/Repair/complete/' + RepairId, request, FwServices.defaultTimeout, function onSuccess(response) {
+              FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
+              FwConfirmation.destroyConfirmation($confirmation);
+
+              let uniqueids: any = {};
+              if (request.CopyToType == "O") {
+                  uniqueids.RepairId = response.RepairId;
+                  let $form = OrderController.loadForm(uniqueids);
+              } else if (request.CopyToType == "Q") {
+                  uniqueids.QuoteId = response.QuoteId;
+                  let $form = QuoteController.loadForm(uniqueids);
+              }
+              FwModule.openModuleTab($form, "", true, 'FORM', true)
+
+          }, function onError(response) {
+              $yes.on('click', makeComplete);
+              $yes.text('Copy');
+              FwFunc.showError(response);
+              FwFormField.enable($confirmation.find('.fwformfield'));
+              FwFormField.enable($yes);
+          }, $form);
+      };
+  };
+
+  //----------------------------------------------------------------------------------------------
+  estimateOrder($form) {
+        let $confirmation, $yes, $no;
+
+        $confirmation = FwConfirmation.renderConfirmation('Estimate', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
         let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -334,15 +441,16 @@ class Repair {
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order Description" data-datafield="DamageOrderDescription" data-noduplicate="true" data-enabled="false" style="float:left;width:300px;"></div>');
         html.push('    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="RepairDate" data-noduplicate="true" data-enabled="true" style="float:left;width:125px;"></div>');
         html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="User" data-datafield="UserId" data-displayfield="DamageScannedBy" data-noduplicate="true" data-enabled="true" data-validationname="UserValidation" style="float:left;width:300px;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="LocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation" style="float:left;max-width:200px;"></div>');
         html.push('  </div>');
         html.push('</div>');
 
-        var copyConfirmation = html.join('');
-        var RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+        let copyConfirmation = html.join('');
+        let RepairId = FwFormField.getValueByDataField($form, 'RepairId');
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        //var orderNumber, deal, description, dealId;
+        //let orderNumber, deal, description, dealId;
         //$confirmation.find('div[data-caption="Type"] input').val(this.Module);
         //orderNumber = FwFormField.getValueByDataField($form, this.Module + 'Number');
         //$confirmation.find('div[data-caption="No"] input').val(orderNumber);
@@ -365,14 +473,14 @@ class Repair {
         //$confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
         //$confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
 
-        $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+        $yes = FwConfirmation.addButton($confirmation, 'Estimate', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        $yes.on('click', makeACopy);
+        $yes.on('click', makeEstimate);
 
-        function makeACopy() {
+        function makeEstimate() {
 
-            var request: any = {};
+            let request: any = {};
             request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
             request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
             request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
@@ -385,7 +493,7 @@ class Repair {
                 request.CopyRatesFromInventory = "False"
             };
 
-            for (var key in request) {
+            for (let key in request) {
                 if (request.hasOwnProperty(key)) {
                     if (request[key] == "T") {
                         request[key] = "True";
@@ -404,18 +512,18 @@ class Repair {
                 FwNotification.renderNotification('SUCCESS', 'Order Successfully Copied');
                 FwConfirmation.destroyConfirmation($confirmation);
 
-                var uniqueids: any = {};
+                let uniqueids: any = {};
                 if (request.CopyToType == "O") {
                     uniqueids.RepairId = response.RepairId;
-                    var $form = OrderController.loadForm(uniqueids);
+                    let $form = OrderController.loadForm(uniqueids);
                 } else if (request.CopyToType == "Q") {
                     uniqueids.QuoteId = response.QuoteId;
-                    var $form = QuoteController.loadForm(uniqueids);
+                    let $form = QuoteController.loadForm(uniqueids);
                 }
                 FwModule.openModuleTab($form, "", true, 'FORM', true)
 
             }, function onError(response) {
-                $yes.on('click', makeACopy);
+                $yes.on('click', makeEstimate);
                 $yes.text('Copy');
                 FwFunc.showError(response);
                 FwFormField.enable($confirmation.find('.fwformfield'));
@@ -493,11 +601,24 @@ class Repair {
 
 // using complete security guid
 FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = function (event) {
-    var $form
+    let $form
     $form = jQuery(this).closest('.fwform');
 
     try {
         RepairController.completeOrder($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+// using estimate security guid
+FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = function (event) {
+    let $form
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        RepairController.estimateOrder($form);
     }
     catch (ex) {
         FwFunc.showError(ex);

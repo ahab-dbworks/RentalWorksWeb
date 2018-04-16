@@ -92,7 +92,7 @@ namespace Web.Source.Reports
                   select.AddParameter("@icode", request.parameters.InventoryId);
               };
 
-          select.AddOrderBy("rpt.Warehouse, rpt.masterno, rpt.transdate, rpt.orderby");
+          select.AddOrderBy("rpt.warehouseid, rpt.masterno, rpt.transdate, rpt.orderby");
 
           dtDetails = qry.QueryToFwJsonTable(select, true);
           for (int i = 0; i < dtDetails.Rows.Count; i++)
