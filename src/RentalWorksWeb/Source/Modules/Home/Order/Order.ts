@@ -412,6 +412,14 @@ class Order {
 
     };
 
+    beforeValidateDeal($browse, $form, request) {
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+
+        request.uniqueids = {
+            LocationId: officeLocationId
+        }
+    }
+
     loadAudit($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);

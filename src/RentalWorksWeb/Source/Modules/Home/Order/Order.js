@@ -358,6 +358,12 @@ var Order = (function () {
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
     };
     ;
+    Order.prototype.beforeValidateDeal = function ($browse, $form, request) {
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        request.uniqueids = {
+            LocationId: officeLocationId
+        };
+    };
     Order.prototype.loadAudit = function ($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);

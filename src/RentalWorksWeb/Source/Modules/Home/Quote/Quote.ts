@@ -412,6 +412,14 @@ class Quote {
 
     }
 
+    beforeValidateDeal($browse, $form, request) {
+        var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+
+        request.uniqueids = {
+            LocationId: officeLocationId
+        }
+    }
+
     afterLoad($form: any, mode: string) {
         var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
@@ -820,10 +828,10 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     var html = [];
     html.push('<div class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
 
-    html.push('     <div id="breadcrumbs" style="width:100%;padding:20px;">');
-    html.push('         <div class="type" style="float:left; cursor: pointer" ></div>');
-    html.push('         <div class="category" style="float:left; cursor: pointer"></div>');
-    html.push('         <div class="subcategory" style="float:left; cursor: pointer"></div>');
+    html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
+    html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+    html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+    html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
     html.push('     </div>');
 
 
@@ -845,6 +853,8 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="" style="width:150px;float:left;"></div>');
     html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
     html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
+    html.push('                      <div data-type="button" class="fwformcontrol" style="width:70px; float:left; margin:15px;">Preview</div>');
+    html.push('                      <div data-type="button" class="fwformcontrol" style="width:125px; float:left; margin:15px;">Add to Order</div>');
     html.push('                  </div>');
     html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
     html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search By" data-datafield="" style="width:120px; float:left;"></div>');
