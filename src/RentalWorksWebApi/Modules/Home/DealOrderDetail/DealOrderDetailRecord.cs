@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "lockbillingdates", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? LockBillingDates { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string DelayBillingSearchUntil { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
