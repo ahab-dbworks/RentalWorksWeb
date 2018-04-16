@@ -1,5 +1,7 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
+using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
 using WebLibrary;
 
@@ -31,7 +33,8 @@ namespace WebApi.Modules.Home.Order
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                Status = "CONFIRMED";
+                Status = RwConstants.ORDER_STATUS_CONFIRMED;
+                OrderDate = FwConvert.ToString(DateTime.Today);
             }
         }
         //------------------------------------------------------------------------------------ 

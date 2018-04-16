@@ -4,6 +4,7 @@ using WebApi.Modules.Home.Order;
 using System;
 using WebLibrary;
 using WebApi.Logic;
+using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -32,8 +33,8 @@ namespace WebApi.Modules.Home.Quote
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                StatusDate = DateTime.Now.ToString("M/d/yyyy");
-                QuoteDate = DateTime.Now.ToString("M/d/yyyy");
+                StatusDate = FwConvert.ToString(DateTime.Today);
+                QuoteDate = FwConvert.ToString(DateTime.Today);
                 if ((DealId == null) || (DealId.Equals(string.Empty)))
                 {
                     Status = RwConstants.QUOTE_STATUS_PROSPECT;

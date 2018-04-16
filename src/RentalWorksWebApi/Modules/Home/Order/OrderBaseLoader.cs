@@ -146,7 +146,7 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "lockbillingdates", modeltype: FwDataTypes.Boolean)]
         public bool? LockBillingDates { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.DateTime)]
+        [FwSqlDataField(column: "delaybillingsearchuntil", modeltype: FwDataTypes.Date)]
         public string DelayBillingSearchUntil { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "prepfeesinrentalrate", modeltype: FwDataTypes.Boolean)]

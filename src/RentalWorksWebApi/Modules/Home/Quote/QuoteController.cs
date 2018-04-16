@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.Quote
             return await DoBrowseAsync(browseRequest, typeof(QuoteLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/quote/copy
+        // POST api/v1/quote/copy/A0000001
         [HttpPost("copy/{id}")]
         public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
@@ -35,11 +35,9 @@ namespace WebApi.Modules.Home.Quote
             {
                 string[] ids = id.Split('~');
                 QuoteLogic l = new QuoteLogic();
-                l.AppConfig = AppConfig;
-                l.UserSession = UserSession;
+                l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<QuoteLogic>(ids))
                 {
-                    //QuoteLogic lCopy = await l.CopyAsync<QuoteLogic>(copyRequest);
                     if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
                     {
                         QuoteLogic lCopy = (QuoteLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
@@ -68,7 +66,8 @@ namespace WebApi.Modules.Home.Quote
 
 
         }
-        //------------------------------------------------------------------------------------        // GET api/v1/quote
+        //------------------------------------------------------------------------------------        
+        // GET api/v1/quote
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {

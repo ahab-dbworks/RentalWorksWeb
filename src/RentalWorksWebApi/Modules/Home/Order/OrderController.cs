@@ -25,7 +25,7 @@ namespace WebApi.Modules.Home.Order
             return await DoBrowseAsync(browseRequest, typeof(OrderLogic));
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/order/copy
+        // POST api/v1/order/copy/A0000001
         [HttpPost("copy/{id}")]
         public async Task<IActionResult> Copy([FromRoute]string id, [FromBody] QuoteOrderCopyRequest copyRequest)
         {
@@ -37,11 +37,9 @@ namespace WebApi.Modules.Home.Order
             {
                 string[] ids = id.Split('~');
                 OrderLogic l = new OrderLogic();
-                l.AppConfig = AppConfig;
-                l.UserSession = UserSession;
+                l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<OrderLogic>(ids))
                 {
-                    //OrderLogic lCopy = await l.CopyAsync<OrderLogic>(copyRequest);
                     if (copyRequest.CopyToType.Equals(RwConstants.ORDER_TYPE_QUOTE))
                     {
                         QuoteLogic lCopy = (QuoteLogic)await l.CopyAsync<OrderBaseLogic>(copyRequest);
