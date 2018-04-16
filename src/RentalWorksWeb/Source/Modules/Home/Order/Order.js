@@ -803,4 +803,20 @@ FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = functi
         FwFunc.showError(ex);
     }
 };
+FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = function (e) {
+    var $form, $orderStatusForm;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        var mode = 'EDIT';
+        var orderInfo = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //# sourceMappingURL=Order.js.map
