@@ -61,6 +61,8 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? OutQuantity { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RemainingQuantity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PickedQuantity { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string InventoryId { get; set; }

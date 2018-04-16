@@ -86,6 +86,9 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         [FwSqlDataField(column: "qtyout", modeltype: FwDataTypes.Decimal)]
         public decimal? OutQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyremaining", modeltype: FwDataTypes.Decimal)]
+        public decimal? RemainingQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtypicked", modeltype: FwDataTypes.Decimal)]
         public decimal? PickedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
