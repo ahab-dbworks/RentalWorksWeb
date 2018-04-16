@@ -476,6 +476,7 @@ namespace WebApi.Modules.Home.Deal
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("LocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
