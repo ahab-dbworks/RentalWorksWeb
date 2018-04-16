@@ -463,9 +463,9 @@ namespace WebApi.Modules.Home.Deal
         //[FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer)]
         //public int? SubRentalEquipmentRebateRentalPerecent { get; set; }
         ////------------------------------------------------------------------------------------
-        //[FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
-        //public string DefaultRate { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string DefaultRate { get; set; }
+        //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "securitydepositamt", modeltype: FwDataTypes.Decimal)]
         //public decimal? SecurityDepositAmount { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -475,6 +475,7 @@ namespace WebApi.Modules.Home.Deal
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("LocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
