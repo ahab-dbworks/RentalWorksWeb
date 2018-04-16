@@ -198,6 +198,9 @@ var Order = (function () {
             FwFormField.setValue($form, 'div[data-datafield="SalesTaxRate1"]', $tr.find('.field[data-browsedatafield="SalesTaxRate1"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
+        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+        });
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
         return $form;
@@ -360,7 +363,7 @@ var Order = (function () {
     ;
     Order.prototype.beforeValidateDeal = function ($browse, $form, request) {
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        request.uniqueids = {
+        request.filterfields = {
             LocationId: officeLocationId
         };
     };

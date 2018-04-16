@@ -237,6 +237,10 @@ class Quote {
             FwFormField.setValue($form, 'div[data-datafield="LaborTaxRate1"]', $tr.find('.field[data-browsedatafield="LaborTaxRate1"]').attr('data-originalvalue'));
         });
 
+        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+        })
+
         return $form;
     }
 
@@ -415,7 +419,7 @@ class Quote {
     beforeValidateDeal($browse, $form, request) {
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
 
-        request.uniqueids = {
+        request.filterfields = {
             LocationId: officeLocationId
         }
     }
