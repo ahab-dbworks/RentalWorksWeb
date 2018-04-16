@@ -1,13 +1,8 @@
 class Contract {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'Contract';
-        this.apiurl = 'api/v1/contract'; 
-        this.ActiveView = 'ALL';
-    }
+    Module: string = 'Contract';
+    apiurl: string = 'api/v1/contract';
+    caption: string = 'Contract';
+    ActiveView: string= 'ALL';
 
     getModuleScreen() {
         var screen, $browse;
@@ -20,7 +15,7 @@ class Contract {
         $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Contract', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -48,55 +43,35 @@ class Contract {
         return $browse;
     }
 
+     //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems = ($menuObject: any) => {
+         //Location Filter
+        let self = this;
+              var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
 
-    addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
-        var $rentalssales: JQuery = FwMenu.generateDropDownViewBtn('Rentals / Sales', true);
-        var $repair: JQuery = FwMenu.generateDropDownViewBtn('Repair', false);
-        var $sales: JQuery = FwMenu.generateDropDownViewBtn('Sales', false);
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
 
-        $all.on('click', function () {
+        $allLocations.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+            self.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $rentalssales.on('click', function () {
+        $userLocation.on('click', function () {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'RENTALSALES';
+            self.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.search($browse);
         });
-        $repair.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'REPAIR';
-            FwBrowse.search($browse);
-        });
-        $sales.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'SALES';
-            FwBrowse.search($browse);
-        });
-      
-
-        FwMenu.addVerticleSeparator($menuObject);
-
-        var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all);
-        viewSubitems.push($rentalssales);
-        viewSubitems.push($repair);
-        viewSubitems.push($sales);
-
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'Department', viewSubitems);
-
+        var viewLocation = [];
+        viewLocation.push($userLocation);
+        viewLocation.push($all);
+        var $locationView;
+        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
-    };
-
-
+  };
 
     openForm(mode: string) {
         var $form;

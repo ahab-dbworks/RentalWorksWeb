@@ -67,6 +67,7 @@ class Repair {
 
       let $repairCostGrid, $repairCostGridControl; 
       let $repairPartGrid, $repairPartGridControl; 
+      let $repairReleaseGrid, $repairReleaseGridControl; 
 
       //----------------------------------------------------------------------------------------------
       $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
@@ -110,6 +111,22 @@ class Repair {
       });
       FwBrowse.init($repairPartGridControl); 
       FwBrowse.renderRuntimeHtml($repairPartGridControl);
+     
+      //----------------------------------------------------------------------------------------------
+      $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]'); 
+      $repairReleaseGridControl = jQuery(jQuery('#tmpl-grids-RepairReleaseGridBrowse').html()); 
+      $repairReleaseGrid.empty().append($repairReleaseGridControl); 
+      $repairReleaseGridControl.data('ondatabind', request => { 
+          request.uniqueids = { 
+              RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val() 
+          } 
+      }); 
+      $repairReleaseGridControl.data('beforesave', request => { 
+          request.RepairId = FwFormField.getValueByDataField($form, 'RepairId'); 
+      }) 
+   
+      FwBrowse.init($repairReleaseGridControl); 
+      FwBrowse.renderRuntimeHtml($repairReleaseGridControl);
   } 
 
   //----------------------------------------------------------------------------------------------
@@ -137,12 +154,12 @@ class Repair {
           FwBrowse.search($browse);      
       });
       
-      let viewSubitems: Array<JQuery> = [];
-      viewSubitems.push($userWarehouse);
-      viewSubitems.push($all);
+      let viewSubItems: Array<JQuery> = [];
+      viewSubItems.push($userWarehouse);
+      viewSubItems.push($all);
 
       let $view;
-      $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+      $view = FwMenu.addViewBtn($menuObject, 'View', viewSubItems);
 
       return $menuObject;
   };

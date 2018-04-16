@@ -7,6 +7,40 @@ var RwSalesInventoryTransactionsReport = (function () {
                 HasDownloadExcel: true
             }
         };
+        this.beforeValidate = function ($browse, $grid, request) {
+            var validationName = request.module;
+            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+            var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+            var SubCategoryTypeId = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
+            switch (validationName) {
+                case 'InventoryTypeValidation':
+                    request.uniqueids = {
+                        Sales: true
+                    };
+                    break;
+                case 'SalesCategoryValidation':
+                    request.uniqueids = {
+                        InventoryTypeId: InventoryTypeValue
+                    };
+                    break;
+                case 'SubCategoryValidation':
+                    request.uniqueids = {
+                        Sales: true,
+                        TypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                    };
+                    break;
+                case 'SalesInventoryValidation':
+                    request.uniqueids = {
+                        InventoryTypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                        SubCategoryId: SubCategoryTypeId,
+                    };
+                    break;
+            }
+            ;
+        };
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
     }
     RwSalesInventoryTransactionsReport.prototype.getModuleScreen = function () {
