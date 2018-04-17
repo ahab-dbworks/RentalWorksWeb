@@ -204,6 +204,35 @@ namespace WebApi.Modules.Home.Repair
             ((TaxRecord)sender).TaxId = tmpTaxId;
         }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                if ((ItemId != null) && (!ItemId.Equals(string.Empty)))
+                {
+                    string statusType = AppFunc.GetStringDataAsync(AppConfig, "rentalitemview", "rentalitemid", ItemId, "statustype").Result;
+                    if (PendingRepair.Value)
+                    {
+                        if (!statusType.Equals(RwConstants.INVENTORY_STATUS_TYPE_OUT))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot create a Pending Repair for an item that is " + statusType;
+                        }
+                    }
+                    else
+                    {
+                        if (!statusType.Equals(RwConstants.INVENTORY_STATUS_TYPE_IN))
+                        {
+                            isValid = false;
+                            validateMsg = "Cannot create a Repair for an item that is " + statusType;
+                        }
+                    }
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSaveRepair(object sender, BeforeSaveEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)

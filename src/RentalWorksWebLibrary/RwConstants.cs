@@ -41,6 +41,9 @@ namespace WebLibrary
         public const string REPAIR_TYPE_CONSIGNED = "CONSIGNED";
         public const string REPAIR_TYPE_OUTSIDE = "OUTSIDE";
 
+        public const string INVENTORY_STATUS_TYPE_IN = "IN";
+        public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
+
 
     }
 
