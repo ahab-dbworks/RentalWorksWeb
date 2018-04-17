@@ -4,8 +4,8 @@ class Contract {
     caption: string = 'Contract';
     ActiveView: string= 'ALL';
 
-    getModuleScreen() {
-        var screen, $browse;
+    getModuleScreen = () => {
+        let screen, $browse;
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -14,23 +14,30 @@ class Contract {
 
         $browse = this.openBrowse();
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
-        screen.unload = function () {
+        screen.unload = () => {
             FwBrowse.screenunload($browse);
         };
 
         return screen;
     }
 
-    openBrowse() {
-        var $browse;
+    openBrowse = () => {
+        let $browse;
 
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        this.ActiveView = 'LocationId=' + location.locationid;
+
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
+        });
 
         FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
         FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
@@ -43,35 +50,31 @@ class Contract {
         return $browse;
     }
 
-     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems = ($menuObject: any) => {
-         //Location Filter
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems = ($menuObject) => {
         let self = this;
-              var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
-
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $allLocations.on('click', function () {
-            var $browse;
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
         $userLocation.on('click', function () {
-            var $browse;
+            let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.search($browse);
         });
-        var viewLocation = [];
+        const viewLocation = [];
         viewLocation.push($userLocation);
-        viewLocation.push($all);
-        var $locationView;
+        viewLocation.push($allLocations);
+        let $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
-  };
+    };
 
     openForm(mode: string) {
         var $form;
