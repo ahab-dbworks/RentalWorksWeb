@@ -22,6 +22,9 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "casesensitive", modeltype: FwDataTypes.Boolean)]
         public bool? CaseSensitive { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "systemrule", modeltype: FwDataTypes.Boolean)]
+        public bool? SystemRule { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fields", modeltype: FwDataTypes.Text)]
         public string Fields { get; set; }
         //------------------------------------------------------------------------------------ 

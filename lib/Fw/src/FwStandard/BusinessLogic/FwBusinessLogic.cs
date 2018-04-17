@@ -447,7 +447,7 @@ namespace FwStandard.BusinessLogic
 
                     foreach (List<object> rule in rulesList)
                     {
-                        string fields = rule[4].ToString();
+                        string fields = rule[5].ToString();
                         string[] field = fields.Split(',').ToArray();
 
                         BrowseRequest browseRequest2 = new BrowseRequest();
