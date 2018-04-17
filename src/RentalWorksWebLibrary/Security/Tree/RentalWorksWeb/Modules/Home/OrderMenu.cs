@@ -29,6 +29,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSaveMenuBarButton("{CEC1871C-DA65-418E-AF7E-C3DA25CA41A5}", nodeFormMenuBar.Id);
             tree.AddSubMenuItem("Create Pick List", "{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Order Status", "{CF245A59-3336-42BC-8CCB-B88807A9D4EA}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Search", "{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

@@ -238,7 +238,11 @@ class Quote {
         });
 
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
-            FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+            //FwFormField.setValue($form, 'div[data-datafield="RateType"]', $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue'));
+            var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+            $form.find('div[data-datafield="RateType"]').attr('data-originalvalue', type);
+            $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
+            $form.find('div[data-datafield="RateType"] input.fwformfield-value').val(type);
         })
 
         return $form;
@@ -419,7 +423,7 @@ class Quote {
     beforeValidateDeal($browse, $form, request) {
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
 
-        request.filterfields = {
+        request.uniqueids = {
             LocationId: officeLocationId
         }
     }
@@ -829,6 +833,7 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
 };
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
+    //render popup
     var html = [];
     html.push('<div class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
 
@@ -838,16 +843,15 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
     html.push('     </div>');
 
-
     html.push('     <div class="formrow" style="width:100%; position:absolute;">');
 
-    html.push('              <div id="inventoryType" style="width:10%; float:left;">');
+    html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
     html.push('              </div>');
  
-    html.push('             <div id="rentalCategory" style="width:10%; float:left;">');
+    html.push('             <div id="rentalCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
     html.push('             </div>');
  
-    html.push('             <div id="subCategory" style="width:10%; float:left;">');
+    html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
     html.push('             </div>');
 
     html.push('            <div style="width:65%; position:absolute; top: 5%; left: 35%; right: 5%;">')
@@ -875,11 +879,12 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
     html.push('</div>');
 
-    var $form = html.join('');
-    var $popup = FwPopup.renderPopup($form, { ismodal: true });
+    var $searchForm = html.join('');
+    var $popup = FwPopup.renderPopup($searchForm, { ismodal: true });
     FwPopup.showPopup($popup);
-    FwConfirmation.addControls($popup, $form);
+    FwConfirmation.addControls($popup, $searchForm);
 
+    //populate type column
     var inventoryTypeRequest: any = {};
     inventoryTypeRequest.uniqueids = {
         Rental: true
@@ -889,10 +894,11 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
         var inventoryTypeIdIndex = response.ColumnIndex.InventoryTypeId;
 
         for (var i = 0; i < response.Rows.length; i++) {
-            $popup.find('#inventoryType').append('<ul style="cursor:pointer;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
+            var type = $popup.find('#inventoryType').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
+
         }
     }, null, null);
-
+ 
   
     $popup.on('click', '#inventoryType ul', function (e) {
         $popup.find('#inventoryType ul').css({ 'background-color': 'white', 'color': 'black'});
@@ -915,7 +921,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
             var categoryIndex = response.ColumnIndex.Category;
             $popup.find('#rentalCategory, #subCategory').empty();
             for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#rentalCategory').append('<ul style="cursor:pointer;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                $popup.find('#rentalCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
             }
         }, null, null);
 
@@ -946,6 +952,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 
     });
 
+    //populate category section
     $popup.on('click', '#rentalCategory ul', function (e) {
         $popup.find('#rentalCategory ul').css({ 'background-color': 'white', 'color': 'black' });
 
@@ -968,7 +975,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
             var subCategoryIndex = response.ColumnIndex.SubCategory;
             $popup.find('#subCategory').empty();
             for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#subCategory').append('<ul style="cursor:pointer;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
             }
         }, null, null);
 
@@ -997,7 +1004,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 
     });
 
-
+    //populate subcategory section
     $popup.on('click', '#subCategory ul', function (e) {
         $popup.find('#subCategory ul').css({ 'background-color': 'white', 'color': 'black' });
 
@@ -1043,6 +1050,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 
     });
 
+    //breadcrumb functionality
     $popup.on('click', '#breadcrumbs .type', function (e) {
         $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
  
@@ -1056,7 +1064,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
             var categoryIndex = response.ColumnIndex.Category;
             $popup.find('#rentalCategory, #subCategory').empty();
             for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#rentalCategory').append('<ul style="cursor:pointer;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                $popup.find('#rentalCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
             }
         }, null, null);
 
@@ -1087,6 +1095,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 
     })
 
+
     $popup.on('click', '#breadcrumbs .category', function (e) {
         $popup.find("#breadcrumbs .subcategory").empty();
 
@@ -1102,7 +1111,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
             var subCategoryIndex = response.ColumnIndex.SubCategory;
             $popup.find('#subCategory').empty();
             for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#subCategory').append('<ul style="cursor:pointer;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
             }
         }, null, null);
 
