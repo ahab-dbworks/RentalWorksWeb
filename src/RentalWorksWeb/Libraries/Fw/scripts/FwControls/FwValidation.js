@@ -15,13 +15,13 @@ FwValidation.init = function ($control) {
 
     // auto generate controllers for validations if they don't have one, so we only have to look in 1 place for the apiurl
     if (typeof $validationbrowse.attr('data-name') !== 'undefined' && typeof $validationbrowse.attr('data-apiurl') !== 'undefined') {
-        if (typeof window[$validationbrowse.attr('data-apiurl') + 'Controller'] === 'undefined') {
+        if (typeof window[$validationbrowse.attr('data-name') + 'Controller'] === 'undefined') {
             window[$validationbrowse.attr('data-name') + 'Controller'] = {
                 Module: $validationbrowse.attr('data-name'),
                 apiurl: $validationbrowse.attr('data-apiurl')
             };
         } else {
-            var controller = window[$validationbrowse.attr('data-apiurl') + 'Controller'];
+            var controller = window[$validationbrowse.attr('data-name') + 'Controller'];
             if (typeof controller.Module === 'undefined') {
                 controller.Module = $validationbrowse.attr('data-name');
             }
@@ -29,12 +29,10 @@ FwValidation.init = function ($control) {
                 controller.apiurl = $validationbrowse.attr('data-apiurl');
             }
         }
-    } else if (typeof $validationbrowse.attr('data-name') !== 'undefined') {
-        if (typeof window[$validationbrowse.attr('data-apiurl') + 'Controller'] === 'undefined') {
-            window[$validationbrowse.attr('data-name') + 'Controller'] = {
-                Module: $validationbrowse.attr('data-name')
-            };
-        }
+    } else if ((typeof $validationbrowse.attr('data-name') !== 'undefined') && (typeof window[$validationbrowse.attr('data-name') + 'Controller'] === 'undefined')) {
+        window[$validationbrowse.attr('data-name') + 'Controller'] = {
+            Module: $validationbrowse.attr('data-name')
+        };
     }
 
     if (typeof control_boundfields != 'undefined') {

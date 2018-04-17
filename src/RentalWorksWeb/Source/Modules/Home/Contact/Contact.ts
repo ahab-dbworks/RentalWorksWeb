@@ -66,7 +66,7 @@ class Contact {
         FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids = function ($form: JQuery) {
+    renderGrids($form: JQuery) {
         var $contactNoteGrid: any;
         var $contactNoteGridControl: any;
 

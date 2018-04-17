@@ -1,39 +1,6 @@
 routes.push({ pattern: /^module\/contact$/, action: function (match) { return ContactController.getModuleScreen(); } });
 var Contact = (function () {
     function Contact() {
-        this.renderGrids = function ($form) {
-            var $contactNoteGrid;
-            var $contactNoteGridControl;
-            $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-            $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
-            $contactNoteGrid.empty().append($contactNoteGridControl);
-            $contactNoteGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
-                };
-            });
-            $contactNoteGridControl.data('beforesave', function (request) {
-                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-            });
-            FwBrowse.init($contactNoteGridControl);
-            FwBrowse.renderRuntimeHtml($contactNoteGridControl);
-            var $companyContactGrid;
-            var $companyContactGridControl;
-            $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
-            $companyContactGridControl = jQuery(jQuery('#tmpl-grids-ContactCompanyGridBrowse').html());
-            $companyContactGrid.empty().append($companyContactGridControl);
-            $companyContactGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
-                };
-            });
-            $companyContactGridControl.data('beforesave', function (request) {
-                request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
-            });
-            FwBrowse.init($companyContactGridControl);
-            FwBrowse.renderRuntimeHtml($companyContactGridControl);
-            this.addLegend($form);
-        };
         this.Module = 'Contact';
         this.apiurl = 'api/v1/contact';
         this.caption = 'Contact';
@@ -81,6 +48,40 @@ var Contact = (function () {
     ;
     Contact.prototype.saveForm = function ($form, closetab, navigationpath) {
         FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    };
+    ;
+    Contact.prototype.renderGrids = function ($form) {
+        var $contactNoteGrid;
+        var $contactNoteGridControl;
+        $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+        $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+        $contactNoteGrid.empty().append($contactNoteGridControl);
+        $contactNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+            };
+        });
+        $contactNoteGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+        FwBrowse.init($contactNoteGridControl);
+        FwBrowse.renderRuntimeHtml($contactNoteGridControl);
+        var $companyContactGrid;
+        var $companyContactGridControl;
+        $companyContactGrid = $form.find('div[data-grid="ContactCompanyGrid"]');
+        $companyContactGridControl = jQuery(jQuery('#tmpl-grids-ContactCompanyGridBrowse').html());
+        $companyContactGrid.empty().append($companyContactGridControl);
+        $companyContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContactId: $form.find('div.fwformfield[data-datafield="ContactId"] input').val()
+            };
+        });
+        $companyContactGridControl.data('beforesave', function (request) {
+            request.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+        FwBrowse.init($companyContactGridControl);
+        FwBrowse.renderRuntimeHtml($companyContactGridControl);
+        this.addLegend($form);
     };
     ;
     Contact.prototype.addLegend = function ($form) {
