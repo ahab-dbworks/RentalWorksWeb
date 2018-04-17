@@ -191,7 +191,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                         FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
                         if (sqlDataFieldAttribute != null)
                         {
-                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name);
+                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
                         }
                     }
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
