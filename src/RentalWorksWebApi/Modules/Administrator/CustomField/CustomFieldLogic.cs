@@ -7,9 +7,11 @@ namespace WebApi.Modules.Administrator.CustomField
     {
         //------------------------------------------------------------------------------------ 
         CustomFieldRecord customField = new CustomFieldRecord();
+        CustomFieldLoader customFieldLoader = new CustomFieldLoader();
         public CustomFieldLogic()
         {
             dataRecords.Add(customField);
+            dataLoader = customFieldLoader;
             customField.AfterSave += OnAfterSaveCustomField;
             customField.AfterDelete += OnAfterDeleteCustomField;
         }
@@ -22,6 +24,8 @@ namespace WebApi.Modules.Administrator.CustomField
         public string FieldName { get { return customField.FieldName; } set { customField.FieldName = value; } }
         public string CustomTableName { get { return customField.CustomTableName; } set { customField.CustomTableName = value; } }
         public string CustomFieldName { get { return customField.CustomFieldName; } set { customField.CustomFieldName = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string FieldType { get; set; }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveCustomField(object sender, AfterSaveEventArgs e)
