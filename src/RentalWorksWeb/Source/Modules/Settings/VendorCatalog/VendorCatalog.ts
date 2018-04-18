@@ -91,28 +91,16 @@
 
     } 
 
-    beforeValidateCategory($browse, $grid, request) {
-        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+    beforeValidateShipVia($browse, $grid, request) {
         var validationName = request.module;
-
-        console.log(InventoryTypeValue, "INV")
+        var VendorIdValue = jQuery($grid.find('[data-datafield="CarrierId"] input')).val();
+        
         switch (validationName) {
-            case 'PartsCategoryValidation':
+            case 'ShipViaValidation':
                 request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
-                }
+                    VendorId: VendorIdValue
+                };
                 break;
-            case 'RentalCategoryValidation':
-                request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
-                }
-                break;
-            case 'SalesCategoryValidation':
-                request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
-                }
-                break;
-
         }
 
     } 
