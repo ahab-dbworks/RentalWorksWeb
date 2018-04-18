@@ -72,8 +72,8 @@ var DuplicateRules = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    DuplicateRules.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    DuplicateRules.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     DuplicateRules.prototype.getFields = function ($form) {
         $form.find('div.modules').on("change", function () {

@@ -138,8 +138,8 @@ var RwAsset = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    RwAsset.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    RwAsset.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     RwAsset.prototype.loadAudit = function ($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'ItemId');

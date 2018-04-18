@@ -48,6 +48,9 @@ var PickList = (function () {
         return $form;
     };
     ;
+    PickList.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    };
     PickList.prototype.addBrowseMenuItems = function ($menuObject) {
         var self = this;
         var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -71,10 +74,6 @@ var PickList = (function () {
         var $warehouseView;
         $warehouseView = FwMenu.addViewBtn($menuObject, 'Location', viewWarehouse);
         return $menuObject;
-    };
-    ;
-    PickList.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     };
     ;
     PickList.prototype.renderGrids = function ($form) {

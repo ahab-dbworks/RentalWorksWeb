@@ -13,7 +13,7 @@ class OrderStatus {
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT', null);
+        var $form = this.openForm('EDIT');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'Order Status', false, 'FORM', true);
@@ -24,7 +24,7 @@ class OrderStatus {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string, parentmoduleinfo) {
+    openForm(mode: string, parentmoduleinfo?) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-OrderStatusForm').html());
@@ -35,7 +35,7 @@ class OrderStatus {
         this.getOrder($form);
         this.toggleView($form);
 
-        if (parentmoduleinfo !== null) {
+        if (typeof parentmoduleinfo !== 'undefined') {
             $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
             $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
             jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');

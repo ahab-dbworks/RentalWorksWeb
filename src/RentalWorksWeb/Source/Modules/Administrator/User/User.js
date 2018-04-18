@@ -127,8 +127,8 @@ var User = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    User.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    User.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     User.prototype.afterLoad = function ($form) {
         var $discount = $form.find('div.fwformfield[data-datafield="LimitDiscount"] input').prop('checked');

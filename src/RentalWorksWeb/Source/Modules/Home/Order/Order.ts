@@ -914,7 +914,11 @@ class Order {
         html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search By" data-datafield="" style="width:120px; float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search " data-datafield="" style="width:570px; float:left;"></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 60px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         html.push('                 </div>');
+
 
         html.push('                 <div class="inventory" style="overflow:auto">');
 
@@ -1294,7 +1298,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     $popup.on('mouseleave', '.inventory > div', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
-            jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,225,0.2)');
+            jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
         } else {
             jQuery(e.currentTarget).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
         }
@@ -1307,7 +1311,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
 
         jQuery(e.currentTarget).addClass('selected');
   
-        jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,225,0.2)');
+        jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
     });
 
     var highlight = {

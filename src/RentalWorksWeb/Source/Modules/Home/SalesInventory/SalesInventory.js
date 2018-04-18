@@ -143,8 +143,8 @@ var SalesInventory = (function () {
         ], true);
         return $form;
     };
-    SalesInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    SalesInventory.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     SalesInventory.prototype.loadAudit = function ($form) {
         var uniqueid;

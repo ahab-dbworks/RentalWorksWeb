@@ -39,6 +39,7 @@ class Quote {
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
+
         screen.unload = function () {
             FwBrowse.screenunload($browse);
         };
@@ -154,7 +155,7 @@ class Quote {
         });
         var viewLocation = [];
         viewLocation.push($userLocation);
-        viewLocation.push($all);
+        viewLocation.push($allLocations);
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
@@ -280,8 +281,8 @@ class Quote {
         $form.find(".frame .add-on").children().hide();
     }
 
-    saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
+    saveForm($form: any, closetab: boolean, navigationpath: string) {
+        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
     }
 
     loadAudit($form: any) {
@@ -816,7 +817,303 @@ class Quote {
         }, null, null);
     };
 
+    renderSearchPopup() {
+        //render popup
+        var html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
 
+        html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
+        html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        html.push('     </div>');
+
+        html.push('     <div class="formrow" style="width:100%; position:absolute;">');
+        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Inventory Type" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
+        html.push('                  <div data-value="Rental" data-caption="Rental" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="Sales" data-caption="Sales" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="Labor" data-caption="Labor" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="Misc" data-caption="Misc" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="Parts" data-caption="Parts" style="float:left; width:20%;"></div>');
+        html.push('              </div>');
+
+        html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        html.push('              </div>');
+
+        html.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        html.push('             </div>');
+
+        html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        html.push('             </div>');
+
+        html.push('            <div style="width:65%; position:absolute; top: 5%; left: 35%; right: 5%;">')
+        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="" style="width:120px; float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="" style="width:120px;float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="" style="width:150px;float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="width:70px; float:left; margin:15px;">Preview</div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="width:125px; float:left; margin:15px;">Add to Order</div>');
+        html.push('                  </div>');
+        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search By" data-datafield="" style="width:120px; float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search " data-datafield="" style="width:570px; float:left;"></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 60px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px;  padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
+        html.push('                 </div>');
+
+        html.push('                 <div class="inventory" style="overflow:auto">');
+
+        html.push('                 </div>');
+        html.push('            </div>');
+
+        html.push('     </div>');
+
+        html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+        html.push('</div>');
+
+        var $searchForm = html.join('');
+        var $popup = FwPopup.renderPopup($searchForm, { ismodal: true });
+        FwPopup.showPopup($popup);
+        FwConfirmation.addControls($popup, $searchForm);
+
+        $popup.find('.close-modal').one('click', function (e) {
+            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        })
+
+        return $popup;
+    }
+
+    populateTypeMenu($popup, request) {
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventoryType/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            var inventoryTypeIndex, inventoryTypeIdIndex;
+
+            inventoryTypeIndex = response.ColumnIndex.InventoryType;
+            inventoryTypeIdIndex = response.ColumnIndex.InventoryTypeId;
+
+            for (var i = 0; i < response.Rows.length; i++) {
+                $popup.find('#inventoryType').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
+
+            }
+        }, null, null);
+    }
+
+    typeOnClickEvents($popup) {
+        $popup.on('click', '#inventoryType ul', function (e) {
+            var invType, inventoryTypeId, breadcrumb, request: any = {};
+            $popup.find('#inventoryType ul').css({ 'background-color': 'white', 'color': 'black' });
+
+            invType = jQuery(e.currentTarget).text();
+            $popup.find('#inventoryType ul').removeClass('selected');
+            jQuery(e.currentTarget).addClass('selected');
+            breadcrumb = $popup.find('#breadcrumbs .type');
+            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
+            breadcrumb.text(invType);
+            breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
+
+            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+            inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
+            breadcrumb.attr('data-value', inventoryTypeId);
+
+            request.uniqueids = {
+                InventoryTypeId: inventoryTypeId
+            }
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var categoryIdIndex = response.ColumnIndex.CategoryId;
+                var categoryIndex = response.ColumnIndex.Category;
+                $popup.find('#category, #subCategory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                }
+            }, null, null);
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                }
+
+                var css = {
+                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                    'transition': '0.3s'
+                }
+                var $card = $popup.find('.inventory > div');
+                $card.css(css);
+
+            }, null, null);
+        });
+
+    }
+
+    categoryOnClickEvents($popup) {
+        $popup.on('click', '#category ul', function (e) {
+            var category, breadcrumb, categoryId, inventoryTypeId, request: any = {};
+            $popup.find('#category ul').css({ 'background-color': 'white', 'color': 'black' });
+
+            category = jQuery(e.currentTarget).text();
+            $popup.find('#category ul').removeClass('selected');
+            jQuery(e.currentTarget).addClass('selected');
+            breadcrumb = $popup.find('#breadcrumbs .category');
+            $popup.find("#breadcrumbs .subcategory").empty();
+            breadcrumb.text(category);
+            breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
+            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+            categoryId = jQuery(e.currentTarget).attr('data-value');
+            inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            breadcrumb.attr('data-value', categoryId);
+
+            request.uniqueids = {
+                CategoryId: categoryId,
+                InventoryTypeId: inventoryTypeId
+            }
+            FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
+                var subCategoryIndex = response.ColumnIndex.SubCategory;
+                $popup.find('#subCategory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                }
+            }, null, null);
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+
+                    var css = {
+                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                        'transition': '0.3s'
+                    }
+                    var $card = $popup.find('div.card');
+                    $card.css(css);
+                }
+            }, null, null);
+
+        });
+
+
+    };
+
+    subCategoryOnClickEvents($popup) {
+        $popup.on('click', '#subCategory ul', function (e) {
+            var subCategory, breadcrumb, subCategoryId, categoryId, inventoryTypeId, request: any = {};
+            $popup.find('#subCategory ul').css({ 'background-color': 'white', 'color': 'black' });
+
+            subCategory = jQuery(e.currentTarget).text();
+            $popup.find('#subCategory ul').removeClass('selected');
+            jQuery(e.currentTarget).addClass('selected');
+            breadcrumb = $popup.find('#breadcrumbs .subcategory');
+            breadcrumb.text(subCategory);
+            subCategoryId = jQuery(e.currentTarget).attr('data-value');
+            breadcrumb.attr('data-value', subCategoryId);
+            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+
+            categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
+            inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            request.uniqueids = {
+                SubCategoryId: subCategoryId,
+                CategoryId: categoryId,
+                InventoryTypeId: inventoryTypeId
+            }
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+
+                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+
+                    var css = {
+                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                        'transition': '0.3s'
+                    }
+                    var $card = $popup.find('.inventory > div');
+                    $card.css(css);
+
+                }
+            }, null, null);
+        });
+    }
+
+    breadCrumbs($popup) {
+        $popup.on('click', '#breadcrumbs .type', function (e) {
+            $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
+
+            var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
+            var request: any = {};
+            request.uniqueids = {
+                InventoryTypeId: inventoryTypeId
+            }
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var categoryIdIndex = response.ColumnIndex.CategoryId;
+                var categoryIndex = response.ColumnIndex.Category;
+                $popup.find('#category, #subCategory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                }
+            }, null, null);
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+
+                    var css = {
+                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                        'transition': '0.3s'
+                    }
+                    var $card = $popup.find('.inventory > div');
+                    $card.css(css);
+                }
+            }, null, null);
+
+
+        })
+
+
+        $popup.on('click', '#breadcrumbs .category', function (e) {
+            $popup.find("#breadcrumbs .subcategory").empty();
+
+            var categoryId = jQuery(e.currentTarget).attr('data-value');
+            var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            var subCategoryRequest: any = {};
+            subCategoryRequest.uniqueids = {
+                CategoryId: categoryId,
+                InventoryTypeId: inventoryTypeId
+            }
+            FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
+                var subCategoryIndex = response.ColumnIndex.SubCategory;
+                $popup.find('#subCategory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                }
+            }, null, null);
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
+                for (var i = 0; i < response.Rows.length; i++) {
+                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+
+                    var css = {
+                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                        'transition': '0.3s'
+                    }
+                    var $card = $popup.find('div.card');
+                    $card.css(css);
+                }
+            }, null, null);
+        })
+    }
 }
 //-----------------------------------------------------------------------------------------------------
 var QuoteController = new Quote();
@@ -833,317 +1130,100 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
 };
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
-    //render popup
-    var html = [];
-    html.push('<div class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
+    var $popup,
+        inventoryType,
+        inventoryTypeRequest: any = {};
 
-    html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
-    html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-    html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-    html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-    html.push('     </div>');
+    $popup = QuoteController.renderSearchPopup();
 
-    html.push('     <div class="formrow" style="width:100%; position:absolute;">');
+    $popup.find('[data-type="radio"]').on('change', function () {
+        inventoryType = $popup.find('[data-type="radio"] input:checked').val();
 
-    html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-    html.push('              </div>');
- 
-    html.push('             <div id="rentalCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-    html.push('             </div>');
- 
-    html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-    html.push('             </div>');
+        switch (inventoryType) {
+            case 'Rental':
+                inventoryTypeRequest.uniqueids = {
+                    Rental: true
+                }
+                break;
+            case 'Sales':
+                inventoryTypeRequest.uniqueids = {
+                    Sales: true
+                }
+                break;
+            case 'Labor':
+                inventoryTypeRequest.uniqueids = {
+                    Labor: true
+                }
+                break;
+            case 'Misc':
+                inventoryTypeRequest.uniqueids = {
+                    Misc: true
+                }
+                break;
+            case 'Parts':
+                inventoryTypeRequest.uniqueids = {
+                    Parts: true
+                }
+                break;
+            default:
+                inventoryTypeRequest.uniqueids = {
+                    Rental: true
+                }
+        }
 
-    html.push('            <div style="width:65%; position:absolute; top: 5%; left: 35%; right: 5%;">')
-    html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-    html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="" style="width:120px; float:left;"></div>');
-    html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="" style="width:120px;float:left;"></div>');
-    html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="" style="width:150px;float:left;"></div>');
-    html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
-    html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
-    html.push('                      <div data-type="button" class="fwformcontrol" style="width:70px; float:left; margin:15px;">Preview</div>');
-    html.push('                      <div data-type="button" class="fwformcontrol" style="width:125px; float:left; margin:15px;">Add to Order</div>');
-    html.push('                  </div>');
-    html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-    html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search By" data-datafield="" style="width:120px; float:left;"></div>');
-    html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search " data-datafield="" style="width:570px; float:left;"></div>');
-    html.push('                 </div>');
+        console.log(inventoryType)
+    });
 
-    html.push('                 <div class="inventory" style="overflow:auto">');
+    QuoteController.populateTypeMenu($popup, inventoryTypeRequest);
+    QuoteController.typeOnClickEvents($popup);
+    QuoteController.categoryOnClickEvents($popup);
+    QuoteController.subCategoryOnClickEvents($popup);
+    QuoteController.breadCrumbs($popup);
 
-    html.push('                 </div>');
-    html.push('            </div>');
+    $popup.on('mouseenter', '.inventory > div', function () {
+        jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
+    });
 
-    html.push('     </div>');
+    $popup.on('mouseleave', '.inventory > div', function (e) {
+        var selected = jQuery(e.currentTarget).hasClass('selected');
+        if (selected) {
+            jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
+        } else {
+            jQuery(e.currentTarget).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
+        }
 
-    html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
-    html.push('</div>');
+    });
 
-    var $searchForm = html.join('');
-    var $popup = FwPopup.renderPopup($searchForm, { ismodal: true });
-    FwPopup.showPopup($popup);
-    FwConfirmation.addControls($popup, $searchForm);
+    $popup.on('click', '.inventory > div', function (e) {
+        $popup.find('.inventory > div').removeClass('selected');
+        $popup.find('.inventory > div').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
 
-    //populate type column
-    var inventoryTypeRequest: any = {};
-    inventoryTypeRequest.uniqueids = {
-        Rental: true
+        jQuery(e.currentTarget).addClass('selected');
+
+        jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
+    });
+
+    var highlight = {
+        'background-color': '#D3D3D3',
+        'color': 'white'
     }
-    FwAppData.apiMethod(true, 'POST', "api/v1/inventorytype/browse", inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-        var inventoryTypeIndex = response.ColumnIndex.InventoryType;
-        var inventoryTypeIdIndex = response.ColumnIndex.InventoryTypeId;
 
-        for (var i = 0; i < response.Rows.length; i++) {
-            var type = $popup.find('#inventoryType').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
-
-        }
-    }, null, null);
- 
-  
-    $popup.on('click', '#inventoryType ul', function (e) {
-        $popup.find('#inventoryType ul').css({ 'background-color': 'white', 'color': 'black'});
-
-        var invType = jQuery(e.currentTarget).text();
-        var breadcrumb = $popup.find('#breadcrumbs .type');
-        $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
-        breadcrumb.text(invType);
-
-        breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-        jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
-        var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
-        breadcrumb.attr('data-value', inventoryTypeId);
-        var rentalCategoryRequest: any = {};
-        rentalCategoryRequest.uniqueids = {
-            InventoryTypeId: inventoryTypeId
-        }
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", rentalCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var categoryIdIndex = response.ColumnIndex.CategoryId;
-            var categoryIndex = response.ColumnIndex.Category;
-            $popup.find('#rentalCategory, #subCategory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#rentalCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
-            }
-        }, null, null);
-
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", rentalCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var descriptionIndex = response.ColumnIndex.Description;
-            $popup.find('.inventory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-                var $card = $popup.find('.inventory > div');
-                $card.css(css);
-
-                $card.on('mouseenter', function () {
-                    jQuery(this).css('box-shadow', '0 8px 16px 0 rgba(0, 0, 0, 0.2)');
-                })
-
-                $card.on('mouseleave', function () {
-                    jQuery(this).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-                })
-
-            }
-        }, null, null);
-
+    var unhighlight = {
+        'background-color': 'white',
+        'color': 'black'
+    }
+    $popup.on('mouseenter', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
+        jQuery(e.currentTarget).css(highlight)
     });
 
-    //populate category section
-    $popup.on('click', '#rentalCategory ul', function (e) {
-        $popup.find('#rentalCategory ul').css({ 'background-color': 'white', 'color': 'black' });
-
-        var rentalCategory = jQuery(e.currentTarget).text();
-        var breadcrumb = $popup.find('#breadcrumbs .category');
-        $popup.find("#breadcrumbs .subcategory").empty();
-        breadcrumb.text(rentalCategory);
-        breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-        jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
-        var rentalCategoryId = jQuery(e.currentTarget).attr('data-value');
-        var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-        breadcrumb.attr('data-value', rentalCategoryId);
-        var subCategoryRequest: any = {};
-        subCategoryRequest.uniqueids = {
-            CategoryId: rentalCategoryId,
-            InventoryTypeId: inventoryTypeId
+    $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
+        var selected = jQuery(e.currentTarget).hasClass('selected');
+        if (selected) {
+            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' })
+        } else {
+            jQuery(e.currentTarget).css(unhighlight)
         }
-        FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
-            var subCategoryIndex = response.ColumnIndex.SubCategory;
-            $popup.find('#subCategory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
-            }
-        }, null, null);
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var descriptionIndex = response.ColumnIndex.Description;
-            $popup.find('.inventory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-                var $card = $popup.find('div.card');
-                $card.css(css);
-
-                $card.on('mouseenter', function () {
-                    jQuery(this).css('box-shadow', '0 8px 16px 0 rgba(0, 0, 0, 0.2)');
-                })
-
-                $card.on('mouseleave', function () {
-                    jQuery(this).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-                })
-            }
-        }, null, null);
-
     });
-
-    //populate subcategory section
-    $popup.on('click', '#subCategory ul', function (e) {
-        $popup.find('#subCategory ul').css({ 'background-color': 'white', 'color': 'black' });
-
-        var subCategory = jQuery(e.currentTarget).text();
-        var breadcrumb = $popup.find('#breadcrumbs .subcategory');
-        breadcrumb.text(subCategory);
-        var subCategoryId = jQuery(e.currentTarget).attr('data-value');
-        breadcrumb.attr('data-value', subCategoryId);
-        jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
-
-        var rentalCategoryId = $popup.find('#breadcrumbs .category').attr('data-value');
-        var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-        var request: any = {};
-        request.uniqueids = {
-            SubCategoryId: subCategoryId,
-            CategoryId: rentalCategoryId,
-            InventoryTypeId: inventoryTypeId
-        }
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-            var descriptionIndex = response.ColumnIndex.Description;
-            $popup.find('.inventory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-
-                $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-                var $card = $popup.find('.inventory > div');
-                $card.css(css);
-
-                $card.on('mouseenter', function () {
-                    jQuery(this).css('box-shadow', '0 8px 16px 0 rgba(0, 0, 0, 0.2)');
-                })
-
-                $card.on('mouseleave', function () {
-                    jQuery(this).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-                })
-            }
-        }, null, null);
-
-    });
-
-    //breadcrumb functionality
-    $popup.on('click', '#breadcrumbs .type', function (e) {
-        $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
- 
-        var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
-        var rentalCategoryRequest: any = {};
-        rentalCategoryRequest.uniqueids = {
-            InventoryTypeId: inventoryTypeId
-        }
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", rentalCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var categoryIdIndex = response.ColumnIndex.CategoryId;
-            var categoryIndex = response.ColumnIndex.Category;
-            $popup.find('#rentalCategory, #subCategory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#rentalCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
-            }
-        }, null, null);
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", rentalCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var descriptionIndex = response.ColumnIndex.Description;
-            $popup.find('.inventory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-                var $card = $popup.find('.inventory > div');
-                $card.css(css);
-
-                $card.on('mouseenter', function () {
-                    jQuery(this).css('box-shadow', '0 8px 16px 0 rgba(0, 0, 0, 0.2)');
-                })
-
-                $card.on('mouseleave', function () {
-                    jQuery(this).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-                })
-
-            }
-        }, null, null);
-
-
-    })
-
-
-    $popup.on('click', '#breadcrumbs .category', function (e) {
-        $popup.find("#breadcrumbs .subcategory").empty();
-
-        var rentalCategoryId = jQuery(e.currentTarget).attr('data-value');
-        var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-        var subCategoryRequest: any = {};
-        subCategoryRequest.uniqueids = {
-            CategoryId: rentalCategoryId,
-            InventoryTypeId: inventoryTypeId
-        }
-        FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
-            var subCategoryIndex = response.ColumnIndex.SubCategory;
-            $popup.find('#subCategory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
-            }
-        }, null, null);
-
-        FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            var descriptionIndex = response.ColumnIndex.Description;
-            $popup.find('.inventory').empty();
-            for (var i = 0; i < response.Rows.length; i++) {
-                $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-                var $card = $popup.find('div.card');
-                $card.css(css);
-
-                $card.on('mouseenter', function () {
-                    jQuery(this).css('box-shadow', '0 8px 16px 0 rgba(0, 0, 0, 0.2)');
-                })
-
-                $card.on('mouseleave', function () {
-                    jQuery(this).css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
-                })
-            }
-        }, null, null);
-    })
-
-    $popup.find('.close-modal').one('click', function (e) {
-        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-        jQuery(document).find('.fwpopup').off('click');
-        jQuery(document).off('keydown');
-    })
 
 };
 //-----------------------------------------------------------------------------------------------------

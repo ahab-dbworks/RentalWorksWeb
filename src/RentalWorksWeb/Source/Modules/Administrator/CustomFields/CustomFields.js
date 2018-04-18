@@ -64,8 +64,8 @@ var CustomFields = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    CustomFields.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    CustomFields.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('.ifnew'));
     };
     CustomFields.prototype.loadAudit = function ($form) {

@@ -178,8 +178,8 @@ var RentalInventory = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    RentalInventory.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    RentalInventory.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     RentalInventory.prototype.loadAudit = function ($form) {
         var uniqueid;

@@ -46,10 +46,9 @@ var Contact = (function () {
         return $form;
     };
     ;
-    Contact.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    Contact.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
-    ;
     Contact.prototype.renderGrids = function ($form) {
         var $contactNoteGrid;
         var $contactNoteGridControl;

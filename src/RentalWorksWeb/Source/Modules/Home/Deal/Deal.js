@@ -308,8 +308,8 @@ var Deal = (function () {
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         return $form;
     };
-    Deal.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    Deal.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     Deal.prototype.loadAudit = function ($form) {
         var uniqueid;
@@ -344,4 +344,4 @@ var Deal = (function () {
     return Deal;
 }());
 var DealController = new Deal();
-//# sourceMappingURL=Deal.js.map
+//# sourceMappingURL=deal.js.map
