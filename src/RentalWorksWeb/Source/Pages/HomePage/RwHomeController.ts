@@ -46,7 +46,10 @@
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>')
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
                     //for (var i = 0; i < response.data.labels.length; i++) {
                     //    html.push('<div class="flexrow">');
@@ -60,6 +63,7 @@
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
                     ], true);
+                    $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DefaultDataPoints)
                 }, null, null);
 
                 $select.on('click', function () {
