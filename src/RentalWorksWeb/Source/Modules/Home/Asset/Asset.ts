@@ -166,8 +166,8 @@ class RwAsset {
         return $form;
     }
 
-    saveForm($form: JQuery, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath});
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
     }
 
     loadAudit($form: JQuery) {

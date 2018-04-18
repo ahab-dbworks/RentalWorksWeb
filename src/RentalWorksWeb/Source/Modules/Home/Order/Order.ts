@@ -270,9 +270,9 @@ class Order {
         return $form;
     };
 
-    saveForm($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
-    };
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    }
 
     renderGrids($form) {
         var $orderPickListGrid;

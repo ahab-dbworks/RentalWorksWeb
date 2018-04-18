@@ -89,8 +89,8 @@ class CustomFields {
         return $form;
     }
 
-    saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('.ifnew'));
     }
 
