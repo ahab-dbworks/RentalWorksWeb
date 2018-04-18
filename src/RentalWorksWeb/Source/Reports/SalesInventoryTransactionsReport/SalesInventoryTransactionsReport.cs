@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace Web.Source.Reports
 {
     class SalesInventoryTransactionsReport : RwReport
@@ -54,45 +55,50 @@ namespace Web.Source.Reports
           qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
           select = new FwSqlSelect();
 
-          select.Add("select warehousecode=rv.[Warehouse code], rpt.*");
-          select.Add("from  dbo.funcsalestransactionrpt('S') rpt");                                  
-          select.Add("join rptmasterwhview rv with (nolock) on (rpt.masterid = rv.masterid and");
-          select.Add("rpt.warehouseid = rv.warehouseid)");
-
+          select.Add("select rpt.*");
+          select.Add(" from  rptinventorytransaction rpt");
           select.Parse();
+          select.AddWhere("rpt.rectype = @rectype");
+          select.AddWhereInFromCheckboxList(" and ", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+          select.AddParameter("@rectype", "S");
 
-          select.AddWhere("rpt.transdate >= @startdate");
-          select.AddWhere(" and ",   "rpt.transdate <= @enddate");
-          select.AddWhereInFromCheckboxList(" and", "rpt.transtype", transtypelist, GetTransTypeList(), false);
-          select.AddParameter("@startdate", request.parameters.StartDate);
-          select.AddParameter("@enddate", request.parameters.EndDate);
 
-              if (request.parameters.WarehouseId != "") { 
-                  select.AddWhere("and", "rpt.warehouseid = @warehouse");
-                  select.AddParameter("@warehouse", request.parameters.WarehouseId);
+            if (request.parameters.StartDate != "")
+            {
+                select.AddWhere("and", "rpt.transdate >= @startdate");
+                select.AddParameter("@startdate", request.parameters.StartDate);
+            };
+            if (request.parameters.EndDate != "")
+            {
+                select.AddWhere("and", "rpt.transdate <= @enddate");
+                select.AddParameter("@enddate", request.parameters.EndDate);
+            };
+            if (request.parameters.WarehouseId != "") { 
+                  select.AddWhere("and", "rpt.warehouseid = @warehouseid");
+                  select.AddParameter("@warehouseid", request.parameters.WarehouseId);
               };
               if (request.parameters.InventoryTypeId != "")
               {
-                  select.AddWhere("and", "rpt.inventorydepartmentid = @inventorytype");
-                  select.AddParameter("@inventorytype", request.parameters.InventoryTypeId);
+                  select.AddWhere("and", "rpt.inventorydepartmentid = @inventorytypeid");
+                  select.AddParameter("@inventorytypeid", request.parameters.InventoryTypeId);
               };
               if (request.parameters.CategoryId != "")
               {
-                  select.AddWhere("and", "rpt.categoryid = @category");
-                  select.AddParameter("@category", request.parameters.CategoryId);
+                  select.AddWhere("and", "rpt.categoryid = @categoryid");
+                  select.AddParameter("@categoryid", request.parameters.CategoryId);
               };
               if (request.parameters.SubCategoryId != "")
               {
-                  select.AddWhere("and", "rpt.subcategoryid = @subcategory");
-                  select.AddParameter("@subcategory", request.parameters.SubCategoryId);
+                  select.AddWhere("and", "rpt.subcategoryid = @subcategoryid");
+                  select.AddParameter("@subcategoryid", request.parameters.SubCategoryId);
               };
               if (request.parameters.InventoryId != "")
               {
-                  select.AddWhere("and", "rpt.masterno = @icode");
-                  select.AddParameter("@icode", request.parameters.InventoryId);
+                  select.AddWhere("and", "rpt.masterid = @inventoryid");
+                  select.AddParameter("@inventoryid", request.parameters.InventoryId);
               };
 
-          select.AddOrderBy("rpt.warehouseid, rpt.masterno, rpt.transdate, rpt.orderby");
+          select.AddOrderBy("rpt.whcode, rpt.masterno, rpt.transdate, rpt.orderby");
 
           dtDetails = qry.QueryToFwJsonTable(select, true);
           for (int i = 0; i < dtDetails.Rows.Count; i++)
