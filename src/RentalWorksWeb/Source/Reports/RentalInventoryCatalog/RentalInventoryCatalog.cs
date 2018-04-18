@@ -14,25 +14,6 @@ namespace Web.Source.Reports
         //---------------------------------------------------------------------------------------------
         protected override string renderHeaderHtml(string styletemplate, string headertemplate, FwReport.PrintOptions printOptions)
         {
-
-            //justin 04/02/2018 removing this section for speed.  query not required for header
-
-            //FwSqlSelect select;
-            //FwSqlCommand qry;
-            //FwJsonDataTable dtDetails;
-
-            //qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-            //select = new FwSqlSelect();
-            
-            //select.Add("select top 1 * from inventorycatalogrptview m with (nolock)");
-            //select.Add("where m.availfor = 'R'");
-            //select.Add(" and   m.trackedby in ('BARCODE','QUANTITY','SERIALNO')");
-            //select.Add(" and   m.class in ('I','A','C','K','N')");
-            //select.Add("order by m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");            
-
-            //select.Parse();
-            //dtDetails = qry.QueryToFwJsonTable(select, true);
-
             StringBuilder sb;
             string html;
            
@@ -41,7 +22,6 @@ namespace Web.Source.Reports
             sb.Replace("[CURRENTDATE]", DateTime.Today.ToString("MMMM d, yyyy"));
 
             html = sb.ToString();
-            //html = this.applyTableToTemplate(html, "header", dtDetails);
 
             return html;
         }
@@ -83,36 +63,37 @@ namespace Web.Source.Reports
 
             select = new FwSqlSelect();
 
-            select.Add("select *");
+            select.Add("select warehouse, inventorydepartment, category, masterno, master, classdesc, trackedby, qtyowned, dailyrate, weeklyrate, monthlyrate, replacementcost ");
             select.Add("from inventorycatalogrptview m with (nolock)");
 
             select.Parse();
 
             select.AddWhere("and", "m.availfor = 'R'");
-            if (request.parameters.WarehouseId != "") { 
-            select.AddWhere("and", "m.warehouseid = @warehouse");
-                select.AddParameter("@warehouse", request.parameters.WarehouseId);
-            };
+            if (request.parameters.WarehouseId != "")
+            {
+                select.AddWhere("and", "m.warehouseid = @warehouseid");
+                select.AddParameter("@warehouseid", request.parameters.WarehouseId);
+            }
             if (request.parameters.InventoryTypeId != "")
             {
-                select.AddWhere("and", "m.inventorydepartmentid = @inventorytype");
-                select.AddParameter("@inventorytype", request.parameters.InventoryTypeId);
-            };
+                select.AddWhere("and", "m.inventorydepartmentid = @inventorytypeid");
+                select.AddParameter("@inventorytypeid", request.parameters.InventoryTypeId);
+            }
             if (request.parameters.CategoryId != "")
             {
-                select.AddWhere("and", "m.categoryid = @category");
-                select.AddParameter("@category", request.parameters.CategoryId);
+                select.AddWhere("and", "m.categoryid = @categoryid");
+                select.AddParameter("@categoryid", request.parameters.CategoryId);
             }
             if (request.parameters.SubCategoryId != "")
             {
-                select.AddWhere("and", "m.subcategoryid = @subcategory");
-                select.AddParameter("@subcategory", request.parameters.SubCategoryId);
+                select.AddWhere("and", "m.subcategoryid = @subcategoryid");
+                select.AddParameter("@subcategoryid", request.parameters.SubCategoryId);
             }
             if (request.parameters.RentalInventoryId != "")
             {
-                select.AddWhere("and", "m.masterid = @icode");
+                select.AddWhere("and", "m.masterid = @masterid");
 
-                select.AddParameter("@icode", request.parameters.RentalInventoryId);
+                select.AddParameter("@masterid", request.parameters.RentalInventoryId);
             }
 
             select.AddWhereInFromCheckboxList("and", "m.class", classificationlist, GetClassificationList(), false);
