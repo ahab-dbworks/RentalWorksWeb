@@ -102,6 +102,10 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         protected static FwJsonDataTable duplicateRules = null;
 
+        [JsonIgnore]
+        public static FwCustomFields customFields = null;
+
+
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
@@ -159,11 +163,30 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
+        private void LoadCustomFields()
+        {
+            string moduleName = GetType().Name.Replace("Logic", "");
+            if (customFields == null)
+            {
+                refreshCustomFields();
+            }
+
+            _Custom.CustomFields.Clear();
+            foreach (FwCustomField f in customFields)
+            {
+                if (f.ModuleName.Equals(moduleName))
+                {
+                    _Custom.CustomFields.Add(f);
+                }
+            }
+
+        }
+        //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request)
         {
             FwJsonDataTable browse = null;
 
-            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
+            LoadCustomFields();
 
             if (browseLoader != null)
             {
@@ -189,7 +212,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request)
         {
-            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
+            LoadCustomFields();
 
             List<T> records = null;
             if (dataLoader == null)
@@ -234,8 +257,7 @@ namespace FwStandard.BusinessLogic
             FwApplicationConfig tmpAppConfig = AppConfig;
             FwUserSession tmpUserSession = UserSession;
 
-
-            await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
+            LoadCustomFields();
 
             if (dataLoader == null)
             {
@@ -409,6 +431,38 @@ namespace FwStandard.BusinessLogic
             }
 
             return rulesLoaded;
+        }
+        //------------------------------------------------------------------------------------
+        public bool refreshCustomFields()
+        {
+            bool customFieldsLoaded = false;
+
+            customFields = new FwCustomFields();
+
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select modulename, fieldname, customtablename, customfieldname");
+                    qry.Add("from customfield with (nolock)");
+                    qry.Add("order by fieldname");
+
+                    qry.AddColumn("modulename");
+                    qry.AddColumn("fieldname");
+                    qry.AddColumn("customtablename");
+                    qry.AddColumn("customfieldname");
+
+                    FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
+                    for (int r = 0; r < table.Rows.Count; r++)
+                    {
+                        FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString());
+                        customFields.Add(customField);
+                    }
+                    customFieldsLoaded = true;
+                }
+            }
+
+            return customFieldsLoaded;
         }
         //------------------------------------------------------------------------------------
         protected virtual bool CheckDuplicates(TDataRecordSaveMode saveMode, ref string validateMsg)
@@ -593,7 +647,8 @@ namespace FwStandard.BusinessLogic
                 {
                     rowsAffected += await rec.SaveAsync();
                 }
-                await _Custom.LoadCustomFieldsAsync(GetType().Name.Replace("Logic", ""));
+                LoadCustomFields();
+
                 await _Custom.SaveAsync(GetPrimaryKeys());
                 afterSaveArgs.SavePerformed = (rowsAffected > 0);
                 if (AfterSave != null)
