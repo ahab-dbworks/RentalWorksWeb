@@ -10,7 +10,8 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.SalesInventory
 {
-    public class SalesInventoryLoader : InventoryBrowseLoader
+    [FwSqlTable("inventoryview")]
+    public class SalesInventoryLoader : InventoryLoader
     {
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)

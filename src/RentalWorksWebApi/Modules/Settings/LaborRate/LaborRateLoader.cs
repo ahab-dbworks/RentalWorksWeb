@@ -7,6 +7,7 @@ using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.Inventory;
 using WebApi.Modules.Settings.Rate;
 using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.LaborRate
 {
@@ -26,7 +27,8 @@ namespace WebApi.Modules.Settings.LaborRate
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
-            select.AddWhere("(availfor='L')");
+            select.AddWhere("(availfor='" + RwConstants.RATE_AVAILABLE_FOR_LABOR+ "')");
+
         }
         //------------------------------------------------------------------------------------
     }

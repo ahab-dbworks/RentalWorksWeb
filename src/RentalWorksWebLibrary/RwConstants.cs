@@ -23,6 +23,10 @@ namespace WebLibrary
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
         public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
 
+        public const string RATE_AVAILABLE_FOR_MISC = "M";
+        public const string RATE_AVAILABLE_FOR_LABOR = "L";
+
+
 
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";
