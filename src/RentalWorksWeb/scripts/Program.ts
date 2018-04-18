@@ -150,7 +150,7 @@ routes.push({ pattern: /^module\/fiscalyear$/, action: function (match: RegExpEx
 routes.push({ pattern: /^module\/projectasbuild$/, action: function (match: RegExpExecArray) { return ProjectAsBuildController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/projectitemsordered$/, action: function (match: RegExpExecArray) { return ProjectItemsOrderedController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/deal$/, action: function (match: RegExpExecArray) { return DealController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return DealController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return DealController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/vehicletype$/, action: function (match: RegExpExecArray) { return VehicleTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/laborcategory$/, action: function (match: RegExpExecArray) { return LaborCategoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/misccategory$/, action: function (match: RegExpExecArray) { return MiscCategoryController.getModuleScreen(); } });

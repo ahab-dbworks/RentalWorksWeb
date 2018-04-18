@@ -141,7 +141,7 @@ routes.push({ pattern: /^module\/fiscalyear$/, action: function (match) { return
 routes.push({ pattern: /^module\/projectasbuild$/, action: function (match) { return ProjectAsBuildController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/projectitemsordered$/, action: function (match) { return ProjectItemsOrderedController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/deal$/, action: function (match) { return DealController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match) { var filter = { 'datafield': match[1], 'search': match[2] }; return DealController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/deal\/(\S+)\/(\S+)/, action: function (match) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return DealController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/vehicletype$/, action: function (match) { return VehicleTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/laborcategory$/, action: function (match) { return LaborCategoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/misccategory$/, action: function (match) { return MiscCategoryController.getModuleScreen(); } });

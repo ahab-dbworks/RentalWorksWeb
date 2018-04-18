@@ -15,7 +15,6 @@ var Deal = (function () {
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
             if (typeof filter !== 'undefined') {
-                filter.search = filter.search.replace(/%20/, ' ');
                 var datafields = filter.datafield.split('%20');
                 for (var i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
@@ -344,4 +343,4 @@ var Deal = (function () {
     return Deal;
 }());
 var DealController = new Deal();
-//# sourceMappingURL=deal.js.map
+//# sourceMappingURL=Deal.js.map

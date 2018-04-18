@@ -1,5 +1,5 @@
 ﻿routes.push({ pattern: /^module\/customer$/, action: function (match: RegExpExecArray) { return CustomerController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return CustomerController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return CustomerController.getModuleScreen(filter); } });
 
 class Customer {
     Module: string;
@@ -26,7 +26,6 @@ class Customer {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
-                filter.search = filter.search.replace(/%20/g, ' ').replace(/%2f/g, '/');
                 var datafields = filter.datafield.split('%20');
                 for (var i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
