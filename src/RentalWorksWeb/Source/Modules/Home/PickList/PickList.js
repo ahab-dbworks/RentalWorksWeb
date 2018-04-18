@@ -4,7 +4,6 @@ var PickList = (function () {
         this.Module = 'PickList';
         this.apiurl = 'api/v1/picklist';
         this.ActiveView = 'ALL';
-        var self = this;
     }
     PickList.prototype.getModuleScreen = function () {
         var self = this;
@@ -28,6 +27,11 @@ var PickList = (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
         return $browse;
     };
     ;
@@ -42,6 +46,31 @@ var PickList = (function () {
         FwFormField.setValueByDataField($form, 'PickListId', uniqueids.PickListId);
         FwModule.loadForm(this.Module, $form);
         return $form;
+    };
+    ;
+    PickList.prototype.addBrowseMenuItems = function ($menuObject) {
+        var self = this;
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $allWarehouses = FwMenu.generateDropDownViewBtn('ALL', false);
+        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        $allWarehouses.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=ALL';
+            FwBrowse.search($browse);
+        });
+        $userWarehouse.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            FwBrowse.search($browse);
+        });
+        var viewWarehouse = [];
+        viewWarehouse.push($allWarehouses);
+        viewWarehouse.push($userWarehouse);
+        var $warehouseView;
+        $warehouseView = FwMenu.addViewBtn($menuObject, 'Location', viewWarehouse);
+        return $menuObject;
     };
     ;
     PickList.prototype.saveForm = function ($form, closetab, navigationpath) {

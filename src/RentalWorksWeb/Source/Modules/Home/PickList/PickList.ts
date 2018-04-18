@@ -1,13 +1,14 @@
 ﻿routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
 
 class PickList {
-    Module: string = 'PickList';
-    apiurl: string = 'api/v1/picklist';
-    ActiveView: string = 'ALL';
+    Module: string;
+    apiurl: string;
+    ActiveView: string;
 
     constructor() {
-        var self = this;
-        //Cancel Pick List confirmation button
+        this.Module = 'PickList';
+        this.apiurl = 'api/v1/picklist';
+        this.ActiveView = 'ALL';
     }
 
     getModuleScreen() {
@@ -31,16 +32,19 @@ class PickList {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+
+        $browse.data('ondatabind', function (request) {
+            request.activeview = self.ActiveView;
+        });
+
         return $browse;
     };
     openForm(mode, parentmoduleinfo?) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
-        //if (typeof parentmoduleinfo !== 'undefined') {
-        //    $form.find('div[data-datafield="OrderId"]').find('input.fwformfield-value').val(parentmoduleinfo.OrderId).change();
-        //    $form.find('div[data-datafield="OrderId"]').find('input.fwformfield-text').val(parentmoduleinfo.OrderId);
-        //}
 
         return $form;
     };
@@ -54,6 +58,33 @@ class PickList {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
+
+    addBrowseMenuItems($menuObject: any) {
+        var self = this;
+   
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        var $allWarehouses = FwMenu.generateDropDownViewBtn('ALL', false);
+        var $userWarehouse = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        $allWarehouses.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=ALL';
+            FwBrowse.search($browse);
+        });
+        $userWarehouse.on('click', function () {
+            var $browse;
+            $browse = jQuery(this).closest('.fwbrowse');
+            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+            FwBrowse.search($browse);
+        });
+        var viewWarehouse = [];
+        viewWarehouse.push($allWarehouses);
+        viewWarehouse.push($userWarehouse);
+        var $warehouseView;
+        $warehouseView = FwMenu.addViewBtn($menuObject, 'Location', viewWarehouse);
+        return $menuObject;
+    };
+
     renderGrids($form) {
         var $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
         var $pickListItemGridControl = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
