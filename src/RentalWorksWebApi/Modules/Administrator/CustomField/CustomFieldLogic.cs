@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.CustomField
@@ -9,6 +10,8 @@ namespace WebApi.Modules.Administrator.CustomField
         public CustomFieldLogic()
         {
             dataRecords.Add(customField);
+            customField.AfterSave += OnAfterSaveCustomField;
+            customField.AfterDelete += OnAfterDeleteCustomField;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -20,6 +23,16 @@ namespace WebApi.Modules.Administrator.CustomField
         public string CustomTableName { get { return customField.CustomTableName; } set { customField.CustomTableName = value; } }
         public string CustomFieldName { get { return customField.CustomFieldName; } set { customField.CustomFieldName = value; } }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterSaveCustomField(object sender, AfterSaveEventArgs e)
+        {
+            refreshCustomFields();
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterDeleteCustomField(object sender, AfterDeleteEventArgs e)
+        {
+            refreshCustomFields();
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
