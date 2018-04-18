@@ -88,21 +88,37 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Outside Repair" data-datafield="OutsideRepair" style="float:left;min-width:125px;"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Pending PO Number" data-datafield="PoPending" style="float:left;min-width:125px;"></div>   
               </div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Item Status" data-datafield="RepairItemStatusId" data-displayfield="RepairItemStatus" data-enabled="true" data-validationname="RepairItemStatusValidation" style="float:left;min-width:300px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield .PoNumber" data-caption="Authorized PO Number" data-datafield="PoNumber" data-noduplicate="false" data-enabled="false" style="float:left;margin-right:20px;min-width:125px;"></div>
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield RepairItemStatus" data-caption="Item Status" data-datafield="RepairItemStatusId" data-displayfield="RepairItemStatus" data-enabled="true" data-validationname="RepairItemStatusValidation" style="float:left;min-width:300px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield PoNumber" data-caption="Authorized PO Number" data-datafield="PoNumber" data-noduplicate="false" data-enabled="false" style="float:left;margin-right:20px;min-width:125px;"></div>
               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Due Date" data-datafield="DueDate" data-noduplicate="false" data-enabled="true" style="float:left;min-width:125px;"></div>
             </div>  
           </div> 
         </div>
-          <!--Release Grid-->
-          <div class="flexcolumn" style="max-width:600px;">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Releases">
-                <div data-control="FwGrid" id="RepairReleaseGrid" data-grid="RepairReleaseGrid" data-caption="" data-securitycaption="RepairReleaseGrid" style="min-width:240px;"></div>
-              </div>
+        </div>
+        <!--Release Grid-->
+        <div class="flexcolumn" style="max-width:600px;">
+          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Releases">
+              <div data-control="FwGrid" id="RepairReleaseGrid" data-grid="RepairReleaseGrid" data-caption="" data-securitycaption="RepairReleaseGrid" style="min-width:240px;"></div>
             </div>
           </div>
         </div>
+        <!--Estimate / Complete-->
+        <div class="flexcolumn completeestimate"  style="max-width:600px;">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Estimate / Complete">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex; align-items: flex-start; margin-top: 5px;">
+              <div class="fwformcontrol estimate" data-type="button" style="margin:16px 0 0 0; width:75px">Estimate</div>
+              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="EstimateDate" data-noduplicate="false" data-enabled="false" style="margin-left:20px;max-width:125px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Estimated By" data-datafield="EstimateBy" data-noduplicate="false" data-enabled="false" style="margin-left:20px;max-width:250px;"></div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex; align-items: flex-start; margin-top: 5px;">
+                <div class="fwformcontrol complete" data-type="button" style="margin:16px 0 0 0;">Complete</div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="CompleteDate" data-noduplicate="false" data-enabled="false" style="margin-left:20px;max-width:125px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Completed By" data-datafield="CompleteBy" data-noduplicate="false" data-enabled="false" style="margin-left:20px;max-width:250px;"></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <!--Damage / Correction Tab-->
