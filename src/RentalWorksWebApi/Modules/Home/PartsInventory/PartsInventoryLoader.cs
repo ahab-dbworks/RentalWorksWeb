@@ -10,7 +10,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.PartsInventory
 {
-    public class PartsInventoryLoader : InventoryLoader
+    public class PartsInventoryLoader : InventoryBrowseLoader
     {
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
@@ -18,9 +18,6 @@ namespace WebApi.Modules.Home.PartsInventory
             base.SetBaseSelectQuery(select, qry, customFields, request);
             //select.Parse();
             select.AddWhere("(availfor='" + RwConstants.INVENTORY_AVAILABLE_FOR_PARTS + "')");
-            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
-            addFilterToSelect("CategoryId", "categoryid", select, request);
-            addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
         }
         //------------------------------------------------------------------------------------
     }

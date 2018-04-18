@@ -5,14 +5,8 @@ using WebApi.Data;
 namespace WebApi.Modules.Home.Customer
 {
     [FwSqlTable("customerview")]
-    public class CustomerLoader: AppDataLoadRecord
+    public class CustomerLoader: CustomerBrowseLoader
     {
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string CustomerId { get; set; } = "";
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
-        public string CustomerNumber { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -25,15 +19,6 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
         public string Department { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
-        public string Customer { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custtypeid", modeltype: FwDataTypes.Text)]
-        public string CustomerTypeId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text)]
-        public string CustomerType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "custcatid", modeltype: FwDataTypes.Text)]
         public string CustomerCategoryId { get; set; }
@@ -85,9 +70,6 @@ namespace WebApi.Modules.Home.Customer
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "custstatusid", modeltype: FwDataTypes.Text)]
         public string CustomerStatusId { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "custstatus", modeltype: FwDataTypes.Text)]
-        public string CustomerStatus { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "statusasof", modeltype: FwDataTypes.Date)]
         public string StatusAsOf { get; set; }

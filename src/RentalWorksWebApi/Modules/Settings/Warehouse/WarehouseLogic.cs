@@ -7,10 +7,12 @@ namespace WebApi.Modules.Settings.Warehouse
         //------------------------------------------------------------------------------------ 
         WarehouseRecord warehouse = new WarehouseRecord();
         WarehouseLoader warehouseLoader = new WarehouseLoader();
+        WarehouseBrowseLoader warehouseBrowseLoader = new WarehouseBrowseLoader();
         public WarehouseLogic()
         {
             dataRecords.Add(warehouse);
             dataLoader = warehouseLoader;
+            browseLoader = warehouseBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

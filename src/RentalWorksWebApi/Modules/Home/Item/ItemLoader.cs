@@ -7,23 +7,14 @@ using System.Collections.Generic;
 namespace WebApi.Modules.Home.Item
 {
     [FwSqlTable("rentalitemview")]
-    public class ItemLoader : AppDataLoadRecord
+    public class ItemLoader : ItemBrowseLoader
     {
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string ItemId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
-        public string ICode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemdesc", modeltype: FwDataTypes.Text)]
         public string ItemDescription { get; set; }
@@ -52,32 +43,11 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "statustype", modeltype: FwDataTypes.Text)]
         public string StatusType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
-        public string StatusDate { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalstatus", modeltype: FwDataTypes.Text)]
-        public string InventoryStatus { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text)]
         public string InventoryStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "color", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string Color { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "textcolor", modeltype: FwDataTypes.Boolean)]
-        public bool? TextColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
-        public string BarCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcodeforscanning", modeltype: FwDataTypes.Text)]
         public string BarCodeForScanning { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
-        public string SerialNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
-        public string RfId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "oldbarcode", modeltype: FwDataTypes.Text)]
         public string OldBarCode { get; set; }
@@ -145,12 +115,6 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "physicalby", modeltype: FwDataTypes.Text)]
         public string PhysicalBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
-        public string Warehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
-        public string WarehouseCode { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -162,9 +126,6 @@ namespace WebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string OrderDescription { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currentlocation", modeltype: FwDataTypes.Text)]
-        public string CurrentLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
@@ -460,51 +421,8 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "currentorderestrentto", modeltype: FwDataTypes.Date)]
         public string CurrentOrderToDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? Inactive { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        {
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("InventoryId", "masterid", select, request);
-            addFilterToSelect("WarehouseId", "warehouseid", select, request);
-            addFilterToSelect("TrackedBy", "trackedby", select, request);
-
-
-            if ((request != null) && (request.activeview != null))
-            {
-                List<string> activeView = new List<string>(request.activeview.Split(','));
-
-                foreach (string s in activeView)
-                {
-
-                    if (s.Contains("WarehouseId="))
-                    {
-                        string whId = s.Replace("WarehouseId=", "").Trim();
-                        if (!whId.Equals("ALL"))
-                        {
-                            select.AddWhere("(warehouseid = @whid)");
-                            select.AddParameter("@whid", whId);
-                        }
-                    }
-                    if (s.Contains("TrackedBy="))
-                    {
-                        string trackedBy = s.Replace("TrackedBy=", "").Trim();
-                        if (!trackedBy.Equals("ALL"))
-                        {
-                            select.AddWhere("(trackedby = @trackedby)");
-                            select.AddParameter("@trackedby", trackedBy);
-                        }
-                    }
-                }
-            }
-
-        }
-        //------------------------------------------------------------------------------------ 
-    }
+     }
 }
