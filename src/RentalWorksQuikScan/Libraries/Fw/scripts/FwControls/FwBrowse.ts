@@ -974,7 +974,7 @@
                 html.push('<thead>');
                 // header row
                 html.push('<tr class="fieldnames">');
-                if ($control.attr('data-type') === 'Grid') {
+                if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
                     var cbuniqueId = FwApplication.prototype.uniqueId(10);
                     html.push('<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow"/><label for="' + cbuniqueId + '" class="lblselectrow"></label></div></td>');
                 }
@@ -1570,15 +1570,7 @@
                 if ($control.attr('data-type') === 'Grid') {
                     FwServices.grid.method(request, request.module, 'Browse', $control, function (response) {
                         try {
-                            var controller = window[request.module + 'Controller'];
-                            if (typeof controller === 'undefined') {
-                                throw request.module + 'Controller is not defined.'
-                            }
-                            if (typeof controller.apiurl !== 'undefined') {
-                                FwBrowse.databindcallback($control, response);
-                            } else {
-                                FwBrowse.databindcallback($control, response.browse);
-                            }
+                            FwBrowse.beforeDataBindCallBack($control, request, response);
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -1586,12 +1578,7 @@
                 } else if ($control.attr('data-type') === 'Validation') {
                     FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
                         try {
-                            var controller = window[request.module + 'Controller'];
-                            if (typeof controller !== 'undefined' && typeof controller.apiurl !== 'undefined') {
-                                FwBrowse.databindcallback($control, response);
-                            } else {
-                                FwBrowse.databindcallback($control, response.browse);
-                            }
+                            FwBrowse.beforeDataBindCallBack($control, request, response);
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -1599,21 +1586,25 @@
                 } else if ($control.attr('data-type') === 'Browse') {
                     FwServices.module.method(request, request.module, 'Browse', $control, function (response) {
                         try {
-                            var controller = window[request.module + 'Controller'];
-                            if (typeof controller === 'undefined') {
-                                throw request.module + 'Controller is not defined.'
-                            }
-                            if (typeof controller.apiurl !== 'undefined') {
-                                FwBrowse.databindcallback($control, response);
-                            } else {
-                                FwBrowse.databindcallback($control, response.browse);
-                            }
+                            FwBrowse.beforeDataBindCallBack($control, request, response);
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
                     });
                 }
             }
+        }
+    }
+    //---------------------------------------------------------------------------------
+    static beforeDataBindCallBack($control: JQuery, request: any, response: any) {
+        var controller = window[request.module + 'Controller'];
+        if (typeof controller === 'undefined') {
+            throw request.module + 'Controller is not defined.'
+        }
+        if (typeof controller.apiurl !== 'undefined') {
+            FwBrowse.databindcallback($control, response);
+        } else {
+            FwBrowse.databindcallback($control, response.browse);
         }
     }
     //---------------------------------------------------------------------------------
@@ -1669,16 +1660,22 @@
                     }
 
                     var cellcolor = $field.attr('data-cellcolor');
-                    if ((typeof cellcolor !== 'undefined') && (cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
-                        if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
-                            throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
+
+                    if (typeof cellcolor !== 'undefined') {
+                        $td.css('text-indent', '10px');
+
+                        if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
+                            if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
+                                throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
+                            }
+                            var css = {
+                                'position': 'relative',
+                                'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
+                                'border-top-style': 'none',
+
+                            };
+                            $td.addClass('cellColor').css(css);
                         }
-                        var css = {
-                            'position': 'relative',
-                            'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
-                            'border-top-style': 'none'
-                        };
-                        $td.addClass('cellColor').css(css);
                     }
                     var browsecellbackgroundcolorfield = $field.attr('data-browsecellbackgroundcolorfield');
                     if ((typeof browsecellbackgroundcolorfield !== 'undefined') && (browsecellbackgroundcolorfield.length > 0)) {
@@ -2061,6 +2058,11 @@
                 $td.append($field);
             });
         });
+
+        if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
+            var cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append('<div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow" /><label for="' + cbuniqueId + '" class="lblselect"></label><div>');
+        }
 
         if ($control.attr('data-type') === 'Grid') {
             var cbuniqueId = FwApplication.prototype.uniqueId(10);

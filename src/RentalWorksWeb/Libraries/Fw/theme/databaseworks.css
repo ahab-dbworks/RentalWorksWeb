@@ -93,16 +93,6 @@ FwMobileLogin
     .mobileloginpage {width:546px;margin:0 auto;}
 }
 
-/* Mobile Landscape Screen Sizes */
-@media only screen and (min-width: 480px)  {
-
-}
-
-/* Desktop screen Sizes */
-@media only screen and (min-width: 768px) {
-
-}
-
 /***************************
 FwDesignerHandle
 ***************************/
@@ -122,11 +112,11 @@ FwDesignerHandle
 /***************************
 flexrow
 ***************************/
-.flexrow {display:flex;flex-wrap: wrap;}
+.flexrow {display:flex;flex-wrap: wrap;max-width:60em;}
 .flexrow > * {flex:1 1 0;min-width:16em;/*max-width:24em;*/}
 .wideflexrow {display:flex;flex-wrap:wrap;}
 .wideflexrow > * {flex:1 1 0;min-width:16em;/*max-width:24em;*/}
-.flexcolumn {display:flex;flex-direction:column; flex-wrap: wrap;}
+.flexcolumn {display:flex;flex-direction:column;}
 .flexwrap {flex-wrap:wrap;}
 .flexalignitemscenter {align-items:center;}
 

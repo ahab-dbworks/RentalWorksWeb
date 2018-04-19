@@ -1,3 +1,4 @@
+html.theme-material .fwbrowse .tablewrapper {overflow:auto;}
 html.theme-material .fwbrowse td {vertical-align:top;}
 
 html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}
@@ -23,18 +24,18 @@ html.theme-material .fwbrowse[data-type="Grid"] tbody .browsecontextmenucell {ba
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell .fwcontextmenu {line-height:1;}
 
-html.theme-material .fwbrowse[data-type="Grid"] table .divselectrow {padding:4px;height:24px;width:24px;text-align:center;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow {opacity:0;padding:0;position: absolute;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow + label {position:relative;cursor: pointer;display: inline-block;width:20px;height: 20px;line-height: 20px;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow + label:after {border-radius:2px;box-sizing:border-box;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow + label:before,
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow + label:after {content: '';left: 0;position: absolute;transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;z-index: 1;box-sizing:border-box;/*border-radius: 5px;*/margin-top: 2px;width: 18px;height: 18px;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:not(:checked) + label:before {width: 0;height: 0;border: 3px solid transparent;left: 6px;top: 10px;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 20% 40%;transform-origin: 100% 100%;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:not(:checked) + label:after {top:0;height: 20px;width: 20px;border: 2px solid #5a5a5a;z-index: 0;}
-html.theme-material .fwbrowse[data-type="Grid"] table thead input.cbselectrow:not(:checked) + label:after {background-color: #FFFFFF;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody input.cbselectrow:not(:checked) + label:after {background-color: #FFFFFF;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:checked + label:before {top: 2px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
-html.theme-material .fwbrowse[data-type="Grid"] table input.cbselectrow:checked + label:after {top:0px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
+html.theme-material .fwbrowse table .divselectrow {padding:4px;height:24px;width:24px;text-align:center;}
+html.theme-material .fwbrowse table input.cbselectrow {opacity:0;padding:0;position: absolute;}
+html.theme-material .fwbrowse table input.cbselectrow + label {position:relative;cursor: pointer;display: inline-block;width:20px;height: 20px;line-height: 20px;}
+html.theme-material .fwbrowse table input.cbselectrow + label:after {border-radius:2px;box-sizing:border-box;}
+html.theme-material .fwbrowse table input.cbselectrow + label:before,
+html.theme-material .fwbrowse table input.cbselectrow + label:after {content: '';left: 0;position: absolute;transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;z-index: 1;box-sizing:border-box;/*border-radius: 5px;*/margin-top: 2px;width: 18px;height: 18px;}
+html.theme-material .fwbrowse table input.cbselectrow:not(:checked) + label:before {width: 0;height: 0;border: 3px solid transparent;left: 6px;top: 10px;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 20% 40%;transform-origin: 100% 100%;}
+html.theme-material .fwbrowse table input.cbselectrow:not(:checked) + label:after {top:0;height: 20px;width: 20px;border: 2px solid #5a5a5a;z-index: 0;}
+html.theme-material .fwbrowse table thead input.cbselectrow:not(:checked) + label:after {background-color: #FFFFFF;}
+html.theme-material .fwbrowse table tbody input.cbselectrow:not(:checked) + label:after {background-color: #FFFFFF;}
+html.theme-material .fwbrowse table input.cbselectrow:checked + label:before {top: 2px;left: 1px;width: 8px;height: 13px;border-top: 2px solid transparent;border-left: 2px solid transparent;border-right: 2px solid #fff;border-bottom: 2px solid #fff;-webkit-transform: rotateZ(37deg);transform: rotateZ(37deg);-webkit-transform-origin: 100% 100%;transform-origin: 100% 100%;}
+html.theme-material .fwbrowse table input.cbselectrow:checked + label:after {top:0px;width: 20px;height: 20px;z-index: 0;border: 2px solid #4caf50; background-color: #4caf50;}
 
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.btnRefresh {cursor:pointer;float:left;height:24px;line-height:24px;padding:4px;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow .pager div.buttons {display:inline-block;}
@@ -245,7 +246,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column {border
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:first-of-type {border-left: 0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr td.column:last-of-type {border-right: 0;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.editrow .editablefield {background-color:#FFFFFF;}
-html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .tdselectrow {background: #F5F5F5;}
+html.theme-material .fwbrowse table tbody tr .tdselectrow {background: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .browsecontextmenucell {background: #F5F5F5;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow {width:24px;height:24px;padding:4px;cursor:pointer;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .material-icons {color:#607D8B;}

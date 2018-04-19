@@ -13,6 +13,10 @@ FwValidation.init = function ($control) {
     formbeforevalidate = $control.attr('data-formbeforevalidate');
     control_boundfields = $control.attr('data-boundfields');
 
+    if (typeof $control.data('calldatabind') !== 'undefined') {
+        $validationbrowse.data('calldatabind', $control.data('calldatabind'));
+    }
+
     // auto generate controllers for validations if they don't have one, so we only have to look in 1 place for the apiurl
     if (typeof $validationbrowse.attr('data-name') !== 'undefined' && typeof $validationbrowse.attr('data-apiurl') !== 'undefined') {
         if (typeof window[$validationbrowse.attr('data-name') + 'Controller'] === 'undefined') {

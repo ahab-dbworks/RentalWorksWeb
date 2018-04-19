@@ -490,50 +490,8 @@ var FwModule = (function () {
             ids: FwModule.getFormUniqueIds($form)
         };
         FwServices.module.method(request, module, 'Load', $form, function (response) {
-            var controller, $fwchargefields, $formfields, $tabpage, $tab;
             try {
-                $tabpage = $form.parent();
-                $tab = jQuery('#' + $tabpage.attr('data-tabid'));
-                controller = window[module + 'Controller'];
-                if (typeof controller === 'undefined') {
-                    throw module + 'Controller is not defined.';
-                }
-                if (typeof controller.apiurl === 'undefined' && typeof response.tables === 'undefined') {
-                    throw 'Server did not return the data needed to load this form.';
-                }
-                if (typeof controller.apiurl !== 'undefined') {
-                    controller = $form.attr('data-controller');
-                    var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
-                    $tab.find('.caption').html(tabname);
-                    $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
-                    FwFormField.loadForm($formfields, response);
-                    $fwchargefields = $form.find('div.fwcharge');
-                    if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
-                        FwCharge.rerenderRuntimeHtml($form, response);
-                    }
-                    if (typeof window[controller]['setFormProperties'] === 'function') {
-                        window[controller]['setFormProperties']($form);
-                    }
-                    if (typeof window[controller]['afterLoad'] === 'function') {
-                        window[controller]['afterLoad']($form);
-                    }
-                }
-                else {
-                    controller = $form.attr('data-controller');
-                    $tab.find('.caption').html(response.tabname);
-                    $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
-                    FwFormField.loadForm($formfields, response.tables);
-                    $fwchargefields = $form.find('div.fwcharge');
-                    if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
-                        FwCharge.rerenderRuntimeHtml($form, response.tables);
-                    }
-                    if (typeof window[controller]['setFormProperties'] === 'function') {
-                        window[controller]['setFormProperties']($form);
-                    }
-                    if (typeof window[controller]['afterLoad'] === 'function') {
-                        window[controller]['afterLoad']($form);
-                    }
-                }
+                FwModule.afterLoadForm(module, $form, response);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -541,6 +499,61 @@ var FwModule = (function () {
         });
     };
     ;
+    FwModule.loadForm2 = function (httpMethod, url, request, module, $form) {
+        FwAppData.apiMethod(true, httpMethod, url, request, FwServices.defaultTimeout, function (response) {
+            try {
+                FwModule.afterLoadForm(module, $form, response);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, $form);
+    };
+    ;
+    FwModule.afterLoadForm = function (module, $form, response) {
+        var $tabpage = $form.parent();
+        var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+        var controller = window[module + 'Controller'];
+        if (typeof controller === 'undefined') {
+            throw module + 'Controller is not defined.';
+        }
+        if (typeof controller.apiurl === 'undefined' && typeof response.tables === 'undefined') {
+            throw 'Server did not return the data needed to load this form.';
+        }
+        if (typeof controller.apiurl !== 'undefined') {
+            controller = $form.attr('data-controller');
+            var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
+            $tab.find('.caption').html(tabname);
+            var $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
+            FwFormField.loadForm($formfields, response);
+            var $fwchargefields = $form.find('div.fwcharge');
+            if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
+                FwCharge.rerenderRuntimeHtml($form, response);
+            }
+            if (typeof window[controller]['setFormProperties'] === 'function') {
+                window[controller]['setFormProperties']($form);
+            }
+            if (typeof window[controller]['afterLoad'] === 'function') {
+                window[controller]['afterLoad']($form);
+            }
+        }
+        else {
+            controller = $form.attr('data-controller');
+            $tab.find('.caption').html(response.tabname);
+            var $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
+            FwFormField.loadForm($formfields, response.tables);
+            var $fwchargefields = $form.find('div.fwcharge');
+            if (($fwchargefields.length > 0) && ($fwchargefields.eq(0).attr('data-template') != $form.find('div[data-datafield="' + $fwchargefields.eq(0).attr('data-boundfield') + '"] input').val())) {
+                FwCharge.rerenderRuntimeHtml($form, response.tables);
+            }
+            if (typeof window[controller]['setFormProperties'] === 'function') {
+                window[controller]['setFormProperties']($form);
+            }
+            if (typeof window[controller]['afterLoad'] === 'function') {
+                window[controller]['afterLoad']($form);
+            }
+        }
+    };
     FwModule.saveForm = function (module, $form, parameters) {
         var $tabpage, $tab, isValid, request, controllername, controller;
         $tabpage = $form.parent();
