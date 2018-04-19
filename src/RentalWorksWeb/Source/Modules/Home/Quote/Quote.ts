@@ -819,7 +819,7 @@ class Quote {
     renderSearchPopup() {
         //render popup
         var html = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
+        html.push('<div class="fwform" id="searchpopup" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
 
         html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
         html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
@@ -888,6 +888,7 @@ class Quote {
     }
 
     populateTypeMenu($popup, request) {
+        var $searchpopup = jQuery('#searchpopup');
         FwAppData.apiMethod(true, 'POST', "api/v1/inventoryType/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
             var inventoryTypeIndex, inventoryTypeIdIndex;
 
@@ -898,13 +899,19 @@ class Quote {
                 $popup.find('#inventoryType').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][inventoryTypeIdIndex] + '">' + response.Rows[i][inventoryTypeIndex] + '</ul>');
 
             }
-        }, null, null);
+        }, null, $searchpopup);
     }
 
     typeOnClickEvents($popup) {
+        var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#inventoryType ul', function (e) {
             var invType, inventoryTypeId, breadcrumb, request: any = {};
-            $popup.find('#inventoryType ul').css({ 'background-color': 'white', 'color': 'black' });
+            $popup.find('#inventoryType ul').css({
+                'background-color': 'white',
+                'color': 'black',
+                'border-left': '0px white',
+                'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
+            });
 
             invType = jQuery(e.currentTarget).text();
             $popup.find('#inventoryType ul').removeClass('selected');
@@ -914,7 +921,7 @@ class Quote {
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
-            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
 
@@ -929,7 +936,7 @@ class Quote {
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
             FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
@@ -945,15 +952,21 @@ class Quote {
                 var $card = $popup.find('.inventory > div');
                 $card.css(css);
 
-            }, null, null);
+            }, null, $searchpopup);
         });
 
     }
 
     categoryOnClickEvents($popup) {
+        var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#category ul', function (e) {
             var category, breadcrumb, categoryId, inventoryTypeId, request: any = {};
-            $popup.find('#category ul').css({ 'background-color': 'white', 'color': 'black' });
+            $popup.find('#category ul').css({
+                'background-color': 'white',
+                'color': 'black',
+                'border-left': '0px white',
+                'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
+            });
 
             category = jQuery(e.currentTarget).text();
             $popup.find('#category ul').removeClass('selected');
@@ -962,7 +975,7 @@ class Quote {
             $popup.find("#breadcrumbs .subcategory").empty();
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
@@ -978,7 +991,7 @@ class Quote {
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
             FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
@@ -993,7 +1006,7 @@ class Quote {
                     var $card = $popup.find('div.card');
                     $card.css(css);
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
         });
 
@@ -1001,9 +1014,16 @@ class Quote {
     };
 
     subCategoryOnClickEvents($popup) {
+        var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#subCategory ul', function (e) {
             var subCategory, breadcrumb, subCategoryId, categoryId, inventoryTypeId, request: any = {};
-            $popup.find('#subCategory ul').css({ 'background-color': 'white', 'color': 'black' });
+            $popup.find('#subCategory ul').css({
+                'background-color': 'white',
+                'color': 'black',
+                'border-left': '0px white',
+                'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
+            });
+
 
             subCategory = jQuery(e.currentTarget).text();
             $popup.find('#subCategory ul').removeClass('selected');
@@ -1012,7 +1032,7 @@ class Quote {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
 
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -1037,11 +1057,12 @@ class Quote {
                     $card.css(css);
 
                 }
-            }, null, null);
+            }, null, $searchpopup);
         });
     }
 
     breadCrumbs($popup) {
+        var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
 
@@ -1057,7 +1078,7 @@ class Quote {
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
             FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
@@ -1072,7 +1093,7 @@ class Quote {
                     var $card = $popup.find('.inventory > div');
                     $card.css(css);
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
 
         })
@@ -1095,7 +1116,7 @@ class Quote {
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                 }
-            }, null, null);
+            }, null, $searchpopup);
 
             FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
@@ -1110,7 +1131,7 @@ class Quote {
                     var $card = $popup.find('div.card');
                     $card.css(css);
                 }
-            }, null, null);
+            }, null, $searchpopup);
         })
     }
 }
@@ -1179,6 +1200,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     QuoteController.subCategoryOnClickEvents($popup);
     QuoteController.breadCrumbs($popup);
 
+
     $popup.on('mouseenter', '.inventory > div', function () {
         jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
     });
@@ -1203,26 +1225,42 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     });
 
     var highlight = {
-        'background-color': '#D3D3D3',
-        'color': 'white'
+        'border-left': '6px solid #bdbdbd',
+        'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'
     }
 
     var unhighlight = {
-        'background-color': 'white',
-        'color': 'black'
+        'border-left': '0px white',
+        'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
     }
     $popup.on('mouseenter', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
-        jQuery(e.currentTarget).css(highlight)
+        var selected = jQuery(e.currentTarget).hasClass('selected');
+        if (selected) {
+            jQuery(e.currentTarget).css({
+                'border-left': '6px solid #939393',
+                'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'
+            })
+        } else {
+            jQuery(e.currentTarget).css(highlight);
+        }
+
     });
 
     $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
-            jQuery(e.currentTarget).css({ 'background-color': 'gray', 'color': 'white' })
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' })
         } else {
             jQuery(e.currentTarget).css(unhighlight)
         }
     });
 
+    $popup.on('mouseenter', '#breadcrumbs > div', function (e) {
+        jQuery(e.currentTarget).css({ 'color': '#4c4cff' });
+    });
+
+    $popup.on('mouseleave', '#breadcrumbs > div', function (e) {
+        jQuery(e.currentTarget).css({ 'color': 'black' });
+    });
 };
 //-----------------------------------------------------------------------------------------------------
