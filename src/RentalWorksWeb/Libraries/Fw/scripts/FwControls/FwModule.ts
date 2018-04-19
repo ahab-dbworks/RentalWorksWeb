@@ -1257,4 +1257,16 @@ class FwModule {
         return $control;
     };
     //----------------------------------------------------------------------------------------------
+    static refreshForm($form: JQuery, controller: any) {
+        let uniqueIds = FwModule.getFormUniqueIds($form);
+        let newUniqueIds = {};
+
+        for (let key in uniqueIds) {
+            newUniqueIds[key] = uniqueIds[key].value
+        }
+
+        let $newForm = controller.loadForm(newUniqueIds);
+        $form.parent().empty().append($newForm);
+    };
+    //----------------------------------------------------------------------------------------------
 }
