@@ -25,10 +25,10 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormMenuBar = tree.AddMenuBar("{337489B7-6E18-4C84-BBCB-FEC010F4727D}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{6A2C8FDE-A1DF-41FB-BE25-45F5B02DD635}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{0D0BF2AD-ECA2-4054-95D4-BAD3426925D3}", nodeFormSubMenu.Id);
-            tree.AddSubMenuItem("Complete", "{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Estimate", "{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}", nodeFormOptions.Id);
-            tree.AddSubMenuItem("Release Items", "{EE709549-C91C-473E-96CC-2DB121082FB5}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Complete", "{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Void", "{9F58C03B-89CD-484A-8332-CDBF9961A258}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Release Items", "{EE709549-C91C-473E-96CC-2DB121082FB5}", nodeFormOptions.Id);
             tree.AddSaveMenuBarButton("{1D0F8CBF-548A-47A4-8719-3A46AD0BF46B}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------

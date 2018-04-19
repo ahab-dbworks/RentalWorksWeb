@@ -7,7 +7,7 @@ class Repair {
     apiurl: string = 'api/v1/repair';
     caption: string = 'Repair Order';
     ActiveView: string = 'ALL';
-
+    
     getModuleScreen = () => {
         let screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
@@ -92,7 +92,10 @@ class Repair {
    
       FwBrowse.init($repairCostGridControl); 
       FwBrowse.renderRuntimeHtml($repairCostGridControl);
-    
+
+      //$repairCostGridControl.on('change', '[data-browsedatafield="DiscountAmount"] input.value', () => {
+      //  alert('test');
+      //});
       //----------------------------------------------------------------------------------------------
       $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
       $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
@@ -190,6 +193,11 @@ class Repair {
 
       $form.find('.estimate').on('click', $tr => {
          this.estimateOrder($form);
+      });
+                                                                   
+      // Release Items
+      $form.find('.releaseitems').on('click', $tr => {
+         this.releaseItems($form);
       });
 
       // New Orders
@@ -305,6 +313,7 @@ class Repair {
           $form.find(".frame .add-on").children().hide();
       }
 
+      this.events($form);
       return $form;
   };
 
@@ -314,8 +323,6 @@ class Repair {
       $form = this.openForm('EDIT');
       $form.find('div.fwformfield[data-datafield="RepairId"] input').val(uniqueids.RepairId);
       FwModule.loadForm(this.Module, $form);
-
-
 
       $form.find('[data-datafield="PoPending"] .fwformfield-value').on('change', function () {
           var $this = jQuery(this);
@@ -331,6 +338,36 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
+  events($form: JQuery): void {
+
+      $form.find('[data-name="RepairReleaseGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+          try {
+              var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+              var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+
+              var $spaceGridControl: any;
+              $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
+              $spaceGridControl.data('ondatabind', function (request) {
+                  request.uniqueids = {
+                      BuildingId: buildingId,
+                      FloorId: floorId
+                  }
+              })
+              $spaceGridControl.data('beforesave', function (request) {
+                  request.BuildingId = buildingId;
+                  request.FloorId = floorId;
+              });
+              FwBrowse.search($spaceGridControl);
+
+          } catch (ex) {
+              FwFunc.showError(ex);
+          }
+      });
+
+    
+  }
+
+  //----------------------------------------------------------------------------------------------
   saveForm($form: any, parameters: any) {
       FwModule.saveForm(this.Module, $form, parameters);
   }
@@ -342,7 +379,7 @@ class Repair {
       let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
       FwBrowse.search($repairPartGrid);
 
-      console.log('status: ', FwFormField.getValueByDataField($form, 'Status'))
+      console.log('STATUS:  ', FwFormField.getValueByDataField($form, 'Status'))
     if (FwFormField.getValueByDataField($form, 'Status') === 'ESTIMATED') {
       $form.data('hasEstimated', true);
     } else {
@@ -360,6 +397,7 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   estimateOrder($form) {
+      var self = this;
       let $confirmation, $yes, $no;
       $confirmation = FwConfirmation.renderConfirmation('Estimate', '');
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -403,6 +441,7 @@ class Repair {
 
           FwFormField.disable($confirmation.find('.fwformfield'));
           FwFormField.disable($yes);
+
           $yes.text('Estimating...');
           $yes.off('click');
 
@@ -416,6 +455,8 @@ class Repair {
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
           }, $form);
+
+          FwModule.refreshForm($form, self);
       };
       function cancelEstimate() {
           $form.data('hasEstimated', false)
@@ -424,11 +465,12 @@ class Repair {
 
           FwFormField.disable($confirmation.find('.fwformfield'));
           FwFormField.disable($yes);
+
           $yes.text('Canceling Estimate...');
           $yes.off('click');
 
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/estimate/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-              FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Canceled');
+              FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
               FwConfirmation.destroyConfirmation($confirmation);
           }, function onError(response) {
               $yes.on('click', cancelEstimate);
@@ -437,11 +479,14 @@ class Repair {
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
           }, $form);
-      }; 
+
+          FwModule.refreshForm($form, self);
+      };
   };
 
   //----------------------------------------------------------------------------------------------
   completeOrder($form) {
+      var self = this;
       let $confirmation, $yes, $no;
       $confirmation = FwConfirmation.renderConfirmation('Complete', '');
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -479,11 +524,14 @@ class Repair {
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
           }, $form);
+
+          FwModule.refreshForm($form, self);
       };
   };
 
-   //----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
   voidOrder($form) {
+      var self = this;
       let $confirmation, $yes, $no;
       $confirmation = FwConfirmation.renderConfirmation('Void', '');
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -521,6 +569,82 @@ class Repair {
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
           }, $form);
+                  
+          FwModule.refreshForm($form, self);
+
+      };
+  };
+
+  //----------------------------------------------------------------------------------------------
+  releaseItems($form) {
+    var self = this;
+      let $confirmation, $yes, $no;
+      $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
+      $confirmation.find('.fwconfirmationbox').css('width', '450px');
+      let html = [];
+      html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="width:90px;float:left;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ItemDescription" style="width:340px; float:left;"></div>');
+      html.push('  </div>');
+      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released Quantity" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
+      html.push('  </div>');
+      html.push('</div>');
+
+      let copyConfirmation = html.join('');
+
+      FwConfirmation.addControls($confirmation, html.join(''));
+
+      const ICode = $form.find('[data-datafield="InventoryId"] input.fwformfield-text').val();
+      $confirmation.find('div[data-caption="I-Code"] input').val(ICode);
+
+      const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
+      $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
+
+      const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+      $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
+
+      
+
+    
+      FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
+      FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+      FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
+      FwFormField.disable($confirmation.find('div[data-caption="Released"]'));
+
+
+      $yes = FwConfirmation.addButton($confirmation, 'Release', false);
+      $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+      $yes.on('click', release);
+
+      function release() {
+          let request: any = {};
+          const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
+          const ReleasedQuantity = FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
+
+        console.log(ReleasedQuantity, 'ReleasedQuantity')
+        
+          FwFormField.disable($confirmation.find('.fwformfield'));
+          FwFormField.disable($yes);
+          $yes.text('Releasing...');
+          $yes.off('click');
+
+          FwAppData.apiMethod(true, 'POST',  `api/v1/repair/releaseitems/${RepairId}/${ReleasedQuantity}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+              FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
+              FwConfirmation.destroyConfirmation($confirmation);
+          }, function onError(response) {
+              $yes.on('click', release);
+              $yes.text('Release');
+              FwFunc.showError(response);
+              FwFormField.enable($confirmation.find('.fwformfield'));
+              FwFormField.enable($yes);
+          }, $form);
+
+          FwModule.refreshForm($form, self);
       };
   };
 
@@ -591,7 +715,7 @@ class Repair {
     }
 }
 
-// using complete security guid
+// using COMPLETE security guid
 FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = function (event) {
     let $form
     $form = jQuery(this).closest('.fwform');
@@ -604,7 +728,7 @@ FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = functi
     }
 };
 
-// using estimate security guid
+// using ESTIMATE security guid
 FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = function (event) {
     let $form
     $form = jQuery(this).closest('.fwform');
@@ -617,13 +741,26 @@ FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = functi
     }
 };
 
-// using void security guid
+// using VOID security guid
 FwApplicationTree.clickEvents['{9F58C03B-89CD-484A-8332-CDBF9961A258}'] = function (event) {
     let $form
     $form = jQuery(this).closest('.fwform');
 
     try {
         RepairController.voidOrder($form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+// using RELEASE security guid
+FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = function (event) {
+    let $form
+    $form = jQuery(this).closest('.fwform');
+
+    try {
+        RepairController.releaseItems($form);
     }
     catch (ex) {
         FwFunc.showError(ex);

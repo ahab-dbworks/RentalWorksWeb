@@ -99,7 +99,18 @@
         <div class="flexcolumn" style="max-width:600px;">
           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Releases">
-              <div data-control="FwGrid" id="RepairReleaseGrid" data-grid="RepairReleaseGrid" data-caption="" data-securitycaption="RepairReleaseGrid" style="min-width:240px;"></div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex; align-items: flex-start; margin-top: 5px;">
+                <div data-control="FwGrid" id="RepairReleaseGrid" data-grid="RepairReleaseGrid" data-caption="" data-securitycaption="RepairReleaseGrid" style="min-width:300px;"></div>
+              </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="display:flex; align-items: flex-start; margin-top: 5px;">
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield releasetotals" data-caption="Total Released" data-datafield="ReleasedQuantity" data-enabled="false" style="max-width:100px; float:left;"></div>
+              <div class="fwformcontrol releaseitems" data-type="button" style="margin:16px 0 50px 0; align-items:flex-end;width:75px">Release</div>
+            </div>
+
+                 <div class="flexrow" style="display: flex; justify-content: flex-end;">
+          </div>
+
+            
             </div>
           </div>
         </div>
@@ -144,9 +155,9 @@
     </div>
     <!--Cost Tab-->
     <div data-type="tabpage" id="costtabpage" class="tabpage" data-tabid="costtab">
-      <div class="flexpage">
-        <div class="flexrow" style="width:100%;">
-          <div class="flexrow" style="width:100%;">
+      <div class="formpage">
+        <div class="formrow" style="width:100%;">
+          <div class="formrow" style="width:100%;">
             <div data-control="FwGrid" id="RepairCostGrid" data-grid="RepairCostGrid" data-caption="Costs" data-securitycaption="RepairCostGrid" style="min-width:240px;"></div>
           </div>
         </div>
