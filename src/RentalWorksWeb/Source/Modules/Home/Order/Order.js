@@ -200,9 +200,8 @@ var Order = (function () {
         });
         $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
             var type = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
-            $form.find('div[data-datafield="RateType"]').attr('data-originalvalue', type);
+            FwFormField.setValueByDataField($form, 'RateType', type);
             $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
-            $form.find('div[data-datafield="RateType"] input.fwformfield-value').val(type);
         });
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
