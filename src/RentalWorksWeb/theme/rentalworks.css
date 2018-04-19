@@ -25,10 +25,8 @@ Master
 #master-body {/*padding:10px;*/}
 #master-body .programlogo {display:flex;flex-wrap:wrap;width:99%;}
 #master-body .programlogo .chart-container {display:flex;float:left;position:relative;width:50%;}
-#master-body .programlogo .chart-container:hover .chart-settings {display:block;}
-#master-body .programlogo .chart-container:hover .chart-refresh {display:block;}
-#master-body .programlogo .chart-container .chart-settings {display:none;position:absolute;top:2%;right:2%;cursor:pointer;}
-#master-body .programlogo .chart-container .chart-refresh {display:none;position:absolute;top:2%;left:2%;cursor:pointer;}
+#master-body .programlogo .chart-container:hover .toolbar {display:block;}
+#master-body .programlogo .chart-container .toolbar {display:none;position:absolute;top:2%;right:2%;cursor:pointer;}
 #master-footer {text-align:center;font-size:12px;margin-bottom:10px;}
 #master-footer #dbworkslink {cursor:pointer;}
 

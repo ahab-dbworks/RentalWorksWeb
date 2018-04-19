@@ -96,7 +96,8 @@ var RwHome = (function () {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
-        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + '"></canvas>' + refresh + settings + '</div>');
+        var fullscreen = '<i id="' + apiname + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
+        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + apiname + 'settings'), userWidgetId);
         jQuery($control).on('click', '#' + apiname + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + apiname, {}, FwServices.defaultTimeout, function onSuccess(response) {
@@ -124,6 +125,44 @@ var RwHome = (function () {
             }, null, jQuery(widgetcanvas));
         });
         var widgetcanvas = $control.find('#' + apiname);
+        jQuery($control).on('click', '#' + apiname + 'fullscreen', function () {
+            try {
+                var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
+                var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+                var html = [];
+                html.push('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + 'fullscreen"></canvas></div>');
+                FwConfirmation.addControls($confirmation, html.join(''));
+                $confirmation.find('.fwconfirmationbox').css('width', '80%');
+                var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');
+                FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + apiname, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                    try {
+                        if (type !== '') {
+                            response.type = type;
+                        }
+                        if (response.type === 'pie') {
+                            delete response.options.legend;
+                            delete response.options.scales;
+                        }
+                        var chart = new Chart(widgetfullscreen, response);
+                        jQuery(widgetfullscreen).on('click', function (evt) {
+                            var activePoint = chart.getElementAtEvent(evt)[0];
+                            var data = activePoint._chart.data;
+                            var datasetIndex = activePoint._datasetIndex;
+                            var label = data.labels[activePoint._index];
+                            var value = data.datasets[datasetIndex].data[activePoint._index];
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        });
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, jQuery(widgetfullscreen));
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         FwAppData.apiMethod(true, 'GET', 'api/v1/widget/loadbyname/' + apiname, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (type !== '') {
