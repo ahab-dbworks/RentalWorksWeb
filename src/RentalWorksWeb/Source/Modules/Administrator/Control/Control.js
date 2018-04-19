@@ -45,8 +45,8 @@ var Control = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    Control.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    Control.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     Control.prototype.loadAudit = function ($form) {
         var uniqueid;

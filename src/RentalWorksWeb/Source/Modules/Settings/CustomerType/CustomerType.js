@@ -39,8 +39,8 @@ var CustomerType = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    CustomerType.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    CustomerType.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     CustomerType.prototype.loadAudit = function ($form) {
         var uniqueid;

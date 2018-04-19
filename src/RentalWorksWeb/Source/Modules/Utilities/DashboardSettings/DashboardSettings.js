@@ -33,8 +33,8 @@ var DashboardSettings = (function () {
         });
         return $form;
     };
-    DashboardSettings.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
+    DashboardSettings.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     return DashboardSettings;
 }());

@@ -48,8 +48,9 @@ class DashboardSettings {
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    saveForm($form: any, closetab: boolean, navigationpath: string) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
+    saveForm($form: any, parameters: any) {
+        //FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
+        FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
     //afterLoad($form: any) {

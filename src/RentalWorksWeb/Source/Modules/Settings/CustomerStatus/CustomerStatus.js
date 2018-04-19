@@ -39,8 +39,8 @@ var CustomerStatus = (function () {
         FwModule.loadForm(this.Module, $form);
         return $form;
     };
-    CustomerStatus.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    CustomerStatus.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     CustomerStatus.prototype.loadAudit = function ($form) {
         var uniqueid;

@@ -309,8 +309,8 @@ var Group = (function () {
         this.loadGroupTree($editgrouptree, $previewgrouptree, $form, uniqueids.GroupId);
         return $form;
     };
-    Group.prototype.saveForm = function ($form, closetab, navigationpath) {
-        FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: navigationpath });
+    Group.prototype.saveForm = function ($form, parameters) {
+        FwModule.saveForm(this.Module, $form, parameters);
     };
     Group.prototype.loadAudit = function ($form) {
         var uniqueid;
