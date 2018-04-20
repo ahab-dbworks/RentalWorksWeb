@@ -55,7 +55,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             WebUserRecord webUser = new WebUserRecord();
             webUser.SetDependencies(AppConfig, UserSession);
             webUser.WebUserId = webUsersId;
-            await webUser.GetAsync<WebUserRecord>();
+            webUser = await webUser.GetAsync<WebUserRecord>();
             WidgetsPerRow = webUser.DashboardWidgetsPerRow;
             if ((WidgetsPerRow == null) || (WidgetsPerRow <= 0))
             {
