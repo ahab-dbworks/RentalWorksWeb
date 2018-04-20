@@ -652,7 +652,10 @@ namespace FwStandard.BusinessLogic
                 }
                 LoadCustomFields();
 
-                await _Custom.SaveAsync(GetPrimaryKeys());
+                if (_Custom.Count > 0)
+                {
+                    await _Custom.SaveAsync(GetPrimaryKeys());
+                }
                 afterSaveArgs.SavePerformed = (rowsAffected > 0);
                 if (AfterSave != null)
                 {
