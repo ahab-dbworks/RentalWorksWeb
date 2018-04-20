@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
 namespace WebApi.Modules.Administrator.User
@@ -6,33 +7,38 @@ namespace WebApi.Modules.Administrator.User
     {
         //------------------------------------------------------------------------------------ 
         UserRecord user = new UserRecord();
+        WebUserRecord webUser = new WebUserRecord();
         UserLoader userLoader = new UserLoader();
         UserBrowseLoader userBrowseLoader = new UserBrowseLoader();
         public UserLogic()
         {
             dataRecords.Add(user);
+            dataRecords.Add(webUser);
             dataLoader = userLoader;
             browseLoader = userBrowseLoader;
+
+            user.AfterSave += AfterSaveUser;
+            //webUser.AfterSave += AfterSaveWebUser;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string UserId { get { return user.UserId; } set { user.UserId = value; } }
+        public string UserId { get { return user.UserId; } set { user.UserId = value; webUser.UserId = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string ContactId { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string DealId { get; set; }
         public string Name { get { return user.Name; } set { user.Name = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
-        public string UserName { get; set; }
+        public string LoginName { get { return user.LoginName; } set { user.LoginName = value; } }
         [FwBusinessLogicField(isRecordTitle: true, isReadOnly: true)]
         public string FullName { get; set; }
 
         public string FirstName { get { return user.FirstName; } set { user.FirstName = value; } }
         public string MiddleInitial { get { return user.MiddleInitial; } set { user.MiddleInitial = value; } }
         public string LastName { get { return user.LastName; } set { user.LastName = value; } }
-        public string LoginName { get { return user.LoginName; } set { user.LoginName = value; } }
+        //public string LoginName { get { return user.LoginName; } set { user.LoginName = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
-        public string Password { get { return "?????????"; } }
+        public string Password { get { return "?????????"; }  set { user.Password = value; } }
         public string GroupId { get { return user.GroupId; } set { user.GroupId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string GroupName { get; set; }
@@ -154,6 +160,36 @@ namespace WebApi.Modules.Administrator.User
         public string Memo { get { return user.Memo; } set { user.Memo = value; } }
         public bool? Inactive { get { return user.Inactive; } set { user.Inactive = value; } }
         public string DateStamp { get { return user.DateStamp; } set { user.DateStamp = value; } }
+
+        // WebUserRecord
+        public string WebUserId { get { return webUser.WebUserId; } set { webUser.WebUserId = value; } }
+        //public bool? WebAccess { get { return webUser.WebAccess; } set { webUser.WebAccess = value; } }
+        //public bool? LockAccount { get { return webUser.LockAccount; } set { webUser.LockAccount = value; } }
+        //public string WebPassword { get { return webUser.WebPassword; } set { webUser.WebPassword = value; } }
+        //public bool? ExpirePassword { get { return webUser.ExpirePassword; } set { webUser.ExpirePassword = value; } }
+        //public int? ExpireDays { get { return webUser.ExpireDays; } set { webUser.ExpireDays = value; } }
+        //public bool? ChangePasswordAtNextLogin { get { return webUser.ChangePasswordAtNextLogin; } set { webUser.ChangePasswordAtNextLogin = value; } }
+        //public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
+
         //------------------------------------------------------------------------------------ 
+        private void AfterSaveUser(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SavePerformed)
+            {
+                if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert) 
+                {
+                    this.webUser.UserId = UserId;
+                }
+                else if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate) 
+                {
+                    UserLogic l2 = new UserLogic();
+                    l2.SetDependencies(AppConfig, UserSession);
+                    object[] pk = GetPrimaryKeys();
+                    bool b = l2.LoadAsync<UserLogic>(pk).Result;
+                    WebUserId = l2.WebUserId;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------   
     }
 }

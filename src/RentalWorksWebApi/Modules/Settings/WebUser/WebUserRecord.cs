@@ -9,7 +9,7 @@ namespace WebApi.Modules.Administrator.User
     {
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0, isPrimaryKey: true)]
-        public string WebUserId { get; set; }
+        public string WebUserId { get; set; } = "";
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, precision: 0, scale: 0)]
         public string UserId { get; set; }

@@ -2,6 +2,9 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
+using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("users")]
@@ -18,16 +21,16 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        [FwSqlDataField(column: "password", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
         public string Password { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarylocationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PrimaryOfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primarywarehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -36,16 +39,16 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "contacttitleid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string UserTitleId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "firstname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
+        [FwSqlDataField(column: "firstname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15, required: true)]
         public string FirstName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "middleinitial", modeltype: FwDataTypes.Text, sqltype: "char")]
         public string MiddleInitial { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
         public string LastName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string GroupId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
@@ -327,10 +330,57 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (saveMode == TDataRecordSaveMode.smInsert)
+            {
+                string primaryDepartmentId = string.Empty;
+                switch (DefaultDepartmentType)
+                {
+                    case RwConstants.DEPARTMENT_TYPE_RENTAL:
+                        primaryDepartmentId = RentalDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_SALES:
+                        primaryDepartmentId = SalesDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_PARTS:
+                        primaryDepartmentId = PartsDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_TRANSPORTATION:
+                        primaryDepartmentId = TransportationDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_FACILITIES:
+                        primaryDepartmentId = FacilityDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_MISC:
+                        primaryDepartmentId = MiscDepartmentId;
+                        break;
+                    case RwConstants.DEPARTMENT_TYPE_LABOR:
+                        primaryDepartmentId = LaborDepartmentId;
+                        break;
+                    default:
+                        primaryDepartmentId = "";
+                        break;
+                }
+                if (primaryDepartmentId.Equals(string.Empty))
+                {
+                    isValid = false;
+                    validateMsg = "Primary Department is required.";
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnBeforeSaveUser(object sender, BeforeSaveEventArgs e)
         {
             PrimaryOfficeLocationId = OfficeLocationId;
             PrimaryWarehouseId = WarehouseId;
+
+            if (Password != null)
+            {
+                Password = AppFunc.EncryptAsync(AppConfig, Password).Result;
+            }
         }
         //-------------------------------------------------------------------------------------------------------   
     }

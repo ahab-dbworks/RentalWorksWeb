@@ -27,6 +27,14 @@ namespace WebLibrary
         public const string RATE_AVAILABLE_FOR_LABOR = "L";
 
 
+        public const string DEPARTMENT_TYPE_RENTAL = "R";
+        public const string DEPARTMENT_TYPE_SALES = "S";
+        public const string DEPARTMENT_TYPE_PARTS = "P";
+        public const string DEPARTMENT_TYPE_TRANSPORTATION = "T";
+        public const string DEPARTMENT_TYPE_FACILITIES = "SP";
+        public const string DEPARTMENT_TYPE_MISC = "M";
+        public const string DEPARTMENT_TYPE_LABOR = "L";
+
 
         public const string MODULE_QUOTE = "QUOTE";
         public const string MODULE_REPAIR = "REPAIR";

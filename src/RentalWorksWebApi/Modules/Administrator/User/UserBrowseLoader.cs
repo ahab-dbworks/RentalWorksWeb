@@ -15,8 +15,8 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
         public string Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
-        public string UserName { get; set; }
+        [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text)]
+        public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fullname", modeltype: FwDataTypes.Text)]
         public string FullName { get; set; }
@@ -29,9 +29,6 @@ namespace WebApi.Modules.Administrator.User
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastname", modeltype: FwDataTypes.Text)]
         public string LastName { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "loginname", modeltype: FwDataTypes.Text)]
-        public string LoginName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text)]
         public string GroupId { get; set; }

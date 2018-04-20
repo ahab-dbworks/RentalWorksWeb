@@ -27,6 +27,21 @@ namespace WebApi.Logic
             return id;
         }
         //-------------------------------------------------------------------------------------------------------
+        static public async Task<string> EncryptAsync(FwApplicationConfig appConfig, string data)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select value = dbo.encrypt(@data)");
+                    qry.AddParameter("@data", data);
+                    await qry.ExecuteAsync();
+                    string value = qry.GetField("value").ToString().Trim();
+                    return value;
+                }
+            }
+        }
+        //-----------------------------------------------------------------------------
         public static async Task<FwDatabaseField> GetDataAsync(FwApplicationConfig appConfig, string tablename, string wherecolumn, string wherecolumnvalue, string selectcolumn)
         {
             FwDatabaseField result;
