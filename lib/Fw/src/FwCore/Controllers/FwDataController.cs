@@ -134,8 +134,10 @@ namespace FwCore.Controllers
                 if (isValid)
                 {
                     await l.SaveAsync();
-                    await l.LoadAsync<T>();
-                    //return new CreatedAtRouteResult("api/v1/customerstatus/" + l.GetPrimaryKeys()[0], new { id = l.GetPrimaryKeys()[0] }, l);
+                    if (l.ReloadOnSave)
+                    {
+                        await l.LoadAsync<T>();
+                    }
                     return new OkObjectResult(l);
                 }
                 else

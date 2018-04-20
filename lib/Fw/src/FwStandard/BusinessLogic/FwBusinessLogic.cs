@@ -105,6 +105,9 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         public static FwCustomFields customFields = null;
 
+        [JsonIgnore]
+        public bool ReloadOnSave = true;
+
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
 
