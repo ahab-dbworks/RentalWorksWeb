@@ -65,9 +65,12 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   renderGrids = ($form: any) => {
 
-      let $repairCostGrid, $repairCostGridControl; 
-      let $repairPartGrid, $repairPartGridControl; 
-      let $repairReleaseGrid, $repairReleaseGridControl; 
+      let $repairCostGrid: any;
+      let $repairCostGridControl: any; 
+      let $repairPartGrid: any;
+      let $repairPartGridControl: any; 
+      let $repairReleaseGrid: any;
+      let $repairReleaseGridControl: any; 
 
       //----------------------------------------------------------------------------------------------
       $repairCostGrid = $form.find('div[data-grid="RepairCostGrid"]'); 
@@ -378,6 +381,8 @@ class Repair {
       FwBrowse.search($repairCostGrid); 
       let $repairPartGrid: any = $form.find('[data-name="RepairPartGrid"]'); 
       FwBrowse.search($repairPartGrid);
+      let $repairReleaseGrid: any = $form.find('[data-name="RepairReleaseGrid"]'); 
+      FwBrowse.search($repairReleaseGrid);
 
       console.log('STATUS:  ', FwFormField.getValueByDataField($form, 'Status'))
     if (FwFormField.getValueByDataField($form, 'Status') === 'ESTIMATED') {
@@ -491,19 +496,37 @@ class Repair {
       $confirmation = FwConfirmation.renderConfirmation('Complete', '');
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
       let html = [];
-      html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      html.push('    <div>Would you like to complete this order?</div>');
-      html.push('  </div>');
-      html.push('</div>');
 
-      let copyConfirmation = html.join('');
+      if ($form.data('hasEstimated') === true) {
+          html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+          html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+          html.push('    <div>Would you like to complete this order?</div>');
+          html.push('  </div>');
+          html.push('</div>');
 
-      FwConfirmation.addControls($confirmation, html.join(''));
-      $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
-      $no = FwConfirmation.addButton($confirmation, 'Cancel');
+          let copyConfirmation = html.join('');
 
-      $yes.on('click', makeComplete);
+          FwConfirmation.addControls($confirmation, html.join(''));
+          $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+          $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+          $yes.on('click', makeComplete);
+
+      } else {
+          html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+          html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+          html.push('    <div>Not yet estimated. Do you want to make estimate and complete this order?</div>');
+          html.push('  </div>');
+          html.push('</div>');
+
+          let copyConfirmation = html.join('');
+
+          FwConfirmation.addControls($confirmation, html.join(''));
+          $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
+          $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+          $yes.on('click', makeComplete);
+      }
 
       function makeComplete() {
           let request: any = {};
@@ -590,7 +613,7 @@ class Repair {
       html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
       html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
       html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released Quantity" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
+      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity to Release" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
       html.push('  </div>');
       html.push('</div>');
 
@@ -607,9 +630,6 @@ class Repair {
       const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
       $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
 
-      
-
-    
       FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
       FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
       FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
