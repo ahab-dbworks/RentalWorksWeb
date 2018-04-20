@@ -458,19 +458,20 @@ namespace FwStandard.BusinessLogic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select modulename, fieldname, customtablename, customfieldname");
-                    qry.Add("from customfield with (nolock)");
+                    qry.Add("select modulename, fieldname, customtablename, customfieldname, fieldtype");
+                    qry.Add("from customfieldview with (nolock)");
                     qry.Add("order by fieldname");
 
                     qry.AddColumn("modulename");
                     qry.AddColumn("fieldname");
                     qry.AddColumn("customtablename");
                     qry.AddColumn("customfieldname");
+                    qry.AddColumn("fieldtype");
 
                     FwJsonDataTable table = qry.QueryToFwJsonTableAsync(true).Result;
                     for (int r = 0; r < table.Rows.Count; r++)
                     {
-                        FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString());
+                        FwCustomField customField = new FwCustomField(table.Rows[r][0].ToString(), table.Rows[r][1].ToString(), table.Rows[r][2].ToString(), table.Rows[r][3].ToString(), table.Rows[r][4].ToString());
                         customFields.Add(customField);
                     }
                     customFieldsLoaded = true;

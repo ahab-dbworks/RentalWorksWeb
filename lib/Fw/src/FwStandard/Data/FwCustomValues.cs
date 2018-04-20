@@ -44,9 +44,9 @@ namespace FwStandard.DataLayer
             
         }
         //------------------------------------------------------------------------------------
-        public virtual void AddCustomValue(string fieldName, string value)
+        public virtual void AddCustomValue(string fieldName, string value, string fieldType)
         {
-            Add(new FwCustomValue(fieldName, value));
+            Add(new FwCustomValue(fieldName, value, fieldType));
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<bool> SaveAsync(object[] primaryKeyValues)
