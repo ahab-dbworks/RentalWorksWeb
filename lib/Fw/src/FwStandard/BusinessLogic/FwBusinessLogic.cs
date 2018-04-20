@@ -52,7 +52,10 @@ namespace FwStandard.BusinessLogic
                 _appConfig = value;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    rec.AppConfig = value;
+                    if (rec != null)
+                    {
+                        rec.AppConfig = value;
+                    }
                 }
                 if (dataLoader != null)
                 {
@@ -62,7 +65,10 @@ namespace FwStandard.BusinessLogic
                 {
                     browseLoader.AppConfig = value;
                 }
-                _Custom.AppConfig = value;
+                if (_Custom != null)
+                {
+                    _Custom.AppConfig = value;
+                }
             }
         }
 
@@ -76,7 +82,10 @@ namespace FwStandard.BusinessLogic
                 _userSession = value;
                 foreach (FwDataReadWriteRecord rec in dataRecords)
                 {
-                    rec.UserSession = value;
+                    if (rec != null)
+                    {
+                        rec.UserSession = value;
+                    }
                 }
                 if (dataLoader != null)
                 {
@@ -86,7 +95,10 @@ namespace FwStandard.BusinessLogic
                 {
                     browseLoader.UserSession = value;
                 }
-                _Custom.UserSession = value;
+                if (_Custom != null)
+                {
+                    _Custom.UserSession = value;
+                }
             }
         }
 
@@ -106,7 +118,7 @@ namespace FwStandard.BusinessLogic
         public static FwCustomFields customFields = null;
 
         [JsonIgnore]
-        public bool ReloadOnSave = true;
+        public bool? ReloadOnSave = true;
 
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.
@@ -790,7 +802,10 @@ namespace FwStandard.BusinessLogic
                 //FwDataReadWriteRecord dataRecord = dataRecords[i];
                 //dataRecord.AppConfig = appConfig;
                 //dataRecord.UserSession = userSession;
-                dataRecords[i].SetDependencies(appConfig, userSession);
+                if (dataRecords[i] != null)
+                {
+                    dataRecords[i].SetDependencies(appConfig, userSession);
+                }
             }
         }
         //------------------------------------------------------------------------------------
