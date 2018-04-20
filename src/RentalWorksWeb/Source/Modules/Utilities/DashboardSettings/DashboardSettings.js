@@ -35,6 +35,7 @@ var DashboardSettings = (function () {
     };
     DashboardSettings.prototype.saveForm = function ($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
+        FwApplication.prototype.navigate('home');
     };
     return DashboardSettings;
 }());

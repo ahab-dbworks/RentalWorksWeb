@@ -51,6 +51,7 @@ class DashboardSettings {
     saveForm($form: any, parameters: any) {
         //FwModule.saveForm(this.Module, $form, { closetab: closetab, navigationpath: 'home' });
         FwModule.saveForm(this.Module, $form, parameters);
+        FwApplication.prototype.navigate('home');
     }
     //----------------------------------------------------------------------------------------------
     //afterLoad($form: any) {
