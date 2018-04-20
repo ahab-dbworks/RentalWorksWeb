@@ -385,11 +385,18 @@ class Repair {
       FwBrowse.search($repairReleaseGrid);
 
       console.log('STATUS:  ', FwFormField.getValueByDataField($form, 'Status'))
-    if (FwFormField.getValueByDataField($form, 'Status') === 'ESTIMATED') {
-      $form.data('hasEstimated', true);
-    } else {
-      $form.data('hasEstimated', false);
-    }
+
+      if (FwFormField.getValueByDataField($form, 'Status') === 'ESTIMATED') {
+        $form.data('hasEstimated', true);
+      } else {
+        $form.data('hasEstimated', false);
+      }
+
+      if (FwFormField.getValueByDataField($form, 'Status') === 'COMPLETE') {
+        $form.data('hasCompleted', true);
+      } else {
+        $form.data('hasCompleted', false);
+      }
 
       var $pending = $form.find('div.fwformfield[data-datafield="PoPending"] input').prop('checked');
       if ($pending === true) {
@@ -497,7 +504,22 @@ class Repair {
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
       let html = [];
 
-      if ($form.data('hasEstimated') === true) {
+      if ($form.data('hasCompleted') === true) {   
+          html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+          html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+          html.push('    <div>This order has already been completed.</div>');
+          html.push('  </div>');
+          html.push('</div>');
+
+          let copyConfirmation = html.join('');
+
+          FwConfirmation.addControls($confirmation, html.join(''));
+ 
+          $no = FwConfirmation.addButton($confirmation, 'OK');
+
+      }
+
+       else if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
           html.push('    <div>Would you like to complete this order?</div>');
@@ -547,7 +569,7 @@ class Repair {
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
           }, $form);
-
+          $form.data('hasCompleted', true);
           FwModule.refreshForm($form, self);
       };
   };
