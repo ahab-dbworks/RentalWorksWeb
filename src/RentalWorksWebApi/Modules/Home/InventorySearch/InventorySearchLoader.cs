@@ -65,6 +65,27 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "qtyqcrequired", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityQcRequired { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? DailyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week2rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week2Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week3rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week3Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week4rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week4Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week5rate", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week5Rate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyRate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
