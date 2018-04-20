@@ -12356,6 +12356,87 @@
 			]
 		},
 		{
+			"name": "Inventory Search Utility",
+			"description": "",
+			"item": [
+				{
+					"name": "Inventory Search Utility: Search",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearch/search",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"123\",\n\t\"OrderId\": \"456\",\n\t\"AvailableFor\": \"R\",\n\t\"WarehouseId\": \"B0029AY5\",\n\t\"InventoryTypeId\": \"B005L3ON\",\n\t\"CategoryId\": \"B003PN3W\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Search Utility Item: Save",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearch",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"SessionId\": \"justin\",\n    \"InventoryId\": \"B003POR8\",\n    \"WarehouseId\": \"B0029AY5\",\n    \"Quantity\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Search Utility: Add To [Order]",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearch/addto",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"123\",\n\t\"OrderId\": \"456\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Item",
 			"description": "",
 			"item": [
@@ -12410,16 +12491,18 @@
 				{
 					"name": "Item: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/item/00001PN5",
+						"url": "http://localhost:57949/api/v1/item/F005MT5T",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -17036,7 +17119,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": true,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"F01R11GJ\",\"SessionId\":\"F01R11GJ\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {\n\t\t\t\"ItemsNotYetStaged\": true,\n\t\t\t\"ItemsStaged\": true,\n\t\t    \"ItemsOut\": true,\n            \"RentalItems\": true,\n            \"SaleItems\": true,\n            \"VendorItems\": true,\n            \"LaborItems\": false,\n            \"WarehouseId\": \"\",\n            \"CompleteKitMain\": true,\n            \"CompleteKitAccessories\": true,\n            \"CompleteKitOptions\": true,\n            \"StandAloneItems\": true,\n            \"ItemsOnOtherPickLists\": true,\n            \"ReduceQuantityAlreadyPicked\": false,\n            \"SummarizeByICode\": false,\n            \"SummarizeCompleteKitItems\": false,\n            \"HonorCompleteKitItemTypes\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"H00032G8\",\"SessionId\":\"H00032G8\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -20805,7 +20888,7 @@
 				{
 					"name": "Rental  Inventory: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/rentalinventory/000061ZK",
+						"url": "http://localhost:57949/api/v1/rentalinventory/B003N79F",
 						"method": "GET",
 						"header": [
 							{
@@ -21099,7 +21182,7 @@
 				{
 					"name": "Repair: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/repair/F0115YD1",
+						"url": "http://localhost:57949/api/v1/repair/F01NNNBU",
 						"method": "GET",
 						"header": [
 							{
@@ -22176,16 +22259,18 @@
 				{
 					"name": "Sales Inventory: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/salesinventory/000032T1",
+						"url": "http://localhost:57949/api/v1/salesinventory/B003N2XL",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -22878,16 +22963,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ShipVia\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ShipVia\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"VendorId\": \"B003KO8S\"}\n\t\n}"
 						},
 						"description": ""
 					},
