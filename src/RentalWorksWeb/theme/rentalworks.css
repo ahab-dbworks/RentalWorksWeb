@@ -23,8 +23,8 @@ Master
 #master-header .user-controls .officelocation .value {}
 #master-header .user-controls .dashboard {cursor:pointer;padding:0 .3em;}
 #master-body {/*padding:10px;*/}
-#master-body .programlogo {display:flex;flex-wrap:wrap;width:99%;}
-#master-body .programlogo .chart-container {display:flex;float:left;position:relative;width:50%;}
+#master-body .programlogo {flex-wrap:wrap;width:99%;}
+#master-body .programlogo .chart-container {display:flex;float:left;position:relative;}
 #master-body .programlogo .chart-container:hover .toolbar {display:block;}
 #master-body .programlogo .chart-container .toolbar {display:none;position:absolute;top:2%;right:2%;cursor:pointer;}
 #master-footer {text-align:center;font-size:12px;margin-bottom:10px;}
