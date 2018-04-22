@@ -316,7 +316,7 @@ class Repair {
           $form.find(".frame .add-on").children().hide();
       }
 
-      this.events($form);
+      //this.events($form);
       return $form;
   };
 
@@ -341,34 +341,32 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  events($form: JQuery): void {
+  //events($form: JQuery): void {
 
-      $form.find('[data-name="RepairReleaseGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
-          try {
-              var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-              var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
+  //    $form.find('[data-name="RepairReleaseGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
+  //        try {
+  //            var buildingId = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
+  //            var floorId = jQuery($tr.find('.column > .field')[0]).attr('data-originalvalue');
 
-              var $spaceGridControl: any;
-              $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
-              $spaceGridControl.data('ondatabind', function (request) {
-                  request.uniqueids = {
-                      BuildingId: buildingId,
-                      FloorId: floorId
-                  }
-              })
-              $spaceGridControl.data('beforesave', function (request) {
-                  request.BuildingId = buildingId;
-                  request.FloorId = floorId;
-              });
-              FwBrowse.search($spaceGridControl);
+  //            var $spaceGridControl: any;
+  //            $spaceGridControl = $form.find('[data-name="SpaceGrid"]');
+  //            $spaceGridControl.data('ondatabind', function (request) {
+  //                request.uniqueids = {
+  //                    BuildingId: buildingId,
+  //                    FloorId: floorId
+  //                }
+  //            })
+  //            $spaceGridControl.data('beforesave', function (request) {
+  //                request.BuildingId = buildingId;
+  //                request.FloorId = floorId;
+  //            });
+  //            FwBrowse.search($spaceGridControl);
 
-          } catch (ex) {
-              FwFunc.showError(ex);
-          }
-      });
-
-    
-  }
+  //        } catch (ex) {
+  //            FwFunc.showError(ex);
+  //        }
+  //    });
+  //}
 
   //----------------------------------------------------------------------------------------------
   saveForm($form: any, parameters: any) {
@@ -422,7 +420,6 @@ class Repair {
         html.push('  </div>');
         html.push('</div>');
 
-        let copyConfirmation = html.join('');
         FwConfirmation.addControls($confirmation, html.join(''));
 
         $yes = FwConfirmation.addButton($confirmation, 'Cancel Estimate', false);
@@ -437,7 +434,6 @@ class Repair {
         html.push('  </div>');
         html.push('</div>');
 
-        let copyConfirmation = html.join('');
         FwConfirmation.addControls($confirmation, html.join(''));
 
         $yes = FwConfirmation.addButton($confirmation, 'Estimate', false);
@@ -470,6 +466,7 @@ class Repair {
 
           FwModule.refreshForm($form, self);
       };
+
       function cancelEstimate() {
           $form.data('hasEstimated', false)
           let request: any = {};
@@ -511,12 +508,9 @@ class Repair {
           html.push('  </div>');
           html.push('</div>');
 
-          let copyConfirmation = html.join('');
-
           FwConfirmation.addControls($confirmation, html.join(''));
  
           $no = FwConfirmation.addButton($confirmation, 'OK');
-
       }
 
        else if ($form.data('hasEstimated') === true) {
@@ -525,8 +519,6 @@ class Repair {
           html.push('    <div>Would you like to complete this order?</div>');
           html.push('  </div>');
           html.push('</div>');
-
-          let copyConfirmation = html.join('');
 
           FwConfirmation.addControls($confirmation, html.join(''));
           $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
@@ -540,8 +532,6 @@ class Repair {
           html.push('    <div>Not yet estimated. Do you want to make estimate and complete this order?</div>');
           html.push('  </div>');
           html.push('</div>');
-
-          let copyConfirmation = html.join('');
 
           FwConfirmation.addControls($confirmation, html.join(''));
           $yes = FwConfirmation.addButton($confirmation, 'Complete', false);
@@ -587,8 +577,6 @@ class Repair {
       html.push('  </div>');
       html.push('</div>');
 
-      let copyConfirmation = html.join('');
-
       FwConfirmation.addControls($confirmation, html.join(''));
       $yes = FwConfirmation.addButton($confirmation, 'Void', false);
       $no = FwConfirmation.addButton($confirmation, 'Cancel');
@@ -616,77 +604,95 @@ class Repair {
           }, $form);
                   
           FwModule.refreshForm($form, self);
-
       };
   };
 
   //----------------------------------------------------------------------------------------------
   releaseItems($form) {
     var self = this;
-      let $confirmation, $yes, $no;
-      $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
-      $confirmation.find('.fwconfirmationbox').css('width', '450px');
-      let html = [];
-      html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="width:90px;float:left;"></div>');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ItemDescription" style="width:340px; float:left;"></div>');
-      html.push('  </div>');
-      html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
-      html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity to Release" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
-      html.push('  </div>');
-      html.push('</div>');
+    const releasedQuantityForm = FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+    const quantityForm = FwFormField.getValueByDataField($form, 'Quantity');
+    const totalQuantity = quantityForm - releasedQuantityForm;
+    let $confirmation, $yes, $no;
+    $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
+    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+    let html = [];
 
-      let copyConfirmation = html.join('');
+    if (quantityForm > releasedQuantityForm && quantityForm > 0 ) {
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="width:90px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="ItemDescription" style="width:340px; float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="width:75px; float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Released" data-datafield="Released" style="width:75px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity to Release" data-datafield="ReleasedQuantity" data-enabled="true" style="width:75px;float:left;"></div>');
+        html.push('  </div>');
+        html.push('</div>');
 
-      FwConfirmation.addControls($confirmation, html.join(''));
+        FwConfirmation.addControls($confirmation, html.join(''));
 
-      const ICode = $form.find('[data-datafield="InventoryId"] input.fwformfield-text').val();
-      $confirmation.find('div[data-caption="I-Code"] input').val(ICode);
+        const ICode = $form.find('[data-datafield="InventoryId"] input.fwformfield-text').val();
+        $confirmation.find('div[data-caption="I-Code"] input').val(ICode);
 
-      const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
-      $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
+        const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
+        $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
 
-      const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
-      $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
+        const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+        $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
 
-      FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
-      FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
-      FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
-      FwFormField.disable($confirmation.find('div[data-caption="Released"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Quantity"]'));
+        FwFormField.disable($confirmation.find('div[data-caption="Released"]'));
 
 
-      $yes = FwConfirmation.addButton($confirmation, 'Release', false);
-      $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        $yes = FwConfirmation.addButton($confirmation, 'Release', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-      $yes.on('click', release);
+        $yes.on('click', release);
+
+    } else {
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div>There are either no items to release or number chosen.</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+ 
+        $no = FwConfirmation.addButton($confirmation, 'OK');
+    }
 
       function release() {
           let request: any = {};
           const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-          const ReleasedQuantity = FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
-
-        console.log(ReleasedQuantity, 'ReleasedQuantity')
+          const releasedQuantityConfirmation = FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
         
-          FwFormField.disable($confirmation.find('.fwformfield'));
-          FwFormField.disable($yes);
-          $yes.text('Releasing...');
-          $yes.off('click');
+        if (releasedQuantityConfirmation <= totalQuantity) {
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Releasing...');
+            $yes.off('click');
 
-          FwAppData.apiMethod(true, 'POST',  `api/v1/repair/releaseitems/${RepairId}/${ReleasedQuantity}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-              FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
-              FwConfirmation.destroyConfirmation($confirmation);
-          }, function onError(response) {
-              $yes.on('click', release);
-              $yes.text('Release');
-              FwFunc.showError(response);
-              FwFormField.enable($confirmation.find('.fwformfield'));
-              FwFormField.enable($yes);
-          }, $form);
+            FwAppData.apiMethod(true, 'POST',  `api/v1/repair/releaseitems/${RepairId}/${releasedQuantityConfirmation}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Items Successfully Released');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                $yes.on('click', release);
+                $yes.text('Release');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+            }, $form);
+        
+        } else {
+            FwFunc.showError("You are attempting to release more items than are available.");
+        }
 
-          FwModule.refreshForm($form, self);
+        FwModule.refreshForm($form, self);
       };
   };
 
