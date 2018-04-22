@@ -90,7 +90,7 @@ class Repair {
       });
       
       $form.find('.costgridnumber').on('change', $tr => {
-         console.log("change")
+         console.log("change in costgridnumber")
       });
    
       FwBrowse.init($repairCostGridControl); 
@@ -391,6 +391,7 @@ class Repair {
       }
 
       if (FwFormField.getValueByDataField($form, 'Status') === 'COMPLETE') {
+        $form.find('.completeestimate').hide();
         $form.data('hasCompleted', true);
       } else {
         $form.data('hasCompleted', false);
