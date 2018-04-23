@@ -165,7 +165,7 @@ class Repair {
       viewSubItems.push($all);
 
       let $view;
-      $view = FwMenu.addViewBtn($menuObject, 'View', viewSubItems);
+      $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems);
 
       return $menuObject;
   };
@@ -457,15 +457,16 @@ class Repair {
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/estimate/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
               FwNotification.renderNotification('SUCCESS', 'Order Successfully Estimated');
               FwConfirmation.destroyConfirmation($confirmation);
+              FwModule.refreshForm($form, self);
           }, function onError(response) {
               $yes.on('click', makeEstimate);
               $yes.text('Estimate');
               FwFunc.showError(response);
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
+              FwModule.refreshForm($form, self);
           }, $form);
 
-          FwModule.refreshForm($form, self);
       };
 
       function cancelEstimate() {
@@ -482,15 +483,16 @@ class Repair {
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/estimate/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
               FwNotification.renderNotification('SUCCESS', 'Estimate Successfully Cancelled');
               FwConfirmation.destroyConfirmation($confirmation);
+              FwModule.refreshForm($form, self);
           }, function onError(response) {
               $yes.on('click', cancelEstimate);
               $yes.text('Cancel Estimate');
               FwFunc.showError(response);
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
+              FwModule.refreshForm($form, self);
           }, $form);
 
-          FwModule.refreshForm($form, self);
       };
   };
 
@@ -553,15 +555,17 @@ class Repair {
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/complete/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
               FwNotification.renderNotification('SUCCESS', 'Order Successfully Completed');
               FwConfirmation.destroyConfirmation($confirmation);
+              FwModule.refreshForm($form, self);
+              $form.data('hasCompleted', true);
           }, function onError(response) {
               $yes.on('click', makeComplete);
               $yes.text('Complete');
               FwFunc.showError(response);
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
+              FwModule.refreshForm($form, self);
+              $form.data('hasCompleted', true);
           }, $form);
-          $form.data('hasCompleted', true);
-          FwModule.refreshForm($form, self);
       };
   };
 
@@ -596,15 +600,16 @@ class Repair {
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/void/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
               FwNotification.renderNotification('SUCCESS', 'Order Successfully Voided');
               FwConfirmation.destroyConfirmation($confirmation);
+              FwModule.refreshForm($form, self);
           }, function onError(response) {
               $yes.on('click', makeVoid);
               $yes.text('Void');
               FwFunc.showError(response);
               FwFormField.enable($confirmation.find('.fwformfield'));
               FwFormField.enable($yes);
+              FwModule.refreshForm($form, self);
           }, $form);
                   
-          FwModule.refreshForm($form, self);
       };
   };
 
@@ -692,8 +697,6 @@ class Repair {
         } else {
             FwFunc.showError("You are attempting to release more items than are available.");
         }
-
-        FwModule.refreshForm($form, self);
       };
   };
 
@@ -750,14 +753,14 @@ class Repair {
                 break;
             case 'RentalInventoryValidation':
                 request.uniqueids = {
+                    TrackedBy: 'QUANTITY',
                     Classification: 'I',
-                    TrackedBy: 'QUANTITY'
                 };
                 break;
             case 'SalesInventoryValidation':
                 request.uniqueids = {
+                    TrackedBy: 'QUANTITY',
                     Classification: 'I',
-                    TrackedBy: 'QUANTITY'
                 };
                 break;
         };
