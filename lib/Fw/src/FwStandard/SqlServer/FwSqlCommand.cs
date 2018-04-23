@@ -1719,7 +1719,7 @@ namespace FwStandard.SqlServer
                             FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
                             object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
                             string str = data.ToString();
-                            customValues.AddCustomValue(customField.FieldName, str, customField.FieldType);
+                            customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
                         }
                         obj._Custom = customValues;
                     }

@@ -19,7 +19,7 @@ class FwModule {
         FwControl.renderRuntimeControls($view.find('.fwcontrol'));
 
         return $view;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static openModuleTab($object: JQuery, caption: string, tabHasClose: boolean, tabType: string, setTabActive: boolean) {
         var $tabControl, newtabids, $fwcontrols, controller;
@@ -54,7 +54,7 @@ class FwModule {
                 }
             }
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static openSubModuleTab($browse: JQuery, $form: JQuery) {
         var $parentform, $tabControl, newtabids, controller, $newtab, $parenttab;
@@ -87,7 +87,7 @@ class FwModule {
                 controller.onLoadForm($form);
             }
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static openFormTab($form: JQuery, $object: JQuery, tabname: string, tabhasclose: boolean, tabtype: string, setactive: boolean) {
         var $formtabcontrol, tabids, $fwcontrols;
@@ -100,14 +100,14 @@ class FwModule {
 
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static openBrowse($browse: JQuery) {
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
 
         return $browse;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static addBrowseMenu($browse: JQuery) {
         var controller, $menu, $new, $edit, $delete, $inactiveView, $activeView, $allView, $show, $vr, $submenubtn, $submenucolumn, $optiongroup, $excelxlsx, $excelxls,
@@ -329,7 +329,7 @@ class FwModule {
             $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
@@ -510,7 +510,7 @@ class FwModule {
         });
 
         return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static loadForm(module: string, $form: JQuery) {
         var request;
@@ -525,7 +525,7 @@ class FwModule {
                 FwFunc.showError(ex);
             }
         });
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static loadForm2(httpMethod: 'GET'|'POST'|'PUT'|'DELETE', url: string, request: any, module: string, $form: JQuery) {
         FwAppData.apiMethod(true, httpMethod, url, request, FwServices.defaultTimeout,
@@ -537,7 +537,7 @@ class FwModule {
                 }
             },
             null, $form);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static afterLoadForm(module: string, $form: JQuery, response: any) {
         let $tabpage = $form.parent();
@@ -715,7 +715,7 @@ class FwModule {
                 }
             });
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static deleteRecord(module: string, $control: JQuery) {
         var controller, method, $browse, ids, $selectedRow, $form, $tab, request;
@@ -750,7 +750,7 @@ class FwModule {
         } catch (ex) {
             FwFunc.showError(ex);
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static addFormMenu($form: JQuery) {
         var controller, $menu, $save, $edit, $delete,
@@ -874,7 +874,7 @@ class FwModule {
         }
 
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static beforeCloseForm($form: JQuery) {
         var $fwformfields;
@@ -883,7 +883,7 @@ class FwModule {
         $fwformfields.each(function (index, element) {
             FwFormField.onRemove(jQuery(element));
         });
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static closeForm($form: JQuery, $tab: JQuery, navigationpath?: string, afterCloseForm?: Function, closeParent?: boolean) {
         var $tabcontrol, ismodified, hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
@@ -947,7 +947,7 @@ class FwModule {
                 }
             }
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static closeFormTab($tab: JQuery) {
         var $browse, $form, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
@@ -979,13 +979,13 @@ class FwModule {
                 FwBrowse.databind($browse);
             }
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static loadAudit($form: JQuery, uniqueid: string) {
         if (FwSecurity.isUser()) {
             FwAudit.loadAudit($form, uniqueid);
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getFormUniqueIds($form: JQuery) {
         var $uniqueIdFields, uniqueids, uniqueid;
@@ -1007,7 +1007,7 @@ class FwModule {
         });
 
         return uniqueids;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getFormFields($form: JQuery, getAllFieldsOverride: boolean) {
         var $fwformfields, fields, field;
@@ -1042,7 +1042,7 @@ class FwModule {
         });
 
         return fields;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getWebApiFields($form: JQuery, includeUnmodifiedFields: boolean) {
         var fields = {};
@@ -1073,7 +1073,7 @@ class FwModule {
         });
 
         return fields;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getFormModel($form: JQuery, getAllFieldsOverride: boolean) {
         var uniqueids = FwModule.getFormUniqueIds($form);
@@ -1086,7 +1086,7 @@ class FwModule {
             request[key] = fields[key].value;
         }
         return request;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static validateForm($form: JQuery) {
         var isvalid, $fields;
@@ -1126,7 +1126,7 @@ class FwModule {
         }
 
         return isvalid;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getData($object: JQuery, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
         var webserviceurl, controller, module, timeoutParam;
@@ -1138,7 +1138,7 @@ class FwModule {
             timeoutParam = null;
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getData2(module: string, request: any, responseFunc: Function, $elementToBlock: JQuery, timeout?: number) {
         var webserviceurl, timeoutParam;
@@ -1148,7 +1148,7 @@ class FwModule {
             timeoutParam = null;
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static getFormByUniqueIds(uniqueidcollection: any) {
         var $forms, $form, result;
@@ -1175,7 +1175,7 @@ class FwModule {
             }
         });
         return result;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static checkDuplicate($form: JQuery, $fieldtocheck: JQuery) {
         var $fields, request: any = {}, groupname, $field, datafield, value, type, table, runcheck = true, controller, required;
@@ -1233,7 +1233,7 @@ class FwModule {
                 );
             }
         }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static setFormReadOnly($form: JQuery) {
         var $fwformfields, $grids, $save;
@@ -1250,23 +1250,21 @@ class FwModule {
         $save = $form.find('div.btn[data-type="SaveMenuBarButton"]');
         $save.addClass('disabled');
         $save.off('click');
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static loadFormFromTemplate(modulename: string) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     static refreshForm($form: JQuery, controller: any) {
         let uniqueIds = FwModule.getFormUniqueIds($form);
         let newUniqueIds = {};
-
         for (let key in uniqueIds) {
             newUniqueIds[key] = uniqueIds[key].value
         }
-
         let $newForm = controller.loadForm(newUniqueIds);
         $form.parent().empty().append($newForm);
-    };
+    }
     //----------------------------------------------------------------------------------------------
 }

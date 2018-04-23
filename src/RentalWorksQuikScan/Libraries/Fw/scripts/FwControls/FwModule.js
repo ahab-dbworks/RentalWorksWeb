@@ -18,7 +18,6 @@ var FwModule = (function () {
         FwControl.renderRuntimeControls($view.find('.fwcontrol'));
         return $view;
     };
-    ;
     FwModule.openModuleTab = function ($object, caption, tabHasClose, tabType, setTabActive) {
         var $tabControl, newtabids, $fwcontrols, controller;
         $tabControl = jQuery('#moduletabs');
@@ -50,7 +49,6 @@ var FwModule = (function () {
             }
         }
     };
-    ;
     FwModule.openSubModuleTab = function ($browse, $form) {
         var $parentform, $tabControl, newtabids, controller, $newtab, $parenttab;
         $parentform = $browse.closest('.fwform');
@@ -76,7 +74,6 @@ var FwModule = (function () {
             }
         }
     };
-    ;
     FwModule.openFormTab = function ($form, $object, tabname, tabhasclose, tabtype, setactive) {
         var $formtabcontrol, tabids, $fwcontrols;
         $formtabcontrol = $form.find('div.fwtabs:first');
@@ -88,13 +85,11 @@ var FwModule = (function () {
         $fwcontrols = $object.find('.fwcontrol');
         FwControl.loadControls($fwcontrols);
     };
-    ;
     FwModule.openBrowse = function ($browse) {
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
         return $browse;
     };
-    ;
     FwModule.addBrowseMenu = function ($browse) {
         var controller, $menu, $new, $edit, $delete, $inactiveView, $activeView, $allView, $show, $vr, $submenubtn, $submenucolumn, $optiongroup, $excelxlsx, $excelxls, nodeModule, nodeBrowse, nodeBrowseMenuBar, nodeBrowseSubMenu, $submenubtn, $menubarbutton, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, $submenuitem, hasClickEvent, $editbtn;
         controller = $browse.attr('data-controller');
@@ -325,7 +320,6 @@ var FwModule = (function () {
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
     };
-    ;
     FwModule.openForm = function ($form, mode) {
         var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller, nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
         nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
@@ -482,7 +476,6 @@ var FwModule = (function () {
         });
         return $form;
     };
-    ;
     FwModule.loadForm = function (module, $form) {
         var request;
         request = {
@@ -498,7 +491,6 @@ var FwModule = (function () {
             }
         });
     };
-    ;
     FwModule.loadForm2 = function (httpMethod, url, request, module, $form) {
         FwAppData.apiMethod(true, httpMethod, url, request, FwServices.defaultTimeout, function (response) {
             try {
@@ -509,7 +501,6 @@ var FwModule = (function () {
             }
         }, null, $form);
     };
-    ;
     FwModule.afterLoadForm = function (module, $form, response) {
         var $tabpage = $form.parent();
         var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
@@ -680,7 +671,6 @@ var FwModule = (function () {
             });
         }
     };
-    ;
     FwModule.deleteRecord = function (module, $control) {
         var controller, method, $browse, ids, $selectedRow, $form, $tab, request;
         try {
@@ -716,7 +706,6 @@ var FwModule = (function () {
             FwFunc.showError(ex);
         }
     };
-    ;
     FwModule.addFormMenu = function ($form) {
         var controller, $menu, $save, $edit, $delete, nodeModule, nodeForm, nodeFormMenuBar, nodeFormSubMenu, $submenubtn, $menubarbutton, nodetype, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, $submenuitem, hasClickEvent;
         controller = $form.attr('data-controller');
@@ -840,7 +829,6 @@ var FwModule = (function () {
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
     };
-    ;
     FwModule.beforeCloseForm = function ($form) {
         var $fwformfields;
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
@@ -848,7 +836,6 @@ var FwModule = (function () {
             FwFormField.onRemove(jQuery(element));
         });
     };
-    ;
     FwModule.closeForm = function ($form, $tab, navigationpath, afterCloseForm, closeParent) {
         var $tabcontrol, ismodified, hassubmodule, issubmodule, $confirmation, $save, $dontsave, $cancel, tabname, $parenttab;
         $tabcontrol = $tab.closest('.fwtabs');
@@ -916,7 +903,6 @@ var FwModule = (function () {
             }
         }
     };
-    ;
     FwModule.closeFormTab = function ($tab) {
         var $browse, $form, $newTab, newTabType, tabIsActive, $tabcontrol, $tabpage, isSubModule;
         $tabcontrol = $tab.closest('.fwtabs');
@@ -946,13 +932,11 @@ var FwModule = (function () {
             }
         }
     };
-    ;
     FwModule.loadAudit = function ($form, uniqueid) {
         if (FwSecurity.isUser()) {
             FwAudit.loadAudit($form, uniqueid);
         }
     };
-    ;
     FwModule.getFormUniqueIds = function ($form) {
         var $uniqueIdFields, uniqueids, uniqueid;
         uniqueids = {};
@@ -971,7 +955,6 @@ var FwModule = (function () {
         });
         return uniqueids;
     };
-    ;
     FwModule.getFormFields = function ($form, getAllFieldsOverride) {
         var $fwformfields, fields, field;
         fields = {};
@@ -1001,7 +984,6 @@ var FwModule = (function () {
         });
         return fields;
     };
-    ;
     FwModule.getWebApiFields = function ($form, includeUnmodifiedFields) {
         var fields = {};
         var $uniqueids = typeof $form.data('uniqueids') !== 'undefined' ? $form.data('uniqueids') : jQuery([]);
@@ -1028,7 +1010,6 @@ var FwModule = (function () {
         });
         return fields;
     };
-    ;
     FwModule.getFormModel = function ($form, getAllFieldsOverride) {
         var uniqueids = FwModule.getFormUniqueIds($form);
         var fields = FwModule.getFormFields($form, getAllFieldsOverride);
@@ -1041,7 +1022,6 @@ var FwModule = (function () {
         }
         return request;
     };
-    ;
     FwModule.validateForm = function ($form) {
         var isvalid, $fields;
         isvalid = true;
@@ -1075,7 +1055,6 @@ var FwModule = (function () {
         }
         return isvalid;
     };
-    ;
     FwModule.getData = function ($object, request, responseFunc, $elementToBlock, timeout) {
         var webserviceurl, controller, module, timeoutParam;
         controller = $object.attr('data-controller');
@@ -1087,7 +1066,6 @@ var FwModule = (function () {
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
     };
-    ;
     FwModule.getData2 = function (module, request, responseFunc, $elementToBlock, timeout) {
         var webserviceurl, timeoutParam;
         request.module = module;
@@ -1097,7 +1075,6 @@ var FwModule = (function () {
         }
         FwAppData.jsonPost(true, webserviceurl, request, timeoutParam, responseFunc, null, $elementToBlock);
     };
-    ;
     FwModule.getFormByUniqueIds = function (uniqueidcollection) {
         var $forms, $form, result;
         result = jQuery();
@@ -1124,7 +1101,6 @@ var FwModule = (function () {
         });
         return result;
     };
-    ;
     FwModule.checkDuplicate = function ($form, $fieldtocheck) {
         var $fields, request = {}, groupname, $field, datafield, value, type, table, runcheck = true, controller, required;
         controller = $form.attr('data-controller');
@@ -1177,7 +1153,6 @@ var FwModule = (function () {
             }
         }
     };
-    ;
     FwModule.setFormReadOnly = function ($form) {
         var $fwformfields, $grids, $save;
         $form.attr('data-mode', 'READONLY');
@@ -1192,12 +1167,10 @@ var FwModule = (function () {
         $save.addClass('disabled');
         $save.off('click');
     };
-    ;
     FwModule.loadFormFromTemplate = function (modulename) {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
     };
-    ;
     FwModule.refreshForm = function ($form, controller) {
         var uniqueIds = FwModule.getFormUniqueIds($form);
         var newUniqueIds = {};
@@ -1207,7 +1180,6 @@ var FwModule = (function () {
         var $newForm = controller.loadForm(newUniqueIds);
         $form.parent().empty().append($newForm);
     };
-    ;
     return FwModule;
 }());
 //# sourceMappingURL=FwModule.js.map

@@ -442,7 +442,7 @@ var FwFormField = (function () {
         return controller;
     };
     FwFormField.getDataField = function ($parent, datafield) {
-        var $field = $parent.find('div[data-datafield="campus"]');
+        var $field = $parent.find("div[data-datafield=\"" + datafield + "\"]");
         return $field;
     };
     FwFormField.setValue = function ($parent, selector, value, text, firechangeevent) {

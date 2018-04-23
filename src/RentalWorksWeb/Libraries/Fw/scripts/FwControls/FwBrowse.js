@@ -1524,7 +1524,7 @@ var FwBrowse = (function () {
                     }
                     var cellcolor = $field.attr('data-cellcolor');
                     if (typeof cellcolor !== 'undefined') {
-                        $td.css('text-indent', '10px');
+                        $td.css('padding-left', '10px');
                         if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';

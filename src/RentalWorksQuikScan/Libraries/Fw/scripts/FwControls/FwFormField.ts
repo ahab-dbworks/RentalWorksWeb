@@ -482,7 +482,7 @@
     }
     //---------------------------------------------------------------------------------
     static getDataField($parent: JQuery<HTMLElement>, datafield: string) {
-        var $field = $parent.find('div[data-datafield="campus"]');
+        var $field = $parent.find(`div[data-datafield="${datafield}"]`);
         return $field;
     }
     //---------------------------------------------------------------------------------
