@@ -26,7 +26,7 @@ namespace WebApi.Modules.Settings.WebUserWidget
         public string WidgetType { get { return userWidget.WidgetType; } set { userWidget.WidgetType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? DefaultDataPoints { get; set; }
-        public int? DataPoints { get; set; }
+        public int? DataPoints { get { return userWidget.DataPoints; } set { userWidget.DataPoints = value; } }
         public string Settings { get { return userWidget.Settings; } set { userWidget.Settings = value; } }
         public bool? Disabled { get { return userWidget.Disabled; } set { userWidget.Disabled = value; } }
         public decimal? OrderBy { get { return userWidget.OrderBy; } set { userWidget.OrderBy = value; } }
