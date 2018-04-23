@@ -89,6 +89,16 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
+
+        [FwSqlDataField(column: "appimageid", modeltype: FwDataTypes.Text)]
+        public string ImageId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "thumbnail", modeltype: FwDataTypes.JpgDataUrl)]
+        public string Thumbnail { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
         {
             FwJsonDataTable dt = null;
