@@ -417,13 +417,15 @@ class Order {
 
     };
 
-    beforeValidateDeal($browse, $form, request) {
+    beforeValidate($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-
+        console.log('in');
         request.uniqueids = {
             LocationId: officeLocationId
         }
-    }
+    };
 
     loadAudit($form) {
         var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
@@ -883,12 +885,12 @@ class Order {
         html.push('     </div>');
 
         html.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Inventory Type" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
-        html.push('                  <div data-value="Rental" data-caption="Rental" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="Sales" data-caption="Sales" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="Labor" data-caption="Labor" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="Misc" data-caption="Misc" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="Parts" data-caption="Parts" style="float:left; width:20%;"></div>');
+        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Inventory Type"  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
+        html.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
+        html.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
         html.push('              </div>');
 
         html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
@@ -902,8 +904,8 @@ class Order {
 
         html.push('            <div style="width:65%; position:absolute; top: 5%; left: 35%; right: 5%;">')
         html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="" style="width:120px; float:left;"></div>');
-        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="" style="width:120px;float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
+        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="" style="width:150px;float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
@@ -945,7 +947,8 @@ class Order {
 
     populateTypeMenu($popup, request) {
         var $searchpopup = jQuery('#searchpopup');
-        console.log($searchpopup)
+
+
         FwAppData.apiMethod(true, 'POST', "api/v1/inventoryType/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
             var inventoryTypeIndex, inventoryTypeIdIndex;
 
@@ -959,12 +962,12 @@ class Order {
         }, null, $searchpopup);
     }
 
-    typeOnClickEvents($popup) {
+    typeOnClickEvents($popup, $form, availableFor) {
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#inventoryType ul', function (e) {
             var invType, inventoryTypeId, breadcrumb, request: any = {};
             $popup.find('#inventoryType ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
@@ -978,48 +981,95 @@ class Order {
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
 
-            request.uniqueids = {
+            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
+            request = {
+                SessionId: sessionId,
+                OrderId: orderId,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
                 InventoryTypeId: inventoryTypeId
             }
 
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                var thumbnailIndex = response.ColumnIndex.Thumbnail;
+                var quantityAvailable = response.ColumnIndex.QuantityAvailable;
+                var conflictDate = response.ColumnIndex.ConflictDate;
+                var quantityIn = response.ColumnIndex.QuantityIn;
+                var quantityQcRequired = response.ColumnIndex.QuantityQcRequired;
+                var quantity = response.ColumnIndex.Quantity;
+                var dailyRate = response.ColumnIndex.DailyRate;
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
                 $popup.find('#category, #subCategory').empty();
-                for (var i = 0; i < response.Rows.length; i++) {
-                    $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
-                }
-            }, null, $searchpopup);
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-                var descriptionIndex = response.ColumnIndex.Description;
                 $popup.find('.inventory').empty();
+
+                var categories = [];
+
                 for (var i = 0; i < response.Rows.length; i++) {
-                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
+                        categories.push(response.Rows[i][categoryIndex]);
+                        $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                    }
+                    var html = [];
+                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    html.push('<div data-control="FwAppImage" class="fwcontrol fwappimage" style="float:left; width:125px; height:155px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('</div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+                    html.push('</div>');
+
+                    var item = html.join('');
+                    $popup.find('.inventory').append(item);
+
+                    //$card.find('div[data-caption="Available"] input').val(response.Rows[i][quantityAvailable]);
+                    //$card.find('div[data-caption="Conflict"] input').val(response.Rows[i][conflictDate]);
+                    //$card.find('div[data-caption="In"] input').val(response.Rows[i][quantityIn]);
+                    //$card.find('div[data-caption="QC"] input').val(response.Rows[i][quantityQcRequired]);
+                    //$card.find('div[data-caption="Rate"] input').val(response.Rows[i][dailyRate]);
+                    //$card.find('div[data-caption="Qty"] input').val(response.Rows[i][quantity]);
+
                 }
+                var $inventory = $popup.find('div.card');
 
                 var css = {
                     'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
                     'transition': '0.3s'
                 }
-                var $card = $popup.find('.inventory > div');
-                $card.css(css);
+
+                $inventory.css(css);
+
+                FwConfirmation.addControls($inventory, item);
 
             }, null, $searchpopup);
         });
 
     }
 
-    categoryOnClickEvents($popup) {
+    categoryOnClickEvents($popup, $form, availableFor) {
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#category ul', function (e) {
             var category, breadcrumb, categoryId, inventoryTypeId, request: any = {};
             $popup.find('#category ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
@@ -1032,28 +1082,44 @@ class Order {
             $popup.find("#breadcrumbs .subcategory").empty();
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
-            
-            request.uniqueids = {
+
+            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
+            request = {
+                SessionId: sessionId,
+                OrderId: orderId,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
                 CategoryId: categoryId,
                 InventoryTypeId: inventoryTypeId
+
             }
-            FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
                 var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
                 var subCategoryIndex = response.ColumnIndex.SubCategory;
                 $popup.find('#subCategory').empty();
-                for (var i = 0; i < response.Rows.length; i++) {
-                    $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
-                }
-            }, null, $searchpopup);
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-                var descriptionIndex = response.ColumnIndex.Description;
                 $popup.find('.inventory').empty();
+
+                var subCategories = [];
                 for (var i = 0; i < response.Rows.length; i++) {
+                    if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
+                        subCategories.push(response.Rows[i][subCategoryIndex]);
+                        $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                    }
+
                     $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
 
                     var css = {
@@ -1064,21 +1130,21 @@ class Order {
                     $card.css(css);
                 }
             }, null, $searchpopup);
-
         });
 
 
     };
 
-    subCategoryOnClickEvents($popup) {
+    subCategoryOnClickEvents($popup, $form, availableFor) {
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#subCategory ul', function (e) {
             var subCategory, breadcrumb, subCategoryId, categoryId, inventoryTypeId, request: any = {};
             $popup.find('#subCategory ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
-                'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)' });
+                'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
+            });
 
             subCategory = jQuery(e.currentTarget).text();
             $popup.find('#subCategory ul').removeClass('selected');
@@ -1087,17 +1153,32 @@ class Order {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
 
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-            request.uniqueids = {
+
+            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
+            request = {
+                SessionId: sessionId,
+                OrderId: orderId,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
                 SubCategoryId: subCategoryId,
                 CategoryId: categoryId,
                 InventoryTypeId: inventoryTypeId
+
             }
 
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
                 $popup.find('.inventory').empty();
                 for (var i = 0; i < response.Rows.length; i++) {
@@ -1110,35 +1191,44 @@ class Order {
                     }
                     var $card = $popup.find('.inventory > div');
                     $card.css(css);
-                   
+
                 }
             }, null, $searchpopup);
         });
     }
 
-    breadCrumbs($popup) {
+    breadCrumbs($popup, $form, availableFor) {
         var $searchpopup = jQuery('#searchpopup');
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
 
             var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             var request: any = {};
-            request.uniqueids = {
+            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
+            request = {
+                SessionId: sessionId,
+                OrderId: orderId,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
                 InventoryTypeId: inventoryTypeId
             }
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalcategory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
                 $popup.find('#category, #subCategory').empty();
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
-                }
-            }, null, $searchpopup);
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-                var descriptionIndex = response.ColumnIndex.Description;
-                $popup.find('.inventory').empty();
-                for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
 
                     var css = {
@@ -1149,8 +1239,6 @@ class Order {
                     $card.css(css);
                 }
             }, null, $searchpopup);
-
-
         })
 
 
@@ -1159,24 +1247,34 @@ class Order {
 
             var categoryId = jQuery(e.currentTarget).attr('data-value');
             var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-            var subCategoryRequest: any = {};
-            subCategoryRequest.uniqueids = {
+            var request: any = {};
+            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
+            request = {
+                SessionId: sessionId,
+                OrderId: orderId,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
                 CategoryId: categoryId,
                 InventoryTypeId: inventoryTypeId
+
             }
-            FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
                 var subCategoryIndex = response.ColumnIndex.SubCategory;
+                var descriptionIndex = response.ColumnIndex.Description;
+                $popup.find('.inventory').empty();
                 $popup.find('#subCategory').empty();
                 for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
-                }
-            }, null, $searchpopup);
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/rentalinventory/browse", subCategoryRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                var descriptionIndex = response.ColumnIndex.Description;
-                $popup.find('.inventory').empty();
-                for (var i = 0; i < response.Rows.length; i++) {
                     $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
 
                     var css = {
@@ -1261,54 +1359,54 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
 
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
     var $popup,
-        inventoryType,
-        inventoryTypeRequest: any = {};
+        inventoryTypeRequest: any = {},
+        availableFor;
+
+    var $form = jQuery(this).closest('.fwform');
 
     $popup = OrderController.renderSearchPopup();
 
+    availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
+    inventoryTypeRequest.uniqueids = {
+        Rental: true
+    }
     $popup.find('[data-type="radio"]').on('change', function () {
-        inventoryType = $popup.find('[data-type="radio"] input:checked').val();
+        availableFor = $popup.find('[data-type="radio"] input:checked').val();
 
-        switch (inventoryType) {
-            case 'Rental':
+        switch (availableFor) {
+            case 'R':
                 inventoryTypeRequest.uniqueids = {
                     Rental: true
                 }
                 break;
-            case 'Sales':
+            case 'S':
                 inventoryTypeRequest.uniqueids = {
                     Sales: true
                 }
                 break;
-            case 'Labor':
+            case 'L':
                 inventoryTypeRequest.uniqueids = {
                     Labor: true
                 }
                 break;
-            case 'Misc':
+            case 'M':
                 inventoryTypeRequest.uniqueids = {
                     Misc: true
                 }
                 break;
-            case 'Parts':
+            case 'P':
                 inventoryTypeRequest.uniqueids = {
                     Parts: true
                 }
                 break;
-            default:
-                inventoryTypeRequest.uniqueids = {
-                    Rental: true
-                }
         }
-
-        console.log(inventoryType)
     });
 
     OrderController.populateTypeMenu($popup, inventoryTypeRequest);
-    OrderController.typeOnClickEvents($popup);
-    OrderController.categoryOnClickEvents($popup);
-    OrderController.subCategoryOnClickEvents($popup);
-    OrderController.breadCrumbs($popup);
+    OrderController.typeOnClickEvents($popup, $form, availableFor);
+    OrderController.categoryOnClickEvents($popup, $form, availableFor);
+    OrderController.subCategoryOnClickEvents($popup, $form, availableFor);
+    OrderController.breadCrumbs($popup, $form, availableFor);
 
     $popup.on('mouseenter', '.inventory > div', function () {
         jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
@@ -1329,18 +1427,18 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
         $popup.find('.inventory > div').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
 
         jQuery(e.currentTarget).addClass('selected');
-  
+
         jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
     });
 
     var highlight = {
         'border-left': '6px solid #bdbdbd',
-        'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'
+        'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
     }
- 
+
     var unhighlight = {
         'border-left': '0px white',
-         'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
+        'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
     }
     $popup.on('mouseenter', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
@@ -1348,7 +1446,8 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
         if (selected) {
             jQuery(e.currentTarget).css({
                 'border-left': '6px solid #939393',
-                'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'})
+                'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
+            })
         } else {
             jQuery(e.currentTarget).css(highlight);
         }
@@ -1358,7 +1457,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' })
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' })
         } else {
             jQuery(e.currentTarget).css(unhighlight)
         }
