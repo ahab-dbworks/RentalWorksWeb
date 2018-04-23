@@ -16,6 +16,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairno", modeltype: FwDataTypes.Text)]
         public string RepairNumber { get; set; }
         //------------------------------------------------------------------------------------ 

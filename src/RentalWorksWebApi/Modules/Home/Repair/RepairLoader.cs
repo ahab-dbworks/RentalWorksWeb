@@ -25,9 +25,6 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "itemwarehouseid", modeltype: FwDataTypes.Text)]
         public string ItemWarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
-        public string Warehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
