@@ -92,12 +92,22 @@ class RwSalesInventoryTransactionsReport {
                 };
                 break;
             case 'SalesInventoryValidation':
-                request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue,
-                    CategoryId: CategoryTypeId,
-                    SubCategoryId: SubCategoryTypeId,
-                };
-                break;
+                if (SubCategoryTypeId != "") {
+                    console.log(SubCategoryTypeId, 'subcatTRUE')
+                    request.uniqueids = {
+                        InventoryTypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                        SubCategoryId: SubCategoryTypeId,
+                    };
+                    break;
+                } else {
+                    console.log(SubCategoryTypeId, 'subcatELSE')
+                    request.uniqueids = {
+                        InventoryTypeId: InventoryTypeValue,
+                        CategoryId: CategoryTypeId,
+                    };
+                    break;
+                }
         };
     };
 };

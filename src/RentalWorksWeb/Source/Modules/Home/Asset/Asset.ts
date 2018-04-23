@@ -89,7 +89,7 @@ class RwAsset {
         viewSubitems.push($all);
 
         var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems);
 
         //Tracked By Filter
         var $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);

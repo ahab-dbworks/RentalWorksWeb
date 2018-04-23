@@ -31,35 +31,35 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   openBrowse = () => {
 
-    let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
-    $browse = FwModule.openBrowse($browse);
+      let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
+      $browse = FwModule.openBrowse($browse);
 
-    let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-    this.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+      let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+      this.ActiveView = 'WarehouseId=ALL';
 
-    $browse.data('ondatabind', request => {
-        request.activeview = this.ActiveView;
-    });
+      $browse.data('ondatabind', request => {
+          request.activeview = this.ActiveView;
+      });
 
-    FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-      let out = response.filter(item => {
-        return item.StatusType === 'OUT' 
-      })
-      let intransit = response.filter(item => {
-        return item.StatusType === 'INTRANSIT' 
-      })
+      FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
+          const out = response.filter(item => {
+              return item.StatusType === 'OUT' 
+          })
+          const intransit = response.filter(item => {
+              return item.StatusType === 'INTRANSIT' 
+          })
 
-        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-        FwBrowse.addLegend($browse, 'Priority', '#EA300F');
-        FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
-        FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
-        FwBrowse.addLegend($browse, 'Outside', '#fffb38');
-        FwBrowse.addLegend($browse, 'Released', '#d6d319');
-        FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
-        FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
-        }, null, $browse);
+          FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+          FwBrowse.addLegend($browse, 'Priority', '#EA300F');
+          FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
+          FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
+          FwBrowse.addLegend($browse, 'Outside', '#fffb38');
+          FwBrowse.addLegend($browse, 'Released', '#d6d319');
+          FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
+          FwBrowse.addLegend($browse, 'Transferred', intransit[0].Color);
+          }, null, $browse);
             
-    return $browse;
+      return $browse;
   }
 
   //----------------------------------------------------------------------------------------------
@@ -139,10 +139,10 @@ class Repair {
   addBrowseMenuItems = ($menuObject: any) => {
       let self = this;
       const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-      const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-      const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+      const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', true);
+      const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, false);
       let view = [];
-      view[0] = 'WarehouseId=' + warehouse.warehouseid;
+      view[0] = 'WarehouseId=ALL';
 
       $all.on('click', function() {
           let $browse;
@@ -161,8 +161,8 @@ class Repair {
       });
       
       let viewSubItems: Array<JQuery> = [];
-      viewSubItems.push($userWarehouse);
       viewSubItems.push($all);
+      viewSubItems.push($userWarehouse);
 
       let $view;
       $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems);
