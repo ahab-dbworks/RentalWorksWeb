@@ -72,7 +72,7 @@ var PickList = (function () {
         viewWarehouse.push($allWarehouses);
         viewWarehouse.push($userWarehouse);
         var $warehouseView;
-        $warehouseView = FwMenu.addViewBtn($menuObject, 'Location', viewWarehouse);
+        $warehouseView = FwMenu.addViewBtn($menuObject, 'Warehouse', viewWarehouse);
         return $menuObject;
     };
     ;
