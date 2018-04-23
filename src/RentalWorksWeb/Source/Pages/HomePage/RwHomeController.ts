@@ -49,7 +49,7 @@
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
                     //for (var i = 0; i < response.data.labels.length; i++) {
                     //    html.push('<div class="flexrow">');
@@ -63,7 +63,8 @@
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
                     ], true);
-                    $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DefaultDataPoints)
+                    $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DefaultDataPoints);
+                    FwFormField.setValue($confirmation, '.widgettype', response.WidgetType)
                 }, null, null);
 
                 $select.on('click', function () {
@@ -71,6 +72,7 @@
                         var request: any = {};
                         request.UserWidgetId = userWidgetId;
                         request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                        request.DefaultDataPoints = FwFormField.getValue($confirmation, '.defaultpoints')
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                             FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                             FwConfirmation.destroyConfirmation($confirmation);

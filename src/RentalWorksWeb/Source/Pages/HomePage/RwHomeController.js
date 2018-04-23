@@ -44,7 +44,7 @@ var RwHome = (function () {
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
@@ -54,12 +54,14 @@ var RwHome = (function () {
                         { value: 'pie', text: 'Pie' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DefaultDataPoints);
+                    FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
                 }, null, null);
                 $select.on('click', function () {
                     try {
                         var request = {};
                         request.UserWidgetId = userWidgetId;
                         request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                        request.DefaultDataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                             FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                             FwConfirmation.destroyConfirmation($confirmation);
