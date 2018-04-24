@@ -14,7 +14,6 @@ var RwRentalInventoryCatalog = (function () {
                 if (InventoryTypeValue != "") {
                     var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
                     var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-                    console.log(InventoryTypeValue, CategoryTypeId, SubCategoryTypeId);
                     switch (validationName) {
                         case 'InventoryTypeValidation':
                             request.uniqueids = {
@@ -22,22 +21,43 @@ var RwRentalInventoryCatalog = (function () {
                             };
                             break;
                         case 'RentalCategoryValidation':
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
+                            if (InventoryTypeValue !== "") {
+                                request.uniqueids = {
+                                    InventoryTypeId: InventoryTypeValue
+                                };
+                            }
                             break;
                         case 'SubCategoryValidation':
-                            request.uniqueids = {
-                                TypeId: InventoryTypeValue,
-                                CategoryId: CategoryTypeId
-                            };
+                            if (InventoryTypeValue !== "") {
+                                request.uniqueids = {
+                                    InventoryTypeId: InventoryTypeValue
+                                };
+                            }
+                            if (CategoryTypeId !== "") {
+                                request.uniqueids = {
+                                    CategoryId: CategoryTypeId
+                                };
+                            }
                             break;
                         case 'RentalInventoryValidation':
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue,
-                                CategoryId: CategoryTypeId,
-                                SubCategoryId: SubCategoryTypeId
-                            };
+                            if (InventoryTypeValue !== "") {
+                                request.uniqueids = {
+                                    InventoryTypeId: InventoryTypeValue
+                                };
+                            }
+                            ;
+                            if (CategoryTypeId !== "") {
+                                request.uniqueids = {
+                                    CategoryId: CategoryTypeId
+                                };
+                            }
+                            ;
+                            if (SubCategoryTypeId !== "") {
+                                request.uniqueids = {
+                                    SubCategoryId: SubCategoryTypeId
+                                };
+                            }
+                            ;
                             break;
                     }
                     ;

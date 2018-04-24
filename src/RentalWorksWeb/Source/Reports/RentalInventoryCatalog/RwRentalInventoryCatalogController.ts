@@ -37,9 +37,10 @@ class RwRentalInventoryCatalog {
             return request;
         });
 
+
         return $form;
     };
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
     onLoadForm($form) {
         var request: any, appOptions: any;
         FwReport.load($form, this.ModuleOptions.ReportOptions);
@@ -66,7 +67,6 @@ class RwRentalInventoryCatalog {
             if (InventoryTypeValue != "") {
                 var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
                 var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-                console.log(InventoryTypeValue, CategoryTypeId, SubCategoryTypeId)
                 switch (validationName) {
                     case 'InventoryTypeValidation':
                         request.uniqueids = {
@@ -74,22 +74,46 @@ class RwRentalInventoryCatalog {
                         };
                         break;
                     case 'RentalCategoryValidation':
+                        if (InventoryTypeValue !== "") {
                         request.uniqueids = {
                             InventoryTypeId: InventoryTypeValue
-                        };
+                            };
+                        }
                         break;
                     case 'SubCategoryValidation':
-                        request.uniqueids = {
-                            TypeId: InventoryTypeValue,
-                            CategoryId: CategoryTypeId
-                        };
+                        if (InventoryTypeValue !== "") {
+                            request.uniqueids = {
+                                InventoryTypeId: InventoryTypeValue
+                            };
+                        }
+
+                        if (CategoryTypeId !== "") {
+                            request.uniqueids = {
+                                CategoryId: CategoryTypeId
+                            };
+                        }
                         break;
                     case 'RentalInventoryValidation':
-                        request.uniqueids = {
-                            InventoryTypeId: InventoryTypeValue,
-                            CategoryId: CategoryTypeId,
-                            SubCategoryId: SubCategoryTypeId
+
+                        if (InventoryTypeValue !== "") {
+                            request.uniqueids = {
+                                InventoryTypeId: InventoryTypeValue
+                            };
                         };
+
+                        if (CategoryTypeId !== "") {
+                            request.uniqueids = {
+                                CategoryId: CategoryTypeId
+                            };
+                        };
+
+
+                        if (SubCategoryTypeId !== "") {
+                            request.uniqueids = {
+                                SubCategoryId: SubCategoryTypeId
+                            };
+                        };
+                      
                         break;
                 };
             }
