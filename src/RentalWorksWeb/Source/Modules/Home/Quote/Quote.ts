@@ -179,17 +179,14 @@ class Quote {
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
-            FwFormField.setValueByDataField($form, 'OfficeLocation', office.location);
-            FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
             FwFormField.setValueByDataField($form, 'VersionNumber', 1);
 
             $form.find('div[data-datafield="DealId"]').attr('data-required', false);
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
 
-            FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
-            FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
-            FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
-            $form.find('div[data-datafield="Department"] input').val(department.department);
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
@@ -420,9 +417,11 @@ class Quote {
 
     }
 
-    beforeValidateDeal($browse, $form, request) {
+    beforeValidate($browse, $grid, request) {
+        var $form;
+        $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-
+        console.log('in');
         request.uniqueids = {
             LocationId: officeLocationId
         }
@@ -907,7 +906,7 @@ class Quote {
         $popup.on('click', '#inventoryType ul', function (e) {
             var invType, inventoryTypeId, breadcrumb, request: any = {};
             $popup.find('#inventoryType ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
@@ -921,7 +920,7 @@ class Quote {
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
 
@@ -962,7 +961,7 @@ class Quote {
         $popup.on('click', '#category ul', function (e) {
             var category, breadcrumb, categoryId, inventoryTypeId, request: any = {};
             $popup.find('#category ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
@@ -975,7 +974,7 @@ class Quote {
             $popup.find("#breadcrumbs .subcategory").empty();
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
@@ -1018,7 +1017,7 @@ class Quote {
         $popup.on('click', '#subCategory ul', function (e) {
             var subCategory, breadcrumb, subCategoryId, categoryId, inventoryTypeId, request: any = {};
             $popup.find('#subCategory ul').css({
-                'background-color': 'white',
+                'background-color': '',
                 'color': 'black',
                 'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
@@ -1032,7 +1031,7 @@ class Quote {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
 
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -1226,7 +1225,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 
     var highlight = {
         'border-left': '6px solid #bdbdbd',
-        'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'
+        'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
     }
 
     var unhighlight = {
@@ -1238,7 +1237,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
         if (selected) {
             jQuery(e.currentTarget).css({
                 'border-left': '6px solid #939393',
-                'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)'
+                'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
             })
         } else {
             jQuery(e.currentTarget).css(highlight);
@@ -1249,7 +1248,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 10px 18px 0 rgba(0, 0, 0, 0.2)' })
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' })
         } else {
             jQuery(e.currentTarget).css(unhighlight)
         }

@@ -152,15 +152,12 @@ var Order = (function () {
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', date[0]);
-            FwFormField.setValueByDataField($form, 'OfficeLocation', office.location);
-            FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouse);
             $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
             $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
-            FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid);
-            FwFormField.setValueByDataField($form, 'OfficeLocationId', office.locationid);
-            FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid);
-            $form.find('div[data-datafield="Department"] input').val(department.department);
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
@@ -366,7 +363,6 @@ var Order = (function () {
         var $form;
         $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        console.log('in');
         request.uniqueids = {
             LocationId: officeLocationId
         };
@@ -1061,9 +1057,27 @@ var Order = (function () {
                 var descriptionIndex = response.ColumnIndex.Description;
                 $popup.find('.inventory').empty();
                 $popup.find('#category, #subCategory').empty();
+                var categories = [];
                 for (var i = 0; i < response.Rows.length; i++) {
-                    $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
-                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
+                        categories.push(response.Rows[i][categoryIndex]);
+                        $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
+                    }
+                    var html = [];
+                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    html.push('<div data-control="FwAppImage" class="fwcontrol fwappimage" style="float:left; width:125px; height:155px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('</div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+                    html.push('</div>');
+                    var item = html.join('');
+                    $popup.find('.inventory').append(item);
                     var css = {
                         'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
                         'transition': '0.3s'
@@ -1100,8 +1114,12 @@ var Order = (function () {
                 var descriptionIndex = response.ColumnIndex.Description;
                 $popup.find('.inventory').empty();
                 $popup.find('#subCategory').empty();
+                var subCategories = [];
                 for (var i = 0; i < response.Rows.length; i++) {
-                    $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                    if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
+                        subCategories.push(response.Rows[i][subCategoryIndex]);
+                        $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
+                    }
                     $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
                     var css = {
                         'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
@@ -1176,6 +1194,10 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     var $popup, inventoryTypeRequest = {}, availableFor;
     var $form = jQuery(this).closest('.fwform');
     $popup = OrderController.renderSearchPopup();
+    var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+    FwFormField.setValueByDataField($popup, 'FromDate', fromDate);
+    var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+    FwFormField.setValueByDataField($popup, 'ToDate', toDate);
     availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
     inventoryTypeRequest.uniqueids = {
         Rental: true
