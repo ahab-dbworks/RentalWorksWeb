@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 
-namespace WebApi.Modules.Settings.RentalStatus
+namespace WebApi.Modules.Settings.InventoryStatus
 {
     [Route("api/v1/[controller]")]
     public class InventoryStatusController : AppDataController

@@ -3,28 +3,28 @@ using FwStandard.SqlServer;
 using WebApi.Logic;
 
 
-namespace WebApi.Modules.Settings.RentalStatus
+namespace WebApi.Modules.Settings.InventoryStatus
 {
     public class InventoryStatusLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------
-        InventoryStatusRecord rentalStatus = new InventoryStatusRecord();
+        InventoryStatusRecord inventoryStatus = new InventoryStatusRecord();
         public InventoryStatusLogic()
         {
-            dataRecords.Add(rentalStatus);
+            dataRecords.Add(inventoryStatus);
         }
         //------------------------------------------------------------------------------------
         [FwBusinessLogicField(isPrimaryKey: true)]
-        public string InventoryStatusId { get { return rentalStatus.InventoryStatusId; } set { rentalStatus.InventoryStatusId = value; } }
+        public string InventoryStatusId { get { return inventoryStatus.InventoryStatusId; } set { inventoryStatus.InventoryStatusId = value; } }
         [FwBusinessLogicField(isRecordTitle: true)]
-        public string InventoryStatus { get { return rentalStatus.InventoryStatus; } set { rentalStatus.InventoryStatus = value; } }
-        public string StatusType { get { return rentalStatus.StatusType; } set { rentalStatus.StatusType = value; } }
-        public string Color { get { return rentalStatus.Color; } set { rentalStatus.Color = value; } }
-        public bool? WhiteText { get { return rentalStatus.WhiteText; } set { rentalStatus.WhiteText = value; } }
+        public string InventoryStatus { get { return inventoryStatus.InventoryStatus; } set { inventoryStatus.InventoryStatus = value; } }
+        public string StatusType { get { return inventoryStatus.StatusType; } set { inventoryStatus.StatusType = value; } }
+        public string Color { get { return inventoryStatus.Color; } set { inventoryStatus.Color = value; } }
+        public bool? WhiteText { get { return inventoryStatus.WhiteText; } set { inventoryStatus.WhiteText = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string TextColor { get { return (WhiteText ? FwConvert.OleColorToHtmlColor(System.Drawing.Color.White.) : FwConvert.OleColorToHtmlColor(0)); } }
         //public string TextColor { get { return (WhiteText ? "rgb(255,255,255" : "rgb(0,0,0"); } }
-        public string DateStamp { get { return rentalStatus.DateStamp; } set { rentalStatus.DateStamp = value; } }
+        public string DateStamp { get { return inventoryStatus.DateStamp; } set { inventoryStatus.DateStamp = value; } }
         //------------------------------------------------------------------------------------
     }
 

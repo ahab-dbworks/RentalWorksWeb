@@ -2,7 +2,7 @@
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 
-namespace WebApi.Modules.Settings.RentalStatus
+namespace WebApi.Modules.Settings.InventoryStatus
 {
     [FwSqlTable("rentalstatus")]
     public class InventoryStatusRecord : AppDataReadWriteRecord
