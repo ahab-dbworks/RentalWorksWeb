@@ -299,7 +299,8 @@ namespace Fw.Json.SqlServer
                 sb.Append("    select top(@fwrownoend) row_number() over (");
                 if (OrderBy.Count == 0)
                 {
-                    throw new Exception("A sort expression is required for paged queries.");
+                    //throw new Exception("A sort expression is required for paged queries.");
+                    OrderBy.Add("order by 1"); //justin 04/24/2018
                 }
                 foreach (string line in OrderBy)
                 {
