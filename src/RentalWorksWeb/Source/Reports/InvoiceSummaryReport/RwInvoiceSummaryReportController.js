@@ -39,6 +39,10 @@ var RwInvoiceSummaryReport = (function () {
         var appOptions = program.getApplicationOptions();
         var request = { method: "LoadForm" };
         this.loadLists($form);
+        var department = JSON.parse(sessionStorage.getItem('department'));
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     };
     ;
     RwInvoiceSummaryReport.prototype.loadLists = function ($form) {

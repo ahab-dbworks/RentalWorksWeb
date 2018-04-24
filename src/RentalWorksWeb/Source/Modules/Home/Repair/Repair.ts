@@ -186,7 +186,7 @@ class Repair {
       $form = FwModule.openForm($form, mode);
 
       $form.find('.warehouseid').hide();
-      $form.find('.departmentid').hide();
+     // $form.find('.departmentid').hide();
       $form.find('.locationid').hide();
       $form.find('.inputbyuserid').hide();
       $form.find('.icodesales').hide();
@@ -224,8 +224,7 @@ class Repair {
           const userId = JSON.parse(sessionStorage.getItem('userid'));
           const locationId = JSON.parse(sessionStorage.getItem('location'));
 
-          $form.find('div[data-displayfield="Department"] input').val(department.department);
-          FwFormField.setValue($form, '.departmentid', department.departmentid);
+          FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
           FwFormField.setValueByDataField($form, 'Priority', 'MED');          
           FwFormField.setValueByDataField($form, 'RepairDate', today);
           FwFormField.setValueByDataField($form, 'Location', office.location);
@@ -270,11 +269,6 @@ class Repair {
               else { 
                   FwFormField.setValue($form, '.icodesales', $tr.find('.field[data-formdatafield="InventoryId"]').attr('data-originalvalue'));
               }
-          });
-
-          // Department Validation
-          $form.find('div[data-datafield="DepartmentId"]').data('onchange', $tr => {
-              FwFormField.setValue($form, '.departmentid', $tr.find('.field[data-formdatafield="DepartmentId"]').attr('data-originalvalue'));
           });
 
           // Order Validation

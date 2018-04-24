@@ -72,7 +72,7 @@ var RwAsset = (function () {
         viewSubitems.push($userWarehouse);
         viewSubitems.push($all);
         var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems);
         var $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
         var $trackBarcode = FwMenu.generateDropDownViewBtn('Barcode', false);
         var $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);

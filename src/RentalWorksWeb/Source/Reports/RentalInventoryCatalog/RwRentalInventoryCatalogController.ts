@@ -48,6 +48,8 @@ class RwRentalInventoryCatalog {
 
         this.loadLists($form);
 
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid,  warehouse.warehouse);
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {

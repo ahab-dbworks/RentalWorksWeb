@@ -39,16 +39,6 @@ class RwSalesInventoryTransactionsReport {
             return request;
         });
 
-        //$form
-        //    .on('change', 'div[data-datafield="filterdate"] input.fwformfield-value', function (event) {
-        //        var thisischecked = FwFormField.getValue($form, 'div[data-datafield="filterdate"]') == 'T';
-        //        FwFormField.setValue($form, 'div[data-datafield="fromdate"]', '');
-        //        FwFormField.setValue($form, 'div[data-datafield="todate"]', '');
-        //        FwFormField.toggle($form.find('div[data-datafield="fromdate"]'), thisischecked);
-        //        FwFormField.toggle($form.find('div[data-datafield="todate"]'), thisischecked);
-        //        FwFormField.toggle($form.find('div[data-datafield="onlyshoworderswith"]'), thisischecked);
-        //    });
-
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -58,6 +48,9 @@ class RwSalesInventoryTransactionsReport {
     
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         this.loadLists($form);
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid,  warehouse.warehouse);
     };
 
     //----------------------------------------------------------------------------------------------
@@ -107,24 +100,24 @@ class RwSalesInventoryTransactionsReport {
                 break;
 
             case 'SalesInventoryValidation':
-                if (SubCategoryValue !== "") {
-                    request.uniqueids = {
-                        SubCategoryId: SubCategoryValue,
-                    };
-                    break;
-                } 
-                if (CategoryTypeValue !== "") {
-                    request.uniqueids = {
-                        CategoryId: CategoryTypeValue,
-                    };
-                    break;
-                }
                 if (InventoryTypeValue !== "") {
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
                     };
                     break;
                 }
+                if (CategoryTypeValue !== "") {
+                    request.uniqueids = {
+                        CategoryId: CategoryTypeValue,
+                    };
+                    break;
+                }
+                if (SubCategoryValue !== "") {
+                    request.uniqueids = {
+                        SubCategoryId: SubCategoryValue,
+                    };
+                    break;
+                } 
         };
     };
 };

@@ -11,33 +11,57 @@ var RwSalesInventoryTransactionsReport = (function () {
             var validationName = request.module;
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-            var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
-            var SubCategoryTypeId = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
+            var CategoryTypeValue = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+            var SubCategoryValue = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
             switch (validationName) {
                 case 'InventoryTypeValidation':
                     request.uniqueids = {
-                        Sales: true
+                        Sales: true,
                     };
                     break;
                 case 'SalesCategoryValidation':
-                    request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue
-                    };
-                    break;
+                    if (InventoryTypeValue !== "") {
+                        request.uniqueids = {
+                            InventoryTypeId: InventoryTypeValue,
+                        };
+                        break;
+                    }
                 case 'SubCategoryValidation':
+                    if (InventoryTypeValue !== "") {
+                        request.uniqueids = {
+                            TypeId: InventoryTypeValue,
+                        };
+                        break;
+                    }
+                    if (CategoryTypeValue !== "") {
+                        request.uniqueids = {
+                            CategoryId: CategoryTypeValue,
+                        };
+                        break;
+                    }
                     request.uniqueids = {
                         Sales: true,
-                        TypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
                     };
                     break;
                 case 'SalesInventoryValidation':
-                    request.uniqueids = {
-                        InventoryTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
-                        SubCategoryId: SubCategoryTypeId,
-                    };
-                    break;
+                    if (InventoryTypeValue !== "") {
+                        request.uniqueids = {
+                            InventoryTypeId: InventoryTypeValue,
+                        };
+                        break;
+                    }
+                    if (CategoryTypeValue !== "") {
+                        request.uniqueids = {
+                            CategoryId: CategoryTypeValue,
+                        };
+                        break;
+                    }
+                    if (SubCategoryValue !== "") {
+                        request.uniqueids = {
+                            SubCategoryId: SubCategoryValue,
+                        };
+                        break;
+                    }
             }
             ;
         };
@@ -73,6 +97,8 @@ var RwSalesInventoryTransactionsReport = (function () {
         var request = { method: "LoadForm" };
         FwReport.load($form, this.ModuleOptions.ReportOptions);
         this.loadLists($form);
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     };
     ;
     RwSalesInventoryTransactionsReport.prototype.loadLists = function ($form) {

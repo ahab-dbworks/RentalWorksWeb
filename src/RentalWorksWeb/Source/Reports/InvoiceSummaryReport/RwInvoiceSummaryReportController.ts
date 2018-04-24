@@ -49,6 +49,12 @@ class RwInvoiceSummaryReport {
         var appOptions: any = program.getApplicationOptions();
         var request: any = { method: "LoadForm" };
         this.loadLists($form);
+
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
+
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid,  location.location);
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {

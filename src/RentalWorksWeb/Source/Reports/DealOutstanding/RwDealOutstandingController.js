@@ -34,15 +34,14 @@ RwDealOutstandingController.openForm = function() {
         return request;
     });
 
-    $form
-        .on('change', 'div[data-datafield="filterdate"] input.fwformfield-value', function (event) {
-            var thisischecked = FwFormField.getValue($form, 'div[data-datafield="filterdate"]') == 'T';
-            FwFormField.setValue($form, 'div[data-datafield="fromdate"]', '');
-            FwFormField.setValue($form, 'div[data-datafield="todate"]', '');
-            FwFormField.toggle($form.find('div[data-datafield="fromdate"]'), thisischecked);
-            FwFormField.toggle($form.find('div[data-datafield="todate"]'), thisischecked);
-            FwFormField.toggle($form.find('div[data-datafield="onlyshoworderswith"]'), thisischecked);
-        });
+    $form.on('change', 'div[data-datafield="filterdate"] input.fwformfield-value', function (event) {
+        var thisischecked = FwFormField.getValue($form, 'div[data-datafield="filterdate"]') == 'T';
+        FwFormField.setValue($form, 'div[data-datafield="fromdate"]', '');
+        FwFormField.setValue($form, 'div[data-datafield="todate"]', '');
+        FwFormField.toggle($form.find('div[data-datafield="fromdate"]'), thisischecked);
+        FwFormField.toggle($form.find('div[data-datafield="todate"]'), thisischecked);
+        FwFormField.toggle($form.find('div[data-datafield="onlyshoworderswith"]'), thisischecked);
+    });
 
     return $form;
 };
@@ -53,15 +52,11 @@ RwDealOutstandingController.onLoadForm = function($form) {
     appOptions = program.getApplicationOptions();
 
     request.method = "LoadForm";
-    //FwReport.getData($form, request, function(response) {
-    //    try {
-    //        FwFormField.loadItems($form.find('div[data-datafield="orderbylist"]'), response.orderbylist);
-    //        $form.data('locationid', response.locationid);
-    //    } catch(ex) {
-    //        FwFunc.showError(ex);
-    //    }
-    //});
 
+    const department = JSON.parse(sessionStorage.getItem('department'));
+    const location = JSON.parse(sessionStorage.getItem('location'));
 
+    FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
+    FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid,  location.location);
 };
 //----------------------------------------------------------------------------------------------

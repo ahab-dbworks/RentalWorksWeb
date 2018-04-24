@@ -77,6 +77,8 @@ var RwRentalInventoryCatalog = (function () {
         appOptions = program.getApplicationOptions();
         request = { method: "LoadForm" };
         this.loadLists($form);
+        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     };
     ;
     RwRentalInventoryCatalog.prototype.loadLists = function ($form) {
