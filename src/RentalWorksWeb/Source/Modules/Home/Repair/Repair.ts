@@ -400,7 +400,6 @@ class Repair {
       }
 
       if (FwFormField.getValueByDataField($form, 'Status') === 'COMPLETE') {
-        $form.find('.completeestimate').hide();
         $form.data('hasCompleted', true);
       } else {
         $form.data('hasCompleted', false);
@@ -512,19 +511,19 @@ class Repair {
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
       let html = [];
 
-      if ($form.data('hasCompleted') === true) {   
-          html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-          html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-          html.push('    <div>This order has already been completed.</div>');
-          html.push('  </div>');
-          html.push('</div>');
+      //if ($form.data('hasCompleted') === true) {   
+      //    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+      //    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+      //    html.push('    <div>This order has already been completed.</div>');
+      //    html.push('  </div>');
+      //    html.push('</div>');
 
-          FwConfirmation.addControls($confirmation, html.join(''));
+      //    FwConfirmation.addControls($confirmation, html.join(''));
  
-          $no = FwConfirmation.addButton($confirmation, 'OK');
-      }
+      //    $no = FwConfirmation.addButton($confirmation, 'OK');
+      //}
 
-       else if ($form.data('hasEstimated') === true) {
+        if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
           html.push('    <div>Would you like to complete this order?</div>');
