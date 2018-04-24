@@ -20,7 +20,7 @@ class Repair {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined' && filter.datafield === 'warehouse') {
-                filter.search = filter.search.split('%20').reverse().join(', ');
+                filter.search = filter.search.split('%20')[0];
             }
 
             if (typeof filter !== 'undefined') {
@@ -521,7 +521,7 @@ class Repair {
       //    FwConfirmation.addControls($confirmation, html.join(''));
  
       //    $no = FwConfirmation.addButton($confirmation, 'OK');
-      //}
+      //} else
 
         if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -654,6 +654,9 @@ class Repair {
 
         const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
         $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
+
+        const ReleasedQuantity = FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+        $confirmation.find('div[data-caption="Released"] input').val(ReleasedQuantity);
 
         FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
         FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
