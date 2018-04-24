@@ -1679,6 +1679,9 @@ namespace FwStandard.SqlServer
                 }
             }
             this.sqlCommand.CommandText = this.qryText.ToString();
+
+            this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+            this.sqlLogEntry.Start();
             using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
             {
                 for (int fieldno = 0; fieldno < reader.FieldCount; fieldno++)
@@ -1732,6 +1735,7 @@ namespace FwStandard.SqlServer
                     results.Add(obj);
                 }
             }
+            this.sqlLogEntry.Stop();
 
             if (openAndCloseConnection)
             {
