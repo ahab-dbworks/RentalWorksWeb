@@ -1036,7 +1036,12 @@ namespace FwStandard.SqlServer
                 dt = new FwJsonDataTable();
                 dt.PageNo = pageNo;
                 dt.PageSize = pageSize;
+
+                this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
+                this.sqlLogEntry.Start();
                 await this.sqlCommand.Connection.OpenAsync();
+                this.sqlLogEntry.Stop();
+
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
                     if (!includeAllColumns)
