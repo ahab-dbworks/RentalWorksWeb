@@ -492,7 +492,6 @@ class Repair {
               FwFormField.enable($yes);
               FwModule.refreshForm($form, self);
           }, $form);
-
       };
   };
 
@@ -616,10 +615,10 @@ class Repair {
   //----------------------------------------------------------------------------------------------
   releaseItems($form) {
     var self = this;
+    let $confirmation, $yes, $no;
     const releasedQuantityForm = FwFormField.getValueByDataField($form, 'ReleasedQuantity');
     const quantityForm = FwFormField.getValueByDataField($form, 'Quantity');
     const totalQuantity = quantityForm - releasedQuantityForm;
-    let $confirmation, $yes, $no;
     $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
     $confirmation.find('.fwconfirmationbox').css('width', '450px');
     let html = [];
@@ -662,7 +661,7 @@ class Repair {
     } else {
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>There are either no items to release or number chosen.</div>');
+        html.push('    <div>There are either no items to release or number chosen is greater than items available.</div>');
         html.push('  </div>');
         html.push('</div>');
 
