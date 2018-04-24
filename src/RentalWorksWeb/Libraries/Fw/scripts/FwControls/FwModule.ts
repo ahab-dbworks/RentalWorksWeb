@@ -1256,8 +1256,7 @@ class FwModule {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
     }
-
-    //----------------------------------------------------------------------------------------------
+     //----------------------------------------------------------------------------------------------
     static refreshForm($form: JQuery, controller: any) {
         const uniqueIds = FwModule.getFormUniqueIds($form);
         let newUniqueIds = {};

@@ -1174,15 +1174,12 @@ var FwModule = (function () {
     FwModule.refreshForm = function ($form, controller) {
         var uniqueIds = FwModule.getFormUniqueIds($form);
         var newUniqueIds = {};
-        setTimeout(function () {
-            for (var key in uniqueIds) {
-                newUniqueIds[key] = uniqueIds[key].value;
-                var $newForm = controller.loadForm(newUniqueIds);
-                $form.parent().empty().append($newForm);
-            }
-        }, 0);
+        for (var key in uniqueIds) {
+            newUniqueIds[key] = uniqueIds[key].value;
+        }
+        var $newForm = controller.loadForm(newUniqueIds);
+        $form.parent().empty().append($newForm);
     };
-    ;
     return FwModule;
 }());
 //# sourceMappingURL=FwModule.js.map

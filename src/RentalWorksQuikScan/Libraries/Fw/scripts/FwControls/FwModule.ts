@@ -1256,15 +1256,17 @@ class FwModule {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
     }
-    //----------------------------------------------------------------------------------------------
+     //----------------------------------------------------------------------------------------------
     static refreshForm($form: JQuery, controller: any) {
-        let uniqueIds = FwModule.getFormUniqueIds($form);
+        const uniqueIds = FwModule.getFormUniqueIds($form);
         let newUniqueIds = {};
-        for (let key in uniqueIds) {
-            newUniqueIds[key] = uniqueIds[key].value
-        }
-        let $newForm = controller.loadForm(newUniqueIds);
-        $form.parent().empty().append($newForm);
-    }
+        setTimeout(() => {
+            for (let key in uniqueIds) {
+                newUniqueIds[key] = uniqueIds[key].value
+                const $newForm = controller.loadForm(newUniqueIds);
+                $form.parent().empty().append($newForm);
+            }
+      },0)
+    };
     //----------------------------------------------------------------------------------------------
 }

@@ -59,8 +59,8 @@ namespace Fw.Json.ValueTypes
                                 cfg.Sites[i].DatabaseConnections[j].ConnectionString = string.Format("Server={0};Database={1};User Id={2};Password={3};Persist Security Info=True;Connect Timeout={4};Max Pool Size={5};Workstation Id={6};Packet Size=4096;",
                                     cfg.Sites[i].DatabaseConnections[j].Server
                                   , cfg.Sites[i].DatabaseConnections[j].Database
-                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt(cfg.Sites[i].DatabaseConnections[j].User)     : cfg.Sites[i].DatabaseConnections[j].User
-                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt(cfg.Sites[i].DatabaseConnections[j].Password) : cfg.Sites[i].DatabaseConnections[j].Password
+                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt2(cfg.Sites[i].DatabaseConnections[j].User)     : cfg.Sites[i].DatabaseConnections[j].User
+                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt2(cfg.Sites[i].DatabaseConnections[j].Password) : cfg.Sites[i].DatabaseConnections[j].Password
                                   , cfg.Sites[i].DatabaseConnections[j].ConnectionTimeout
                                   , cfg.Sites[i].DatabaseConnections[j].MaxPoolSize
                                   , System.Net.Dns.GetHostName().ToUpper() + " Mobile Web");
