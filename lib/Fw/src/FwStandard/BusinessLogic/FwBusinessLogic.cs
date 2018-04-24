@@ -43,6 +43,8 @@ namespace FwStandard.BusinessLogic
     {
         private FwApplicationConfig _appConfig = null;
         private FwUserSession _userSession = null;
+        private bool _reloadOnSave = true;
+
         [JsonIgnore]
         public FwApplicationConfig AppConfig
         {
@@ -118,7 +120,7 @@ namespace FwStandard.BusinessLogic
         public static FwCustomFields customFields = null;
 
         [JsonIgnore]
-        public bool? ReloadOnSave = true;
+        public bool ReloadOnSave { get { return _reloadOnSave; } set { _reloadOnSave = value; } }
 
 
         public FwCustomValues _Custom = new FwCustomValues();  //todo: don't initialize here.  Instead, only initialize when custom fields exist for this module.  load custom fields in a static class.

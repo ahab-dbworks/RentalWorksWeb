@@ -134,7 +134,7 @@ namespace FwCore.Controllers
                 if (isValid)
                 {
                     await l.SaveAsync();
-                    if (l.ReloadOnSave.Value)
+                    if (l.ReloadOnSave)
                     {
                         await l.LoadAsync<T>();
                     }

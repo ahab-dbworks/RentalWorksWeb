@@ -20,7 +20,12 @@ namespace FwStandard.DataLayer
         [JsonIgnore]
         public FwApplicationConfig AppConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
+        private bool _reloadOnSave = true;
         protected bool useWithNoLock = true;
+
+        [JsonIgnore]
+        public bool ReloadOnSave { get { return _reloadOnSave; } set { _reloadOnSave = value; } }
+
 
         //------------------------------------------------------------------------------------
         public FwDataRecord() : base() { }
