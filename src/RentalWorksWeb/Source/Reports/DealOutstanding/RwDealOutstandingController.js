@@ -28,7 +28,6 @@ RwDealOutstandingController.getModuleScreen = function(viewModel, properties) {
 RwDealOutstandingController.openForm = function() {
     var $form;
     
-
     $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
     $form.data('getexportrequest', function(request) {
         request.parameters = FwReport.getParameters($form);
@@ -43,8 +42,7 @@ RwDealOutstandingController.openForm = function() {
             FwFormField.toggle($form.find('div[data-datafield="fromdate"]'), thisischecked);
             FwFormField.toggle($form.find('div[data-datafield="todate"]'), thisischecked);
             FwFormField.toggle($form.find('div[data-datafield="onlyshoworderswith"]'), thisischecked);
-        })
-    ;
+        });
 
     return $form;
 };

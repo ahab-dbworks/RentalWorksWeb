@@ -70,41 +70,58 @@ class RwSalesInventoryTransactionsReport {
         const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        const CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
-        const SubCategoryTypeId = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
+        const CategoryTypeValue = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        const SubCategoryValue = jQuery($grid.find('[data-validationname="SubCategoryValidation"] input')).val();
 
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {
-                    Sales: true
-                };
-                break;
-            case 'SalesCategoryValidation':
-                request.uniqueids = {
-                    InventoryTypeId: InventoryTypeValue
-                };
-                break;
-            case 'SubCategoryValidation':
-                request.uniqueids = {
                     Sales: true,
-                    TypeId: InventoryTypeValue,
-                    CategoryId: CategoryTypeId,
                 };
                 break;
-            case 'SalesInventoryValidation':
-                if (SubCategoryTypeId != "") {
-                    console.log(SubCategoryTypeId, 'subcatTRUE')
+
+            case 'SalesCategoryValidation':
+                if (InventoryTypeValue !== "") {
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
-                        SubCategoryId: SubCategoryTypeId,
                     };
                     break;
-                } else {
-                    console.log(SubCategoryTypeId, 'subcatELSE')
+                }
+             
+            case 'SubCategoryValidation':
+                if (InventoryTypeValue !== "") {
+                    request.uniqueids = {
+                        TypeId: InventoryTypeValue,
+                    };
+                    break;
+                }
+                if (CategoryTypeValue !== "") {
+                    request.uniqueids = {
+                        CategoryId: CategoryTypeValue,
+                    };
+                    break;
+                }
+                request.uniqueids = {
+                    Sales: true,
+                };
+                break;
+
+            case 'SalesInventoryValidation':
+                if (SubCategoryValue !== "") {
+                    request.uniqueids = {
+                        SubCategoryId: SubCategoryValue,
+                    };
+                    break;
+                } 
+                if (CategoryTypeValue !== "") {
+                    request.uniqueids = {
+                        CategoryId: CategoryTypeValue,
+                    };
+                    break;
+                }
+                if (InventoryTypeValue !== "") {
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
-                        CategoryId: CategoryTypeId,
                     };
                     break;
                 }
