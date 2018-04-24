@@ -1,5 +1,5 @@
 routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecArray) { return RepairController.getModuleScreen(); } });
-// routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
 
 //---------------------------------------------------------------------------------
 class Repair {
@@ -8,7 +8,7 @@ class Repair {
     caption: string = 'Repair Order';
     ActiveView: string = 'ALL';
     
-    getModuleScreen = () => {
+    getModuleScreen = (filter?: any) => {
         let screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -18,6 +18,16 @@ class Repair {
 
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
+
+            if (typeof filter !== 'undefined' && filter.datafield === 'warehouse') {
+                filter.search = filter.search.split('%20').reverse().join(', ');
+            }
+
+            if (typeof filter !== 'undefined') {
+                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+            }
+
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -34,7 +44,6 @@ class Repair {
       let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
       $browse = FwModule.openBrowse($browse);
 
-      let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
       this.ActiveView = 'WarehouseId=ALL';
 
       $browse.data('ondatabind', request => {
@@ -752,14 +761,14 @@ class Repair {
                 break;
             case 'RentalInventoryValidation':
                 request.uniqueids = {
-                    TrackedBy: 'QUANTITY',
                     Classification: 'I',
+                    TrackedBy: 'QUANTITY',
                 };
                 break;
             case 'SalesInventoryValidation':
                 request.uniqueids = {
-                    TrackedBy: 'QUANTITY',
                     Classification: 'I',
+                    TrackedBy: 'QUANTITY',
                 };
                 break;
         };
