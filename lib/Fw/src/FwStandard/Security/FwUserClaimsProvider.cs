@@ -53,11 +53,11 @@ namespace FwStandard.Security
                             qry.Add("where webusersid = @webusersid");
                             if (loginWithEmail)
                             {
-                                qry.Add(" and upper(webpassword) = dbo.encrypt(upper(@password))");
+                                qry.Add(" and webpassword = dbo.encrypt(@password)");
                             }
                             else
                             {
-                                qry.Add(" and upper(userpassword) = dbo.encrypt(upper(@password))");
+                                qry.Add(" and userpassword = dbo.encrypt(@password)");
                             }
                             qry.AddParameter("@webusersid", webUsersId);
                             qry.AddParameter("@password", password);
