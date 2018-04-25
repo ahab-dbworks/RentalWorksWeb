@@ -279,7 +279,7 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "marketsegment", modeltype: FwDataTypes.Text)]
         public string MarketSegment { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "marketsegmentjobd", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text)]
         public string MarketSegmentJobId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "marketsegmentjob", modeltype: FwDataTypes.Text)]
