@@ -31,13 +31,11 @@ var RwSalesInventoryTransactionsReport = (function () {
                         request.uniqueids = {
                             TypeId: InventoryTypeValue,
                         };
-                        break;
                     }
                     if (CategoryTypeValue !== "") {
                         request.uniqueids = {
                             CategoryId: CategoryTypeValue,
                         };
-                        break;
                     }
                     request.uniqueids = {
                         Sales: true,
@@ -48,20 +46,18 @@ var RwSalesInventoryTransactionsReport = (function () {
                         request.uniqueids = {
                             InventoryTypeId: InventoryTypeValue,
                         };
-                        break;
                     }
                     if (CategoryTypeValue !== "") {
                         request.uniqueids = {
                             CategoryId: CategoryTypeValue,
                         };
-                        break;
                     }
                     if (SubCategoryValue !== "") {
                         request.uniqueids = {
                             SubCategoryId: SubCategoryValue,
                         };
-                        break;
                     }
+                    break;
             }
             ;
         };

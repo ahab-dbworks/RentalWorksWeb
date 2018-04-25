@@ -86,13 +86,11 @@ class RwSalesInventoryTransactionsReport {
                     request.uniqueids = {
                         TypeId: InventoryTypeValue,
                     };
-                    break;
                 }
                 if (CategoryTypeValue !== "") {
                     request.uniqueids = {
                         CategoryId: CategoryTypeValue,
                     };
-                    break;
                 }
                 request.uniqueids = {
                     Sales: true,
@@ -104,20 +102,18 @@ class RwSalesInventoryTransactionsReport {
                     request.uniqueids = {
                         InventoryTypeId: InventoryTypeValue,
                     };
-                    break;
                 }
                 if (CategoryTypeValue !== "") {
                     request.uniqueids = {
                         CategoryId: CategoryTypeValue,
                     };
-                    break;
                 }
                 if (SubCategoryValue !== "") {
                     request.uniqueids = {
                         SubCategoryId: SubCategoryValue,
                     };
-                    break;
                 } 
+                break;
         };
     };
 };

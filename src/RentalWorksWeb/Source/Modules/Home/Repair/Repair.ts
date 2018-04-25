@@ -8,7 +8,7 @@ class Repair {
     caption: string = 'Repair Order';
     ActiveView: string = 'ALL';
     
-    getModuleScreen = (filter?: any) => {
+    getModuleScreen = (filter?: {datafield: string, search: string}) => {
         let screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -19,13 +19,15 @@ class Repair {
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
-            if (typeof filter !== 'undefined' && filter.datafield === 'warehouse') {
-                filter.search = filter.search.split('%20')[0];
-            }
-
+            // Dashboard search
             if (typeof filter !== 'undefined') {
-                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                let datafields = filter.datafield.split('%20');
+                for (var i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('')
+                let parsedSearch = filter.search.replace(/%20/g, " ");
+                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(parsedSearch);
             }
 
             FwBrowse.databind($browse);
@@ -105,9 +107,11 @@ class Repair {
       FwBrowse.init($repairCostGridControl); 
       FwBrowse.renderRuntimeHtml($repairCostGridControl);
 
+      // Potentially can be used to update grid fields in real-time
       //$repairCostGridControl.on('change', '[data-browsedatafield="DiscountAmount"] input.value', () => {
       //  alert('test');
       //});
+
       //----------------------------------------------------------------------------------------------
       $repairPartGrid = $form.find('div[data-grid="RepairPartGrid"]'); 
       $repairPartGridControl = jQuery(jQuery('#tmpl-grids-RepairPartGridBrowse').html()); 
@@ -186,7 +190,6 @@ class Repair {
       $form = FwModule.openForm($form, mode);
 
       $form.find('.warehouseid').hide();
-     // $form.find('.departmentid').hide();
       $form.find('.locationid').hide();
       $form.find('.inputbyuserid').hide();
       $form.find('.icodesales').hide();
@@ -216,6 +219,7 @@ class Repair {
       if (mode === 'NEW') {
           $form.find('.ifnew').attr('data-enabled', 'true');
           $form.find('.completeestimate').hide();
+          $form.find('.releasesection').hide();
 
           const today = new Date(Date.now()).toLocaleString().split(',')[0];
           const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -288,7 +292,6 @@ class Repair {
                       $form.find('.icodesales').hide();
                       $form.find('.icoderental').show();              
                   }
-                
               }
          });
 
@@ -319,7 +322,6 @@ class Repair {
           $form.find(".frame .add-on").children().hide();
       }
 
-      //this.events($form);
       return $form;
   };
 
@@ -373,7 +375,9 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   saveForm($form: any, parameters: any) {
+    let self = this;
       FwModule.saveForm(this.Module, $form, parameters);
+      //FwModule.refreshForm($form, self);
   }
 
   //----------------------------------------------------------------------------------------------
@@ -419,7 +423,7 @@ class Repair {
     if ($form.data('hasEstimated') === true) {
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Would you like to cancel this estimate for this order?</div>');
+        html.push('    <div>Would you like to cancel this estimate for this Repair Order?</div>');
         html.push('  </div>');
         html.push('</div>');
 
@@ -433,7 +437,7 @@ class Repair {
     } else {
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Would you like to make an estimate for this order?</div>');
+        html.push('    <div>Would you like to make an estimate for this Repair Order?</div>');
         html.push('  </div>');
         html.push('</div>');
 
@@ -457,7 +461,7 @@ class Repair {
           $yes.off('click');
 
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/estimate/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-              FwNotification.renderNotification('SUCCESS', 'Order Successfully Estimated');
+              FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Estimated');
               FwConfirmation.destroyConfirmation($confirmation);
               FwModule.refreshForm($form, self);
           }, function onError(response) {
@@ -508,7 +512,7 @@ class Repair {
       //if ($form.data('hasCompleted') === true) {   
       //    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
       //    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      //    html.push('    <div>This order has already been completed.</div>');
+      //    html.push('    <div>This Repair Order has already been completed.</div>');
       //    html.push('  </div>');
       //    html.push('</div>');
 
@@ -520,7 +524,7 @@ class Repair {
         if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-          html.push('    <div>Would you like to complete this order?</div>');
+          html.push('    <div>Would you like to complete this Repair Order?</div>');
           html.push('  </div>');
           html.push('</div>');
 
@@ -533,7 +537,7 @@ class Repair {
       } else {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-          html.push('    <div>Not yet estimated. Do you want to make estimate and complete this order?</div>');
+          html.push('    <div>Not yet estimated. Do you want to make estimate and complete this Repair Order?</div>');
           html.push('  </div>');
           html.push('</div>');
 
@@ -554,7 +558,7 @@ class Repair {
           $yes.off('click');
 
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/complete/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-              FwNotification.renderNotification('SUCCESS', 'Order Successfully Completed');
+              FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Completed');
               FwConfirmation.destroyConfirmation($confirmation);
               FwModule.refreshForm($form, self);
               $form.data('hasCompleted', true);
@@ -579,7 +583,7 @@ class Repair {
       let html = [];
       html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
       html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      html.push('    <div>Would you like to void this order?</div>');
+      html.push('    <div>Would you like to void this Repair Order?</div>');
       html.push('  </div>');
       html.push('</div>');
 
@@ -599,7 +603,7 @@ class Repair {
           $yes.off('click');
 
           FwAppData.apiMethod(true, 'POST',  `api/v1/repair/void/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-              FwNotification.renderNotification('SUCCESS', 'Order Successfully Voided');
+              FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
               FwConfirmation.destroyConfirmation($confirmation);
               FwModule.refreshForm($form, self);
           }, function onError(response) {
