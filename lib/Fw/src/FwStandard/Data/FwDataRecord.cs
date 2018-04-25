@@ -22,6 +22,7 @@ namespace FwStandard.DataLayer
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
         private bool _reloadOnSave = true;
         protected bool useWithNoLock = true;
+        private string _tableAlias = "t";
 
         [JsonIgnore]
         public bool ReloadOnSave { get { return _reloadOnSave; } set { _reloadOnSave = value; } }
@@ -47,6 +48,8 @@ namespace FwStandard.DataLayer
                 return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
             }
         }
+        //------------------------------------------------------------------------------------
+        protected string TableAlias { get { return _tableAlias; } set { this._tableAlias = value; } }
         //------------------------------------------------------------------------------------
         protected virtual int PrimaryKeyCount
         {
@@ -321,7 +324,7 @@ namespace FwStandard.DataLayer
                         prefix = ",";
                     }
                     qry.AddColumn("", property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    sb.Append(prefix + " " + "t.[" + sqlColumnName + "] as [" + property.Name + "]");
+                    sb.Append(prefix + " [" + TableAlias + "].[" + sqlColumnName + "] as [" + property.Name + "]");
                     colNo++;
                 }
             }
@@ -365,7 +368,7 @@ namespace FwStandard.DataLayer
             {
                 withNoLock = " with (nolock)";
             }
-            select.Add("from " + TableName + " t" + withNoLock);
+            select.Add("from " + TableName + " " + TableAlias + withNoLock);
 
             if ((customFields != null) && (customFields.Count > 0))
             {
@@ -386,7 +389,7 @@ namespace FwStandard.DataLayer
                             sqlColumnName = sqlDataFieldAttribute.ColumnName;
                         }
                         string customUniqueIdField = "uniqueid" + k.ToString().PadLeft(2, '0');
-                        select.Add("t." + sqlColumnName + " = " + customTable.Alias + "." + customUniqueIdField);
+                        select.Add("[" + TableAlias + "].[" + sqlColumnName + "] = [" + customTable.Alias + "].[" + customUniqueIdField + "]");
                         if (k < primaryKeyProperties.Count)
                         {
                             select.Add(" and ");
