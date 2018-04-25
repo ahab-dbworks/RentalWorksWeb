@@ -53,7 +53,7 @@ var RwHome = (function () {
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
                     ], true);
-                    $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DefaultDataPoints);
+                    $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
                     FwFormField.setValue($confirmation, '.widgettype', response.WidgetType);
                 }, null, null);
                 $select.on('click', function () {
@@ -61,7 +61,7 @@ var RwHome = (function () {
                         var request = {};
                         request.UserWidgetId = userWidgetId;
                         request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
-                        request.DefaultDataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
+                        request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                             FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                             FwConfirmation.destroyConfirmation($confirmation);
@@ -89,12 +89,12 @@ var RwHome = (function () {
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             for (var i = 0; i < response.Widgets.length; i++) {
                 if (response.Widgets[i].selected) {
-                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, (100 / response.WidgetsPerRow).toString() + '%');
+                    self.renderWidget($dashboard, response.Widgets[i].apiname, response.Widgets[i].widgettype, response.Widgets[i].clickpath, response.Widgets[i].userWidgetId, (100 / response.WidgetsPerRow).toString() + '%', response.Widgets[i].text);
                 }
             }
         }, null, $control);
     };
-    RwHome.prototype.renderWidget = function ($control, apiname, type, chartpath, userWidgetId, width) {
+    RwHome.prototype.renderWidget = function ($control, apiname, type, chartpath, userWidgetId, width, text) {
         var self = this;
         var refresh = '<i id="' + apiname + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + apiname + 'settings" class="chart-settings material-icons">settings</i>';
@@ -129,7 +129,7 @@ var RwHome = (function () {
         var widgetcanvas = $control.find('#' + apiname);
         jQuery($control).on('click', '#' + apiname + 'fullscreen', function () {
             try {
-                var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
+                var $confirmation = FwConfirmation.renderConfirmation(text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
                 html.push('<div data-chart="' + apiname + '" class="chart-container"><canvas style="padding:5px;" id="' + apiname + 'fullscreen"></canvas></div>');
