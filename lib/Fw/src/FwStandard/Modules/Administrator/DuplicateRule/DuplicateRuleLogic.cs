@@ -16,6 +16,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
             dataRecords.Add(duplicateRule);
             dataLoader = duplicateRuleLoader;
             duplicateRule.AfterSave += OnAfterSaveDuplicateRule;
+            duplicateRule.BeforeDelete += OnBeforeDeleteDuplicateRule;
             duplicateRule.AfterDelete += OnAfterDeleteDuplicateRule;
         }
         //------------------------------------------------------------------------------------ 
@@ -30,11 +31,38 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public string Fields { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
+        {
+            bool isValid = true;
+            DuplicateRuleLogic l2 = new DuplicateRuleLogic();
+            l2.SetDependencies(this.AppConfig, this.UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
+            if (l2.SystemRule.Value)
+            {
+                isValid = false;
+                validateMsg = "System Duplicate Rules Cannot be modified.";
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSaveDuplicateRule(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
             saved = duplicateRule.SaveFields(Fields).Result;
             refreshDuplicateRules();
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeDeleteDuplicateRule(object sender, BeforeDeleteEventArgs e)
+        {
+            DuplicateRuleLogic l2 = new DuplicateRuleLogic();
+            l2.SetDependencies(this.AppConfig, this.UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
+            if (l2.SystemRule.Value)
+            {
+                e.PerformDelete = false;
+            }
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterDeleteDuplicateRule(object sender, AfterDeleteEventArgs e)
