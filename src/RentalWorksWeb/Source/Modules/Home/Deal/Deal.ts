@@ -1,13 +1,7 @@
 class Deal {
-    Module: string;
-    apiurl: string;
-    caption: string;
-
-    constructor() {
-        this.Module = 'Deal';
-        this.apiurl = 'api/v1/deal';
-        this.caption = 'Deal';
-    }
+    Module: string = 'Deal';
+    apiurl: string = 'api/v1/deal';
+    caption: string = 'Deal';
 
     getModuleScreen(filter?: {datafield: string, search: string}) {
         var screen, $browse;
