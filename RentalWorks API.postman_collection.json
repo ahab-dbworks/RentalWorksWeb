@@ -1926,7 +1926,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ContractNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"F007U23C\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -2959,16 +2959,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"CustomerStatus\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"CreditStatus\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
@@ -2977,16 +2979,18 @@
 				{
 					"name": "CreditStatus: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/creditstatus/00000S5R",
+						"url": "http://localhost:57949/api/v1/creditstatus/F00TKPJ4",
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "{{jwttoken}}"
+								"value": "{{jwttoken}}",
+								"description": ""
 							},
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"description": ""
 							}
 						],
 						"body": {
@@ -4537,6 +4541,62 @@
 						"body": {
 							"mode": "raw",
 							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Custom Module",
+			"description": "",
+			"item": [
+				{
+					"name": "Custom Module: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/custommodule",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Custom Module: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/custommodule/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ModuleName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
 						},
 						"description": ""
 					},
@@ -16988,7 +17048,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"PickListId\":\"B0001RBA\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"PickListId\":\"H00032JK\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -20073,7 +20133,7 @@
 				{
 					"name": "Quote: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/quote/00003HSB",
+						"url": "http://localhost:57949/api/v1/quote/F00V26E9",
 						"method": "GET",
 						"header": [
 							{
@@ -24947,7 +25007,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"B00294F7\",\n    \"WidgetsPerRow\": 3,\n    \"Widgets\": [\n        {\n            \"userWidgetId\": \"H00032CX\",\n            \"value\": \"H00032CW\",\n            \"text\": \"Repairs By Warehouse\",\n            \"selected\": true,\n            \"apiname\": \"repairsbywarehouse\",\n            \"clickpath\": \"module/repair/warehouse/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031YY\",\n            \"value\": \"H00031YP\",\n            \"text\": \"Orders By Agent\",\n            \"selected\": true,\n            \"apiname\": \"ordersbyagent\",\n            \"clickpath\": \"module/order/agent/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"pie\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z0\",\n            \"value\": \"H00031YN\",\n            \"text\": \"Quotes By Status\",\n            \"selected\": true,\n            \"apiname\": \"quotesbystatus\",\n            \"clickpath\": \"module/quote/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"horizontalBar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031YW\",\n            \"value\": \"H00031YR\",\n            \"text\": \"Customers By Type\",\n            \"selected\": true,\n            \"apiname\": \"customersbytype\",\n            \"clickpath\": \"module/customer/customer%20type/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z2\",\n            \"value\": \"H00031YQ\",\n            \"text\": \"Deals By Type\",\n            \"selected\": true,\n            \"apiname\": \"dealsbytype\",\n            \"clickpath\": \"module/deal/deal%20type/\",\n            \"defaulttype\": \"horizontalBar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z4\",\n            \"value\": \"H00031YO\",\n            \"text\": \"Orders By Status\",\n            \"selected\": true,\n            \"apiname\": \"ordersbystatus\",\n            \"clickpath\": \"module/order/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z6\",\n            \"value\": \"H00031YS\",\n            \"text\": \"Billing By Agent By Month\",\n            \"selected\": true,\n            \"apiname\": \"billingbyagentbymonth\",\n            \"clickpath\": \"module/invoice/agent_month/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 5,\n            \"dataPoints\": 0\n        }\n    ],\n    \"RecordTitle\": \"Dashboard Settings\"\n}"
+							"raw": "{\n    \"_Custom\": [],\n    \"UserId\": \"B00294F7\",\n    \"WidgetsPerRow\": 3,\n    \"Widgets\": [\n        {\n            \"userWidgetId\": \"H00031YY\",\n            \"value\": \"H00031YP\",\n            \"text\": \"Orders By Agent\",\n            \"selected\": true,\n            \"apiname\": \"ordersbyagent\",\n            \"clickpath\": \"module/order/agent/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"pie\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00032CX\",\n            \"value\": \"H00032CW\",\n            \"text\": \"Repairs By Warehouse\",\n            \"selected\": true,\n            \"apiname\": \"repairsbywarehouse\",\n            \"clickpath\": \"module/repair/warehouse/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"pie\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z0\",\n            \"value\": \"H00031YN\",\n            \"text\": \"Quotes By Status\",\n            \"selected\": true,\n            \"apiname\": \"quotesbystatus\",\n            \"clickpath\": \"module/quote/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"horizontalBar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031YW\",\n            \"value\": \"H00031YR\",\n            \"text\": \"Customers By Type\",\n            \"selected\": true,\n            \"apiname\": \"customersbytype\",\n            \"clickpath\": \"module/customer/customer%20type/\",\n            \"defaulttype\": \"pie\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 5,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z2\",\n            \"value\": \"H00031YQ\",\n            \"text\": \"Deals By Type\",\n            \"selected\": true,\n            \"apiname\": \"dealsbytype\",\n            \"clickpath\": \"module/deal/deal%20type/\",\n            \"defaulttype\": \"horizontalBar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z4\",\n            \"value\": \"H00031YO\",\n            \"text\": \"Orders By Status\",\n            \"selected\": true,\n            \"apiname\": \"ordersbystatus\",\n            \"clickpath\": \"module/order/status/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"\",\n            \"defaultDataPoints\": 15,\n            \"dataPoints\": 0\n        },\n        {\n            \"userWidgetId\": \"H00031Z6\",\n            \"value\": \"H00031YS\",\n            \"text\": \"Billing By Agent By Month\",\n            \"selected\": true,\n            \"apiname\": \"billingbyagentbymonth\",\n            \"clickpath\": \"module/invoice/agent_month/\",\n            \"defaulttype\": \"bar\",\n            \"widgettype\": \"bar\",\n            \"defaultDataPoints\": 5,\n            \"dataPoints\": 0\n        }\n    ],\n    \"RecordTitle\": \"Dashboard Settings\"\n}"
 						},
 						"description": ""
 					},
@@ -25156,7 +25216,7 @@
 				{
 					"name": "User Widget: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/userwidget/000090LU",
+						"url": "http://localhost:57949/api/v1/userwidget/H00031YW",
 						"method": "GET",
 						"header": [
 							{
@@ -25222,7 +25282,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UserWidgetId\": \"000090LS\",\n    \"WidgetType\": \"pie\",\n}"
+							"raw": "{\"UserWidgetId\":\"H00031YW\",\"WidgetType\":\"bar\", \"DataPoints\": 8}"
 						},
 						"description": ""
 					},
