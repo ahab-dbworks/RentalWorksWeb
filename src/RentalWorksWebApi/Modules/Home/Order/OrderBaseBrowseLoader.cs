@@ -2,6 +2,7 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
 
 namespace WebApi.Modules.Home.Order
@@ -73,6 +74,12 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text)]
+        public string ProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
         public string OrderTypeId { get; set; }
         //------------------------------------------------------------------------------------
@@ -90,7 +97,6 @@ namespace WebApi.Modules.Home.Order
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
-
 
 
             if ((request != null) && (request.activeview != null))

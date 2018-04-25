@@ -38,6 +38,18 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "roundtriprentals", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? RoundTripRentals { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "coverletterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string CoverLetterId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "salesrepresentativecontactid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string SalesRepresentativeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string MarketSegmentId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "marketsegmentjobid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string MarketSegmentJobId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------

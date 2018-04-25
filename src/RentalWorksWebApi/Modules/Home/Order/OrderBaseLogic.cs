@@ -89,6 +89,12 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------
+        public string ProjectManagerId { get { return dealOrder.ProjectManagerId; } set { dealOrder.ProjectManagerId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ProjectManager { get; set; }
+        //------------------------------------------------------------------------------------
+
 
         public bool? Rental { get { return dealOrder.Rental; } set { dealOrder.Rental = value; } }
         //------------------------------------------------------------------------------------ 
@@ -240,6 +246,42 @@ namespace WebApi.Modules.Home.Order
 
         public bool? InGroup { get { return dealOrder.InGroup; } set { dealOrder.InGroup = value; } }
         public int GroupNumber { get { return dealOrder.GroupNumber; } set { dealOrder.GroupNumber = value; } }
+
+
+        //------------------------------------------------------------------------------------
+        public string CoverLetterId { get { return dealOrderDetail.CoverLetterId; } set { dealOrderDetail.CoverLetterId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CoverLetter { get; set; }
+        //------------------------------------------------------------------------------------
+        public string TermsConditionsId { get { return dealOrder.TermsConditionsId; } set { dealOrder.TermsConditionsId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string TermsConditions { get; set; }
+        //------------------------------------------------------------------------------------
+        public string SalesRepresentativeId { get { return dealOrderDetail.SalesRepresentativeId; } set { dealOrderDetail.SalesRepresentativeId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MarketTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MarketType { get; set; }
+        //------------------------------------------------------------------------------------
+        public string MarketSegmentId { get { return dealOrderDetail.MarketSegmentId; } set { dealOrderDetail.MarketSegmentId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MarketSegment { get; set; }
+        //------------------------------------------------------------------------------------
+        public string MarketSegmentJobId { get { return dealOrderDetail.MarketSegmentJobId; } set { dealOrderDetail.MarketSegmentJobId = value; } }
+        //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MarketSegmentJob { get; set; }
+        //------------------------------------------------------------------------------------
+
 
 
         //------------------------------------------------------------------------------------

@@ -106,6 +106,9 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string ProjectManagerId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------
@@ -178,6 +181,9 @@ namespace WebApi.Modules.Home.DealOrder
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int GroupNumber { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string TermsConditionsId { get; set; }
         //------------------------------------------------------------------------------------
 
 

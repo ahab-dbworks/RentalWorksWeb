@@ -87,6 +87,15 @@ namespace WebApi.Modules.Home.Contract
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
 
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("OrderId"))
+                {
+                    select.AddWhere("exists (select * from ordercontract oc where oc.contractid = " + TableAlias + ".contractid and oc.orderid = @orderid)");
+                    select.AddParameter("@orderid", uniqueIds["OrderId"].ToString());
+                }
+            }
 
             if ((request != null) && (request.activeview != null))
             {
