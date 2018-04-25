@@ -34,14 +34,21 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool isValid = true;
-            DuplicateRuleLogic l2 = new DuplicateRuleLogic();
-            l2.SetDependencies(this.AppConfig, this.UserSession);
-            object[] pk = GetPrimaryKeys();
-            bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
-            if (l2.SystemRule.Value)
+            if (saveMode == TDataRecordSaveMode.smInsert)
             {
-                isValid = false;
-                validateMsg = "System Duplicate Rules Cannot be modified.";
+                SystemRule = false;
+            }
+            else
+            {
+                DuplicateRuleLogic l2 = new DuplicateRuleLogic();
+                l2.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                bool b = l2.LoadAsync<DuplicateRuleLogic>(pk).Result;
+                if (l2.SystemRule.Value)
+                {
+                    isValid = false;
+                    validateMsg = "System Duplicate Rules Cannot be modified.";
+                }
             }
             return isValid;
         }
