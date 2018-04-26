@@ -102,8 +102,21 @@
                                                 sessionStorage.setItem('warehouse',          JSON.stringify(responseOriginalApi.webUser.warehouse));
                                                 sessionStorage.setItem('department',         JSON.stringify(responseOriginalApi.webUser.department));
                                                 sessionStorage.setItem('userid',             JSON.stringify(responseOriginalApi.webUser.webusersid));
-                                                jQuery('html').removeClass('theme-material'); 
-                                                program.navigate('home');
+                                                jQuery('html').removeClass('theme-material');
+
+                                                // Get custom fields and assign to session storage
+                                                FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    var customFields = [];
+                                                    for (var i = 0; i < response.length; i++) {
+                                                        customFields.push(response[i].ModuleName);
+                                                    }
+                                                    sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                    program.navigate('home');
+                                                }, function onError(response) {
+                                                    // insert error handling
+                                                    program.navigate('home');
+                                                }, null);
+
                                             } else if (responseOriginalApi.errNo !== 0) {
                                                 //throw new Error(responseOriginalApi.errMsg);
                                                 $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();

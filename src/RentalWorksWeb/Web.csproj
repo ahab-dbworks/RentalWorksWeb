@@ -532,6 +532,7 @@
     <Content Include="Libraries\Fw\theme\quikscan.css" />
     <TypeScriptCompile Include="Libraries\Fw\scripts\FwControls\FwApplicationTree.ts" />
     <TypeScriptCompile Include="Libraries\Fw\scripts\FwControls\FwBrowse.ts" />
+    <TypeScriptCompile Include="Libraries\Fw\scripts\FwControls\FwCustom.ts" />
     <TypeScriptCompile Include="Libraries\Fw\scripts\FwControls\FwRibbon.ts" />
     <TypeScriptCompile Include="Libraries\Fw\scripts\MasterPages\WebMaster.ts" />
     <TypeScriptCompile Include="Libraries\Fw\scripts\Routes.ts" />

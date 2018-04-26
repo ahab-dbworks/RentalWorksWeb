@@ -332,8 +332,8 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
-        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
-            nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
+        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller, customTabIds, $customControl,
+            nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args, customFields;
 
         nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
         args = {};
@@ -380,6 +380,37 @@ class FwModule {
                     }
                 }
                 );
+        }
+
+        customFields = JSON.parse(sessionStorage.getItem('customFields'))
+        for (var i = 0; i < customFields.length; i++) {
+            if (controller.slice(0, -10) === customFields[i]) {
+                var customHtml = [];
+                var customModule = customFields[i];
+
+                $formTabControl = jQuery($form.find('.fwtabs'));
+                customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
+
+                FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
+                    customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">')
+                    for (var j = 0; j < response.length; j++) {
+                        if (customModule === response[j].ModuleName) {
+                            customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                              customHtml.push('<div data-control="FwFormField" data-type="' + response[j].FieldType.toLowerCase() + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldType + '"></div>');
+                            customHtml.push('</div>');
+                        }
+                    }
+                    customHtml.push('</div>')
+                    
+                    $customControl = jQuery(customHtml.join(''));
+                    FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
+
+                    $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
+                }, function onError(response) {
+                    // insert error handling
+                }, null);
+                
+            }
         }
 
         $form

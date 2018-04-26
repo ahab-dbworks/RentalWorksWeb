@@ -102,7 +102,16 @@ var Base = (function () {
                                             sessionStorage.setItem('department', JSON.stringify(responseOriginalApi.webUser.department));
                                             sessionStorage.setItem('userid', JSON.stringify(responseOriginalApi.webUser.webusersid));
                                             jQuery('html').removeClass('theme-material');
-                                            program.navigate('home');
+                                            FwAppData.apiMethod(true, 'GET', 'api/v1/custommodule/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                var customFields = [];
+                                                for (var i = 0; i < response.length; i++) {
+                                                    customFields.push(response[i].ModuleName);
+                                                }
+                                                sessionStorage.setItem('customFields', JSON.stringify(customFields));
+                                                program.navigate('home');
+                                            }, function onError(response) {
+                                                program.navigate('home');
+                                            }, null);
                                         }
                                         else if (responseOriginalApi.errNo !== 0) {
                                             $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();
