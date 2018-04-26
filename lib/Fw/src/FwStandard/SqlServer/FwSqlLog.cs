@@ -33,7 +33,7 @@ namespace FwStandard.SqlServer
             if (command.Parameters.Count > 0)
             {
                 sqlForHtml.Append("declare<br/>  ");
-                sql.AppendLine("declare\n  ");
+                sql.AppendLine("declare");
                 for(int i = 0; i < command.Parameters.Count; i++)
                 {
                     if (command.Parameters[i].ParameterName.Length > maxParameterWidth)
@@ -54,6 +54,10 @@ namespace FwStandard.SqlServer
                             sqlForHtml.Append("<br/>, ");
                             sql.Append("\n, ");
                         }
+                    }
+                    if ((i == 0) && (command.Parameters.Count > 1))
+                    {
+                       sql.Append("  ");
                     }
                     sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
                     sqlForHtml.Append(" ");
@@ -325,14 +329,17 @@ namespace FwStandard.SqlServer
                     }
                 }
                 sqlForHtml.Append("<br/><br/>");
+                sql.Append("\n");
             }
-                
+
             if (command.CommandType == CommandType.Text)
             {
                 sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
             }
             else if (command.CommandType == CommandType.StoredProcedure)
             {
+                sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
+
                 sqlForHtml.Append("exec " + command.CommandText + "<br/>  ");
                 for(int i = 0; i < command.Parameters.Count; i++)
                 {
@@ -373,7 +380,9 @@ namespace FwStandard.SqlServer
                     }
                 }
             }
+            sql.Append(command.CommandText);
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
+            Console.WriteLine(sql);
         }
 
         public FwSqlLogEntry(SqlCommand command) : this(string.Empty, command)
