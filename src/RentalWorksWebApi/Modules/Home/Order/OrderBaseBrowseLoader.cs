@@ -88,6 +88,22 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
         public decimal? Total { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ponocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PoNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehousecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string WarehouseColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

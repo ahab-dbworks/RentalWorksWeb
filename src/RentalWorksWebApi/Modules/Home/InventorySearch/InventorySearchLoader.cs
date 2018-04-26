@@ -96,6 +96,12 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "thumbnail", modeltype: FwDataTypes.JpgDataUrl)]
         public string Thumbnail { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "imageheight", modeltype: FwDataTypes.Integer)]
+        public int? ImageHeight { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
+        public int? ImageWidth { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
