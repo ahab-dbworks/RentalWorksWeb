@@ -881,7 +881,7 @@ class Order {
         html.push('     </div>');
 
         html.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption="Inventory Type"  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
+        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
         html.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
         html.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
         html.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
@@ -943,8 +943,6 @@ class Order {
 
     populateTypeMenu($popup, request) {
         var $searchpopup = jQuery('#searchpopup');
-
-
         FwAppData.apiMethod(true, 'POST', "api/v1/inventoryType/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
             var inventoryTypeIndex, inventoryTypeIdIndex;
 
@@ -999,17 +997,8 @@ class Order {
             }
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                var descriptionIndex = response.ColumnIndex.Description;
-                var thumbnailIndex = response.ColumnIndex.Thumbnail;
-                var quantityAvailable = response.ColumnIndex.QuantityAvailable;
-                var conflictDate = response.ColumnIndex.ConflictDate;
-                var quantityIn = response.ColumnIndex.QuantityIn;
-                var quantityQcRequired = response.ColumnIndex.QuantityQcRequired;
-                var quantity = response.ColumnIndex.Quantity;
-                var dailyRate = response.ColumnIndex.DailyRate;
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
-                var inventoryId = response.ColumnIndex.InventoryId;
                 $popup.find('#category, #subCategory').empty();
                 $popup.find('.inventory').empty();
 
@@ -1020,52 +1009,7 @@ class Order {
                         categories.push(response.Rows[i][categoryIndex]);
                         $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
                     }
-                    var html = [];
-                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
-                    html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
-                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-                    html.push('<div data-control="FwAppImage" class="fwcontrol fwappimage" style="float:left; width:125px; height:155px;"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
-                    html.push('<div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
-                    html.push('</div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
-                    html.push('</div>');
-                    //need to add inventoryId
-                    var item = html.join('');
-                   $popup.find('.inventory').append(item);
-                   var $card = $popup.find('.inventory > div:last');
-
-                   FwConfirmation.addControls($card, item);
-                   FwFormField.setValueByDataField($card, 'InventoryId', response.Rows[i][inventoryId]);
-                   FwFormField.setValueByDataField($card, 'QuantityAvailable', response.Rows[i][quantityAvailable]);
-                   FwFormField.setValueByDataField($card, 'ConflictDate', response.Rows[i][conflictDate]);
-                   FwFormField.setValueByDataField($card, 'QuantityIn', response.Rows[i][quantityIn]);
-                   FwFormField.setValueByDataField($card, 'QuantityQcRequired', response.Rows[i][quantityQcRequired]);
-                   FwFormField.setValueByDataField($card, 'DailyRate', response.Rows[i][dailyRate]);
-                   FwFormField.setValueByDataField($card, 'Quantity', response.Rows[i][quantity]);
-      
-                    //$card.find('div[data-caption="Available"] input').val(response.Rows[i][quantityAvailable]);
-                    //$card.find('div[data-caption="Conflict"] input').val(response.Rows[i][conflictDate]);
-                    //$card.find('div[data-caption="In"] input').val(response.Rows[i][quantityIn]);
-                    //$card.find('div[data-caption="QC"] input').val(response.Rows[i][quantityQcRequired]);
-                    //$card.find('div[data-caption="Rate"] input').val(response.Rows[i][dailyRate]);
-                    //$card.find('div[data-caption="Qty"] input').val(response.Rows[i][quantity]);
-
                 }
-                var $inventory = $popup.find('div.card');
-
-                var css = {
-                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                    'transition': '0.3s'
-                }
-
-                $inventory.css(css);
-
-                //FwConfirmation.addControls($inventory, item);
 
             }, null, $searchpopup);
         });
@@ -1116,6 +1060,16 @@ class Order {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
+                var thumbnailIndex = response.ColumnIndex.Thumbnail;
+                var quantityAvailable = response.ColumnIndex.QuantityAvailable;
+                var conflictDate = response.ColumnIndex.ConflictDate;
+                var quantityIn = response.ColumnIndex.QuantityIn;
+                var quantityQcRequired = response.ColumnIndex.QuantityQcRequired;
+                var quantity = response.ColumnIndex.Quantity;
+                var dailyRate = response.ColumnIndex.DailyRate;
+                var inventoryId = response.ColumnIndex.InventoryId;
+                var thumbnail = response.ColumnIndex.Thumbnail;
+                var appImageId = response.ColumnIndex.ImageId;
                 var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
                 var subCategoryIndex = response.ColumnIndex.SubCategory;
                 $popup.find('#subCategory').empty();
@@ -1127,16 +1081,42 @@ class Order {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
                         $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                     }
+                    var html = [];
+                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+                    html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
+                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('</div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+                    html.push('</div>');
 
-                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    var item = html.join('');
+                    $popup.find('.inventory').append(item);
+                    var $card = $popup.find('.inventory > div:last');
 
-                    var css = {
-                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                        'transition': '0.3s'
-                    }
-                    var $card = $popup.find('div.card');
-                    $card.css(css);
+                    FwConfirmation.addControls($card, item);
+                    FwFormField.setValueByDataField($card, 'InventoryId', response.Rows[i][inventoryId]);
+                    FwFormField.setValueByDataField($card, 'QuantityAvailable', response.Rows[i][quantityAvailable]);
+                    FwFormField.setValueByDataField($card, 'ConflictDate', response.Rows[i][conflictDate]);
+                    FwFormField.setValueByDataField($card, 'QuantityIn', response.Rows[i][quantityIn]);
+                    FwFormField.setValueByDataField($card, 'QuantityQcRequired', response.Rows[i][quantityQcRequired]);
+                    FwFormField.setValueByDataField($card, 'DailyRate', response.Rows[i][dailyRate]);
+                    FwFormField.setValueByDataField($card, 'Quantity', response.Rows[i][quantity]);
+
                 }
+                var $inventory = $popup.find('div.card');
+
+                var css = {
+                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                    'transition': '0.3s'
+                }
+                $inventory.css(css);
             }, null, $searchpopup);
         });
 
@@ -1188,35 +1168,72 @@ class Order {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var descriptionIndex = response.ColumnIndex.Description;
+                var thumbnailIndex = response.ColumnIndex.Thumbnail;
+                var quantityAvailable = response.ColumnIndex.QuantityAvailable;
+                var conflictDate = response.ColumnIndex.ConflictDate;
+                var quantityIn = response.ColumnIndex.QuantityIn;
+                var quantityQcRequired = response.ColumnIndex.QuantityQcRequired;
+                var quantity = response.ColumnIndex.Quantity;
+                var dailyRate = response.ColumnIndex.DailyRate;
+                var inventoryId = response.ColumnIndex.InventoryId;
+                var thumbnail = response.ColumnIndex.Thumbnail;
+                var appImageId = response.ColumnIndex.ImageId;
+
                 $popup.find('.inventory').empty();
                 for (var i = 0; i < response.Rows.length; i++) {
 
-                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    var html = [];
+                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+                    html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
+                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('</div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+                    html.push('</div>');
 
-                    var css = {
-                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                        'transition': '0.3s'
-                    }
-                    var $card = $popup.find('.inventory > div');
-                    $card.css(css);
+                    var item = html.join('');
+                    $popup.find('.inventory').append(item);
+                    var $card = $popup.find('.inventory > div:last');
 
+                    FwConfirmation.addControls($card, item);
+                    FwFormField.setValueByDataField($card, 'InventoryId', response.Rows[i][inventoryId]);
+                    FwFormField.setValueByDataField($card, 'QuantityAvailable', response.Rows[i][quantityAvailable]);
+                    FwFormField.setValueByDataField($card, 'ConflictDate', response.Rows[i][conflictDate]);
+                    FwFormField.setValueByDataField($card, 'QuantityIn', response.Rows[i][quantityIn]);
+                    FwFormField.setValueByDataField($card, 'QuantityQcRequired', response.Rows[i][quantityQcRequired]);
+                    FwFormField.setValueByDataField($card, 'DailyRate', response.Rows[i][dailyRate]);
+                    FwFormField.setValueByDataField($card, 'Quantity', response.Rows[i][quantity]);
                 }
+                var $inventory = $popup.find('div.card');
+
+                var css = {
+                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                    'transition': '0.3s'
+                }
+                $inventory.css(css);
             }, null, $searchpopup);
         });
     }
 
     breadCrumbs($popup, $form, availableFor) {
         var $searchpopup = jQuery('#searchpopup');
+        var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+        var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
 
             var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             var request: any = {};
-            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
-            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
 
             request = {
                 SessionId: sessionId,
@@ -1227,12 +1244,12 @@ class Order {
                 FromDate: fromDate,
                 ToDate: toDate,
                 InventoryTypeId: inventoryTypeId
-            }
+            };
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
-                var descriptionIndex = response.ColumnIndex.Description;
+
                 $popup.find('.inventory').empty();
                 $popup.find('#category, #subCategory').empty();
 
@@ -1242,34 +1259,9 @@ class Order {
                         categories.push(response.Rows[i][categoryIndex]);
                         $popup.find('#category').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][categoryIdIndex] + '">' + response.Rows[i][categoryIndex] + '</ul>');
                     }
-
-                    var html = [];
-                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
-                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-                    html.push('<div data-control="FwAppImage" class="fwcontrol fwappimage" style="float:left; width:125px; height:155px;"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
-                    html.push('<div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
-                    html.push('</div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
-                    html.push('<div data-control="FwFormField" data-type="number" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
-                    html.push('</div>');
-
-                    var item = html.join('');
-                    $popup.find('.inventory').append(item);
-
-                    var css = {
-                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                        'transition': '0.3s'
-                    }
-                    var $card = $popup.find('.inventory > div');
-                    $card.css(css);
                 }
             }, null, $searchpopup);
         })
-
 
         $popup.on('click', '#breadcrumbs .category', function (e) {
             $popup.find("#breadcrumbs .subcategory").empty();
@@ -1277,11 +1269,6 @@ class Order {
             var categoryId = jQuery(e.currentTarget).attr('data-value');
             var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             var request: any = {};
-            var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
-            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-            var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-            var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
 
             request = {
                 SessionId: sessionId,
@@ -1293,15 +1280,24 @@ class Order {
                 ToDate: toDate,
                 CategoryId: categoryId,
                 InventoryTypeId: inventoryTypeId
-
-            }
+            };
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                var descriptionIndex = response.ColumnIndex.Description;
+                var thumbnailIndex = response.ColumnIndex.Thumbnail;
+                var quantityAvailable = response.ColumnIndex.QuantityAvailable;
+                var conflictDate = response.ColumnIndex.ConflictDate;
+                var quantityIn = response.ColumnIndex.QuantityIn;
+                var quantityQcRequired = response.ColumnIndex.QuantityQcRequired;
+                var quantity = response.ColumnIndex.Quantity;
+                var dailyRate = response.ColumnIndex.DailyRate;
+                var inventoryId = response.ColumnIndex.InventoryId;
+                var thumbnail = response.ColumnIndex.Thumbnail;
+                var appImageId = response.ColumnIndex.ImageId;
                 var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
                 var subCategoryIndex = response.ColumnIndex.SubCategory;
-                var descriptionIndex = response.ColumnIndex.Description;
-                $popup.find('.inventory').empty();
                 $popup.find('#subCategory').empty();
+                $popup.find('.inventory').empty();
 
                 var subCategories = [];
                 for (var i = 0; i < response.Rows.length; i++) {
@@ -1309,18 +1305,46 @@ class Order {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
                         $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                     }
-                    $popup.find('.inventory').append('<div class="card" style="cursor:pointer; width:225px; height:230px; float:left; padding:10px; margin:8px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    var html = [];
+                    html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+                    html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
+                    html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+                    html.push('<div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+                    html.push('</div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield" style="float:left; width:90px;" data-enabled="false"></div>');
+                    html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+                    html.push('</div>');
 
-                    var css = {
-                        'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
-                        'transition': '0.3s'
-                    }
-                    var $card = $popup.find('div.card');
-                    $card.css(css);
-                }
+                    var item = html.join('');
+                    console.log(item);
+                    $popup.find('.inventory').append(item);
+                    var $card = $popup.find('.inventory > div:last');
+
+                    FwConfirmation.addControls($card, item);
+                    FwFormField.setValueByDataField($card, 'InventoryId', response.Rows[i][inventoryId]);
+                    FwFormField.setValueByDataField($card, 'QuantityAvailable', response.Rows[i][quantityAvailable]);
+                    FwFormField.setValueByDataField($card, 'ConflictDate', response.Rows[i][conflictDate]);
+                    FwFormField.setValueByDataField($card, 'QuantityIn', response.Rows[i][quantityIn]);
+                    FwFormField.setValueByDataField($card, 'QuantityQcRequired', response.Rows[i][quantityQcRequired]);
+                    FwFormField.setValueByDataField($card, 'DailyRate', response.Rows[i][dailyRate]);
+                    FwFormField.setValueByDataField($card, 'Quantity', response.Rows[i][quantity]);
+
+                };
+                var $inventory = $popup.find('div.card');
+
+                var css = {
+                    'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+                    'transition': '0.3s'
+                };
+                $inventory.css(css);
             }, null, $searchpopup);
-        })
-    }
+        });
+    };
 }
 
 
@@ -1489,7 +1513,18 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
 
         }, null, $searchpopup);
 
-    })
+    });
+
+    $popup.on('click', '.image', function (e) {
+        var $confirmation, $cancel;
+        var image = jQuery(e.currentTarget).attr('src');
+        var imageId = jQuery(e.currentTarget).attr('data-value');
+
+        $confirmation = FwConfirmation.renderConfirmation('Image Viewer', '<div style="white-space:pre;">\n' +
+            '<img src="' + image + '" data-value="' + imageId + '" alt="No Image" class="image" style="width:100%; height:100%;">');
+
+        $cancel = FwConfirmation.addButton($confirmation, 'Close');
+    });
 
     var highlight = {
         'border-left': '6px solid #bdbdbd',
@@ -1542,12 +1577,6 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
 
         FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
 
-        var $orderPickListGrid;
-        $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
-        FwBrowse.search($orderPickListGrid);
-        var $orderStatusHistoryGrid;
-        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridRental);
@@ -1560,8 +1589,6 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
         var $orderItemGridMisc;
         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridMisc);
-        var $orderNoteGrid;
-        $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
-        FwBrowse.search($orderNoteGrid);
+
     });
 };
