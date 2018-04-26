@@ -101,9 +101,8 @@ class DuplicateRules {
         $form.find('div.modules').on("change", function () {
             var moduleName = jQuery(this).find(':selected').val();
             var request = {
-                module: moduleName
-                //pageno: 1,   //justin 04/23/2018 - we just want the first row to harvest the column names  //reverting this change...
-                //pagesize: 1
+                module: moduleName,
+                top: 1
             };
             var moduleUrl = jQuery(this).find(":selected").attr('data-apiurl');
 
