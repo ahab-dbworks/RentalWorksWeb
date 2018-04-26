@@ -361,27 +361,30 @@ var FwModule = (function () {
             });
         }
         customFields = JSON.parse(sessionStorage.getItem('customFields'));
-        for (var i = 0; i < customFields.length; i++) {
-            if (controller.slice(0, -10) === customFields[i]) {
-                var customHtml = [];
-                var customModule = customFields[i];
-                $formTabControl = jQuery($form.find('.fwtabs'));
-                customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
-                FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
-                    customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">');
-                    for (var j = 0; j < response.length; j++) {
-                        if (customModule === response[j].ModuleName) {
-                            customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                            customHtml.push('<div data-control="FwFormField" data-type="' + response[j].FieldType.toLowerCase() + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldType + '"></div>');
-                            customHtml.push('</div>');
+        if (customFields.length > 0) {
+            for (var i = 0; i < customFields.length; i++) {
+                if (controller.slice(0, -10) === customFields[i]) {
+                    var customHtml = [];
+                    var customModule = customFields[i];
+                    $formTabControl = jQuery($form.find('.fwtabs'));
+                    customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
+                    FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
+                        customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">');
+                        for (var j = 0; j < response.length; j++) {
+                            if (customModule === response[j].ModuleName) {
+                                customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                                customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].FieldType.toLowerCase() + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '"></div>');
+                                customHtml.push('</div>');
+                            }
                         }
-                    }
-                    customHtml.push('</div>');
-                    $customControl = jQuery(customHtml.join(''));
-                    FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
-                    $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
-                }, function onError(response) {
-                }, null);
+                        customHtml.push('</div>');
+                        $customControl = jQuery(customHtml.join(''));
+                        FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
+                        $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
+                        $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+                    }, function onError(response) {
+                    }, null);
+                }
             }
         }
         $form
@@ -982,6 +985,7 @@ var FwModule = (function () {
     FwModule.getFormFields = function ($form, getAllFieldsOverride) {
         var $fwformfields, fields, field;
         fields = {};
+        fields._Custom = [];
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
@@ -999,11 +1003,20 @@ var FwModule = (function () {
             isValidDataField = (!isBlank) && (!isCalculatedField);
             getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
             if ((isValidDataField) && ((getAllFields) || (originalValue !== value))) {
-                field = {
-                    datafield: dataField,
-                    value: value
-                };
-                fields[dataField] = field;
+                if ($fwformfield.data('customfield') === true) {
+                    field = {
+                        FieldName: dataField,
+                        FieldValue: value
+                    };
+                    fields._Custom.push(field);
+                }
+                else {
+                    field = {
+                        datafield: dataField,
+                        value: value
+                    };
+                    fields[dataField] = field;
+                }
             }
         });
         return fields;
@@ -1042,7 +1055,12 @@ var FwModule = (function () {
             request[key] = uniqueids[key].value;
         }
         for (var key in fields) {
-            request[key] = fields[key].value;
+            if (key === '_Custom') {
+                request[key] = fields[key];
+            }
+            else {
+                request[key] = fields[key].value;
+            }
         }
         return request;
     };
