@@ -29,6 +29,8 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public bool? SystemRule { get { return duplicateRule.SystemRule; } set { duplicateRule.SystemRule = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Fields { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RuleNameColor { get; set; }
         public string DateStamp { get { return duplicateRule.DateStamp; } set { duplicateRule.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, ref string validateMsg)
