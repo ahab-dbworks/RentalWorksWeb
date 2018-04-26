@@ -80,6 +80,8 @@ class DuplicateRules {
 
         this.getFields($form);
 
+        $form.find('[data-datafield="SystemRule"]').attr('data-required', false);
+
         return $form;
     }
 
@@ -138,10 +140,10 @@ class DuplicateRules {
                 $fields.empty().append(fieldsHtml.join('')).html();
 
                 var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
-                var separateFields = fields.split(",");
-                jQuery.each(separateFields, function (i, val) {
-                    jQuery("input[name='" + val + "']").prop("checked", true)
-                });
+                    var separateFields = fields.split(",");
+                    jQuery.each(separateFields, function (i, val) {
+                        jQuery("input[name='" + val + "']").prop("checked", true)
+                    });
 
                 $form.on('change', '[type="checkbox"]', (e) => {
                     var field = jQuery(e.currentTarget).attr('name');
@@ -150,9 +152,9 @@ class DuplicateRules {
                     } else {
                         separateFields = separateFields.filter((item) => item !== field)
                     }
-                    if (separateFields.length !== 1) {
-                        throw 'Expected 1 element, but got: ' + separateFields.length;
-                    }
+                    //if (separateFields.length !== 1) {
+                    //    throw 'Expected 1 element, but got: ' + separateFields.length;
+                    //}
                     var joinFields = separateFields.join(',');
                     FwFormField.setValueByDataField($form, 'Fields', joinFields); 
                 });

@@ -63,6 +63,7 @@ var DuplicateRules = (function () {
         $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
         this.getFields($form);
+        $form.find('[data-datafield="SystemRule"]').attr('data-required', false);
         return $form;
     };
     DuplicateRules.prototype.loadForm = function (uniqueids) {
@@ -122,9 +123,6 @@ var DuplicateRules = (function () {
                     }
                     else {
                         separateFields = separateFields.filter(function (item) { return item !== field; });
-                    }
-                    if (separateFields.length !== 1) {
-                        throw 'Expected 1 element, but got: ' + separateFields.length;
                     }
                     var joinFields = separateFields.join(',');
                     FwFormField.setValueByDataField($form, 'Fields', joinFields);
