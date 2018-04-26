@@ -47,8 +47,6 @@ class DuplicateRules {
             FwFormField.disable($form.find('.ifnew'));
         }
 
-
-
         var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
         var modules = FwApplicationTree.getChildrenByType(node, 'Module');
         var allModules = [];
@@ -108,7 +106,7 @@ class DuplicateRules {
             };
             var moduleUrl = jQuery(this).find(":selected").attr('data-apiurl');
 
-            FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 var fieldColumns = response.Columns;
 
                 var filteredColumns = fieldColumns.filter(function (obj) {
@@ -126,7 +124,7 @@ class DuplicateRules {
                     var uniqueId = FwApplication.prototype.uniqueId(10);
                     fieldsHtml.push('<div data-control="FwFormField"');
                     fieldsHtml.push(' data-type="checkbox"');
-                    fieldsHtml.push(' class="fwcontrol fwformfield SystemRuleTRUE"');
+                    fieldsHtml.push(' class="fwcontrol fwformfield"');
                     fieldsHtml.push(' data-enabled="true"');
                     fieldsHtml.push(' data-caption="' + sortedFields[i] + '"');
                     fieldsHtml.push(' data-value="' + sortedFields[i] + '"');
@@ -150,7 +148,7 @@ class DuplicateRules {
                     if (separateFields.indexOf(field) === -1) {
                         separateFields.push(field);
                     } else {
-                        separateFields = separateFields.filter((item) => item !== field)
+                      separateFields = separateFields.filter(item => { return item !== field})
                     }
                     //if (separateFields.length !== 1) {
                     //    throw 'Expected 1 element, but got: ' + separateFields.length;
@@ -169,7 +167,7 @@ class DuplicateRules {
             module: moduleName
         };
 
-        FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST',  `${moduleUrl}/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
             var fieldColumns = response.Columns;
 
             var filteredColumns = fieldColumns.filter(function (obj) {
@@ -184,46 +182,46 @@ class DuplicateRules {
             var fieldsHtml = [];
             var $fields = $form.find('.fields');
 
-          if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
-              FwFormField.disable($form.find('.SystemRuleTRUE'));
-              for (var i = 0; i < sortedFields.length; i++) {
-                  let uniqueId = FwApplication.prototype.uniqueId(10);
-                  fieldsHtml.push('<div data-control="FwFormField"');
-                  fieldsHtml.push(' data-type="checkbox"');
-                  fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"');
-                  fieldsHtml.push(' data-enabled="false"');
-                  fieldsHtml.push(' data-caption="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' data-value="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"');
-                  fieldsHtml.push('>');
-                  fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' />');
-                  fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>');
-                  fieldsHtml.push('</div>');
-              }
-          } else {
-              for (var i = 0; i < sortedFields.length; i++) {
-                  let uniqueId = FwApplication.prototype.uniqueId(10);
-                  fieldsHtml.push('<div data-control="FwFormField"');
-                  fieldsHtml.push(' data-type="checkbox"');
-                  fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"');
-                  fieldsHtml.push(' data-enabled="true"');
-                  fieldsHtml.push(' data-caption="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' data-value="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"');
-                  fieldsHtml.push('>');
-                  fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"');
-                  fieldsHtml.push(' />');
-                  fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>');
-                  fieldsHtml.push('</div>');
-              }
-          }
+            if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') { 
+                FwFormField.disable($form.find('.SystemRuleTRUE')); 
+                for (var i = 0; i < sortedFields.length; i++) { 
+                    let uniqueId = FwApplication.prototype.uniqueId(10); 
+                    fieldsHtml.push('<div data-control="FwFormField"'); 
+                    fieldsHtml.push(' data-type="checkbox"'); 
+                    fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"'); 
+                    fieldsHtml.push(' data-enabled="false"'); 
+                    fieldsHtml.push(' data-caption="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' data-value="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"'); 
+                    fieldsHtml.push('>'); 
+                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' />'); 
+                    fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>'); 
+                    fieldsHtml.push('</div>'); 
+                } 
+            } else { 
+                for (var i = 0; i < sortedFields.length; i++) { 
+                    let uniqueId = FwApplication.prototype.uniqueId(10); 
+                    fieldsHtml.push('<div data-control="FwFormField"'); 
+                    fieldsHtml.push(' data-type="checkbox"'); 
+                    fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"'); 
+                    fieldsHtml.push(' data-enabled="true"'); 
+                    fieldsHtml.push(' data-caption="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' data-value="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"'); 
+                    fieldsHtml.push('>'); 
+                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"'); 
+                    fieldsHtml.push(' />'); 
+                    fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>'); 
+                    fieldsHtml.push('</div>'); 
+                } 
+            } 
             $fields.empty().append(fieldsHtml.join('')).html();
 
             var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
             var separateFields = fields.split(",");
             jQuery.each(separateFields, function (i, val) {
-                jQuery("input[name='" + val + "']").prop("checked", true)
+                jQuery("input[name='" + val + "']").prop("checked", true);
             });
 
             $form.on('change', '[type="checkbox"]', (e) => {
@@ -231,12 +229,12 @@ class DuplicateRules {
                 if (separateFields.indexOf(field) === -1) {
                     separateFields.push(field);
                 } else {
-                    separateFields = separateFields.filter((item) => item !== field)
+                  separateFields = separateFields.filter((item) => { return item !== field})
                 }
                 var joinFields = separateFields.join(',');
                 FwFormField.setValueByDataField($form, 'Fields', joinFields); 
             });
-        }, null, $form);
+        }, null, $form); 
     }
 }
 
