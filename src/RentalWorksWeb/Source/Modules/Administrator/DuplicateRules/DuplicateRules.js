@@ -79,7 +79,8 @@ var DuplicateRules = (function () {
         $form.find('div.modules').on("change", function () {
             var moduleName = jQuery(this).find(':selected').val();
             var request = {
-                module: moduleName
+                module: moduleName,
+                top: 1
             };
             var moduleUrl = jQuery(this).find(":selected").attr('data-apiurl');
             FwAppData.apiMethod(true, 'POST', moduleUrl + "/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
