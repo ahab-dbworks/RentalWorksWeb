@@ -409,7 +409,16 @@ class Repair {
       }
       else {
           FwFormField.enable($form.find('div[data-datafield="PoNumber"]'));
-      } 
+      }
+    
+      FwFormField.disable($form.find('div[data-displayfield="BarCode"]'));
+      FwFormField.disable($form.find('div[data-displayfield="SerialNumber"]'));
+      FwFormField.disable($form.find('div[data-displayfield="ICode"]'));
+      FwFormField.disable($form.find('div[data-displayfield="RfId"]'));
+      FwFormField.disable($form.find('div[data-displayfield="DamageOrderNumber"]'));
+      FwFormField.disable($form.find('div[data-datafield="AvailFor"]'));
+      FwFormField.disable($form.find('div[data-datafield="RepairType"]'));           
+      FwFormField.disable($form.find('div[data-datafield="PendingRepair"]'));
   };
 
   //----------------------------------------------------------------------------------------------
