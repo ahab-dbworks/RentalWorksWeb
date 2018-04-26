@@ -10,6 +10,7 @@ namespace FwStandard.Models
         public dynamic options { get; set; } = new ExpandoObject();
         public string orderby { get; set; } = string.Empty;
         public string orderbydirection { get; set; } = string.Empty;
+        public int top { get; set; } = 0;
         public int pageno { get; set; } = 0;
         public int pagesize { get; set; } = 0;
         public string[] searchfieldoperators { get; set; } = new string[0];

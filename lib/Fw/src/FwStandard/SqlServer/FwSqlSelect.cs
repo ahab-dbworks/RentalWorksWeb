@@ -291,8 +291,7 @@ namespace FwStandard.SqlServer
                 sb.Append("    select top(@fwrownoend) row_number() over (");
                 if (OrderBy.Count == 0)
                 {
-                    //throw new Exception("A sort expression is required for paged queries.");
-                    OrderBy.Add("order by 1"); //justin 04/24/2018
+                    throw new Exception("A sort expression is required for paged queries.");
                 }
                 foreach (string line in OrderBy)
                 {
@@ -323,8 +322,7 @@ namespace FwStandard.SqlServer
                 sb.AppendLine("from main_cte with (nolock), count_cte with (nolock)");
                 if (OrderBy.Count == 0)
                 {
-                    //throw new Exception("A sort expression is required for paged queries.");
-                    OrderBy.Add("order by 1"); //justin 04/24/2018
+                    throw new Exception("A sort expression is required for paged queries.");
                 }
                 foreach (string line in OrderBy)
                 {

@@ -552,6 +552,7 @@ namespace FwStandard.DataLayer
                 select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
                 select.PageNo = request.pageno;
                 select.PageSize = request.pagesize;
+                select.Top = request.top;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry, customFields: customFields, request: request);
