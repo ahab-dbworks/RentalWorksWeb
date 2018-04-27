@@ -311,10 +311,25 @@ namespace WebApi.Modules.Home.Order
             {
                 if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
                 {
-                    OrderBaseLogic l2 = new OrderBaseLogic();
+                    OrderBaseLogic l2 = null;
+                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                    {
+                        l2 = new QuoteLogic();
+                    }
+                    else
+                    {
+                        l2 = new OrderLogic();
+                    }
                     l2.SetDependencies(this.AppConfig, this.UserSession);
                     object[] pk = GetPrimaryKeys();
-                    bool b = l2.LoadAsync<OrderBaseLogic>(pk).Result;
+                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                    {
+                        bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
+                    }
+                    else 
+                    {
+                        bool b = l2.LoadAsync<OrderLogic>(pk).Result;
+                    }
                     tax.TaxId = l2.TaxId;
                 }
             }
@@ -323,7 +338,6 @@ namespace WebApi.Modules.Home.Order
         public virtual void OnAfterSaveDealOrder(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;
-            //bool b = false;
             if (e.SavePerformed)
             {
                 billToAddress.UniqueId1 = dealOrder.OrderId;
@@ -333,15 +347,30 @@ namespace WebApi.Modules.Home.Order
                 {
                     if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
                     {
-                        OrderBaseLogic l2 = new OrderBaseLogic();
+                        OrderBaseLogic l2 = null;
+                        if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                        {
+                            l2 = new QuoteLogic();
+                        }
+                        else
+                        {
+                            l2 = new OrderLogic();
+                        }
                         l2.SetDependencies(this.AppConfig, this.UserSession);
                         object[] pk = GetPrimaryKeys();
-                        bool b = l2.LoadAsync<OrderBaseLogic>(pk).Result;
+                        if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                        {
+                            bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
+                        }
+                        else
+                        {
+                            bool b = l2.LoadAsync<OrderLogic>(pk).Result;
+                        }
                         TaxId = l2.TaxId;
 
                         if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                         {
-                            b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                            bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
                         }
                     }
                 }
