@@ -185,6 +185,8 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                     AddMiscFieldToQueryAsBoolean("SummarizeByICode", "@summarizebymaster", qry, request);
                     AddMiscFieldToQueryAsBoolean("SummarizeCompleteKitItems", "@summarizeacc", qry, request);
                     AddMiscFieldToQueryAsBoolean("HonorCompleteKitItemTypes", "@honorcompletekititemtypes", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SelectAll", "@selectall", qry, request);
+                    AddMiscFieldToQueryAsBoolean("SelectNone", "@selectnone", qry, request);
                     PropertyInfo[] propertyInfos = typeof(PickListUtilityItemLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {

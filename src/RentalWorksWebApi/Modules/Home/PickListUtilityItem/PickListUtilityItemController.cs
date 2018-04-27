@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Modules.Home.PickList;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.PickListUtilityItem
 {
@@ -26,6 +27,26 @@ namespace WebApi.Modules.Home.PickListUtilityItem
         public async Task<IActionResult> PostAsync([FromBody]PickListUtilityItemLogic l)
         {
             return await DoPostAsync<PickListUtilityItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/picklistutilityitem/selectall
+        [HttpPost("selectall")]
+        public async Task<IActionResult> SelectAll([FromBody]BrowseRequest browseRequest)
+        {
+            IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
+            miscfields.Add("SelectAll", true);
+            browseRequest.miscfields = miscfields;
+            return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/picklistutilityitem/selectnone
+        [HttpPost("selectnone")]
+        public async Task<IActionResult> SelectNone([FromBody]BrowseRequest browseRequest)
+        {
+            IDictionary<string, object> miscfields = ((IDictionary<string, object>)browseRequest.miscfields);
+            miscfields.Add("SelectNone", true);
+            browseRequest.miscfields = miscfields;
+            return await DoBrowseAsync(browseRequest, typeof(PickListUtilityItemLogic));
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistutilityitem/createpicklist
