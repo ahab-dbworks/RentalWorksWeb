@@ -16,9 +16,9 @@ namespace FwStandard.SqlServer
         public FwSqlLogEntry(string label, SqlCommand command)
         {
             StringBuilder sqlForHtml, sql;
-            bool hasFirstDeclareParameter = false, hasFirstExecParameter = false, hasFirstSelectParameter = false;
             int maxParameterWidth = 0;
-
+            int maxDataTypeWidth = 0;
+            List<string> outputParameterNames = new List<string>();
 
             sqlForHtml = new StringBuilder();
             sql = new StringBuilder();
@@ -43,22 +43,7 @@ namespace FwStandard.SqlServer
                 }
                 for(int i = 0; i < command.Parameters.Count; i++)
                 {
-                    if (!hasFirstDeclareParameter)
-                    {
-                        hasFirstDeclareParameter = true;
-                    }
-                    else
-                    {
-                        if (i > 0)
-                        {
-                            sqlForHtml.Append("<br/>, ");
-                            sql.Append("\n, ");
-                        }
-                    }
-                    if ((i == 0) && (command.Parameters.Count > 1))
-                    {
-                       sql.Append("  ");
-                    }
+                    sql.Append("  ");
                     sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
                     sqlForHtml.Append(" ");
                     sql.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
@@ -327,6 +312,15 @@ namespace FwStandard.SqlServer
                             }
                             break;
                     }
+
+                    if (i < command.Parameters.Count - 1)
+                    {
+                        sqlForHtml.Append(",");
+                        sql.Append(",");
+                    }
+                    sqlForHtml.Append("<br/>");
+                    sql.Append("\n");
+
                 }
                 sqlForHtml.Append("<br/><br/>");
                 sql.Append("\n");
@@ -335,52 +329,67 @@ namespace FwStandard.SqlServer
             if (command.CommandType == CommandType.Text)
             {
                 sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
+                sql.Append(command.CommandText);
             }
             else if (command.CommandType == CommandType.StoredProcedure)
             {
-                sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
+                //sqlForHtml.Append(command.CommandText.Replace("\r\n", "<br/>"));
 
+                sql.AppendLine("exec " + command.CommandText);
                 sqlForHtml.Append("exec " + command.CommandText + "<br/>  ");
                 for(int i = 0; i < command.Parameters.Count; i++)
                 {
-                    if (!hasFirstExecParameter)
+                    sql.Append("  ");
+
+                    sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " = ");
+                    sql.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " = ");
+                    if ((command.Parameters[i].Direction == ParameterDirection.InputOutput) || (command.Parameters[i].Direction == ParameterDirection.Output))
                     {
-                        hasFirstExecParameter = true;
+                        sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
+                        sql.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
+
+                        sqlForHtml.Append(" output");
+                        sql.Append(" output");
+
+                        outputParameterNames.Add(command.Parameters[i].ParameterName);
                     }
                     else
                     {
-                        if (i > 0)
-                        {
-                            sqlForHtml.Append("<br/>, ");
-                        }
+                        sqlForHtml.Append(command.Parameters[i].ParameterName);
+                        sql.Append(command.Parameters[i].ParameterName);
                     }
-                    sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " = " + command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' '));
-                    if ((command.Parameters[i].Direction == ParameterDirection.InputOutput) || (command.Parameters[i].Direction == ParameterDirection.Output))
+
+                    if (i < command.Parameters.Count-1)
                     {
-                        sqlForHtml.Append(" output");
+                        sqlForHtml.Append(",");
+                        sql.Append(",");
                     }
+                    sqlForHtml.Append("<br/>");
+                    sql.Append("\n");
+
                 }
-                sqlForHtml.Append("<br/><br/>select<br/>  ");
-                for(int i = 0; i < command.Parameters.Count; i++)
+                if (outputParameterNames.Count > 0)
                 {
-                    if ((command.Parameters[i].Direction == ParameterDirection.InputOutput) || (command.Parameters[i].Direction == ParameterDirection.Output))
+                    sqlForHtml.Append("<br/><br/>select<br/>  ");
+                    sql.Append("\n\nselect\n ");
+                    for (int i = 0; i < outputParameterNames.Count; i++)
                     {
-                        if (!hasFirstSelectParameter)
+                        sql.Append("  ");
+
+                        sqlForHtml.Append(outputParameterNames[i].PadRight(maxParameterWidth - 2, ' ').Replace("@", string.Empty) + " = " + outputParameterNames[i].PadRight(maxParameterWidth, ' '));
+                        sql.Append(outputParameterNames[i].PadRight(maxParameterWidth - 2, ' ').Replace("@", string.Empty) + " = " + outputParameterNames[i].PadRight(maxParameterWidth, ' '));
+
+                        if (i < outputParameterNames.Count - 1)
                         {
-                            hasFirstSelectParameter = true;
+                            sqlForHtml.Append(",");
+                            sql.Append(",");
                         }
-                        else
-                        {
-                            if (i > 0)
-                            {
-                                sqlForHtml.Append("<br/>, ");
-                            }
-                        }
-                        sqlForHtml.Append(command.Parameters[i].ParameterName.PadRight(maxParameterWidth - 2, ' ').Replace("@", string.Empty) + " = " + command.Parameters[i].ParameterName.PadRight(maxParameterWidth, ' ') + " --" + command.Parameters[i].Direction.ToString());
+                        sqlForHtml.Append("<br/>");
+                        sql.Append("\n");
+
                     }
                 }
             }
-            sql.Append(command.CommandText);
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
             Console.WriteLine(sql);
         }
