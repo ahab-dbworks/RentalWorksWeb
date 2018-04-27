@@ -836,5 +836,59 @@ FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = functi
     }
 };
 
+//---------------------------------------------------------------------------------
+//Browse Void Option
+FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = function (event) {
+    var $browse, repairId;
+    try {
+        $browse = jQuery(this).closest('.fwbrowse');
+        const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');
+        if (RepairId != null) {
+              var self = this;
+              let $confirmation, $yes, $no;
+              $confirmation = FwConfirmation.renderConfirmation('Void', '');
+              $confirmation.find('.fwconfirmationbox').css('width', '450px');
+              let html = [];
+              html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+              html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+              html.push('    <div>Would you like to void this Repair Order?</div>');
+              html.push('  </div>');
+              html.push('</div>');
+
+              FwConfirmation.addControls($confirmation, html.join(''));
+              $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+              $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+              $yes.on('click', makeVoid);
+
+              function makeVoid() {
+                  let request: any = {};
+
+                  FwFormField.disable($confirmation.find('.fwformfield'));
+                  FwFormField.disable($yes);
+                  $yes.text('Voiding...');
+                  $yes.off('click');
+
+                  FwAppData.apiMethod(true, 'POST',  `api/v1/repair/void/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                      FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
+                      FwConfirmation.destroyConfirmation($confirmation);
+                  }, function onError(response) {
+                      $yes.on('click', makeVoid);
+                      $yes.text('Void');
+                      FwFunc.showError(response);
+                      FwFormField.enable($confirmation.find('.fwformfield'));
+                      FwFormField.enable($yes);
+                  }, $browse);
+                  
+              };
+        } else {
+            throw new Error("Please select a Repair Order to void.");
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
 //------------------------------------------------------------------------------------------------
 var RepairController = new Repair();
