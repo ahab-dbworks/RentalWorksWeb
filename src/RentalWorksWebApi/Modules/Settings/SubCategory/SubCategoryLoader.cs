@@ -4,6 +4,7 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.SubCategory
 {
@@ -41,6 +42,52 @@ namespace WebApi.Modules.Settings.SubCategory
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
+        protected void addRecTypeToSelect(string filterFieldName, FwSqlSelect select, BrowseRequest request = null)
+        {
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey(filterFieldName))
+                {
+                    string recTypeValue = string.Empty;
+                    switch (filterFieldName)
+                    {
+                        case "Rental":
+                            recTypeValue = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+                            break;
+                        case "Sales":
+                            recTypeValue = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
+                            break;
+                        case "Parts":
+                            recTypeValue = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
+                            break;
+                        case "Misc":
+                            recTypeValue = RwConstants.RATE_AVAILABLE_FOR_MISC;
+                            break;
+                        case "Labor":
+                            recTypeValue = RwConstants.RATE_AVAILABLE_FOR_LABOR;
+                            break;
+                        default:
+                            recTypeValue = string.Empty;
+                            break;
+                    }
+
+                    string paramName = "@rectype" + filterFieldName;
+
+                    if ((bool)uniqueIds[filterFieldName])
+                    {
+                        select.AddWhere("rectype = " + paramName);
+                    }
+                    else
+                    {
+                        select.AddWhere("rectype <> " + paramName);
+                    }
+                    select.AddParameter(paramName, recTypeValue);
+                }
+
+            }
+        }
+        //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -48,6 +95,13 @@ namespace WebApi.Modules.Settings.SubCategory
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("TypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
+
+            addRecTypeToSelect("Rental",  select, request);
+            addRecTypeToSelect("Sales", select, request);
+            addRecTypeToSelect("Parts", select, request);
+            addRecTypeToSelect("Misc", select, request);
+            addRecTypeToSelect("Labor", select, request);
+
         }
         //------------------------------------------------------------------------------------
     }

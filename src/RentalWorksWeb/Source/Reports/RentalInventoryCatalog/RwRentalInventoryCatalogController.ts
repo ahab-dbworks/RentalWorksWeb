@@ -92,6 +92,11 @@ class RwRentalInventoryCatalog {
                             CategoryId: CategoryTypeId
                         };
                     }
+
+                    request.uniqueids = {
+                        Rental: true,
+                    };
+
                     break;
                 case 'RentalInventoryValidation':
 

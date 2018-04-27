@@ -37,6 +37,9 @@ var RwRentalInventoryCatalog = (function () {
                                 CategoryId: CategoryTypeId
                             };
                         }
+                        request.uniqueids = {
+                            Rental: true,
+                        };
                         break;
                     case 'RentalInventoryValidation':
                         if (InventoryTypeValue !== "") {
