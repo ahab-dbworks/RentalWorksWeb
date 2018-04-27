@@ -872,12 +872,14 @@ FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = functi
                   FwAppData.apiMethod(true, 'POST',  `api/v1/repair/void/${RepairId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                       FwNotification.renderNotification('SUCCESS', 'Repair Order Successfully Voided');
                       FwConfirmation.destroyConfirmation($confirmation);
+                      FwBrowse.databind($browse);
                   }, function onError(response) {
                       $yes.on('click', makeVoid);
                       $yes.text('Void');
                       FwFunc.showError(response);
                       FwFormField.enable($confirmation.find('.fwformfield'));
                       FwFormField.enable($yes);
+                      FwBrowse.databind($browse);
                   }, $browse);
                   
               };
