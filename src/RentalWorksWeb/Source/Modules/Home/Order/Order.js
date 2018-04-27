@@ -844,7 +844,6 @@ var Order = (function () {
             $popup.find('#inventoryType ul').css({
                 'background-color': '',
                 'color': 'black',
-                'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
             invType = jQuery(e.currentTarget).text();
@@ -854,7 +853,7 @@ var Order = (function () {
             $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
             var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -894,7 +893,6 @@ var Order = (function () {
             $popup.find('#category ul').css({
                 'background-color': '',
                 'color': 'black',
-                'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
             category = jQuery(e.currentTarget).text();
@@ -904,7 +902,7 @@ var Order = (function () {
             $popup.find("#breadcrumbs .subcategory").empty();
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = jQuery(e.currentTarget).attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
@@ -950,7 +948,9 @@ var Order = (function () {
                     html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
                     html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
                     html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div style="float:left; width:125px; height:155px; line-height:155px; display: inline-block; position: relative;">');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
+                    html.push('</div>');
                     html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div>');
@@ -989,7 +989,6 @@ var Order = (function () {
             $popup.find('#subCategory ul').css({
                 'background-color': '',
                 'color': 'black',
-                'border-left': '0px white',
                 'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
             });
             subCategory = jQuery(e.currentTarget).text();
@@ -999,7 +998,7 @@ var Order = (function () {
             breadcrumb.text(subCategory);
             subCategoryId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', subCategoryId);
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '5px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             var sessionId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -1037,7 +1036,9 @@ var Order = (function () {
                     html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
                     html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
                     html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div style="float:left; width:125px; height:155px; line-height:155px; display: inline-block; position: relative;">');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
+                    html.push('</div>');
                     html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div>');
@@ -1145,7 +1146,9 @@ var Order = (function () {
                     html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
                     html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
                     html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="float:left; width:125px; height:155px;">');
+                    html.push('<div style="float:left; width:125px; height:155px; line-height:155px; display: inline-block; position: relative;">');
+                    html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
+                    html.push('</div>');
                     html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
                     html.push('<div>');
@@ -1327,18 +1330,15 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
         $cancel = FwConfirmation.addButton($confirmation, 'Close');
     });
     var highlight = {
-        'border-left': '6px solid #bdbdbd',
         'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
     };
     var unhighlight = {
-        'border-left': '0px white',
         'box-shadow': '0 0px 0px 0 rgba(0, 0, 0, 0.2)'
     };
     $popup.on('mouseenter', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
             jQuery(e.currentTarget).css({
-                'border-left': '6px solid #939393',
                 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)'
             });
         }
@@ -1349,7 +1349,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     $popup.on('mouseleave', '#inventoryType ul, #category ul, #subCategory ul', function (e) {
         var selected = jQuery(e.currentTarget).hasClass('selected');
         if (selected) {
-            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'border-left': '6px solid #939393', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
+            jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
         }
         else {
             jQuery(e.currentTarget).css(unhighlight);
