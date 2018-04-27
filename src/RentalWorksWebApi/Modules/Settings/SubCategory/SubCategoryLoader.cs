@@ -47,6 +47,7 @@ namespace WebApi.Modules.Settings.SubCategory
             select.Parse();
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("TypeId", "inventorydepartmentid", select, request);
+            addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
         }
         //------------------------------------------------------------------------------------
     }
