@@ -54,6 +54,33 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
         public int? ConsignQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string UnitId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 3)]
+        public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
+        public decimal? MarginPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
+        public decimal? MarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "premiumpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
+        public decimal? PremiumPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "crewcontactid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string CrewContactId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hours", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
+        public decimal? Hours { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursot", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
+        public decimal? HoursOvertime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursdt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
+        public decimal? HoursDoubletime { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -84,14 +111,14 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "returntowarehouseid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string ReturnToWarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string ItemOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
         //[FwSqlDataField(column: "repairid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string RepairId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 3)]
-        //public decimal? Cost { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Locked { get; set; }
@@ -165,12 +192,6 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "manufacturerid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string ManufacturerId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
-        //public decimal? Marginpct { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
-        //public decimal? Markuppct { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "mfgmodel", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 15)]
         //public string Mfgmodel { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -185,9 +206,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "vendorpartno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
         //public string Vendorpartno { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        //public string Itemorder { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "conflict", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Conflict { get; set; }
@@ -216,23 +234,8 @@ namespace WebApi.Modules.Home.MasterItem
         //[FwSqlDataField(column: "spacetypeid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string SpacetypeId { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "crewcontactid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string CrewcontactId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hours", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
-        //public decimal? Hours { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hoursdt", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
-        //public decimal? Hoursdt { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hoursot", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 10, scale: 2)]
-        //public decimal? Hoursot { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "linkedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string LinkedmasteritemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string UnitId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "forceconflictflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Forceconflictflg { get; set; }
@@ -251,9 +254,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "proratemonths", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Proratemonths { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "premiumpct", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 16, scale: 10)]
-        //public decimal? Premiumpct { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "ismaxdayloc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Ismaxdayloc { get; set; }

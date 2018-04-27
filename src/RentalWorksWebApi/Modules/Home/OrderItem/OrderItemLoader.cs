@@ -69,11 +69,62 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer)]
         public int? ConsignQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reservedrentalitems", modeltype: FwDataTypes.Integer)]
+        public int? ReservedItemQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqty", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.Integer)]
         public int? AvailableQuantityColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availqtyallwh", modeltype: FwDataTypes.Decimal)]
+        public decimal? AvailableAllWarehousesQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availcolorallwh", modeltype: FwDataTypes.Integer)]
+        public int? AvailableAllWarehousesQuantityColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
+        public string ConflictDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "conflictdateallwh", modeltype: FwDataTypes.Date)]
+        public string ConflictDateAllWarehouses { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "conflictdateconsign", modeltype: FwDataTypes.Date)]
+        public string ConflictDateConsignment { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
+        public string UnitId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
+        public string Unit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitCost { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? MarginPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal)]
+        public decimal? MarkupPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "premiumpct", modeltype: FwDataTypes.Decimal)]
+        public decimal? PremiumPercent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "crewcontactid", modeltype: FwDataTypes.Text)]
+        public string CrewContactId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "crewname", modeltype: FwDataTypes.Text)]
+        public string CrewName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hours", modeltype: FwDataTypes.Decimal)]
+        public decimal? Hours { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursot", modeltype: FwDataTypes.Decimal)]
+        public decimal? HoursOvertime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hoursdt", modeltype: FwDataTypes.Decimal)]
+        public decimal? HoursDoubletime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
@@ -99,11 +150,86 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "discountpctdisplay", modeltype: FwDataTypes.Decimal)]
         public decimal? DiscountPercentDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitextendednodisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitExtendedNoDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyExtendedNoDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyDiscountAmount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklycostextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week2extended", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week2Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week3extended", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week3Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeks1through3extended", modeltype: FwDataTypes.Decimal)]
+        public decimal? Weeks1Through3Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeks4plusextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? Weeks4PlusExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "week4extended", modeltype: FwDataTypes.Decimal)]
+        public decimal? Week4Extended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "averageweeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? AverageWeeklyExtendedNoDiscount{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "episodes", modeltype: FwDataTypes.Integer)]
+        public int? Episodes { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "episodediscountamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? EpisodeDiscountAmount{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "episodeextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? EpisodeExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextendednodisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyExtendedNoDiscount{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyDiscountAmount{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlycostextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodExtendedNoDiscount{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodcostextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodCostExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "perioddiscountamt", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodDiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodVarianceExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "variancepct", modeltype: FwDataTypes.Decimal)]
+        public decimal? VariancePercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
@@ -123,6 +249,10 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "notes", modeltype: FwDataTypes.Text)]
         public string Notes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
+        public string ItemOrder { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
 
 
@@ -175,18 +305,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "inlocationqty", modeltype: FwDataTypes.Integer)]
         //public int? InlocationQuantity { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Cost { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hours", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Hours { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hoursot", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Hoursot { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "hoursdt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Hoursdt { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "varyingdatestimes", modeltype: FwDataTypes.Boolean)]
         //public bool? Varyingdatestimes { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -231,9 +349,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "unitid", modeltype: FwDataTypes.Text)]
         //public string UnitId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "unit", modeltype: FwDataTypes.Text)]
-        //public string Unit { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "unittype", modeltype: FwDataTypes.Text)]
         //public string Unittype { get; set; }
@@ -370,9 +485,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "availcolorconsignsummary", modeltype: FwDataTypes.Integer)]
         //public int? Availcolorconsignsummary { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
-        //public string Itemorder { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "primaryitemorder", modeltype: FwDataTypes.Text)]
         //public string Primaryitemorder { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -417,12 +529,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
         //public string RentalitemId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "crewcontactid", modeltype: FwDataTypes.Text)]
-        //public string CrewcontactId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "crewname", modeltype: FwDataTypes.Text)]
-        //public string Crewname { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "discountoverride", modeltype: FwDataTypes.Text)]
         //public string Discountoverride { get; set; }
@@ -523,84 +629,6 @@ namespace WebApi.Modules.Home.OrderItem
         //[FwSqlDataField(column: "weeksanddaysexcluded", modeltype: FwDataTypes.Boolean)]
         //public bool? Weeksanddaysexcluded { get; set; }
         ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "unitextendednodisc", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Unitextendednodisc { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "unitdiscountamt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Unitdiscountamt { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "unitextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Unitextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeklyextendednodisc { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeklydiscountamt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeklydiscountamt { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeklyextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeklycostextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeklycostextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "week2extended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Week2extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "week3extended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Week3extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeks1through3extended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeks1through3extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "weeks4plusextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Weeks4plusextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "week4extended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Week4extended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "averageweekly", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Averageweekly { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "averageweeklyextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Averageweeklyextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "averageweeklyextendednodisc", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Averageweeklyextendednodisc { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "episodes", modeltype: FwDataTypes.Integer)]
-        //public int? Episodes { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "episodediscountamt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Episodediscountamt { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "episodeextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Episodeextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "monthlyextendednodisc", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Monthlyextendednodisc { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "monthlydiscountamt", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Monthlydiscountamt { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "monthlyextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Monthlyextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "monthlycostextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Monthlycostextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Periodextendednodisc { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "periodcostextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Periodcostextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Periodvarianceextended { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "variancepct", modeltype: FwDataTypes.Decimal)]
-        //public decimal? Variancepct { get; set; }
-        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         //public string Conflictdate { get; set; }
         ////------------------------------------------------------------------------------------ 
@@ -678,9 +706,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "iteminactive", modeltype: FwDataTypes.Boolean)]
         //public bool? Iteminactive { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "reservedrentalitems", modeltype: FwDataTypes.Integer)]
-        //public int? Reservedrentalitems { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "prorateweeks", modeltype: FwDataTypes.Boolean)]
         //public bool? Prorateweeks { get; set; }

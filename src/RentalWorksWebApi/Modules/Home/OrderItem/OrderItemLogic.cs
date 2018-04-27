@@ -41,9 +41,38 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
         public int? ConsignQuantity { get { return orderItem.ConsignQuantity; } set { orderItem.ConsignQuantity = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public int? ReservedItemQuantity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? AvailableQuantity { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public int? AvailableQuantityColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? AvailableAllWarehousesQuantity { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? AvailableAllWarehousesQuantityColor { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ConflictDate { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ConflictDateAllWarehouses { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ConflictDateConsignment { get; set; }
+        public string UnitId { get { return orderItem.UnitId; } set { orderItem.UnitId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string Unit { get; set; }
+        public decimal? UnitCost { get { return orderItem.UnitCost; } set { orderItem.UnitCost = value; } }
+        public decimal? MarginPercent { get { return orderItem.MarginPercent; } set { orderItem.MarginPercent = value; } }
+        public decimal? MarkupPercent { get { return orderItem.MarkupPercent; } set { orderItem.MarkupPercent = value; } }
+        public decimal? PremiumPercent { get { return orderItem.PremiumPercent; } set { orderItem.PremiumPercent = value; } }
+
+
+        public string CrewContactId { get { return orderItem.CrewContactId; } set { orderItem.CrewContactId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string CrewName { get; set; }
+        public decimal? Hours { get { return orderItem.Hours; } set { orderItem.Hours = value; } }
+        public decimal? HoursOvertime { get { return orderItem.HoursOvertime; } set { orderItem.HoursOvertime = value; } }
+        public decimal? HoursDoubletime { get { return orderItem.HoursDoubletime; } set { orderItem.HoursDoubletime = value; } }
+
+
         public decimal? Price { get { return orderItem.Price; } set { orderItem.Price = value; } }
         public decimal? Price2 { get { return orderItem.Price2; } set { orderItem.Price2 = value; } }
         public decimal? Price3 { get { return orderItem.Price3; } set { orderItem.Price3 = value; } }
@@ -53,10 +82,71 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? DiscountPercent { get { return orderItem.DiscountPercent; } set { orderItem.DiscountPercent = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? DiscountPercentDisplay { get; set; }
+
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? UnitExtendedNoDiscount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? UnitDiscountAmount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? UnitExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyExtendedNoDiscount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyDiscountAmount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyCostExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Week2Extended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Week3Extended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Weeks1Through3Extended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Weeks4PlusExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Week4Extended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? AverageWeeklyExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? AverageWeeklyExtendedNoDiscount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public int? Episodes { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? EpisodeDiscountAmount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? EpisodeExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyExtendedNoDiscount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyDiscountAmount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyCostExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodExtendedNoDiscount { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodCostExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodDiscountAmount { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodVarianceExtended { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? VariancePercent { get; set; }
+
+
+
+
+
+
+
         public bool? Taxable { get { return orderItem.Taxable; } set { orderItem.Taxable = value; } }
 
         public string WarehouseId { get { return orderItem.WarehouseId; } set { orderItem.WarehouseId = value; } }
@@ -67,6 +157,8 @@ namespace WebApi.Modules.Home.OrderItem
         public string ReturnToWarehouseCode { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string Notes { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ItemOrder { get; set; }
 
 
         //[FwBusinessLogicField(isReadOnly: true)]
