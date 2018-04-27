@@ -155,13 +155,16 @@ namespace FwStandard.DataLayer
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
-                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                        if (HasAtLeastOneNonNullValue)
                         {
-                            rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                            afterSaveArgs.SavePerformed = (rowsAffected > 0);
-                            if (AfterSave != null) 
+                            using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                             {
-                                AfterSave(this, afterSaveArgs);
+                                rowsAffected = await cmd.UpdateAsync(true, TableName, this);
+                                afterSaveArgs.SavePerformed = (rowsAffected > 0);
+                                if (AfterSave != null)
+                                {
+                                    AfterSave(this, afterSaveArgs);
+                                }
                             }
                         }
                     }

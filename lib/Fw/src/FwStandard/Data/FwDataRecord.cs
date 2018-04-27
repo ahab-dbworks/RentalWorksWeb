@@ -187,6 +187,45 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        [JsonIgnore]
+        public virtual bool HasAtLeastOneNonNullValue
+        {
+            get
+            {
+                bool hasNonNullValue = false;
+                PropertyInfo[] properties = this.GetType().GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    if (property.IsDefined(typeof(FwSqlDataFieldAttribute)))
+                    {
+                        bool isPk = false;
+                        foreach (Attribute attribute in property.GetCustomAttributes())
+                        {
+                            if (attribute.GetType() == typeof(FwSqlDataFieldAttribute))
+                            {
+                                FwSqlDataFieldAttribute dataFieldAttribute = (FwSqlDataFieldAttribute)attribute;
+                                if ((dataFieldAttribute.IsPrimaryKey) || (dataFieldAttribute.IsPrimaryKeyOptional))
+                                {
+                                    isPk = true;
+                                }
+                            }
+                        }
+
+                        if (!isPk)
+                        {
+                            object propertyValue = property.GetValue(this);
+                            if (propertyValue != null)
+                            {
+                                hasNonNullValue = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                return hasNonNullValue;
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual bool AllFieldsValid(TDataRecordSaveMode saveMode, ref string validateMsg)
         {
             bool valid = true;
@@ -376,7 +415,7 @@ namespace FwStandard.DataLayer
 
                 foreach (FwCustomTable customTable in customTables)
                 {
-                    select.Add("  left outer join " + customTable.TableName + " " + customTable.Alias + " with (nolock) on ");
+                    select.Add("  left outer join [" + customTable.TableName + "] [" + customTable.Alias + "] with (nolock) on ");
                     select.Add(" ( ");
 
                     int k = 1;
