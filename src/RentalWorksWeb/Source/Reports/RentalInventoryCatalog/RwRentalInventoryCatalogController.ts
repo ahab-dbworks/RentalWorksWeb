@@ -64,58 +64,57 @@ class RwRentalInventoryCatalog {
         var validationName = request.module;
         if (validationName != null) {
             var InventoryTypeValue = FwFormField.getValueByDataField($form, 'InventoryTypeId');
-            if (InventoryTypeValue != "") {
-                var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
-                var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
-                switch (validationName) {
-                    case 'InventoryTypeValidation':
-                        request.uniqueids = {
-                            Rental: true
-                        };
-                        break;
-                    case 'RentalCategoryValidation':
-                        if (InventoryTypeValue !== "") {
+            var CategoryTypeId = FwFormField.getValueByDataField($form, 'CategoryId');
+            var SubCategoryTypeId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+
+            switch (validationName) {
+                case 'InventoryTypeValidation':
+                    request.uniqueids = {
+                        Rental: true
+                    };
+                    break;
+                case 'RentalCategoryValidation':
+                    if (InventoryTypeValue !== "") {
                         request.uniqueids = {
                             InventoryTypeId: InventoryTypeValue
-                            };
-                        }
-                        break;
-                    case 'SubCategoryValidation':
-                        if (InventoryTypeValue !== "") {
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
-                        }
-
-                        if (CategoryTypeId !== "") {
-                            request.uniqueids = {
-                                CategoryId: CategoryTypeId
-                            };
-                        }
-                        break;
-                    case 'RentalInventoryValidation':
-
-                        if (InventoryTypeValue !== "") {
-                            request.uniqueids = {
-                                InventoryTypeId: InventoryTypeValue
-                            };
                         };
-
-                        if (CategoryTypeId !== "") {
-                            request.uniqueids = {
-                                CategoryId: CategoryTypeId
-                            };
+                    }
+                    break;
+                case 'SubCategoryValidation':
+                    if (InventoryTypeValue !== "") {
+                        request.uniqueids = {
+                            InventoryTypeId: InventoryTypeValue
                         };
+                    }
 
-
-                        if (SubCategoryTypeId !== "") {
-                            request.uniqueids = {
-                                SubCategoryId: SubCategoryTypeId
-                            };
+                    if (CategoryTypeId !== "") {
+                        request.uniqueids = {
+                            CategoryId: CategoryTypeId
                         };
-                      
-                        break;
-                };
+                    }
+                    break;
+                case 'RentalInventoryValidation':
+
+                    if (InventoryTypeValue !== "") {
+                        request.uniqueids = {
+                            InventoryTypeId: InventoryTypeValue
+                        };
+                    };
+
+                    if (CategoryTypeId !== "") {
+                        request.uniqueids = {
+                            CategoryId: CategoryTypeId
+                        };
+                    };
+
+
+                    if (SubCategoryTypeId !== "") {
+                        request.uniqueids = {
+                            SubCategoryId: SubCategoryTypeId
+                        };
+                    };
+
+                    break;
             }
         }
     }
