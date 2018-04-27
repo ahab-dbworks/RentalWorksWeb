@@ -39,6 +39,7 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? BillablePeriods { get; set; }
         public decimal? QuantityOrdered { get { return orderItem.QuantityOrdered; } set { orderItem.QuantityOrdered = value; } }
         public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
+        public int? ConsignQuantity { get { return orderItem.ConsignQuantity; } set { orderItem.ConsignQuantity = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? AvailableQuantity { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -95,7 +96,6 @@ namespace WebApi.Modules.Home.OrderItem
         //public bool? Rowtype { get; set; }
         //public string Mfgpartno { get { return orderItem.Mfgpartno; } set { orderItem.Mfgpartno = value; } }
         //public decimal? SubQuantity { get { return orderItem.SubQuantity; } set { orderItem.SubQuantity = value; } }
-        //public int? ConsignQuantity { get { return orderItem.ConsignQuantity; } set { orderItem.ConsignQuantity = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public int? InlocationQuantity { get; set; }
         //public decimal? Price { get { return orderItem.Price; } set { orderItem.Price = value; } }

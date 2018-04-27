@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2, required: true)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -50,6 +50,9 @@ namespace WebApi.Modules.Home.MasterItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 9, scale: 2)]
         public decimal? SubQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public int? ConsignQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 20, scale: 8)]
         public decimal? Price { get; set; }
@@ -239,9 +242,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "retiredreasonid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         //public string RetiredreasonId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
-        //public int? Consignqty { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string NestedmasteritemId { get; set; }

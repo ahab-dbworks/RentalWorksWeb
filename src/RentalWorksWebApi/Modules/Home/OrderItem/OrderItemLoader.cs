@@ -3,12 +3,11 @@ using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace WebApi.Modules.Home.OrderItem
 {
-    [FwSqlTable("orderitemview")]
+    [FwSqlTable("dbo.funcorderitem(@orderid)")]
     public class OrderItemLoader : AppDataLoadRecord
     {
         private string orderId = "";
@@ -66,6 +65,9 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer)]
+        public int? ConsignQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqty", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableQuantity { get; set; }
@@ -169,9 +171,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "mfgpartno", modeltype: FwDataTypes.Text)]
         //public string Mfgpartno { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer)]
-        //public int? ConsignQuantity { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "inlocationqty", modeltype: FwDataTypes.Integer)]
         //public int? InlocationQuantity { get; set; }
@@ -752,17 +751,11 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        [JsonIgnore]
-        public override string TableName
-        {
-            get
-            {
-                return "dbo.funcorderitem('" + orderId + "')";
-            }
-        }
-        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            useWithNoLock = false;
+
+
             object[] primaryKeys = GetPrimaryKeys();
             if (primaryKeys.Length > 0)
             {
@@ -772,23 +765,17 @@ namespace WebApi.Modules.Home.OrderItem
                 }
             }
 
-            useWithNoLock = false;
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        orderId = uniqueIds["OrderId"].ToString();
-                    }
-                }
-            }
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
+
             addFilterToSelect("OrderId", "orderid", select, request);
-            addFilterToSelect("RecType", "rectype", select, request); 
+            addFilterToSelect("RecType", "rectype", select, request);
+
+            if (!orderId.Equals(string.Empty))
+            {
+                select.AddParameter("@orderid", orderId);
+            }
+
         }
         //------------------------------------------------------------------------------------ 
     }
