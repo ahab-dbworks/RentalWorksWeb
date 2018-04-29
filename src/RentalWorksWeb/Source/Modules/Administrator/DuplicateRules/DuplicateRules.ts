@@ -182,58 +182,37 @@ class DuplicateRules {
             var fieldsHtml = [];
             var $fields = $form.find('.fields');
 
-            if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') { 
-                FwFormField.disable($form.find('.SystemRuleTRUE')); 
                 for (var i = 0; i < sortedFields.length; i++) { 
                     let uniqueId = FwApplication.prototype.uniqueId(10); 
-                    fieldsHtml.push('<div data-control="FwFormField"'); 
-                    fieldsHtml.push(' data-type="checkbox"'); 
-                    fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"'); 
-                    fieldsHtml.push(' data-enabled="false"'); 
-                    fieldsHtml.push(' data-caption="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' data-value="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"'); 
-                    fieldsHtml.push('>'); 
-                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' />'); 
-                    fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>'); 
-                    fieldsHtml.push('</div>'); 
+                    fieldsHtml.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield check SystemRuleTRUE" data-enabled="true" data-datafield="${sortedFields[i]}" data-value="${sortedFields[i]}" data-caption="${sortedFields[i]}" style="float:left;width:300px;padding:10px;0px;">`); 
+                    fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${sortedFields[i]}"/>`); 
+                    fieldsHtml.push(`<label class="fwformfield-caption" data-value="${sortedFields[i]}" for="${uniqueId}">${sortedFields[i]}</label></div>`); 
                 } 
-            } else { 
-                for (var i = 0; i < sortedFields.length; i++) { 
-                    let uniqueId = FwApplication.prototype.uniqueId(10); 
-                    fieldsHtml.push('<div data-control="FwFormField"'); 
-                    fieldsHtml.push(' data-type="checkbox"'); 
-                    fieldsHtml.push(' class="fwcontrol fwformfield check SystemRuleTRUE"'); 
-                    fieldsHtml.push(' data-enabled="true"'); 
-                    fieldsHtml.push(' data-caption="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' data-value="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' style="float:left;width:300px; padding: 10px; 0px;"'); 
-                    fieldsHtml.push('>'); 
-                    fieldsHtml.push('<input id="' + uniqueId + '" class="fwformfield-control fwformfield-value" type="checkbox" name="' + sortedFields[i] + '"'); 
-                    fieldsHtml.push(' />'); 
-                    fieldsHtml.push('<label class="fwformfield-caption" data-value="' + sortedFields[i] + '" for="' + uniqueId + '">' + sortedFields[i] + '</label>'); 
-                    fieldsHtml.push('</div>'); 
-                } 
-            } 
-            $fields.empty().append(fieldsHtml.join('')).html();
+        
+            $fields.empty().append(fieldsHtml.join(''));
 
-            var fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
+            let fields = $form.find('[data-datafield="Fields"]').attr('data-originalvalue');
             var separateFields = fields.split(",");
+            //for (let i = 0; i < separateFields.length; i++) {
+            //    FwFormField.setValue($form, `div[data-datafield=${separateFields[i]}]`, 'true');
+            //}
             jQuery.each(separateFields, function (i, val) {
                 jQuery("input[name='" + val + "']").prop("checked", true);
             });
 
-            $form.on('change', '[type="checkbox"]', (e) => {
-                var field = jQuery(e.currentTarget).attr('name');
+        $form.on('change', '[type="checkbox"]', e => {
+                let field = jQuery(e.currentTarget).attr('name');
                 if (separateFields.indexOf(field) === -1) {
                     separateFields.push(field);
                 } else {
-                  separateFields = separateFields.filter((item) => { return item !== field})
+                  separateFields = separateFields.filter(item => item !== field)
                 }
-                var joinFields = separateFields.join(',');
+                let joinFields = separateFields.join(',');
                 FwFormField.setValueByDataField($form, 'Fields', joinFields); 
             });
+
+         if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') { FwFormField.toggle($form.find('.SystemRuleTRUE'), false);}
+
         }, null, $form); 
     }
 }
