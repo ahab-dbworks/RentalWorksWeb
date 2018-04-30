@@ -42,6 +42,15 @@ namespace WebApi.Modules.Home.InventorySearch
             return dt;
         }
         //------------------------------------------------------------------------------------
+        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewRequest request)
+        {
+            FwJsonDataTable dt = null;
+
+            inventorySearchLoader.UserSession = this.UserSession;
+            dt = await inventorySearchLoader.PreviewAsync(request);
+            return dt;
+        }
+        //------------------------------------------------------------------------------------
         public async Task<bool> AddToAsync(InventorySearchRequest request)
         {
             return await inventorySearch.AddToAsync(request);

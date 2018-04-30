@@ -104,7 +104,7 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
 
 
-
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
         {
             FwJsonDataTable dt = null;
@@ -120,7 +120,36 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
+                    qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
+                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                        if (sqlDataFieldAttribute != null)
+                        {
+                            qry.AddColumn(sqlDataFieldAttribute.ColumnName, propertyInfo.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
+                        }
+                    }
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                }
+            }
+            return dt;
+        }
+        //------------------------------------------------------------------------------------
+
+        public async Task<FwJsonDataTable> PreviewAsync(InventorySearchPreviewRequest request)
+        {
+            FwJsonDataTable dt = null;
+
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearchpreview", this.AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();

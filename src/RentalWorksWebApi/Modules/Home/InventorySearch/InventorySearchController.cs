@@ -20,6 +20,15 @@ namespace WebApi.Modules.Home.InventorySearch
         public string InventoryTypeId;
         public string CategoryId;
         public string SubCategoryId;
+        public string SearchText;
+        public bool ShowAvailability;
+        public DateTime FromDate;
+        public DateTime ToDate;
+    }
+    //------------------------------------------------------------------------------------ 
+    public class InventorySearchPreviewRequest
+    {
+        public string SessionId;
         public bool ShowAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
@@ -62,6 +71,31 @@ namespace WebApi.Modules.Home.InventorySearch
         public async Task<IActionResult> PostAsync([FromBody]InventorySearchLogic l)
         {
             return await DoPostAsync<InventorySearchLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/inventorysearch/preview
+        [HttpPost("preview")]
+        public async Task<IActionResult> PreviewAsync([FromBody]InventorySearchPreviewRequest searchRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                InventorySearchLogic l = new InventorySearchLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                FwJsonDataTable dt = await l.PreviewAsync(searchRequest);
+                return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventorysearch/addto 
