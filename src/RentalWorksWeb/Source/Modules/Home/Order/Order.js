@@ -137,11 +137,13 @@ var Order = (function () {
     };
     ;
     Order.prototype.openForm = function (mode) {
-        var $form, $submodulePickListBrowse;
+        var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
         $form = FwModule.openForm($form, mode);
         $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
+        $submoduleContractBrowse = this.openContractBrowse($form);
+        $form.find('.contract').append($submoduleContractBrowse);
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             var today = new Date(Date.now()).toLocaleString();
@@ -210,6 +212,17 @@ var Order = (function () {
         $browse = PickListController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.ActiveView = PickListController.ActiveView;
+            request.uniqueids = {
+                OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
+            };
+        });
+        return $browse;
+    };
+    Order.prototype.openContractBrowse = function ($form) {
+        var $browse;
+        $browse = ContractController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ContractController.ActiveView;
             request.uniqueids = {
                 OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
             };
@@ -546,6 +559,8 @@ var Order = (function () {
         FwBrowse.search($orderNoteGrid);
         var $pickListBrowse = $form.find('#PickListBrowse');
         FwBrowse.search($pickListBrowse);
+        var $contractBrowse = $form.find('#ContractBrowse');
+        FwBrowse.search($contractBrowse);
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));

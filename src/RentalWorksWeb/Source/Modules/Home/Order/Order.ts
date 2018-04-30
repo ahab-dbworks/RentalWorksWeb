@@ -153,13 +153,16 @@ class Order {
     };
 
     openForm(mode) {
-        var $form, $submodulePickListBrowse;
+        var $form, $submodulePickListBrowse, $submoduleContractBrowse;
 
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
         $form = FwModule.openForm($form, mode);
 
         $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
+
+        $submoduleContractBrowse = this.openContractBrowse($form);
+        $form.find('.contract').append($submoduleContractBrowse);
 
 
         if (mode === 'NEW') {
@@ -251,6 +254,20 @@ class Order {
             }
 
 
+        });
+
+        return $browse;
+    }
+
+    openContractBrowse($form) {
+        var $browse;
+        $browse = ContractController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ContractController.ActiveView;
+            request.uniqueids = {
+                OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
+            }
         });
 
         return $browse;
@@ -616,10 +633,11 @@ class Order {
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
 
-
         var $pickListBrowse = $form.find('#PickListBrowse');
         FwBrowse.search($pickListBrowse);
 
+        var $contractBrowse = $form.find('#ContractBrowse');
+        FwBrowse.search($contractBrowse);
 
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         if ($pending === true) {
