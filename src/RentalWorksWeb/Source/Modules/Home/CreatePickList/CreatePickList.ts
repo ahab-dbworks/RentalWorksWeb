@@ -77,7 +77,7 @@ class CreatePickList {
             catch (ex) {
                 FwFunc.showError(ex);
             };
-            });
+        });
 
         $form.find('.defaultoptions input').prop('checked', true);
 
@@ -112,6 +112,42 @@ class CreatePickList {
             })
             FwBrowse.search($pickListUtilityGridControl);
 
+        });
+
+        $form.find('.selectall').on('click', function () {
+            var request: any = {};
+            //var miscfields = CreatePickListController.getOptions($form);
+            //request.miscfields = miscfields;
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectall', request, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwBrowse.search($pickListUtilityGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
+
+        $form.find('.selectnone').on('click', function () {
+            var request: any = {};
+            //var miscfields = CreatePickListController.getOptions($form);
+            //request.miscfields = miscfields;
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectnone', request, FwServices.defaultTimeout, function onSuccess(response) {
+                try {
+                    FwBrowse.search($pickListUtilityGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
         });
     }
     //----------------------------------------------------------------------------------------------
