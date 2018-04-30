@@ -61,12 +61,13 @@ class Quote {
             request.activeview = self.ActiveView;
         });
 
-        FwBrowse.addLegend($browse, 'Prospect', '#ffffff');
-        FwBrowse.addLegend($browse, 'Active', '#fffa00');
-        FwBrowse.addLegend($browse, 'Reserved', '#0080ff');
-        FwBrowse.addLegend($browse, 'Ordered', '#00c400');
-        FwBrowse.addLegend($browse, 'Cancelled', '#ff0080');
-        FwBrowse.addLegend($browse, 'Closed', '#ff8040');
+        FwBrowse.addLegend($browse, 'Locked', '#ff704d');
+        FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
+        FwBrowse.addLegend($browse, 'Reserved', '#1E90FF');
+        FwBrowse.addLegend($browse, 'No Charge', '#ff8040');
+        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+        FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
+        FwBrowse.addLegend($browse, 'Quote Request', '#00FF00');
 
         return $browse;
     }
