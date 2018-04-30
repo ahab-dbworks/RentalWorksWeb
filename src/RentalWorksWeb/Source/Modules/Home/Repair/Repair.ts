@@ -389,8 +389,6 @@ class Repair {
       let $repairReleaseGrid: any = $form.find('[data-name="RepairReleaseGrid"]'); 
       FwBrowse.search($repairReleaseGrid);
 
-      console.log('STATUS:  ', FwFormField.getValueByDataField($form, 'Status'))
-
       if (FwFormField.getValueByDataField($form, 'Status') === 'ESTIMATED') {
         $form.data('hasEstimated', true);
       } else {
@@ -518,19 +516,17 @@ class Repair {
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
       let html = [];
 
-      //if ($form.data('hasCompleted') === true) {   
-      //    html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-      //    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-      //    html.push('    <div>This Repair Order has already been completed.</div>');
-      //    html.push('  </div>');
-      //    html.push('</div>');
+      if ($form.data('hasCompleted') === true) {   
+          html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+          html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+          html.push('    <div>This Repair Order has already been completed.</div>');
+          html.push('  </div>');
+          html.push('</div>');
 
-      //    FwConfirmation.addControls($confirmation, html.join(''));
+          FwConfirmation.addControls($confirmation, html.join(''));
  
-      //    $no = FwConfirmation.addButton($confirmation, 'OK');
-      //} else
-
-        if ($form.data('hasEstimated') === true) {
+          $no = FwConfirmation.addButton($confirmation, 'OK');
+      } else if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
           html.push('    <div>Would you like to complete this Repair Order?</div>');
@@ -631,8 +627,8 @@ class Repair {
   releaseItems($form) {
     var self = this;
     let $confirmation, $yes, $no;
-    const releasedQuantityForm = FwFormField.getValueByDataField($form, 'ReleasedQuantity');
-    const quantityForm = FwFormField.getValueByDataField($form, 'Quantity');
+    const releasedQuantityForm = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+    const quantityForm = +FwFormField.getValueByDataField($form, 'Quantity');
     const totalQuantity = quantityForm - releasedQuantityForm;
     $confirmation = FwConfirmation.renderConfirmation('Release Items', '');
     $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -659,11 +655,14 @@ class Repair {
         const ItemDescription = FwFormField.getValueByDataField($form, 'ItemDescription');
         $confirmation.find('div[data-caption="Description"] input').val(ItemDescription);
 
-        const Quantity = FwFormField.getValueByDataField($form, 'Quantity');
+        const Quantity = +FwFormField.getValueByDataField($form, 'Quantity');
         $confirmation.find('div[data-caption="Quantity"] input').val(Quantity);
 
-        const ReleasedQuantity = FwFormField.getValueByDataField($form, 'ReleasedQuantity');
+        const ReleasedQuantity = +FwFormField.getValueByDataField($form, 'ReleasedQuantity');
         $confirmation.find('div[data-caption="Released"] input').val(ReleasedQuantity);
+
+        const QuantityToRelease = Quantity - ReleasedQuantity;
+        $confirmation.find('div[data-caption="Quantity to Release"] input').val(QuantityToRelease);
 
         FwFormField.disable($confirmation.find('div[data-caption="I-Code"]'));
         FwFormField.disable($confirmation.find('div[data-caption="Description"]'));
@@ -691,7 +690,7 @@ class Repair {
       function release() {
           let request: any = {};
           const RepairId = FwFormField.getValueByDataField($form, 'RepairId');
-          const releasedQuantityConfirmation = FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
+          const releasedQuantityConfirmation = +FwFormField.getValueByDataField($confirmation, 'ReleasedQuantity');
         
         if (releasedQuantityConfirmation <= totalQuantity) {
             FwFormField.disable($confirmation.find('.fwformfield'));
