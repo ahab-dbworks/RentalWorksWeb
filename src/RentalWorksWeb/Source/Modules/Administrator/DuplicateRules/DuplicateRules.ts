@@ -31,6 +31,8 @@ class DuplicateRules {
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
 
+         FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
+
         return $browse;
     }
 
@@ -143,7 +145,7 @@ class DuplicateRules {
                         jQuery("input[name='" + val + "']").prop("checked", true)
                     });
 
-                $form.on('change', '[type="checkbox"]', (e) => {
+                $form.on('change', '[type="checkbox"]', e => {
                     var field = jQuery(e.currentTarget).attr('name');
                     if (separateFields.indexOf(field) === -1) {
                         separateFields.push(field);
@@ -182,12 +184,12 @@ class DuplicateRules {
             var fieldsHtml = [];
             var $fields = $form.find('.fields');
 
-                for (var i = 0; i < sortedFields.length; i++) { 
-                    let uniqueId = FwApplication.prototype.uniqueId(10); 
-                    fieldsHtml.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield check SystemRuleTRUE" data-enabled="true" data-datafield="${sortedFields[i]}" data-value="${sortedFields[i]}" data-caption="${sortedFields[i]}" style="float:left;width:300px;padding:10px;0px;">`); 
-                    fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${sortedFields[i]}"/>`); 
-                    fieldsHtml.push(`<label class="fwformfield-caption" data-value="${sortedFields[i]}" for="${uniqueId}">${sortedFields[i]}</label></div>`); 
-                } 
+            for (var i = 0; i < sortedFields.length; i++) { 
+                let uniqueId = FwApplication.prototype.uniqueId(10); 
+                fieldsHtml.push(`<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield check SystemRuleTRUE" data-enabled="true" data-datafield="${sortedFields[i]}" data-value="${sortedFields[i]}" data-caption="${sortedFields[i]}" style="float:left;width:300px;padding:10px;0px;">`); 
+                fieldsHtml.push(`<input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" name="${sortedFields[i]}"/>`); 
+                fieldsHtml.push(`<label class="fwformfield-caption" data-value="${sortedFields[i]}" for="${uniqueId}">${sortedFields[i]}</label></div>`); 
+            } 
         
             $fields.empty().append(fieldsHtml.join(''));
 
@@ -205,7 +207,7 @@ class DuplicateRules {
                 if (separateFields.indexOf(field) === -1) {
                     separateFields.push(field);
                 } else {
-                  separateFields = separateFields.filter(item => item !== field)
+                    separateFields = separateFields.filter(item => { return item !== field})
                 }
                 let joinFields = separateFields.join(',');
                 FwFormField.setValueByDataField($form, 'Fields', joinFields); 
