@@ -13,6 +13,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         DuplicateRuleLoader duplicateRuleLoader = new DuplicateRuleLoader();
         public DuplicateRuleLogic()
         {
+            duplicateRule.ForceSave = true;
             dataRecords.Add(duplicateRule);
             dataLoader = duplicateRuleLoader;
             duplicateRule.AfterSave += OnAfterSaveDuplicateRule;
@@ -27,7 +28,6 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public string RuleName { get { return duplicateRule.RuleName; } set { duplicateRule.RuleName = value; } }
         public bool? CaseSensitive { get { return duplicateRule.CaseSensitive; } set { duplicateRule.CaseSensitive = value; } }
         public bool? SystemRule { get { return duplicateRule.SystemRule; } set { duplicateRule.SystemRule = value; } }
-        [FwBusinessLogicField(isReadOnly: true)]
         public string Fields { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string RuleNameColor { get; set; }

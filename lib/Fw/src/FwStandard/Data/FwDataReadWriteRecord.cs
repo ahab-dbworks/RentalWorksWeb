@@ -155,7 +155,7 @@ namespace FwStandard.DataLayer
                     }
                     if (beforeSaveArgs.PerformSave)
                     {
-                        if (HasAtLeastOneNonNullValue)
+                        if ((ForceSave) || (HasAtLeastOneNonNullValue))
                         {
                             using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                             {

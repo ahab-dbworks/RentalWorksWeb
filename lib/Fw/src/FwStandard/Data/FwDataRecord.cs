@@ -20,12 +20,17 @@ namespace FwStandard.DataLayer
         [JsonIgnore]
         public FwApplicationConfig AppConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
-        private bool _reloadOnSave = true;
+        private bool reloadOnSave = true;
         protected bool useWithNoLock = true;
-        private string _tableAlias = "t";
+        private string tableAlias = "t";
+        protected bool forceSave = true;
+
 
         [JsonIgnore]
-        public bool ReloadOnSave { get { return _reloadOnSave; } set { _reloadOnSave = value; } }
+        public bool ForceSave { get { return forceSave; } set { forceSave = value;  } }
+
+        [JsonIgnore]
+        public bool ReloadOnSave { get { return reloadOnSave; } set { reloadOnSave = value; } }
 
 
         //------------------------------------------------------------------------------------
@@ -49,7 +54,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected string TableAlias { get { return _tableAlias; } set { this._tableAlias = value; } }
+        protected string TableAlias { get { return tableAlias; } set { this.tableAlias = value; } }
         //------------------------------------------------------------------------------------
         protected virtual int PrimaryKeyCount
         {
