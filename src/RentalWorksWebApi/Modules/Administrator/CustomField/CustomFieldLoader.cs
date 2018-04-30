@@ -28,6 +28,9 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "fieldtype", modeltype: FwDataTypes.Text)]
         public string FieldType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "controltype", modeltype: FwDataTypes.Text)]
+        public string ControlType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

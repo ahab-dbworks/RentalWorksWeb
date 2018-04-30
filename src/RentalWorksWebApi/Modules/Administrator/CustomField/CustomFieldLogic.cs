@@ -26,6 +26,8 @@ namespace WebApi.Modules.Administrator.CustomField
         public string CustomFieldName { get { return customField.CustomFieldName; } set { customField.CustomFieldName = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string FieldType { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ControlType { get; set; }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveCustomField(object sender, AfterSaveEventArgs e)
