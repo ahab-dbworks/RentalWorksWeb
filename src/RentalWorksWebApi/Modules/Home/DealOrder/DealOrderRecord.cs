@@ -185,6 +185,12 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "termsconditionsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
         public string TermsConditionsId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string OutDeliveryId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 08)]
+        public string InDeliveryId { get; set; }
+        //------------------------------------------------------------------------------------
 
 
 

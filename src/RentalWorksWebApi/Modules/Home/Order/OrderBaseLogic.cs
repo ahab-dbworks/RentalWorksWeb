@@ -11,6 +11,7 @@ using WebApi.Modules.Home.Quote;
 using WebApi.Modules.Home.Tax;
 using System;
 using FwStandard.SqlServer;
+using WebApi.Modules.Home.Delivery;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -20,6 +21,8 @@ namespace WebApi.Modules.Home.Order
         protected DealOrderDetailRecord dealOrderDetail = new DealOrderDetailRecord();
         protected AddressRecord billToAddress = new AddressRecord();
         protected TaxRecord tax = new TaxRecord();
+        protected DeliveryRecord outDelivery = new DeliveryRecord();
+        protected DeliveryRecord inDelivery = new DeliveryRecord();
 
         private string tmpTaxId = "";
 
@@ -30,6 +33,8 @@ namespace WebApi.Modules.Home.Order
             dataRecords.Add(dealOrderDetail);
             dataRecords.Add(billToAddress);
             dataRecords.Add(tax);
+            dataRecords.Add(outDelivery);
+            dataRecords.Add(inDelivery);
             dealOrder.BeforeSave += OnBeforeSaveDealOrder;
             dealOrder.AfterSave += OnAfterSaveDealOrder;
             billToAddress.BeforeSave += OnBeforeSaveBillToAddress;
@@ -281,6 +286,143 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string MarketSegmentJob { get; set; }
         //------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+        public string OutDeliveryId { get { return dealOrder.OutDeliveryId; } set { dealOrder.OutDeliveryId = value; } }
+        //public string OrderId { get { return outDelivery.OrderId; } set { outDelivery.OrderId = value; } }
+        public string OutDeliveryDeliveryType { get { return outDelivery.DeliveryType; } set { outDelivery.DeliveryType = value; } }
+        public string OutDeliveryRequiredDate { get { return outDelivery.RequiredDate; } set { outDelivery.RequiredDate = value; } }
+        public string OutDeliveryRequiredTime { get { return outDelivery.RequiredTime; } set { outDelivery.RequiredTime = value; } }
+        public string OutDeliveryTargetShipDate { get { return outDelivery.TargetShipDate; } set { outDelivery.TargetShipDate = value; } }
+        public string OutDeliveryTargetShipTime { get { return outDelivery.TargetShipTime; } set { outDelivery.TargetShipTime = value; } }
+        public string OutDeliveryDirection { get { return outDelivery.Direction; } set { outDelivery.Direction = value; } }
+        public string OutDeliveryAddressType { get { return outDelivery.AddressType; } set { outDelivery.AddressType = value; } }
+        public string OutDeliveryFromLocation { get { return outDelivery.FromLocation; } set { outDelivery.FromLocation = value; } }
+        public string OutDeliveryFromContact { get { return outDelivery.FromContact; } set { outDelivery.FromContact = value; } }
+        public string OutDeliveryFromContactPhone { get { return outDelivery.FromContactPhone; } set { outDelivery.FromContactPhone = value; } }
+        public string OutDeliveryFromAlternateContact { get { return outDelivery.FromAlternateContact; } set { outDelivery.FromAlternateContact = value; } }
+        public string OutDeliveryFromAlternateContactPhone { get { return outDelivery.FromAlternateContactPhone; } set { outDelivery.FromAlternateContactPhone = value; } }
+        public string OutDeliveryFromAttention { get { return outDelivery.FromAttention; } set { outDelivery.FromAttention = value; } }
+        public string OutDeliveryFromAddress1 { get { return outDelivery.FromAddress1; } set { outDelivery.FromAddress1 = value; } }
+        public string OutDeliveryFromAdd2ress { get { return outDelivery.FromAdd2ress; } set { outDelivery.FromAdd2ress = value; } }
+        public string OutDeliveryFromCity { get { return outDelivery.FromCity; } set { outDelivery.FromCity = value; } }
+        public string OutDeliveryFromState { get { return outDelivery.FromState; } set { outDelivery.FromState = value; } }
+        public string OutDeliveryFromZipCode { get { return outDelivery.FromZipCode; } set { outDelivery.FromZipCode = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OutDeliveryFromCountry { get; set; }
+        public string OutDeliveryFromCountryId { get { return outDelivery.FromCountryId; } set { outDelivery.FromCountryId = value; } }
+        public string OutDeliveryFromCrossStreets { get { return outDelivery.FromCrossStreets; } set { outDelivery.FromCrossStreets = value; } }
+        public string OutDeliveryToLocation { get { return outDelivery.Location; } set { outDelivery.Location = value; } }
+        public string OutDeliveryToContact { get { return outDelivery.Contact; } set { outDelivery.Contact = value; } }
+        public string OutDeliveryToContactPhone { get { return outDelivery.ContactPhone; } set { outDelivery.ContactPhone = value; } }
+        public string OutDeliveryToAlternateContact { get { return outDelivery.AlternateContact; } set { outDelivery.AlternateContact = value; } }
+        public string OutDeliveryToAlternateContactPhone { get { return outDelivery.AlternateContactPhone; } set { outDelivery.AlternateContactPhone = value; } }
+        public string OutDeliveryToAttention { get { return outDelivery.Attention; } set { outDelivery.Attention = value; } }
+        public string OutDeliveryToAddress1 { get { return outDelivery.Address1; } set { outDelivery.Address1 = value; } }
+        public string OutDeliveryToAddress2 { get { return outDelivery.Address2; } set { outDelivery.Address2 = value; } }
+        public string OutDeliveryToCity { get { return outDelivery.City; } set { outDelivery.City = value; } }
+        public string OutDeliveryToState { get { return outDelivery.State; } set { outDelivery.State = value; } }
+        public string OutDeliveryToZipCode { get { return outDelivery.ZipCode; } set { outDelivery.ZipCode = value; } }
+        public string OutDeliveryToCountryId { get { return outDelivery.CountryId; } set { outDelivery.CountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OutDeliveryToCountry { get; set; }
+        public string OutDeliveryToContactFax { get { return outDelivery.ContactFax; } set { outDelivery.ContactFax = value; } }
+        public string OutDeliveryToCrossStreets { get { return outDelivery.CrossStreets; } set { outDelivery.CrossStreets = value; } }
+        public string OutDeliveryDeliveryNotes { get { return outDelivery.DeliveryNotes; } set { outDelivery.DeliveryNotes = value; } }
+        public string OutDeliveryCarrierId { get { return outDelivery.CarrierId; } set { outDelivery.CarrierId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OutDeliveryCarrier { get; set; }
+        public string OutDeliveryCarrierAccount { get { return outDelivery.CarrierAccount; } set { outDelivery.CarrierAccount = value; } }
+        public string OutDeliveryShipViaId { get { return outDelivery.ShipViaId; } set { outDelivery.ShipViaId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string OutDeliveryShipVia { get; set; }
+        public string OutDeliveryInvoiceId { get { return outDelivery.InvoiceId; } set { outDelivery.InvoiceId = value; } }
+        public string OutDeliveryVendorInvoiceId { get { return outDelivery.VendorInvoiceId; } set { outDelivery.VendorInvoiceId = value; } }
+        public decimal? OutDeliveryEstimatedFreight { get { return outDelivery.EstimatedFreight; } set { outDelivery.EstimatedFreight = value; } }
+        public decimal? OutDeliveryFreightInvoiceAmount { get { return outDelivery.FreightInvoiceAmount; } set { outDelivery.FreightInvoiceAmount = value; } }
+        public string OutDeliveryChargeType { get { return outDelivery.ChargeType; } set { outDelivery.ChargeType = value; } }
+        public string OutDeliveryFreightTrackingNumber { get { return outDelivery.FreightTrackingNumber; } set { outDelivery.FreightTrackingNumber = value; } }
+        public bool? OutDeliveryDropShip { get { return outDelivery.DropShip; } set { outDelivery.DropShip = value; } }
+        public string OutDeliveryPackageCode { get { return outDelivery.PackageCode; } set { outDelivery.PackageCode = value; } }
+        public bool? OutDeliveryBillPoFreightOnOrder { get { return outDelivery.BillPoFreightOnOrder; } set { outDelivery.BillPoFreightOnOrder = value; } }
+        public string OutDeliveryOnlineOrderNumber { get { return outDelivery.OnlineOrderNumber; } set { outDelivery.OnlineOrderNumber = value; } }
+        public string OutDeliveryOnlineOrderStatus { get { return outDelivery.OnlineOrderStatus; } set { outDelivery.OnlineOrderStatus = value; } }
+        public string OutDeliveryDateStamp { get { return outDelivery.DateStamp; } set { outDelivery.DateStamp = value; } }
+
+
+
+
+
+
+
+
+
+        public string InDeliveryId { get { return dealOrder.InDeliveryId; } set { dealOrder.InDeliveryId = value; } }
+        //public string OrderId { get { return inDelivery.OrderId; } set { inDelivery.OrderId = value; } }
+        public string InDeliveryDeliveryType { get { return inDelivery.DeliveryType; } set { inDelivery.DeliveryType = value; } }
+        public string InDeliveryRequiredDate { get { return inDelivery.RequiredDate; } set { inDelivery.RequiredDate = value; } }
+        public string InDeliveryRequiredTime { get { return inDelivery.RequiredTime; } set { inDelivery.RequiredTime = value; } }
+        public string InDeliveryTargetShipDate { get { return inDelivery.TargetShipDate; } set { inDelivery.TargetShipDate = value; } }
+        public string InDeliveryTargetShipTime { get { return inDelivery.TargetShipTime; } set { inDelivery.TargetShipTime = value; } }
+        public string InDeliveryDirection { get { return inDelivery.Direction; } set { inDelivery.Direction = value; } }
+        public string InDeliveryAddressType { get { return inDelivery.AddressType; } set { inDelivery.AddressType = value; } }
+        public string InDeliveryFromLocation { get { return inDelivery.FromLocation; } set { inDelivery.FromLocation = value; } }
+        public string InDeliveryFromContact { get { return inDelivery.FromContact; } set { inDelivery.FromContact = value; } }
+        public string InDeliveryFromContactPhone { get { return inDelivery.FromContactPhone; } set { inDelivery.FromContactPhone = value; } }
+        public string InDeliveryFromAlternateContact { get { return inDelivery.FromAlternateContact; } set { inDelivery.FromAlternateContact = value; } }
+        public string InDeliveryFromAlternateContactPhone { get { return inDelivery.FromAlternateContactPhone; } set { inDelivery.FromAlternateContactPhone = value; } }
+        public string InDeliveryFromAttention { get { return inDelivery.FromAttention; } set { inDelivery.FromAttention = value; } }
+        public string InDeliveryFromAddress1 { get { return inDelivery.FromAddress1; } set { inDelivery.FromAddress1 = value; } }
+        public string InDeliveryFromAdd2ress { get { return inDelivery.FromAdd2ress; } set { inDelivery.FromAdd2ress = value; } }
+        public string InDeliveryFromCity { get { return inDelivery.FromCity; } set { inDelivery.FromCity = value; } }
+        public string InDeliveryFromState { get { return inDelivery.FromState; } set { inDelivery.FromState = value; } }
+        public string InDeliveryFromZipCode { get { return inDelivery.FromZipCode; } set { inDelivery.FromZipCode = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InDeliveryFromCountry { get; set; }
+        public string InDeliveryFromCountryId { get { return inDelivery.FromCountryId; } set { inDelivery.FromCountryId = value; } }
+        public string InDeliveryFromCrossStreets { get { return inDelivery.FromCrossStreets; } set { inDelivery.FromCrossStreets = value; } }
+        public string InDeliveryToLocation { get { return inDelivery.Location; } set { inDelivery.Location = value; } }
+        public string InDeliveryToContact { get { return inDelivery.Contact; } set { inDelivery.Contact = value; } }
+        public string InDeliveryToContactPhone { get { return inDelivery.ContactPhone; } set { inDelivery.ContactPhone = value; } }
+        public string InDeliveryToAlternateContact { get { return inDelivery.AlternateContact; } set { inDelivery.AlternateContact = value; } }
+        public string InDeliveryToAlternateContactPhone { get { return inDelivery.AlternateContactPhone; } set { inDelivery.AlternateContactPhone = value; } }
+        public string InDeliveryToAttention { get { return inDelivery.Attention; } set { inDelivery.Attention = value; } }
+        public string InDeliveryToAddress1 { get { return inDelivery.Address1; } set { inDelivery.Address1 = value; } }
+        public string InDeliveryToAddress2 { get { return inDelivery.Address2; } set { inDelivery.Address2 = value; } }
+        public string InDeliveryToCity { get { return inDelivery.City; } set { inDelivery.City = value; } }
+        public string InDeliveryToState { get { return inDelivery.State; } set { inDelivery.State = value; } }
+        public string InDeliveryToZipCode { get { return inDelivery.ZipCode; } set { inDelivery.ZipCode = value; } }
+        public string InDeliveryToCountryId { get { return inDelivery.CountryId; } set { inDelivery.CountryId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InDeliveryToCountry { get; set; }
+        public string InDeliveryToContactFax { get { return inDelivery.ContactFax; } set { inDelivery.ContactFax = value; } }
+        public string InDeliveryToCrossStreets { get { return inDelivery.CrossStreets; } set { inDelivery.CrossStreets = value; } }
+        public string InDeliveryDeliveryNotes { get { return inDelivery.DeliveryNotes; } set { inDelivery.DeliveryNotes = value; } }
+        public string InDeliveryCarrierId { get { return inDelivery.CarrierId; } set { inDelivery.CarrierId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InDeliveryCarrier { get; set; }
+        public string InDeliveryCarrierAccount { get { return inDelivery.CarrierAccount; } set { inDelivery.CarrierAccount = value; } }
+        public string InDeliveryShipViaId { get { return inDelivery.ShipViaId; } set { inDelivery.ShipViaId = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string InDeliveryShipVia { get; set; }
+        public string InDeliveryInvoiceId { get { return inDelivery.InvoiceId; } set { inDelivery.InvoiceId = value; } }
+        public string InDeliveryVendorInvoiceId { get { return inDelivery.VendorInvoiceId; } set { inDelivery.VendorInvoiceId = value; } }
+        public decimal? InDeliveryEstimatedFreight { get { return inDelivery.EstimatedFreight; } set { inDelivery.EstimatedFreight = value; } }
+        public decimal? InDeliveryFreightInvoiceAmount { get { return inDelivery.FreightInvoiceAmount; } set { inDelivery.FreightInvoiceAmount = value; } }
+        public string InDeliveryChargeType { get { return inDelivery.ChargeType; } set { inDelivery.ChargeType = value; } }
+        public string InDeliveryFreightTrackingNumber { get { return inDelivery.FreightTrackingNumber; } set { inDelivery.FreightTrackingNumber = value; } }
+        public bool? InDeliveryDropShip { get { return inDelivery.DropShip; } set { inDelivery.DropShip = value; } }
+        public string InDeliveryPackageCode { get { return inDelivery.PackageCode; } set { inDelivery.PackageCode = value; } }
+        public bool? InDeliveryBillPoFreightOnOrder { get { return inDelivery.BillPoFreightOnOrder; } set { inDelivery.BillPoFreightOnOrder = value; } }
+        public string InDeliveryOnlineOrderNumber { get { return inDelivery.OnlineOrderNumber; } set { inDelivery.OnlineOrderNumber = value; } }
+        public string InDeliveryOnlineOrderStatus { get { return inDelivery.OnlineOrderStatus; } set { inDelivery.OnlineOrderStatus = value; } }
+        public string InDeliveryDateStamp { get { return inDelivery.DateStamp; } set { inDelivery.DateStamp = value; } }
 
 
 
