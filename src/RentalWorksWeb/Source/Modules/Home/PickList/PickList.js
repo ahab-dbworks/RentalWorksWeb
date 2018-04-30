@@ -38,6 +38,22 @@ var PickList = (function () {
     PickList.prototype.openForm = function (mode, parentmoduleinfo) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        $form.find('.printpicklist').on('click', function () {
+            var $form, $report, pickListNumber, pickListId;
+            try {
+                $form = jQuery(this).closest('.fwform');
+                pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+                pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
+                $report = RwPickListReportController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+                $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+                $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+                jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
         return $form;
     };
     ;
