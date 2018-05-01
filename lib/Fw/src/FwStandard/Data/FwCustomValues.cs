@@ -73,19 +73,74 @@ namespace FwStandard.DataLayer
                         k++;
                     }
 
-                    int p = 0;
-                    foreach (FwCustomValue value in this)
+                    int indexOfBoolean = 0;
+                    int indexOfString = 0;
+                    int indexOfInteger = 0;
+                    int indexOfFloat = 0;
+                    int indexOfDateTime = 0;
+
+                    foreach (FwCustomField f in CustomFields)
                     {
-                        int indexOfType = 0;
-                        for (int f = p; f >= 0; f--) {
-                            if (CustomFields[f].CustomTableName.Equals(CustomFields[p].CustomTableName)) {
-                                indexOfType++;
+
+                        if (f.FieldType.Equals("True/False"))
+                        {
+                            indexOfBoolean++;
+                            paramName = "@customboolean" + indexOfBoolean.ToString().PadLeft(2, '0');
+                        }
+                        else if (f.FieldType.Equals("Text"))
+                        {
+                            indexOfString++;
+                            paramName = "@customstring" + indexOfString.ToString().PadLeft(2, '0');
+                        }
+                        else if (f.FieldType.Equals("Integer"))
+                        {
+                            indexOfInteger++;
+                            paramName = "@customint" + indexOfInteger.ToString().PadLeft(2, '0');
+                        }
+                        else if (f.FieldType.Equals("Float"))
+                        {
+                            indexOfFloat++;
+                            paramName = "@customnumeric" + indexOfFloat.ToString().PadLeft(2, '0');
+                        }
+                        else if (f.FieldType.Equals("Date"))
+                        {
+                            indexOfDateTime++;
+                            paramName = "@customdatetime" + indexOfDateTime.ToString().PadLeft(2, '0');
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid Custom Field Type: " + f.FieldType + " in " + GetType().ToString() + ".SaveAsync");
+                        }
+
+                        foreach (FwCustomValue value in this)
+                        {
+                            if (value.FieldName.Equals(f.FieldName))
+                            {
+                                if (f.FieldType.Equals("True/False"))
+                                {
+                                    qry.AddParameter(paramName, SqlDbType.NVarChar, ParameterDirection.Input, FwConvert.LogicalToCharacter(FwConvert.ToBoolean(value.FieldValue)));
+                                }
+                                else if (f.FieldType.Equals("Text"))
+                                {
+                                    qry.AddParameter(paramName, SqlDbType.NVarChar, ParameterDirection.Input, value.FieldValue);
+                                }
+                                else if (f.FieldType.Equals("Integer"))
+                                {
+                                    qry.AddParameter(paramName, SqlDbType.Int, ParameterDirection.Input, value.FieldValue);
+                                }
+                                else if (f.FieldType.Equals("Float"))
+                                {
+                                    qry.AddParameter(paramName, SqlDbType.Decimal, ParameterDirection.Input, value.FieldValue);
+                                }
+                                else if (f.FieldType.Equals("Date"))
+                                {
+                                    qry.AddParameter(paramName, SqlDbType.DateTime, ParameterDirection.Input, value.FieldValue);
+                                }
                             }
                         }
-                        paramName = "@custom" + CustomFields[p].CustomTableName.Replace("customvalues", "") + indexOfType.ToString().PadLeft(2, '0');
-                        qry.AddParameter(paramName, SqlDbType.NVarChar, ParameterDirection.Input, value.FieldValue);
-                        p++;
+
                     }
+
                     await qry.ExecuteNonQueryAsync(true);
                     saved = true;
 
