@@ -2,16 +2,9 @@
 routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return QuoteController.getModuleScreen(filter); } });
 
 class Quote {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'Quote';
-        this.apiurl = 'api/v1/quote';
-        this.ActiveView = 'ALL';
-
-    }
+    Module: string = 'Quote';
+    apiurl: string = 'api/v1/quote';
+    ActiveView: string = 'ALL';
 
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;

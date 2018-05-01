@@ -3,18 +3,10 @@ routes.push({ pattern: /^module\/order$/, action: function (match: RegExpExecArr
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 //---------------------------------------------------------------------------------
 class Order {
-    Module: string;
-    apiurl: string;
-    caption: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'Order';
-        this.apiurl = 'api/v1/order';
-        this.caption = 'Order';
-        this.ActiveView = 'ALL';
-        var self = this;
-    }
+    Module: string = 'Order';
+    apiurl: string = 'api/v1/order';
+    caption: string = 'Order';
+    ActiveView: string = 'ALL';
 
     getModuleScreen(filter?: any) {
         var self = this;
@@ -172,6 +164,10 @@ class Order {
             var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             var office = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
+
+            //const userid = JSON.parse(sessionStorage.getItem('userid'));
+            //const user = sessionStorage.getItem('fullname'); 
+            //FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', userid.webusersid,  user);
 
             FwFormField.setValueByDataField($form, 'PickDate', date[0]);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', date[0]);
