@@ -24,6 +24,7 @@ var DuplicateRules = (function () {
         var $browse;
         $browse = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Browse').html());
         $browse = FwModule.openBrowse($browse);
+        FwBrowse.addLegend($browse, 'User Defined Rule', '#00FF00');
         return $browse;
     };
     DuplicateRules.prototype.openForm = function (mode) {
