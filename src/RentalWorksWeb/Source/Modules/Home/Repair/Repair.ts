@@ -42,7 +42,6 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   openBrowse = () => {
-
       let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
       $browse = FwModule.openBrowse($browse);
 
@@ -75,7 +74,6 @@ class Repair {
 
   //----------------------------------------------------------------------------------------------
   renderGrids = ($form: any) => {
-
       let $repairCostGrid: any;
       let $repairCostGridControl: any; 
       let $repairPartGrid: any;
@@ -184,7 +182,7 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  openForm(mode: string) {
+  openForm = (mode: string) => {
       let $form;
       $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
       $form = FwModule.openForm($form, mode);
@@ -374,10 +372,8 @@ class Repair {
   //}
 
   //----------------------------------------------------------------------------------------------
-  saveForm($form: any, parameters: any) {
-    let self = this;
+  saveForm = ($form: any, parameters: any) => {
       FwModule.saveForm(this.Module, $form, parameters);
-      //FwModule.refreshForm($form, self);
   }
 
   //----------------------------------------------------------------------------------------------
@@ -427,7 +423,19 @@ class Repair {
       $confirmation.find('.fwconfirmationbox').css('width', '450px');
       let html = [];
 
-    if ($form.data('hasEstimated') === true) {
+     if ($form.data('hasCompleted') === true) {   
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div>This Repair Order has already been completed and cannot be unestimated.</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        $no = FwConfirmation.addButton($confirmation, 'OK');
+
+      }
+
+    else if ($form.data('hasEstimated') === true) {
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div>Would you like to cancel this estimate for this Repair Order?</div>');
@@ -524,8 +532,8 @@ class Repair {
           html.push('</div>');
 
           FwConfirmation.addControls($confirmation, html.join(''));
- 
           $no = FwConfirmation.addButton($confirmation, 'OK');
+
       } else if ($form.data('hasEstimated') === true) {
           html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
           html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
