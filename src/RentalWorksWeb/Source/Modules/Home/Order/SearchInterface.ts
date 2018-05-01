@@ -33,7 +33,7 @@ class SearchInterface {
         html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol" style="width:70px; float:left; margin:15px;">Preview</div>');
+        html.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
         html.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
         html.push('                  </div>');
         html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
@@ -60,7 +60,7 @@ class SearchInterface {
         FwConfirmation.addControls($popup, $searchForm);
 
         $popup.find('.close-modal').one('click', function (e) {
-            FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+            FwPopup.destroyPopup($popup);
             jQuery(document).find('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
@@ -178,9 +178,8 @@ class SearchInterface {
             jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white',/* 'border-left': '5px solid #939393', */'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
             inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             breadcrumb.attr('data-value', inventoryTypeId);
-            console.log(request);
             request.InventoryTypeId = inventoryTypeId;
-            console.log(request);
+
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
@@ -223,6 +222,7 @@ class SearchInterface {
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             breadcrumb.attr('data-value', categoryId);
 
+            delete request.SubCategoryId;
             request.CategoryId = categoryId;
             request.InventoryTypeId = inventoryTypeId;
 
@@ -249,7 +249,7 @@ class SearchInterface {
         var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
         var subCategoryIndex = response.ColumnIndex.SubCategory;
 
-        var subCategories = [];
+        let subCategories = [];
         for (var i = 0; i < response.Rows.length; i++) {
             if (!isSubCategory) {
                 if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
@@ -323,7 +323,7 @@ class SearchInterface {
             request.SubCategoryId = subCategoryId;
             request.CategoryId = categoryId;
             request.InventoryTypeId = inventoryTypeId;
-            
+
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('.inventory').empty();
                 SearchInterfaceController.renderInventory($popup, response, true);
@@ -473,6 +473,10 @@ class SearchInterface {
         });
 
         $popup.on('click', '.addToOrder', function () {
+            var request = {
+                OrderId: id,
+                SessionId: id
+            }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
                 var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
@@ -484,6 +488,61 @@ class SearchInterface {
                 var $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
                 FwBrowse.search($orderItemGridMisc);
             }, null, $searchpopup);
+        });
+
+        $popup.on('click', '.preview', function () {
+            SearchInterfaceController.renderPreviewPopup($popup, id);
+        });
+    }
+
+    renderPreviewPopup($popup, id) {
+        var html = [];
+
+        html.push('<div id="previewpopup" class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 75vw; height: 75vh; overflow:scroll; position:relative;">');
+        html.push('     <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;">');
+        html.push('     </div>');
+        html.push('     <div class="formrow" style="width:100%; position:absolute;">');
+        html.push('            <div>');
+        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
+        html.push('                </div>');
+        html.push('            </div>');
+        html.push('     </div>');
+        html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+        html.push('</div>');
+
+        var $previewForm = html.join('');
+        var $previewPopup = FwPopup.renderPopup($previewForm, { ismodal: true });
+        FwPopup.showPopup($previewPopup);
+        FwConfirmation.addControls($previewPopup, $previewForm);
+
+        var $previewGrid;
+        var $previewGridControl;
+        $previewGrid = $previewPopup.find('[data-grid="SearchPreviewGrid"]');
+        $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
+        $previewGrid.empty().append($previewGridControl);
+        FwBrowse.init($previewGridControl);
+        FwBrowse.renderRuntimeHtml($previewGridControl);
+        var $grid = $previewPopup.find('[data-name="SearchPreviewGrid"]');
+
+        var request: any = {};
+        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+        request = {
+            SessionId: id,
+            ShowAvailablity: true,
+            FromDate: toDate,
+            ToDate: fromDate
+        };
+
+        var $preview = jQuery('#previewpopup');
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.databindcallback($grid, response);
+        }, null, $preview);
+
+        $previewPopup.find('.close-modal').on('click', function (e) {
+            FwPopup.destroyPopup($previewPopup);
+            $previewPopup.off('click');
         });
     }
 }

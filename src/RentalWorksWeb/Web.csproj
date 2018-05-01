@@ -547,6 +547,7 @@
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\CrewPositionGrid\CrewPositionGridBrowse.htm" />
+    <Content Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridBrowse.htm" />
     <Content Include="Source\Grids\PartsInventoryCompatibilityGrid\PartsInventoryCompatibilityGridBrowse.htm" />
     <Content Include="Source\Grids\PartsInventorySubstituteGrid\PartsInventorySubstituteGridBrowse.htm" />
     <Content Include="Source\Grids\MarketSegmentJobGrid\MarketSegmentJobGridBrowse.htm" />
@@ -652,6 +653,7 @@
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CrewPositionGrid\CrewPositionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PartsInventoryCompatibilityGrid\PartsInventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PartsInventorySubstituteGrid\PartsInventorySubstituteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\MarketSegmentJobGrid\MarketSegmentJobGridController.ts" />
