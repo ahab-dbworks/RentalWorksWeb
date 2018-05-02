@@ -235,6 +235,18 @@ class Quote {
             $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
         });
 
+        FwFormField.loadItems($form.find('.outtype'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
+
+
+        FwFormField.loadItems($form.find('.intype'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
 
         return $form;
     }
