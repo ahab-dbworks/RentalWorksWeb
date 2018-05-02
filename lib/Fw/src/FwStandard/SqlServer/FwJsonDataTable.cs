@@ -343,7 +343,8 @@ namespace FwStandard.SqlServer
                     //row[indexGroupByColumn] = "Subtotal";
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        //FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        FormatColumn(this.ColumnNameByIndex[indexSumColumns[sumcolno]], Columns[indexSumColumns[sumcolno]].DataType);  //justin 05/02/2018
                         //switch(Columns[indexSumColumns[sumcolno]].DataType)
                         //{
                         //    case FwDataTypes.CurrencyString:
@@ -369,7 +370,7 @@ namespace FwStandard.SqlServer
                         //        break;
 
                         //}
-                        //row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];  //justin 05/02/2018 (uncommented)
                         subtotals[sumcolno] = 0;
                     }
                     Rows.Insert(rowno + 1, row);
@@ -440,7 +441,8 @@ namespace FwStandard.SqlServer
                     row[indexRowTypeColumn] = newTotalRowType;
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        //FormatColumn(this.ColumnNameByIndex[sumcolno], Columns[indexSumColumns[sumcolno]].DataType);
+                        FormatColumn(this.ColumnNameByIndex[indexSumColumns[sumcolno]], Columns[indexSumColumns[sumcolno]].DataType);  //justin 05/02/2018
                         //switch (Columns[indexSumColumns[sumcolno]].DataType)
                         //{
                         //    case FwDataTypes.CurrencyString:
@@ -466,7 +468,7 @@ namespace FwStandard.SqlServer
                         //        break;
 
                         //}
-                        //row[indexSumColumns[sumcolno]] = totals[sumcolno];
+                        row[indexSumColumns[sumcolno]] = totals[sumcolno];  //justin 05/02/2018 (uncommented)
                     }
                     Rows.Insert(rowno + 1, row);
                     break;

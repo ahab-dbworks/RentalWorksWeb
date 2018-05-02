@@ -298,14 +298,30 @@ namespace Fw.Json.Services
                 {
                     row = NewRow();
                     row[indexRowTypeColumn] = nameGroupbyColumn + "header";
-                    row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                    //row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                    if (Rows[rowno][indexGroupByColumn] == null)  //justin 05/02/2018
+                    {
+                        row[indexGroupByColumn] = "";
+                    }
+                    else
+                    {
+                        row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                    }
                     Rows.Insert(rowno, row);
                     rowno++;
                     rowcount++;
                 }
-                
+
                 // sum the detail row
-                thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
+                //thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
+                if (Rows[rowno][indexGroupByColumn] == null)  //justin 05/02/2018
+                {
+                    thisRowGroupByText = "";
+                }
+                else
+                {
+                    thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
+                }
                 for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                 {
                     cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
@@ -340,7 +356,15 @@ namespace Fw.Json.Services
                 isLastRow = ((rowno + 1) == this.Rows.Count);
                 if (!isLastRow)
                 {
-                    nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
+                    //nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
+                    if (Rows[rowno + 1][indexGroupByColumn] == null)  //justin 05/02/2018
+                    {
+                        nextRowGroupByText = "";
+                    }
+                    else
+                    {
+                        nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
+                    }
                     isNextRowNewGroup = (thisRowGroupByText != nextRowGroupByText);
                 }
 
@@ -352,32 +376,33 @@ namespace Fw.Json.Services
                     //row[indexGroupByColumn] = "Subtotal";
                     for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        switch(Columns[indexSumColumns[sumcolno]].DataType)
-                        {
-                            case FwJsonDataTableColumn.DataTypes.CurrencyString:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
-                                break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
-                                break;
-                            case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
-                                break;
-                            case FwJsonDataTableColumn.DataTypes.Decimal:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
-                            case FwJsonDataTableColumn.DataTypes.Integer:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
-                            case FwJsonDataTableColumn.DataTypes.Percentage:
-                                row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
-                                break;
-                            default:
-                                row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
-                                break;
+                        //justin 05/02/2018 (commented)
+                        //switch(Columns[indexSumColumns[sumcolno]].DataType)
+                        //{
+                        //    case FwJsonDataTableColumn.DataTypes.CurrencyString:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyString(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSign:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwJsonDataTableColumn.DataTypes.CurrencyStringNoDollarSignNoDecimalPlaces:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSignNoDecimalPlaces(subtotals[sumcolno]);
+                        //        break;
+                        //    case FwJsonDataTableColumn.DataTypes.Decimal:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
+                        //    case FwJsonDataTableColumn.DataTypes.Integer:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
+                        //    case FwJsonDataTableColumn.DataTypes.Percentage:
+                        //        row[indexSumColumns[sumcolno]] = FwConvert.ToCurrencyStringNoDollarSign(subtotals[sumcolno]) + "%";
+                        //        break;
+                        //    default:
+                        //        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //        break;
 
-                        }
-                        //row[indexSumColumns[sumcolno]] = subtotals[sumcolno];
+                        //}
+                        row[indexSumColumns[sumcolno]] = subtotals[sumcolno];    //justin 05/02/2018 (uncommented)
                         subtotals[sumcolno] = 0;
                     }
                     Rows.Insert(rowno + 1, row);
