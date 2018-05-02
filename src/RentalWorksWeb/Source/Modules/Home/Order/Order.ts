@@ -156,7 +156,6 @@ class Order {
         $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
 
-
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
             var today = new Date(Date.now()).toLocaleString();
@@ -670,6 +669,15 @@ class Order {
             FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
         } else {
             FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+        }
+
+        // Display weeks or month field in billing tab
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        } else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
         }
     };
 

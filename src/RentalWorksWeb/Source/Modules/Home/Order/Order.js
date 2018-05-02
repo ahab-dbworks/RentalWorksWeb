@@ -592,6 +592,14 @@ var Order = (function () {
         else {
             FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
         }
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        }
+        else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
     };
     ;
     Order.prototype.calculateTotals = function ($form, gridType) {

@@ -82,7 +82,7 @@
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Personnel Agent" data-datafield="AgentId" data-displayfield="Agent" data-enabled="true" data-required="true" data-validationname="UserValidation" style="float:left;max-width:250px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-enabled="true" data-required="true" data-validationname="UserValidation" style="float:left;max-width:250px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="ProjectManagerId" data-displayfield="ProjectManager" data-enabled="true" data-required="true" data-validationname="UserValidation" style="float:left;max-width:250px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales Representative" data-datafield="SalesRepresentativeId" data-displayfield="SalesRepresentative" data-enabled="true" data-validationname="ContactValidation" style="float:left;max-width:250px;"></div>
                 </div>
@@ -547,7 +547,8 @@
           <div class="formcolumn" style="padding-left:1em; width:30%">
             <div class="formrow">
               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="BillingStartDate" style="width:150px; float:left"></div>
-              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Weeks" data-datafield="" style="width:150px; float:left" data-formreadonly="true"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingWeeks" data-caption="Weeks" data-datafield="BillingWeeks" style="width:150px; float:left" data-formreadonly="true"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield BillingMonths" data-caption="Months" data-datafield="BillingMonths" style="width:150px; float:left" data-formreadonly="true"></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Billing Dates" data-datafield="LockBillingDates" style="padding-left: 10px;width:150px; float:left"></div>
             </div>
             <br />

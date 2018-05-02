@@ -481,6 +481,14 @@ class Quote {
             FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
         }
 
+        // Display weeks or month field in billing tab
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        } else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
     }
 
     copyQuote($form) {
