@@ -27,7 +27,7 @@ class SearchInterface {
         html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
         html.push('             </div>');
 
-        html.push('            <div style="width:65%; position:absolute; top: 5%; left: 35%; right: 5%;">')
+        html.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
         html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
         html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
@@ -38,9 +38,9 @@ class SearchInterface {
         html.push('                  </div>');
         html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:540px; float:left;"></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        html.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         html.push('                 </div>');
 
 
@@ -111,11 +111,10 @@ class SearchInterface {
             }
         });
 
-        //var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
-        //$descriptionField.on('blur', function () {
-        //    let query = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
-
-        //});
+        var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
+        $descriptionField.on('blur', function () {
+            request.SearchText = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val();
+        });
 
 
         var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
@@ -130,6 +129,7 @@ class SearchInterface {
             FromDate: fromDate,
             ToDate: toDate
         }
+
 
 
         this.populateTypeMenu($popup, inventoryTypeRequest);
@@ -257,22 +257,58 @@ class SearchInterface {
                     $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                 }
             }
+            //var html = [];
+            //html.push('<div class="card" style="cursor:pointer; width:225px; height:300px; float:left; padding:10px; margin:8px;">');
+            //html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
+            //html.push('<div style="height: 15%; padding-bottom:5px;">' + response.Rows[i][descriptionIndex] + '</div>');
+            //html.push('<div style="float:left; width:125px; height:175px; line-height:175px; display: inline-block; position: relative;">');
+            //html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
+            //html.push('</div>');
+            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
+            //html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+            //html.push('<div style="float:right;">');
+            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:left; width:45px;" data-enabled="false"></div>');
+            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+            //html.push('</div>');
+            //if (true) {
+            //    html.push('<div class="accessories" style="float:right; padding:10px 5px 10px 0; font-size: .9em; color:blue;">Accessories</div>');
+            //}
+            ////else {
+            ////    html.push('<div style="padding: 10px 0 10px 0;"></div>');
+            ////}
+
+            //html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" style="float:left; width:90px;" data-enabled="false"></div>');
+            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+            //html.push('</div>');
+
+
             var html = [];
-            html.push('<div class="card" style="cursor:pointer; width:225px; height:280px; float:left; padding:10px; margin:8px;">');
+            html.push('<div class="card">');
             html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
-            html.push('<div style="height: 15%; padding-bottom:15px;">' + response.Rows[i][descriptionIndex] + '</div>');
-            html.push('<div style="float:left; width:125px; height:155px; line-height:155px; display: inline-block; position: relative;">');
-            html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
+            html.push('<div>')
+            html.push('<div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
+            html.push('<div class="invimage">');
+            html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image">');
             html.push('</div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
-            html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
+            html.push('</div>')
+            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false"></div>');
+            html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false"></div>');
+            html.push('<div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('<div style="float:right;">');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:left; width:45px;" data-enabled="false"></div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
+            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false"></div>');
+            html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('</div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" style="float:left; width:90px;" data-enabled="false"></div>');
-            html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
+            if (true) {
+                html.push('<div class="accessories">Accessories</div>');
+            }
+            //else {
+            //    html.push('<div style="padding: 10px 0 10px 0;"></div>');
+            //}
+
+            html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false"></div>');
+            html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('</div>');
+
 
             var item = html.join('');
             $popup.find('.inventory').append(item);
@@ -295,7 +331,75 @@ class SearchInterface {
             'transition': '0.3s'
         }
         $inventory.css(css);
+
+        this.listGridView($inventory, 'gridView');
     }
+
+    listGridView($inventory, viewType) {
+        var description = $inventory.find('.invdescription');
+        var imageFrame = $inventory.find('.invimage');
+        var image = $inventory.find('.image');
+        var quantityAvailable = $inventory.find('[data-datafield="QuantityAvailable"]');
+        var conflictDate = $inventory.find('[data-datafield="ConflictDate"]');
+        var quantityIn = $inventory.find('[data-datafield="QuantityIn"]');
+        var quantityQcRequired = $inventory.find('[data-datafield="QuantityQcRequired"]');
+        var accessories = $inventory.find('.accessories');
+        var rate = $inventory.find('[data-datafield="DailyRate"]');
+        var quantity = $inventory.find('[data-datafield="Quantity"]');
+        var allWH = $inventory.find('[data-datafield="AllWH"]');
+        switch (viewType) {
+            case 'gridView':
+                allWH.remove();
+                $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '300px', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                description.css({ 'height': '15%', 'padding-bottom': '5px' });
+                imageFrame.css({ 'float': 'left', 'width': '125px', 'height': '175px', 'line-height': '175px', 'display': 'inline-block', 'position': 'relative' });
+                image.css({'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto'});
+                quantityAvailable.css({ 'float': 'right', 'width': '90px' });
+                conflictDate.css({ 'float': 'right', 'width': '90px' });
+                quantityIn.css({ 'float': 'left', 'width': '45px' });
+                quantityQcRequired.css({ 'float': 'right', 'width': '45px' });
+                accessories.css({'float':'right', 'padding':'10px 5px 10px 0', 'font-size': '.9em', 'color':'blue'});
+                rate.css({ 'float': 'left', 'width': '90px' });
+                quantity.css({'float':'right', 'width':'90px'});
+                //$inventory.removeClass('listView', 'listGridView');
+                //$inventory.addClass('gridView');
+                break;
+            case 'listView':
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height':'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '40%' });
+                imageFrame.remove();
+                //image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
+                quantityAvailable.css({ 'float': 'left', 'width': '90px' });
+                conflictDate.css({ 'float': 'left', 'width': '90px' });
+                allWH.css({ 'float': 'left', 'width': '90px' });
+                quantityIn.css({ 'float': 'left', 'width': '45px' });
+                quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
+                accessories.css({ 'float': 'left', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '90px' });
+                quantity.css({ 'float': 'left', 'width': '90px' });
+                //$inventory.removeClass('gridView', 'listGridView');
+                //$inventory.addClass('listView');
+                break;
+            case 'listGridView':
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '40%' });
+                imageFrame.css({ 'float': 'left', 'width': '80px', 'height': '100px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
+                image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
+                quantityAvailable.css({ 'float': 'left', 'width': '90px' });
+                conflictDate.css({ 'float': 'left', 'width': '90px' });
+                allWH.css({ 'float': 'left', 'width': '90px' });
+                quantityIn.css({ 'float': 'left', 'width': '45px' });
+                quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
+                accessories.css({ 'float': 'left', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '90px' });
+                quantity.css({ 'float': 'left', 'width': '90px' });
+                //$inventory.removeClass('listView', 'gridView');
+                //$inventory.addClass('listGridView');
+                break;
+        }
+
+
+    };
 
     subCategoryOnClickEvents($popup, $form, request) {
         var $searchpopup = jQuery('#searchpopup');
@@ -333,17 +437,15 @@ class SearchInterface {
 
     breadCrumbs($popup, $form, request) {
         var $searchpopup = jQuery('#searchpopup');
-        var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-        var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
 
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
 
+            delete request.CategoryId;
+
             var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             request.InventoryTypeId = inventoryTypeId;
-
-
+            
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
@@ -364,6 +466,7 @@ class SearchInterface {
         $popup.on('click', '#breadcrumbs .category', function (e) {
             $popup.find("#breadcrumbs .subcategory").empty();
 
+            delete request.SubCategoryId;
             var categoryId = jQuery(e.currentTarget).attr('data-value');
             var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             request.CategoryId = categoryId;
@@ -380,6 +483,7 @@ class SearchInterface {
     events($popup, $form, id) {
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         var request: any = {};
+        var self = this;
         $popup.on('mouseenter', '.inventory > div', function () {
             jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
         });
@@ -490,9 +594,25 @@ class SearchInterface {
             }, null, $searchpopup);
         });
 
-        $popup.on('click', '.preview', function () {
-            SearchInterfaceController.renderPreviewPopup($popup, id);
+        $popup.on('click', '.listbutton', function () {
+            let $inventory = $popup.find('div.card');
+            self.listGridView($inventory, 'listView');
         });
+
+        $popup.on('click', '.listgridbutton', function () {
+            let $inventory = $popup.find('div.card');
+            self.listGridView($inventory, 'listGridView');
+        });
+
+        $popup.on('click', '.gridbutton', function () {
+            let $inventory = $popup.find('div.card');
+            self.listGridView($inventory, 'gridView');
+        });
+
+        $popup.on('click', '.preview', function () {
+            //SearchInterfaceController.renderPreviewPopup($popup, id);
+        });
+
     }
 
     renderPreviewPopup($popup, id) {
