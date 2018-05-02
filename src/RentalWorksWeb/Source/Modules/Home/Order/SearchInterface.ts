@@ -65,11 +65,11 @@ class SearchInterface {
             jQuery(document).off('keydown');
         });
 
-        var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-        FwFormField.setValueByDataField($popup, 'FromDate', fromDate);
+        var startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+        FwFormField.setValueByDataField($popup, 'FromDate', startDate);
 
-        var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-        FwFormField.setValueByDataField($popup, 'ToDate', toDate);
+        var stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+        FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
 
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
 
@@ -111,14 +111,8 @@ class SearchInterface {
             }
         });
 
-        var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
-        $descriptionField.on('blur', function () {
-            request.SearchText = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val();
-        });
-
-
-        var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-        var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
 
         var request: any = {
             OrderId: id,
@@ -130,7 +124,55 @@ class SearchInterface {
             ToDate: toDate
         }
 
+        var $searchpopup = jQuery('#searchpopup');
+        var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
+        $descriptionField.on('blur', function () {
 
+            var request: any = {
+                OrderId: id,
+                SessionId: id,
+                AvailableFor: availableFor,
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: fromDate,
+                ToDate: toDate,
+                SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
+            }
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                $popup.find('.inventory').empty();
+                SearchInterfaceController.renderInventory($popup, response, false);
+            }, null, $searchpopup);
+
+        });
+
+        $descriptionField.on('keydown', function (e) {
+            var code = e.keyCode || e.which;
+            try {
+                if (code === 13) { //Enter Key
+                    e.preventDefault();
+
+                    var request: any = {
+                        OrderId: id,
+                        SessionId: id,
+                        AvailableFor: availableFor,
+                        WarehouseId: warehouseId,
+                        ShowAvailability: true,
+                        FromDate: fromDate,
+                        ToDate: toDate,
+                        SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
+                    }
+
+                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('.inventory').empty();
+                        SearchInterfaceController.renderInventory($popup, response, false);
+                    }, null, $searchpopup);
+
+                }
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         this.populateTypeMenu($popup, inventoryTypeRequest);
         this.typeOnClickEvents($popup, $form, request);
