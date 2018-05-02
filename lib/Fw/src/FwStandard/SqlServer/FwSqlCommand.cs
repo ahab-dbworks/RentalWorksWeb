@@ -1040,10 +1040,10 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand);
                 this.sqlLogEntry.Start();
                 await this.sqlCommand.Connection.OpenAsync();
-                this.sqlLogEntry.Stop();
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
+                    this.sqlLogEntry.Stop();
                     if (!includeAllColumns)
                     {
                         dt.Columns = columns;

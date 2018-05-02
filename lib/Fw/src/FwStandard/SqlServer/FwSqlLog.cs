@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
 
 namespace FwStandard.SqlServer
 {
@@ -12,9 +13,11 @@ namespace FwStandard.SqlServer
         public string Sql          = string.Empty;
         public DateTime StartTime  = DateTime.MinValue;
         public DateTime StopTime   = DateTime.MinValue;
+        public static int Counter = 0;
 
         public FwSqlLogEntry(string label, SqlCommand command)
         {
+            Counter++;
             StringBuilder sqlForHtml, sql;
             int maxParameterWidth = 0;
             int maxDataTypeWidth = 0;
@@ -391,7 +394,11 @@ namespace FwStandard.SqlServer
                 }
             }
             SqlForHtml = sqlForHtml.ToString().Replace(" ", "&nbsp;");
-            Console.WriteLine(sql);
+
+
+            sql.Insert(0, "--" + Counter.ToString() + "\n");
+
+            //Console.WriteLine(sql);
         }
 
         public FwSqlLogEntry(SqlCommand command) : this(string.Empty, command)
@@ -411,7 +418,8 @@ namespace FwStandard.SqlServer
 
         public void Stop()
         {
-            StopTime = DateTime.Now;   
+            StopTime = DateTime.Now;
+            //Console.WriteLine("--" + Counter.ToString() + " completed in " + GetExecutionTime());
         }
 
         public string GetExecutionTime()
