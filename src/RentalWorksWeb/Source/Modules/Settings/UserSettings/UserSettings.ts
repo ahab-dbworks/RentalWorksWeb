@@ -1,11 +1,7 @@
 ﻿class UserSettings {
-    Module: string;
-    apiurl: string;
+    Module: string = 'UserSettings';
+    apiurl: string = 'api/v1/usersettings';
 
-    constructor() {
-        this.Module = 'UserSettings';
-        this.apiurl = 'api/v1/usersettings';
-    }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -27,7 +23,7 @@
     openForm(mode: string) {
         var $form, $browsedefaultrows, $applicationtheme;
 
-        var userId = JSON.parse(sessionStorage.getItem('userid'));
+        const userId = JSON.parse(sessionStorage.getItem('userid'));
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
@@ -48,7 +44,7 @@
             { value: '200', text: '200' },
             { value: '500', text: '500' },
             { value: '1000', text: '1000' }
-        ]);
+        ], true);
 
         $applicationtheme = $form.find('.applicationtheme');
         FwFormField.loadItems($applicationtheme, [
@@ -56,7 +52,7 @@
             { value: 'theme-material', text: 'Material' },
             { value: 'theme-materialmobile', text: 'Material Mobile' },
             { value: 'theme-classic', text: 'Classic' }
-        ]);
+        ], true);
 
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
@@ -67,8 +63,8 @@
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
 
-        var browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-        var applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
+        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
+        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
 
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
         sessionStorage.setItem('applicationtheme', applicationTheme);
@@ -78,12 +74,12 @@
         }, 1000);
     }
 
-    //afterLoad($form) {
-    //    var browserows = sessionStorage.getItem('browsedefaultrows');
-    //    var theme = sessionStorage.getItem('applicationtheme');
-    //    jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browserows);
-    //    jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
-    //}
+    afterLoad($form) {
+        const browserows = sessionStorage.getItem('browsedefaultrows');
+        const theme = sessionStorage.getItem('applicationtheme');
+        jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browserows);
+        jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
+    }
     //----------------------------------------------------------------------------------------------
 }
 var UserSettingsController = new UserSettings();
