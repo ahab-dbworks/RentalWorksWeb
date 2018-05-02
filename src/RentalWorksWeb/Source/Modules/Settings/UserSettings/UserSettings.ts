@@ -4,12 +4,12 @@
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
+        let screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('NEW');
+        let $form = this.openForm('NEW');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'User Settings', false, 'FORM', true);
@@ -21,7 +21,7 @@
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form, $browsedefaultrows, $applicationtheme;
+        let $form, $browsedefaultrows, $applicationtheme;
 
         const userId = JSON.parse(sessionStorage.getItem('userid'));
 
