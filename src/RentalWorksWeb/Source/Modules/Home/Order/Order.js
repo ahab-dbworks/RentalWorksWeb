@@ -204,6 +204,11 @@ var Order = (function () {
         });
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+        FwFormField.loadItems($form.find('.outtype'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
         return $form;
     };
     ;

@@ -232,9 +232,21 @@ class Order {
             $form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
         })
 
-
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);    
+
+        FwFormField.loadItems($form.find('.outtype'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
+
+
+        FwFormField.loadItems($form.find('.intype'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
 
         return $form;
     };
