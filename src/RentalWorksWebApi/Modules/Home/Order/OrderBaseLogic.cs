@@ -170,6 +170,10 @@ namespace WebApi.Modules.Home.Order
         public bool? IncludePrepFeesInRentalRate { get { return dealOrderDetail.IncludePrepFeesInRentalRate; } set { dealOrderDetail.IncludePrepFeesInRentalRate = value; } }
         public string BillingStartDate { get { return dealOrder.BillingStartDate; } set { dealOrder.BillingStartDate = value; } }
         public string BillingEndDate { get { return dealOrder.BillingEndDate; } set { dealOrder.BillingEndDate = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? BillingWeeks { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? BillingMonths { get; set; }
         public string DetermineQuantitiesToBillBasedOn { get { return dealOrder.DetermineQuantitiesToBillBasedOn; } set { dealOrder.DetermineQuantitiesToBillBasedOn = value; } }
         public string BillingCycleId { get { return dealOrder.BillingCycleId; } set { dealOrder.BillingCycleId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]

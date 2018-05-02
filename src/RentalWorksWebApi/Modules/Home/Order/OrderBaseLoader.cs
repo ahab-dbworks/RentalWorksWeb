@@ -88,6 +88,12 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billingweeks", modeltype: FwDataTypes.Decimal)]
+        public decimal? BillingWeeks { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "billingmonths", modeltype: FwDataTypes.Decimal)]
+        public decimal? BillingMonths { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "billingdates", modeltype: FwDataTypes.Text)]
         public string DetermineQuantitiesToBillBasedOn { get; set; }
         //------------------------------------------------------------------------------------
