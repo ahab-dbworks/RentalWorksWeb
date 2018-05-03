@@ -165,6 +165,16 @@ var Order = (function () {
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
         }
+        $form.find('.RateType').on('change', function ($tr) {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                $form.find(".BillingWeeks").hide();
+                $form.find(".BillingMonths").show();
+            }
+            else {
+                $form.find(".BillingMonths").hide();
+                $form.find(".BillingWeeks").show();
+            }
+        });
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {

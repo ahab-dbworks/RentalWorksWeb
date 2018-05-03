@@ -191,6 +191,17 @@ class Quote {
 
         }
 
+        //RateType change affecting billing tab weeks or months
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
+                $form.find(".BillingWeeks").hide();
+                $form.find(".BillingMonths").show();
+            } else {
+                $form.find(".BillingMonths").hide();
+                $form.find(".BillingWeeks").show();
+            }
+        });
+
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
