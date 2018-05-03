@@ -640,7 +640,8 @@ class SearchInterface {
         });
 
         $popup.on('click', '.preview', function () {
-            //SearchInterfaceController.renderPreviewPopup($popup, id);
+            SearchInterfaceController.renderPreviewPopup($popup, id);
+
         });
 
     }
