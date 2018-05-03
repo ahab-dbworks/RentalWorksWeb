@@ -132,6 +132,10 @@
                         delete response.options.legend;
                         delete response.options.scales;
                     }
+                    if (response.data.labels.length > 10 && response.type !== 'pie') {
+                        response.options.scales.xAxes[0].ticks.minRotation = 70;
+                        response.options.scales.xAxes[0].ticks.maxRotation = 70;
+                    }
                     var chart = new Chart(widgetcanvas, response);
                     jQuery(widgetcanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
@@ -198,6 +202,10 @@
                 if (response.type === 'pie') {
                     delete response.options.legend;
                     delete response.options.scales;
+                }
+                if (response.data.labels.length > 10 && response.type !== 'pie') {
+                    response.options.scales.xAxes[0].ticks.minRotation = 70;
+                    response.options.scales.xAxes[0].ticks.maxRotation = 70;
                 }
                 var chart = new Chart(widgetcanvas, response);
                 jQuery(widgetcanvas).on('click', function (evt) {
