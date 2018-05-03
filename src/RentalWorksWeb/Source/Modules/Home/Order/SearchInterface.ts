@@ -299,44 +299,20 @@ class SearchInterface {
                     $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                 }
             }
-            //var html = [];
-            //html.push('<div class="card" style="cursor:pointer; width:225px; height:300px; float:left; padding:10px; margin:8px;">');
-            //html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
-            //html.push('<div style="height: 15%; padding-bottom:5px;">' + response.Rows[i][descriptionIndex] + '</div>');
-            //html.push('<div style="float:left; width:125px; height:175px; line-height:175px; display: inline-block; position: relative;">');
-            //html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image" style="max-height: 100%; max-width: 100%; width: auto; height: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;">');
-            //html.push('</div>');
-            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" style="float:right; width:90px;" data-enabled="false"></div>');
-            //html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" style="float:right; width:90px;" data-enabled="false"></div>');
-            //html.push('<div style="float:right;">');
-            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" style="float:left; width:45px;" data-enabled="false"></div>');
-            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" style="float:right; width:45px;" data-enabled="false"></div>');
-            //html.push('</div>');
-            //if (true) {
-            //    html.push('<div class="accessories" style="float:right; padding:10px 5px 10px 0; font-size: .9em; color:blue;">Accessories</div>');
-            //}
-            ////else {
-            ////    html.push('<div style="padding: 10px 0 10px 0;"></div>');
-            ////}
-
-            //html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" style="float:left; width:90px;" data-enabled="false"></div>');
-            //html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield" style="float:right; width:90px;"></div>');
-            //html.push('</div>');
-
 
             var html = [];
             html.push('<div class="card">');
             html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
-            html.push('<div>')
+            html.push('<div class="desccontainer">')
             html.push('<div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
             html.push('<div class="invimage">');
-            html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="No Image" class="image">');
+            html.push('<img src="' + response.Rows[i][thumbnail] + '" data-value="' + response.Rows[i][appImageId] + '" alt="Image" class="image">');
             html.push('</div>');
             html.push('</div>')
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="fwcontrol fwformfield" data-datafield="QuantityAvailable" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="text" data-caption="All WH" data-datafield="AllWH" class="fwcontrol fwformfield" data-enabled="false"></div>');
-            html.push('<div style="float:right;">');
+            html.push('<div class="quantitycontainer">');
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('</div>');
@@ -389,11 +365,15 @@ class SearchInterface {
         var rate = $inventory.find('[data-datafield="DailyRate"]');
         var quantity = $inventory.find('[data-datafield="Quantity"]');
         var allWH = $inventory.find('[data-datafield="AllWH"]');
+        var descContainer = $inventory.find('.desccontainer');
+        var quantityContainer = $inventory.find('.quantitycontainer');
         switch (viewType) {
             case 'gridView':
-                allWH.remove();
+                allWH.hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '300px', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                description.css({ 'height': '15%', 'padding-bottom': '5px' });
+                descContainer.css({ 'width': '', 'float': '' });
+                description.css({ 'height': '15%', 'width': '', 'padding-bottom': '5px', 'float': '' });
+                imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '125px', 'height': '175px', 'line-height': '175px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto'});
                 quantityAvailable.css({ 'float': 'right', 'width': '90px' });
@@ -401,40 +381,48 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'right', 'width': '45px' });
                 accessories.css({'float':'right', 'padding':'10px 5px 10px 0', 'font-size': '.9em', 'color':'blue'});
-                rate.css({ 'float': 'left', 'width': '90px' });
-                quantity.css({'float':'right', 'width':'90px'});
+                rate.css({ 'float': 'left', 'padding-top':'20px', 'width': '90px' });
+                quantity.css({ 'float': 'right', 'width': '90px' });
+                quantityContainer.css({'float':'right'});
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
             case 'listView':
-                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height':'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '40%' });
-                imageFrame.remove();
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                descContainer.css({'width':'','float':''});
+                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%' });
+                imageFrame.hide();
                 //image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
-                quantityAvailable.css({ 'float': 'left', 'width': '90px' });
+                quantityAvailable.css({ 'float': 'left', 'width': '75px' });
                 conflictDate.css({ 'float': 'left', 'width': '90px' });
-                allWH.css({ 'float': 'left', 'width': '90px' });
+                allWH.show();
+                allWH.css({ 'float': 'left', 'width': '75px' });
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
-                accessories.css({ 'float': 'left', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '90px' });
-                quantity.css({ 'float': 'left', 'width': '90px' });
+                accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '90px', 'padding-top':'' });
+                quantity.css({ 'float': 'right', 'width': '90px' });
+                quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
                 break;
             case 'listGridView':
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '40%' });
-                imageFrame.css({ 'float': 'left', 'width': '80px', 'height': '100px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
+                descContainer.css({ 'width': '40%', 'float': 'left' });
+                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%' });
+                imageFrame.show();
+                imageFrame.css({ 'float': 'left', 'width': '60px', 'height': '70px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
-                quantityAvailable.css({ 'float': 'left', 'width': '90px' });
+                quantityAvailable.css({ 'float': 'left', 'width': '75px' });
                 conflictDate.css({ 'float': 'left', 'width': '90px' });
-                allWH.css({ 'float': 'left', 'width': '90px' });
+                allWH.show();
+                allWH.css({ 'float': 'left', 'width': '75px' });
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
-                accessories.css({ 'float': 'left', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '90px' });
-                quantity.css({ 'float': 'left', 'width': '90px' });
+                accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '' });
+                quantity.css({ 'float': 'right', 'width': '90px' });
+                quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
                 break;
