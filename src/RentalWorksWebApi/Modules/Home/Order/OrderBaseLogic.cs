@@ -455,28 +455,36 @@ namespace WebApi.Modules.Home.Order
             }
             else
             {
+                OrderBaseLogic l2 = null;
+                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    l2 = new QuoteLogic();
+                }
+                else
+                {
+                    l2 = new OrderLogic();
+                }
+                l2.SetDependencies(this.AppConfig, this.UserSession);
+                object[] pk = GetPrimaryKeys();
+                if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
+                {
+                    bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
+                }
+                else
+                {
+                    bool b = l2.LoadAsync<OrderLogic>(pk).Result;
+                }
                 if ((tax.TaxId == null) || (tax.TaxId.Equals(string.Empty)))
                 {
-                    OrderBaseLogic l2 = null;
-                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
-                    {
-                        l2 = new QuoteLogic();
-                    }
-                    else
-                    {
-                        l2 = new OrderLogic();
-                    }
-                    l2.SetDependencies(this.AppConfig, this.UserSession);
-                    object[] pk = GetPrimaryKeys();
-                    if (Type.Equals(RwConstants.ORDER_TYPE_QUOTE))
-                    {
-                        bool b = l2.LoadAsync<QuoteLogic>(pk).Result;
-                    }
-                    else 
-                    {
-                        bool b = l2.LoadAsync<OrderLogic>(pk).Result;
-                    }
                     tax.TaxId = l2.TaxId;
+                }
+                if ((outDelivery.DeliveryId== null) || (outDelivery.DeliveryId.Equals(string.Empty)))
+                {
+                    outDelivery.DeliveryId = l2.OutDeliveryId;
+                }
+                if ((inDelivery.DeliveryId == null) || (inDelivery.DeliveryId.Equals(string.Empty)))
+                {
+                    inDelivery.DeliveryId = l2.InDeliveryId;
                 }
             }
         }
