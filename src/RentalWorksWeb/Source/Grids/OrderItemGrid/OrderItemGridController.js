@@ -10,7 +10,7 @@ var OrderItemGrid = (function () {
                 var toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 var fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
             }
-            var warehouse = FwFormField.getValueByDataField($form, 'Warehouse');
+            var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             if ($generatedtr.hasClass("newmode")) {
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
