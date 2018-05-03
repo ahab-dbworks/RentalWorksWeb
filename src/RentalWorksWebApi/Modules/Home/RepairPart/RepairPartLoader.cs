@@ -52,6 +52,9 @@ namespace WebApi.Modules.Home.RepairPart
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
+        public decimal? Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Boolean)]
         public bool? Billable { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -137,6 +137,8 @@ namespace WebApi.Modules.Home.OrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Tax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public decimal? PeriodVarianceExtended { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? VariancePercent { get; set; }

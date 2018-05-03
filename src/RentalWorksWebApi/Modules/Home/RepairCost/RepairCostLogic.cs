@@ -28,6 +28,8 @@ namespace WebApi.Modules.Home.RepairCost
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Extended { get; set; }
         public bool? Taxable { get { return repairCost.Taxable; } set { repairCost.Taxable = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Tax { get; set; }
         public bool? Billable { get { return repairCost.Billable; } set { repairCost.Billable = value; } }
         public string Note { get { return repairCost.Note; } set { repairCost.Note = value; } }
         public string DateStamp { get { return repairCost.DateStamp; } set { repairCost.DateStamp = value; } }

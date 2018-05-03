@@ -33,6 +33,8 @@ namespace WebApi.Modules.Home.RepairPart
         [FwBusinessLogicField(isReadOnly: true)]
         public decimal? Extended { get; set; }
         public bool? Taxable { get { return repairPart.Taxable; } set { repairPart.Taxable = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? Tax { get; set; }
         public bool? Billable { get { return repairPart.Billable; } set { repairPart.Billable = value; } }
         public string ItemClass { get { return repairPart.ItemClass; } set { repairPart.ItemClass = value; } }
         public string ItemOrder { get { return repairPart.ItemOrder; } set { repairPart.ItemOrder = value; } }

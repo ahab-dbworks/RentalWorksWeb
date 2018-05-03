@@ -225,6 +225,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
+        public decimal? Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodVarianceExtended { get; set; }
         //------------------------------------------------------------------------------------ 
