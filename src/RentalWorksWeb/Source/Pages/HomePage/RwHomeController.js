@@ -115,6 +115,9 @@ var RwHome = (function () {
                         delete response.options.legend;
                         delete response.options.scales;
                     }
+                    if (response.type !== 'pie') {
+                        response.options.scales.xAxes[0].ticks.autoSkip = false;
+                    }
                     if (response.data.labels.length > 10 && response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.minRotation = 70;
                         response.options.scales.xAxes[0].ticks.maxRotation = 70;
@@ -181,6 +184,9 @@ var RwHome = (function () {
                 if (response.type === 'pie') {
                     delete response.options.legend;
                     delete response.options.scales;
+                }
+                if (response.type !== 'pie') {
+                    response.options.scales.xAxes[0].ticks.autoSkip = false;
                 }
                 if (response.data.labels.length > 10 && response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.minRotation = 70;
