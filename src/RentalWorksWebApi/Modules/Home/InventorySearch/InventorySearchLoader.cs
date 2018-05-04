@@ -47,6 +47,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
+        public string Classification { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
         public string ClassificationDescription { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -124,6 +127,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {

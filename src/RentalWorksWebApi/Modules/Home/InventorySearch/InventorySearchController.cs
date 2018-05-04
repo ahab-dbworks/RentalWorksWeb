@@ -24,6 +24,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public bool ShowAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
+        public bool ShowImages;
     }
     //------------------------------------------------------------------------------------ 
     public class InventorySearchPreviewRequest
