@@ -31,6 +31,12 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "controltype", modeltype: FwDataTypes.Text)]
         public string ControlType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "stringlength", modeltype: FwDataTypes.Integer)]
+        public int? StringLength { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "floatdecimaldigits", modeltype: FwDataTypes.Integer)]
+        public int? FloatDecimalDigits { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

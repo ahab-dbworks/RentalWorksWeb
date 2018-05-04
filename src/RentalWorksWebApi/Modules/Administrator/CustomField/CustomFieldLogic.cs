@@ -28,6 +28,8 @@ namespace WebApi.Modules.Administrator.CustomField
         public string FieldType { get; set; }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ControlType { get; set; }
+        public int? StringLength { get { return customField.StringLength; } set { customField.StringLength = value; } }
+        public int? FloatDecimalDigits { get { return customField.FloatDecimalDigits; } set { customField.FloatDecimalDigits = value; } }
         public string DateStamp { get { return customField.DateStamp; } set { customField.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveCustomField(object sender, AfterSaveEventArgs e)
