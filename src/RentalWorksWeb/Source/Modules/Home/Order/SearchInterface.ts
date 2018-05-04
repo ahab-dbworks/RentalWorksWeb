@@ -171,6 +171,7 @@ class SearchInterface {
             SessionId: id,
             ShowAvailablity: true,
             FromDate: toDate,
+            ShowImages: true,
             ToDate: fromDate
         };
 
@@ -236,6 +237,7 @@ class SearchInterface {
                 WarehouseId: warehouseId,
                 ShowAvailability: true,
                 FromDate: fromDate,
+                ShowImages: true,
                 ToDate: toDate,
                 SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
             }
@@ -261,6 +263,7 @@ class SearchInterface {
                         ShowAvailability: true,
                         FromDate: fromDate,
                         ToDate: toDate,
+                        ShowImages: true,
                         SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
                     }
 
@@ -282,7 +285,8 @@ class SearchInterface {
             WarehouseId: warehouseId,
             ShowAvailability: true,
             FromDate: fromDate,
-            ToDate: toDate
+            ToDate: toDate,
+            ShowImages: true
         }
 
         this.populateTypeMenu($popup, inventoryTypeRequest);
@@ -401,6 +405,7 @@ class SearchInterface {
         var appImageId = response.ColumnIndex.ImageId;
         var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
         var subCategoryIndex = response.ColumnIndex.SubCategory;
+        var classificationIndex = response.ColumnIndex.Classification;
 
         let subCategories = [];
         for (var i = 0; i < response.Rows.length; i++) {
@@ -427,13 +432,15 @@ class SearchInterface {
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityIn" data-caption="In" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="QuantityQcRequired" data-caption="QC" class="fwcontrol fwformfield" data-enabled="false"></div>');
             html.push('</div>');
-            if (true) {
-                html.push('<div class="accessories">Accessories</div>');
+            html.push('<div class="accessories" style="width:80px;">');
+            var test = response.Rows[i][classificationIndex];
+            if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C" ) {
+                html.push('<div>Accessories</div>');
             }
-            //else {
-            //    html.push('<div style="padding: 10px 0 10px 0;"></div>');
-            //}
-
+            else {
+                html.push('<div>&#160;</div>');
+            }
+            html.push('</div>');
             html.push('<div data-control="FwFormField" data-type="number" data-digits="2" data-datafield="DailyRate" data-caption="Rate" class="fwcontrol fwformfield rate" data-enabled="false"></div>');
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('</div>');
@@ -531,8 +538,8 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '' });
-                quantity.css({ 'float': 'right', 'width': '90px' });
+                rate.css({ 'float': 'left', 'width': '80px', 'padding-top': '' });
+                quantity.css({ 'float': 'right', 'width': '80px' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
@@ -765,6 +772,7 @@ class SearchInterface {
             SessionId: id,
             ShowAvailablity: true,
             FromDate: toDate,
+            ShowImages: true,
             ToDate: fromDate
         };
 
@@ -772,7 +780,7 @@ class SearchInterface {
             var $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             FwBrowse.databindcallback($grid, response);
         }, null, $searchpopup);
-    }
+    };
 
 
 
