@@ -1,69 +1,151 @@
 class SearchInterface {
     renderSearchPopup($form, id) {
         var html = [];
-        html.push('<div id="searchpopup" class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
+        html.push('<div id="searchpopup" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 85vw; height: 85vh; overflow:scroll; position:relative;">');
 
-        html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
-        html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        html.push('     </div>');
+        html.push(' <div id="searchTabs" class="fwcontrol fwtabs" data-rendermode="runtime" data-version="1" data-control="FwTabs">');
+        html.push(' <div class="tabs"></div>');
+        html.push(' <div class="tabpages"></div>');
+        html.push('</div>');
+        //html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
+        //html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        //html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        //html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        //html.push('     </div>');
 
-        html.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
-        html.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
-        html.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
-        html.push('              </div>');
+        //html.push('     <div class="formrow" style="width:100%; position:absolute;">');
+        //html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
+        //html.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
+        //html.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
+        //html.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
+        //html.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
+        //html.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
+        //html.push('              </div>');
 
-        html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        html.push('              </div>');
+        //html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        //html.push('              </div>');
 
-        html.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        html.push('             </div>');
+        //html.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        //html.push('             </div>');
 
-        html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        html.push('             </div>');
+        //html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        //html.push('             </div>');
 
-        html.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
-        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
-        html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
-        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
-        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
-        html.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
-        html.push('                  </div>');
-        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:540px; float:left;"></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
-        html.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
-        html.push('                 </div>');
+        //html.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
+        //html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        //html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
+        //html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
+        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
+        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
+        //html.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
+        //html.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+        //html.push('                  </div>');
+        //html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:540px; float:left;"></div>');
+        //html.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        //html.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        //html.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
+        //html.push('                 </div>');
 
 
-        html.push('                 <div class="inventory" style="overflow:auto">');
+        //html.push('                 <div class="inventory" style="overflow:auto">');
 
-        html.push('                 </div>');
-        html.push('            </div>');
-
-        html.push('     </div>');
+        //html.push('                 </div>');
+        //html.push('            </div>');
 
         html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         html.push('</div>');
-
-        var $searchForm = html.join('');
-        var $popup = FwPopup.renderPopup($searchForm, { ismodal: true });
+        var $popupHtml = html.join('');
+        var $popup = FwPopup.renderPopup($popupHtml, { ismodal: true });
         FwPopup.showPopup($popup);
-        FwConfirmation.addControls($popup, $searchForm);
+        //FwConfirmation.addControls($popup, $popupHtml);
 
-        $popup.find('.close-modal').one('click', function (e) {
-            FwPopup.destroyPopup($popup);
-            jQuery(document).find('.fwpopup').off('click');
-            jQuery(document).off('keydown');
-        });
+        var searchhtml = [];
+        searchhtml.push('<div id="searchFormHtml" class="fwform fwcontrol">');
+
+        searchhtml.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:2em; padding-left: 20px;">');
+        searchhtml.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        searchhtml.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        searchhtml.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
+        searchhtml.push('     </div>');
+
+        searchhtml.push('     <div class="formrow" style="width:100%; position:absolute;">');
+        searchhtml.push('              <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
+        searchhtml.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
+        searchhtml.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
+        searchhtml.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
+        searchhtml.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
+        searchhtml.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
+        searchhtml.push('              </div>');
+
+        searchhtml.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('              </div>');
+
+        searchhtml.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             </div>');
+
+        searchhtml.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             </div>');
+
+        searchhtml.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
+        searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
+        //searchhtml.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
+        searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+        searchhtml.push('                  </div>');
+        searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:540px; float:left;"></div>');
+        searchhtml.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
+        searchhtml.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
+        searchhtml.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
+        searchhtml.push('                 </div>');
+
+        searchhtml.push('                 <div class="inventory" style="overflow:auto">');
+
+        searchhtml.push('                 </div>');
+        searchhtml.push('            </div>');
+
+        searchhtml.push('            </div>');
+        searchhtml.push('            </div>');
+        var $searchform = searchhtml.join('');
+
+        var formid = program.uniqueId(8);
+
+        var $moduleTabControl = jQuery('#searchTabs');
+        var newtabids = FwTabs.addTab($moduleTabControl, 'Search', false, 'FORM', true);
+        $moduleTabControl.find('#' + newtabids.tabpageid).append(jQuery($searchform));
+        //FwTabs.init($moduleTabControl);
+        var $fwcontrols = jQuery($searchform).find('.fwcontrol');
+        //FwControl.init($fwcontrols);
+        //FwControl.renderRuntimeHtml($fwcontrols);
+        //FwControl.setIds($fwcontrols, formid);
+        var $searchTabControl = jQuery('#searchFormHtml');
+        FwConfirmation.addControls($searchTabControl, $searchform);
+
+
+        var previewhtml = [];
+        previewhtml.push('<div id="previewHtml" class="fwform fwcontrol">');
+        previewhtml.push('         <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;">');
+        previewhtml.push('         </div>');
+        previewhtml.push('     <div class="formrow" style="width:100%; position:absolute;">');
+        previewhtml.push('            <div>');
+        previewhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        previewhtml.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
+        previewhtml.push('                </div>');
+        previewhtml.push('            </div>');
+        previewhtml.push('     </div>');
+        previewhtml.push('</div>');
+
+        var $previewform = previewhtml.join('');
+        var newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
+        $moduleTabControl.find('#' + newtabids2.tabpageid).append(jQuery($previewform));
+        FwTabs.init($moduleTabControl);
+        //var $fwcontrols = jQuery($previewform).find('.fwcontrol');
+        var $previewTabControl = jQuery('#previewHtml');
+        FwConfirmation.addControls($previewTabControl, $previewform);
 
         var startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
         FwFormField.setValueByDataField($popup, 'FromDate', startDate);
@@ -71,7 +153,38 @@ class SearchInterface {
         var stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
         FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
 
+        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+
+        var $previewGrid;
+        var $previewGridControl;
+        $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
+        $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
+        $previewGrid.empty().append($previewGridControl);
+        FwBrowse.init($previewGridControl);
+        FwBrowse.renderRuntimeHtml($previewGridControl);
+        var $grid = $previewTabControl.find('[data-name="SearchPreviewGrid"]');
+
+        var previewrequest: any = {};
+        previewrequest = {
+            SessionId: id,
+            ShowAvailablity: true,
+            FromDate: toDate,
+            ToDate: fromDate
+        };
+
+
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.databindcallback($grid, response);
+        }, null, $previewTabControl);
+
+
+        $popup.find('.close-modal').one('click', function (e) {
+            FwPopup.destroyPopup($popup);
+            jQuery(document).find('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
 
         var inventoryTypeRequest: any = {};
 
@@ -111,18 +224,6 @@ class SearchInterface {
             }
         });
 
-        var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-        var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-
-        var request: any = {
-            OrderId: id,
-            SessionId: id,
-            AvailableFor: availableFor,
-            WarehouseId: warehouseId,
-            ShowAvailability: true,
-            FromDate: fromDate,
-            ToDate: toDate
-        }
 
         var $searchpopup = jQuery('#searchpopup');
         var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
@@ -173,6 +274,16 @@ class SearchInterface {
                 FwFunc.showError(ex);
             }
         });
+
+        var request: any = {
+            OrderId: id,
+            SessionId: id,
+            AvailableFor: availableFor,
+            WarehouseId: warehouseId,
+            ShowAvailability: true,
+            FromDate: fromDate,
+            ToDate: toDate
+        }
 
         this.populateTypeMenu($popup, inventoryTypeRequest);
         this.typeOnClickEvents($popup, $form, request);
@@ -375,21 +486,21 @@ class SearchInterface {
                 description.css({ 'height': '15%', 'width': '', 'padding-bottom': '5px', 'float': '' });
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '125px', 'height': '175px', 'line-height': '175px', 'display': 'inline-block', 'position': 'relative' });
-                image.css({'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto'});
+                image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 quantityAvailable.css({ 'float': 'right', 'width': '90px' });
                 conflictDate.css({ 'float': 'right', 'width': '90px' });
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'right', 'width': '45px' });
-                accessories.css({'float':'right', 'padding':'10px 5px 10px 0', 'font-size': '.9em', 'color':'blue'});
-                rate.css({ 'float': 'left', 'padding-top':'20px', 'width': '90px' });
+                accessories.css({ 'float': 'right', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
+                rate.css({ 'float': 'left', 'padding-top': '20px', 'width': '90px' });
                 quantity.css({ 'float': 'right', 'width': '90px' });
-                quantityContainer.css({'float':'right'});
+                quantityContainer.css({ 'float': 'right' });
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
             case 'listView':
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                descContainer.css({'width':'','float':''});
+                descContainer.css({ 'width': '', 'float': '' });
                 description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%' });
                 imageFrame.hide();
                 //image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
@@ -400,7 +511,7 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '90px', 'padding-top':'' });
+                rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '' });
                 quantity.css({ 'float': 'right', 'width': '90px' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('gridView', 'listGridView');
@@ -467,7 +578,7 @@ class SearchInterface {
 
     breadCrumbs($popup, $form, request) {
         var $searchpopup = jQuery('#searchpopup');
-
+        var self = this
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
 
@@ -475,7 +586,7 @@ class SearchInterface {
 
             var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
             request.InventoryTypeId = inventoryTypeId;
-            
+
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
                 var categoryIndex = response.ColumnIndex.Category;
@@ -550,7 +661,7 @@ class SearchInterface {
                 Quantity: quantity
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-
+                self.refreshPreviewGrid($popup, id);
             }, null, $searchpopup);
 
         });
@@ -639,63 +750,82 @@ class SearchInterface {
             self.listGridView($inventory, 'gridView');
         });
 
-        $popup.on('click', '.preview', function () {
-            SearchInterfaceController.renderPreviewPopup($popup, id);
+    //    $popup.on('click', '.preview', function () {
+    //        //SearchInterfaceController.renderPreviewPopup($popup, id);
+    //    });
 
-        });
+    };
 
-    }
-
-    renderPreviewPopup($popup, id) {
-        var html = [];
-
-        html.push('<div id="previewpopup" class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 75vw; height: 75vh; overflow:scroll; position:relative;">');
-        html.push('     <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;">');
-        html.push('     </div>');
-        html.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        html.push('            <div>');
-        html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
-        html.push('                </div>');
-        html.push('            </div>');
-        html.push('     </div>');
-        html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
-        html.push('</div>');
-
-        var $previewForm = html.join('');
-        var $previewPopup = FwPopup.renderPopup($previewForm, { ismodal: true });
-        FwPopup.showPopup($previewPopup);
-        FwConfirmation.addControls($previewPopup, $previewForm);
-
-        var $previewGrid;
-        var $previewGridControl;
-        $previewGrid = $previewPopup.find('[data-grid="SearchPreviewGrid"]');
-        $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
-        $previewGrid.empty().append($previewGridControl);
-        FwBrowse.init($previewGridControl);
-        FwBrowse.renderRuntimeHtml($previewGridControl);
-        var $grid = $previewPopup.find('[data-name="SearchPreviewGrid"]');
-
-        var request: any = {};
+    refreshPreviewGrid($popup, id) {
+        var previewrequest: any = {};
+        var $searchpopup = jQuery('#searchpopup');
         var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
         var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-        request = {
+        previewrequest = {
             SessionId: id,
             ShowAvailablity: true,
             FromDate: toDate,
             ToDate: fromDate
         };
 
-        var $preview = jQuery('#previewpopup');
-        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
+            var $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             FwBrowse.databindcallback($grid, response);
-        }, null, $preview);
-
-        $previewPopup.find('.close-modal').on('click', function (e) {
-            FwPopup.destroyPopup($previewPopup);
-            $previewPopup.off('click');
-        });
+        }, null, $searchpopup);
     }
+
+
+
+
+    //renderPreviewPopup($popup, id) {
+    //    var html = [];
+    //    html.push('<div id="previewpopup" class="fwform" data-controller="none" style="background-color: white; box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22); width: 75vw; height: 75vh; overflow:scroll; position:relative;">');
+    //    html.push('     <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;">');
+    //    html.push('     </div>');
+    //    html.push('     <div class="formrow" style="width:100%; position:absolute;">');
+    //    html.push('            <div>');
+    //    html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+    //    html.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
+    //    html.push('                </div>');
+    //    html.push('            </div>');
+    //    html.push('     </div>');
+    //    html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+    //    html.push('</div>');
+
+    //    var $previewForm = html.join('');
+    //    var $previewPopup = FwPopup.renderPopup($previewForm, { ismodal: true });
+    //    FwPopup.showPopup($previewPopup);
+    //    FwConfirmation.addControls($previewPopup, $previewForm);
+
+    //    var $previewGrid;
+    //    var $previewGridControl;
+    //    $previewGrid = $previewPopup.find('[data-grid="SearchPreviewGrid"]');
+    //    $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
+    //    $previewGrid.empty().append($previewGridControl);
+    //    FwBrowse.init($previewGridControl);
+    //    FwBrowse.renderRuntimeHtml($previewGridControl);
+    //    var $grid = $previewPopup.find('[data-name="SearchPreviewGrid"]');
+
+    //    var request: any = {};
+    //    var toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+    //    var fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+    //    request = {
+    //        SessionId: id,
+    //        ShowAvailablity: true,
+    //        FromDate: toDate,
+    //        ToDate: fromDate
+    //    };
+
+    //    var $preview = jQuery('#previewpopup');
+    //    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/preview", request, FwServices.defaultTimeout, function onSuccess(response) {
+    //        FwBrowse.databindcallback($grid, response);
+    //    }, null, $preview);
+
+    //    $previewPopup.find('.close-modal').on('click', function (e) {
+    //        FwPopup.destroyPopup($previewPopup);
+    //        $previewPopup.off('click');
+    //    });
+    //}
 }
 
 var SearchInterfaceController = new SearchInterface();
