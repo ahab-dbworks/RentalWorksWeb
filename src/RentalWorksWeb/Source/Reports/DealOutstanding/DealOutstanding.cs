@@ -98,7 +98,7 @@ namespace Web.Source.Reports
 
             select = new FwSqlSelect();
             select.Add("select rowtype='detail', * ");
-            select.Add("from  dbo.funcdealoutstandingrpt (@fromdate,");
+            select.Add("from  dbo.funcdealoutstandingrpt2 (@fromdate,");
             select.Add("                                  @todate,");
             select.Add("                                  @datetouse,");
             select.Add("                                  @departmenttype,");
@@ -118,7 +118,9 @@ namespace Web.Source.Reports
             select.Add("                                  @orderids,");
             select.Add("                                  @inventorydepartmentids,");
             select.Add("                                  @categoryids,");
-            select.Add("                                  @masterids) rpt");
+            select.Add("                                  @masterids,");
+            select.Add("                                  @ordertypeids");
+            select.Add("                                  ) rpt");
             select.AddParameter("@fromdate",                request.parameters.fromdate);
             select.AddParameter("@todate",                  request.parameters.todate);
             select.AddParameter("@datetouse",               request.parameters.datetouse);
@@ -140,6 +142,7 @@ namespace Web.Source.Reports
             select.AddParameter("@inventorydepartmentids",  GetCommaListDecrypt(request.parameters.InventoryTypeId));
             select.AddParameter("@categoryids",             GetCommaListDecrypt(request.parameters.CategoryId));
             select.AddParameter("@masterids",               "");// GetCommaListDecrypt(request.parameters.icode));
+            select.AddParameter("@ordertypeids",            "");
 
             select.Parse();
 
