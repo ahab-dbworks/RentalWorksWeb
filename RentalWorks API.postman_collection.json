@@ -5493,6 +5493,162 @@
 			]
 		},
 		{
+			"name": "Delivery",
+			"description": "",
+			"item": [
+				{
+					"name": "Delivery: Get Many",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery: Browse",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery/browse",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderId,Direction\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery: Get One",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery/00002WPC",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery: Insert",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery: Update",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DeliveryId\": \"B006P0NX\",\n    \"RequiredTime\": \"11:50:56\",\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery: Delete",
+					"request": {
+						"url": "http://localhost:57949/api/v1/delivery/00003EOV",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "DiscountTemplate",
 			"description": "",
 			"item": [
@@ -12438,7 +12594,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"SessionId\": \"123\",\n\t\"OrderId\": \"456\",\n\t\"AvailableFor\": \"R\",\n\t\"WarehouseId\": \"B0029AY5\",\n\t\"InventoryTypeId\": \"B005L3ON\",\n\t\"CategoryId\": \"B003PN3W\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\"\n}"
+							"raw": "{\n\t\"SessionId\": \"123\",\n\t\"OrderId\": \"456\",\n\t\"AvailableFor\": \"R\",\n\t\"WarehouseId\": \"B0029AY5\",\n\t\"InventoryTypeId\": \"B005L3ON\",\n\t\"CategoryId\": \"B003PN3W\",\n\t\"SearchText\": \"STOCK\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\",\n\t\"ShowImages\": true\n}"
 						},
 						"description": ""
 					},
@@ -12464,6 +12620,31 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"SessionId\": \"justin\",\n    \"InventoryId\": \"B003POR8\",\n    \"WarehouseId\": \"B0029AY5\",\n    \"Quantity\": 6\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Search Utility: Preview",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearch/preview",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"H00032G8\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\"\n}"
 						},
 						"description": ""
 					},
@@ -14319,7 +14500,7 @@
 				{
 					"name": "Orders: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/order/F002K5H7",
+						"url": "http://localhost:57949/api/v1/order/H00032G8",
 						"method": "GET",
 						"header": [
 							{
@@ -14471,7 +14652,7 @@
 				{
 					"name": "Order Item: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/orderitem/00008L8G~00008L90",
+						"url": "http://localhost:57949/api/v1/orderitem/H00032KX",
 						"method": "GET",
 						"header": [
 							{
