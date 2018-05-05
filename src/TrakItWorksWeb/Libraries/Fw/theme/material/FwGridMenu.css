@@ -1,0 +1,95 @@
+﻿/*#region FwMenu Grid*/
+html.theme-material .fwmenu.grid {display:flex;height:44px;}
+html.theme-material .fwmenu.grid .menucaption {flex: 1 1 auto; flex: 1 1 auto; padding: 12px 10px 5px 10px; font-size: 14px; font-weight:600; color: #2196F3;min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+html.theme-material .fwmenu.grid .buttonbar {flex: 0 0 auto; padding: 0 0 0 5px;}
+html.theme-material .fwmenu.grid .buttonbar .btn {cursor:pointer;padding:0px 15px;font-family:arial;font-size:12px;font-weight:bold;text-decoration:none;text-align:center;float:left;}
+html.theme-material .fwmenu.grid .buttonbar .btn .material-icons {vertical-align:middle;}
+html.theme-material .fwmenu.grid .buttonbar .btn:hover {background: #4CAF50; color: #ffffff;}
+html.theme-material .fwmenu.grid .submenubutton {flex: 0 0 auto;}
+html.theme-material .fwmenu.grid .submenubutton .icon {height:24px;cursor:pointer;}
+html.theme-material .fwmenu.grid .submenubutton .submenu {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
+html.theme-material .fwmenu.grid .submenubutton.active .submenu {display:block;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column {margin:10px;font-size:14px;float:left;min-width:200px;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group {margin-bottom:15px;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group > .caption {font-weight:bold;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn {cursor:pointer;padding:3px;border:solid 1px transparent;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn > .caption {}
+
+/*#region Material Theme*/
+html.theme-material .fwmenu.grid .buttonbar .btn {/*border:1px solid rgba(0,0,0,.2);background: rgba(255,255,255,.8);*/ color:#546e7a;height: 44px; line-height: 44px;}
+html.theme-material .fwmenu.grid .buttonbar .btn:hover:not(.disabled) {text-decoration:underline;}
+html.theme-material .fwmenu.grid .buttonbar .btn.disabled {opacity:0.6;}
+html.theme-material div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn .btn-text {color:#cccccc;}
+html.theme-material div[data-control="FwBrowse"][data-type="Grid"][data-enabled="false"] .fwmenu.grid .buttonbar .btn:hover {text-decoration:none !important;}
+
+html.theme-material .fwmenu.grid .submenubutton {/*background: rgba(120,120,120,0.4);border:solid 1px #5e5e5e;*/padding:10px;color: #607D8B;}
+html.theme-material .fwmenu.grid .submenubutton:hover {background-color: #7B1FA2; color: #ffffff;}
+html.theme-material .fwmenu.grid .submenubutton.active {background-color: #7B1FA2; color: #ffffff;}
+
+html.theme-material .fwmenu.grid .submenubutton .submenu {background: #fafafa;border: 1px solid #d6d6d6;color: #263248;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group > .caption {color:#000077;border-bottom:solid 2px #000077;}
+html.theme-material .fwmenu.grid .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+/*#endregion Material Theme*/
+
+/*#endregion FwMenu Grid*/
+
+/*#region FwMenu: (Browses/Forms)*/
+html.theme-material .fwmenu.default {overflow:auto;/*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);*/display:flex;background-color:#fafafa;border-top: 1px solid #9e9e9e;border-bottom: 1px solid #9e9e9e;}
+
+html.theme-material .fwmenu.default .buttonbar {flex:1 0 auto;height:40px;line-height:40px;margin-left:10px;display:flex;}
+html.theme-material .fwmenu.default .buttonbar .vr {height:30px;position:relative;width:1px;top:5px;margin:0 5px;}
+html.theme-material .fwmenu.default .buttonbar .btn {cursor:pointer;padding:0 10px;display:flex;}
+
+
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn {display:flex;padding:0 10px;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-caption {margin-right:5px;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select {display:flex;cursor:pointer;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-select-value {padding-left:5px;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > i {line-height:40px;height:auto;}
+
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-dropdown {display:none;position:absolute;top:40px;line-height:24px;font-size:14px;-moz-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);-webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select.active > .ddviewbtn-dropdown {display:block;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-dropdown > .ddviewbtn-dropdown-btn {border: 1px solid transparent;overflow: auto;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > .ddviewbtn-dropdown > .ddviewbtn-dropdown-btn > .ddviewbtn-dropdown-btn-caption {float:left;padding:0 10px;}
+
+html.theme-material .fwmenu.default .submenubutton {flex:0 0 auto;transition: .3s;}
+html.theme-material .fwmenu.default .submenubutton .icon {height:24px;padding:8px;cursor:pointer;}
+html.theme-material .fwmenu.default .submenubutton .submenu {display:none;position:absolute;margin-top:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
+html.theme-material .fwmenu.default .submenubutton.active .submenu {display:block;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column {margin:10px;font-size:14px;float:left;min-width:200px;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group {margin-bottom:15px;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group > .caption {font-weight:bold;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn {cursor:pointer;padding:3px;border:solid 1px transparent;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn > .caption {}
+
+html.theme-material .fwmenu.default .submenubutton.fw {float:right;}
+html.theme-material .fwmenu.default .submenubutton.fw .submenu {right:0;}
+
+/*#region Material Theme*/
+html.theme-material .fwmenu.default .buttonbar .vr {background-color:rgba(0,0,0,0.4)}
+html.theme-material .fwmenu.default .buttonbar .btn {border-top: 4px solid transparent;line-height:32px;transition: .3s;}
+html.theme-material .fwmenu.default .buttonbar .btn:hover:not(.disabled) {border-top:4px solid #2e7d32;}
+html.theme-material .fwmenu.default .buttonbar .btn.disabled {opacity:0.6;}
+html.theme-material .fwmenu.default .buttonbar .btn > i {line-height:32px;}
+
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn {}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn .ddviewbtn-select {border-top: 4px solid transparent;line-height:32px;transition: .3s;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn .ddviewbtn-select:hover {border-top:4px solid #2e7d32;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn .ddviewbtn-select.active {border-top:4px solid #2e7d32;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn > .ddviewbtn-select > i {line-height:32px;height:auto;}
+
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn .ddviewbtn-dropdown {background: #fafafa;border: 1px solid #d6d6d6;color:#263248;}
+html.theme-material .fwmenu.default .buttonbar .ddviewbtn .ddviewbtn-dropdown .ddviewbtn-dropdown-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+
+html.theme-material .fwmenu.default .submenubutton:hover {background:#2e7d32;}
+html.theme-material .fwmenu.default .submenubutton:active {background:#2e7d32;}
+html.theme-material .fwmenu.default .submenubutton.active {background:#2e7d32;}
+
+html.theme-material .fwmenu.default .submenubutton .submenu {background: #fafafa;border: 1px solid #d6d6d6;color: #263248;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group > .caption {color:#000077;border-bottom:solid 2px #000077;}
+html.theme-material .fwmenu.default .submenubutton .submenu .submenu-column .submenu-group .submenu-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+/*#endregion Material Theme*/
+
+/*#endregion FwMenu:(Browses/Forms)*/

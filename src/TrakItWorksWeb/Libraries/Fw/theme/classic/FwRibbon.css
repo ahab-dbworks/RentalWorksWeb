@@ -1,0 +1,102 @@
+﻿html.theme-classic .fwribbon {font-size:12px;}
+html.theme-classic .fwribbon .dashboard {float:left;margin:10px 0 0 5px;padding:0 5px 0 5px;cursor:pointer;}
+html.theme-classic .fwribbon .tabs {padding-left:5px;min-height:30px;margin-bottom:-1px;float:left;}
+html.theme-classic .fwribbon .tabs:after {content: "";display:table;clear:both;}
+html.theme-classic .fwribbon .tabs .tab {float:left;white-space:nowrap;margin:5px 0 0 1px;padding:0 7px;font-weight:bold;height:26px;line-height:26px;vertical-align:middle;cursor:pointer;text-align:center;}
+html.theme-classic .fwribbon .tabs .tab:after {content: "";display:table;clear:both;}
+html.theme-classic .fwribbon .tabs .tab.inactive {}
+html.theme-classic .fwribbon .tabs .tab.active {}
+html.theme-classic .fwribbon .tabs .tab .caption {float:left;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+html.theme-classic .fwribbon .tabs .tab .caption:hover {text-decoration:underline;}
+html.theme-classic .fwribbon .usercontrol {float:right;height:32px;padding:0 5px;}
+html.theme-classic .fwribbon .usercontrol .item {float:left;padding:8px;height:16px;line-height:16px;}
+html.theme-classic .fwribbon .tabpages {clear:both;}
+html.theme-classic .fwribbon .tabpages .tabpage {padding:2px;overflow-x:auto;}
+html.theme-classic .fwribbon .tabpages .tabpage:after {content: "";display:table;clear:both;}
+
+/*Ribbon Designer CSS*/
+html.theme-classic .fwribbon > .designer > .newtab {cursor:pointer;}
+html.theme-classic .fwribbon > .designer > .tabs > .tab > .caption > .editcaption {width:50px;font-size:11px;height:16px;line-height:16px;}
+html.theme-classic .fwribbon > .designer > .tabs > .tab > .delete {float:left;cursor:pointer;margin:0 0 0 15px;}
+html.theme-classic .fwribbon > .designer > .tabs > .new {font-size:14px;}
+html.theme-classic .fwribbon > .designer > .tabs > .new:hover {text-decoration:underline;}
+html.theme-classic .fwribbon > .designer > .tabs > .new {float:left;white-space:nowrap;margin:5px 0 0 1px;padding:0 7px;font-weight:bold;height:26px;line-height:26px;vertical-align:middle;cursor:pointer;text-align:center;}
+html.theme-classic .fwribbon > .designer > .tabs > .new:after {content: "";display:table;clear:both;}
+html.theme-classic .fwribbon > .designer > .tabpages .tabpage {min-height:1px;padding:0 0 16px 0;}
+
+html.theme-classic .fwribbon .usercontrol #username {cursor:default;}
+html.theme-classic .fwribbon .usercontrol #logoff {cursor:pointer;}
+html.theme-classic .fwribbon .usercontrol #notification {width:16px;height:16px;cursor:pointer;position:relative;}
+html.theme-classic .fwribbon .usercontrol #notification .notificationicon {height:16px;}
+html.theme-classic .fwribbon .usercontrol #usersettings {width:16px;height:16px;cursor:pointer;}
+html.theme-classic .fwribbon .usercontrol #usersettings .usersettingsicon {height:16px;}
+
+html.theme-classic .fwribbon .tabpages .tabpage .modulebtn {display: inline-block;cursor:default;margin: 4px 1px 4px 1px;vertical-align: top;height: 60px;border: 1px solid transparent;padding:3px;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-classic .fwribbon .tabpages .tabpage .modulebtn:first-of-type {margin: 4px 1px 4px 10px;}
+html.theme-classic .fwribbon .tabpages .tabpage .modulebtn .modulebtn-icon {height: 32px;width: 32px;border: 0;padding: 0 4px;margin:0 auto;}
+html.theme-classic .fwribbon .tabpages .tabpage .modulebtn .modulebtn-icon img {height: 32px;width: 32px;}
+html.theme-classic .fwribbon .tabpages .tabpage .modulebtn .modulebtn-text {text-align: center;font-size: 11px;line-height: 11px;margin-top: 3px;padding:0 2px;}
+
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn {display: inline-block;cursor:default;margin: 4px 1px 4px 1px;vertical-align: top;border: 1px solid transparent;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn:first-of-type {margin: 4px 1px 4px 10px;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-icon {height:32px;border: 0;padding: 3px 4px 0 4px;border-bottom:1px solid transparent;text-align:center;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-icon img {height: 32px;width: 32px;margin:0 auto;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-text {text-align: center;font-size: 11px;line-height: 11px;padding:3px 5px 5px 5px;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn.active .ddmodulebtn-dropdown {display:block;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {border: 1px solid transparent;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:after {content:"";display:table;clear:both;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn .ddmodulebtn-dropdown-btn-icon {float:left;height:16px;width:16px;padding:4px;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn .ddmodulebtn-dropdown-btn-icon img {height:16px;width:16px;}
+html.theme-classic .fwribbon .tabpages .tabpage .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn .ddmodulebtn-dropdown-btn-text {float:left;padding:4px;}
+
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn {display: inline-block;cursor:default;margin: 4px 1px 4px 1px;vertical-align: top;border: 1px solid transparent;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn:first-of-type {margin: 4px 1px 4px 10px;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-icon {height:32px;border: 0;padding: 3px 4px 0 4px;border-bottom:1px solid transparent;text-align:center;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-icon img {height: 32px;width: 32px;margin:0 auto;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-text {text-align: center;font-size: 11px;line-height: 11px;padding:3px 5px 5px 5px;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown {position:absolute;z-index:1001;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn {border: 1px solid transparent;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn:after {content:"";display:table;clear:both;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn .splitddmodulebtn-dropdown-btn-icon {float:left;height:16px;width:16px;padding:4px;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn .splitddmodulebtn-dropdown-btn-icon img {height:16px;width:16px;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn .splitddmodulebtn-dropdown-btn-text {float:left;padding:4px;}
+html.theme-classic .fwribbon .tabpages .tabpage .splitddmodulebtn .splitddmodulebtn-overlay {display:none;position:fixed;width:100%;height:100%;top:0px;left:0px;z-index:1000;}
+
+/*#region Classic Theme*/
+html.theme-classic .fwribbon {background-image:linear-gradient(#f3f3f3,#eaeaec);}
+html.theme-classic .fwribbon .tabs {}
+html.theme-classic .fwribbon .tabs .tab {color:#0e3c60;border:solid 1px transparent;}
+html.theme-classic .fwribbon .tabs .tab.active {background-color:#ffffff;border-top:solid 1px #d7d7d7;border-right:solid 1px #d7d7d7;border-left:solid 1px #d7d7d7;border-bottom:solid 1px transparent;}
+html.theme-classic .fwribbon .usercontrol .item {border-right:solid 1px #cccccc;}
+html.theme-classic .fwribbon .usercontrol .item:last-of-type {border:none;}
+html.theme-classic .fwribbon .tabpages {border-top: solid 1px #d6d6d6;border-bottom: solid 1px #d6d6d6;background-image:linear-gradient(#ffffff,#f4f4f4);}
+
+html.theme-classic .fwribbon .usercontrol #logoff:hover {background-color:rgba(0,0,0,.2);}
+html.theme-classic .fwribbon .usercontrol #notification:hover {background-color:rgba(0,0,0,.2);}
+html.theme-classic .fwribbon .usercontrol #notification .notificationicon {background-image:url("fwimages/icons/128/notification.001.png");background-size:16px 16px;}
+html.theme-classic .fwribbon .usercontrol #usersettings:hover {background-color:rgba(0,0,0,.2);}
+html.theme-classic .fwribbon .usercontrol #usersettings .usersettingsicon {background-image:url("fwimages/icons/128/usersettings.001.png");background-size:16px 16px;}
+
+html.theme-classic .fwribbon .tabpages .modulebtn {}
+html.theme-classic .fwribbon .tabpages .modulebtn:hover {background: rgba(213,221,229,1);border: 1px solid rgba(41,77,133,1);color: #1a2631;}
+html.theme-classic .fwribbon .tabpages .modulebtn .modulebtn-icon {}
+html.theme-classic .fwribbon .tabpages .modulebtn .modulebtn-text {}
+
+html.theme-classic .fwribbon .tabpages .ddmodulebtn {}
+html.theme-classic .fwribbon .tabpages .ddmodulebtn:hover {background: rgba(213,221,229,1);border: 1px solid rgba(41,77,133,1);}
+html.theme-classic .fwribbon .tabpages .ddmodulebtn.active {background: rgba(213,221,229,1);border: 1px solid rgba(41,77,133,1);}
+html.theme-classic .fwribbon .tabpages .ddmodulebtn .ddmodulebtn-dropdown {background: #fafafa;border: 1px solid #d6d6d6;}
+html.theme-classic .fwribbon .tabpages .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+html.theme-classic .fwribbon .tabpages .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn .ddmodulebtn-dropdown-btn-icon {border-right:1px solid #d6d6d6;}
+
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn {}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn-hover {border: 1px solid rgba(41,77,133,1) !important;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn-hover .splitddmodulebtn-icon {border-bottom: 1px solid rgba(41,77,133,1) !important;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-icon:hover {background: rgba(213,221,229,1);color: #1a2631;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-text:hover {background: rgba(213,221,229,1);color: #1a2631;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-text-hover {background: rgba(213,221,229,1) !important;color: #1a2631 !important;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-dropdown {background: #fafafa;border: 1px solid #d6d6d6;}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn:hover {background: rgba(213,221,229,1);color: #1a2631;border: 1px solid rgba(41,77,133,1);}
+html.theme-classic .fwribbon .tabpages .splitddmodulebtn .splitddmodulebtn-dropdown .splitddmodulebtn-dropdown-btn .splitddmodulebtn-dropdown-btn-icon {border-right:1px solid #d6d6d6;}
+/*#endregion Classic Theme*/
