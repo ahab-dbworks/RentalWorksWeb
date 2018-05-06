@@ -237,6 +237,7 @@ var Order = (function () {
         });
         return $browse;
     };
+    ;
     Order.prototype.openContractBrowse = function ($form) {
         var $browse;
         $browse = ContractController.openBrowse();
@@ -248,6 +249,7 @@ var Order = (function () {
         });
         return $browse;
     };
+    ;
     Order.prototype.loadForm = function (uniqueids) {
         var $form;
         $form = this.openForm('EDIT');
@@ -259,6 +261,7 @@ var Order = (function () {
     Order.prototype.saveForm = function ($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
+    ;
     Order.prototype.renderGrids = function ($form) {
         var _this = this;
         var $orderPickListGrid;
@@ -302,8 +305,7 @@ var Order = (function () {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
-            _this.calculateTotals($form, 'rental');
-            _this.calculateDiscount($form, 'rental');
+            _this.calculateOrderItemGridTotals($form, 'rental');
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -323,8 +325,7 @@ var Order = (function () {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
-            _this.calculateTotals($form, 'sales');
-            _this.calculateDiscount($form, 'sales');
+            _this.calculateOrderItemGridTotals($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -344,8 +345,7 @@ var Order = (function () {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
-            _this.calculateTotals($form, 'labor');
-            _this.calculateDiscount($form, 'labor');
+            _this.calculateOrderItemGridTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -365,8 +365,7 @@ var Order = (function () {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
-            _this.calculateTotals($form, 'misc');
-            _this.calculateDiscount($form, 'misc');
+            _this.calculateOrderItemGridTotals($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -406,8 +405,7 @@ var Order = (function () {
     };
     ;
     Order.prototype.copyOrder = function ($form) {
-        var $confirmation, $yes, $no, self;
-        self = this;
+        var $confirmation, $yes, $no;
         $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
         var html = [];
@@ -512,8 +510,7 @@ var Order = (function () {
     };
     ;
     Order.prototype.cancelPickList = function (pickListId, pickListNumber, $form) {
-        var $confirmation, $yes, $no, self;
-        self = this;
+        var $confirmation, $yes, $no;
         var orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $confirmation = FwConfirmation.renderConfirmation('Cancel Pick List', '<div style="white-space:pre;">\n' +
             'Cancel Pick List ' + pickListNumber + '?</div>');
@@ -554,6 +551,7 @@ var Order = (function () {
         FwFormField.disable($form.find('.frame'));
         $form.find(".frame .add-on").children().hide();
     };
+    ;
     Order.prototype.afterLoad = function ($form) {
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
@@ -612,26 +610,27 @@ var Order = (function () {
         }
     };
     ;
-    Order.prototype.calculateTotals = function ($form, gridType) {
-        var total = 0;
-        var periodExtended = $form.find('.' + gridType + 'grid .periodextended');
-        for (var i = 1; i < periodExtended.length; i++) {
-            var value = parseFloat(periodExtended.eq(i).attr('data-originalvalue'));
-            total += value;
+    Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
+        var periodExtendedTotal = 0;
+        var periodDiscountTotal = 0;
+        var taxTotal = 0;
+        var periodExtendedColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodExtended"]');
+        var periodDiscountColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
+        var taxColumn = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
+        for (var i = 1; i < periodExtendedColumn.length; i++) {
+            var inputValueFromExtended = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
+            periodExtendedTotal += inputValueFromExtended;
+            var inputValueFromDiscount = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
+            periodDiscountTotal += inputValueFromDiscount;
+            var inputValueFromTax = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+            taxTotal += inputValueFromTax;
         }
         ;
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
-    };
-    ;
-    Order.prototype.calculateDiscount = function ($form, gridType) {
-        var total = 0;
-        var periodDiscount = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
-        for (var i = 1; i < periodDiscount.length; i++) {
-            var value = parseFloat(periodDiscount.eq(i).attr('data-originalvalue'));
-            total += value;
-        }
-        ;
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(total);
+        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(taxTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(periodExtendedTotal + periodDiscountTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(periodExtendedTotal + taxTotal);
     };
     ;
     Order.prototype.dynamicColumns = function ($form) {
@@ -770,7 +769,7 @@ var Order = (function () {
     ;
     return Order;
 }());
-var OrderController = new Order();
+;
 FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = function (event) {
     var $form, $pickListForm;
     try {
@@ -833,4 +832,5 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     var orderId = FwFormField.getValueByDataField($form, 'OrderId');
     var $popup = search.renderSearchPopup($form, orderId);
 };
+var OrderController = new Order();
 //# sourceMappingURL=Order.js.map

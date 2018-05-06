@@ -1,11 +1,13 @@
 ﻿routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2] }; return QuoteController.getModuleScreen(filter); } });
 
+//----------------------------------------------------------------------------------------------
 class Quote {
     Module: string = 'Quote';
     apiurl: string = 'api/v1/quote';
     ActiveView: string = 'ALL';
 
+    //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
 
@@ -38,8 +40,9 @@ class Quote {
         };
 
         return screen;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
         var $browse;
@@ -63,8 +66,9 @@ class Quote {
         FwBrowse.addLegend($browse, 'Quote Request', '#00FF00');
 
         return $browse;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
         var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
@@ -155,6 +159,7 @@ class Quote {
         return $menuObject;
     };
 
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -188,7 +193,6 @@ class Quote {
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
-
         }
 
         //RateType change affecting billing tab weeks or months
@@ -260,8 +264,9 @@ class Quote {
         ], true);
 
         return $form;
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -270,9 +275,9 @@ class Quote {
         FwModule.loadForm(this.Module, $form);
 
         return $form;
-    }
+    };
 
-
+    //----------------------------------------------------------------------------------------------
     renderFrames($form: any) {
         var orderId;
 
@@ -292,18 +297,21 @@ class Quote {
         FwFormField.disable($form.find('.frame'));
 
         $form.find(".frame .add-on").children().hide();
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
         FwModule.loadAudit($form, uniqueid);
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $orderStatusHistoryGrid: any;
         var $orderStatusHistoryGridControl: any;
@@ -337,8 +345,8 @@ class Quote {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
-            this.calculateTotals($form, 'rental');
-            this.calculateDiscount($form, 'rental');
+            this.calculateOrderItemGridTotals($form, 'rental');
+            
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -359,8 +367,7 @@ class Quote {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
-            this.calculateTotals($form, 'sales');
-            this.calculateDiscount($form, 'sales');
+            this.calculateOrderItemGridTotals($form, 'sales');
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -382,12 +389,10 @@ class Quote {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
-            this.calculateTotals($form, 'labor');
-            this.calculateDiscount($form, 'labor');
+            this.calculateOrderItemGridTotals($form, 'labor');
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
 
         var $orderItemGridMisc;
         var $orderItemGridMiscControl;
@@ -405,8 +410,7 @@ class Quote {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
-            this.calculateTotals($form, 'misc');
-            this.calculateDiscount($form, 'misc');
+            this.calculateOrderItemGridTotals($form, 'misc');
         });
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
@@ -431,9 +435,9 @@ class Quote {
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
         jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+    };
 
-    }
-
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var $form;
         $form = $grid.closest('.fwform');
@@ -442,8 +446,9 @@ class Quote {
         request.uniqueids = {
             LocationId: officeLocationId
         }
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any, mode: string) {
         var $orderStatusHistoryGrid: any;
         var $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
@@ -500,11 +505,11 @@ class Quote {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
         }
-    }
+    };
 
+    //----------------------------------------------------------------------------------------------
     copyQuote($form) {
-        var $confirmation, $yes, $no, self;
-        self = this;
+        var $confirmation, $yes, $no;
 
         $confirmation = FwConfirmation.renderConfirmation('Copy Quote', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -619,29 +624,34 @@ class Quote {
         };
     };
 
-    calculateTotals($form: any, gridType: string) {
-        var total: any = 0;
-        var periodExtended = $form.find('.' + gridType + 'grid .periodextended');
+    //----------------------------------------------------------------------------------------------
+    calculateOrderItemGridTotals($form: any, gridType: string) {
+        let periodExtendedTotal: any = 0;
+        let periodDiscountTotal: any = 0;
+        let taxTotal: any = 0;
+        const periodExtendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodExtended"]');
+        const periodDiscountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
+        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
 
-        for (var i = 1; i < periodExtended.length; i++) {
-            var value: any = parseFloat(periodExtended.eq(i).attr('data-originalvalue'));
-            total += value;
+        for (let i = 1; i < periodExtendedColumn.length; i++) {
+            // PeriodExtended Column
+            let inputValueFromExtended: any = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
+            periodExtendedTotal += inputValueFromExtended;
+            // PeriodDiscountAmount Column
+            let inputValueFromDiscount: any = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
+            periodDiscountTotal += inputValueFromDiscount;
+            // Tax Column
+            let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+            taxTotal += inputValueFromTax;
         };
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
+        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Tax"] input').val(taxTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(periodExtendedTotal + periodDiscountTotal);
+        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(periodExtendedTotal + taxTotal);
     };
 
-    calculateDiscount($form: any, gridType: string) {
-        var total: any = 0;
-        var periodDiscount = $form.find('.' + gridType + 'grid [data-browsedatafield="PeriodDiscountAmount"]');
-
-        for (var i = 1; i < periodDiscount.length; i++) {
-            var value: any = parseFloat(periodDiscount.eq(i).attr('data-originalvalue'));
-            total += value;
-        };
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(total);
-
-    };
-
+    //----------------------------------------------------------------------------------------------
     dynamicColumns($form) {
         var orderType = FwFormField.getValueByDataField($form, "OrderTypeId"),
             $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
@@ -839,9 +849,8 @@ class Quote {
             }
         }, null, null);
     };
-}
-//-----------------------------------------------------------------------------------------------------
-var QuoteController = new Quote();
+};
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = function (event) {
     var $form
@@ -853,11 +862,14 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
         FwFunc.showError(ex);
     }
 };
+
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
     let search = new SearchInterface();
-    var $form = jQuery(this).closest('.fwform');
-    var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+    let $form = jQuery(this).closest('.fwform');
+    let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
     let $popup = search.renderSearchPopup($form, quoteId);
 };
+
 //-----------------------------------------------------------------------------------------------------
+var QuoteController = new Quote();

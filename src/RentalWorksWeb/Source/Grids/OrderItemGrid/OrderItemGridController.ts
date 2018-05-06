@@ -1,11 +1,6 @@
 ﻿﻿class OrderItemGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'OrderItemGrid';
-        this.apiurl = 'api/v1/orderitem';
-    }
+    Module: string = 'OrderItemGrid';
+    apiurl: string = 'api/v1/orderitem';
 
     generateRow($control, $generatedtr) {
         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
