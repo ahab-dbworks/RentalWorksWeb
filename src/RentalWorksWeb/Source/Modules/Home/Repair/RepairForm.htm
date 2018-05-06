@@ -151,16 +151,17 @@
     <div data-type="tabpage" id="costtabpage" class="tabpage" data-tabid="costtab">
       <div class="formpage">
         <div class="formrow" style="width:100%;">
-          <div class="formrow" style="width:100%;">
+          <div class="formrow costgrid" style="width:100%;">
             <div data-control="FwGrid" id="RepairCostGrid" data-grid="RepairCostGrid" data-caption="Costs" data-securitycaption="RepairCostGrid" style="min-width:240px;"></div>
           </div>
         </div>
           <div class="formrow" style="display: flex; justify-content: flex-end;">
             <div class="formcolumn costtotals" style="width:auto;">
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="SubTotal" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-totalfield="GrossTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-totalfield="Discount" data-formreadonly="true" style="min-width:100px; float:left;"></div>
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sales Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-totalfield="CostTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-totalfield="Total" data-formreadonly="true" style="min-width:100px; float:left;"></div>
             </div>
           </div>
       </div>
@@ -169,16 +170,17 @@
     <div data-type="tabpage" id="partstabpage" class="tabpage" data-tabid="partstab">
       <div class="formpage">
         <div class="formrow" style="width:100%;">
-          <div class="formrow" style="width:100%;">
+          <div class="formrow partgrid" style="width:100%;">
             <div data-control="FwGrid" id="RepairPartGrid" data-grid="RepairPartGrid" data-caption="Parts" data-securitycaption="RepairPartGrid" style="min-width:240px;"></div>
           </div>
         </div>
           <div class="formrow" style="display: flex; justify-content: flex-end;">
-            <div class="formcolumn costtotals" style="width:auto;">
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="SubTotal" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left"></div>
+            <div class="formcolumn parttotals" style="width:auto;">
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-totalfield="GrossTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-totalfield="Discount" data-formreadonly="true" style="min-width:100px; float:left"></div>
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sales Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>
-              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-totalfield="PartTotal" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-totalfield="SubTotal" data-formreadonly="true" style="min-width:100px; float:left"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-totalfield="SalesTax" data-formreadonly="true" style="min-width:100px; float:left;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-totalfield="Total" data-formreadonly="true" style="min-width:100px; float:left;"></div>
             </div>
           </div>
       </div>
@@ -225,7 +227,7 @@
                   <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalTaxRate1" data-enabled="false" style="width:125px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesTaxRate1" data-enabled="false" style="width:125px;"></div>
+                  <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-caption="Sales" data-datafield="SalesTaxRate1" data-enabled="false" style="width:125px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborTaxRate1" data-enabled="false" style="width:125px;"></div>

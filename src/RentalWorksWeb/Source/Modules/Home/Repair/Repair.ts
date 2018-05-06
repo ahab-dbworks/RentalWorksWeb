@@ -95,7 +95,7 @@ class Repair {
       }) 
       // runs after grid load, add, and delete
       FwBrowse.addEventHandler($repairCostGridControl, 'afterdatabindcallback', () => {
-          this.calculateCostTotals($form);
+          this.calculateTotals($form, 'cost');
       });
       
       $form.find('.costgridnumber').on('change', $tr => {
@@ -124,7 +124,7 @@ class Repair {
       })
       // runs after grid load, add, and delete
       FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', () => {
-          this.calculatePartTotals($form);
+          this.calculateTotals($form, 'part');
       });
       FwBrowse.init($repairPartGridControl); 
       FwBrowse.renderRuntimeHtml($repairPartGridControl);
@@ -725,44 +725,35 @@ class Repair {
   };
 
   //----------------------------------------------------------------------------------------------
-  calculateCostTotals = ($form: any) => {
-      let extendedColumn: any = $form.find('.costgridextended');
+  calculateTotals($form: any, gridType: string) {
+      const billableColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Billable"]');
+      const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Extended"]');
+      const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="DiscountAmount"]');
+      const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
       let totalSumFromExtended: any = 0;
+      let totalSumFromDiscount: any = 0;
+      let totalSumFromTax: any = 0;
 
-      for (let i = 1; i < extendedColumn.length; i++) {
-          let inputValueFromExtended: any = parseFloat($form.find('.costgridextended').eq(i).attr('data-originalvalue'));
-          totalSumFromExtended += inputValueFromExtended;
+      for (let i = 1; i < billableColumn.length; i++) {
+          // Only calculate billable items
+          if (billableColumn.eq(i).attr('data-originalvalue') === "true") {
+              // Extended Column
+              let inputValueFromExtended: any = parseFloat(extendedColumn.eq(i).attr('data-originalvalue'));
+              totalSumFromExtended += inputValueFromExtended;
+              // DiscountAmount Column
+              let inputValueFromDiscount: any = parseFloat(discountColumn.eq(i).attr('data-originalvalue'));
+              totalSumFromDiscount += inputValueFromDiscount;
+              // Tax Column
+              let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
+              totalSumFromTax += inputValueFromTax;
+          }
       }
-      $form.find('[data-totalfield="CostTotal"] input').val(totalSumFromExtended);
+      $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(totalSumFromExtended);
+      $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(totalSumFromDiscount);
+      $form.find('.' + gridType + 'totals [data-totalfield="SalesTax"] input').val(totalSumFromTax);
+      $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(totalSumFromExtended + totalSumFromDiscount);
+      $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(totalSumFromTax + totalSumFromExtended);
   };
-
-  //----------------------------------------------------------------------------------------------
-  calculatePartTotals = ($form: any) => {
-      let extendedColumn: any = $form.find('.partgridextended');
-      let totalSumFromExtended: any = 0;
-
-      for (let i = 1; i < extendedColumn.length; i++) {
-          let inputValueFromExtended: any = parseFloat($form.find('.partgridextended').eq(i).attr('data-originalvalue'));
-          totalSumFromExtended += inputValueFromExtended;
-      }
-      $form.find('[data-totalfield="PartTotal"] input').val(totalSumFromExtended);
-  };
-
-  //----------------------------------------------------------------------------------------------
-    //calculateExtended = ($form: any) => {
-    //  let extendedSum: any = Number($form.find('.costgridextended').eq(1).attr('data-originalvalue'));
-    //  let discountValue: any = parseInt($form.find('.costgriddiscount').eq(1).attr('data-originalvalue'));
-    //  let rateValue: any = parseInt($form.find('.costgridrate').eq(1).attr('data-originalvalue'));
-    //  let quantityValue: any = parseInt($form.find('.costgridquantity').eq(1).attr('data-originalvalue'));
-    //  let extendedSum: any = 0;
-
-    //  console.log("extendedColumn.length: ", extendedColumn.length);
-    //  console.log("discountValue: ", discountValue);
-
-    //  extendedSum = (quantityValue * rateValue) - discountValue;
-    
-    //  $form.find('.costgridextended').eq(1).val(extendedSum);
-    //};
 
   //----------------------------------------------------------------------------------------------
   beforeValidate = ($browse, $grid, request) => {
