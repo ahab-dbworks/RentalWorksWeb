@@ -1,14 +1,9 @@
 class SalesInventory {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
+    Module: string = 'SalesInventory';
+    apiurl: string = 'api/v1/salesinventory';
+    ActiveView: string = 'ALL';
 
-    constructor() {
-        this.Module = 'SalesInventory';
-        this.apiurl = 'api/v1/salesinventory';
-        this.ActiveView = 'ALL';
-    }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -31,10 +26,13 @@ class SalesInventory {
         return screen;
     }
 
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
         var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+
+        this.ActiveView = 'ALL'; // Resets view to all when revisting module page
 
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
@@ -49,6 +47,7 @@ class SalesInventory {
         return $browse;
     }
 
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
         var $all: JQuery = FwMenu.generateDropDownViewBtn('All Items', true);
@@ -110,6 +109,7 @@ class SalesInventory {
         return $menuObject;
     };
 
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -150,6 +150,7 @@ class SalesInventory {
         return $form;
     }
 
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form, $rank;
 
@@ -168,16 +169,19 @@ class SalesInventory {
         return $form;
     }
 
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
 
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         var $itemLocationTaxGrid: any;
         var $itemLocationTaxGridControl: any;
@@ -378,6 +382,7 @@ class SalesInventory {
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
     }
 
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $itemLocationTaxGrid: any;
         var $salesInventoryWarehouseGrid: any;
@@ -476,6 +481,7 @@ class SalesInventory {
         }
     }
 
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var validationName = request.module;
         var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
@@ -500,7 +506,7 @@ class SalesInventory {
                 break;
         };
     }
-
 }
 
+//----------------------------------------------------------------------------------------------
 var SalesInventoryController = new SalesInventory();

@@ -1,10 +1,12 @@
 routes.push({ pattern: /^module\/partsinventory$/, action: function (match: RegExpExecArray) { return PartsInventoryController.getModuleScreen(); } });
 
+//----------------------------------------------------------------------------------------------
 class PartsInventory {
     Module: string = 'PartsInventory';
     apiurl: string = 'api/v1/partsinventory';
     ActiveView: string  = 'ALL';
 
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         let screen, $browse;
 
@@ -27,9 +29,12 @@ class PartsInventory {
         return screen;
     }
 
+    //----------------------------------------------------------------------------------------------
     openBrowse = () => {
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+
+        this.ActiveView = 'ALL'; // Resets view to all when revisting module page
 
         $browse.data('ondatabind', request => {
             request.activeview = this.ActiveView;
@@ -44,6 +49,7 @@ class PartsInventory {
         return $browse;
     }
 
+    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems = ($menuObject: any) => {
         let self = this;
         let $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
@@ -113,6 +119,7 @@ class PartsInventory {
         return $menuObject;
     };
 
+    //----------------------------------------------------------------------------------------------
     openForm = (mode: string) => {
         let $form;
 
@@ -181,6 +188,7 @@ class PartsInventory {
         FwModule.loadAudit($form, uniqueid);
     }
 
+    //----------------------------------------------------------------------------------------------
     renderGrids = ($form: any) => {
         let $itemLocationTaxGrid: any;
         let $itemLocationTaxGridControl: any;
@@ -297,6 +305,7 @@ class PartsInventory {
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
     }
 
+    //----------------------------------------------------------------------------------------------
     afterLoad = ($form: any) => {
         let $itemLocationTaxGrid: any;
         let $salesInventoryWarehouseGrid: any;
@@ -395,6 +404,7 @@ class PartsInventory {
         }
     }
 
+    //----------------------------------------------------------------------------------------------
     beforeValidate = ($browse, $grid, request) => {
         const validationName = request.module;
         const InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
@@ -419,7 +429,7 @@ class PartsInventory {
                 break;
         };
     }
-
 }
 
+//----------------------------------------------------------------------------------------------
 const PartsInventoryController = new PartsInventory();

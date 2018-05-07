@@ -25,6 +25,7 @@ var SalesInventory = (function () {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
+        this.ActiveView = 'ALL';
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
         });

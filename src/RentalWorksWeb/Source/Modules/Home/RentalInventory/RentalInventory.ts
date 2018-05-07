@@ -1,13 +1,7 @@
 class RentalInventory {
-    Module: string;
-    apiurl: string;
-    ActiveView: string;
-
-    constructor() {
-        this.Module = 'RentalInventory';
-        this.apiurl = 'api/v1/rentalinventory';
-        this.ActiveView = 'ALL';
-    }
+    Module: string = 'RentalInventory';
+    apiurl: string = 'api/v1/rentalinventory';
+    ActiveView: string = 'ALL';
 
     getModuleScreen() {
         var screen, $browse;
