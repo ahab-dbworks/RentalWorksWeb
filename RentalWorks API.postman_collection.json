@@ -15426,7 +15426,7 @@
 				{
 					"name": "Order Type: Get One",
 					"request": {
-						"url": "http://localhost:57949/api/v1/ordertype/00002WPC",
+						"url": "http://localhost:57949/api/v1/ordertype/B003X161",
 						"method": "GET",
 						"header": [
 							{
@@ -15503,6 +15503,31 @@
 					"request": {
 						"url": "http://localhost:57949/api/v1/ordertype/00003EOV",
 						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Order Type Show Fields: Get One ",
+					"request": {
+						"url": "http://localhost:57949/api/v1/ordertype/B003X161/showfields",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
