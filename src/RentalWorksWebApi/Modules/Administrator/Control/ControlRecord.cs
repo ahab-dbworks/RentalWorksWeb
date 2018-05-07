@@ -2,7 +2,8 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Control
+
+namespace WebApi.Modules.Administrator.Control
 {
     [FwSqlTable("control")]
     public class ControlRecord : AppDataReadWriteRecord

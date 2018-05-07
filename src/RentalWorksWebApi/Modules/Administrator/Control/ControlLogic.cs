@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.Control
+
+namespace WebApi.Modules.Administrator.Control
 {
     public class ControlLogic : AppBusinessLogic
     {
@@ -8,11 +9,14 @@ namespace WebApi.Modules.Settings.Control
         ControlRecord control = new ControlRecord();
         SysControlRecord sysControl = new SysControlRecord();
         ControlLoader controlLoader = new ControlLoader();
+        ControlBrowseLoader controlBrowseLoader = new ControlBrowseLoader();
+
         public ControlLogic()
         {
             dataRecords.Add(control);
             dataRecords.Add(sysControl);
             dataLoader = controlLoader;
+            browseLoader = controlBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]

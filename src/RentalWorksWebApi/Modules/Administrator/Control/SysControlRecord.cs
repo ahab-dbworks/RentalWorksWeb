@@ -1,8 +1,8 @@
-using FwStandard.BusinessLogic; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.Control
+
+namespace WebApi.Modules.Administrator.Control
 {
     [FwSqlTable("syscontrol")]
     public class SysControlRecord : AppDataReadWriteRecord
@@ -41,8 +41,8 @@ namespace WebApi.Modules.Settings.Control
         [FwSqlDataField(column: "logmessages", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Logmessages { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "chkindeptfromuser", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Chkindeptfromuser { get; set; }
+        //[FwSqlDataField(column: "chkindeptfromuser", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        //public bool? Chkindeptfromuser { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dwserver", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string Dwserver { get; set; }

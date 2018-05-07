@@ -1,23 +1,13 @@
 using FwStandard.DataLayer; 
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
-using System.Collections.Generic;
-namespace WebApi.Modules.Settings.Control
+using FwStandard.SqlServer.Attributes;
+
+namespace WebApi.Modules.Administrator.Control
 {
     [FwSqlTable("controlview")]
-    public class ControlLoader : AppDataLoadRecord
+    public class ControlLoader : ControlBrowseLoader
     {
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string ControlId { get; set; } = "";
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
-        public string Company { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "system", modeltype: FwDataTypes.Text)]
-        public string SystemName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "maxrows", modeltype: FwDataTypes.Integer)]
         public int? Maxrows { get; set; }
@@ -70,9 +60,9 @@ namespace WebApi.Modules.Settings.Control
         [FwSqlDataField(column: "logmessages", modeltype: FwDataTypes.Boolean)]
         public bool? Logmessages { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "chkindeptfromuser", modeltype: FwDataTypes.Boolean)]
-        public bool? Chkindeptfromuser { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "chkindeptfromuser", modeltype: FwDataTypes.Boolean)]
+        //public bool? Chkindeptfromuser { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dwserver", modeltype: FwDataTypes.Text)]
         public string Dwserver { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -546,14 +536,6 @@ namespace WebApi.Modules.Settings.Control
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
-        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        {
-            base.SetBaseSelectQuery(select, qry, customFields, request);
-            select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-        }
         //------------------------------------------------------------------------------------ 
     }
 }
