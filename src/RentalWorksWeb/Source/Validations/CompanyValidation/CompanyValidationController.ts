@@ -1,12 +1,6 @@
 ﻿class CompanyValidation {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'CompanyValidation';
-        this.apiurl = 'api/v1/company';
-
-    }
+    Module: string = 'CompanyValidation';
+    apiurl: string = 'api/v1/company';
 
     addLegend($control) {
         FwBrowse.addLegend($control, 'Lead', '#ff8040');
