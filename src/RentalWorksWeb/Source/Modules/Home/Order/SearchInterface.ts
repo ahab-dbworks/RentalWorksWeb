@@ -568,7 +568,6 @@ class SearchInterface {
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('</div>');
 
-
             var item = html.join('');
             $popup.find('.inventory').append(item);
             var $card = $popup.find('.inventory > div:last');
@@ -595,19 +594,19 @@ class SearchInterface {
     }
 
     listGridView($inventory, viewType) {
-        var description = $inventory.find('.invdescription');
-        var imageFrame = $inventory.find('.invimage');
-        var image = $inventory.find('.image');
-        var quantityAvailable = $inventory.find('[data-datafield="QuantityAvailable"]');
-        var conflictDate = $inventory.find('[data-datafield="ConflictDate"]');
-        var quantityIn = $inventory.find('[data-datafield="QuantityIn"]');
-        var quantityQcRequired = $inventory.find('[data-datafield="QuantityQcRequired"]');
-        var accessories = $inventory.find('.accessories');
-        var rate = $inventory.find('[data-datafield="DailyRate"]');
-        var quantity = $inventory.find('[data-datafield="Quantity"]');
-        var allWH = $inventory.find('[data-datafield="AllWH"]');
-        var descContainer = $inventory.find('.desccontainer');
-        var quantityContainer = $inventory.find('.quantitycontainer');
+        var  description = $inventory.find('.invdescription'),
+             imageFrame = $inventory.find('.invimage'),
+             image = $inventory.find('.image'),
+             quantityAvailable = $inventory.find('[data-datafield="QuantityAvailable"]'),
+             conflictDate = $inventory.find('[data-datafield="ConflictDate"]'),
+             quantityIn = $inventory.find('[data-datafield="QuantityIn"]'),
+             quantityQcRequired = $inventory.find('[data-datafield="QuantityQcRequired"]'),
+             accessories = $inventory.find('.accessories'),
+             rate = $inventory.find('[data-datafield="DailyRate"]'),
+             quantity = $inventory.find('[data-datafield="Quantity"]'),
+             allWH = $inventory.find('[data-datafield="AllWH"]'),
+             descContainer = $inventory.find('.desccontainer'),
+             quantityContainer = $inventory.find('.quantitycontainer');
         switch (viewType) {
             case 'gridView':
                 allWH.hide();
@@ -766,7 +765,7 @@ class SearchInterface {
             var imageId = jQuery(e.currentTarget).attr('data-value');
 
             $confirmation = FwConfirmation.renderConfirmation('Image Viewer', '<div style="white-space:pre;">\n' +
-                '<img src="' + image + '" data-value="' + imageId + '" alt="No Image" class="image" style="width:100%; height:100%;">');
+                '<img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + imageId + '&thumbnail=false' + '\" data-value="' + imageId + '" alt="No Image" class="image" style="max-width:100%;">');
 
             $cancel = FwConfirmation.addButton($confirmation, 'Close');
         });
