@@ -13,7 +13,7 @@ namespace FwStandard.Security
             ClaimsIdentity identity = null;
             using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
             {
-                using (FwSqlCommand qryLogin = new FwSqlCommand(conn, dbConfig.QueryTimeout))
+                using (FwSqlCommand qryAuthenticate = new FwSqlCommand(conn, "webauthenticate", dbConfig.QueryTimeout))
                 {
                     //qry.Add("select top 1 *");
                     //qry.Add("from webusersview with (nolock)");
@@ -24,43 +24,34 @@ namespace FwStandard.Security
 
                     //jh 04/13/2018 splitting the above query into two for speed.  Takes to long to decrypt passwords when there are 35,000+ entries in the webusersview
 
-                    string webUsersId = "";
-                    string userLoginName = "";
-                    string email = "";
-                    bool loginWithUserName = false;
-                    bool loginWithEmail = false;
+                    FwSqlCommand qryEncrypt = new FwSqlCommand(conn, dbConfig.QueryTimeout);
+                    qryEncrypt.Add("select value = dbo.encrypt(@data)");
+                    qryEncrypt.AddParameter("@data", password.ToUpper());
+                    await qryEncrypt.ExecuteAsync(true);
+                    string webpassword = qryEncrypt.GetField("value").ToString().TrimEnd();
 
-                    qryLogin.Add("select top 1 webusersid, userloginname, email");
-                    qryLogin.Add("from webusersview with (nolock)");
-                    qryLogin.Add("where (upper(userloginname) = upper(@username) ");
-                    qryLogin.Add("  or (upper(email) = upper(@username))) ");
-                    qryLogin.AddParameter("@username", username);
-                    await qryLogin.ExecuteAsync(true);
-                    if (qryLogin.RowCount > 0)
+                    string webUsersId = string.Empty, errmsg = string.Empty;
+                    int    errno = 0;
+
+                    qryAuthenticate.AddParameter("@userlogin",         username);
+                    qryAuthenticate.AddParameter("@userloginpassword", webpassword);
+                    qryAuthenticate.AddParameter("@webusersid",        System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errno",             System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
+                    qryAuthenticate.AddParameter("@errmsg",            System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
+                    await qryAuthenticate.ExecuteAsync(true);
+                    webUsersId = qryAuthenticate.GetParameter("@webusersid").ToString().TrimEnd();
+                    errno      = qryAuthenticate.GetParameter("@errno").ToInt32();
+                    errmsg     = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
+
+                    if (!string.IsNullOrEmpty(webUsersId) && (errno.Equals(0)))
                     {
-                        webUsersId = qryLogin.GetField("webusersid").ToString().TrimEnd();
-                        userLoginName = qryLogin.GetField("userloginname").ToString().TrimEnd();
-                        email = qryLogin.GetField("email").ToString().TrimEnd();
-
-                        loginWithUserName = (username.Equals(userLoginName));
-                        loginWithEmail = (username.Equals(email));
-
-
                         using (FwSqlCommand qry = new FwSqlCommand(conn, dbConfig.QueryTimeout))
                         {
                             qry.Add("select top 1 *");
                             qry.Add("from webusersview with (nolock)");
                             qry.Add("where webusersid = @webusersid");
-                            if (loginWithEmail)
-                            {
-                                qry.Add(" and webpassword = dbo.encrypt(@password)");
-                            }
-                            else
-                            {
-                                qry.Add(" and userpassword = dbo.encrypt(@password)");
-                            }
+                            qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
                             qry.AddParameter("@webusersid", webUsersId);
-                            qry.AddParameter("@password", password);
 
                             await qry.ExecuteAsync(true);
                             if (qry.RowCount > 0)

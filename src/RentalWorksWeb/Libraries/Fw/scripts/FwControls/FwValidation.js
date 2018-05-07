@@ -25,12 +25,12 @@ FwValidation.init = function ($control) {
                 apiurl: $validationbrowse.attr('data-apiurl')
             };
         } else {
-            var controllerObj = window[$validationbrowse.attr('data-name') + 'Controller'];
-            if (typeof controllerObj.Module === 'undefined') {
-                controllerObj.Module = $validationbrowse.attr('data-name');
+            var controller = window[$validationbrowse.attr('data-name') + 'Controller'];
+            if (typeof controller.Module === 'undefined') {
+                controller.Module = $validationbrowse.attr('data-name');
             }
-            if (typeof controllerObj.apiurl === 'undefined') {
-                controllerObj.apiurl = $validationbrowse.attr('data-apiurl');
+            if (typeof controller.apiurl === 'undefined') {
+                controller.apiurl = $validationbrowse.attr('data-apiurl');
             }
         }
     } else if ((typeof $validationbrowse.attr('data-name') !== 'undefined') && (typeof window[$validationbrowse.attr('data-name') + 'Controller'] === 'undefined')) {

@@ -13,6 +13,13 @@ FwBrowseColumn_text.getFieldValue = function($browse, $tr, $field, field, origin
 FwBrowseColumn_text.setFieldViewMode = function($browse, $field, $tr, html) {
     var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
     $field.html(originalvalue);
+    // this only works if there is no spaces or other illegal css characters in the originalvalue
+    if (typeof $field.attr('data-rowclassmapping') !== 'undefined') {
+        var rowclassmapping = JSON.parse($field.attr('data-rowclassmapping'));
+        if (originalvalue in rowclassmapping === true) {
+            $tr.addClass(rowclassmapping[originalvalue]);
+        }
+    }
 };
 //---------------------------------------------------------------------------------
 FwBrowseColumn_text.setFieldEditMode = function($browse, $field, $tr, html) {

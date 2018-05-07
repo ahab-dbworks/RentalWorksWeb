@@ -205,50 +205,8 @@
             })
             .on('click', 'table thead tr td .field div.search .searchclear', function (e) {
                 try {
-                    var $this;
-                    $this = jQuery(this);
-                    if ($this.siblings('input').val() != '') {
-                        $this.siblings('input').val('').change();
-                        $this.removeClass('visible');
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('mouseenter', 'table thead tr td .field div.search', function () {
-                try {
-                    var $this;
-                    $this = jQuery(this);
-                    if ($this.find('input').val() != '') {
-                        $this.find('.searchclear').addClass('visible');
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            .on('mouseleave', 'table thead tr td .field div.search', function () {
-                try {
-                    var $this;
-                    $this = jQuery(this);
-                    if (!$this.find('input').is(':focus')) {
-                        $this.find('.searchclear').removeClass('visible');
-                    }
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            })
-            //.on('focus keyup', 'table thead tr td .field div.search input', function() {
-            //    var $this;
-            //    $this = jQuery(this);
-            //    if ($this.val() != '') {
-            //        $this.siblings('.searchclear').addClass('visible');
-            //    }
-            //})
-            .on('blur', 'table thead tr td .field div.search input', function () {
-                try {
-                    var $this;
-                    $this = jQuery(this);
-                    $this.siblings('.searchclear').removeClass('visible');
+                    var $this = jQuery(this);
+                    $this.siblings('input').val('').change();
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -320,6 +278,12 @@
             })
             .on('change', '.runtime thead .search > input', function (e) { // Runtime: Enter a search text into a columns searchbox
                 try {
+                    var $this = jQuery(this);
+                    if ($this.val() === '') {
+                        $this.siblings('.searchclear').removeClass('visible');
+                    } else if ($this.val() !== '') {
+                        $this.siblings('.searchclear').addClass('visible');
+                    }
                     FwBrowse.search($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -354,44 +318,6 @@
                     FwBrowse.databind($control);
                 } catch (ex) {
                     FwFunc.showError(ex);
-                }
-            })
-            .on('change', '.field[data-formnoduplicate="true"]', function () {
-                var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
-                $field = jQuery(this);
-                $field.removeClass('error');
-                $form = $control.closest('.fwform');
-                formuniqueids = FwModule.getFormUniqueIds($form);
-                formfields = FwModule.getFormFields($form, true);
-                value = $field.find('input.value').val().toUpperCase();
-                originalvalue = ((typeof $field.attr('data-originalvalue') != 'undefined') ? $field.attr('data-originalvalue').toUpperCase() : '');
-                if ((typeof $control.attr('data-name') !== 'undefined') && (value != originalvalue)) {
-                    request.module = $control.attr('data-name');
-                    request.table = $field.attr('data-formdatafield').split('.')[0];
-                    request.fields = {};
-                    request.fields[$field.attr('data-formdatafield')] = { datafield: $field.attr('data-formdatafield'), value: $field.find('input.value').val(), type: $field.attr('data-formdatatype') };
-                    request.miscfields = jQuery.extend({}, formuniqueids, formfields);
-                    FwServices.grid.method(request, $control.attr('data-name'), 'ValidateDuplicate', $control,
-                        // onSuccess
-                        function (response) {
-                            try {
-                                if (response.duplicate == true) {
-                                    $field.addClass('error');
-                                    FwNotification.renderNotification('ERROR', 'Duplicate ' + $field.attr('data-caption') + '(s) are not allowed.');
-                                }
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }
-                        // onError
-                        , function (errorMessage) {
-                            try {
-                                FwFunc.showError(errorMessage);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        }
-                    );
                 }
             })
             .on('click', 'tbody .browsecontextmenu', function () {
@@ -434,7 +360,51 @@
                     FwFunc.showError(ex);
                 }
             })
-            ;
+        ;
+
+        //Events only attached when the API is not defined for the control.
+        var controller = window[$control.attr('data-controller')];
+        if (($control.attr('data-type') == 'Grid') && (typeof controller.apiurl === 'undefined')) {
+            $control.on('change', '.field[data-formnoduplicate="true"]', function () {
+                var $field, value, originalvalue, $form, formuniqueids, formfields, request: any = {};
+                $field = jQuery(this);
+                $field.removeClass('error');
+                $form = $control.closest('.fwform');
+                formuniqueids = FwModule.getFormUniqueIds($form);
+                formfields = FwModule.getFormFields($form, true);
+                value = $field.find('input.value').val().toUpperCase();
+                originalvalue = ((typeof $field.attr('data-originalvalue') != 'undefined') ? $field.attr('data-originalvalue').toUpperCase() : '');
+                if ((typeof $control.attr('data-name') !== 'undefined') && (value != originalvalue)) {
+                    request.module = $control.attr('data-name');
+                    request.table = $field.attr('data-formdatafield').split('.')[0];
+                    request.fields = {};
+                    request.fields[$field.attr('data-formdatafield')] = { datafield: $field.attr('data-formdatafield'), value: $field.find('input.value').val(), type: $field.attr('data-formdatatype') };
+                    request.miscfields = jQuery.extend({}, formuniqueids, formfields);
+                    FwServices.grid.method(request, $control.attr('data-name'), 'ValidateDuplicate', $control,
+                        // onSuccess
+                        function (response) {
+                            try {
+                                if (response.duplicate == true) {
+                                    $field.addClass('error');
+                                    FwNotification.renderNotification('ERROR', 'Duplicate ' + $field.attr('data-caption') + '(s) are not allowed.');
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        },
+                        // onError
+                        function (errorMessage) {
+                            try {
+                                FwFunc.showError(errorMessage);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }
+                    );
+                }
+            });
+        }
+
         //Register Custom Events on grids and validations
         if ((($control.attr('data-type') == 'Grid') || ($control.attr('data-type') == 'Validation')) && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
             var controller;
@@ -1662,7 +1632,7 @@
                     var cellcolor = $field.attr('data-cellcolor');
 
                     if (typeof cellcolor !== 'undefined') {
-                        $td.css('padding-left', '10px');
+                        $td.children().css('padding-left', '10px');
 
                         if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {

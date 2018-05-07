@@ -332,7 +332,7 @@ class FwModule {
     }
     //----------------------------------------------------------------------------------------------
     static openForm($form: JQuery, mode: string) {
-        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller,
+        var $fwcontrols, formid, $formTabControl, auditTabIds, $auditControl, controller, customTabIds, $customControl,
             nodeModule, nodeForm, nodeTabs, nodeTab, $tabs, nodeField, $fields, nodeGrid, $grids, $tabcontrol, args;
 
         nodeModule = FwApplicationTree.getNodeByController($form.attr('data-controller'));
@@ -381,6 +381,45 @@ class FwModule {
                 }
                 );
         }
+
+        if (sessionStorage.getItem('customFields') !== null) {
+            let customFields = JSON.parse(sessionStorage.getItem('customFields'))
+            if (customFields !== null && typeof customFields.length === 'number' && customFields.length > 0) {
+                for (var i = 0; i < customFields.length; i++) {
+                    if (controller.slice(0, -10) === customFields[i]) {
+                        var customHtml = [];
+                        var customModule = customFields[i];
+
+                        $formTabControl = jQuery($form.find('.fwtabs'));
+                        customTabIds = FwTabs.addTab($formTabControl, 'Custom Fields', false, 'CUSTOM', false);
+
+                        FwAppData.apiMethod(true, 'GET', 'api/v1/customfield', null, FwServices.defaultTimeout, function onSuccess(response) {
+                            try {
+                                customHtml.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Fields">')
+                                for (var j = 0; j < response.length; j++) {
+                                    if (customModule === response[j].ModuleName) {
+                                        customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+                                        customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].FieldType.toLowerCase() + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '"></div>');
+                                        customHtml.push('</div>');
+                                    }
+                                }
+                                customHtml.push('</div>')
+
+                                $customControl = jQuery(customHtml.join(''));
+                                FwControl.renderRuntimeControls($customControl.find('.fwcontrol').addBack());
+
+                                $formTabControl.find('#' + customTabIds.tabpageid).append($customControl);
+
+                                $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));                      
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        }, null, null);
+                    }
+                }
+            }
+        }
+
 
         $form
             .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
@@ -527,7 +566,7 @@ class FwModule {
         });
     }
     //----------------------------------------------------------------------------------------------
-    static loadForm2(httpMethod: 'GET'|'POST'|'PUT'|'DELETE', url: string, request: any, module: string, $form: JQuery) {
+    static loadForm2(httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, module: string, $form: JQuery) {
         FwAppData.apiMethod(true, httpMethod, url, request, FwServices.defaultTimeout,
             function (response) { // onSuccess
                 try {
@@ -592,7 +631,7 @@ class FwModule {
         }
     }
     //----------------------------------------------------------------------------------------------
-    static saveForm(module: string, $form: JQuery, parameters: {closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string;}) {
+    static saveForm(module: string, $form: JQuery, parameters: { closetab?: boolean; afterCloseForm?: Function; closeparent?: boolean; navigationpath?: string; }) {
         var $tabpage, $tab, isValid, request, controllername, controller;
         $tabpage = $form.parent();
         $tab = jQuery('#' + $tabpage.attr('data-tabid'));
@@ -912,7 +951,7 @@ class FwModule {
                 $confirmation = FwConfirmation.renderConfirmation('Close Tab', 'Want to save your changes to "' + tabname + '"?');
                 $save = FwConfirmation.addButton($confirmation, 'Save');
                 $dontsave = FwConfirmation.addButton($confirmation, 'Don\'t Save');
-                if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); } 
+                if ($form.parent().data('type') !== 'settings-row') { $cancel = FwConfirmation.addButton($confirmation, 'Cancel'); }
 
                 $save.on('click', function () {
                     var controller, isvalid;
@@ -1013,6 +1052,7 @@ class FwModule {
         var $fwformfields, fields, field;
 
         fields = {};
+        fields._Custom = [];
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField;
@@ -1033,11 +1073,20 @@ class FwModule {
             getAllFields = ($form.attr('data-mode') === 'NEW') || getAllFieldsOverride;
 
             if ((isValidDataField) && ((getAllFields) || (originalValue !== value))) {
-                field = {
-                    datafield: dataField,
-                    value: value
-                };
-                fields[dataField] = field;
+                if ($fwformfield.data('customfield') !== undefined && $fwformfield.data('customfield') === true) {
+                    field = {
+                        FieldName: dataField,
+                        FieldValue: value
+                    }
+                    fields._Custom.push(field);
+                } else {
+                    field = {
+                        datafield: dataField,
+                        value: value
+                    };
+                    fields[dataField] = field;
+                }
+
             }
         });
 
@@ -1083,7 +1132,11 @@ class FwModule {
             request[key] = uniqueids[key].value;
         }
         for (var key in fields) {
-            request[key] = fields[key].value;
+            if (key === '_Custom') {
+                request[key] = fields[key];
+            } else {
+                request[key] = fields[key].value;
+            }
         }
         return request;
     }
@@ -1256,7 +1309,7 @@ class FwModule {
         var $control = jQuery(jQuery('#tmpl-modules-' + modulename + 'Form').html());
         return $control;
     }
-     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     static refreshForm($form: JQuery, controller: any) {
         const uniqueIds = FwModule.getFormUniqueIds($form);
         let newUniqueIds = {};
@@ -1266,7 +1319,7 @@ class FwModule {
                 const $newForm = controller.loadForm(newUniqueIds);
                 $form.parent().empty().append($newForm);
             }
-      },0)
+        }, 0)
     };
     //----------------------------------------------------------------------------------------------
 }

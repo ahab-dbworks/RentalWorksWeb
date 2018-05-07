@@ -163,21 +163,22 @@ namespace FwCore.Api
                 });
             });
 
-            if (FwSqlSelect.PagingCompatibility == FwSqlSelect.PagingCompatibilities.AutoDetect)
-            {
-                using (FwSqlConnection conn = new FwSqlConnection(ApplicationConfig.DatabaseSettings.ConnectionString))
-                {
-                    bool isGte = FwSqlData.IsSqlVersionGreaterThanOrEqualTo(conn, ApplicationConfig.DatabaseSettings, 2012).Result;
-                    if (isGte)
-                    {
-                        FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
-                    }
-                    else
-                    {
-                        FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
-                    }
-                }
-            }
+            //if (FwSqlSelect.PagingCompatibility == FwSqlSelect.PagingCompatibilities.AutoDetect)
+            //{
+            //    using (FwSqlConnection conn = new FwSqlConnection(ApplicationConfig.DatabaseSettings.ConnectionString))
+            //    {
+            //        bool isGte = FwSqlData.IsSqlVersionGreaterThanOrEqualTo(conn, ApplicationConfig.DatabaseSettings, 2012).Result;
+            //        if (isGte)
+            //        {
+            //            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.Sql2012;
+            //        }
+            //        else
+            //        {
+            //            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
+            //        }
+            //    }
+            //}
+            FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
         }
         //------------------------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

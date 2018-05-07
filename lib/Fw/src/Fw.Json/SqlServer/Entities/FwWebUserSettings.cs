@@ -41,7 +41,7 @@ namespace Fw.Json.SqlServer.Entities
                 {
                     string result;
 
-                    result = "theme-default"; //Value if not defined
+                    result = "theme-material"; //Value if not defined
                     if (dictSettings.ContainsKey("applicationtheme"))
                     {
                         try { result = dictSettings["applicationtheme"]; } catch {}
