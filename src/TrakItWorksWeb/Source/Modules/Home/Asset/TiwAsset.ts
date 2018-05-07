@@ -1,10 +1,10 @@
 class TiwAsset extends RwAsset {
-    browseModel: any = {};
+    //browseModel: any = {};
 
-    getBrowseTemplate(): void {
-        //let template = super.getBrowseTemplate();
-        //return template;
-    }
+    //getBrowseTemplate(): void {
+    //    //let template = super.getBrowseTemplate();
+    //    //return template;
+    //}
 
 }
 

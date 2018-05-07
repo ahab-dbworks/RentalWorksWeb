@@ -11,12 +11,8 @@ var __extends = (this && this.__extends) || (function () {
 var TiwAsset = (function (_super) {
     __extends(TiwAsset, _super);
     function TiwAsset() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.browseModel = {};
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    TiwAsset.prototype.getBrowseTemplate = function () {
-    };
     return TiwAsset;
 }(RwAsset));
 window.AssetController = new TiwAsset();

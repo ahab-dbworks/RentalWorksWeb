@@ -1,5 +1,1 @@
-<<<<<<< Updated upstream
-{"version":3,"file":"TiwAsset.js","sourceRoot":"","sources":["TiwAsset.ts"],"names":[],"mappings":";;;;;;;;;;AAAA;IAAuB,4BAAO;IAA9B;QAAA,qEAcC;QAbG,iBAAW,GAAQ;YACf,kBAAkB,EAAE,EAAE;YACtB,kBAAkB,EAAE,2OAGT;SACd,CAAC;;IAON,CAAC;IALG,oCAAiB,GAAjB;IAGA,CAAC;IAEL,eAAC;AAAD,CAAC,AAdD,CAAuB,OAAO,GAc7B;AAEK,MAAO,CAAC,eAAe,GAAG,IAAI,QAAQ,EAAE,CAAC"}
-=======
-{"version":3,"file":"TiwAsset.js","sourceRoot":"","sources":["TiwAsset.ts"],"names":[],"mappings":";;;;;;;;;;AAAA;IAAuB,4BAAO;IAA9B;QAAA,qEAQC;QAPG,iBAAW,GAAQ,EAAE,CAAC;;IAO1B,CAAC;IALG,oCAAiB,GAAjB;QACI,IAAI,QAAQ,GAAG,iBAAM,iBAAiB,WAAE,CAAC;QACzC,MAAM,CAAC,QAAQ,CAAC;IACpB,CAAC;IAEL,eAAC;AAAD,CAAC,AARD,CAAuB,OAAO,GAQ7B;AAEK,MAAO,CAAC,eAAe,GAAG,IAAI,QAAQ,EAAE,CAAC"}
->>>>>>> Stashed changes
+{"version":3,"file":"TiwAsset.js","sourceRoot":"","sources":["TiwAsset.ts"],"names":[],"mappings":";;;;;;;;;;AAAA;IAAuB,4BAAO;IAA9B;;IAQA,CAAC;IAAD,eAAC;AAAD,CAAC,AARD,CAAuB,OAAO,GAQ7B;AAEK,MAAO,CAAC,eAAe,GAAG,IAAI,QAAQ,EAAE,CAAC"}
