@@ -1,6 +1,6 @@
 ﻿namespace TrakItWorksWeb.Source
 {
-    public class RwUserRoles
+    public class UserRoles
     {
         public const string Everyone                  = "Everyone";
         public const string WebUser                   = "Web User";

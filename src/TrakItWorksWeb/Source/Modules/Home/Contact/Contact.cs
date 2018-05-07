@@ -125,7 +125,7 @@ namespace TrakItWorksWeb.Source.Modules
                 {
                     uniqueids = request.ids;
                     contactid = FwCryptography.AjaxDecrypt(uniqueids["contact.contactid"].value);
-                    name      = RwAppData.GetContactName(contactid);
+                    name      = AppData.GetContactName(contactid);
                     firstname = name.firstname;
                     lastname  = name.lastname;
                 }

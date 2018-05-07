@@ -8,7 +8,7 @@ using System.Dynamic;
 
 namespace TrakItWorksWeb.Source
 {
-    public class RwAppData
+    public class AppData
     {
         //----------------------------------------------------------------------------------------------------
         public static string GetWebUsersId(FwSqlConnection conn, string userid)

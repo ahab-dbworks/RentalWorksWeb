@@ -14,8 +14,8 @@ var Program = (function (_super) {
         var _this = _super.call(this) || this;
         var me;
         me = _this;
-        me.name = 'RentalWorks';
-        FwApplicationTree.currentApplicationId = '0A5F2584-D239-480F-8312-7C2B552A30BA';
+        me.name = 'TrakItWorks';
+        FwApplicationTree.currentApplicationId = 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB';
         return _this;
     }
     return Program;

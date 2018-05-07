@@ -10,7 +10,7 @@ using System.Web.Security;
 
 namespace TrakItWorksWeb.Source
 {
-    public class RwService
+    public class Service
     {
         //---------------------------------------------------------------------------------------------
         public static void GetAuthToken(dynamic request, dynamic response, dynamic session)
@@ -30,12 +30,12 @@ namespace TrakItWorksWeb.Source
                 {
                     if (!string.IsNullOrEmpty(session.security.webUser.usersid))
                     {
-                        session.user = RwAppData.GetUser(conn:    FwSqlConnection.RentalWorks
+                        session.user = AppData.GetUser(conn:    FwSqlConnection.RentalWorks
                                                        , usersId: session.security.webUser.usersid);
                     }
                     if (!string.IsNullOrEmpty(session.security.webUser.contactid))
                     {
-                        session.contact = RwAppData.GetContact(conn:      FwSqlConnection.RentalWorks
+                        session.contact = AppData.GetContact(conn:      FwSqlConnection.RentalWorks
                                                              , contactId: session.security.webUser.contactid);
                     }
                 }
@@ -96,10 +96,10 @@ namespace TrakItWorksWeb.Source
             authTokenData.webUser.warehouseid = FwCryptography.AjaxDecrypt(request.warehouse);
 
             response.authToken         = AccountService.Current.GetAuthToken(token.Name, authTokenData);
-            response.location          = RwAppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
-            response.warehouse         = RwAppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
-            response.department        = RwAppData.GetDepartmentInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.department));
-            response.webusersid        = RwAppData.GetUserInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.userid));
+            response.location          = AppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
+            response.warehouse         = AppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
+            response.department        = AppData.GetDepartmentInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.department));
+            response.webusersid        = AppData.GetUserInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.userid));
         }
         //---------------------------------------------------------------------------------------------
         public static void ModuleRouting(dynamic request, dynamic response, dynamic session)
@@ -120,11 +120,11 @@ namespace TrakItWorksWeb.Source
             {
                 case "Module":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"Driver","Vehicle"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("Web.Source.Modules." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Modules." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwModule))))
                     {
                         FwModule module = (FwModule)Activator.CreateInstance(type);
-                        module.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
+                        module.Init("Web.Source", "", typeof(Service).Assembly, request, response, session);
                         if (module != null)
                         {
                             typeof(FwModule).GetMethod(method).Invoke(module, new object[0]);
@@ -150,11 +150,11 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Grid":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"DriverLicenseClass","DriverEndorsement","DriverRestriction","DriverDocument","VehicleDocument", "AppDocumentVersion"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("Web.Source.Grids." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Grids." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwGrid))))
                     {
                         FwGrid grid = (FwGrid)Activator.CreateInstance(type);
-                        grid.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
+                        grid.Init("TrakItWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
                         if (grid != null)
                         {
                             typeof(FwGrid).GetMethod(method).Invoke(grid, new object[0]);
@@ -180,11 +180,11 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Validation":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"VehicleDocumentType"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("Web.Source.Validations." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Validations." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwValidation))))
                     {
                         FwValidation validation = (FwValidation)Activator.CreateInstance(type);
-                        validation.Init("Web.Source", "", typeof(RwService).Assembly, request, response, session);
+                        validation.Init("TrakItWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
                         if (validation != null)
                         {
                             typeof(FwValidation).GetMethod(method).Invoke(validation, new object[0]);
@@ -210,7 +210,7 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Reports":
                     if (session.security.webUser.usertype == "CONTACT") throw new Exception("Access denied.");
-                    type = typeof(RwService).Assembly.GetType("Web.Source.Reports." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Reports." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwReport))))
                     {
                         FwReport report = (FwReport)Activator.CreateInstance(type);

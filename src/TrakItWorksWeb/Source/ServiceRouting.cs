@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace TrakItWorksWeb.Source
 {
-    public class RwServiceRouting : Fw.Json.Services.FwJsonService
+    public class ServiceRouting : Fw.Json.Services.FwJsonService
     {
         //---------------------------------------------------------------------------------------------
         protected string GetRegexString(string path, string applicationPath)
@@ -27,49 +27,50 @@ namespace TrakItWorksWeb.Source
         {
             List<FwJsonRequestAction> actions = new List<FwJsonRequestAction>() {
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/getauthtoken", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetAuthToken(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) {
+                        Service.GetAuthToken(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.WebUser},
+                    roles: new string[]{UserRoles.WebUser},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/changepassword", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { AccountService.Current.WebUserChangePassword(FwSqlConnection.RentalWorks, request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/resetpassword", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { AccountService.Current.WebUserResetPassword(FwSqlConnection.RentalWorks, request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/authpassword", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { AccountService.Current.AuthenticatePassword(FwSqlConnection.RentalWorks, request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/module/", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ModuleRouting(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.ModuleRouting(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/grid/", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ModuleRouting(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.ModuleRouting(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/validation/", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ModuleRouting(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.ModuleRouting(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.User},
+                    roles: new string[]{UserRoles.User},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/reports/", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.ModuleRouting(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.ModuleRouting(request, response, session); }
                 ),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.Everyone},
+                    roles: new string[]{UserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/session/updatelocation", applicationPath)); },
-                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.UpdateLocation(request, response, session); }
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.UpdateLocation(request, response, session); }
                 ),
                 //new FwJsonRequestAction(
                 //    roles: new string[]{RwUserRoles.User},
@@ -77,7 +78,7 @@ namespace TrakItWorksWeb.Source
                 //    onMatch: delegate(dynamic request, dynamic response, dynamic session) { FwServices.SetCompanyContactStatus(FwSqlConnection.RentalWorks, request, response, session); }
                 //),
                 new FwJsonRequestAction(
-                    roles: new string[]{RwUserRoles.User},
+                    roles: new string[]{UserRoles.User},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/fwscheduler/getholidayevents", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { FwServices.GetHolidayEvents(FwSqlConnection.RentalWorks, request, response, session); }
                 )
@@ -96,7 +97,7 @@ namespace TrakItWorksWeb.Source
             session = new ExpandoObject();
             session.security = new ExpandoObject();
             session.security.userRoles = new List<string>();
-            session.security.userRoles.Add(RwUserRoles.Everyone);
+            session.security.userRoles.Add(UserRoles.Everyone);
             hasAuthToken = (FwValidate.IsPropertyDefined(request, "authToken"));
             if (hasAuthToken)
             {
@@ -125,17 +126,17 @@ namespace TrakItWorksWeb.Source
                         switch((string)session.security.webUser.usertype)
                         {
                             case "USER":
-                                session.security.userRoles.Add(RwUserRoles.User);
+                                session.security.userRoles.Add(UserRoles.User);
                                 if (session.security.webUser.webadministrator == "T")
                                 {
-                                    session.security.userRoles.Add(RwUserRoles.UserAdministrator);
+                                    session.security.userRoles.Add(UserRoles.UserAdministrator);
                                 }
                                 break;
                             case "CONTACT":
-                                session.security.userRoles.Add(RwUserRoles.Contact);
+                                session.security.userRoles.Add(UserRoles.Contact);
                                 if (session.security.webUser.webadministrator == "T")
                                 {
-                                    session.security.userRoles.Add(RwUserRoles.ContactAdministrator);
+                                    session.security.userRoles.Add(UserRoles.ContactAdministrator);
                                 }
                                 break;
                         }

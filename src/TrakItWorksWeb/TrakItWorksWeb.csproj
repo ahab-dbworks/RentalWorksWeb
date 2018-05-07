@@ -1179,11 +1179,11 @@
     <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
-    <Compile Include="Source\RwAppData.cs" />
-    <Compile Include="Source\RwReport.cs" />
-    <Compile Include="Source\RwService.cs" />
-    <Compile Include="Source\RwServiceRouting.cs" />
-    <Compile Include="Source\RwUserRoles.cs" />
+    <Compile Include="Source\AppData.cs" />
+    <Compile Include="Source\Report.cs" />
+    <Compile Include="Source\Service.cs" />
+    <Compile Include="Source\ServiceRouting.cs" />
+    <Compile Include="Source\UserRoles.cs" />
     <Compile Include="Source\Validations\BatchARValidation\BatchARValidation.cs" />
     <Compile Include="Source\Validations\BatchInvoicesValidation\BatchInvoicesValidation.cs" />
     <Compile Include="Source\Validations\BatchVendorInvoiceValidation\BatchVendorInvoiceValidation.cs" />

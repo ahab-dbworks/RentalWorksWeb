@@ -3,7 +3,7 @@ using Fw.Json.SqlServer;
 
 namespace TrakItWorksWeb.Source
 {
-    public class RwReport : FwReport
+    public class Report : FwReport
     {
         //---------------------------------------------------------------------------------------------
         protected override FwSqlConnection GetApplicationSqlConnection()
