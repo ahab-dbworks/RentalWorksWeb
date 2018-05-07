@@ -30,8 +30,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwCore", "lib\Fw\src\FwCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakItWorksWeb", "src\TrakItWorksWeb\TrakItWorksWeb.csproj", "{D56B7396-11E1-4E1B-8511-1F0838770F9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalWorksFrontEndLibrary", "src\RentalWorksFrontEndLibrary\RentalWorksFrontEndLibrary.csproj", "{4670F665-981B-48A4-8D16-DE75C83D6D62}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug API|Any CPU = Debug API|Any CPU
@@ -262,30 +260,6 @@ Global
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release Web Fast|Any CPU.Build.0 = Release Web Fast|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56B7396-11E1-4E1B-8511-1F0838770F9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug API|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release API|Any CPU.ActiveCfg = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release API|Any CPU.Build.0 = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4670F665-981B-48A4-8D16-DE75C83D6D62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
