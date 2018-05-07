@@ -62,7 +62,8 @@
 
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+            request.RecType = 'R';
         }
         );
         FwBrowse.init($orderItemGridRentalControl);
@@ -81,7 +82,8 @@
 
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+            request.RecType = 'S';
         });
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
@@ -95,11 +97,12 @@
         $orderItemGridFacilitiesControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
-                RecType: 'F'
+                RecType: 'SP'
             };
         });
         $orderItemGridFacilitiesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+            request.RecType = 'SP';
         }
         );
         FwBrowse.init($orderItemGridFacilitiesControl);
@@ -136,7 +139,8 @@
             };
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+            request.RecType = 'L';
         });
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
@@ -154,7 +158,8 @@
             };
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
+            request.RecType = 'M';
         }
         );
         FwBrowse.init($orderItemGridMiscControl);
