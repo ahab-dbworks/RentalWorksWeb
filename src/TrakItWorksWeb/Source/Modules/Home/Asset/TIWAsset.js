@@ -19,8 +19,6 @@ var TiwAsset = (function (_super) {
         return _this;
     }
     TiwAsset.prototype.getBrowseTemplate = function () {
-        var template = _super.prototype.getBrowseTemplate.call(this);
-        return template;
     };
     return TiwAsset;
 }(RwAsset));

@@ -458,6 +458,33 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
+    beforeValidateOutShipVia($browse, $grid, request) {
+        var validationName = request.module;
+        var outDeliveryCarrierId = jQuery($grid.find('[data-datafield="OutDeliveryCarrierId"] input')).val();
+
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: outDeliveryCarrierId
+                };
+                break;
+        }
+    }
+
+    beforeValidateInShipVia($browse, $grid, request) {
+        var validationName = request.module;
+        var inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
+
+        switch (validationName) {
+            case 'ShipViaValidation':
+                request.uniqueids = {
+                    VendorId: inDeliveryCarrierId
+                };
+                break;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var $form;
         $form = $grid.closest('.fwform');

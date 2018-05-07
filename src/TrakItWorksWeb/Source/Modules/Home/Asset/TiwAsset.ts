@@ -7,9 +7,9 @@ class TiwAsset extends RwAsset {
             </div>`
     };
 
-    getBrowseTemplate(): string {
-        let template = super.getBrowseTemplate();
-        return template;
+    getBrowseTemplate(): void {
+        //let template = super.getBrowseTemplate();
+        //return template;
     }
 
 }

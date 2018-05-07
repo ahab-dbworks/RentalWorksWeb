@@ -6,7 +6,7 @@ namespace FwStandard.Security
     //---------------------------------------------------------------------------------------------
     public enum FwSecurityTreeNodeTypes
     {
-        System, Application, Lv1ModuleMenu, Lv2ModuleMenu, Module, Lv1SubModulesMenu, SubModule, Lv1GridsMenu, Grid, Report, Form, Browse, MenuBar, SubMenu, SubMenuGroup, SubMenuItem,
+        System, Application, Lv1ModuleMenu, Lv2ModuleMenu, Module, Lv1SettingsMenu, SettingsMenu, SettingsModule, Lv1SubModulesMenu, SubModule, Lv1GridsMenu, Grid, Report, Form, Browse, MenuBar, SubMenu, SubMenuGroup, SubMenuItem,
         MenuBarButton, NewMenuBarButton, EditMenuBarButton, ViewMenuBarButton, DeleteMenuBarButton, SaveMenuBarButton, PrevMenuBarButton, NextMenuBarButton,
         DownloadExcelSubMenuItem, Components, Tab, Field, FormGrid, NewVersionSubMenuItem, PrintSubMenuItem, CreateOrderSubMenuItem, PrintMenuBarButton,
         Controller, ControllerMethod
@@ -17,15 +17,15 @@ namespace FwStandard.Security
     {
         //---------------------------------------------------------------------------------------------
         [JsonProperty("id")]
-        public string Id {get;set;}
+        public string Id { get; set; }
         //---------------------------------------------------------------------------------------------
         [JsonProperty("properties")]
-        public Dictionary<string, string> Properties {get;set;}
+        public Dictionary<string, string> Properties { get; set; }
         //---------------------------------------------------------------------------------------------
         [JsonProperty("children")]
-        public List<FwSecurityTreeNode> Children {get;set;}
+        public List<FwSecurityTreeNode> Children { get; set; }
         //---------------------------------------------------------------------------------------------
-        public FwSecurityTreeNode Parent {get;set;}
+        public FwSecurityTreeNode Parent { get; set; }
         //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode()
         {
@@ -38,9 +38,10 @@ namespace FwStandard.Security
         public FwSecurityTreeNode(string id, string caption, FwSecurityTreeNodeTypes nodeType) : this()
         {
             this.Id = id;
-            this.Properties["caption"]  = caption;
+            this.Properties["caption"] = caption;
             this.Properties["nodetype"] = nodeType.ToString();
-            switch(nodeType) {
+            switch (nodeType)
+            {
                 case FwSecurityTreeNodeTypes.System:
                 case FwSecurityTreeNodeTypes.Application:
                 case FwSecurityTreeNodeTypes.Browse:
@@ -52,10 +53,11 @@ namespace FwStandard.Security
                 case FwSecurityTreeNodeTypes.SubModule:
                     break;
                 default:
-                    this.Properties["visible"]  = "T";
+                    this.Properties["visible"] = "T";
                     break;
             }
-            switch(nodeType) {
+            switch (nodeType)
+            {
                 case FwSecurityTreeNodeTypes.Field:
                     this.Properties["editable"] = "T";
                     break;
@@ -92,7 +94,7 @@ namespace FwStandard.Security
         //---------------------------------------------------------------------------------------------
         public FwSecurityTreeNode FindById(string id)
         {
-            FwSecurityTreeNode node=null;
+            FwSecurityTreeNode node = null;
 
             if (id.StartsWith("{") && id.EndsWith("}"))
             {
@@ -106,13 +108,13 @@ namespace FwStandard.Security
                 }
             }
             node = FwSecurityTreeNode.FindByIdRecursive(this, id);
-            
+
             return node;
         }
         //---------------------------------------------------------------------------------------------
         public static FwSecurityTreeNode FindByIdRecursive(FwSecurityTreeNode node, string id)
         {
-            FwSecurityTreeNode resultNode=null;
+            FwSecurityTreeNode resultNode = null;
 
             if (node != null)
             {
@@ -126,7 +128,7 @@ namespace FwStandard.Security
                     }
                 }
             }
-            
+
             return resultNode;
         }
         //---------------------------------------------------------------------------------------------
