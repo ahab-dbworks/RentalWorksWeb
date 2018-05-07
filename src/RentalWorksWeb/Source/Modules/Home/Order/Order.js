@@ -303,6 +303,7 @@ var Order = (function () {
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'R';
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'rental');
@@ -323,6 +324,7 @@ var Order = (function () {
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'S';
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'sales');
@@ -343,6 +345,7 @@ var Order = (function () {
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'L';
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'labor');
@@ -363,6 +366,7 @@ var Order = (function () {
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'M';
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', function () {
             _this.calculateOrderItemGridTotals($form, 'misc');

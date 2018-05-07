@@ -352,7 +352,8 @@ class Order {
             request.pagesize = max;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'R';
         }
         );
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
@@ -375,7 +376,8 @@ class Order {
             request.pagesize = max;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'S';
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'sales');
@@ -398,7 +400,8 @@ class Order {
             request.pagesize = max;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'L';
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'labor');
@@ -421,7 +424,8 @@ class Order {
             request.pagesize = max;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+            request.RecType = 'M';
         }
         );
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {

@@ -342,7 +342,8 @@ class Quote {
             request.pagesize = max;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.RecType = 'R';
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'rental');
@@ -364,7 +365,8 @@ class Quote {
             request.pagesize = max;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.RecType = 'S';
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'sales');
@@ -386,7 +388,8 @@ class Quote {
             request.pagesize = max;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.RecType = 'L';
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'labor');
@@ -407,7 +410,8 @@ class Quote {
             request.pagesize = max;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
+            request.RecType = 'M';
         });
         FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'misc');
