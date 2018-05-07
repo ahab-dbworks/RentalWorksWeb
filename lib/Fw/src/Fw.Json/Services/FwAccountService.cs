@@ -96,6 +96,7 @@ namespace Fw.Json.Services
                 name                                = (FwValidate.IsPropertyDefined(webUsersView, "name")) ? webUsersView.name : string.Empty;
                 session.security.webUser.name       = name;
                 tokenData.webUser.name              = name;
+                response.webUser.name               = name;  //justin 05/06/2018
 
                 clientcode                          = FwSqlData.GetClientCode(conn);
                 session.security.clientcode         = clientcode;
