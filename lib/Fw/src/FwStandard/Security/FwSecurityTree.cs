@@ -266,6 +266,7 @@ namespace FwStandard.Security
             node.Properties["htmlcaption"] = htmlcaption;
             node.Properties["usertype"] = usertype;
             node.Properties["color"] = color;
+            node.Properties["description"] = description;
             if (!hasAppOptions)
             {
                 Nodes.Remove(id);

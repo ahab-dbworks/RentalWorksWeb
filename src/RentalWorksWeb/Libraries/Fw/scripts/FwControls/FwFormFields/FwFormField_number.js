@@ -20,7 +20,7 @@ FwFormField_number.renderDesignerHtml = function($control, html) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_number.renderRuntimeHtml = function($control, html) {
-    var min, max, digits, autogroup, rightalign;
+    var min, max, digits, digitsoptinal, autogroup, rightalign;
     var isdesktop = jQuery('html').hasClass('desktop');
     var ismobile  = jQuery('html').hasClass('mobile');
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
@@ -70,14 +70,16 @@ FwFormField_number.renderRuntimeHtml = function($control, html) {
     } else {
         max = $control.attr('data-maxvalue');
     }
-    digits     = ((typeof $control.attr('data-digits') !== 'undefined') ? $control.attr('data-digits') : 2);
-    autogroup  = (((typeof $control.attr('data-formatnumeric') !== 'undefined') && ($control.attr('data-formatnumeric') == 'true')) ? true : false);
-    rightalign = jQuery('html').hasClass('desktop');
+    digits         = ((typeof $control.attr('data-digits') !== 'undefined') ? $control.attr('data-digits') : 2);
+    digitsoptional = (((typeof $control.attr('data-digitsoptional') !== 'undefined') && ($control.attr('data-digitsoptional') == 'false')) ? false : true)
+    autogroup      = (((typeof $control.attr('data-formatnumeric') !== 'undefined') && ($control.attr('data-formatnumeric') == 'true')) ? true : false);
+    rightalign     = jQuery('html').hasClass('desktop');
     if (isdesktop) {
         $control.find('.fwformfield-value').inputmask("numeric", {
             min:            min,
             max:            max,
             digits:         digits,
+            digitsOptional: digitsoptional,
             radixPoint:     '.',
             groupSeparator: ',',
             autoGroup:      autogroup,

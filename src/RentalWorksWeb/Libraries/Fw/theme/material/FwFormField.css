@@ -226,7 +226,7 @@ html.theme-material.desktop .fwformfield[data-type="number"].focused .fwformfiel
 
 html.theme-material.mobile .fwformfield[data-type="number"] .fwformfield-control {border: 1px solid #E0E0E0;background-color:#ffffff;overflow:hidden;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;flex-direction:row;}
 html.theme-material.mobile .fwformfield[data-type="number"] .qtybtn {height:100%;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;flex:0 0 3em;background-color:#e9e9e9;cursor:pointer;}
-html.theme-material.mobile .fwformfield[data-type="number"] input.fwformfield-value {font-size:1.125em;text-align:center !important;height:100%;padding:0;flex:1 1 0;border-radius:0;box-sizing: border-box;border: 1px solid transparent;}
+html.theme-material.mobile .fwformfield[data-type="number"] input.fwformfield-value {font-size:1.125em;text-align:center !important;height:100%;width:100%;padding:0;flex:1 1 0;border-radius:0;box-sizing: border-box;border: 1px solid transparent;}
 html.theme-material.mobile .fwformfield[data-type="number"] input.fwformfield-value::-webkit-inner-spin-button, 
 html.theme-material.mobile .fwformfield[data-type="number"] input.fwformfield-value::-webkit-outer-spin-button {-webkit-appearance: none;margin: 0;}
 html.theme-material.mobile .fwformfield[data-type="number"] i {font-size:2.5em;}
