@@ -50,3 +50,18 @@
 
 
 sync_RentalWorksWeb_to_TrakItWorksWeb\.ps1\.log
+
+/src/TrakItWorksWeb/App_Data/Temp/
+/src/TrakItWorksWeb/app_scripts.json
+/src/TrakItWorksWeb/Application.config
+/src/TrakItWorksWeb/ApplicationConfig.js
+/src/TrakItWorksWeb/FwApplicationSchema.config
+/src/TrakItWorksWeb/index.htm
+/src/TrakItWorksWeb/scripts/_references.js
+/src/TrakItWorksWeb/Source/Modules/Home/**/*.js
+/src/TrakItWorksWeb/Source/Modules/Home/**/*.js.map
+/src/TrakItWorksWeb/Source/Modules/Settings/**/*.js
+/src/TrakItWorksWeb/Source/Modules/Settings/**/*.js.map
+/src/TrakItWorksWeb/theme/fwcursors/*
+/src/TrakItWorksWeb/theme/fwfonts/*
+/src/TrakItWorksWeb/theme/fwimages/*

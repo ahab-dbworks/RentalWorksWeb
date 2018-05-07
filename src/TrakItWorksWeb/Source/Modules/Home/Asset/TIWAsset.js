@@ -12,10 +12,7 @@ var TiwAsset = (function (_super) {
     __extends(TiwAsset, _super);
     function TiwAsset() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.browseModel = {
-            rentalWorksColumns: '',
-            trakItWorksColumns: "\n            <div class=\"column flexcolumn\" data-width=\"0\" data-visible=\"false\">\n                <div class=\"field\" data-datafield=\"Inactive\" data-browsedatatype=\"text\"  data-visible=\"false\"></div>\n            </div>"
-        };
+        _this.browseModel = {};
         return _this;
     }
     TiwAsset.prototype.getBrowseTemplate = function () {
