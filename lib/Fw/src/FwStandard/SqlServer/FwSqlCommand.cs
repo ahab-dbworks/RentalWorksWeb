@@ -301,7 +301,14 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public void AddParameter(string name, object value)
         {
-            this.sqlCommand.Parameters.AddWithValue(name, value);
+            //this.sqlCommand.Parameters.AddWithValue(name, value);
+            SqlParameter param = this.sqlCommand.Parameters.AddWithValue(name, value);
+
+            //justin 05/07/2018  override the default type of nvarchar here.  We want varchar to avoid implicit conversion in the query optimizer
+            if (value is string)
+            {
+                param.SqlDbType = SqlDbType.VarChar;
+            }
         }
         //------------------------------------------------------------------------------------
         public void AddParameter(string name, SqlDbType sqlDbType, ParameterDirection direction, object value)
