@@ -144,7 +144,7 @@ var FwApplicationTree = (function () {
         if (node !== null) {
             var data_nodetype = node.properties.nodetype;
             var data_controller = node.properties.controller;
-            var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module'));
+            var isModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'Module' || data_nodetype === 'SettingsModule'));
             var isSubModule = ((typeof data_nodetype === 'string') && (data_nodetype === 'SubModule'));
             var isGrid = ((typeof data_nodetype === 'string') && (data_nodetype === 'Grid'));
             var foundController = ((typeof data_controller === 'string') && (data_controller.length > 0) && (data_controller === controller));

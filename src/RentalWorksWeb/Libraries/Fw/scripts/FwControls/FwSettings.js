@@ -172,7 +172,7 @@ FwSettings.saveForm = function (module, $form, closetab, navigationpath, $contro
 //----------------------------------------------------------------------------------------------
 FwSettings.getCaptions = function (screen) {
     var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '730C9659-B33B-493E-8280-76A060A07DCE');
-    var modules = FwApplicationTree.getChildrenByType(node, 'Module');
+    var modules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
     for (var i = 0; i < modules.length; i++) {
         var moduleName = modules[i].properties.controller.slice(0, -10);
         var $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
