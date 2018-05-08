@@ -605,13 +605,13 @@ FwSettings.getHeaderView = function ($control) {
         var nodeLv1MenuItem = nodeApplication.children[lv1childno];
         if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
             switch (nodeLv1MenuItem.properties.nodetype) {
-                case 'Lv1ModuleMenu':
+                case 'Lv1SettingsMenu':
                     $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
                     for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                         var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                         if (nodeLv2MenuItem.properties.visible === 'T') {
                             switch (nodeLv2MenuItem.properties.nodetype) {
-                                case 'Lv2ModuleMenu':
+                                case 'SettingsMenu':
                                     dropDownMenuItems = [];
                                     for (var lv3childno = 0; lv3childno < nodeLv2MenuItem.children.length; lv3childno++) {
                                         var nodeLv3MenuItem = nodeLv2MenuItem.children[lv3childno];
@@ -621,7 +621,7 @@ FwSettings.getHeaderView = function ($control) {
                                     }
                                     FwSettings.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
                                     break;
-                                case 'Module':
+                                case 'SettingsModule':
                                     FwSettings.generateStandardModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
                                     break;
                             }
