@@ -484,6 +484,18 @@ class Order {
         }
     }
 
+    beforeValidateCarrier($browse, $grid, request) {
+        var validationName = request.module;
+
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    }
+
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         var $form;

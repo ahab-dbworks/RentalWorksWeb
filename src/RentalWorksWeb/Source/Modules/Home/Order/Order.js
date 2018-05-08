@@ -416,6 +416,16 @@ var Order = (function () {
                 break;
         }
     };
+    Order.prototype.beforeValidateCarrier = function ($browse, $grid, request) {
+        var validationName = request.module;
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    };
     Order.prototype.beforeValidate = function ($browse, $grid, request) {
         var $form;
         $form = $grid.closest('.fwform');

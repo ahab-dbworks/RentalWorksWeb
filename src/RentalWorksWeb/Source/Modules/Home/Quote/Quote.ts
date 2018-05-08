@@ -304,6 +304,18 @@ class Quote {
         }
     }
 
+    beforeValidateCarrier($browse, $grid, request) {
+        var validationName = request.module;
+
+        switch (validationName) {
+            case 'VendorValidation':
+                request.uniqueids = {
+                    Freight: true
+                };
+                break;
+        }
+    }
+
     //----------------------------------------------------------------------------------------------
     renderFrames($form: any) {
         var orderId;
