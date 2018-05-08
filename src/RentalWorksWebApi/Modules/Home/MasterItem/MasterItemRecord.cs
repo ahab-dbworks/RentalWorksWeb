@@ -114,6 +114,12 @@ namespace WebApi.Modules.Home.MasterItem
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string ParentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
+        public string ItemClass { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -122,12 +128,6 @@ namespace WebApi.Modules.Home.MasterItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "locked", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Locked { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
-        //public string ParentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 2)]
-        //public string Itemclass { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "orgmasteritemid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         //public string OrgmasteritemId { get; set; }

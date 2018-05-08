@@ -67,6 +67,108 @@ namespace WebApi.Modules.Home.Quote
 
         }
         //------------------------------------------------------------------------------------        
+        // POST api/v1/order/applybottomlinedaysperweek
+        [HttpPost("applybottomlinedaysperweek")]
+        public async Task<IActionResult> ApplyBottomLineDaysPerWeek([FromBody] BottomLineDaysPerWeekRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.OrderId };
+
+                QuoteLogic l = new QuoteLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<QuoteLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineDaysPerWeek(request.RecType, request.DaysPerWeek);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/order/applybottomlinediscountpercent
+        [HttpPost("applybottomlinediscountpercent")]
+        public async Task<IActionResult> ApplyBottomLineDiscountPercent([FromBody] BottomLineDiscountPercentRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.OrderId };
+
+                QuoteLogic l = new QuoteLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<QuoteLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineDiscountPercent(request.RecType, request.DiscountPercent);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
+        // POST api/v1/order/applybottomlinetotal
+        [HttpPost("applybottomlinetotal")]
+        public async Task<IActionResult> ApplyBottomLineTotal([FromBody] BottomLineTotalRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = new string[] { request.OrderId };
+
+                QuoteLogic l = new QuoteLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<QuoteLogic>(ids))
+                {
+                    bool applied = await l.ApplyBottomLineTotal(request.RecType, request.Total, request.IncludeTaxInTotal.Value);
+                    return new OkObjectResult(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------                
         // GET api/v1/quote
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)

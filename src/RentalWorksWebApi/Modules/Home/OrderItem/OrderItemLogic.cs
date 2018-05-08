@@ -9,6 +9,9 @@ namespace WebApi.Modules.Home.OrderItem
 {
     public class OrderItemLogic : AppBusinessLogic
     {
+        private string OriginalItemClass;
+        private string OriginalParentId;
+        private decimal? OriginalQuantityOrdered;
         //------------------------------------------------------------------------------------ 
         MasterItemRecord orderItem = new MasterItemRecord();
         OrderItemLoader orderItemLoader = new OrderItemLoader();
@@ -18,6 +21,7 @@ namespace WebApi.Modules.Home.OrderItem
             dataLoader = orderItemLoader;
             orderItem.AfterSave += OnAfterSaveOrderItem;
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -165,6 +169,8 @@ namespace WebApi.Modules.Home.OrderItem
         [FwBusinessLogicField(isReadOnly: true)]
         public string ItemOrder { get; set; }
 
+        public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
+        public string ItemClass { get { return orderItem.ItemClass; } set { orderItem.ItemClass = value; } }
 
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string NotesmasteritemId { get; set; }
@@ -245,7 +251,6 @@ namespace WebApi.Modules.Home.OrderItem
         //public string Unit { get; set; }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Unittype { get; set; }
-        //public string ParentId { get { return orderItem.ParentId; } set { orderItem.ParentId = value; } }
         //public string Itemclass { get { return orderItem.Itemclass; } set { orderItem.Itemclass = value; } }
         //[FwBusinessLogicField(isReadOnly: true)]
         //public string Masterclass { get; set; }
@@ -560,12 +565,56 @@ namespace WebApi.Modules.Home.OrderItem
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                string itemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
-                if ((itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                if ((InventoryId != null) && (!InventoryId.Equals(string.Empty)))
                 {
-                    OrderItemId = AppFunc.InsertPackage(AppConfig, UserSession, this).Result;
-                    e.PerformSave = false;
+                    string itemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
+                    if ((itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    {
+                        OrderItemId = AppFunc.InsertPackage(AppConfig, UserSession, this).Result;
+                        e.PerformSave = false;
+                    }
                 }
+            }
+            else  // updating
+            {
+                OrderItemLogic oiOrig = new OrderItemLogic();
+                oiOrig.SetDependencies(AppConfig, UserSession);
+                oiOrig.OrderId = OrderId;
+                oiOrig.OrderItemId = OrderItemId;
+                bool b1 = oiOrig.LoadAsync<OrderItemLogic>().Result;
+                // save here for use during AfterSaves
+                OriginalItemClass = oiOrig.ItemClass;
+                OriginalParentId = oiOrig.ParentId;
+                OriginalQuantityOrdered = oiOrig.QuantityOrdered;
+
+                if (OriginalItemClass != null)
+                {
+                    if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                    {
+                        if (OriginalQuantityOrdered != QuantityOrdered)
+                        {
+                            bool b2 = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                        }
+                    }
+                }
+
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smUpdate)
+            {
+                //if (OriginalItemClass != null) 
+                //{
+                //    if ((OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (OriginalItemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                //    {
+                //        if (OriginalQuantityOrdered != QuantityOrdered)
+                //        {
+                //            bool b = AppFunc.UpdatePackageQuantities(AppConfig, UserSession, this).Result;
+                //        }
+                //    }
+                //}
             }
         }
         //------------------------------------------------------------------------------------

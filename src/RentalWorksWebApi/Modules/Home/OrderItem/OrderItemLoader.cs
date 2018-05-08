@@ -4,13 +4,14 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using Newtonsoft.Json;
+using WebApi.Logic;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.OrderItem
 {
     [FwSqlTable("dbo.funcorderitem(@orderid)")]
     public class OrderItemLoader : AppDataLoadRecord
     {
-        private string orderId = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderItemId { get; set; }
@@ -255,6 +256,12 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "itemorder", modeltype: FwDataTypes.Text)]
         public string ItemOrder { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
+        public string ParentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
+        public string ItemClass { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 
@@ -355,12 +362,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "unittype", modeltype: FwDataTypes.Text)]
         //public string Unittype { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "parentid", modeltype: FwDataTypes.Text)]
-        //public string ParentId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
-        //public string Itemclass { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "masterclass", modeltype: FwDataTypes.Text)]
         //public string Masterclass { get; set; }
@@ -783,14 +784,21 @@ namespace WebApi.Modules.Home.OrderItem
         {
             useWithNoLock = false;
 
-
-            object[] primaryKeys = GetPrimaryKeys();
-            if (primaryKeys.Length > 0)
+            if ((OrderId == null) || (OrderId.Equals(string.Empty)))
             {
-                if (primaryKeys[0] is string)
+                if ((request != null) && (request.uniqueids != null))
                 {
-                    orderId = primaryKeys[0].ToString();
+                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                    if (uniqueIds.ContainsKey("OrderId"))
+                    {
+                        OrderId = uniqueIds["OrderId"].ToString();
+                    }
                 }
+            }
+
+            if ((OrderId == null) ||(OrderId.Equals(string.Empty)))
+            {
+                OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
             }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -799,9 +807,9 @@ namespace WebApi.Modules.Home.OrderItem
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
-            if (!orderId.Equals(string.Empty))
+            if (!OrderId.Equals(string.Empty))
             {
-                select.AddParameter("@orderid", orderId);
+                select.AddParameter("@orderid", OrderId);
             }
 
         }

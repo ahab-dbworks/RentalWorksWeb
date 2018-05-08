@@ -164,7 +164,8 @@ namespace WebApi.Modules.Home.Order
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------        // GET api/v1/order
+        //------------------------------------------------------------------------------------        
+        // GET api/v1/order
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
