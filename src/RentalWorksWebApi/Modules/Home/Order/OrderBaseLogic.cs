@@ -430,6 +430,171 @@ namespace WebApi.Modules.Home.Order
 
 
 
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubRentalDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubRentalDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklySubRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlySubRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodSubRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklySubRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlySubRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodSubRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodRentalTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklyRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlyRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodRentalTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubSalesDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubSalesTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SubSalesTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SalesTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string SalesTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PartsDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PartsTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PartsTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SpaceDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SpaceDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SpaceSplitPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklySpaceTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlySpaceTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodSpaceTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklySpaceTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlySpaceTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodSpaceTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubVehicleDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubvehicleDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklySubVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlySubVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodSubVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklySubVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlySubVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodSubVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? VehicleDaysPerWeek { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? VehicleDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodVehicleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklyVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlyVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodVehicleTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubMiscDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklySubMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlySubMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodSubMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklySubMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlySubMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodSubMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MiscDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodMiscTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklyMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlyMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodMiscTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? SubLaborDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklySubLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlySubLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodSubLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklySubLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlySubLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodSubLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? LaborDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? WeeklyLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? MonthlyLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? PeriodLaborTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string WeeklyLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string MonthlyLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string PeriodLaborTotalIncludesTax { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalSaleDiscountPercent { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public decimal? RentalSaleTotal { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string RentalSaleTotalIncludesTax { get; set; }
+
+
         //------------------------------------------------------------------------------------
 
 
@@ -478,7 +643,7 @@ namespace WebApi.Modules.Home.Order
                 {
                     tax.TaxId = l2.TaxId;
                 }
-                if ((outDelivery.DeliveryId== null) || (outDelivery.DeliveryId.Equals(string.Empty)))
+                if ((outDelivery.DeliveryId == null) || (outDelivery.DeliveryId.Equals(string.Empty)))
                 {
                     outDelivery.DeliveryId = l2.OutDeliveryId;
                 }
@@ -587,6 +752,24 @@ namespace WebApi.Modules.Home.Order
             return lCopy;
 
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineDaysPerWeek(string recType, decimal daysPerWeek)
+        {
+            bool success = await dealOrder.ApplyBottomLineDaysPerWeek(recType, daysPerWeek);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineDiscountPercent(string recType, decimal discountPercent)
+        {
+            bool success = await dealOrder.ApplyBottomLineDiscountPercent(recType, discountPercent);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<bool> ApplyBottomLineTotal(string recType, decimal total, bool taxIncluded)
+        {
+            bool success = await dealOrder.ApplyBottomLineTotal(recType, total, taxIncluded);
+            return success;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

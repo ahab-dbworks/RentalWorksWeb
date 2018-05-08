@@ -1,7 +1,9 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes; 
 using WebApi.Logic;
+using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.MasterItem;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.OrderItem
 {
@@ -15,6 +17,7 @@ namespace WebApi.Modules.Home.OrderItem
             dataRecords.Add(orderItem);
             dataLoader = orderItemLoader;
             orderItem.AfterSave += OnAfterSaveOrderItem;
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwBusinessLogicField(isPrimaryKey: true)]
@@ -553,6 +556,19 @@ namespace WebApi.Modules.Home.OrderItem
         //public decimal? Quantityreturned { get; set; }
         public string DateStamp { get { return orderItem.DateStamp; } set { orderItem.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                string itemClass = AppFunc.GetStringDataAsync(AppConfig, "master", "masterid", InventoryId, "class").Result;
+                if ((itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT)) || (itemClass.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE)))
+                {
+                    OrderItemId = AppFunc.InsertPackage(AppConfig, UserSession, this).Result;
+                    e.PerformSave = false;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSaveOrderItem(object sender, AfterSaveEventArgs e)
         {
             bool saved = false;

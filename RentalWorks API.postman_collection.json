@@ -11599,7 +11599,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PackageId\": \"000015OL\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"PackageId\": \"D00C5CA1\"}\n\t\n}"
 						},
 						"description": ""
 					},
@@ -14613,6 +14613,81 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"CopyToType\": \"Q\",\n    \"CopyToDealId\": \"A006PZXR\",\n\t\"CopyRatesFromInventory\": true,\n\t\"CopyDates\": false,\n\t\"CopyLineItemNotes\": true,\n    \"CombineSubs\": false,\n    \"CopyDocuments\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Apply Bottom Line Days Per Week",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/applybottomlinedaysperweek",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"DaysPerWeek\": 1.3\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Apply Bottom Line Discount Percent",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/applybottomlinediscountpercent",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"DiscountPercent\": 20\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Apply Bottom Line Total",
+					"request": {
+						"url": "http://localhost:57949/api/v1/order/applybottomlinetotal",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200\n}"
 						},
 						"description": ""
 					},

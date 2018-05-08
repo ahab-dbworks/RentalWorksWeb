@@ -56,6 +56,9 @@ namespace WebLibrary
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
 
+        public const string INVENTORY_CLASSIFICATION_KIT = "K";
+        public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
+
 
     }
 
@@ -69,4 +72,28 @@ namespace WebLibrary
         public bool CombineSubs;
         public bool CopyDocuments;
     }
+
+    public class BottomLineDiscountPercentRequest
+    {
+        public string OrderId;
+        public string RecType;
+        public decimal DiscountPercent;
+    }
+
+    public class BottomLineDaysPerWeekRequest
+    {
+        public string OrderId;
+        public string RecType;
+        public decimal DaysPerWeek;
+    }
+
+    public class BottomLineTotalRequest
+    {
+        public string OrderId;
+        public string RecType;
+        public decimal Total;
+        public bool? IncludeTaxInTotal;
+    }
+
+
 }
