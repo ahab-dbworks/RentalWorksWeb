@@ -12,7 +12,7 @@ namespace WebLibrary.Security
         //---------------------------------------------------------------------------------------------
         public SecurityTree(SqlServerConfig sqlServerConfig, string currentApplicationId) : base(sqlServerConfig, currentApplicationId)
         {
-            var system = AddSystem("RentalWorks", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
+            var system = AddSystem("Application", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
             BuildRentalWorksWebTree(system);
             BuildTrakItWorksWebTree(system);
             BuildRentalWorksWebApiTree(system);

@@ -18,6 +18,9 @@
 
   <ItemGroup>
     <Folder Include="Security\Tree\RentalWorksQuikScan\" />
+    <Folder Include="Security\Tree\TrakItWorksWeb\Modules\Administrator\" />
+    <Folder Include="Security\Tree\TrakItWorksWeb\Modules\Settings\" />
+    <Folder Include="Security\Tree\TrakItWorksWeb\Modules\Utilities\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -154,7 +154,7 @@ class RwAsset {
 
     openForm(mode: string) {
         //var $form = FwModule.loadFormFromTemplate(this.Module);
-        let $form = jQuery(this.formTemplate);
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
         return $form;
@@ -252,7 +252,8 @@ class RwAsset {
         </div>`;
     }
 
-    formTemplate = `<div id="assetform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Asset" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="AssetController">
+    getFormTemplate(): string {
+        return `<div id="assetform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Asset" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="AssetController">
           <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="ItemId"></div>
           <div id="assetform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
