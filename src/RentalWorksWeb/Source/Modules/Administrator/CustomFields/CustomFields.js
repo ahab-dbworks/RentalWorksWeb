@@ -30,6 +30,12 @@ var CustomFields = (function () {
         var $form, $moduleSelect;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $form.find('div[data-datafield="CustomTableName"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true && $this.val() === 'customvaluesnumeric') {
+                $form.find('.float').show();
+            }
+        });
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'));
         }
@@ -74,6 +80,9 @@ var CustomFields = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     CustomFields.prototype.afterLoad = function ($form) {
+        if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
+            $form.find('.float').show();
+        }
     };
     return CustomFields;
 }());

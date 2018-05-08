@@ -45,6 +45,14 @@ class CustomFields {
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        
+        $form.find('div[data-datafield="CustomTableName"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+
+            if ($this.prop('checked') === true && $this.val() === 'customvaluesnumeric') {
+                $form.find('.float').show();
+            }
+        })
 
         if (mode === 'NEW') {
             FwFormField.enable($form.find('.ifnew'))
@@ -101,6 +109,9 @@ class CustomFields {
     }
 
     afterLoad($form: any) {
+        if (FwFormField.getValueByDataField($form, 'CustomTableName') === 'customvaluesnumeric') {
+            $form.find('.float').show();
+        } 
 
     }
 }
