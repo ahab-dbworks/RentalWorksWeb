@@ -111,7 +111,6 @@ namespace Fw.Json.HttpHandlers
             finally
             {
                 context.ApplicationInstance.CompleteRequest();
-                context.Response.End();
             }
         }
         //---------------------------------------------------------------------------------------------

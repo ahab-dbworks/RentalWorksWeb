@@ -399,11 +399,7 @@ class FwModule {
                                 for (var j = 0; j < response.length; j++) {
                                     if (customModule === response[j].ModuleName) {
                                         customHtml.push('<div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                        if (response[j].StringLength > 0) {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '" style="width:' + response[j].StringLength + 'px;float:left;"></div>');
-                                        } else {
-                                            customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].ControlType + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '" data-digits="' + response[j].FloatDecimalDigits + '"></div>');
-                                        }
+                                        customHtml.push('<div data-control="FwFormField" data-customfield="true" data-type="' + response[j].FieldType.toLowerCase() + '" class="fwcontrol fwformfield" data-caption="' + response[j].FieldName + '" data-datafield="' + response[j].FieldName + '"></div>');
                                         customHtml.push('</div>');
                                     }
                                 }

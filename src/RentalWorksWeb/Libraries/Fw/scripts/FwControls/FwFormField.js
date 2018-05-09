@@ -194,7 +194,7 @@ var FwFormField = (function () {
         }
     };
     FwFormField.loadForm = function ($fwformfields, model) {
-        if (model._Custom.length > 0 && model._Custom !== undefined) {
+        if (typeof model._Custom !== 'undefined' && model._Custom.length > 0 && model._Custom !== undefined) {
             for (var i = 0; i < model._Custom.length; i++) {
                 model[model._Custom[i].FieldName] = model._Custom[i].FieldValue;
             }
