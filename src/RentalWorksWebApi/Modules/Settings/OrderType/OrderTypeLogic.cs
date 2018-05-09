@@ -1,6 +1,7 @@
 using FwStandard.BusinessLogic;
 using FwStandard.BusinessLogic.Attributes;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Settings.OrderTypeFields;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
@@ -450,7 +451,7 @@ namespace WebApi.Modules.Settings.OrderType
         public bool? MiscShowWarehouse { get { return miscOrderTypeFields.ShowWarehouse; } set { miscOrderTypeFields.ShowWarehouse = value; } }
         public bool? MiscShowTaxable { get { return miscOrderTypeFields.ShowTaxable; } set { miscOrderTypeFields.ShowTaxable = value; } }
         public bool? MiscShowNotes { get { return miscOrderTypeFields.ShowNotes; } set { miscOrderTypeFields.ShowNotes = value; } }
-        public bool? MiscShowReturnToWarehouse { get { return miscOrderTypeFields.ShowReturnToWarehouse; } set { miscOrderTypeFields.ShowReturnToWarehouse = value; } }
+        //public bool? MiscShowReturnToWarehouse { get { return miscOrderTypeFields.ShowReturnToWarehouse; } set { miscOrderTypeFields.ShowReturnToWarehouse = value; } }
         //public bool? MiscShowVehicleNumber { get { return miscOrderTypeFields.ShowVehicleNumber; } set { miscOrderTypeFields.ShowVehicleNumber = value; } }
         //public bool? MiscShowBarCode { get { return miscOrderTypeFields.ShowBarCode; } set { miscOrderTypeFields.ShowBarCode = value; } }
         //public bool? MiscShowSerialNumber { get { return miscOrderTypeFields.ShowSerialNumber; } set { miscOrderTypeFields.ShowSerialNumber = value; } }
@@ -678,6 +679,161 @@ namespace WebApi.Modules.Settings.OrderType
 
         public decimal? Orderby { get { return orderType.Orderby; } set { orderType.Orderby = value; } }
         public bool? Inactive { get { return orderType.Inactive; } set { orderType.Inactive = value; } }
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> CombinedShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (CombineActivityTabs.Value)
+                {
+                    showFields.Add("RecTypeDisplay");
+                    if (RentalShowICode.Value || RentalSaleShowICode.Value || MiscShowICode.Value || LaborShowICode.Value) { showFields.Add("ICode"); }
+                    if (RentalShowDescription.Value || SalesShowDescription.Value || MiscShowDescription.Value || LaborShowDescription.Value) { showFields.Add("Description"); }
+                    //if ((!RentalShowICode.Value) && (!RentalShowDescription.Value)) { showFields.Add("ICode"); }
+                    //showFields.Add("QuantityOrdered");
+                    //if (RentalShowFromDate.Value) { showFields.Add("FromDate"); }
+                    //if (RentalShowToDate.Value) { showFields.Add("ToDate"); }
+                    //if (RentalShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
+                    //if (RentalShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                    //if (RentalShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
+                    //if (RentalShowRate.Value) { showFields.Add("Rate"); }
+                    //if (RentalShowDaysPerWeek.Value) { showFields.Add("DaysPerWeek"); }
+                    //if (RentalShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                    //if (RentalShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                    //if (RentalShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                    //if (RentalShowTaxable.Value) { showFields.Add("Taxable"); }
+                    //if (RentalShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                    //if (RentalShowReturnToWarehouse.Value) { showFields.Add("ReturnToWarehouse"); }
+                    //if (RentalShowNotes.Value) { showFields.Add("Notes"); }
+                }
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> RentalShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (RentalShowICode.Value) { showFields.Add("ICode"); }
+                if (RentalShowDescription.Value) { showFields.Add("Description"); }
+                if ((!RentalShowICode.Value) && (!RentalShowDescription.Value)) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (RentalShowFromDate.Value) { showFields.Add("FromDate"); }
+                if (RentalShowToDate.Value) { showFields.Add("ToDate"); }
+                if (RentalShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
+                if (RentalShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                if (RentalShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
+                if (RentalShowRate.Value) { showFields.Add("Rate"); }
+                if (RentalShowDaysPerWeek.Value) { showFields.Add("DaysPerWeek"); }
+                if (RentalShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                if (RentalShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                if (RentalShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                if (RentalShowTaxable.Value) { showFields.Add("Taxable"); }
+                if (RentalShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                if (RentalShowReturnToWarehouse.Value) { showFields.Add("ReturnToWarehouse"); }
+                if (RentalShowNotes.Value) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> SalesShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (SalesShowICode.Value) { showFields.Add("ICode"); }
+                if (SalesShowDescription.Value) { showFields.Add("Description"); }
+                if ((!SalesShowICode.Value) && (!SalesShowDescription.Value)) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (SalesShowPickDate.Value) { showFields.Add("PickDate"); }
+                if (SalesShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                if (SalesShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
+                if (SalesShowRate.Value) { showFields.Add("Rate"); }
+                if (SalesShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                if (SalesShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                if (SalesShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                if (SalesShowTaxable.Value) { showFields.Add("Taxable"); }
+                if (SalesShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                if (SalesShowNotes.Value) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> MiscShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (MiscShowICode.Value) { showFields.Add("ICode"); }
+                if (MiscShowDescription.Value) { showFields.Add("Description"); }
+                if ((!MiscShowICode.Value) && (!MiscShowDescription.Value)) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (MiscShowFromDate.Value) { showFields.Add("FromDate"); }
+                if (MiscShowToDate.Value) { showFields.Add("ToDate"); }
+                if (MiscShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
+                if (MiscShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                if (MiscShowRate.Value) { showFields.Add("Rate"); }
+                if (MiscShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                if (MiscShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                if (MiscShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                if (MiscShowTaxable.Value) { showFields.Add("Taxable"); }
+                if (MiscShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                if (MiscShowNotes.Value) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
+
+
+        [FwBusinessLogicField(isReadOnly: true)]
+        public List<string> LaborShowFields
+        {
+            get
+            {
+                List<string> showFields = new List<string>();
+
+                if (LaborShowICode.Value) { showFields.Add("ICode"); }
+                if (LaborShowDescription.Value) { showFields.Add("Description"); }
+                if ((!LaborShowICode.Value) && (!LaborShowDescription.Value)) { showFields.Add("ICode"); }
+                showFields.Add("QuantityOrdered");
+                if (LaborShowFromDate.Value) { showFields.Add("FromDate"); }
+                if (LaborShowToDate.Value) { showFields.Add("ToDate"); }
+                if (LaborShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
+                if (LaborShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                if (LaborShowRate.Value) { showFields.Add("Rate"); }
+                if (LaborShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                if (LaborShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                if (LaborShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                if (LaborShowTaxable.Value) { showFields.Add("Taxable"); }
+                if (LaborShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                if (LaborShowNotes.Value) { showFields.Add("Notes"); }
+
+                return showFields;
+            }
+            set { }
+        }
+
         public string DateStamp { get { return orderType.DateStamp; } set { orderType.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
         public void OnAfterSaveOrderType(object sender, AfterSaveEventArgs e)
