@@ -29,6 +29,13 @@ namespace WebApi.Modules.Home.Order
         public bool? Transportation { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
+        public string OrderTypeId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertypecombineactivitytabs", modeltype: FwDataTypes.Boolean)]
+        public bool? OrderTypeCombineActivityTabs { get; set; }
+        //------------------------------------------------------------------------------------
+
 
         [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
         public string PickDate { get; set; }

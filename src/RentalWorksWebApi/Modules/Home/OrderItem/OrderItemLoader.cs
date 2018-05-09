@@ -6,6 +6,7 @@ using WebApi.Data;
 using Newtonsoft.Json;
 using WebApi.Logic;
 using System.Collections.Generic;
+using System.Text;
 
 namespace WebApi.Modules.Home.OrderItem
 {
@@ -21,6 +22,9 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
+        public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ident", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
@@ -804,6 +808,30 @@ namespace WebApi.Modules.Home.OrderItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
+            bool summaryMode = false;
+            if ((request != null) && (request.uniqueids != null))
+            {
+                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                if (uniqueIds.ContainsKey("Summary"))
+                {
+                    summaryMode = (bool)uniqueIds["Summary"];
+                }
+            }
+            if (summaryMode)
+            {
+                StringBuilder summaryWhere = new StringBuilder();
+                summaryWhere.Append(" (not                     ");
+                summaryWhere.Append("     ( ");
+                summaryWhere.Append("     (isnull(substring(itemclass, 2, 1), '') in ('I', 'O')) ");
+                summaryWhere.Append("     and   displaywhenrateiszero <> 'T'");
+                summaryWhere.Append("     and   price                 = 0  ");
+                summaryWhere.Append("     and   parentid             <> ''");
+                summaryWhere.Append("     )                        ");
+                summaryWhere.Append(" )                        ");
+                select.AddWhere(summaryWhere.ToString());
+            }
+
+
             addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
@@ -811,6 +839,9 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 select.AddParameter("@orderid", OrderId);
             }
+
+
+
 
         }
         //------------------------------------------------------------------------------------ 

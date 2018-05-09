@@ -52,6 +52,8 @@ namespace WebApi.Modules.Settings.OrderType
         public string DailyScheduleDefaultStartTime { get { return orderType.Defaultdaystarttime; } set { orderType.Defaultdaystarttime = value; } }
         public string DailyScheduleDefaultStopTime { get { return orderType.Defaultdaystoptime; } set { orderType.Defaultdaystoptime = value; } }
         public bool? IsMasterSubOrderType { get { return orderType.Ismastersuborder; } set { orderType.Ismastersuborder = value; } }
+        public bool? CombineActivityTabs { get { return orderType.CombineActivityTabs; } set { orderType.CombineActivityTabs = value; } }
+
 
 
         //rental fields

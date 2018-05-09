@@ -54,6 +54,11 @@ namespace WebApi.Modules.Settings.OrderType
 
                     StringBuilder showFields = new StringBuilder();
 
+                    if (l.CombineActivityTabs.Value)
+                    {
+                    showFields.Append("RecTypeDisplay,");
+                    }
+
                     //rental
                     showFields.Append("RentalQuantityOrdered,"); 
                     if (l.RentalShowICode.Value) { showFields.Append("RentalICode,"); }

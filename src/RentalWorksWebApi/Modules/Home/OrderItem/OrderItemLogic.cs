@@ -29,6 +29,8 @@ namespace WebApi.Modules.Home.OrderItem
         public string OrderId { get { return orderItem.OrderId; } set { orderItem.OrderId = value; } }
         public string RecType { get { return orderItem.RecType; } set { orderItem.RecType = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
+        public string RecTypeDisplay { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
         public int? RowNumber { get; set; }
         public string InventoryId { get { return orderItem.InventoryId; } set { orderItem.InventoryId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
@@ -574,6 +576,7 @@ namespace WebApi.Modules.Home.OrderItem
                         e.PerformSave = false;
                     }
                 }
+                ItemOrder = "";
             }
             else  // updating
             {

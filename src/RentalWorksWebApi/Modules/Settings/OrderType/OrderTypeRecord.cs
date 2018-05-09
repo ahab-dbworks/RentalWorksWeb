@@ -39,7 +39,7 @@ namespace WebApi.Modules.Settings.OrderType
         public string Managementservicebasedon { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "combineactivitytabs", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Combineactivitytabs { get; set; }
+        public bool? CombineActivityTabs { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "combinetabseparateitems", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Combinetabseparateitems { get; set; }

@@ -132,6 +132,9 @@ namespace WebApi.Modules.Home.Order
         [FwBusinessLogicField(isReadOnly: true)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------
+        [FwBusinessLogicField(isReadOnly: true)]
+        public bool? OrderTypeCombineActivityTabs { get; set; }
+        //------------------------------------------------------------------------------------
         public bool? FlatPo { get { return dealOrder.FlatPo; } set { dealOrder.FlatPo = value; } }
         //------------------------------------------------------------------------------------
         public bool? PendingPo { get { return dealOrder.PendingPo; } set { dealOrder.PendingPo = value; } }
