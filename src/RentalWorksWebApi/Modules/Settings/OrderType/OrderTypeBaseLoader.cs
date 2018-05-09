@@ -6,8 +6,7 @@
     using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OrderType
 {
-    [FwSqlTable("ordertypeview")]
-    public class OrderTypeBaseLoader : AppDataLoadRecord
+    public class OrderTypeBaseLoader : OrderTypeBaseBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "installstrikefee", modeltype: FwDataTypes.Boolean)]
@@ -2977,9 +2976,9 @@ namespace WebApi.Modules.Settings.OrderType
         public string SubOrderOrderTypeFieldsId { get; set; }
         //------------------------------------------------------------------------------------ 
 
-        [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
-        public bool? Inactive { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
+        //public bool? Inactive { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

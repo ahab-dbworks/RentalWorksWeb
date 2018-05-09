@@ -21,6 +21,7 @@ namespace WebApi.Modules.Settings.PoType
         OrderTypeFieldsRecord subMiscOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord repairOrderTypeFields = new OrderTypeFieldsRecord();
         PoTypeLoader poTypeLoader = new PoTypeLoader();
+        PoTypeBrowseLoader poTypeBrowseLoader = new PoTypeBrowseLoader();
 
         public PoTypeLogic()
         {
@@ -34,6 +35,7 @@ namespace WebApi.Modules.Settings.PoType
             dataRecords.Add(subMiscOrderTypeFields);
             dataRecords.Add(repairOrderTypeFields);
             dataLoader = poTypeLoader;
+            browseLoader = poTypeBrowseLoader;
 
             poType.AfterSave += OnAfterSavePoType;
             repairOrderTypeFields.AfterSave += OnAfterSaveRepairFields;

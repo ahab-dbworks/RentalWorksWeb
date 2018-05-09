@@ -20,10 +20,9 @@ namespace WebApi.Modules.Settings.OrderType
         OrderTypeFieldsRecord vehicleOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord rentalSaleOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord finalLandDOrderTypeFields = new OrderTypeFieldsRecord();
-
-
-
         OrderTypeLoader orderTypeLoader = new OrderTypeLoader();
+        OrderTypeBrowseLoader orderTypeBrowseLoader = new OrderTypeBrowseLoader();
+
         public OrderTypeLogic()
         {
             dataRecords.Add(orderType);
@@ -36,6 +35,7 @@ namespace WebApi.Modules.Settings.OrderType
             dataRecords.Add(rentalSaleOrderTypeFields);
             dataRecords.Add(finalLandDOrderTypeFields);
             dataLoader = orderTypeLoader;
+            browseLoader = orderTypeBrowseLoader;
 
             orderType.AfterSave += OnAfterSaveOrderType;
             finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;
@@ -133,8 +133,8 @@ namespace WebApi.Modules.Settings.OrderType
         public int? SalesManufacturerPartNumberWidth { get { return salesOrderTypeFields.ManufacturerPartNumberWidth; } set { salesOrderTypeFields.ManufacturerPartNumberWidth = value; } }
         public bool? SalesShowPickDate { get { return salesOrderTypeFields.ShowPickDate; } set { salesOrderTypeFields.ShowPickDate = value; } }
         public bool? SalesShowPickTime { get { return salesOrderTypeFields.ShowPickTime; } set { salesOrderTypeFields.ShowPickTime = value; } }
-        //public bool? SalesShowFromDate { get { return salesOrderTypeFields.ShowFromDate; } set { salesOrderTypeFields.ShowFromDate = value; } }
-        //public bool? SalesShowFromTime { get { return salesOrderTypeFields.ShowFromTime; } set { salesOrderTypeFields.ShowFromTime = value; } }
+        public bool? SalesShowFromDate { get { return salesOrderTypeFields.ShowFromDate; } set { salesOrderTypeFields.ShowFromDate = value; } }
+        public bool? SalesShowFromTime { get { return salesOrderTypeFields.ShowFromTime; } set { salesOrderTypeFields.ShowFromTime = value; } }
         //public bool? SalesShowToDate { get { return salesOrderTypeFields.ShowToDate; } set { salesOrderTypeFields.ShowToDate = value; } }
         //public bool? SalesShowToTime { get { return salesOrderTypeFields.ShowToTime; } set { salesOrderTypeFields.ShowToTime = value; } }
         //public bool? SalesShowBillablePeriods { get { return salesOrderTypeFields.ShowBillablePeriods; } set { salesOrderTypeFields.ShowBillablePeriods = value; } }
@@ -693,22 +693,23 @@ namespace WebApi.Modules.Settings.OrderType
                     showFields.Add("RecTypeDisplay");
                     if (RentalShowICode.Value || RentalSaleShowICode.Value || MiscShowICode.Value || LaborShowICode.Value) { showFields.Add("ICode"); }
                     if (RentalShowDescription.Value || SalesShowDescription.Value || MiscShowDescription.Value || LaborShowDescription.Value) { showFields.Add("Description"); }
-                    //if ((!RentalShowICode.Value) && (!RentalShowDescription.Value)) { showFields.Add("ICode"); }
-                    //showFields.Add("QuantityOrdered");
-                    //if (RentalShowFromDate.Value) { showFields.Add("FromDate"); }
-                    //if (RentalShowToDate.Value) { showFields.Add("ToDate"); }
-                    //if (RentalShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
-                    //if (RentalShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
-                    //if (RentalShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
-                    //if (RentalShowRate.Value) { showFields.Add("Rate"); }
-                    //if (RentalShowDaysPerWeek.Value) { showFields.Add("DaysPerWeek"); }
-                    //if (RentalShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
-                    //if (RentalShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
-                    //if (RentalShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
-                    //if (RentalShowTaxable.Value) { showFields.Add("Taxable"); }
-                    //if (RentalShowWarehouse.Value) { showFields.Add("Warehouse"); }
-                    //if (RentalShowReturnToWarehouse.Value) { showFields.Add("ReturnToWarehouse"); }
-                    //if (RentalShowNotes.Value) { showFields.Add("Notes"); }
+                    if ((!(RentalShowICode.Value || RentalSaleShowICode.Value || MiscShowICode.Value || LaborShowICode.Value)) && (!(RentalShowDescription.Value || SalesShowDescription.Value || MiscShowDescription.Value || LaborShowDescription.Value))) { showFields.Add("ICode"); }
+                    showFields.Add("QuantityOrdered");
+                    if (RentalShowPickDate.Value || SalesShowPickDate.Value) { showFields.Add("PickDate"); }
+                    if (RentalShowFromDate.Value || MiscShowFromDate.Value || LaborShowFromDate.Value) { showFields.Add("FromDate"); }
+                    if (RentalShowToDate.Value || MiscShowToDate.Value || LaborShowToDate.Value) { showFields.Add("ToDate"); }
+                    if (RentalShowBillablePeriods.Value || MiscShowBillablePeriods.Value || LaborShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
+                    if (RentalShowSubQuantity.Value || SalesShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
+                    if (RentalShowAvailableQuantity.Value || SalesShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
+                    if (RentalShowRate.Value ||SalesShowRate.Value || MiscShowRate.Value || LaborShowRate.Value) { showFields.Add("Rate"); }
+                    if (RentalShowDaysPerWeek.Value) { showFields.Add("DaysPerWeek"); }
+                    if (RentalShowDiscountPercent.Value || SalesShowDiscountPercent.Value || MiscShowDiscountPercent.Value || LaborShowDiscountPercent.Value) { showFields.Add("DiscountPercent"); }
+                    if (RentalShowPeriodDiscountAmount.Value || SalesShowPeriodDiscountAmount.Value || MiscShowPeriodDiscountAmount.Value || LaborShowPeriodDiscountAmount.Value) { showFields.Add("PeriodDiscountAmount"); }
+                    if (RentalShowPeriodExtended.Value || SalesShowPeriodExtended.Value || MiscShowPeriodExtended.Value || LaborShowPeriodExtended.Value) { showFields.Add("PeriodExtended"); }
+                    if (RentalShowTaxable.Value || SalesShowTaxable.Value || MiscShowTaxable.Value || LaborShowTaxable.Value) { showFields.Add("Taxable"); }
+                    if (RentalShowWarehouse.Value || SalesShowWarehouse.Value || MiscShowWarehouse.Value || LaborShowWarehouse.Value) { showFields.Add("Warehouse"); }
+                    if (RentalShowReturnToWarehouse.Value) { showFields.Add("ReturnToWarehouse"); }
+                    if (RentalShowNotes.Value || SalesShowNotes.Value || MiscShowNotes.Value || LaborShowNotes.Value) { showFields.Add("Notes"); }
                 }
 
                 return showFields;
@@ -728,6 +729,7 @@ namespace WebApi.Modules.Settings.OrderType
                 if (RentalShowDescription.Value) { showFields.Add("Description"); }
                 if ((!RentalShowICode.Value) && (!RentalShowDescription.Value)) { showFields.Add("ICode"); }
                 showFields.Add("QuantityOrdered");
+                if (RentalShowPickDate.Value) { showFields.Add("PickDate"); }
                 if (RentalShowFromDate.Value) { showFields.Add("FromDate"); }
                 if (RentalShowToDate.Value) { showFields.Add("ToDate"); }
                 if (RentalShowBillablePeriods.Value) { showFields.Add("BillablePeriods"); }
@@ -760,6 +762,7 @@ namespace WebApi.Modules.Settings.OrderType
                 if ((!SalesShowICode.Value) && (!SalesShowDescription.Value)) { showFields.Add("ICode"); }
                 showFields.Add("QuantityOrdered");
                 if (SalesShowPickDate.Value) { showFields.Add("PickDate"); }
+                if (SalesShowFromDate.Value) { showFields.Add("FromDate"); }
                 if (SalesShowSubQuantity.Value) { showFields.Add("SubQuantity"); }
                 if (SalesShowAvailableQuantity.Value) { showFields.Add("AvailableQuantity"); }
                 if (SalesShowRate.Value) { showFields.Add("Rate"); }

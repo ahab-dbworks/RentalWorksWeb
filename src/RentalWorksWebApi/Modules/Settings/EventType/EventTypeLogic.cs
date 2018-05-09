@@ -19,6 +19,7 @@ namespace WebApi.Modules.Settings.EventType
         OrderTypeFieldsRecord spaceOrderTypeFields = new OrderTypeFieldsRecord();
         OrderTypeFieldsRecord finalLandDOrderTypeFields = new OrderTypeFieldsRecord();
         EventTypeLoader eventTypeLoader = new EventTypeLoader();
+        EventTypeBrowseLoader eventTypeBrowseLoader = new EventTypeBrowseLoader();
 
         public EventTypeLogic()
         {
@@ -30,6 +31,7 @@ namespace WebApi.Modules.Settings.EventType
             dataRecords.Add(spaceOrderTypeFields);
             dataRecords.Add(finalLandDOrderTypeFields);
             dataLoader = eventTypeLoader;
+            browseLoader = eventTypeBrowseLoader;
 
             eventType.AfterSave += OnAfterSaveEventType;
             finalLandDOrderTypeFields.AfterSave += OnAfterSaveFinalLandDFields;

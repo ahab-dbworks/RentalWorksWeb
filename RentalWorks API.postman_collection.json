@@ -14687,7 +14687,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200\n}"
+							"raw": "{\n\t\"OrderId\": \"H00032G8\",\n\t\"RecType\": \"R\",\n\t\"Total\": 1200,\n\t\"IncludeTaxInTotal\": true\n}"
 						},
 						"description": ""
 					},
@@ -14718,7 +14718,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RowNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"H00032G8\", \"RecType\":\"R\"}\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"RowNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\":\"H00032G8\", \"RecType\":\"R\", \"Summary\": true}\n}"
 						},
 						"description": ""
 					},
@@ -15578,31 +15578,6 @@
 					"request": {
 						"url": "http://localhost:57949/api/v1/ordertype/00003EOV",
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}",
-								"description": ""
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Order Type Show Fields: Get One ",
-					"request": {
-						"url": "http://localhost:57949/api/v1/ordertype/B003X161/showfields",
-						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
