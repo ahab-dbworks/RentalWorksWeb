@@ -266,13 +266,13 @@ namespace Fw.Json.Services
         public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns)
         {
             int indexGroupByColumn, indexRowTypeColumn, rowcount;
-            string thisRowGroupByText, nextRowGroupByText;
+            string thisRowGroupByText, nextRowGroupByText, thisRowType, nextRowType, checkRowType;
             decimal[] subtotals;
             decimal cellvalue;
             object cellvalueobj;
             List<object> row;
             int[] indexSumColumns;
-            bool isLastRow, isNextRowNewGroup;
+            bool isFirstRow, isLastRow, isLastDetailRow, isNextRowNewGroup, isDetailRow, isHeaderRow, isFooterRow, isCheckRowDetail;
 
             thisRowGroupByText = "!@#NOT_DEFINED!@#";
             nextRowGroupByText = "!@#NOT_DEFINED!@#";
@@ -290,6 +290,7 @@ namespace Fw.Json.Services
             }
             
             // subtotal the columns 
+            isFirstRow = true;
             rowcount  = this.Rows.Count;
             for (int rowno = 0; rowno < rowcount; rowno++)
             {
@@ -298,78 +299,100 @@ namespace Fw.Json.Services
                 {
                     row = NewRow();
                     row[indexRowTypeColumn] = nameGroupbyColumn + "header";
-                    //row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
-                    if (Rows[rowno][indexGroupByColumn] == null)  //justin 05/02/2018
-                    {
-                        row[indexGroupByColumn] = "";
-                    }
-                    else
+                    if (Rows[rowno][indexGroupByColumn] != null)  //justin 05/02/2018
                     {
                         row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                        Rows.Insert(rowno, row);
+                        rowno++;
+                        rowcount++;
                     }
-                    Rows.Insert(rowno, row);
-                    rowno++;
-                    rowcount++;
                 }
 
                 // sum the detail row
-                //thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
-                if (Rows[rowno][indexGroupByColumn] == null)  //justin 05/02/2018
-                {
-                    thisRowGroupByText = "";
-                }
-                else
+                if (Rows[rowno][indexGroupByColumn] != null)  //justin 05/02/2018
                 {
                     thisRowGroupByText = Rows[rowno][indexGroupByColumn].ToString();
-                }
-                for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
-                {
-                    cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
-                    if ((cellvalueobj is Decimal) ||
-                        (cellvalueobj is Int16) ||
-                        (cellvalueobj is Int32) ||
-                        (cellvalueobj is Int64) ||
-                        (cellvalueobj is Single) ||
-                        (cellvalueobj is Double))
+                    for (int sumcolno = 0; sumcolno < nameSumColumns.Length; sumcolno++)
                     {
-                        cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                        cellvalueobj = Rows[rowno][indexSumColumns[sumcolno]];
+                        if ((cellvalueobj is Decimal) ||
+                            (cellvalueobj is Int16) ||
+                            (cellvalueobj is Int32) ||
+                            (cellvalueobj is Int64) ||
+                            (cellvalueobj is Single) ||
+                            (cellvalueobj is Double))
+                        {
+                            cellvalue = FwConvert.ToDecimal(cellvalueobj);
+                        }
+                        else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty), out cellvalue)))
+                        {
+                            // the TryParse already stored the value in cellvalue
+                        }
+                        else if (cellvalueobj == null)
+                        {
+                            cellvalue = 0;
+                        }
+                        else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
+                        {
+                            cellvalue = 0;
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString() + " value: \"" + cellvalueobj.ToString() + "\"");
+                        }
+                        subtotals[sumcolno] += cellvalue;
                     }
-                    else if ((cellvalueobj is string) && (decimal.TryParse(cellvalueobj.ToString().Replace("%", string.Empty), out cellvalue)))
-                    {
-                        // the TryParse already stored the value in cellvalue
-                    }
-                    else if (cellvalueobj == null)
-                    {
-                        cellvalue = 0;
-                    }
-                    else if ((cellvalueobj is String) && (cellvalueobj.ToString().TrimEnd() == string.Empty))
-                    {
-                        cellvalue = 0;
-                    }
-                    else
-                    {
-                        throw new Exception("Invalid type: " + cellvalueobj.GetType().FullName + " for column: " + nameSumColumns[sumcolno] + " [index: " + sumcolno.ToString() + "] row: " + rowno.ToString() + " value: \"" + cellvalueobj.ToString() + "\""); 
-                    }
-                    subtotals[sumcolno] += cellvalue;
                 }
 
                 isLastRow = ((rowno + 1) == this.Rows.Count);
+
+                //determine current rowtype and whether or not this is the last detail
+                thisRowType = Rows[rowno][indexRowTypeColumn].ToString();
+                isHeaderRow = thisRowType.Contains("header");
+                isFooterRow = thisRowType.Contains("footer");
+                isDetailRow = ((!isHeaderRow) && (!isFooterRow));
+                isLastDetailRow = false;
+                if (isLastRow)
+                {
+                    isLastDetailRow = isDetailRow;
+                }
+                else
+                {
+                    if (isDetailRow)
+                    {
+                        for (int rd = rowno + 1; rd < rowcount; rd++)
+                        {
+                            checkRowType = Rows[rd][indexRowTypeColumn].ToString();
+                            isCheckRowDetail = ((!checkRowType.Contains("header")) && (!checkRowType.Contains("footer")));
+                            isLastDetailRow = (!isCheckRowDetail);
+
+                            if (!isLastDetailRow)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // determine if this is the last row in the group
+                isNextRowNewGroup = false;
                 if (!isLastRow)
                 {
-                    //nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
-                    if (Rows[rowno + 1][indexGroupByColumn] == null)  //justin 05/02/2018
+                    if (!isFooterRow)
                     {
                         nextRowGroupByText = "";
+                        if (Rows[rowno + 1][indexGroupByColumn] != null)
+                        {
+                            nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
+                        }
+                        nextRowType = Rows[rowno + 1][indexRowTypeColumn].ToString();
+                        isNextRowNewGroup = ((thisRowGroupByText != nextRowGroupByText) && (!nextRowType.Contains("header")));
                     }
-                    else
-                    {
-                        nextRowGroupByText = Rows[rowno + 1][indexGroupByColumn].ToString();
-                    }
-                    isNextRowNewGroup = (thisRowGroupByText != nextRowGroupByText);
+
                 }
 
                 // add a group footer row to the data table
-                if (isLastRow || isNextRowNewGroup)
+                if ((!isFirstRow) && (!isHeaderRow) && (isLastDetailRow || isNextRowNewGroup))
                 {
                     row = NewRow();
                     row[indexRowTypeColumn] = nameGroupbyColumn + "footer";
@@ -409,6 +432,7 @@ namespace Fw.Json.Services
                     rowno++;
                     rowcount++;
                 }
+                isFirstRow = false;
             }
         }
         //---------------------------------------------------------------------------------------------
