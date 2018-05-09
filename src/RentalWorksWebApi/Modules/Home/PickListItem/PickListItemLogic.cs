@@ -30,7 +30,11 @@ namespace WebApi.Modules.Home.PickListItem
         public string MasterId { get { return pickListItem.MasterId; } set { pickListItem.MasterId = value; } }
         [FwBusinessLogicField(isReadOnly: true)]
         public string ICode { get; set; }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string ICodeColor { get; set; }
         public string Description { get { return pickListItem.Description; } set { pickListItem.Description = value; } }
+        [FwBusinessLogicField(isReadOnly: true)]
+        public string DescriptionColor { get; set; }
         public string OptionColor { get { return pickListItem.OptionColor; } set { pickListItem.OptionColor = value; } }
         public string ItemClass { get { return pickListItem.ItemClass; } set { pickListItem.ItemClass = value; } }
         public string ItemOrder { get { return pickListItem.ItemOrder; } set { pickListItem.ItemOrder = value; } }
