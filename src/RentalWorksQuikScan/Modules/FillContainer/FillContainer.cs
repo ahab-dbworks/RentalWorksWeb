@@ -307,7 +307,8 @@ namespace RentalWorksQuikScan.Modules
                                                                           contractId:             contractid,
                                                                           orderId:                dtPendingList.GetValue(rowno, "orderid").ToString(),
                                                                           dealId:                 request.dealid,
-                                                                          departmentId:           request.departmentid);
+                                                                          departmentId:           request.departmentid,
+                                                                          trackedby:              "");
                     }
                 }
             }

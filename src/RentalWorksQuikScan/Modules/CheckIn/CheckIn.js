@@ -289,7 +289,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         itemTemplate: function(model) {
             var html = [], masterclass;
             masterclass = 'item itemclass-' + model.itemclass;
-            masterclass += ((model.trackedby == 'SERIALNO' || model.trackedby == 'QUANTITY' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
+            masterclass += ((model.trackedby == 'SERIALNO' || model.trackedby == 'QUANTITY' || model.trackedby == 'RFID-UNASSIGNED' || model.subbyquantity) && (model.qtystillout > 0)) ? ' link' : '';
             html.push('<div class="' + masterclass + '">');
             html.push('  <div class="row1"><div class="title">{{description}}</div></div>');
             html.push('  <div class="row2">');
@@ -339,18 +339,19 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata, $record) {
             try {
-                if ($record.find('.trackedby .value').html() === 'QUANTITY') {
-                    orderId        = recorddata.orderid;
-                    masterItemId   = recorddata.masteritemid;
-                    masterId       = recorddata.masterid;
-                    code           = recorddata.masterno;
-                    qty            = 0;
-                    newOrderAction = '';
-                    aisle          = screen.properties.aisle;
-                    shelf          = screen.properties.shelf;
-                    playStatus     = false;
-                    vendorId       = recorddata.vendorid;
-                    screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId);
+                if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
+                    var orderId        = recorddata.orderid;
+                    var masterItemId   = recorddata.masteritemid;
+                    var masterId       = recorddata.masterid;
+                    var code           = recorddata.masterno;
+                    var qty            = 0;
+                    var newOrderAction = '';
+                    var aisle          = screen.properties.aisle;
+                    var shelf          = screen.properties.shelf;
+                    var playStatus     = false;
+                    var vendorId       = recorddata.vendorid;
+                    var trackedby      = recorddata.trackedby;
+                    screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
                 } else if ($record.find('.trackedby .value').html() === 'SERIALNO') {
                     $pending.hide();
                     $checkinserial.showscreen(recorddata);
@@ -724,7 +725,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                             qty:          recorddata.sessionin
                         };
                         try {
-                            if (recorddata.trackedby === 'QUANTITY') {
+                            if ((recorddata.trackedby === 'QUANTITY') || (recorddata.trackedby === 'RFID-UNASSIGNED')) {
                                 var $confirmationstr = FwConfirmation.showMessage('How many?', '<input class="qty" type="number" style="font-size:16px;padding:5px;border:1pxc solid #bdbdbd;box-sizing:border-box;width:100%;" value="' + request.qty + '" />', true, false, 'OK', function() {
                                     try {
                                         var userqty = $confirmationstr.find('input.qty').val();
@@ -1300,7 +1301,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         jQuery('#checkIn-txtBarcodeData').val('');
     };
 
-    screen.checkInItem = function(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId) {
+    screen.checkInItem = function(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby) {
         var requestCheckInItem = {
               moduleType:         properties.moduleType
             , checkInMode:        properties.checkInMode
@@ -1321,6 +1322,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             , aisle:              aisle
             , shelf:              shelf 
             , playStatus:         playStatus
+            , trackedby:          trackedby
             //, exchangecontractid: screen.getExchangeContractId()
             //, getSuspenededSessions: true
         };
@@ -1575,7 +1577,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
 
     screen.$view
         .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-            var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode;
+            var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
             try {
                 $txtBarcodeData = jQuery(this);
                 barcode = $txtBarcodeData.val();
@@ -1599,7 +1601,8 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                         shelf           = screen.properties.shelf;
                         playStatus      = true;
                         vendorId        = '';
-                        screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId);
+                        trackedby       = '';
+                        screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
                     }
                 }
             } catch(ex) {

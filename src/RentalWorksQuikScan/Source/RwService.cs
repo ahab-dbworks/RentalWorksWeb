@@ -137,7 +137,7 @@ namespace RentalWorksQuikScan.Source
             }
             if (checkinitem)
             {
-                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid);
+                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, "");
             }
             if (!string.IsNullOrEmpty(containeritemid) && (!string.IsNullOrEmpty(response.webCheckInItem.masterItemId)))
             {
@@ -796,7 +796,8 @@ namespace RentalWorksQuikScan.Source
                                                               contractId:             request.sessionid,
                                                               orderId:                itemstatus.orderid,
                                                               dealId:                 itemstatus.dealid,
-                                                              departmentId:           itemstatus.departmentid);
+                                                              departmentId:           itemstatus.departmentid,
+                                                              trackedby:              "");
 
                     FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
                     qry.Add("update scannedtag");

@@ -20,7 +20,7 @@ namespace RentalWorksQuikScan.Modules
             RwAppData.CheckInMode checkInMode;
             dynamic webGetItemStatus;
             FwJsonDataTable dtSuspendedInContracts;
-            string usersid, orderid, code, dealid, departmentid, masteritemid, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, contractid;
+            string usersid, orderid, code, dealid, departmentid, masteritemid, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, contractid, trackedby;
             FwSqlConnection conn;
             decimal qty;
             bool checkinitem = true, disablemultiorder = false;
@@ -62,6 +62,7 @@ namespace RentalWorksQuikScan.Modules
             orderid                = request.orderId;
             dealid                 = request.dealId;
             departmentid           = request.departmentId;
+            trackedby              = request.trackedby;
             moduleType             = (RwAppData.ModuleType) Enum.Parse(typeof(RwAppData.ModuleType),  request.moduleType);
             checkInMode            = (RwAppData.CheckInMode)Enum.Parse(typeof(RwAppData.CheckInMode), request.checkInMode);
             if (string.IsNullOrEmpty(contractid))
@@ -80,7 +81,7 @@ namespace RentalWorksQuikScan.Modules
             }
             if (checkinitem)
             {
-                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid);
+                response.webCheckInItem = RwAppData.WebCheckInItem(conn, usersid, moduleType, checkInMode, code, masteritemid, qty, neworderaction, containeritemid, containeroutcontractid, aisle, shelf, parentid, vendorid, disablemultiorder, contractid, orderid, dealid, departmentid, trackedby);
             }
             if (!string.IsNullOrEmpty(containeritemid) && (!string.IsNullOrEmpty(response.webCheckInItem.masterItemId)))
             {
@@ -271,7 +272,8 @@ namespace RentalWorksQuikScan.Modules
                                                               contractId:             request.sessionid,
                                                               orderId:                itemstatus.orderid,
                                                               dealId:                 itemstatus.dealid,
-                                                              departmentId:           itemstatus.departmentid);
+                                                              departmentId:           itemstatus.departmentid,
+                                                              trackedby:              itemstatus.trackedby);
 
                     FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
                     qry.Add("update scannedtag");

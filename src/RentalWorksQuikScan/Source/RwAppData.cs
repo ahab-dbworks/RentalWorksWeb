@@ -240,7 +240,7 @@ namespace RentalWorksQuikScan.Source
             return result;
         }
         //----------------------------------------------------------------------------------------------------
-        public static dynamic WebCheckInItem(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId)
+        public static dynamic WebCheckInItem(FwSqlConnection conn, string usersId, ModuleType moduleType, CheckInMode checkInMode, string code, string masterItemId, decimal qty, string newOrderAction, string containeritemid, string containeroutcontractid, string aisle, string shelf, string parentid, string vendorId, bool disablemultiorder, string contractId, string orderId, string dealId, string departmentId, string trackedby)
         {
             dynamic result;
             FwSqlCommand sp;
@@ -253,6 +253,7 @@ namespace RentalWorksQuikScan.Source
             sp.AddParameter("@checkinmode",              RwAppData.GetSqlCheckInMode(checkInMode));
             sp.AddParameter("@containeritemid",          containeritemid);
             sp.AddParameter("@containeroutcontractid",   containeroutcontractid);
+            sp.AddParameter("@trackedby",                trackedby);
             sp.AddParameter("@aisle",                    aisle);
             sp.AddParameter("@shelf",                    shelf);
             sp.AddParameter("@parentid",                 parentid);
