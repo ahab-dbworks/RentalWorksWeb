@@ -25,6 +25,9 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "customfieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string CustomFieldName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fieldsizepx", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? FieldSizeInPixels { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "stringlength", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? StringLength { get; set; }
         //------------------------------------------------------------------------------------ 
