@@ -68,17 +68,17 @@ var Program = (function (_super) {
         if (typeof document.addEventListener !== 'undefined') {
             document.addEventListener('deviceready', function () {
                 runningInCordova = true;
-                if ((typeof window.screen === 'object') && (typeof window.screen['lockOrientation'] === 'function')) {
+                if ((typeof window.screen === 'object') && (typeof window.screen.lockOrientation === 'function')) {
                     var orientation = localStorage.getItem('orientation');
                     if (typeof orientation !== 'string') {
                         localStorage.setItem('orientation', 'portrait-primary');
                         orientation = localStorage.getItem('orientation');
                     }
                     if (orientation === 'unlocked') {
-                        window.screen['unlockOrientation']();
+                        window.screen.unlockOrientation();
                     }
                     else {
-                        window.screen['lockOrientation'](orientation);
+                        window.screen.lockOrientation(orientation);
                     }
                 }
                 if (typeof DTDevices === 'object') {
