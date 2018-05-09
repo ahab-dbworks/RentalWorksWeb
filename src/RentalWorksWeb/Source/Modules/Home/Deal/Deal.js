@@ -289,9 +289,13 @@ var Deal = (function () {
         FwBrowse.renderRuntimeHtml($companyContactControl);
     };
     Deal.prototype.openForm = function (mode, parentmoduleinfo) {
-        var $form;
+        var $form, $submoduleQuoteBrowse, $submoduleOrderBrowse;
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
+        $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote').append($submoduleQuoteBrowse);
+        $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order').append($submoduleOrderBrowse);
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         this.events($form);
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -307,6 +311,30 @@ var Deal = (function () {
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
         return $form;
     };
+    Deal.prototype.openQuoteBrowse = function ($form) {
+        var $browse;
+        $browse = QuoteController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = QuoteController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            };
+        });
+        return $browse;
+    };
+    ;
+    Deal.prototype.openOrderBrowse = function ($form) {
+        var $browse;
+        $browse = OrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = OrderController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            };
+        });
+        return $browse;
+    };
+    ;
     Deal.prototype.saveForm = function ($form, parameters) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
@@ -317,6 +345,10 @@ var Deal = (function () {
     };
     Deal.prototype.afterLoad = function ($form) {
         var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
+        var $quoteBrowse = $form.find('#QuoteBrowse');
+        FwBrowse.search($quoteBrowse);
+        var $orderBrowse = $form.find('#OrderBrowse');
+        FwBrowse.search($orderBrowse);
         $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
         FwBrowse.search($resaleGrid);
         $taxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
@@ -343,4 +375,4 @@ var Deal = (function () {
     return Deal;
 }());
 var DealController = new Deal();
-//# sourceMappingURL=deal.js.map
+//# sourceMappingURL=Deal.js.map

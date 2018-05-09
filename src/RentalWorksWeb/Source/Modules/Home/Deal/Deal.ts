@@ -367,11 +367,16 @@ class Deal {
     }
 
     openForm(mode: string, parentmoduleinfo?: any) {
-        var $form;
+        var $form, $submoduleQuoteBrowse, $submoduleOrderBrowse;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
         $form = FwModule.openForm($form, mode);
 
+        $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote').append($submoduleQuoteBrowse);
+
+        $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order').append($submoduleOrderBrowse);
         //$defaultrate = $form.find('.defaultrate');
         //FwFormField.loadItems($defaultrate, [
         //    { value: 'DAILY', text: 'Daily Rate' }
@@ -401,6 +406,34 @@ class Deal {
 
         return $form;
     }
+   
+    openQuoteBrowse($form) {
+        var $browse;
+        $browse = QuoteController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = QuoteController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
+    
+    openOrderBrowse($form) {
+        var $browse;
+        $browse = OrderController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = OrderController.ActiveView;
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    };
 
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -418,6 +451,12 @@ class Deal {
             $contactGrid,
             $dealNotesGrid,
             $vendorGrid;
+
+        var $quoteBrowse = $form.find('#QuoteBrowse');
+        FwBrowse.search($quoteBrowse);
+
+        var $orderBrowse = $form.find('#OrderBrowse');
+        FwBrowse.search($orderBrowse);
 
         $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
         FwBrowse.search($resaleGrid);
