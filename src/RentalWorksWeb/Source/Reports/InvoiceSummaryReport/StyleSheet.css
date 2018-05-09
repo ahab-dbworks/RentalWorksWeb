@@ -1,16 +1,68 @@
 ﻿/* Invoice Summary Report */
 [applicationstylesheet]
 /*.body {page-break-after: always;}*/
-.body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
-.body .header {position:relative;}
-.body thead td{
+.body tbody tr[data-rowtype="totals"] div {
+    font-weight: bold;
+}
+
+tr[data-rowtype="dealheader"] .date,
+tr[data-rowtype="customerheader"] .date,
+tr[data-rowtype="departmentheader"] .date,
+tr[data-rowtype="locationheader"] .date,
+tr[data-rowtype="dealfooter"] .date,
+tr[data-rowtype="customerfooter"] .date,
+tr[data-rowtype="departmentfooter"] .date,
+tr[data-rowtype="locationfooter"] .date {
+    visibility: hidden;
+}
+
+tr[data-rowtype="dealheader"] .total,
+tr[data-rowtype="customerheader"] .total,
+tr[data-rowtype="departmentheader"] .total,
+tr[data-rowtype="locationheader"] .total {
+    visibility: hidden;
+}
+
+.body tbody tr[data-rowtype="locationheader"] {
+    background-color: #bdbdbd;
+}
+
+.body tbody tr[data-rowtype="customerfooter"],
+tr[data-rowtype="dealfooter"],
+tr[data-rowtype="departmentfooter"],
+tr[data-rowtype="locationfooter"] {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.body tbody tr[data-rowtype="customerheader"],
+tr[data-rowtype="dealheader"],
+tr[data-rowtype="departmentheader"] {
+    background-color: #D3D3D3;
+}
+    .body tbody tr[data-rowtype="customerheader"] span,
+    tr[data-rowtype="locationheader"] span,
+    tr[data-rowtype="dealheader"] span,
+    tr[data-rowtype="departmentheader"] span {
+        font-size: 1.2em;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+.body .header {
+    position: relative;
+}
+
+.body thead td {
     border-bottom: 1px solid black;
     text-align: left;
     background-color: #fff;
 }
+
     .body thead td div {
         font-size: 14px;
     }
+
 .alignleft {
     float: left;
     width: 33.33333%;
@@ -35,13 +87,23 @@
 ​ .location {
     font-weight: bold;
 }
-.totalrow {font-weight:bold;background-color:#ffffff !important;border-top:1px solid #000000;}
-.totalrow td div {padding:5px 0;font-size:16px !important;}
+
+.totalrow {
+    font-weight: bold;
+    background-color: #ffffff !important;
+    border-top: 1px solid #000000;
+}
+
+    .totalrow td div {
+        padding: 5px 0;
+        font-size: 16px !important;
+    }
+
 td div.row1 {
     font-size: 14px;
-    padding: 15px 0px 15px 0px;
+    padding: 5px 0px 5px 0px;
 }
-    /*td div.rotate {
+/*td div.rotate {
         transform:
         translate(25px, 51px)
         rotate(315deg);
@@ -51,11 +113,39 @@ td div.row1 {
         border-bottom: 1px solid #ccc;
         padding: 5px 10px;
     }*/
-td div.row2 {padding:0 0 0 10px;min-height: 16px;}
-td div.row3 {padding:0 0 0 20px;min-height: 16px;}
-td div.row4 {padding:0 0 0 30px;min-height: 16px;}
+td div.row2 {
+    padding: 0 0 0 10px;
+    min-height: 16px;
+}
+
+td div.row3 {
+    padding: 0 0 0 20px;
+    min-height: 16px;
+}
+
+td div.row4 {
+    padding: 0 0 0 30px;
+    min-height: 16px;
+}
 /*tbody tr td {border: 1px solid black;}*/
-tr td div {padding: 5px 0px 5px 0px; min-height: 16px;}
-.exportedcaption {font-weight:bold;font-size:16px;}
-.body tfoot tr {border-top: 1px solid black;}
-.body tfoot td > div {line-height:16px;vertical-align:middle;font-size:14px;padding: 10px 0;font-weight: bold;}
+tr td div {
+    padding: 5px 0px 5px 0px;
+    min-height: 16px;
+}
+
+.exportedcaption {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.body tfoot tr {
+    border-top: 1px solid black;
+}
+
+.body tfoot td > div {
+    line-height: 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 10px 0;
+    font-weight: bold;
+}

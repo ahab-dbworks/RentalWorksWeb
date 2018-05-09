@@ -375,4 +375,4 @@ var Deal = (function () {
     return Deal;
 }());
 var DealController = new Deal();
-//# sourceMappingURL=Deal.js.map
+//# sourceMappingURL=deal.js.map

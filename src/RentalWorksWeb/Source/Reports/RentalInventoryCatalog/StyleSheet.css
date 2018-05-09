@@ -8,6 +8,28 @@
     text-align: left;
     background-color: #fff;
 }
+.body tbody tr[data-rowtype="warehouseheader"] {
+    background-color: #bdbdbd;
+}
+.body tbody tr[data-rowtype="warehousefooter"],
+tr[data-rowtype="inventorydepartmentfooter"],
+tr[data-rowtype="categoryfooter"] {
+    font-weight: bold;
+    font-size: 1em;
+}
+.body tbody tr[data-rowtype="warehouseheader"],
+tr[data-rowtype="inventorydepartmentheader"],
+tr[data-rowtype="categoryheader"] {
+    background-color: #D3D3D3;
+}
+
+    .body tbody tr[data-rowtype="warehouseheader"] span,
+    tr[data-rowtype="inventorydepartmentheader"] span,
+    tr[data-rowtype="categoryheader"] span{
+        font-size: 1.2em;
+        text-decoration: underline;
+        font-weight: bold;
+    }
     .body thead td div {
         min-width: 72px;
         font-size: 14px;
@@ -40,7 +62,7 @@
 .totalrow td div {padding:5px 0;font-size:16px !important;}
 td div.row1 {
     font-size: 14px;
-    padding: 15px 0px 15px 0px;
+    padding: 5px 0px 5px 0px;
 }
     /*td div.rotate {
         transform:

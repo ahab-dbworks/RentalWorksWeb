@@ -63,7 +63,7 @@ namespace Web.Source.Reports
 
             select = new FwSqlSelect();
 
-            select.Add("select warehouse, inventorydepartment, category, masterno, master, classdesc, trackedby, qtyowned, dailyrate, weeklyrate, monthlyrate, replacementcost ");
+            select.Add("select rowtype='detail', warehouse, inventorydepartment, category, masterno, master, classdesc, trackedby, qtyowned, dailyrate, weeklyrate, monthlyrate, replacementcost ");
             select.Add("from inventorycatalogrptview m with (nolock)");
 
             select.Parse();
@@ -102,7 +102,12 @@ namespace Web.Source.Reports
             select.AddOrderBy("m.warehouse, departmentorderby, categoryorderby, subcategoryorderby, m.masterorderby, m.masterno");
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
-            
+
+            dtDetails.InsertSubTotalRows("warehouse", "rowtype", new string[] { "qtyowned" });
+            dtDetails.InsertSubTotalRows("inventorydepartment", "rowtype", new string[] { "qtyowned" });
+            dtDetails.InsertSubTotalRows("category", "rowtype", new string[] { "qtyowned" });
+            dtDetails.InsertTotalRow("rowtype", "detail", "grandtotal", new string[] { "qtyowned" });
+
             return dtDetails;
         }
         //---------------------------------------------------------------------------------------------

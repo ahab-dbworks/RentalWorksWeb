@@ -50,10 +50,10 @@
       {{#details}}
       <tr data-rowtype={{rowtype}}>
         <td>
-          <div class="row1">{{location}}</div>
+          <div class="row1"><span>{{location}}</span></div>
         </td>
         <td>
-          <div class="row1">{{department}}</div>
+          <div class="row1"><span>{{department}}</span></div>
         </td>
         <td>
           <div class="row1">{{invoiceno}}</div>
@@ -62,41 +62,31 @@
           <div class="row1">{{orderno}}</div>
         </td>
         <td>
-          <div class="row1">{{invoicedate}}</div>
+          <div class="row1 date">{{invoicedate}}</div>
         </td>
         <td>
-          <div class="row1">{{customer}}</div>
+          <div class="row1"><span>{{customer}}</span></div>
         </td>
         <td>
-          <div class="row1">{{deal}}</div>
+          <div class="row1"><span>{{deal}}</span></div>
         </td>
         <td>
           <div class="row1">{{invoicedesc}}</div>
         </td>
         <td>
-          <div class="row1">{{billingstart}}</div>
+          <div class="row1 date">{{billingstart}}</div>
         </td>
         <td>
-          <div class="row1">{{billingend}}</div>
+          <div class="row1 date">{{billingend}}</div>
         </td>
         <td>
           <div class="row1">{{periodtype}}</div>
         </td>
         <td>
-          <div class="row1" style="text-align:right;">{{invoicetotal}}</div>
+          <div class="row1 total" style="text-align:right;">{{invoicetotal}}</div>
         </td>
       </tr>
       {{/details}}
     </tbody>
-    <tfoot>
-      <!--<tr>
-          <td colspan="3">
-              <div class="row1">[TotalRows]</div>
-          </td>
-          <td colspan="2">
-            <div class="row1">[Total]</div>
-          </td>
-      </tr>-->
-    </tfoot>
   </table>
 </div>

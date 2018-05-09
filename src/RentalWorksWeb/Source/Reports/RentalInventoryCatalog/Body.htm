@@ -14,7 +14,7 @@
           <div>Category</div>
         </td>
         <td>
-          <div>I-Code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+          <div>I-Code</div>
         </td>
         <td>
           <div>Description</div>
@@ -49,15 +49,15 @@
     </thead>
     <tbody>
       {{#details}}
-      <tr>
+      <tr data-rowtype={{rowtype}}>
         <td>
-          <div class="row1">{{warehouse}}</div>
+          <div class="row1"><span>{{warehouse}}</span></div>
         </td>
         <td>
-          <div class="row1">{{inventorydepartment}}</div>
+          <div class="row1"><span>{{inventorydepartment}}</span></div>
         </td>
         <td>
-          <div class="row1">{{category}}</div>
+          <div class="row1"><span>{{category}}</span></div>
         </td>
         <td>
           <div class="row1">{{masterno}}</div>

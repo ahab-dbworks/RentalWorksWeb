@@ -2,6 +2,22 @@
 [applicationstylesheet]
 /*.body {page-break-after: always;}*/
 .body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
+.body tbody tr[data-rowtype="locationheader"] {
+    background-color: #bdbdbd;
+}
+.body tbody tr[data-rowtype="customerheader"] {
+    background-color: #D3D3D3;
+}
+.body tbody tr[data-rowtype="customerfooter"] {
+    font-size: 1em;
+    font-weight: bold;
+}
+.body tbody tr[data-rowtype="locationheader"] span,
+tr[data-rowtype="customerheader"] span {
+    font-size: 1.2em;
+    text-decoration: underline;
+    font-weight: bold;
+}
 .body .header {position:relative;}
 .body thead td{
     border-bottom: 1px solid black;
@@ -31,6 +47,7 @@
     text-align: right;
     padding: 5px 0px 5px 0px;
 }
+
 
 ​ .location {
     font-weight: bold;

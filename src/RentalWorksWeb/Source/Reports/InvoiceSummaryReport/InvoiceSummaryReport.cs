@@ -53,7 +53,7 @@ namespace Web.Source.Reports
             qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
             select = new FwSqlSelect();
 
-            select.Add("select location, department, invoiceno, orderno, invoicedate, customer, deal, invoicedesc, billingstart, billingend, periodtype, invoicetotal  ");
+            select.Add("select rowtype='detail', location, department, invoiceno, orderno, invoicedate, customer, deal, invoicedesc, billingstart, billingend, periodtype, invoicetotal  ");
             select.Add(" from  invoicesummaryrptview");
             select.Add("order by location, department, customer, deal");
 
@@ -97,6 +97,13 @@ namespace Web.Source.Reports
           
 
             dtDetails = qry.QueryToFwJsonTable(select, true);
+
+            dtDetails.InsertSubTotalRows("location", "rowtype", new string[] { "invoicetotal" });
+            dtDetails.InsertSubTotalRows("department", "rowtype", new string[] { "invoicetotal" });
+            dtDetails.InsertSubTotalRows("customer", "rowtype", new string[] { "invoicetotal" });
+            dtDetails.InsertSubTotalRows("deal", "rowtype", new string[] { "invoicetotal" });
+            dtDetails.InsertTotalRow("rowtype", "detail", "grandtotal", new string[] { "invoicetotal" });
+
             for (int i = 0; i < dtDetails.Rows.Count; i++)
             {
                 dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["invoicedate"]]));

@@ -41,6 +41,8 @@ class RwInvoiceSummaryReport {
             return request;
         });
 
+       
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -54,7 +56,9 @@ class RwInvoiceSummaryReport {
         const location = JSON.parse(sessionStorage.getItem('location'));
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid,  department.department);
-        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid,  location.location);
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+
+        
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
