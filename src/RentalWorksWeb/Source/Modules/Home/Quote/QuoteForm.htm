@@ -447,10 +447,10 @@
         </div>
         <div class="formrow">
           <div class="formcolumn rentaltotals" style="width:auto; float:right;">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="D/W" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals RentalDaysPerWeek" data-caption="D/W" data-datafield="RentalDaysPerWeek" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="RentalDiscountPercent" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="PeriodRentalTotal" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="PeriodRentalTotalIncludesTax" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bill Locked Total" data-datafield="" data-totalfield="" style="width:200px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="GrossTotal" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="Discount" style="width:100px; float:left"></div>
@@ -469,8 +469,7 @@
         </div>
         <div class="formrow">
           <div class="formcolumn salestotals" style="width:auto;">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="D/W" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="SalesDiscountPercent" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bill Locked Total" data-datafield="" data-totalfield="" style="width:200px; float:left"></div>
@@ -491,10 +490,9 @@
         </div>
         <div class="formrow">
           <div class="formcolumn labortotals" style="width:auto; float:right;">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="D/W" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="LaborDiscountPercent" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="PeriodLaborTotalIncludesTax" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bill Locked Total" data-datafield="" data-totalfield="" style="width:200px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="GrossTotal" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="Discount" style="width:100px; float:left"></div>
@@ -513,8 +511,7 @@
         </div>
         <div class="formrow">
           <div class="formcolumn misctotals" style="width:auto; float:right;">
-            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="D/W" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
-            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
+            <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals" data-caption="Disc. %" data-datafield="MiscDiscountPercent" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-digits="2" data-enabled="false" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="w/ Tax" data-datafield="" data-totalfield="" style="width:100px; float:left"></div>
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Bill Locked Total" data-datafield="" data-totalfield="" style="width:200px; float:left"></div>

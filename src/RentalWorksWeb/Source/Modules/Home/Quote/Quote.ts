@@ -206,6 +206,15 @@ class Quote {
             }
         });
 
+        //RateType change affecting DaysPerWeek field in rental tab
+        $form.find('.RateType').on('change', $tr => {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+                $form.find(".RentalDaysPerWeek").show();
+            } else {
+                $form.find(".RentalDaysPerWeek").hide();
+            }
+        });
+
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -547,6 +556,13 @@ class Quote {
         } else {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
+        }
+
+        // Display D/W field in rental
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+        } else {
+            $form.find(".RentalDaysPerWeek").hide();
         }
     };
 

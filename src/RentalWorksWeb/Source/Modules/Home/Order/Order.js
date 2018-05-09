@@ -175,6 +175,14 @@ var Order = (function () {
                 $form.find(".BillingWeeks").show();
             }
         });
+        $form.find('.RateType').on('change', function ($tr) {
+            if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+                $form.find(".RentalDaysPerWeek").show();
+            }
+            else {
+                $form.find(".RentalDaysPerWeek").hide();
+            }
+        });
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -643,6 +651,12 @@ var Order = (function () {
         else {
             $form.find(".BillingMonths").hide();
             $form.find(".BillingWeeks").show();
+        }
+        if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+        }
+        else {
+            $form.find(".RentalDaysPerWeek").hide();
         }
     };
     ;
