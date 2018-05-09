@@ -194,6 +194,10 @@ class SearchInterface {
         inventoryTypeRequest.uniqueids = {
             Rental: true
         }
+        inventoryTypeRequest.searchfieldoperators = ["<>"];
+        inventoryTypeRequest.searchfields = ["Inactive"];
+        inventoryTypeRequest.searchfieldvalues = ["T"];
+
         var categoryType = 'rentalcategory',
             availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
 
@@ -384,7 +388,11 @@ class SearchInterface {
                         InventoryTypeId: inventoryTypeId
                     }
                     break;
+                
             }
+            typeRequest.searchfieldoperators = ["<>"];
+            typeRequest.searchfields = ["Inactive"];
+            typeRequest.searchfieldvalues = ["T"];
 
             FwAppData.apiMethod(true, 'POST', "api/v1/" + categoryType + "/browse", typeRequest, FwServices.defaultTimeout, function onSuccess(response) {
                 var categoryIdIndex = response.ColumnIndex.CategoryId;
@@ -454,6 +462,10 @@ class SearchInterface {
                     subCatListRequest.RecType = "P";
                     break;
             }
+
+            //subCatListRequest.searchfieldoperators = ["<>"];
+            //subCatListRequest.searchfields = ["Inactive"];
+            //subCatListRequest.searchfieldvalues = ["T"];
 
             //load sub-categories list
             FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
@@ -536,7 +548,10 @@ class SearchInterface {
             subCategoryIndex = response.ColumnIndex.SubCategory,
             classificationIndex = response.ColumnIndex.Classification;
 
-  
+        if (response.Rows.length == 0) {
+            $popup.find('.inventory').append('<div style="text-align:center; padding-top:100px; font-weight: bold;">No Results</div>');
+        }
+
         for (var i = 0; i < response.Rows.length; i++) {
 
             var html = [];
