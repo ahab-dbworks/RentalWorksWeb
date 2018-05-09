@@ -135,7 +135,7 @@ var Order = (function () {
         return $menuObject;
     };
     ;
-    Order.prototype.openForm = function (mode) {
+    Order.prototype.openForm = function (mode, parentModuleInfo) {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
         $form = FwModule.openForm($form, mode);
@@ -231,6 +231,9 @@ var Order = (function () {
             { value: 'SHIP', text: 'Ship' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
+        if (typeof parentModuleInfo !== 'undefined') {
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+        }
         return $form;
     };
     ;

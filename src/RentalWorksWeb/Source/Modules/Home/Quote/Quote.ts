@@ -160,7 +160,7 @@ class Quote {
     };
 
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string) {
+    openForm(mode: string, parentModuleInfo?: any) {
         var $form;
 
         $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
@@ -271,6 +271,10 @@ class Quote {
             { value: 'SHIP', text: 'Ship' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
+
+        if (typeof parentModuleInfo !== 'undefined') {
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+        }
 
         return $form;
     };

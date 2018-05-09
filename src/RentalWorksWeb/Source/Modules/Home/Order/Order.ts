@@ -149,7 +149,7 @@ class Order {
     };
 
     //----------------------------------------------------------------------------------------------
-    openForm(mode) {
+    openForm(mode, parentModuleInfo?: any) {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
 
         $form = jQuery(jQuery('#tmpl-modules-OrderForm').html());
@@ -268,6 +268,10 @@ class Order {
             { value: 'SHIP', text: 'Ship' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
+		
+        if (typeof parentModuleInfo !== 'undefined') { 
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal); 
+        } 
 
         return $form;
     };

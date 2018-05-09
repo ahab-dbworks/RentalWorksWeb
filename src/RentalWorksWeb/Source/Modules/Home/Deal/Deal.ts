@@ -377,6 +377,32 @@ class Deal {
 
         $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order').append($submoduleOrderBrowse);
+
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $quoteForm, controller, $browse, quoteFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            quoteFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            quoteFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+            FwModule.openSubModuleTab($browse, $quoteForm);
+        });
+
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $orderForm, controller, $browse, orderFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            orderFormData.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            orderFormData.Deal = FwFormField.getValueByDataField($form, 'Deal');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+            FwModule.openSubModuleTab($browse, $orderForm);
+        });
         //$defaultrate = $form.find('.defaultrate');
         //FwFormField.loadItems($defaultrate, [
         //    { value: 'DAILY', text: 'Daily Rate' }
