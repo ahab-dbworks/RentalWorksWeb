@@ -23,8 +23,9 @@ tr[data-rowtype="locationheader"] .total {
     visibility: hidden;
 }
 
-.body tbody tr[data-rowtype="locationheader"] {
-    background-color: #bdbdbd;
+.body tbody tr[data-rowtype="locationheader"],
+tr[data-rowtype="locationfooter"] {
+    background-color: #7e7e7e;
 }
 
 .body tbody tr[data-rowtype="customerfooter"],
@@ -35,10 +36,19 @@ tr[data-rowtype="locationfooter"] {
     font-size: 1em;
 }
 
+.body tbody tr[data-rowtype="departmentheader"],
+tr[data-rowtype="departmentfooter"] {
+    background-color: #939393;
+}
+
 .body tbody tr[data-rowtype="customerheader"],
-tr[data-rowtype="dealheader"],
-tr[data-rowtype="departmentheader"] {
-    background-color: #D3D3D3;
+tr[data-rowtype="customerfooter"] {
+    background-color: #a8a8a8;
+}
+
+.body tbody tr[data-rowtype="dealheader"],
+tr[data-rowtype="dealfooter"] {
+    background-color: #bdbdbd;
 }
     .body tbody tr[data-rowtype="customerheader"] span,
     tr[data-rowtype="locationheader"] span,

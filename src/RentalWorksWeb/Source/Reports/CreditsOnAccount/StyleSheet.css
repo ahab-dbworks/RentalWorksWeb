@@ -1,11 +1,13 @@
-﻿/* Invoice Summary Report */
+﻿/* Credits on Account Report */
 [applicationstylesheet]
 /*.body {page-break-after: always;}*/
 .body tbody tr[data-rowtype="totals"] div{font-weight:bold;}
-.body tbody tr[data-rowtype="locationheader"] {
+.body tbody tr[data-rowtype="locationheader"],
+tr[data-rowtype="locationfooter"] {
     background-color: #bdbdbd;
 }
-.body tbody tr[data-rowtype="customerheader"] {
+.body tbody tr[data-rowtype="customerheader"],
+tr[data-rowtype="customerfooter"] {
     background-color: #D3D3D3;
 }
 .body tbody tr[data-rowtype="customerfooter"] {
