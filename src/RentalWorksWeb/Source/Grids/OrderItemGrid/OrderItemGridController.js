@@ -12,6 +12,7 @@ var OrderItemGrid = (function () {
             }
             var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
             var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            var warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
             if ($generatedtr.hasClass("newmode")) {
                 $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
                 if ($form[0].dataset.controller !== "TemplateController") {
@@ -22,8 +23,8 @@ var OrderItemGrid = (function () {
                 $generatedtr.find('.field[data-browsedatafield="SubQuantity"] input').val("0");
                 $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
                 $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
-                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse);
-                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouse);
+                $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
+                $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
             }
         });
     };
