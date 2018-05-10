@@ -9,7 +9,7 @@
     font-weight: normal;
     font-style: normal;
 }
-.bgothm {font-family:bgothm;}
+.bgothm {font-family:bgothm;display:inline;cursor:pointer;}
 /***************************
 Master
 ***************************/

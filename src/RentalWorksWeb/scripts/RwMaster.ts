@@ -3,7 +3,7 @@
     getUserControl($context: JQuery) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
 
-        this.buildDashboard($context);
+        //this.buildDashboard($context);
         this.buildOfficeLocation($context);
 
         // Add SystemBarControl: User Name
@@ -223,17 +223,17 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    buildDashboard($usercontrol: JQuery<HTMLElement>) {
-        var $dashboard, $userControl;
+    //buildDashboard($usercontrol: JQuery<HTMLElement>) {
+    //    var $dashboard, $userControl;
     
-        $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
+    //    $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
 
-        $dashboard.on('click', function () {
-            try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
-        });
+    //    $dashboard.on('click', function () {
+    //        try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
+    //    });
 
-        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
-    }
+    //    FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
+    //}
     //----------------------------------------------------------------------------------------------
 }
 var masterController: RwMaster = new RwMaster();

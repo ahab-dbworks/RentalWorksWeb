@@ -31,9 +31,9 @@
 
             var moduleTemplates = {};
             var moduleArray = [];
-            console.log(node);
-            console.log(modules);
-            console.log(moduleMenu);
+            //console.log(node);
+            //console.log(modules);
+            //console.log(moduleMenu);
 
             for (var i = 0; i < node.children.length; i++) {
                 if (node.children[i].properties.nodetype === 'SettingsModule') {
