@@ -16,13 +16,19 @@ tr[data-rowtype="locationfooter"] .date {
     visibility: hidden;
 }
 
-tr[data-rowtype="dealheader"] .total,
-tr[data-rowtype="customerheader"] .total,
-tr[data-rowtype="departmentheader"] .total,
-tr[data-rowtype="locationheader"] .total {
+tr[data-rowtype="dealheader"] .total div,
+tr[data-rowtype="customerheader"] .total div,
+tr[data-rowtype="departmentheader"] .total div,
+tr[data-rowtype="locationheader"] .total div{
     visibility: hidden;
 }
 
+tr[data-rowtype="dealfooter"] .total,
+tr[data-rowtype="customerfooter"] .total,
+tr[data-rowtype="departmentfooter"] .total,
+tr[data-rowtype="locationfooter"] .total {
+    border-top: 2px solid black;
+}
 .body tbody tr[data-rowtype="locationheader"],
 tr[data-rowtype="locationfooter"] {
     background-color: #7e7e7e;
@@ -35,6 +41,7 @@ tr[data-rowtype="locationfooter"] {
     font-weight: bold;
     font-size: 1em;
 }
+
 
 .body tbody tr[data-rowtype="departmentheader"],
 tr[data-rowtype="departmentfooter"] {

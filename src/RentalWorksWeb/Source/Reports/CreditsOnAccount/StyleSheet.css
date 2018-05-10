@@ -10,10 +10,17 @@ tr[data-rowtype="locationfooter"] {
 tr[data-rowtype="customerfooter"] {
     background-color: #D3D3D3;
 }
-.body tbody tr[data-rowtype="customerfooter"] {
-    font-size: 1em;
-    font-weight: bold;
-}
+    .body tbody tr[data-rowtype="customerfooter"],
+    tr[data-rowtype="locationfooter"]{
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .body tbody tr[data-rowtype="customerfooter"] .total,
+    tr[data-rowtype="locationfooter"] .total {
+        border-top: 2px solid black;
+    }
+
 .body tbody tr[data-rowtype="locationheader"] span,
 tr[data-rowtype="customerheader"] span {
     font-size: 1.2em;

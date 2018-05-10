@@ -26,6 +26,9 @@ tr[data-rowtype="inventorydepartmentfooter"] {
 tr[data-rowtype="categoryfooter"] {
     background-color: #D3D3D3;
 }
+.body tbody tr[data-rowtype="categoryfooter"] .total{
+    border-top: 2px solid black;
+}
 
     .body tbody tr[data-rowtype="warehouseheader"] span,
     tr[data-rowtype="inventorydepartmentheader"] span,
