@@ -105,7 +105,7 @@ class SearchInterface {
         searchhtml.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
         searchhtml.push('                 </div>');
 
-        searchhtml.push('                 <div class="inventory" style="overflow:visible">');
+        searchhtml.push('                 <div class="inventory" style="overflow:auto">');
 
         searchhtml.push('                 </div>');
         searchhtml.push('            </div>');
@@ -483,6 +483,11 @@ class SearchInterface {
             //subCatListRequest.searchfieldvalues = ["T"];
 
             //load sub-categories list
+
+            delete request.SubCategoryId;
+            request.CategoryId = categoryId;
+            request.InventoryTypeId = inventoryTypeId;
+
             FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
                 var subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
                 var subCategoryIndex = response.ColumnIndex.SubCategory;
@@ -495,17 +500,24 @@ class SearchInterface {
                         $popup.find('#subCategory').append('<ul style="cursor:pointer; padding:10px 10px 10px 15px; margin:1px;" data-value="' + response.Rows[i][subCategoryIdIndex] + '">' + response.Rows[i][subCategoryIndex] + '</ul>');
                     }
                 }
-            }, null, $searchpopup);
 
-            //load categories inventory
-            delete request.SubCategoryId;
-            request.CategoryId = categoryId;
-            request.InventoryTypeId = inventoryTypeId;
+                let hasSubCategories = false;
+                if (response.Rows.length > 0) {
+                     hasSubCategories = true;
+                }
 
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                $popup.find('.inventory').empty();
-                SearchInterfaceController.renderInventory($popup, response, false);
+                if (hasSubCategories == false) {
+                    //load categories inventory
+                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('.inventory').empty();
+                        SearchInterfaceController.renderInventory($popup, response, false);
+                    }, null, $searchpopup);
+
+                } else {
+                    $popup.find('.inventory').empty();
+                }
             }, null, $searchpopup);
+   
 
             self.subCategoryOnClickEvents($popup, request);
         });
@@ -570,7 +582,7 @@ class SearchInterface {
         for (var i = 0; i < response.Rows.length; i++) {
 
             var html = [];
-            //html.push('<div class="cardContainer" style="float:left; width:235px;">');
+            html.push('<div class="cardContainer">');
             html.push('<div class="card">');
             html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
             html.push('<div class="desccontainer">')
@@ -599,12 +611,12 @@ class SearchInterface {
             html.push('<div data-control="FwFormField" data-type="number" data-datafield="Quantity" data-caption="Qty" class="fwcontrol fwformfield"></div>');
             html.push('</div>');
 
-            //if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-            //    html.push('<div class="accContainer" style="float:left; width:225px;">');
+            if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
+                html.push('<div class="accContainer" style="float:left; width:90%; display:none">');
 
-            //    html.push('</div>');
-            //}
-            //html.push('</div>');
+                html.push('</div>');
+            }
+            html.push('</div>');
             var item = html.join('');
             $popup.find('.inventory').append(item);
             var $card = $popup.find('.inventory > div:last');
@@ -646,15 +658,16 @@ class SearchInterface {
             allWH = $inventory.find('[data-datafield="AllWH"]'),
             descContainer = $inventory.find('.desccontainer'),
             quantityContainer = $inventory.find('.quantitycontainer'),
-            accessoryContainer = $inventory.find('.accContainer');
+            accessoryContainer = $inventory.find('.accContainer'),
+            cardContainer = $inventory.find('.cardContainer');
         switch (viewType) {
             case 'gridView':
-                //cardContainer.css({ 'float': 'left', 'width': '245px' });
+                //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 allWH.hide();
-                $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '300px', 'float': 'left', 'padding': '10px', 'margin': '8px' }); 
-                card.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
+                //card.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px',  });
                 descContainer.css({ 'width': '', 'float': '' });
-                description.css({ 'height': '15%', 'width': '', 'padding-bottom': '5px', 'float': '' });
+                description.css({ 'height': '15%', 'width': '', 'padding-top': '', 'padding-bottom': '5px', 'float': '' });
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '125px', 'height': '175px', 'line-height': '175px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
@@ -663,18 +676,19 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'right', 'width': '45px' });
                 accessories.css({ 'float': 'right', 'padding': '10px 5px 10px 0', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'padding-top': '20px', 'width': '90px' });
-                quantity.css({ 'float': 'right', 'width': '90px' });
+                rate.css({ 'float': 'left', 'padding-top': '20px', 'width': '90px', 'position': 'absolute', 'bottom': '10px' });
+                quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px' });
                 quantityContainer.css({ 'float': 'right' });
                 //accessoryContainer.css({ 'float': 'left', 'width': '225px', 'height': 'auto', 'padding-top': '20px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition':'0.3s' });
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
             case 'listView':
-                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                //cardContainer.css({ 'float': 'left', 'width': 'auto' });
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
+                //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '', 'float': '' });
-                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%' });
+                description.css({ 'float': 'left', 'padding-top': '15px', 'width': '35%', 'padding-bottom': '' });
                 imageFrame.hide();
                 //image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 quantityAvailable.css({ 'float': 'left', 'width': '75px' });
@@ -684,17 +698,18 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '' });
-                quantity.css({ 'float': 'right', 'width': '90px' });
+                rate.css({ 'float': 'left', 'width': '90px', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'right', 'width': '90px', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
                 break;
             case 'listGridView':
-                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
-                card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px' });
+                //cardContainer.css({ 'float': 'left', 'width': 'auto' });
+                $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
+                //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 descContainer.css({ 'width': '40%', 'float': 'left' });
-                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%' });
+                description.css({ 'float': 'right', 'padding-top': '15px', 'width': '75%', 'padding-bottom': '' });
                 imageFrame.show();
                 imageFrame.css({ 'float': 'left', 'width': '60px', 'height': '70px', 'line-height': '100px', 'display': 'inline-block', 'position': 'relative' });
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
@@ -705,8 +720,8 @@ class SearchInterface {
                 quantityIn.css({ 'float': 'left', 'width': '45px' });
                 quantityQcRequired.css({ 'float': 'left', 'width': '45px' });
                 accessories.css({ 'float': 'left', 'padding': '20px 15px 10px 15px', 'font-size': '.9em', 'color': 'blue' });
-                rate.css({ 'float': 'left', 'width': '80px', 'padding-top': '' });
-                quantity.css({ 'float': 'right', 'width': '80px' });
+                rate.css({ 'float': 'left', 'width': '80px', 'padding-top': '', 'position': '', 'bottom': '', 'right': '' });
+                quantity.css({ 'float': 'right', 'width': '80px', 'position': '', 'bottom': '', 'right': '' });
                 quantityContainer.css({ 'float': 'left' });
                 //$inventory.removeClass('listView', 'gridView');
                 //$inventory.addClass('listGridView');
@@ -763,11 +778,11 @@ class SearchInterface {
         var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         var request: any = {};
         var self = this;
-        $popup.on('mouseenter', '.inventory > div', function () {
+        $popup.on('mouseenter', '.inventory > .card', function () {
             jQuery(this).css('box-shadow', '0 10px 18px 0 rgba(0, 0, 0, 0.2)');
         });
 
-        $popup.on('mouseleave', '.inventory > div', function (e) {
+        $popup.on('mouseleave', '.inventory > .card', function (e) {
             var selected = jQuery(e.currentTarget).hasClass('selected');
             if (selected) {
                 jQuery(e.currentTarget).css('box-shadow', '0 12px 20px 0 rgba(0,0,153,0.2)');
@@ -777,9 +792,9 @@ class SearchInterface {
 
         });
 
-        $popup.on('click', '.inventory > div', function (e) {
-            $popup.find('.inventory > div').removeClass('selected');
-            $popup.find('.inventory > div').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
+        $popup.on('click', '.inventory > .card', function (e) {
+            $popup.find('.inventory > .card').removeClass('selected');
+            $popup.find('.inventory > .card').css('box-shadow', '0 4px 8px 0 rgba(0,0,0,0.2)');
 
             jQuery(e.currentTarget).addClass('selected');
 
@@ -889,31 +904,59 @@ class SearchInterface {
         });
 
 
-        //$popup.on('click', '.accList', function (e) {
-        //    let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
-        //    let cardContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.card');
-        //    let request: any = {};
-        //    let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
-        //    request.uniqueids = {
-        //        PackageId: inventoryId
-        //    };
+        $popup.on('click', '.accList', function (e) {
+            let accessoryContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer');
+            let cardContainer = jQuery(e.currentTarget).parents('.cardContainer').find('.card');
+            let request: any = {};
+            let inventoryId = jQuery(e.currentTarget).parents('.card').find('[data-datafield="InventoryId"] input').val();
+            request.uniqueids = {
+                PackageId: inventoryId
+            };
 
-        //    if (!(accessoryContainer.find('.accItem').length)) {
-        //        accessoryContainer.append('<div class="accList" style="font-size: .9em; color: blue; text-align:center;">Accessories</div>');
-        //        FwAppData.apiMethod(true, 'POST', "api/v1/inventorypackageinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
-        //            let descriptionIndex = response.ColumnIndex.Description;
-        //            for (var i = 0; i < response.Rows.length; i++) {
-        //                accessoryContainer.append('<div class="accItem">' + response.Rows[i][descriptionIndex] + '</div>');
-        //            }
-        //        }, null, null);
+            var html = [];
+            if (!(accessoryContainer.find('.accItem').length)) {
+                html.push('<div style="width:100%">');
+                html.push(' <div class="accList" style="font-size: 1.2em; color: blue; text-align:center; text-decoration: underline">Accessories</div>');
+                html.push('     <div style="width:50%; float:left;">Description</div>');
+                html.push('     <div style="width:10%; float:left;"> Qty </div>');
+                html.push('     <div style="width:10%; float:left;"> In </div>');
+                html.push('     <div style="width:10%; float:left;"> Avail</div>');
+                html.push('     <div style="width:10%; float:left;"> Conflict </div>');
+                html.push('     <div style="width:10%; float:left;"> Note</div>');
+                html.push(' </div>');
+                html.push('</div>');
+                accessoryContainer.append(html.join(''));
 
-        //        accessoryContainer.css({ 'float': 'left', 'width': '225px', 'height': 'auto', 'margin-top': '30px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition': '0.3s' });
-        //        cardContainer.slideToggle();
-        //    } else {
-        //        cardContainer.slideToggle();
-        //        accessoryContainer.slideToggle();
-        //    }
-        //});
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorypackageinventory/browse", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    const descriptionIndex = response.ColumnIndex.Description;
+                    const qtyIndex = response.ColumnIndex.DefaultQuantity;
+                    let accHtml = [];
+                    //accHtml.push('<div >')
+
+                    for (var i = 0; i < response.Rows.length; i++) {
+
+                        accHtml.push('<div class="accItem" style="width:100%">');
+                        accHtml.push('  <div style="float:left; width:50%">' + response.Rows[i][descriptionIndex] + '</div>');
+                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
+                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');//placeholders
+                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
+                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
+                        accHtml.push('  <div style="float:left; width:10%">' + response.Rows[i][qtyIndex] + '</div>');
+                        accHtml.push('</div>');
+
+                    }
+
+                    accessoryContainer.append(accHtml.join(''));
+                }, null, null);
+
+                accessoryContainer.css({ 'float': 'left', 'height': 'auto', 'padding': '10px', 'margin-top': '20px', 'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)', 'transition': '0.3s' });
+                //cardContainer.slideToggle();
+                accessoryContainer.slideToggle();
+            } else {
+                //cardContainer.slideToggle();
+                accessoryContainer.slideToggle();
+            }
+        });
 
 
 
