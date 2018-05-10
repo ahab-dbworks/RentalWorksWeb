@@ -635,7 +635,7 @@ var Order = (function () {
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
         this.renderFrames($form);
-        FwFormField.disable($form.find('.totals'));
+        this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
         FwFormField.disable($form.find('[data-caption="Weeks"]'));
@@ -660,7 +660,19 @@ var Order = (function () {
         else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-        this.dynamicColumns($form);
+        $form.find('.RentalDaysPerWeek').on('blur', '.fwformfield-text, .fwformfield-value', function () {
+            var request = {};
+            var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            var discountPercent = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+            request.OrderId = orderId;
+            request.RecType = 'R';
+            request.DiscountPercent = discountPercent;
+            FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinedaysperweek/", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
     };
     ;
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {

@@ -729,7 +729,8 @@ class Order {
         }
 
         this.renderFrames($form);
-        FwFormField.disable($form.find('.totals'));
+        this.dynamicColumns($form);
+        //FwFormField.disable($form.find('.totals'));
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
@@ -758,7 +759,23 @@ class Order {
             $form.find(".RentalDaysPerWeek").hide();
         }
 
-        this.dynamicColumns($form);
+        // Bottom Line Totals
+        $form.find('.RentalDaysPerWeek').on('blur', '.fwformfield-text, .fwformfield-value', () => {
+
+            let request: any = {};
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let discountPercent = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+            request.OrderId = orderId;
+            request.RecType = 'R';
+            request.DiscountPercent = discountPercent;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwModule.refreshForm($form, self);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
+
     };
 
     //----------------------------------------------------------------------------------------------
@@ -787,6 +804,7 @@ class Order {
         $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(periodExtendedTotal + periodDiscountTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(periodExtendedTotal + taxTotal);
     };
+
 
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form) {
