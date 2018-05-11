@@ -152,6 +152,7 @@ class SearchInterface {
         previewhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         previewhtml.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
         previewhtml.push('                </div>');
+        previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
         previewhtml.push('</div>');
