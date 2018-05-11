@@ -58,6 +58,17 @@ class Order {
         FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
+
+
+        //var department = JSON.parse(sessionStorage.getItem('department'));;
+        //var location = JSON.parse(sessionStorage.getItem('location'));;
+
+        //FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/'+ department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
+        //    console.log(response);
+
+        //}, null, null);
+
+
         return $browse;
     };
 
@@ -924,6 +935,23 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     let $form = jQuery(this).closest('.fwform');
     let orderId = FwFormField.getValueByDataField($form, 'OrderId');
     let $popup = search.renderSearchPopup($form, orderId);
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
+    var $form, $report, orderNumber, orderId;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        orderNumber = $form.find('div.fwformfield[data-datafield="OrderNumber"] input').val();
+        orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+        $report = RwPrintOrderController.openForm();
+        FwModule.openSubModuleTab($form, $report);
+        $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
+        $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
+        jQuery('.tab.submodule.active').find('.caption').html('Print Order');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 
 //----------------------------------------------------------------------------------------------

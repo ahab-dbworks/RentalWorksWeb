@@ -63,9 +63,9 @@ namespace WebLibrary.Security
             AddModule("Rental Inventory", "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuWarehouse.Id, "RentalInventoryController", "module/rentalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuWarehouse.Id, "RepairController",          "module/repair",          homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory",  "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuWarehouse.Id, "SalesInventoryController",  "module/salesinventory",  homeiconbaseurl + "placeholder.png");
-
+           
             //Settings 
-            
+
             var lv1menuSettings      = AddLvl1SettingsMenu("Settings",        "{730C9659-B33B-493E-8280-76A060A07DCE}", application.Id);
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Chart of Accounts",           "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id,   "GlAccountController",                 "module/glaccount",                 settingsiconbaseurl + "placeholder.png");
@@ -233,6 +233,8 @@ namespace WebLibrary.Security
                                                        AddModule("Rental Inventory Catalog",     "{8840DE50-936E-4168-B061-A6092857A979}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryCatalogController",           "module/rentalinventorycatalog",          reportsiconbaseurl + "placeholder.png", "Rental Inventory Catalog", "", "");
             var lv2menuSalesInventoryReports  = AddLv2ModuleMenu("Sales Inventory Reports",      "{63978CEE-0A14-4926-AB15-88378B2F3A7A}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png", "Sales Inventory Reports");
                                                        AddModule("Sales Inventory Transactions", "{DEC28EAB-7D64-4A8C-ACBB-CB72706B818F}", lv2menuSalesInventoryReports.Id,  "RwSalesInventoryTransactionsReportController", "module/salesinventorytransactionreport", reportsiconbaseurl + "placeholder.png", "Sales Inventory Transactions", "", "");
+
+            AddModule("Print Order",           "{8B69F4A5-5617-45D1-84BB-E5ED6B2F031D}", null, "RwPrintOrderController", "module/printorder", homeiconbaseurl + "placeholder.png", "Print Order", "", "");
 
             // Add Utilities 
             AddModule("Dashboard",             "{DF8111F5-F022-40B4-BAE6-23B2C6CF3705}", lv1menuUtilities.Id, "DashboardController",         "module/dashboard",         utilitiesiconbaseurl + "placeholder.png");

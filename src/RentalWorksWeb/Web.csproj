@@ -38,7 +38,7 @@
     <RootNamespace>Web</RootNamespace>
     <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -768,11 +768,15 @@
     <Content Include="Source\Modules\Administrator\CustomFields\CustomFieldsForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
+    <TypeScriptCompile Include="Source\Reports\PrintOrder\RwPrintOrderController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
+    <Content Include="Source\Reports\PrintOrder\Body.htm" />
+    <Content Include="Source\Reports\PrintOrder\Footer.htm" />
+    <Content Include="Source\Reports\PrintOrder\FrontEnd.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
     <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
@@ -1097,6 +1101,8 @@
     <Content Include="Source\Reports\ChargeProcessing\Header.htm" />
     <Content Include="Source\Reports\ChargeProcessing\RwChargeProcessingController.js" />
     <Content Include="Source\Reports\ChargeProcessing\StyleSheet.css" />
+    <Content Include="Source\Reports\PrintOrder\Header.htm" />
+    <Content Include="Source\Reports\PrintOrder\StyleSheet.css" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\Body.htm" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\Footer.htm" />
     <Content Include="Source\Reports\SalesInventoryTransactionsReport\FrontEnd.htm" />
@@ -1465,6 +1471,7 @@
     <Compile Include="Source\Reports\InvoiceSummaryReport\InvoiceSummaryReport.cs" />
     <Compile Include="Source\Reports\PickListReport\PickListReport.cs" />
     <Compile Include="Source\Reports\DealOutstanding\DealOutstanding.cs" />
+    <Compile Include="Source\Reports\PrintOrder\PrintOrder.cs" />
     <Compile Include="Source\Reports\ReceiptProcessing\ReceiptProcessing.cs" />
     <Compile Include="Source\Reports\RentalInventoryCatalog\RentalInventoryCatalog.cs" />
     <Compile Include="Source\Reports\SalesInventoryTransactionsReport\SalesInventoryTransactionsReport.cs" />
