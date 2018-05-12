@@ -663,18 +663,47 @@ var Order = (function () {
         $form.find('.RentalDaysPerWeek').on('blur', '.fwformfield-text, .fwformfield-value', function () {
             var request = {};
             var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            var discountPercent = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
-            request.OrderId = orderId;
+            var daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+            request.DaysPerWeek = parseFloat(daysperweek);
             request.RecType = 'R';
-            request.DiscountPercent = discountPercent;
+            request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinedaysperweek/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwModule.refreshForm($form, self);
+                FwBrowse.search($orderItemGridRental);
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
         });
     };
     ;
+    Order.prototype.bottomLineDiscountChange = function (element) {
+        var $form;
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.openForm($form, 'EDIT');
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        var $element = jQuery(element);
+        var discountPercent = $element.find('.fwformfield-value').val();
+        discountPercent.slice(0, -1);
+        var recType = $element.attr('data-rectype');
+        var request = {};
+        var orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        request.DiscountPercent = parseFloat(discountPercent);
+        request.RecType = recType;
+        request.OrderId = orderId;
+        FwAppData.apiMethod(true, 'POST', "api/v1/order/applybottomlinediscountpercent/", request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGridRental);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
+    };
+    ;
+    Order.prototype.bottomLineTotalWithTaxChange = function (element) {
+        console.log(element);
+    };
+    ;
+    Order.prototype.bottomLineOrderGridTotalChange = function (element) {
+        console.log(element);
+    };
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
         var periodExtendedTotal = 0;
         var periodDiscountTotal = 0;

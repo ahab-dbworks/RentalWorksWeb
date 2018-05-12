@@ -770,24 +770,61 @@ class Order {
             $form.find(".RentalDaysPerWeek").hide();
         }
 
-        // Bottom Line Totals
+        // RentalDaysPerWeek API POST
         $form.find('.RentalDaysPerWeek').on('blur', '.fwformfield-text, .fwformfield-value', () => {
-
             let request: any = {};
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let discountPercent = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
-            request.OrderId = orderId;
+            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+         
+            request.DaysPerWeek = parseFloat(daysperweek);
             request.RecType = 'R';
-            request.DiscountPercent = discountPercent;
+            request.OrderId = orderId;
 
             FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwModule.refreshForm($form, self);
+                FwBrowse.search($orderItemGridRental);
             }, function onError(response) {
                 FwFunc.showError(response);
             }, $form);
         });
-
     };
+
+    //----------------------------------------------------------------------------------------------
+    bottomLineDiscountChange(element: any) {
+    // DiscountPercent for all OrderItemGrid -- event listener in HTML element
+        let $form;
+        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
+        $form = FwModule.openForm($form, 'EDIT');
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        let $element = jQuery(element);
+        let discountPercent: any = $element.find('.fwformfield-value').val();
+        discountPercent.slice(0, -1);
+        let recType = $element.attr('data-rectype');
+        let request: any = {};
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+        request.DiscountPercent = parseFloat(discountPercent);
+        request.RecType = recType;
+        request.OrderId = orderId;
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGridRental);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
+    };
+
+    
+
+    //----------------------------------------------------------------------------------------------
+    bottomLineTotalWithTaxChange(element) {
+        console.log(element)
+    };
+
+    //----------------------------------------------------------------------------------------------
+    bottomLineOrderGridTotalChange(element) {
+        console.log(element)
+    }
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
