@@ -792,23 +792,36 @@ class Order {
     bottomLineDiscountChange(element: any) {
     // DiscountPercent for all OrderItemGrid -- event listener in HTML element
         let $form;
-        $form = jQuery(jQuery('#tmpl-modules-' + this.Module + 'Form').html());
-        $form = FwModule.openForm($form, 'EDIT');
-        var $orderItemGridRental;
-        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        $form = jQuery(this).closest('.fwform');
+     
         let $element = jQuery(element);
         let discountPercent: any = $element.find('.fwformfield-value').val();
         discountPercent.slice(0, -1);
         let recType = $element.attr('data-rectype');
         let request: any = {};
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        //let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        console.log('orderid: ', $form.find('.OrderId input').val())
 
+        let $orderItemGrid;
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        console.log($orderItemGrid, 'grid')
         request.DiscountPercent = parseFloat(discountPercent);
         request.RecType = recType;
-        request.OrderId = orderId;
+        request.OrderId = "A000LW52";
 
         FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            FwBrowse.search($orderItemGridRental);
+            FwBrowse.search($orderItemGrid);
         }, function onError(response) {
             FwFunc.showError(response);
         }, $form);
@@ -818,13 +831,80 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange(element) {
+        let $form;
+        $form = jQuery(this).closest('.fwform');
+
+        let $element = jQuery(element);
+        let includeTaxInTotal: any = $element.find('.fwformfield-value').val();
+        
+        let recType = $element.attr('data-rectype');
+        let request: any = {};
+        //let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        console.log('orderid: ', $form.find('.OrderId input').val())
+
+        let $orderItemGrid;
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        console.log($orderItemGrid, 'grid')
+        request.IncludeTaxInTotal = parseFloat(includeTaxInTotal);
+        request.RecType = recType;
+        request.OrderId = "A000LW52";
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGrid);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
         console.log(element)
     };
 
     //----------------------------------------------------------------------------------------------
     bottomLineOrderGridTotalChange(element) {
-        console.log(element)
-    }
+        let $form;
+        $form = jQuery(this).closest('.fwform');
+
+        let $element = jQuery(element);
+        let Total: any = $element.find('.fwformfield-value').val();
+
+        let recType = $element.attr('data-rectype');
+        let request: any = {};
+        //let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        console.log('orderid: ', $form.find('.OrderId input').val())
+
+        let $orderItemGrid;
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        console.log($orderItemGrid, 'grid')
+        request.Total = parseFloat(Total);
+        request.RecType = recType;
+        request.OrderId = "A000LW52";
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGrid);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
+    };
 
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string) {
