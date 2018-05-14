@@ -1,5 +1,5 @@
 class SearchInterface {
-    renderSearchPopup($form, id) {
+    renderSearchPopup($form, id, type) {
         var self = this;
 
         var html = [];
@@ -9,51 +9,6 @@ class SearchInterface {
         html.push(' <div class="tabs"></div>');
         html.push(' <div class="tabpages"></div>');
         html.push('</div>');
-        //html.push('     <div id="breadcrumbs" class="fwmenu default" style="width:100%;height:5%; padding-left: 20px;">');
-        //html.push('         <div class="type" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        //html.push('         <div class="category" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        //html.push('         <div class="subcategory" style="float:left; cursor: pointer; font-weight: bold;"></div>');
-        //html.push('     </div>');
-
-        //html.push('     <div class="formrow" style="width:100%; position:absolute;">');
-        //html.push('              <div data-control="FwFormField" class="fwcontrol fwformfield" data-caption=" "  data-datafield="InventoryType" data-type="radio" style="width:30%; margin: 5px 0px 25px 35px; float:clear;">');
-        //html.push('                  <div data-value="R" data-caption="Rental" style="float:left; width:20%;"></div>');
-        //html.push('                  <div data-value="S" data-caption="Sales" style="float:left; width:20%;"></div>');
-        //html.push('                  <div data-value="L" data-caption="Labor" style="float:left; width:20%;"></div>');
-        //html.push('                  <div data-value="M" data-caption="Misc" style="float:left; width:20%;"></div>');
-        //html.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
-        //html.push('              </div>');
-
-        //html.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        //html.push('              </div>');
-
-        //html.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        //html.push('             </div>');
-
-        //html.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
-        //html.push('             </div>');
-
-        //html.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
-        //html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        //html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Start" data-datafield="FromDate" style="width:120px; float:left;"></div>');
-        //html.push('                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Est. Stop" data-datafield="ToDate" style="width:120px;float:left;"></div>');
-        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
-        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sort By" data-datafield="" style="width:150px;float:left;"></div>');
-        //html.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
-        //html.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
-        //html.push('                  </div>');
-        //html.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        //html.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:540px; float:left;"></div>');
-        //html.push('                      <div data-type="button" class="fwformcontrol listbutton" style="margin: 12px 6px 12px 60px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>');
-        //html.push('                      <div data-type="button" class="fwformcontrol listgridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>');
-        //html.push('                      <div data-type="button" class="fwformcontrol gridbutton" style="margin: 12px 6px 12px 6px; padding:0px 7px 0px 7px;"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>');
-        //html.push('                 </div>');
-
-
-        //html.push('                 <div class="inventory" style="overflow:auto">');
-
-        //html.push('                 </div>');
-        //html.push('            </div>');
 
         html.push('     <div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         html.push('</div>');
@@ -80,13 +35,13 @@ class SearchInterface {
         searchhtml.push('                  <div data-value="P" data-caption="Parts" style="float:left; width:20%;"></div>');
         searchhtml.push('              </div>');
 
-        searchhtml.push('              <div id="inventoryType" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('              <div id="inventoryType" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('              </div>');
 
-        searchhtml.push('             <div id="category" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             <div id="category" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
 
-        searchhtml.push('             <div id="subCategory" style="width:10%; margin: 5px 0px 0px 5px; float:left;">');
+        searchhtml.push('             <div id="subCategory" style="word-wrap: break-word; width:10%; margin: 5px 0px 0px 5px; float:left;">');
         searchhtml.push('             </div>');
 
         searchhtml.push('            <div style="width:65%; position:absolute; left: 35%; right: 5%;">')
@@ -96,7 +51,12 @@ class SearchInterface {
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="" style="width:150px;float:left;"></div>');
         searchhtml.push('                      <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="" style="width:180px;float:left;"></div>');
         //searchhtml.push('                      <div data-type="button" class="fwformcontrol preview" style="width:70px; float:left; margin:15px;">Preview</div>');
-        searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+        if (type == 'Order') {
+            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Order</div>');
+        } else {
+            searchhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:left; margin:15px;">Add to Quote</div>');
+}
+
         searchhtml.push('                  </div>');
         searchhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         searchhtml.push('                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Search" data-datafield="SearchBox" style="width:570px; float:left;"></div>');
@@ -260,26 +220,6 @@ class SearchInterface {
 
         var $searchpopup = jQuery('#searchpopup');
         var $descriptionField = $popup.find('[data-datafield="SearchBox"] input.fwformfield-value');
-        //$descriptionField.on('blur', function () {
-
-        //    var request: any = {
-        //        OrderId: id,
-        //        SessionId: id,
-        //        AvailableFor: availableFor,
-        //        WarehouseId: warehouseId,
-        //        ShowAvailability: true,
-        //        FromDate: fromDate,
-        //        ShowImages: true,
-        //        ToDate: toDate,
-        //        SearchText: $popup.find('[data-datafield="SearchBox"] input.fwformfield-value').val()
-        //    }
-
-        //    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-        //        $popup.find('.inventory').empty();
-        //        SearchInterfaceController.renderInventory($popup, response, false);
-        //    }, null, $searchpopup);
-
-        //});
 
         $descriptionField.on('keydown', function (e) {
             var code = e.keyCode || e.which;
@@ -478,10 +418,6 @@ class SearchInterface {
                     subCatListRequest.RecType = "P";
                     break;
             }
-
-            //subCatListRequest.searchfieldoperators = ["<>"];
-            //subCatListRequest.searchfields = ["Inactive"];
-            //subCatListRequest.searchfieldvalues = ["T"];
 
             //load sub-categories list
 
