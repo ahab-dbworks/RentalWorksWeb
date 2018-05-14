@@ -6,6 +6,8 @@ var Order = (function () {
         this.apiurl = 'api/v1/order';
         this.caption = 'Order';
         this.ActiveView = 'ALL';
+        this.DefaultOrderType = "";
+        this.DefaultOrderTypeId = "";
     }
     Order.prototype.getModuleScreen = function (filter) {
         var self = this;
@@ -48,6 +50,14 @@ var Order = (function () {
         FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
+        var department = JSON.parse(sessionStorage.getItem('department'));
+        ;
+        var location = JSON.parse(sessionStorage.getItem('location'));
+        ;
+        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
+            self.DefaultOrderType = response.DefaultOrderType;
+            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
+        }, null, null);
         return $browse;
     };
     ;
@@ -162,6 +172,7 @@ var Order = (function () {
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
         }

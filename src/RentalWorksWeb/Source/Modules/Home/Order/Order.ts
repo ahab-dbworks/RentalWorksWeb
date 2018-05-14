@@ -8,7 +8,8 @@ class Order {
     apiurl: string = 'api/v1/order';
     caption: string = 'Order';
     ActiveView: string = 'ALL';
-
+    DefaultOrderType: string;
+    DefaultOrderTypeId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
@@ -60,13 +61,14 @@ class Order {
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
 
-        //var department = JSON.parse(sessionStorage.getItem('department'));;
-        //var location = JSON.parse(sessionStorage.getItem('location'));;
+        var department = JSON.parse(sessionStorage.getItem('department'));;
+        var location = JSON.parse(sessionStorage.getItem('location'));;
 
-        //FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/'+ department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //    console.log(response);
+        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
+            self.DefaultOrderType = response.DefaultOrderType;
+            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
 
-        //}, null, null);
+        }, null, null);
 
 
         return $browse;
@@ -200,6 +202,7 @@ class Order {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
 
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
@@ -283,6 +286,8 @@ class Order {
         if (typeof parentModuleInfo !== 'undefined') { 
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal); 
         } 
+
+        
 
         return $form;
     };

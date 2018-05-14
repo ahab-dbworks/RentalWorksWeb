@@ -6,7 +6,8 @@ class Quote {
     Module: string = 'Quote';
     apiurl: string = 'api/v1/quote';
     ActiveView: string = 'ALL';
-
+    DefaultOrderType: string;
+    DefaultOrderTypeId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
@@ -64,6 +65,17 @@ class Quote {
         FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
         FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
         FwBrowse.addLegend($browse, 'Quote Request', '#00FF00');
+
+        var department = JSON.parse(sessionStorage.getItem('department'));;
+        var location = JSON.parse(sessionStorage.getItem('location'));;
+
+        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
+            self.DefaultOrderType = response.DefaultOrderType;
+            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
+
+        }, null, null);
+
+
 
         return $browse;
     };
@@ -190,6 +202,8 @@ class Quote {
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
