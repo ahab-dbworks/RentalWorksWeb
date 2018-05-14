@@ -463,6 +463,29 @@ class Order {
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
+        var $allOrderItemGrid;
+        var $allOrderItemGridControl;
+        $allOrderItemGrid = $form.find('.allgrid div[data-grid="OrderItemGrid"]');
+        $allOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $allOrderItemGridControl.find('.allitem').attr('data-visible', true);
+        $allOrderItemGrid.empty().append($allOrderItemGridControl);
+        $allOrderItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+            };
+            request.pagesize = max;
+        });
+        $allOrderItemGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
+        }
+        );
+        FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', () => {
+            this.calculateOrderItemGridTotals($form, 'all');
+        });
+
+        FwBrowse.init($allOrderItemGridControl);
+        FwBrowse.renderRuntimeHtml($allOrderItemGridControl);
+
         var $orderNoteGrid;
         var $orderNoteGridControl;
         $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
@@ -706,24 +729,13 @@ class Order {
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        var $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         var $orderPickListGrid;
         $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
         FwBrowse.search($orderPickListGrid);
         var $orderStatusHistoryGrid;
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        FwBrowse.search($orderStatusHistoryGrid);
-        var $orderItemGridRental;
-        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
-        var $orderItemGridSales;
-        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridSales);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridLabor);
-        var $orderItemGridMisc;
-        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridMisc);
+        FwBrowse.search($orderStatusHistoryGrid);        
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
@@ -968,6 +980,34 @@ class Order {
         }
 
         FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.CombineActivityTabs === true) {
+                $form.find('.allgrid').show();
+                $form.find('.rentalgrid').hide();
+                $form.find('.salesgrid').hide();
+                $form.find('.laborgrid').hide();
+                $form.find('.miscgrid').hide();
+                var $allOrderItemGrid;
+                $allOrderItemGrid = $form.find('.allgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($allOrderItemGrid);
+            } else {
+                $form.find('.allgrid').hide();
+                $form.find('.rentalgrid').show();
+                $form.find('.salesgrid').show();
+                $form.find('.laborgrid').show();
+                $form.find('.miscgrid').show();
+                var $orderItemGridRental;
+                $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($orderItemGridRental);
+                var $orderItemGridSales;
+                $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($orderItemGridSales);
+                var $orderItemGridLabor;
+                $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($orderItemGridLabor);
+                var $orderItemGridMisc;
+                $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                FwBrowse.search($orderItemGridMisc);
+            }
             var hiddenRentals = fieldNames.filter(function (field) {
                 return !this.has(field)
             }, new Set(response.RentalShowFields))
