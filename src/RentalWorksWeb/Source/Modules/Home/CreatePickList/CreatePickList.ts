@@ -68,6 +68,12 @@ class CreatePickList {
                         $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
                         $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
                         jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+
+
+                        //refresh pick list browse
+                        var $pickListBrowse = jQuery('#PickListBrowse');
+                        FwBrowse.search($pickListBrowse);
+
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
