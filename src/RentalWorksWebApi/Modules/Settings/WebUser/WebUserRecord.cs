@@ -71,5 +71,8 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "dashboardwidgetsperrow", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? DashboardWidgetsPerRow { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "searchmodepreference", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        public string SearchModePreference { get; set; }
+        //------------------------------------------------------------------------------------
     }
 }

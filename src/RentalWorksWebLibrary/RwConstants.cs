@@ -59,6 +59,9 @@ namespace WebLibrary
         public const string INVENTORY_CLASSIFICATION_KIT = "K";
         public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
 
+        public const string SEARCH_MODE_PREFERENCE_LIST = "LIST";
+        public const string SEARCH_MODE_PREFERENCE_HYBRID = "HYBRID";
+        public const string SEARCH_MODE_PREFERENCE_GRID = "GRID";
 
     }
 
