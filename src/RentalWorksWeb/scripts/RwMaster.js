@@ -15,6 +15,7 @@ var RwMaster = (function (_super) {
     }
     RwMaster.prototype.getUserControl = function ($context) {
         var $usercontrol = FwFileMenu.UserControl_render($context);
+        this.buildDashboard($context);
         this.buildOfficeLocation($context);
         var usertype = sessionStorage.getItem('userType');
         var username = sessionStorage.getItem('fullname');
@@ -211,6 +212,19 @@ var RwMaster = (function (_super) {
                 FwFunc.showError(ex);
             }
         });
+    };
+    RwMaster.prototype.buildDashboard = function ($usercontrol) {
+        var $dashboard, $userControl;
+        $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
+        $dashboard.on('click', function () {
+            try {
+                program.navigate('home');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
     };
     return RwMaster;
 }(WebMaster));
