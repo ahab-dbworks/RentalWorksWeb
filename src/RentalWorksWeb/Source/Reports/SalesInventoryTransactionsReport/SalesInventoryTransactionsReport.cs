@@ -45,22 +45,22 @@ namespace Web.Source.Reports
         html = this.applyTableToTemplate(html, "details", dtSalesInventoryTransactionsReport);
         return html;
     }
-    //---------------------------------------------------------------------------------------------
-    protected FwJsonDataTable GetSalesInventoryTransactionsReport(dynamic transtypelist)
-    {
-          FwSqlSelect select;
-          FwSqlCommand qry;
-          FwJsonDataTable dtDetails;
+        //---------------------------------------------------------------------------------------------
+        protected FwJsonDataTable GetSalesInventoryTransactionsReport(dynamic transtypelist)
+        {
+            FwSqlSelect select;
+            FwSqlCommand qry;
+            FwJsonDataTable dtDetails;
 
-          qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
-          select = new FwSqlSelect();
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks, FwQueryTimeouts.Report);
+            select = new FwSqlSelect();
 
-          select.Add("select rpt.*");
-          select.Add(" from  rptinventorytransaction rpt");
-          select.Parse();
-          select.AddWhere("rpt.rectype = @rectype");
-          select.AddWhereInFromCheckboxList(" and ", "rpt.transtype", transtypelist, GetTransTypeList(), false);
-          select.AddParameter("@rectype", "S");
+            select.Add("select rowtype='detail', rpt.*");
+            select.Add(" from  rptinventorytransaction rpt");
+            select.Parse();
+            select.AddWhere("rpt.rectype = @rectype");
+            select.AddWhereInFromCheckboxList(" and ", "rpt.transtype", transtypelist, GetTransTypeList(), false);
+            select.AddParameter("@rectype", "S");
 
 
             if (request.parameters.StartDate != "")
@@ -73,46 +73,50 @@ namespace Web.Source.Reports
                 select.AddWhere("and", "rpt.transdate <= @enddate");
                 select.AddParameter("@enddate", request.parameters.EndDate);
             };
-            if (request.parameters.WarehouseId != "") { 
-                  select.AddWhere("and", "rpt.warehouseid = @warehouseid");
-                  select.AddParameter("@warehouseid", request.parameters.WarehouseId);
-              };
-              if (request.parameters.InventoryTypeId != "")
-              {
-                  select.AddWhere("and", "rpt.inventorydepartmentid = @inventorytypeid");
-                  select.AddParameter("@inventorytypeid", request.parameters.InventoryTypeId);
-              };
-              if (request.parameters.CategoryId != "")
-              {
-                  select.AddWhere("and", "rpt.categoryid = @categoryid");
-                  select.AddParameter("@categoryid", request.parameters.CategoryId);
-              };
-              if (request.parameters.SubCategoryId != "")
-              {
-                  select.AddWhere("and", "rpt.subcategoryid = @subcategoryid");
-                  select.AddParameter("@subcategoryid", request.parameters.SubCategoryId);
-              };
-              if (request.parameters.InventoryId != "")
-              {
-                  select.AddWhere("and", "rpt.masterid = @inventoryid");
-                  select.AddParameter("@inventoryid", request.parameters.InventoryId);
-              };
+            if (request.parameters.WarehouseId != "")
+            {
+                select.AddWhere("and", "rpt.warehouseid = @warehouseid");
+                select.AddParameter("@warehouseid", request.parameters.WarehouseId);
+            };
+            if (request.parameters.InventoryTypeId != "")
+            {
+                select.AddWhere("and", "rpt.inventorydepartmentid = @inventorytypeid");
+                select.AddParameter("@inventorytypeid", request.parameters.InventoryTypeId);
+            };
+            if (request.parameters.CategoryId != "")
+            {
+                select.AddWhere("and", "rpt.categoryid = @categoryid");
+                select.AddParameter("@categoryid", request.parameters.CategoryId);
+            };
+            if (request.parameters.SubCategoryId != "")
+            {
+                select.AddWhere("and", "rpt.subcategoryid = @subcategoryid");
+                select.AddParameter("@subcategoryid", request.parameters.SubCategoryId);
+            };
+            if (request.parameters.InventoryId != "")
+            {
+                select.AddWhere("and", "rpt.masterid = @inventoryid");
+                select.AddParameter("@inventoryid", request.parameters.InventoryId);
+            };
 
-          select.AddOrderBy("rpt.whcode, rpt.masterno, rpt.transdate, rpt.orderby");
+            select.AddOrderBy("rpt.whcode, rpt.masterno, rpt.transdate, rpt.orderby");
 
-          dtDetails = qry.QueryToFwJsonTable(select, true);
-          for (int i = 0; i < dtDetails.Rows.Count; i++)
-          {
-              dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]]));
-              dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]]));
-              dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]]));
-              dtDetails.Rows[i][dtDetails.ColumnIndex["price"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["price"]]));
-              dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]]));
+            dtDetails = qry.QueryToFwJsonTable(select, true);
 
-          }
+            for (int i = 0; i < dtDetails.Rows.Count; i++)
+            {
+                dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]] = FwConvert.ToUSShortDate((String)(dtDetails.Rows[i][dtDetails.ColumnIndex["transdate"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["cost"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["costextended"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["price"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["price"]]));
+                dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]] = FwConvert.ToCurrencyStringNoDollarSign(Convert.ToDecimal(dtDetails.Rows[i][dtDetails.ColumnIndex["priceextended"]]));
 
-          return dtDetails;
-    }
+            }
+
+            dtDetails.InsertSubTotalRows("masterno", "rowtype", new string[] { "qtyordered" });
+
+            return dtDetails;
+        }
     //---------------------------------------------------------------------------------------------
     protected override FwReport.PrintOptions getDefaultPrintOptions()
     {
