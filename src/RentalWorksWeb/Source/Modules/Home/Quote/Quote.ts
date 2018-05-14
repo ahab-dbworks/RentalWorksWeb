@@ -775,7 +775,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
     let search = new SearchInterface();
     let $form = jQuery(this).closest('.fwform');
     let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-    let $popup = search.renderSearchPopup($form, quoteId);
+    let $popup = search.renderSearchPopup($form, quoteId, 'Quote');
 }
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {

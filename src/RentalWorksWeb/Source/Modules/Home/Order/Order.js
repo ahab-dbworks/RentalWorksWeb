@@ -6,8 +6,6 @@ var Order = (function () {
         this.apiurl = 'api/v1/order';
         this.caption = 'Order';
         this.ActiveView = 'ALL';
-        this.DefaultOrderType = "";
-        this.DefaultOrderTypeId = "";
     }
     Order.prototype.getModuleScreen = function (filter) {
         var self = this;
@@ -906,7 +904,7 @@ FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = functi
     var search = new SearchInterface();
     var $form = jQuery(this).closest('.fwform');
     var orderId = FwFormField.getValueByDataField($form, 'OrderId');
-    var $popup = search.renderSearchPopup($form, orderId);
+    var $popup = search.renderSearchPopup($form, orderId, 'Order');
 };
 FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
     var $form, $report, orderNumber, orderId;
