@@ -32,13 +32,20 @@ FwFormField_number.renderRuntimeHtml = function($control, html) {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
-        html.push('<div class="qtybtn"><i class="material-icons md-dark add">&#xE148;</i></div>'); //add_circle_outline
     } else if (isdesktop) {
         html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
         html.push(' />');
+    }
+    if (isdesktop) {
+        html.push('<div class="add-on">');
+            html.push('<div class="icon-n"></div>');
+            html.push('<div class="icon-s"></div>');
+        html.push('</div>');
+    } else if (ismobile) {
+        html.push('<div class="qtybtn"><i class="material-icons md-dark add">&#xE148;</i></div>'); //add_circle_outline
     }
     html.push('</div>');
     $control.html(html.join(''));
@@ -81,6 +88,27 @@ FwFormField_number.renderRuntimeHtml = function($control, html) {
     }
 
     $control
+        .data({
+            interval: {},
+            increment: function() {
+                var $value = $control.find('input.fwformfield-value');
+                var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
+                if ((typeof $control.attr('data-maxvalue') !== 'undefined') && ($control.attr('data-maxvalue') <= oldval)) {
+
+                } else {
+                    $value.val(++oldval).change();
+                }
+            },
+            decrement: function() {
+                var $value = $control.find('input.fwformfield-value');
+                var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
+                if ((typeof $control.attr('data-minvalue') !== 'undefined') && ($control.attr('data-minvalue') >= oldval)) {
+
+                } else {
+                    $value.val(--oldval).change();
+                }
+            }
+        })
         .on('change', '.fwformfield-value', function() {
             if (parseFloat(this.value) > parseFloat($control.attr('data-maxvalue'))) {
                 jQuery(this).val($control.attr('data-maxvalue'));
@@ -103,28 +131,38 @@ FwFormField_number.renderRuntimeHtml = function($control, html) {
             }
         })
     ;
-    if (jQuery('html').hasClass('mobile')) {
+    if (jQuery('html').hasClass('desktop')) {
+        $control
+            .on('mousedown', '.icon-n', function() {
+                if ($control.attr('data-enabled') === 'true') {
+                    $control.data('increment')();
+                    $control.data('interval', setInterval(function() { $control.data('increment')(); }, 200));
+                }
+            })
+            .on('mouseup mouseleave', '.icon-n', function() {
+                clearInterval($control.data('interval'));
+            })
+            .on('mousedown', '.icon-s', function() {
+                if ($control.attr('data-enabled') === 'true') {
+                    $control.data('decrement')();
+                    $control.data('interval', setInterval(function() { $control.data('decrement')(); }, 200));
+                }
+            })
+            .on('mouseup mouseleave', '.icon-s', function() {
+                clearInterval($control.data('interval'));
+            })
+        ;
+    }
+    else if (jQuery('html').hasClass('mobile')) {
         $control
             .on('click', '.add', function() {
                 if ($control.attr('data-enabled') === 'true') {
-                    var $value = $control.find('input.fwformfield-value');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $control.attr('data-maxvalue') !== 'undefined') && ($control.attr('data-maxvalue') <= oldval)) {
-
-                    } else {
-                        $value.val(++oldval).change();
-                    }
+                    $control.data('increment')();
                 }
             })
             .on('click', '.subtract', function() {
                 if ($control.attr('data-enabled') === 'true') {
-                    var $value = $control.find('input.fwformfield-value');
-                    var oldval = jQuery.isNumeric(parseFloat($value.val())) ? parseFloat($value.val()) : 0;
-                    if ((typeof $control.attr('data-minvalue') !== 'undefined') && ($control.attr('data-minvalue') >= oldval)) {
-
-                    } else {
-                        $value.val(--oldval).change();
-                    }
+                    $control.data('decrement')();
                 }
             })
         ;

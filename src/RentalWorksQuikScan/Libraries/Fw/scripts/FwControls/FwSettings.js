@@ -473,6 +473,8 @@ FwSettings.renderModuleHtml = function ($control, title, moduleName, color, desc
                 $rowBody = $control.find('#' + recordData['ScheduleStatusId'] + '.panel-body');
             } else if (moduleName === 'FacilityRate' || moduleName === 'LaborRate' || moduleName === 'MiscRate') {
                 $rowBody = $control.find('#' + recordData['RateId'] + '.panel-body');
+            } else if (moduleName === 'OfficeLocation') {
+                $rowBody = $control.find('#' + recordData['LocationId'] + '.panel-body');
             } else {
                 $rowBody = $control.find('#' + recordData[moduleName + 'Id'] + '.panel-body');
             }
