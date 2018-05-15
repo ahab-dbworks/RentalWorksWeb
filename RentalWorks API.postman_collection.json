@@ -12757,6 +12757,31 @@
 					"response": []
 				},
 				{
+					"name": "Inventory Search Utility: Search Accessories",
+					"request": {
+						"url": "http://localhost:57949/api/v1/inventorysearch/accessories",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SessionId\": \"H00032G8\",\n\t\"OrderId\": \"H00032G8\",\n\t\"ParentId\": \"F001N1WY\",\n\t\"WarehouseId\": \"B0029AY5\",\n\t\"ShowAvailability\": true,\n\t\"FromDate\": \"04/01/2018\",\n\t\"ToDate\": \"05/01/2018\",\n\t\"ShowImages\": true\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Inventory Search Utility Item: Save",
 					"request": {
 						"url": "http://localhost:57949/api/v1/inventorysearch",
@@ -12775,7 +12800,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SessionId\": \"justin\",\n    \"InventoryId\": \"B003POR8\",\n    \"WarehouseId\": \"B0029AY5\",\n    \"Quantity\": 6\n}"
+							"raw": "{\n\n    \"SessionId\": \"justin\",\n    \"ParentId\": \"XXX\",             \"comment\": \"this is the ID of the Complete/Kit where applicable\",\n    \"InventoryId\": \"B003POR8\",\n    \"WarehouseId\": \"B0029AY5\",\n    \"Quantity\": 6\n}"
 						},
 						"description": ""
 					},
