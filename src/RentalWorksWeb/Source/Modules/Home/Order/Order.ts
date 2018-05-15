@@ -502,6 +502,22 @@ class Order {
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
 
+        var $orderContactGrid;
+        var $orderContactGridControl;
+        $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
+        $orderContactGrid.empty().append($orderContactGridControl);
+        $orderContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+            };
+        });
+        $orderContactGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'OrderId')
+        });
+        FwBrowse.init($orderContactGridControl);
+        FwBrowse.renderRuntimeHtml($orderContactGridControl);
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
@@ -739,6 +755,9 @@ class Order {
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
+        var $orderContactGrid;
+        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
+        FwBrowse.search($orderContactGrid);
 
         var $pickListBrowse = $form.find('#PickListBrowse');
         FwBrowse.search($pickListBrowse);
@@ -758,7 +777,6 @@ class Order {
 
         this.renderFrames($form);
         this.dynamicColumns($form);
-        //FwFormField.disable($form.find('.totals'));
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
@@ -788,7 +806,8 @@ class Order {
         }
 
         // RentalDaysPerWeek API POST
-        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', () => {
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function (e) {
+            console.log(e)
             let request: any = {};
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
             let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');

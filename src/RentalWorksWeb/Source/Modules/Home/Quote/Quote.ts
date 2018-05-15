@@ -404,7 +404,7 @@ class Quote {
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'rental');
-            
+
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
@@ -515,6 +515,22 @@ class Quote {
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
 
+        var $orderContactGrid;
+        var $orderContactGridControl;
+        $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
+        $orderContactGrid.empty().append($orderContactGridControl);
+        $orderContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'QuoteId')
+            };
+        });
+        $orderContactGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId')
+        });
+        FwBrowse.init($orderContactGridControl);
+        FwBrowse.renderRuntimeHtml($orderContactGridControl);
+
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
@@ -538,9 +554,25 @@ class Quote {
         $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         FwBrowse.search($orderStatusHistoryGrid);
 
+
+        var $orderItemGridRental;
+        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridRental);
+        var $orderItemGridSales;
+        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridSales);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
+        var $orderItemGridLabor;
+        $orderItemGridLabor = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        FwBrowse.search($orderItemGridLabor);
         var $orderNoteGrid;
         $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
         FwBrowse.search($orderNoteGrid);
+        var $orderContactGrid;
+        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
+        FwBrowse.search($orderContactGrid);
 
         if ($pending === true) {
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
@@ -552,7 +584,6 @@ class Quote {
 
         this.renderFrames($form);
         this.dynamicColumns($form);
-        FwFormField.disable($form.find('.totals'));
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
@@ -580,7 +611,154 @@ class Quote {
         } else {
             $form.find(".RentalDaysPerWeek").hide();
         }
+
+        // RentalDaysPerWeek API POST
+        $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', function () {
+            let request: any = {};
+            let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            let daysperweek = FwFormField.getValueByDataField($form, 'RentalDaysPerWeek');
+
+            request.DaysPerWeek = parseFloat(daysperweek);
+            request.RecType = 'R';
+            request.OrderId = quoteId;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.search($orderItemGridRental);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $form);
+        });
     }
+
+    //----------------------------------------------------------------------------------------------
+    bottomLineDiscountChange(element: any) {
+        // DiscountPercent for all OrderItemGrid -- event listener in HTML element
+        let $element, $form, $orderItemGrid, quoteId, recType, discountPercent;
+        let request: any = {};
+
+        $element = jQuery(element);
+        $form = jQuery($element).closest('.fwform');
+        recType = $element.attr('data-rectype');
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
+
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+        request.DiscountPercent = parseFloat(discountPercent);
+        request.RecType = recType;
+        request.OrderId = quoteId;
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGrid);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
+    };
+
+    //----------------------------------------------------------------------------------------------
+    bottomLineTotalWithTaxChange(element: any) {
+        // Total and Include Tax fields for all OrderItemGrid -- event listener in HTML element
+        let $form, $element, $orderItemGrid, recType, quoteId, total, includeTaxInTotal;
+        let request: any = {};
+
+        $element = jQuery(element);
+        $form = jQuery($element).closest('.fwform');
+        recType = $element.attr('data-rectype');
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            total = FwFormField.getValue($form, '.rentalOrderItemTotal');
+            includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            total = FwFormField.getValue($form, '.salesOrderItemTotal');
+            includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            total = FwFormField.getValue($form, '.laborOrderItemTotal');
+            includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            total = FwFormField.getValue($form, '.miscOrderItemTotal');
+            includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax');
+        }
+
+        request.IncludeTaxInTotal = includeTaxInTotal;
+        request.RecType = recType;
+        request.OrderId = quoteId;
+        request.Total = parseFloat(total);
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwBrowse.search($orderItemGrid);
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, $form);
+    };
+
+    //----------------------------------------------------------------------------------------------
+    toggleOrderItemView(element: any) {
+        // Toggle for Detail or Summary view for all OrderItemGrid -- event listener in HTML element
+        let $element, $orderItemGrid, $orderItemGridControl, recType, $form, isSummary, quoteId;
+        let request: any = {};
+
+        $element = jQuery(element);
+        $form = jQuery($element).closest('.fwform');
+        recType = $element.attr('data-rectype');
+        quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+
+        if (recType === 'R') {
+            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'S') {
+            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'L') {
+            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        }
+        if (recType === 'M') {
+            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        }
+
+        if (FwFormField.getValue($form, '.detailsummaryview') === 'Summary') {
+            isSummary = true;
+        }
+        else {
+            isSummary = false;
+        }
+
+        $orderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        $orderItemGrid.empty().append($orderItemGridControl);
+
+        $orderItemGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: quoteId,
+                Summary: isSummary,
+                RecType: recType
+            }
+            request.pagesize = 9999;
+        });
+
+        //FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        //    FwBrowse.search($orderItemGrid);
+        //}, function onError(response) {
+        //    FwFunc.showError(response);
+        //}, $form);
+    }
+
     //----------------------------------------------------------------------------------------------
     copyQuote($form) {
         var $confirmation, $yes, $no;
