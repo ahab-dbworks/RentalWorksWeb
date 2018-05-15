@@ -524,6 +524,7 @@ class SearchInterface {
             var html = [];
             html.push('<div class="cardContainer">');
             html.push('<div class="card">');
+            html.push('<div class="cornerTriangle"></div>');
             html.push('<div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false"></div>');
             html.push('<div class="desccontainer">')
             html.push('<div class="invdescription">' + response.Rows[i][descriptionIndex] + '</div>');
@@ -570,6 +571,29 @@ class SearchInterface {
             FwFormField.setValueByDataField($card, 'Quantity', response.Rows[i][quantity]);
             var rate = Number(response.Rows[i][dailyRate]).toFixed(2);
             FwFormField.setValueByDataField($card, 'DailyRate', rate);
+
+            let $cornerTriangle = $card.find('.cornerTriangle');
+
+            var color;
+            if (response.Rows[i][classificationColor] == "") {
+                color = 'transparent';
+            } else {
+                color = response.Rows[i][classificationColor];
+            };
+            
+            $cornerTriangle.css({
+                'border-left': '20px solid',
+                'border-right': '20px solid transparent',
+                'border-bottom': '20px solid transparent',
+                'left': '0',
+                'top': '0',
+                'height': '0',
+                'width': '0',
+                'position': 'absolute',
+                'right': '0px',
+                'border-left-color': color,
+                'z-index': '2'
+            });
         }
         //var $inventory = $popup.find('div.cardContainer');
         var $inventory = $popup.find('div.card');
