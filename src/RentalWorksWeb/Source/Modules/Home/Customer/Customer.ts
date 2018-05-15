@@ -2,16 +2,10 @@
 routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return CustomerController.getModuleScreen(filter); } });
 
 class Customer {
-    Module: string;
-    apiurl: string;
-    caption: string;
+    Module: string = 'Customer';
+    apiurl: string = 'api/v1/customer';
+    caption: string = 'Customer';
     thisModule: Customer;
-
-    constructor() {
-        this.Module = 'Customer';
-        this.apiurl = 'api/v1/customer';
-        this.caption = 'Customer';
-    }
 
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self = this;
@@ -59,7 +53,7 @@ class Customer {
     updateExternalInputsWithGridValues($tr: JQuery): void {
         $tr.find('.column > .field').each((i, e) => {
             var $column = jQuery(e), id = $column.attr('data-browsedatafield'), value = $column.attr('data-originalvalue');
-            if (value == undefined || null) {
+            if (value === undefined || null) {
                 jQuery('.' + id).find(':input').val(0);
             } else {
                 jQuery('.' + id).find(':input').val(value);

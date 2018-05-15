@@ -375,6 +375,9 @@ class Deal {
         $submoduleQuoteBrowse = this.openQuoteBrowse($form);
         $form.find('.quote').append($submoduleQuoteBrowse);
 
+        FwFormField.disable($form.find('.CompanyResaleGrid'));
+
+
         $submoduleOrderBrowse = this.openOrderBrowse($form);
         $form.find('.order').append($submoduleOrderBrowse);
 
@@ -513,6 +516,29 @@ class Deal {
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
+
+        // Disable Tax grids if UseCustomerTax is selected on page load
+        if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
+            FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+            FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        }
+        else {
+            FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+            FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+        }
+
+        // Disable Tax grids on change
+        $form.find('[data-datafield="UseCustomerTax"] .fwformfield-value').on('change', function () {
+            var $this = jQuery(this);
+            if ($this.prop('checked') === true) {
+                FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.disable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+            else {
+                FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
+                FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+        });
     }
 }
 
