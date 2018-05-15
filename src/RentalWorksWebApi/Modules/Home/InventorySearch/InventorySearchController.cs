@@ -20,6 +20,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string InventoryTypeId;
         public string CategoryId;
         public string SubCategoryId;
+        public string Classification;
         public string SearchText;
         public bool ShowAvailability;
         public DateTime FromDate;

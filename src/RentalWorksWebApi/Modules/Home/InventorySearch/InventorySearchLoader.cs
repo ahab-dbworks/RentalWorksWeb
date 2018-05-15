@@ -123,6 +123,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
+                    qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
                     qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
                     qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
