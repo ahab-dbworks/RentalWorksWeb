@@ -63,6 +63,12 @@ namespace WebLibrary
         public const string SEARCH_MODE_PREFERENCE_HYBRID = "HYBRID";
         public const string SEARCH_MODE_PREFERENCE_GRID = "GRID";
 
+        public const string INVENTORY_SORT_BY_ICODE = "ICODE";
+        public const string INVENTORY_SORT_BY_DESCRIPTION = "DESCRIPTION";
+        public const string INVENTORY_SORT_BY_PART_NUMBER = "PARTNO";
+        public const string INVENTORY_SORT_BY_INVENTORY_MANAGEMENT = "INVENTORY";
+
+
     }
 
     public class QuoteOrderCopyRequest

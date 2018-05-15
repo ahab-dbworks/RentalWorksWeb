@@ -129,6 +129,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
+                    qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
                     PropertyInfo[] propertyInfos = typeof(InventorySearchLoader).GetProperties();
                     foreach (PropertyInfo propertyInfo in propertyInfos)
                     {
