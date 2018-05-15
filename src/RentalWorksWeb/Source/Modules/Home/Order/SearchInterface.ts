@@ -805,9 +805,13 @@ class SearchInterface {
                 Quantity: quantity
             }
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                self.refreshPreviewGrid($popup, id);
+                //self.refreshPreviewGrid($popup, id);
             }, null, $searchpopup);
 
+        });
+
+        $popup.on('click', '.tab[data-caption="Preview"]', function () {
+            self.refreshPreviewGrid($popup, id);
         });
 
         $popup.on('click', '.image', function (e) {
