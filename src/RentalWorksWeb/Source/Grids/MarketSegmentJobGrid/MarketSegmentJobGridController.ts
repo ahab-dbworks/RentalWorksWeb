@@ -1,11 +1,6 @@
 ﻿class MarketSegmentJobGrid {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'MarketSegmentJobGrid';
-        this.apiurl = 'api/v1/marketsegmentjob';
-    }
+    Module: string = 'MarketSegmentJobGrid';
+    apiurl: string = 'api/v1/marketsegmentjob';
 }
 
 var MarketSegmentJobGridController = new MarketSegmentJobGrid();

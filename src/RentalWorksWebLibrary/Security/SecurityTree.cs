@@ -299,6 +299,7 @@ namespace WebLibrary.Security
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Market Segment Job",                     "{6CB1FD8E-5E6E-45BC-B0E6-AC8E06A38990}", lv1menuGrids.Id, "MarketSegmentJobGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
+            AddGrid("Order Contact",                          "{33321573-EB0C-43BE-9C95-739A879FC81B}", lv1menuGrids.Id, "OrderContactGridController");
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
             AddGrid("Order Dates",                            "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
             AddGrid("Order Item",                             "{C8A77000-43DD-4E49-A226-1E0DC4196F12}", lv1menuGrids.Id, "OrderItemGridController");
