@@ -29,6 +29,18 @@ namespace WebApi.Modules.Home.InventorySearch
         public string SortBy;
     }
     //------------------------------------------------------------------------------------ 
+    public class InventorySearchAccessoriesRequest
+    {
+        public string SessionId;
+        public string OrderId;
+        public string ParentId;
+        public string WarehouseId;
+        public bool ShowAvailability;
+        public DateTime FromDate;
+        public DateTime ToDate;
+        public bool ShowImages;
+    }
+    //------------------------------------------------------------------------------------ 
     public class InventorySearchPreviewRequest
     {
         public string SessionId;
@@ -69,7 +81,31 @@ namespace WebApi.Modules.Home.InventorySearch
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventorysearch 
+        // POST api/v1/inventorysearch/accessories
+        [HttpPost("accessories")]
+        public async Task<IActionResult> SearchAccessoriesAsync([FromBody]InventorySearchAccessoriesRequest searchRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                InventorySearchLogic l = new InventorySearchLogic();
+                l.SetDependencies(this.AppConfig, this.UserSession);
+                FwJsonDataTable dt = await l.SearchAccessoriesAsync(searchRequest);
+                return new OkObjectResult(dt);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------         // POST api/v1/inventorysearch 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]InventorySearchLogic l)
         {
