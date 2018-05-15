@@ -1,4 +1,5 @@
 class SearchInterface {
+    InventoryView: string;
     renderSearchPopup($form, id, type) {
         var self = this;
 
@@ -497,7 +498,8 @@ class SearchInterface {
     }
 
     renderInventory($popup, response, isSubCategory) {
-        var descriptionIndex = response.ColumnIndex.Description,
+        var self = this,
+            descriptionIndex = response.ColumnIndex.Description,
             thumbnailIndex = response.ColumnIndex.Thumbnail,
             quantityAvailable = response.ColumnIndex.QuantityAvailable,
             conflictDate = response.ColumnIndex.ConflictDate,
@@ -510,7 +512,8 @@ class SearchInterface {
             appImageId = response.ColumnIndex.ImageId,
             subCategoryIdIndex = response.ColumnIndex.SubCategoryId,
             subCategoryIndex = response.ColumnIndex.SubCategory,
-            classificationIndex = response.ColumnIndex.Classification;
+            classificationIndex = response.ColumnIndex.Classification,
+            classificationColor = response.ColumnIndex.ClassificationColor;
 
         if (response.Rows.length == 0) {
             $popup.find('.inventory').append('<span style="font-weight: bold; font-size=1.3em">No Results</span>');
@@ -577,7 +580,22 @@ class SearchInterface {
         }
         $inventory.css(css);
 
-        this.listGridView($inventory, 'gridView');
+        //$popup.find('.cardContainer').css({ 'content': '', 'position': 'absolute', 'top': '0', 'left': '0', 'width': '0', 'height': '0', 'display': 'block', 'border-right': '20px solid transparent', 'border-bottom': '20px solid transparent', 'border-top': '20px solid', 'border-top-color': 'inherit' }) 
+
+        //$inventory.css({
+        //    'position': 'relative',
+        //    'border-top-color':'blue',
+        //    'border-top-style': 'none'})
+        var userId = JSON.parse(sessionStorage.getItem('userid'));
+        FwAppData.apiMethod(true, 'GET', "api/v1/usersearchsettings/" + userId.webusersid, null, FwServices.defaultTimeout, function onSuccess(res) {
+            if (res.SearchModePreference != "") {
+                self.InventoryView = res.SearchModePreference;
+            } else {
+                self.InventoryView = "GRID";
+            }
+
+            self.listGridView($inventory, self.InventoryView);
+        }, null, null);
     }
 
     listGridView($inventory, viewType) {
@@ -598,7 +616,7 @@ class SearchInterface {
             accessoryContainer = $inventory.find('.accContainer'),
             cardContainer = $inventory.find('.cardContainer');
         switch (viewType) {
-            case 'gridView':
+            case 'GRID':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 allWH.hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '225px', 'height': '315px', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
@@ -620,7 +638,7 @@ class SearchInterface {
                 //$inventory.removeClass('listView', 'listGridView');
                 //$inventory.addClass('gridView');
                 break;
-            case 'listView':
+            case 'LIST':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
@@ -641,7 +659,7 @@ class SearchInterface {
                 //$inventory.removeClass('gridView', 'listGridView');
                 //$inventory.addClass('listView');
                 break;
-            case 'listGridView':
+            case 'HYBRID':
                 //cardContainer.css({ 'float': 'left', 'width': 'auto' });
                 $inventory.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
                 //card.css({ 'cursor': 'pointer', 'width': '95%', 'height': 'auto', 'float': 'left', 'padding': '10px', 'margin': '8px', 'position': 'relative' });
@@ -827,17 +845,17 @@ class SearchInterface {
 
         $popup.on('click', '.listbutton', function () {
             let $inventory = $popup.find('div.card');
-            self.listGridView($inventory, 'listView');
+            self.listGridView($inventory, 'LIST');
         });
 
         $popup.on('click', '.listgridbutton', function () {
             let $inventory = $popup.find('div.card');
-            self.listGridView($inventory, 'listGridView');
+            self.listGridView($inventory, 'HYBRID');
         });
 
         $popup.on('click', '.gridbutton', function () {
             let $inventory = $popup.find('div.card');
-            self.listGridView($inventory, 'gridView');
+            self.listGridView($inventory, 'GRID');
         });
 
 
@@ -895,7 +913,23 @@ class SearchInterface {
             }
         });
 
+        $popup.on('click', '.listbutton, .listgridbutton, .gridbutton', function (e) {
+            if (jQuery(e.currentTarget).hasClass('listbutton')) {
+                self.InventoryView = "LIST";
+            } else if (jQuery(e.currentTarget).hasClass('listgridbutton')) {
+                self.InventoryView = "HYBRID";
+            } else {
+                self.InventoryView = "GRID";
+            }
 
+            var viewrequest: any = {};
+            var userId = JSON.parse(sessionStorage.getItem('userid'));
+            viewrequest.UserId = userId.webusersid;
+            viewrequest.SearchModePreference = self.InventoryView;
+            FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) {
+            }, null, null);
+
+        });
 
         //    $popup.on('click', '.preview', function () {
         //        //SearchInterfaceController.renderPreviewPopup($popup, id);
