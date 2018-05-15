@@ -99,6 +99,7 @@
             //    }      
             //});
 
+            screen.$view.find('.tabs').hide();
         };
         screen.unload = function () {
 

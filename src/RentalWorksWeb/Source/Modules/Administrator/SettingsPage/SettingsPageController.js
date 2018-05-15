@@ -37,6 +37,7 @@ var SettingsPage = (function () {
             for (var k = 0; k < moduleArray.length; k++) {
                 FwSettings.renderModuleHtml($settings.find(".fwsettings"), moduleArray[k][0], moduleArray[k][1], modules[moduleArray[k][3]].properties.color, moduleArray[k][1], moduleArray[k][2]);
             }
+            screen.$view.find('.tabs').hide();
         };
         screen.unload = function () {
         };
