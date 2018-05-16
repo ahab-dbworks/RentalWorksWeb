@@ -338,6 +338,7 @@ class SearchInterface {
             jQuery(e.currentTarget).addClass('selected');
             breadcrumb = $popup.find('#breadcrumbs .type');
             $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").empty();
+            $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory").attr('data-value', '');  
             breadcrumb.text(invType);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
@@ -407,6 +408,7 @@ class SearchInterface {
             jQuery(e.currentTarget).addClass('selected');
             breadcrumb = $popup.find('#breadcrumbs .category');
             $popup.find("#breadcrumbs .subcategory").empty();
+            $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
             breadcrumb.text(category);
             breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
             jQuery(e.currentTarget).css({ 'background-color': '#bdbdbd', 'color': 'white', /*'border-left': '5px solid #939393',*/ 'box-shadow': '0 6px 14px 0 rgba(0, 0, 0, 0.2)' });
@@ -720,7 +722,7 @@ class SearchInterface {
         var self = this
         $popup.on('click', '#breadcrumbs .type', function (e) {
             $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").empty();
-
+            $popup.find("#breadcrumbs .subcategory, #breadcrumbs .category").attr('data-value', '');
             delete request.CategoryId;
 
             var inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
@@ -745,7 +747,7 @@ class SearchInterface {
 
         $popup.on('click', '#breadcrumbs .category', function (e) {
             $popup.find("#breadcrumbs .subcategory").empty();
-
+            $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
             delete request.SubCategoryId;
             var categoryId = jQuery(e.currentTarget).attr('data-value');
             var inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
@@ -962,24 +964,40 @@ class SearchInterface {
 
         });
 
-        $popup.on('change', '.select', function (e) {
-            //var request: any = {
-            //    OrderId: id,
-            //    SessionId: id,
-            //    AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-            //    WarehouseId: warehouseId,
-            //    ShowAvailability: true,
-            //    FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
-            //    ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
-            //    SortBy: $popup.find('.sortby select').val(),
-            //    Classification: $popup.find('.select select').val(),
-            //    ShowImages: true
-            //}
-            $popup.find('.inventory .card')
-        });
+        $popup.on('change', '.select, .sortby', function (e) {
+            var request: any = {
+                OrderId: id,
+                SessionId: id,
+                AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
+                WarehouseId: warehouseId,
+                ShowAvailability: true,
+                FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+                ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+                SortBy: $popup.find('.sortby select').val(),
+                Classification: $popup.find('.select select').val(),
+                ShowImages: true
+            }
+            let inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            let categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
+            let subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
 
-        //$popup.on('change', '.sortby', function (e) {
-        //});
+            if (inventoryTypeId != "") {
+                request.InventoryTypeId = inventoryTypeId;
+            }
+            if (categoryId != "") {
+                request.CategoryId = categoryId;
+            }
+            if (subCategoryId != "") {
+                request.SubCategoryId = subCategoryId;
+            }
+
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                $popup.find('.inventory').empty();
+                SearchInterfaceController.renderInventory($popup, response, true);
+            }, null, $searchpopup);
+            
+        });
     };
 
     refreshPreviewGrid($popup, id) {
