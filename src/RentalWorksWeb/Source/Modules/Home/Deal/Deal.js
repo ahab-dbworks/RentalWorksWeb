@@ -207,6 +207,108 @@ var Deal = (function () {
             'DisableSubMisc'];
         isExcluded ? this.enableFields($form, list) : this.disableFields($form, list);
     };
+    Deal.prototype.billingAddressTypeChange = function ($form) {
+        if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
+            var customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', "api/v1/customer/" + customerId, null, FwServices.defaultTimeout, function onSuccess(res) {
+                FwFormField.disable($form.find('.billing_att1'));
+                FwFormField.disable($form.find('.billing_att2'));
+                FwFormField.setValue($form, '.billing_att1', "");
+                FwFormField.setValue($form, '.billing_att2', "");
+                FwFormField.setValue($form, '.billing_add1', "");
+                FwFormField.setValue($form, '.billing_add2', "");
+                FwFormField.setValue($form, '.billing_city', "");
+                FwFormField.setValue($form, '.billing_state', "");
+                FwFormField.setValue($form, '.billing_zip', "");
+                FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', "", "");
+                FwFormField.setValue($form, '.billing_att1', res.BillToAttention1);
+                FwFormField.setValue($form, '.billing_att2', res.BillToAttention2);
+                FwFormField.setValue($form, '.billing_add1', res.BillToAddress1);
+                FwFormField.setValue($form, '.billing_add2', res.BillToAddress2);
+                FwFormField.setValue($form, '.billing_city', res.BillToCity);
+                FwFormField.setValue($form, '.billing_state', res.BillToState);
+                FwFormField.setValue($form, '.billing_zip', res.BillToZipCode);
+                FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', res.BillToCountryId, res.BillToCountry);
+            }, null, $form);
+        }
+        if (FwFormField.getValue($form, '.billing_radio1') === 'DEAL') {
+            FwFormField.setValue($form, '.billing_att1', "");
+            FwFormField.setValue($form, '.billing_att2', "");
+            FwFormField.setValue($form, '.billing_add1', "");
+            FwFormField.setValue($form, '.billing_add2', "");
+            FwFormField.setValue($form, '.billing_city', "");
+            FwFormField.setValue($form, '.billing_state', "");
+            FwFormField.setValue($form, '.billing_zip', "");
+            FwFormField.setValue($form, '.billing_country', "");
+            FwFormField.enable($form.find('.billing_att1'));
+            FwFormField.enable($form.find('.billing_att2'));
+            FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        if (FwFormField.getValue($form, '.billing_radio1') === 'OTHER') {
+            FwFormField.enable($form.find('.billing_att1'));
+            FwFormField.enable($form.find('.billing_att2'));
+        }
+    };
+    Deal.prototype.shippingAddressTypeChange = function ($form) {
+        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
+            var customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', "api/v1/customer/" + customerId, null, FwServices.defaultTimeout, function onSuccess(res) {
+                FwFormField.disable($form.find('.shipping_att'));
+                FwFormField.setValue($form, '.shipping_att', "");
+                FwFormField.setValue($form, '.shipping_add1', "");
+                FwFormField.setValue($form, '.shipping_add2', "");
+                FwFormField.setValue($form, '.shipping_city', "");
+                FwFormField.setValue($form, '.shipping_state', "");
+                FwFormField.setValue($form, '.shipping_zip', "");
+                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
+                FwFormField.setValue($form, '.shipping_att', res.ShipAttention);
+                FwFormField.setValue($form, '.shipping_add1', res.ShipAddress1);
+                FwFormField.setValue($form, '.shipping_add2', res.ShipAddress2);
+                FwFormField.setValue($form, '.shipping_city', res.ShipCity);
+                FwFormField.setValue($form, '.shipping_state', res.ShipState);
+                FwFormField.setValue($form, '.shipping_zip', res.ShipZipCode);
+                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', res.ShipCountryId, res.ShipCountry);
+            }, null, $form);
+        }
+        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'PROJECT') {
+            FwFormField.setValue($form, '.shipping_att', "");
+            FwFormField.setValue($form, '.shipping_add1', "");
+            FwFormField.setValue($form, '.shipping_add2', "");
+            FwFormField.setValue($form, '.shipping_city', "");
+            FwFormField.setValue($form, '.shipping_state', "");
+            FwFormField.setValue($form, '.shipping_zip', "");
+            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
+            FwFormField.enable($form.find('.shipping_att'));
+            FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
+            FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
+            FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
+            FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
+            FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+            FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        }
+        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'OTHER') {
+            FwFormField.enable($form.find('.shipping_att'));
+        }
+    };
+    Deal.prototype.transferDealAddressValues = function ($form) {
+        FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
+        FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
+        FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
+        FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
+        FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+        FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+        FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
+        FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
+        FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
+        FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
+        FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+        FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+    };
     Deal.prototype.disableFields = function ($form, fields) {
         fields.forEach(function (e, i) { FwFormField.disable($form.find('[data-datafield="' + e + '"]')); });
     };
@@ -386,6 +488,7 @@ var Deal = (function () {
         FwModule.loadAudit($form, uniqueid);
     };
     Deal.prototype.afterLoad = function ($form) {
+        var _this = this;
         var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
         var $quoteBrowse = $form.find('#QuoteBrowse');
         FwBrowse.search($quoteBrowse);
@@ -442,92 +545,13 @@ var Deal = (function () {
             }
         });
         $form.find('.billing_radio1').on('change', function ($tr) {
-            if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
-                var customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                FwAppData.apiMethod(true, 'GET', "api/v1/customer/" + customerId, null, FwServices.defaultTimeout, function onSuccess(res) {
-                    FwFormField.disable($form.find('.billing_att1'));
-                    FwFormField.disable($form.find('.billing_att2'));
-                    FwFormField.setValue($form, '.billing_att1', "");
-                    FwFormField.setValue($form, '.billing_att2', "");
-                    FwFormField.setValue($form, '.billing_add1', "");
-                    FwFormField.setValue($form, '.billing_add2', "");
-                    FwFormField.setValue($form, '.billing_city', "");
-                    FwFormField.setValue($form, '.billing_state', "");
-                    FwFormField.setValue($form, '.billing_zip', "");
-                    FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', "", "");
-                    FwFormField.setValue($form, '.billing_att1', res.BillToAttention1);
-                    FwFormField.setValue($form, '.billing_att2', res.BillToAttention2);
-                    FwFormField.setValue($form, '.billing_add1', res.BillToAddress1);
-                    FwFormField.setValue($form, '.billing_add2', res.BillToAddress2);
-                    FwFormField.setValue($form, '.billing_city', res.BillToCity);
-                    FwFormField.setValue($form, '.billing_state', res.BillToState);
-                    FwFormField.setValue($form, '.billing_zip', res.BillToZipCode);
-                    FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', res.BillToCountryId, res.BillToCountry);
-                }, null, $form);
-            }
-            if (FwFormField.getValue($form, '.billing_radio1') === 'DEAL') {
-                FwFormField.setValue($form, '.billing_att1', "");
-                FwFormField.setValue($form, '.billing_att2', "");
-                FwFormField.setValue($form, '.billing_add1', "");
-                FwFormField.setValue($form, '.billing_add2', "");
-                FwFormField.setValue($form, '.billing_city', "");
-                FwFormField.setValue($form, '.billing_state', "");
-                FwFormField.setValue($form, '.billing_zip', "");
-                FwFormField.setValue($form, '.billing_country', "");
-                FwFormField.enable($form.find('.billing_att1'));
-                FwFormField.enable($form.find('.billing_att2'));
-                FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
-                FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
-                FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
-                FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
-                FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-                FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            }
-            if (FwFormField.getValue($form, '.billing_radio1') === 'OTHER') {
-                FwFormField.enable($form.find('.billing_att1'));
-                FwFormField.enable($form.find('.billing_att2'));
-            }
+            _this.billingAddressTypeChange($form);
+        });
+        $form.find('.deal_address input').on('blur', function ($tr) {
+            _this.transferDealAddressValues($form);
         });
         $form.find('.shipping_address_type_radio').on('change', function ($tr) {
-            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
-                var customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-                FwAppData.apiMethod(true, 'GET', "api/v1/customer/" + customerId, null, FwServices.defaultTimeout, function onSuccess(res) {
-                    FwFormField.disable($form.find('.shipping_att'));
-                    FwFormField.setValue($form, '.shipping_att', "");
-                    FwFormField.setValue($form, '.shipping_add1', "");
-                    FwFormField.setValue($form, '.shipping_add2', "");
-                    FwFormField.setValue($form, '.shipping_city', "");
-                    FwFormField.setValue($form, '.shipping_state', "");
-                    FwFormField.setValue($form, '.shipping_zip', "");
-                    FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
-                    FwFormField.setValue($form, '.shipping_att', res.ShipAttention);
-                    FwFormField.setValue($form, '.shipping_add1', res.ShipAddress1);
-                    FwFormField.setValue($form, '.shipping_add2', res.ShipAddress2);
-                    FwFormField.setValue($form, '.shipping_city', res.ShipCity);
-                    FwFormField.setValue($form, '.shipping_state', res.ShipState);
-                    FwFormField.setValue($form, '.shipping_zip', res.ShipZipCode);
-                    FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', res.ShipCountryId, res.ShipCountry);
-                }, null, $form);
-            }
-            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'PROJECT') {
-                FwFormField.setValue($form, '.shipping_att', "");
-                FwFormField.setValue($form, '.shipping_add1', "");
-                FwFormField.setValue($form, '.shipping_add2', "");
-                FwFormField.setValue($form, '.shipping_city', "");
-                FwFormField.setValue($form, '.shipping_state', "");
-                FwFormField.setValue($form, '.shipping_zip', "");
-                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
-                FwFormField.enable($form.find('.shipping_att'));
-                FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
-                FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
-                FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
-                FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
-                FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
-                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-            }
-            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'OTHER') {
-                FwFormField.enable($form.find('.shipping_att'));
-            }
+            _this.shippingAddressTypeChange($form);
         });
     };
     return Deal;
