@@ -830,7 +830,16 @@ var Order = (function () {
                 RecType: recType
             };
             request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay";
         });
+        $orderItemGridControl.data('beforesave', function (request) {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        });
+        FwBrowse.init($orderItemGridControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridControl);
+        FwBrowse.search($orderItemGridControl);
     };
     Order.prototype.calculateOrderItemGridTotals = function ($form, gridType) {
         var periodExtendedTotal = 0;
@@ -842,10 +851,13 @@ var Order = (function () {
         for (var i = 1; i < periodExtendedColumn.length; i++) {
             var inputValueFromExtended = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
             periodExtendedTotal += inputValueFromExtended;
+            periodExtendedTotal = periodExtendedTotal.toFixed(2);
             var inputValueFromDiscount = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
             periodDiscountTotal += inputValueFromDiscount;
+            periodDiscountTotal = periodDiscountTotal.toFixed(2);
             var inputValueFromTax = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
             taxTotal += inputValueFromTax;
+            taxTotal = taxTotal.toFixed(2);
         }
         ;
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);

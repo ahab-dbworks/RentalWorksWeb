@@ -958,13 +958,19 @@ class Order {
                 RecType: recType
             }
             request.pagesize = 9999;
+            request.orderby = "RowNumber,RecTypeDisplay"
         });
 
-        //FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-        //    FwBrowse.search($orderItemGrid);
-        //}, function onError(response) {
-        //    FwFunc.showError(response);
-        //}, $form);
+        $orderItemGridControl.data('beforesave', request => {
+            request.OrderId = orderId;
+            request.RecType = recType;
+            request.Summary = isSummary;
+        }
+        );
+
+        FwBrowse.init($orderItemGridControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridControl);
+        FwBrowse.search($orderItemGridControl);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -980,12 +986,15 @@ class Order {
             // PeriodExtended Column
             let inputValueFromExtended: any = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
             periodExtendedTotal += inputValueFromExtended;
+            periodExtendedTotal = periodExtendedTotal.toFixed(2);
             // PeriodDiscountAmount Column
             let inputValueFromDiscount: any = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
             periodDiscountTotal += inputValueFromDiscount;
+            periodDiscountTotal = periodDiscountTotal.toFixed(2);
             // Tax Column
             let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
             taxTotal += inputValueFromTax;
+            taxTotal = taxTotal.toFixed(2);
         };
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);

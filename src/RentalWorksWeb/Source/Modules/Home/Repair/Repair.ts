@@ -740,12 +740,15 @@ class Repair {
               // Extended Column
               let inputValueFromExtended: any = parseFloat(extendedColumn.eq(i).attr('data-originalvalue'));
               totalSumFromExtended += inputValueFromExtended;
+              totalSumFromExtended = totalSumFromExtended.toFixed(2);
               // DiscountAmount Column
               let inputValueFromDiscount: any = parseFloat(discountColumn.eq(i).attr('data-originalvalue'));
               totalSumFromDiscount += inputValueFromDiscount;
+              totalSumFromDiscount = totalSumFromDiscount.toFixed(2);
               // Tax Column
               let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
               totalSumFromTax += inputValueFromTax;
+              totalSumFromTax = totalSumFromTax.toFixed(2);
           }
       }
       $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(totalSumFromExtended);

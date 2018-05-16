@@ -904,12 +904,17 @@ class Quote {
             // PeriodExtended Column
             let inputValueFromExtended: any = parseFloat(periodExtendedColumn.eq(i).attr('data-originalvalue'));
             periodExtendedTotal += inputValueFromExtended;
+            periodExtendedTotal = periodExtendedTotal.toFixed(2);
+
             // PeriodDiscountAmount Column
             let inputValueFromDiscount: any = parseFloat(periodDiscountColumn.eq(i).attr('data-originalvalue'));
             periodDiscountTotal += inputValueFromDiscount;
+            periodDiscountTotal = periodDiscountTotal.toFixed(2);
+
             // Tax Column
             let inputValueFromTax: any = parseFloat(taxColumn.eq(i).attr('data-originalvalue'));
             taxTotal += inputValueFromTax;
+            taxTotal = taxTotal.toFixed(2);
         };
         $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(periodExtendedTotal);
         $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(periodDiscountTotal);
