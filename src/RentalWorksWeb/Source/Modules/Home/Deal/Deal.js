@@ -56,6 +56,10 @@ var Deal = (function () {
             var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
             _this.toggleBillingAddressInfo($form, val);
         });
+        $form.on('change', '.shipping_address_type_radio input[type=radio]', function (e) {
+            var val = jQuery(e.currentTarget).val() !== 'OTHER' ? true : false;
+            _this.toggleShippingAddressInfo($form, val);
+        });
         $form.on('change', '.credit_use_customer input[type=checkbox]', function (e) {
             var isChecked = jQuery(e.currentTarget).is(':checked');
             _this.toggleCredTabIfUseCustomer($form, isChecked);
@@ -108,6 +112,18 @@ var Deal = (function () {
             'BillToState',
             'BillToZipCode',
             'BillToCountryId'
+        ];
+        isOther ? this.disableFields($form, list) : this.enableFields($form, list);
+    };
+    Deal.prototype.toggleShippingAddressInfo = function ($form, isOther) {
+        var list = [
+            'ShipAttention',
+            'ShipAddress1',
+            'ShipAddress2',
+            'ShipCity',
+            'ShipState',
+            'ShipZipCode',
+            'ShipCountryId'
         ];
         isOther ? this.disableFields($form, list) : this.enableFields($form, list);
     };
@@ -395,6 +411,8 @@ var Deal = (function () {
         this.useCustomer(FwFormField.getValueByDataField($form, 'UseCustomerDiscount'));
         var val_bill = FwFormField.getValueByDataField($form, 'BillToAddressType') !== 'OTHER' ? true : false;
         this.toggleBillingAddressInfo($form, val_bill);
+        var val_ship = FwFormField.getValueByDataField($form, 'ShippingAddressType') !== 'OTHER' ? true : false;
+        this.toggleShippingAddressInfo($form, val_ship);
         this.toggleInsurTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerInsurance'));
         this.toggleCredTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerCredit'));
         this.disableInsurCompanyInfo($form);
@@ -417,6 +435,45 @@ var Deal = (function () {
             else {
                 FwFormField.enable($form.find('div[data-name="CompanyResaleGrid"]'));
                 FwFormField.enable($form.find('div[data-name="CompanyTaxOptionGrid"]'));
+            }
+        });
+        $form.find('.billing_radio1').on('change', function ($tr) {
+            if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
+                var customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                FwAppData.apiMethod(true, 'GET', "api/v1/customer/" + customerId, null, FwServices.defaultTimeout, function onSuccess(res) {
+                    FwFormField.setValue($form, '.billing_att1', "");
+                    FwFormField.setValue($form, '.billing_att2', "");
+                    FwFormField.setValue($form, '.billing_add1', "");
+                    FwFormField.setValue($form, '.billing_add2', "");
+                    FwFormField.setValue($form, '.billing_city', "");
+                    FwFormField.setValue($form, '.billing_state', "");
+                    FwFormField.setValue($form, '.billing_zip', "");
+                    FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', "", "");
+                    FwFormField.setValue($form, '.billing_att1', res.BillToAttention1);
+                    FwFormField.setValue($form, '.billing_att2', res.BillToAttention2);
+                    FwFormField.setValue($form, '.billing_add1', res.BillToAddress1);
+                    FwFormField.setValue($form, '.billing_add2', res.BillToAddress2);
+                    FwFormField.setValue($form, '.billing_city', res.BillToCity);
+                    FwFormField.setValue($form, '.billing_state', res.BillToState);
+                    FwFormField.setValue($form, '.billing_zip', res.BillToZipCode);
+                    FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', res.BillToCountryId, res.BillToCountry);
+                }, null, $form);
+            }
+            if (FwFormField.getValue($form, '.billing_radio1') === 'DEAL') {
+                FwFormField.setValue($form, '.billing_att1', "");
+                FwFormField.setValue($form, '.billing_att2', "");
+                FwFormField.setValue($form, '.billing_add1', "");
+                FwFormField.setValue($form, '.billing_add2', "");
+                FwFormField.setValue($form, '.billing_city', "");
+                FwFormField.setValue($form, '.billing_state', "");
+                FwFormField.setValue($form, '.billing_zip', "");
+                FwFormField.setValue($form, '.billing_country', "");
+                FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
             }
         });
     };
