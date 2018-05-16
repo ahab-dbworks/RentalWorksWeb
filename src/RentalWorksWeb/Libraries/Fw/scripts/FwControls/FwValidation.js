@@ -158,8 +158,8 @@ FwValidation.init = function ($control) {
 
     var focusValidationSearchBox = function ($validationbrowse) {
         setTimeout(function () {
-            var $searchBox = $validationbrowse.find('thead td[data-visible="true"]:first-child .search input');
-            $searchBox.focus();
+            var $searchBox = $validationbrowse.find('.search input:visible');
+            $searchBox.eq(0).focus();
         }, 400);
     };
 
