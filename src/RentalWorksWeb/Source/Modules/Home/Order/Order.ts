@@ -287,7 +287,21 @@ class Order {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal); 
         } 
 
-        
+        $form.find('.print').on('click', e => {
+            var $report, orderNumber, orderId;
+            try {
+                orderNumber = $form.find('div.fwformfield[data-datafield="OrderNumber"] input').val();
+                orderId = $form.find('div.fwformfield[data-datafield="OrderId"] input').val();
+                $report = RwPrintOrderController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+                $report.find('div.fwformfield[data-datafield="OrderId"] input').val(orderId);
+                $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(orderNumber);
+                jQuery('.tab.submodule.active').find('.caption').html('Print Order');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
 
         return $form;
     };

@@ -287,6 +287,22 @@ class Quote {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
         }
 
+        $form.find('.print').on('click', e => {
+            var $report, quoteNumber, quoteId;
+            try {
+                quoteNumber = $form.find('div.fwformfield[data-datafield="QuoteNumber"] input').val();
+                quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+                $report = RwPrintOrderController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+                $report.find('div.fwformfield[data-datafield="OrderId"] input').val(quoteId);
+                $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(quoteNumber);
+                jQuery('.tab.submodule.active').find('.caption').html('Print Quote');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -988,7 +1004,20 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
 }
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B20DDE47-A5D7-49A9-B980-8860CADBF7F6}'] = function (e) {
-
+    var $form, $report, quoteNumber, quoteId;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        quoteNumber = $form.find('div.fwformfield[data-datafield="QuoteNumber"] input').val();
+        quoteId = $form.find('div.fwformfield[data-datafield="QuoteId"] input').val();
+        $report = RwPrintOrderController.openForm();
+        FwModule.openSubModuleTab($form, $report);
+        $report.find('div.fwformfield[data-datafield="OrderId"] input').val(quoteId);
+        $report.find('div.fwformfield[data-datafield="OrderId"] .fwformfield-text').val(quoteNumber);
+        jQuery('.tab.submodule.active').find('.caption').html('Print Quote');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //-----------------------------------------------------------------------------------------------------
 var QuoteController = new Quote();

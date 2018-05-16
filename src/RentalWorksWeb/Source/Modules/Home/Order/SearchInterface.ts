@@ -112,7 +112,12 @@ class SearchInterface {
         previewhtml.push('                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         previewhtml.push('                      <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
         previewhtml.push('                </div>');
-        previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
+        if (type == 'Order') {
+            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
+        } else {
+            previewhtml.push('                      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
+        }
+    
         previewhtml.push('            </div>');
         previewhtml.push('     </div>');
         previewhtml.push('</div>');
@@ -570,7 +575,7 @@ class SearchInterface {
             html.push('</div>');
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                html.push('<div class="accContainer" style="float:left; width:90%; display:none">');
+                html.push('<div class="accContainer" data-classification="' + response.Rows[i][classificationIndex] + '" style="float:left; width:90%; display:none">');
 
                 html.push('</div>');
             }
@@ -612,7 +617,6 @@ class SearchInterface {
                 'z-index': '2'
             });
         }
-        //var $inventory = $popup.find('div.cardContainer');
         var $inventory = $popup.find('div.card');
 
         var css = {
@@ -621,17 +625,8 @@ class SearchInterface {
         }
         $inventory.css(css);
 
-        //$popup.find('.cardContainer').css({ 'content': '', 'position': 'absolute', 'top': '0', 'left': '0', 'width': '0', 'height': '0', 'display': 'block', 'border-right': '20px solid transparent', 'border-bottom': '20px solid transparent', 'border-top': '20px solid', 'border-top-color': 'inherit' }) 
-
-        //$inventory.css({
-        //    'position': 'relative',
-        //    'border-top-color':'blue',
-        //    'border-top-style': 'none'})
         var view = $popup.find('#inventoryView').val();
         this.listGridView($inventory, view);
- 
-
-
     }
 
     listGridView($inventory, viewType) {
@@ -967,12 +962,23 @@ class SearchInterface {
 
         });
 
-        //$popup.on('change', '.select', function (e) {
-        //    self.Classification = jQuery(e.currentTarget).find('select').val();
-        //});
+        $popup.on('change', '.select', function (e) {
+            //var request: any = {
+            //    OrderId: id,
+            //    SessionId: id,
+            //    AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
+            //    WarehouseId: warehouseId,
+            //    ShowAvailability: true,
+            //    FromDate: FwFormField.getValueByDataField($popup, 'FromDate'),
+            //    ToDate: FwFormField.getValueByDataField($popup, 'ToDate'),
+            //    SortBy: $popup.find('.sortby select').val(),
+            //    Classification: $popup.find('.select select').val(),
+            //    ShowImages: true
+            //}
+            $popup.find('.inventory .card')
+        });
 
         //$popup.on('change', '.sortby', function (e) {
-        //    self.SortBy = jQuery(e.currentTarget).find('select').val();
         //});
     };
 
