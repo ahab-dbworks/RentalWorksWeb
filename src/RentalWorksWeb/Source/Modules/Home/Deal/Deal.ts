@@ -145,8 +145,6 @@ class Deal {
 
     toggleBillingAddressInfo($form: JQuery, isOther: boolean) {
         var list = [
-            'BillToAttention1',
-            'BillToAttention2',
             'BillToAddress1',
             'BillToAddress2',
             'BillToCity',
@@ -160,7 +158,6 @@ class Deal {
 
     toggleShippingAddressInfo($form: JQuery, isOther: boolean) {
         var list = [
-            'ShipAttention',
             'ShipAddress1',
             'ShipAddress2',
             'ShipCity',
@@ -538,6 +535,15 @@ class Deal {
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
 
+        // Disable attention fields if use customer
+        if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
+            FwFormField.disable($form.find('.billing_att1'));
+            FwFormField.disable($form.find('.billing_att2'));
+        }
+        if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
+            FwFormField.disable($form.find('.shipping_att'));
+        }
+
         // Disable Tax grids if UseCustomerTax is selected on page load
         if (FwFormField.getValueByDataField($form, 'UseCustomerTax') === true) {
             FwFormField.disable($form.find('div[data-name="CompanyResaleGrid"]'));
@@ -561,12 +567,14 @@ class Deal {
             }
         });
 
-        //Billing Address Change
+        //Billing Address Type Change
         $form.find('.billing_radio1').on('change', $tr => {
             if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
                 const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
                 FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
                     // Clear input fields
+                    FwFormField.disable($form.find('.billing_att1'));
+                    FwFormField.disable($form.find('.billing_att2'));
                     FwFormField.setValue($form, '.billing_att1', "");
                     FwFormField.setValue($form, '.billing_att2', "");
                     FwFormField.setValue($form, '.billing_add1', "");
@@ -599,12 +607,69 @@ class Deal {
                 FwFormField.setValue($form, '.billing_country', "");
 
                 // Values from Customer fields in general tab
+                FwFormField.enable($form.find('.billing_att1'));
+                FwFormField.enable($form.find('.billing_att2'));
                 FwFormField.setValue($form, '.billing_add1', FwFormField.getValueByDataField($form, 'Address1'));
                 FwFormField.setValue($form, '.billing_add2', FwFormField.getValueByDataField($form, 'Address2'));
                 FwFormField.setValue($form, '.billing_city', FwFormField.getValueByDataField($form, 'City'));
                 FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
                 FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
                 FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+
+            if (FwFormField.getValue($form, '.billing_radio1') === 'OTHER') {
+                FwFormField.enable($form.find('.billing_att1'));
+                FwFormField.enable($form.find('.billing_att2'));
+            }
+        });
+
+        //Shipping Address Type Change
+        $form.find('.shipping_address_type_radio').on('change', $tr => {
+            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'CUSTOMER') {
+                const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+                FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                    // Clear input fields
+                    FwFormField.disable($form.find('.shipping_att'));
+                    FwFormField.setValue($form, '.shipping_att', "");
+                    FwFormField.setValue($form, '.shipping_add1', "");
+                    FwFormField.setValue($form, '.shipping_add2', "");
+                    FwFormField.setValue($form, '.shipping_city', "");
+                    FwFormField.setValue($form, '.shipping_state', "");
+                    FwFormField.setValue($form, '.shipping_zip', "");
+                    FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
+                    // Values from response
+                    FwFormField.setValue($form, '.shipping_att', res.ShipAttention);
+                    FwFormField.setValue($form, '.shipping_add1', res.ShipAddress1);
+                    FwFormField.setValue($form, '.shipping_add2', res.ShipAddress2);
+                    FwFormField.setValue($form, '.shipping_city', res.ShipCity);
+                    FwFormField.setValue($form, '.shipping_state', res.ShipState);
+                    FwFormField.setValue($form, '.shipping_zip', res.ShipZipCode);
+                    FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', res.ShipCountryId, res.ShipCountry);
+                }, null, $form);
+            }
+
+            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'PROJECT') {
+                // Clear input fields
+                FwFormField.setValue($form, '.shipping_att', "");
+                FwFormField.setValue($form, '.shipping_add1', "");
+                FwFormField.setValue($form, '.shipping_add2', "");
+                FwFormField.setValue($form, '.shipping_city', "");
+                FwFormField.setValue($form, '.shipping_state', "");
+                FwFormField.setValue($form, '.shipping_zip', "");
+                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', "", "");
+
+                // Values from Customer fields in general tab
+                FwFormField.enable($form.find('.shipping_att'));
+                FwFormField.setValue($form, '.shipping_add1', FwFormField.getValueByDataField($form, 'Address1'));
+                FwFormField.setValue($form, '.shipping_add2', FwFormField.getValueByDataField($form, 'Address2'));
+                FwFormField.setValue($form, '.shipping_city', FwFormField.getValueByDataField($form, 'City'));
+                FwFormField.setValue($form, '.shipping_state', FwFormField.getValueByDataField($form, 'State'));
+                FwFormField.setValue($form, '.shipping_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
+                FwFormField.setValue($form, 'div[data-displayfield="ShipCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
+            }
+
+            if (FwFormField.getValue($form, '.shipping_address_type_radio') === 'OTHER') {
+                FwFormField.enable($form.find('.shipping_att'));
             }
         });
     }
