@@ -71,3 +71,10 @@ div[data-controller="GroupController"] .grouptree li[data-property-id="apptree"]
 
 /* need to override the framework values here to make things responsive */
 .formpage {min-width:0;display:block;} 
+
+
+/***************************
+flexrow
+***************************/
+.flexrow {display:flex;flex-wrap: wrap;/*max-width:60em;*/max-width:1200px;}
+.flexrow > * {flex:1 1 0;min-width:25px;/*min-width:16em;*//*max-width:24em;*/}
