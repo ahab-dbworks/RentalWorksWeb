@@ -657,7 +657,6 @@ class Deal {
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
-        this.updateExternalInputsWithGridValues($form);
 
         // Disable attention fields if use customer
         if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
