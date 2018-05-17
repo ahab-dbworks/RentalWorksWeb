@@ -386,9 +386,6 @@ class Deal {
         FwFormField.setValue($form, '.billing_state', FwFormField.getValueByDataField($form, 'State'));
         FwFormField.setValue($form, '.billing_zip', FwFormField.getValueByDataField($form, 'ZipCode'));
         FwFormField.setValue($form, 'div[data-displayfield="BillToCountry"]', FwFormField.getValueByDataField($form, 'CountryId'), FwFormField.getTextByDataField($form, 'CountryId'));
-
-
-
     }
 
     disableFields($form: JQuery, fields: string[]): void {
@@ -700,7 +697,7 @@ class Deal {
         });
 
         // If user updates general address info
-        $form.find('.deal_address input').on('blur', $tr => {
+        $form.find('.deal_address input').on('change', $tr => {
             this.transferDealAddressValues($form);
         });
 

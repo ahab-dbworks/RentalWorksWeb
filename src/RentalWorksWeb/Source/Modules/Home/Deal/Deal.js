@@ -548,7 +548,7 @@ var Deal = (function () {
         $form.find('.billing_radio1').on('change', function ($tr) {
             _this.billingAddressTypeChange($form);
         });
-        $form.find('.deal_address input').on('blur', function ($tr) {
+        $form.find('.deal_address input').on('change', function ($tr) {
             _this.transferDealAddressValues($form);
         });
         $form.find('.shipping_address_type_radio').on('change', function ($tr) {
