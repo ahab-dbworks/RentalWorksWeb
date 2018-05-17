@@ -328,7 +328,7 @@ var Deal = (function () {
     };
     Deal.prototype.renderGrids = function ($form) {
         console.log($form);
-        var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNotesGrid, $dealNotesControl, $vendorGrid, $vendorControl;
+        var $resaleGrid, $resaleControl, $taxOptionGrid, $taxOptionControl, $contactGrid, $contactControl, $dealNoteGrid, $dealNoteControl, $vendorGrid, $vendorControl;
         $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
         $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
         $resaleGrid.empty().append($resaleControl);
@@ -362,19 +362,19 @@ var Deal = (function () {
         });
         FwBrowse.init($contactControl);
         FwBrowse.renderRuntimeHtml($contactControl);
-        $dealNotesGrid = $form.find('div[data-grid="DealNotesGrid"]');
-        $dealNotesControl = jQuery(jQuery('#tmpl-grids-DealNotesGridBrowse').html());
-        $dealNotesGrid.empty().append($dealNotesControl);
-        $dealNotesControl.data('ondatabind', function (request) {
+        $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
+        $dealNoteControl = jQuery(jQuery('#tmpl-grids-DealNoteGridBrowse').html());
+        $dealNoteGrid.empty().append($dealNoteControl);
+        $dealNoteControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             };
         });
-        $dealNotesControl.data('beforesave', function (request) {
+        $dealNoteControl.data('beforesave', function (request) {
             request.DealId = FwFormField.getValueByDataField($form, 'DealId');
         });
-        FwBrowse.init($dealNotesControl);
-        FwBrowse.renderRuntimeHtml($dealNotesControl);
+        FwBrowse.init($dealNoteControl);
+        FwBrowse.renderRuntimeHtml($dealNoteControl);
         $vendorGrid = $form.find('div[data-grid="DealShipperGrid"]');
         $vendorControl = jQuery(jQuery('#tmpl-grids-DealShipperGridBrowse').html());
         $vendorGrid.empty().append($vendorControl);
@@ -489,7 +489,7 @@ var Deal = (function () {
     };
     Deal.prototype.afterLoad = function ($form) {
         var _this = this;
-        var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNotesGrid, $vendorGrid;
+        var $resaleGrid, $taxOptionGrid, $contactGrid, $dealNoteGrid, $vendorGrid;
         var $quoteBrowse = $form.find('#QuoteBrowse');
         FwBrowse.search($quoteBrowse);
         var $orderBrowse = $form.find('#OrderBrowse');
@@ -500,8 +500,8 @@ var Deal = (function () {
         FwBrowse.search($taxOptionGrid);
         $contactGrid = $form.find('[data-name="ContactGrid"]');
         FwBrowse.search($contactGrid);
-        $dealNotesGrid = $form.find('[data-name="DealNotesGrid"]');
-        FwBrowse.search($dealNotesGrid);
+        $dealNoteGrid = $form.find('[data-name="DealNoteGrid"]');
+        FwBrowse.search($dealNoteGrid);
         $vendorGrid = $form.find('[data-name="DealShipperGrid"]');
         FwBrowse.search($vendorGrid);
         var $companyContactGrid = $form.find('[data-name="CompanyContactGrid"]');
@@ -518,6 +518,7 @@ var Deal = (function () {
         this.disableInsurCompanyInfo($form);
         this.toggleTaxTabIfUseCustomer($form, FwFormField.getValueByDataField($form, 'UseCustomerTax'));
         this.toggleOptionsTabIfExcludeQuote($form, FwFormField.getValueByDataField($form, 'DisableQuoteOrderActivity'));
+        this.updateExternalInputsWithGridValues($form);
         if (FwFormField.getValue($form, '.billing_radio1') === 'CUSTOMER') {
             FwFormField.disable($form.find('.billing_att1'));
             FwFormField.disable($form.find('.billing_att2'));

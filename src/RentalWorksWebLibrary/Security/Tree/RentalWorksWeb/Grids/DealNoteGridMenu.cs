@@ -5,10 +5,10 @@ using System.Text;
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    class DealNotesGridMenu : FwSecurityTreeBranch
+    class DealNoteGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public DealNotesGridMenu() : base("{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}") { }
+        public DealNoteGridMenu() : base("{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

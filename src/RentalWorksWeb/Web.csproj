@@ -610,7 +610,7 @@
     <Content Include="Source\Grids\ItemQcGrid\ItemQcGridBrowse.htm" />
     <Content Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceWarehouseRateGrid\SpaceWarehouseRateGridBrowse.htm" />
-    <Content Include="Source\Grids\DealNotesGrid\DealNotesGridBrowse.htm" />
+    <Content Include="Source\Grids\DealNoteGrid\DealNoteGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceRateGrid\SpaceRateGridBrowse.htm" />
     <Content Include="Source\Grids\SpaceGrid\SpaceGridBrowse.htm" />
     <Content Include="Source\Grids\FloorGrid\FloorGridBrowse.htm" />
@@ -688,7 +688,7 @@
     <TypeScriptCompile Include="Source\Grids\DiscountItemGrid\DiscountItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\FiscalMonthGrid\FiscalMonthGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\DealNotesGrid\DealNotesGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealShipperGrid\DealShipperGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteKitGrid\InventoryCompleteKitGridController.ts" />

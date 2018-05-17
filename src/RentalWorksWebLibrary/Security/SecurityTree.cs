@@ -341,7 +341,7 @@ namespace WebLibrary.Security
             AddGrid("Wardrobe Inventory Color",               "{ED2BCE54-1255-4B65-976B-B24A6573F176}", lv1menuGrids.Id, "WardrobeInventoryColorGridController");
             AddGrid("Wardrobe Inventory Material",            "{8BE5E66E-35B8-444F-9F9A-E03F4667F67A}", lv1menuGrids.Id, "WardrobeInventoryMaterialGridController");
             AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
-            AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNotesGridController");
+            AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
             AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
             AddGrid("Discount Item",                          "{2EB32722-33D0-43C4-B799-ECD81EDF9C99}", lv1menuGrids.Id, "DiscountItemGridController");
@@ -753,7 +753,7 @@ namespace WebLibrary.Security
             //AddGrid("Wardrobe Inventory Color",               "{ED2BCE54-1255-4B65-976B-B24A6573F176}", lv1menuGrids.Id, "WardrobeInventoryColorGridController");
             //AddGrid("Wardrobe Inventory Material",            "{8BE5E66E-35B8-444F-9F9A-E03F4667F67A}", lv1menuGrids.Id, "WardrobeInventoryMaterialGridController");
             //AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
-            //AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNotesGridController");
+            //AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNoteGridController");
             //AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
             //AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
             //AddGrid("Discount Item",                          "{2EB32722-33D0-43C4-B799-ECD81EDF9C99}", lv1menuGrids.Id, "DiscountItemGridController");
